@@ -36,7 +36,7 @@ class BaseOptionsMenu extends MusicBeatSubstate
 		if(title == null) title = 'Options';
 		if(rpcTitle == null) rpcTitle = 'Options Menu';
 		
-		#if (desktop && !hl)
+		#if DISCORD_ALLOWED
 		DiscordClient.changePresence(rpcTitle, null);
 		#end
 		
@@ -177,8 +177,16 @@ class BaseOptionsMenu extends MusicBeatSubstate
 						bindingText = new Alphabet(FlxG.width / 2, 160, "Rebinding " + curOption.name, false);
 						bindingText.alignment = CENTERED;
 						add(bindingText);
+
+						var funnyText:String;
+
+					if (controls.mobileC) {
+						funnyText = "Hold B to Cancel\nHold C to Delete";
+					} else {
+						funnyText = "Hold ESC to Cancel\nHold Backspace to Delete";
+					}
 						
-						bindingText2 = new Alphabet(FlxG.width / 2, 340, "Hold ESC to Cancel\nHold Backspace to Delete", true);
+						bindingText2 = new Alphabet(FlxG.width / 2, 340, funnyText, true);
 						bindingText2.alignment = CENTERED;
 						add(bindingText2);
 	
@@ -294,7 +302,7 @@ class BaseOptionsMenu extends MusicBeatSubstate
 
 	function bindingKeyUpdate(elapsed:Float)
 	{
-		if(FlxG.keys.pressed.ESCAPE || FlxG.gamepads.anyPressed(B))
+		if(virtualPad.buttonB.pressed || FlxG.keys.pressed.ESCAPE || FlxG.gamepads.anyPressed(B))
 		{
 			holdingEsc += elapsed;
 			if(holdingEsc > 0.5)
@@ -303,7 +311,7 @@ class BaseOptionsMenu extends MusicBeatSubstate
 				closeBinding();
 			}
 		}
-		else if (FlxG.keys.pressed.BACKSPACE || FlxG.gamepads.anyPressed(BACK))
+		else if (virtualPad.buttonC.pressed || FlxG.keys.pressed.BACKSPACE || FlxG.gamepads.anyPressed(BACK))
 		{
 			holdingEsc += elapsed;
 			if(holdingEsc > 0.5)

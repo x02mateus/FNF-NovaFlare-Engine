@@ -4,7 +4,7 @@ package psychlua;
 import openfl.filters.ShaderFilter;
 import flixel.addons.display.FlxRuntimeShader;
 #end
-#if !flash
+#if CUSTOM_SHADERS_ALLOWED
 import shaders.CustomShaders;
 #end
 
@@ -327,74 +327,107 @@ class ShaderFunctions
 			#end
 		});
 
-                // SHADER SHIT
-                #if !flash
-                funk.set("addChromaticAbberationEffect", function(camera:String,chromeOffset:Float = 0.005) {
+        // SHADER SHIT
+        #if CUSTOM_SHADERS_ALLOWED
+        funk.set("addChromaticEffect", function(object:String,chromeOffset:Float = 0.005) {
+			var shader = ChromaticAberrationEffect.shader;
+			ChromaticAberrationEffect.setup(chromeOffset);
+			PlayState.instance.modchartShader.set('chromatic', shader);
+            PlayState.instance.addShaderToObject(object, shader);
+	    });
 
-                        PlayState.instance.addShaderToCamera(camera, new ChromaticAberrationEffect(chromeOffset));
+        funk.set("addScanlineEffect", function(object:String,lockAlpha:Bool=false) {
+			var shader = ScanlineEffect.shader;
+			ScanlineEffect.setup(lockAlpha);
+			PlayState.instance.modchartShader.set('scanline', shader);
+        	PlayState.instance.addShaderToObject(object, shader);
 
-                });
+        });
+        funk.set("addGrainEffect", function(object:String,grainSize:Float,lumAmount:Float,lockAlpha:Bool=false) {
+			var shader = GrainEffect.shader;
+			GrainEffect.setup(grainSize,lumAmount,lockAlpha);
+			PlayState.instance.modchartShader.set('grain', shader);
+	    	PlayState.instance.addShaderToObject(object, shader);
 
-                funk.set("addScanlineEffect", function(camera:String,lockAlpha:Bool=false) {
+        });
+        funk.set("addTiltshiftEffect", function(object:String,blurAmount:Float,center:Float) {
+			var shader = TiltshiftEffect.shader;
+			TiltshiftEffect.setup(blurAmount,center);
+			PlayState.instance.modchartShader.set('tileshift', shader);
+            PlayState.instance.addShaderToObject(object, shader);
+        });
+        funk.set("addVCREffect", function(object:String,glitchFactor:Float = 0.0,distortion:Bool=true,perspectiveOn:Bool=true,vignetteMoving:Bool=true) {
+			var shader = VCRDistortionEffect.shader;
+			VCRDistortionEffect.setup(glitchFactor,distortion,perspectiveOn,vignetteMoving);
+			PlayState.instance.modchartShader.set('vcr', shader);
+            PlayState.instance.addShaderToObject(object, shader);
+        });
 
-                        PlayState.instance.addShaderToCamera(camera, new ScanlineEffect(lockAlpha));
+        funk.set("addGlitchEffect", function(object:String,waveSpeed:Float = 0.1,waveFrq:Float = 0.1,waveAmp:Float = 0.1) {
+			var shader = GlitchEffect.shader;
+			GlitchEffect.setup(waveSpeed,waveFrq,waveAmp);
+			PlayState.instance.modchartShader.set('glitch', shader);
+            PlayState.instance.addShaderToObject(object, shader);
+        });
 
-                });
-                funk.set("addGrainEffect", function(camera:String,grainSize:Float,lumAmount:Float,lockAlpha:Bool=false) {
+		funk.set("addPulseEffect", function(object:String,waveSpeed:Float = 0.1,waveFrq:Float = 0.1,waveAmp:Float = 0.1) {
+			var shader = PulseEffect.shader;
+			PulseEffect.setup(waveSpeed,waveFrq,waveAmp);
+			PlayState.instance.modchartShader.set('pulse', shader);
+            PlayState.instance.addShaderToObject(object, shader);
+        });
 
-                        PlayState.instance.addShaderToCamera(camera, new GrainEffect(grainSize,lumAmount,lockAlpha));
+		funk.set("addDistortionEffect", function(object:String,waveSpeed:Float = 0.1,waveFrq:Float = 0.1,waveAmp:Float = 0.1) {
+			var shader = DistortBGEffect.shader;
+			DistortBGEffect.setup(waveSpeed,waveFrq,waveAmp);
+			PlayState.instance.modchartShader.set('distortion', shader);
+            PlayState.instance.addShaderToObject(object, shader);
+        });
 
-                });
-                funk.set("addTiltshiftEffect", function(camera:String,blurAmount:Float,center:Float) {
+		funk.set("addInvertEffect", function(object:String,lockAlpha:Bool=false) {
+			var shader = InvertColorsEffect.shader;
+			//InvertColorsEffect.setup(lockAlpha);
+			PlayState.instance.modchartShader.set('invert', shader);
+            PlayState.instance.addShaderToObject(object, shader);
+        });
 
-                        PlayState.instance.addShaderToCamera(camera, new TiltshiftEffect(blurAmount,center));
+		funk.set("addGrayscaleEffect", function(object:String) {
+			var shader = GreyscaleEffect.shader;
+			PlayState.instance.modchartShader.set('grayscale', shader);
+            PlayState.instance.addShaderToObject(object, shader);
+        });
 
-                });
-                funk.set("addVCREffect", function(camera:String,glitchFactor:Float = 0.0,distortion:Bool=true,perspectiveOn:Bool=true,vignetteMoving:Bool=true) {
+		funk.set("add3DEffect", function(object:String,xrotation:Float=0,yrotation:Float=0,zrotation:Float=0,depth:Float=0) {
+			var shader = ThreeDEffect.shader;
+			ThreeDEffect.setup(xrotation,yrotation,zrotation,depth);
+			PlayState.instance.modchartShader.set('3D', shader);
+            PlayState.instance.addShaderToObject(object, shader);
+        });
 
-                        PlayState.instance.addShaderToCamera(camera, new VCRDistortionEffect(glitchFactor,distortion,perspectiveOn,vignetteMoving));
+		funk.set("addBloomEffect", function(object:String,intensity:Float = 0.35,blurSize:Float=1.0) {
+			var shader = BloomEffect.shader;
+			BloomEffect.setup(blurSize/512.0,intensity);
+			PlayState.instance.modchartShader.set('bloom', shader);
+            PlayState.instance.addShaderToObject(object, shader);
+        });
 
-                });
+		funk.set("addBrightnessEffect", function(object:String, brightness:Float, ?contrast:Float=1.0) {
+			var shader = BrightEffect.shader;
+			BrightEffect.setup(brightness, contrast);
+			PlayState.instance.modchartShader.set('bright', shader);
+            PlayState.instance.addShaderToObject(object, shader);
+        });
 
-                funk.set("addGlitchEffect", function(camera:String,waveSpeed:Float = 0.1,waveFrq:Float = 0.1,waveAmp:Float = 0.1) {
 
-                        PlayState.instance.addShaderToCamera(camera, new GlitchEffect(waveSpeed,waveFrq,waveAmp));
+		funk.set("removeEffect", function(camera:String, effect:String) {
+			if(PlayState.instance.modchartShader.exists(effect))
+	            PlayState.instance.removeShaderFromCamera(camera, PlayState.instance.modchartShader.get(effect));
+        });
 
-                });
-                funk.set("addPulseEffect", function(camera:String,waveSpeed:Float = 0.1,waveFrq:Float = 0.1,waveAmp:Float = 0.1) {
-
-                        PlayState.instance.addShaderToCamera(camera, new PulseEffect(waveSpeed,waveFrq,waveAmp));
-
-                });
-                funk.set("addDistortionEffect", function(camera:String,waveSpeed:Float = 0.1,waveFrq:Float = 0.1,waveAmp:Float = 0.1) {
-
-                        PlayState.instance.addShaderToCamera(camera, new DistortBGEffect(waveSpeed,waveFrq,waveAmp));
-
-                });
-                funk.set("addInvertEffect", function(camera:String,lockAlpha:Bool=false) {
-
-                        PlayState.instance.addShaderToCamera(camera, new InvertColorsEffect(lockAlpha));
-
-                });
-                funk.set("addGrayscaleEffect", function(camera:String) { //for dem funkies
-
-                        PlayState.instance.addShaderToCamera(camera, new GreyscaleEffect());
-
-                });
-                funk.set("add3DEffect", function(camera:String,xrotation:Float=0,yrotation:Float=0,zrotation:Float=0,depth:Float=0) { //for dem funkies
-
-                        PlayState.instance.addShaderToCamera(camera, new ThreeDEffect(xrotation,yrotation,zrotation,depth));
-
-                });
-                funk.set("addBloomEffect", function(camera:String,intensity:Float = 0.35,blurSize:Float=1.0) {
-
-                        PlayState.instance.addShaderToCamera(camera, new BloomEffect(blurSize/512.0,intensity));
-
-                });
-                funk.set("clearEffects", function(camera:String) {
-                        PlayState.instance.clearShaderFromCamera(camera);
-                });
-                #end
+		funk.set("clearEffects", function(object:String) {
+            PlayState.instance.clearObjectShaders(object);
+        });
+        #end
 	}
 	
 	#if (!flash && sys)

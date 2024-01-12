@@ -155,7 +155,7 @@ class Main extends Sprite
 		FlxG.mouse.visible = false;
 		#end
 
-		#if (desktop && !hl)
+		#if DISCORD_ALLOWED
 		DiscordClient.prepare();
 		#end
 

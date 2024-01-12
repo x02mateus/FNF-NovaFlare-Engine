@@ -179,6 +179,7 @@ class TextFunctions
 			var pee:FlxText = game.modchartTexts.get(tag);
 			LuaUtils.getTargetInstance().remove(pee, true);
 			if(destroy) {
+				pee.kill();
 				pee.destroy();
 				game.modchartTexts.remove(tag);
 			}

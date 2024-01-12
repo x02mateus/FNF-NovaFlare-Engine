@@ -38,7 +38,7 @@ class OptionsState extends MusicBeatState
 	var selectorRight:Alphabet;
 
 	override function create() {
-		#if (desktop && !hl)
+		#if DISCORD_ALLOWED
 		DiscordClient.changePresence("Options Menu", null);
 		#end
 
@@ -84,11 +84,14 @@ class OptionsState extends MusicBeatState
 	}
 
 	override function closeSubState() {
-                controls.isInSubstate = false;
 		super.closeSubState();
+		#if DISCORD_ALLOWED
+		DiscordClient.changePresence("Options Menu", null);
+		#end
 		ClientPrefs.saveSettings();
 		ClientPrefs.loadPrefs();
-                removeVirtualPad();
+		controls.isInSubstate = false;
+        removeVirtualPad();
 		addVirtualPad(UP_DOWN, A_B_C);
 		persistentUpdate = true;
 	}

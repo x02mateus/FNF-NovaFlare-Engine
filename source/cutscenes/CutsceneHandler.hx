@@ -49,9 +49,11 @@ class CutsceneHandler extends FlxBasic
 			for (spr in objects)
 			{
 				PlayState.instance.remove(spr);
+				spr.kill();
 				spr.destroy();
 			}
 			
+			kill();
 			destroy();
 			PlayState.instance.remove(this);
 		}

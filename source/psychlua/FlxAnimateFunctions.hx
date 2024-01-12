@@ -14,6 +14,7 @@ class FlxAnimateFunctions
 			if(lastSprite != null)
 			{
 				PlayState.instance.remove(lastSprite);
+				lastSprite.kill();
 				lastSprite.destroy();
 			}
 

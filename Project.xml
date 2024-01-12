@@ -24,9 +24,14 @@
 	<define name="HSCRIPT_ALLOWED" if="desktop || mobile" />
 	<define name="LUA_ALLOWED" if="desktop || mobile" unless="hl"/>
 	<define name="ACHIEVEMENTS_ALLOWED" />
-	<define name="VIDEOS_ALLOWED" if="desktop || mobile" unless="32bits || hl || NOVIDEO || rpi"/>
+	<define name="DISCORD_ALLOWED" if="desktop" unless="hl"/>
 	<define name="PSYCH_WATERMARKS"/> <!-- DELETE THIS TO REMOVE WATERMARKS/DEV NAMES ON TITLE SCREEN -->
-	<define name="TITLE_SCREEN_EASTER_EGG" if="officialBuild"/> <!-- DELETE THE if="officialBuild" for enabling this on an unofficial build -->
+	<define name="VIDEOS_ALLOWED" if="desktop || mobile" unless="32bits || hl || NOVIDEO || rpi"/> <!-- i'll keep this cuz it makes vscode think i don't use videos -->
+	<define name="CUSTOM_SHADERS_ALLOWED" unless="flash"/>
+
+	<section if="officialBuild">
+		<define name="TITLE_SCREEN_EASTER_EGG"/>
+	</section>
 
 	<!-- ____________________________ Window Settings ___________________________ -->
 
@@ -90,9 +95,8 @@
 	<!--Psych stuff needed-->
 	<haxelib name="linc_luajit" if="LUA_ALLOWED"/>
 	<haxelib name="SScript" if="HSCRIPT_ALLOWED"/>
-	<haxelib name="hxCodec" if="VIDEOS_ALLOWED" unless="usehxvlc"/>
-	<haxelib name="hxvlc" if="VIDEOS_ALLOWED usehxvlc" unless="hxCodec"/>
-	<haxelib name="hxdiscord_rpc" if="desktop" unless="hl"/>
+	<haxelib name="hxCodec" if="VIDEOS_ALLOWED"/>
+	<haxelib name="hxdiscord_rpc" if="DISCORD_ALLOWED"/>
 	<haxelib name="flxanimate" unless="web"/>
 	<haxelib name="tjson"/>
 
@@ -153,20 +157,8 @@
 			<!-- Do whatever you want I'm tired uninstall and install everytime -->
 			<certificate path="key.keystore" password="nullfunni" alias="null" alias-password="nullfunni" unless="debug" />
 
-		        <config>
-				<!--Gradle-->
-				<android gradle-version="7.4.2" gradle-plugin="7.3.1" if="${lime &lt; 8.0.0}"/>
-
-                <!--<android permission="android.permission.MANAGE_EXTERNAL_STORAGE" />-->
-			</config>
-		</section>
-
-		<!--Target SDK-->
-	<android target-sdk-version="28" if="EXTERNAL || MEDIA"/> <!-- blame android 11+!!! -->
-
-		<section if="ios">
-			<!--Dependency--> 
-			<dependency name="Metal.framework" if="${lime &lt; 8.0.0}" />
+			<!--Target SDK-->
+			<android target-sdk-version="28" if="EXTERNAL || MEDIA"/> <!-- blame android 11+!!! -->
 		</section>
 
 	<!--Macro fixes-->

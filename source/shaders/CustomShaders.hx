@@ -1,13 +1,9 @@
 package shaders;
 
-// STOLEN FROM HAXEFLIXEL DEMO AND FROM PSYCH ENGINE 0.5.1 WITH SHADERS LOL
-import flixel.system.FlxAssets.FlxShader;
-import openfl.display.BitmapData;
-import openfl.display.Shader;
-import openfl.display.ShaderInput;
+#if CUSTOM_SHADERS_ALLOWED
+import shaders.flixel.system.FlxShader;
+import shaders.openfl.filters.ShaderFilter;
 import openfl.Lib;
-
-using StringTools;
 
 typedef ShaderEffect =
 {
@@ -16,22 +12,22 @@ typedef ShaderEffect =
 
 class BuildingEffect
 {
-	public var shader:BuildingShader = new BuildingShader();
+	public static var shader:ShaderFilter = new ShaderFilter(new BuildingShader());
 
 	public function new()
 	{
-		shader.alphaShit.value = [0];
+		shader.shader.data.alphaShit.value = [0];
 	}
 
 	public function addAlpha(alpha:Float)
 	{
-		trace(shader.alphaShit.value[0]);
-		shader.alphaShit.value[0] += alpha;
+		trace(shader.shader.data.alphaShit.value[0]);
+		shader.shader.data.alphaShit.value[0] += alpha;
 	}
 
 	public function setAlpha(alpha:Float)
 	{
-		shader.alphaShit.value[0] = alpha;
+		shader.shader.data.alphaShit.value[0] = alpha;
 	}
 }
 
@@ -85,33 +81,35 @@ class ChromaticAberrationShader extends FlxShader
 
 class ChromaticAberrationEffect extends Effect
 {
-	public var shader:ChromaticAberrationShader;
+	public static var shader:ShaderFilter = new ShaderFilter(new ChromaticAberrationShader());
 
-	public function new(offset:Float = 0.00)
+	public static function setup(offset:Float = 0.00)
 	{
-		shader = new ChromaticAberrationShader();
-		shader.rOffset.value = [offset];
-		shader.gOffset.value = [0.0];
-		shader.bOffset.value = [-offset];
+		shader.shader.data.rOffset.value = [offset];
+		shader.shader.data.gOffset.value = [0.0];
+		shader.shader.data.bOffset.value = [-offset];
 	}
 
-	public function setChrome(chromeOffset:Float):Void
+	public static function setChrome(chromeOffset:Float):Void
 	{
-		shader.rOffset.value = [chromeOffset];
-		shader.gOffset.value = [0.0];
-		shader.bOffset.value = [chromeOffset * -1];
+		shader.shader.data.rOffset.value = [chromeOffset];
+		shader.shader.data.gOffset.value = [0.0];
+		shader.shader.data.bOffset.value = [chromeOffset * -1];
 	}
+
+	public function new(){super();}
 }
 
 class ScanlineEffect extends Effect
 {
-	public var shader:Scanline;
+	public static var shader:ShaderFilter = new ShaderFilter(new Scanline());
 
-	public function new(lockAlpha)
+	public static function setup(lockAlpha:Bool)
 	{
-		shader = new Scanline();
-		shader.lockAlpha.value = [lockAlpha];
+		shader.shader.data.lockAlpha.value = [lockAlpha];
 	}
+
+	public function new(){super();}
 }
 
 class Scanline extends FlxShader
@@ -140,64 +138,31 @@ class Scanline extends FlxShader
 
 class TiltshiftEffect extends Effect
 {
-	public var shader:Tiltshift;
+	public static var shader:ShaderFilter = new ShaderFilter(new Tiltshift());
 
-	public function new(blurAmount:Float, center:Float)
+	public static function setup(blurAmount:Float, center:Float)
 	{
-		shader = new Tiltshift();
-		shader.bluramount.value = [blurAmount];
-		shader.center.value = [center];
+		shader.shader.data.bluramount.value = [blurAmount];
+		shader.shader.data.center.value = [center];
 	}
+
+	public function new(){super();}
 }
 
 class Tiltshift extends FlxShader
 {
 	@:glFragmentSource('
 		#pragma header
-
-		// Modified version of a tilt shift shader from Martin Jonasson (http://grapefrukt.com/)
-		// Read http://notes.underscorediscovery.com/ for context on shaders and this file
-		// License : MIT
-		 
-			/*
-				Take note that blurring in a single pass (the two for loops below) is more expensive than separating
-				the x and the y blur into different passes. This was used where bleeding edge performance
-				was not crucial and is to illustrate a point. 
-		 
-				The reason two passes is cheaper? 
-				   texture2D is a fairly high cost call, sampling a texture.
-		 
-				   So, in a single pass, like below, there are 3 steps, per x and y. 
-		 
-				   That means a total of 9 "taps", it touches the texture to sample 9 times.
-		 
-				   Now imagine we apply this to some geometry, that is equal to 16 pixels on screen (tiny)
-				   (16 * 16) * 9 = 2304 samples taken, for width * height number of pixels, * 9 taps
-				   Now, if you split them up, it becomes 3 for x, and 3 for y, a total of 6 taps
-				   (16 * 16) * 6 = 1536 samples
-			
-				   That\'s on a *tiny* sprite, let\'s scale that up to 128x128 sprite...
-				   (128 * 128) * 9 = 147,456
-				   (128 * 128) * 6 =  98,304
-		 
-				   That\'s 33.33..% cheaper for splitting them up.
-				   That\'s with 3 steps, with higher steps (more taps per pass...)
-		 
-				   A really smooth, 6 steps, 6*6 = 36 taps for one pass, 12 taps for two pass
-				   You will notice, the curve is not linear, at 12 steps it\'s 144 vs 24 taps
-				   It becomes orders of magnitude slower to do single pass!
-				   Therefore, you split them up into two passes, one for x, one for y.
-			*/
 		 
 		// I am hardcoding the constants like a jerk
 			
-		uniform float bluramount  = 1.0;
-		uniform float center      = 1.0;
-		const float stepSize    = 0.004;
-		const float steps       = 3.0;
+		uniform float bluramount;
+		uniform float center;
+		const float stepSize = 0.004;
+		const float steps = 3.0;
 		 
-		const float minOffs     = (float(steps-1.0)) / -2.0;
-		const float maxOffs     = (float(steps-1.0)) / +2.0;
+		const float minOffs = (float(steps-1.0)) / -2.0;
+		const float maxOffs = (float(steps-1.0)) / +2.0;
 		 
 		void main() {
 			float amount;
@@ -239,11 +204,9 @@ class Tiltshift extends FlxShader
 
 class GreyscaleEffect extends Effect
 {
-	public var shader:GreyscaleShader = new GreyscaleShader();
+	public static var shader:ShaderFilter = new ShaderFilter(new GreyscaleShader());
 
-	public function new()
-	{
-	}
+	public function new(){super();}
 }
 
 class GreyscaleShader extends FlxShader
@@ -264,24 +227,70 @@ class GreyscaleShader extends FlxShader
 	}
 }
 
+class BrightEffect extends Effect
+{
+	public static var shader:ShaderFilter = new ShaderFilter(new BrightShader());
+
+	public static function setup(brightness:Float, contrast:Float){
+		setBrightness(brightness);
+		setContrast(contrast);
+	}
+
+	public static function setBrightness(brightness:Float):Void
+	{
+		shader.shader.data.brightness.value = [brightness];
+	}
+	
+	public static function setContrast(contrast:Float):Void
+	{
+		shader.shader.data.contrast.value = [contrast];
+	}
+
+	public function new(){super();}
+}
+
+class BrightShader extends FlxShader
+{
+	@:glFragmentSource('
+		#pragma header
+
+		uniform float brightness;
+		uniform float contrast;
+
+		void main()
+		{
+			vec4 col = texture2D(bitmap, openfl_TextureCoordv);
+			col.rgb = col.rgb * contrast;
+			col.rgb = col.rgb + brightness;
+
+			gl_FragColor = col;
+		}')
+	public function new()
+	{
+		super();
+	}
+}
+
+
 class GrainEffect extends Effect
 {
-	public var shader:Grain;
+	public static var shader:ShaderFilter = new ShaderFilter(new Grain());
 
-	public function new(grainsize, lumamount, lockAlpha)
+	public static function setup(grainsize, lumamount, lockAlpha)
 	{
-		shader = new Grain();
-		shader.lumamount.value = [lumamount];
-		shader.grainsize.value = [grainsize];
-		shader.lockAlpha.value = [lockAlpha];
-		shader.uTime.value = [FlxG.random.float(0, 8)];
+		shader.shader.data.lumamount.value = [lumamount];
+		shader.shader.data.grainsize.value = [grainsize];
+		shader.shader.data.lockAlpha.value = [lockAlpha];
+		shader.shader.data.uTime.value = [FlxG.random.float(0, 8)];
 		PlayState.instance.shaderUpdates.push(update);
 	}
 
-	public function update(elapsed)
+	public static function update(elapsed:Float)
 	{
-		shader.uTime.value[0] += elapsed;
+		shader.shader.data.uTime.value[0] += elapsed;
 	}
+
+	public function new(){super();}
 }
 
 class Grain extends FlxShader
@@ -289,37 +298,17 @@ class Grain extends FlxShader
 	@:glFragmentSource('
 		#pragma header
 
-		/*
-		Film Grain post-process shader v1.1
-		Martins Upitis (martinsh) devlog-martinsh.blogspot.com
-		2013
-
-		--------------------------
-		This work is licensed under a Creative Commons Attribution 3.0 Unported License.
-		So you are free to share, modify and adapt it for your needs, and even use it for commercial use.
-		I would also love to hear about a project you are using it.
-
-		Have fun,
-		Martins
-		--------------------------
-
-		Perlin noise shader by toneburst:
-		http://machinesdontcare.wordpress.com/2009/06/25/3d-perlin-noise-sphere-vertex-shader-sourcecode/
-		*/
 		uniform float uTime;
 
 		const float permTexUnit = 1.0/256.0;        // Perm texture texel-size
 		const float permTexUnitHalf = 0.5/256.0;    // Half perm texture texel-size
 
-		float width = openfl_TextureSize.x;
-		float height = openfl_TextureSize.y;
-
 		const float grainamount = 0.05; //grain amount
 		bool colored = false; //colored noise?
-		uniform float coloramount = 0.6;
-		uniform float grainsize = 1.6; //grain particle size (1.5 - 2.5)
-		uniform float lumamount = 1.0;
-	uniform bool lockAlpha = false;
+		uniform float coloramount;
+		uniform float grainsize; //grain particle size (1.5 - 2.5)
+		uniform float lumamount;
+	        uniform bool lockAlpha;
 
 		//a random texture generator, but you can also use a pre-computed perturbation texture
 	
@@ -330,8 +319,6 @@ class Grain extends FlxShader
 			float noiseR =  fract(noise)*2.0-1.0;
 			float noiseG =  fract(noise*1.2154)*2.0-1.0;
 			float noiseB =  fract(noise * 1.3453) * 2.0 - 1.0;
-			
-				
 			float noiseA =  (fract(noise * 1.3647) * 2.0 - 1.0);
 
 			return vec4(noiseR,noiseG,noiseB,noiseA);
@@ -391,7 +378,7 @@ class Grain extends FlxShader
 		//2d coordinate orientation thing
 		vec2 coordRot(in vec2 tc, in float angle)
 		{
-			float aspect = width/height;
+			float aspect = openfl_TextureSize.x/openfl_TextureSize.y;
 			float rotX = ((tc.x*2.0-1.0)*aspect*cos(angle)) - ((tc.y*2.0-1.0)*sin(angle));
 			float rotY = ((tc.y*2.0-1.0)*cos(angle)) + ((tc.x*2.0-1.0)*aspect*sin(angle));
 			rotX = ((rotX/aspect)*0.5+0.5);
@@ -405,14 +392,14 @@ class Grain extends FlxShader
 
 			vec3 rotOffset = vec3(1.425,3.892,5.835); //rotation offset values
 			vec2 rotCoordsR = coordRot(texCoord, uTime + rotOffset.x);
-			vec3 noise = vec3(pnoise3D(vec3(rotCoordsR*vec2(width/grainsize,height/grainsize),0.0)));
+			vec3 noise = vec3(pnoise3D(vec3(rotCoordsR*vec2(openfl_TextureSize.x/grainsize,openfl_TextureSize.y/grainsize),0.0)));
 
 			if (colored)
 			{
 				vec2 rotCoordsG = coordRot(texCoord, uTime + rotOffset.y);
 				vec2 rotCoordsB = coordRot(texCoord, uTime + rotOffset.z);
-				noise.g = mix(noise.r,pnoise3D(vec3(rotCoordsG*vec2(width/grainsize,height/grainsize),1.0)),coloramount);
-				noise.b = mix(noise.r,pnoise3D(vec3(rotCoordsB*vec2(width/grainsize,height/grainsize),2.0)),coloramount);
+				noise.g = mix(noise.r,pnoise3D(vec3(rotCoordsG*vec2(openfl_TextureSize.x/grainsize,openfl_TextureSize.y/grainsize),1.0)),coloramount);
+				noise.b = mix(noise.r,pnoise3D(vec3(rotCoordsB*vec2(openfl_TextureSize.x/grainsize,openfl_TextureSize.y/grainsize),2.0)),coloramount);
 			}
 
 			vec3 col = texture2D(bitmap, openfl_TextureCoordv).rgb;
@@ -440,55 +427,57 @@ class Grain extends FlxShader
 
 class VCRDistortionEffect extends Effect
 {
-	public var shader:VCRDistortionShader = new VCRDistortionShader();
+	public static var shader:ShaderFilter = new ShaderFilter(new VCRDistortionShader());
 
-	public function new(glitchFactor:Float, distortion:Bool = true, perspectiveOn:Bool = true, vignetteMoving:Bool = true)
+	public static function setup(glitchFactor:Float, distortion:Bool = true, perspectiveOn:Bool = true, vignetteMoving:Bool = true)
 	{
-		shader.iTime.value = [0];
-		shader.vignetteOn.value = [true];
-		shader.perspectiveOn.value = [perspectiveOn];
-		shader.distortionOn.value = [distortion];
-		shader.scanlinesOn.value = [true];
-		shader.vignetteMoving.value = [vignetteMoving];
-		shader.glitchModifier.value = [glitchFactor];
-		shader.iResolution.value = [Lib.current.stage.stageWidth, Lib.current.stage.stageHeight];
+		shader.shader.data.iTime.value = [0];
+		shader.shader.data.vignetteOn.value = [true];
+		shader.shader.data.perspectiveOn.value = [perspectiveOn];
+		shader.shader.data.distortionOn.value = [distortion];
+		shader.shader.data.scanlinesOn.value = [true];
+		shader.shader.data.vignetteMoving.value = [vignetteMoving];
+		shader.shader.data.glitchModifier.value = [glitchFactor];
+		shader.shader.data.iResolution.value = [Lib.current.stage.stageWidth, Lib.current.stage.stageHeight];
 		PlayState.instance.shaderUpdates.push(update);
 	}
 
-	public function update(elapsed:Float)
+	public function new(){super();}
+
+	public static function update(elapsed:Float)
 	{
-		shader.iTime.value[0] += elapsed;
-		shader.iResolution.value = [Lib.current.stage.stageWidth, Lib.current.stage.stageHeight];
+		shader.shader.data.iTime.value[0] += elapsed;
+		shader.shader.data.iResolution.value = [Lib.current.stage.stageWidth, Lib.current.stage.stageHeight];
 	}
 
 	public function setVignette(state:Bool)
 	{
-		shader.vignetteOn.value[0] = state;
+		shader.shader.data.vignetteOn.value[0] = state;
 	}
 
 	public function setPerspective(state:Bool)
 	{
-		shader.perspectiveOn.value[0] = state;
+		shader.shader.data.perspectiveOn.value[0] = state;
 	}
 
 	public function setGlitchModifier(modifier:Float)
 	{
-		shader.glitchModifier.value[0] = modifier;
+		shader.shader.data.glitchModifier.value[0] = modifier;
 	}
 
 	public function setDistortion(state:Bool)
 	{
-		shader.distortionOn.value[0] = state;
+		shader.shader.data.distortionOn.value[0] = state;
 	}
 
 	public function setScanlines(state:Bool)
 	{
-		shader.scanlinesOn.value[0] = state;
+		shader.shader.data.scanlinesOn.value[0] = state;
 	}
 
 	public function setVignetteMoving(state:Bool)
 	{
-		shader.vignetteMoving.value[0] = state;
+		shader.shader.data.vignetteMoving.value[0] = state;
 	}
 }
 
@@ -524,9 +513,8 @@ class VCRDistortionShader extends FlxShader // https://www.shadertoy.com/view/ld
       	vec2 look = uv;
         if(distortionOn){
         	float window = 1./(1.+20.*(look.y-mod(iTime/4.,1.))*(look.y-mod(iTime/4.,1.)));
-        	look.x = look.x + (sin(look.y*10. + iTime)/50.*onOff(4.,4.,.3)*(1.+cos(iTime*80.))*window)*(glitchModifier*2);
-        	float vShift = 0.4*onOff(2.,3.,.9)*(sin(iTime)*sin(iTime*20.) +
-        										 (0.5 + 0.1*sin(iTime*200.)*cos(iTime)));
+        	look.x = look.x + (sin(look.y*10. + iTime)/50.*onOff(4.,4.,.3)*(1.+cos(iTime*80.))*window)*(glitchModifier*2.0);
+        	float vShift = 0.4*onOff(2.,3.,.9)*(sin(iTime)*sin(iTime*20.) + (0.5 + 0.1*sin(iTime*200.)*cos(iTime)));
         	look.y = mod(look.y + vShift*glitchModifier, 1.);
         }
       	vec4 video = flixel_texture2D(bitmap,look);
@@ -600,17 +588,15 @@ class VCRDistortionShader extends FlxShader // https://www.shadertoy.com/view/ld
     	float vignette = (1.-vigAmt*(uv.y-.5)*(uv.y-.5))*(1.-vigAmt*(uv.x-.5)*(uv.x-.5));
 
       if(vignetteOn)
-    	 video *= vignette;
+    	 video *= float(vignette);
 
 
-      gl_FragColor = mix(video,vec4(noise(uv * 75.)),.05);
+      gl_FragColor = mix(video,vec4(noise(uv * 75.)), 0.05);
 
-      if(curUV.x<0 || curUV.x>1 || curUV.y<0 || curUV.y>1){
-        gl_FragColor = vec4(0,0,0,0);
+      if (curUV.x < 0.0 || curUV.x > 1.0 || curUV.y < 0.0 || curUV.y > 1.0) {
+        gl_FragColor = vec4(0.0, 0.0, 0.0, 0.0);
       }
-
-    }
-  ')
+    }')
 	public function new()
 	{
 		super();
@@ -619,26 +605,28 @@ class VCRDistortionShader extends FlxShader // https://www.shadertoy.com/view/ld
 
 class ThreeDEffect extends Effect
 {
-	public var shader:ThreeDShader = new ThreeDShader();
+	public static var shader:ShaderFilter = new ShaderFilter(new ThreeDShader());
 
-	public function new(xrotation:Float = 0, yrotation:Float = 0, zrotation:Float = 0, depth:Float = 0)
+	public static function setup(xrotation:Float = 0, yrotation:Float = 0, zrotation:Float = 0, depth:Float = 0)
 	{
-		shader.xrot.value = [xrotation];
-		shader.yrot.value = [yrotation];
-		shader.zrot.value = [zrotation];
-		shader.dept.value = [depth];
+		shader.shader.data.xrot.value = [xrotation];
+		shader.shader.data.yrot.value = [yrotation];
+		shader.shader.data.zrot.value = [zrotation];
+		shader.shader.data.dept.value = [depth];
 	}
+
+	public function new(){super();}
 }
 
 class ThreeDShader extends FlxShader
 {
 	@:glFragmentSource('
 	#pragma header
-	uniform float xrot = 0.0;
-	uniform float yrot = 0.0;
-	uniform float zrot = 0.0;
-	uniform float dept = 0.0;
-	float alph = 0;
+	uniform float xrot;
+	uniform float yrot;
+	uniform float zrot;
+	uniform float dept;
+	//float alph = 0.0;
 float plane( in vec3 norm, in vec3 po, in vec3 ro, in vec3 rd ) {
     float de = dot(norm, rd);
     de = sign(de)*max( abs(de), 0.001);
@@ -675,7 +663,7 @@ void main() {
     //Screen UV goes from 0 - 1 along each axis
     vec2 screenUV = openfl_TextureCoordv;
     vec2 p = (2.0 * screenUV) - 1.0;
-    float screenAspect = 1280/720;
+    float screenAspect = 1280.0/720.0;
     p.x *= screenAspect;
     
     //Normalized Ray Dir
@@ -714,20 +702,20 @@ void main() {
 
 class FuckingTriangleEffect extends Effect
 {
-	public var shader:FuckingTriangle = new FuckingTriangle();
+	public static var shader:ShaderFilter = new ShaderFilter(new FuckingTriangle());
 
-	public function new(rotx:Float, roty:Float)
+	public static function setup(rotx:Float, roty:Float)
 	{
-		shader.rotX.value = [rotx];
-		shader.rotY.value = [roty];
+		shader.shader.data.rotX.value = [rotx];
+		shader.shader.data.rotY.value = [roty];
 	}
+
+	public function new(){super();}
 }
 
 class FuckingTriangle extends FlxShader
 {
 	@:glFragmentSource('
-	
-	
 			#pragma header
 			
 			const vec3 vertices[18] = vec3[18] (
@@ -790,19 +778,15 @@ class FuckingTriangle extends FlxShader
 			return flixel_texture2D(bitmap, uv);
 		}
 
-
 		const float fov  = 70.0;
 		const float near = 0.1;
 		const float far  = 10.;
 
 		const vec3 cameraPos = vec3(0., 0.3, 2.);
 
-			uniform float rotX = -25.;
-			uniform float rotY = 45.;
-		vec4 pixel(in vec2 ndc, in float aspect, inout float depth, in int vertexIndex) {
-
-			
-			
+			uniform float rotX;
+			uniform float rotY;
+		        vec4 pixel(in vec2 ndc, in float aspect, inout float depth, in int vertexIndex) {
 
 			mat4 proj  = perspective(fov, aspect, near, far);
 			mat4 view  = translate(-cameraPos);
@@ -868,13 +852,14 @@ void main()
 
 class BloomEffect extends Effect
 {
-	public var shader:BloomShader = new BloomShader();
+	public static var shader:ShaderFilter = new ShaderFilter(new BloomShader());
 
-	public function new(blurSize:Float, intensity:Float)
+	public static function setup(blurSize:Float, intensity:Float)
 	{
-		shader.blurSize.value = [blurSize];
-		shader.intensity.value = [intensity];
+		shader.shader.data.blurSize.value = [blurSize];
+		shader.shader.data.intensity.value = [intensity];
 	}
+	public function new(){super();}
 }
 
 class BloomShader extends FlxShader
@@ -883,8 +868,8 @@ class BloomShader extends FlxShader
 	
 	#pragma header
 	
-	uniform float intensity = 0.35;
-	uniform float blurSize = 1.0/512.0;
+	uniform float intensity;
+	uniform float blurSize;
 	void main()
 	{
 		vec4 sum = vec4(0);
@@ -932,144 +917,148 @@ class BloomShader extends FlxShader
 
 class GlitchEffect extends Effect
 {
-	public var shader:GlitchShader = new GlitchShader();
+	public static var shader:ShaderFilter = new ShaderFilter(new GlitchShader());
 
-	public var waveSpeed(default, set):Float = 0;
-	public var waveFrequency(default, set):Float = 0;
-	public var waveAmplitude(default, set):Float = 0;
+	public static var waveSpeed(default, set):Float = 0;
+	public static var waveFrequency(default, set):Float = 0;
+	public static var waveAmplitude(default, set):Float = 0;
 
-	public function new(waveSpeed:Float, waveFrequency:Float, waveAmplitude:Float):Void
+	public static function setup(WaveSpeed:Float, WaveFrequency:Float, WaveAmplitude:Float):Void
 	{
-		shader.uTime.value = [0];
-		this.waveSpeed = waveSpeed;
-		this.waveFrequency = waveFrequency;
-		this.waveAmplitude = waveAmplitude;
+		shader.shader.data.uTime.value = [0];
+		waveSpeed = WaveSpeed;
+		waveFrequency = WaveFrequency;
+		waveAmplitude = WaveAmplitude;
 		PlayState.instance.shaderUpdates.push(update);
 	}
 
-	public function update(elapsed:Float):Void
+	public function new(){super();}
+
+	public static function update(elapsed:Float):Void
 	{
-		shader.uTime.value[0] += elapsed;
+		shader.shader.data.uTime.value[0] += elapsed;
 	}
 
-	function set_waveSpeed(v:Float):Float
+	static function set_waveSpeed(v:Float):Float
 	{
 		waveSpeed = v;
-		shader.uSpeed.value = [waveSpeed];
+		shader.shader.data.uSpeed.value = [waveSpeed];
 		return v;
 	}
 
-	function set_waveFrequency(v:Float):Float
+	static function set_waveFrequency(v:Float):Float
 	{
 		waveFrequency = v;
-		shader.uFrequency.value = [waveFrequency];
+		shader.shader.data.uFrequency.value = [waveFrequency];
 		return v;
 	}
 
-	function set_waveAmplitude(v:Float):Float
+	static function set_waveAmplitude(v:Float):Float
 	{
 		waveAmplitude = v;
-		shader.uWaveAmplitude.value = [waveAmplitude];
+		shader.shader.data.uWaveAmplitude.value = [waveAmplitude];
 		return v;
 	}
 }
 
 class DistortBGEffect extends Effect
 {
-	public var shader:DistortBGShader = new DistortBGShader();
+	public static var shader:ShaderFilter = new ShaderFilter(new DistortBGShader());
 
-	public var waveSpeed(default, set):Float = 0;
-	public var waveFrequency(default, set):Float = 0;
-	public var waveAmplitude(default, set):Float = 0;
+	public static var waveSpeed(default, set):Float = 0;
+	public static var waveFrequency(default, set):Float = 0;
+	public static var waveAmplitude(default, set):Float = 0;
 
-	public function new(waveSpeed:Float, waveFrequency:Float, waveAmplitude:Float):Void
+	public static function setup(WaveSpeed:Float, WaveFrequency:Float, WaveAmplitude:Float):Void
 	{
-		this.waveSpeed = waveSpeed;
-		this.waveFrequency = waveFrequency;
-		this.waveAmplitude = waveAmplitude;
-		shader.uTime.value = [0];
+		waveSpeed = WaveSpeed;
+		waveFrequency = WaveFrequency;
+		waveAmplitude = WaveAmplitude;
+		shader.shader.data.uTime.value = [0];
 		PlayState.instance.shaderUpdates.push(update);
 	}
 
-	public function update(elapsed:Float):Void
+	public function new(){super();}
+
+	public static function update(elapsed:Float):Void
 	{
-		shader.uTime.value[0] += elapsed;
+		shader.shader.data.uTime.value[0] += elapsed;
 	}
 
-	function set_waveSpeed(v:Float):Float
+	static function set_waveSpeed(v:Float):Float
 	{
 		waveSpeed = v;
-		shader.uSpeed.value = [waveSpeed];
+		shader.shader.data.uSpeed.value = [waveSpeed];
 		return v;
 	}
 
-	function set_waveFrequency(v:Float):Float
+	static function set_waveFrequency(v:Float):Float
 	{
 		waveFrequency = v;
-		shader.uFrequency.value = [waveFrequency];
+		shader.shader.data.uFrequency.value = [waveFrequency];
 		return v;
 	}
 
-	function set_waveAmplitude(v:Float):Float
+	static function set_waveAmplitude(v:Float):Float
 	{
 		waveAmplitude = v;
-		shader.uWaveAmplitude.value = [waveAmplitude];
+		shader.shader.data.uWaveAmplitude.value = [waveAmplitude];
 		return v;
 	}
 }
 
 class PulseEffect extends Effect
 {
-	public var shader:PulseShader = new PulseShader();
+	public static var shader:ShaderFilter = new ShaderFilter(new PulseShader());
 
-	public var waveSpeed(default, set):Float = 0;
-	public var waveFrequency(default, set):Float = 0;
-	public var waveAmplitude(default, set):Float = 0;
+	public static var waveSpeed(default, set):Float = 0;
+	public static var waveFrequency(default, set):Float = 0;
+	public static var waveAmplitude(default, set):Float = 0;
 
-	public function new(waveSpeed:Float, waveFrequency:Float, waveAmplitude:Float):Void
+	public static function setup(WaveSpeed:Float, WaveFrequency:Float, WaveAmplitude:Float)
 	{
-		this.waveSpeed = waveSpeed;
-		this.waveFrequency = waveFrequency;
-		this.waveAmplitude = waveAmplitude;
-		shader.uTime.value = [0];
-		shader.uampmul.value = [1];
+		waveSpeed = WaveSpeed;
+		waveFrequency = WaveFrequency;
+		waveAmplitude = WaveAmplitude;
+		shader.shader.data.uTime.value = [0];
+		shader.shader.data.uampmul.value = [1];
 		PlayState.instance.shaderUpdates.push(update);
 	}
 
-	public function update(elapsed:Float):Void
+	public function new(){super();}
+
+	public static function update(elapsed:Float):Void
 	{
-		shader.uTime.value[0] += elapsed;
+		shader.shader.data.uTime.value[0] += elapsed;
 	}
 
-	function set_waveSpeed(v:Float):Float
+	static function set_waveSpeed(v:Float):Float
 	{
 		waveSpeed = v;
-		shader.uSpeed.value = [waveSpeed];
+		shader.shader.data.uSpeed.value = [waveSpeed];
 		return v;
 	}
 
-	function set_waveFrequency(v:Float):Float
+	static function set_waveFrequency(v:Float):Float
 	{
 		waveFrequency = v;
-		shader.uFrequency.value = [waveFrequency];
+		shader.shader.data.uFrequency.value = [waveFrequency];
 		return v;
 	}
 
-	function set_waveAmplitude(v:Float):Float
+	static function set_waveAmplitude(v:Float):Float
 	{
 		waveAmplitude = v;
-		shader.uWaveAmplitude.value = [waveAmplitude];
+		shader.shader.data.uWaveAmplitude.value = [waveAmplitude];
 		return v;
 	}
 }
 
 class InvertColorsEffect extends Effect
 {
-	public var shader:InvertShader = new InvertShader();
+	public static var shader:ShaderFilter = new ShaderFilter(new InvertShader());
 
-	public function new(lockAlpha)
-	{
-	}
+	public function new(){super();}
 }
 
 class GlitchShader extends FlxShader
@@ -1226,13 +1215,12 @@ class PulseShader extends FlxShader
         if (uampmul > 0.0)
         {
             float offsetX = sin(pt.y * uFrequency + uTime * uSpeed);
-            float offsetY = sin(pt.x * (uFrequency * 2) - (uTime / 2) * uSpeed);
-            float offsetZ = sin(pt.z * (uFrequency / 2) + (uTime / 3) * uSpeed);
-            pt.x = mix(pt.x,sin(pt.x / 2 * pt.y + (5 * offsetX) * pt.z),uWaveAmplitude * uampmul);
-            pt.y = mix(pt.y,sin(pt.y / 3 * pt.z + (2 * offsetZ) - pt.x),uWaveAmplitude * uampmul);
-            pt.z = mix(pt.z,sin(pt.z / 6 * (pt.x * offsetY) - (50 * offsetZ) * (pt.z * offsetX)),uWaveAmplitude * uampmul);
+            float offsetY = sin(pt.x * (uFrequency * 2.0) - (uTime / 2.0) * uSpeed);
+            float offsetZ = sin(pt.z * (uFrequency / 2.0) + (uTime / 3.0) * uSpeed);
+            pt.x = mix(pt.x,sin(pt.x / 2.0 * pt.y + (5.0 * offsetX) * pt.z),uWaveAmplitude * uampmul);
+            pt.y = mix(pt.y,sin(pt.y / 3.0 * pt.z + (2.0 * offsetZ) - pt.x),uWaveAmplitude * uampmul);
+            pt.z = mix(pt.z,sin(pt.z / 6.0 * (pt.x * offsetY) - (50.0 * offsetZ) * (pt.z * offsetX)),uWaveAmplitude * uampmul);
         }
-
 
         return vec4(pt.x, pt.y, pt.z, pt.w);
     }
@@ -1250,8 +1238,12 @@ class PulseShader extends FlxShader
 
 class Effect
 {
-	public function setValue(shader:FlxShader, variable:String, value:Float)
+	public static function setValue(shader:FlxShader, variable:String, value:Float)
 	{
-		Reflect.setProperty(Reflect.getProperty(shader, 'variable'), 'value', [value]);
+		Reflect.setProperty(Reflect.getProperty(shader, 'shader'), variable, [value]);
 	}
+
+	public function new(){}
 }
+
+#end

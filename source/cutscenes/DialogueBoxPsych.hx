@@ -186,6 +186,7 @@ class DialogueBoxPsych extends FlxSpriteGroup
 					if(daText != null)
 					{
 						remove(daText);
+						daText.kill();
 						daText.destroy();
 					}
 					updateBoxOffsets(box);
@@ -258,6 +259,7 @@ class DialogueBoxPsych extends FlxSpriteGroup
 		} else { //Dialogue ending
 			if(box != null && box.animation.curAnim.curFrame <= 0) {
 				remove(box);
+				box.kill();
 				box.destroy();
 				box = null;
 			}

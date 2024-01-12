@@ -165,7 +165,7 @@ class SUtil
 		LimeLogger.println(msg);
 		Lib.application.window.alert(msg, 'Error!');
 
-		#if (desktop && !hl)
+		#if DISCORD_ALLOWED
 		DiscordClient.shutdown();
 		#end
 
