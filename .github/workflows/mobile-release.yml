@@ -54,7 +54,7 @@ jobs:
           haxelib run lime config ANDROID_SETUP true
 
       - name: Compile
-        run: haxelib run lime build android -D officialBuild -D ${{ matrix.storage-type }} -arm64 -final
+        run: haxelib run lime build android -D officialBuild -D ${{ matrix.storage-type }} -final
         env:
           cert_pass: nullfunni
           cert_alias_pass: nullfunni
@@ -132,7 +132,7 @@ jobs:
           mkdir Payload
           mv *.app Payload
           zip -r PsychEngine.ipa Payload
-          
+
       - name: Make Zip For Release
         run: |
            cd export/release/ios/build/Release-iphoneos
@@ -185,7 +185,7 @@ jobs:
 
       - name: Move MEDIA File
         run: mv /home/runner/PsychEngine-release.apk /home/runner/PsychEngine-MEDIA.apk
-        
+
       - name: Download iOS Build
         uses: actions/download-artifact@main
         with:

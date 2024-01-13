@@ -3,6 +3,10 @@ package options;
 import states.MainMenuState;
 import backend.StageData;
 import flixel.addons.transition.FlxTransitionableState;
+#if (target.threaded)
+import sys.thread.Thread;
+import sys.thread.Mutex;
+#end
 
 class OptionsState extends MusicBeatState
 {
@@ -12,6 +16,7 @@ class OptionsState extends MusicBeatState
 	public static var menuBG:FlxSprite;
 	public static var onPlayState:Bool = false;
 	var tipText:FlxText;
+	#if (target.threaded) var mutex:Mutex = new Mutex(); #end
 
 	function openSelectedSubstate(label:String) {
 		persistentUpdate = false;
@@ -79,6 +84,20 @@ class OptionsState extends MusicBeatState
 		ClientPrefs.saveSettings();
 
 		addVirtualPad(UP_DOWN, A_B_C);
+
+		#if (target.threaded)
+		Thread.create(()->{
+			mutex.acquire();
+
+			for (i in VisualsUISubState.pauseMusics)
+			{
+				if (i.toLowerCase() != "none")
+					Paths.music(Paths.formatToSongPath(i));
+			}
+
+			mutex.release();
+		});
+		#end
 
 		super.create();
 	}

@@ -111,9 +111,8 @@ class PlayState extends MusicBeatState
 	public var modchartTexts:Map<String, FlxText> = new Map<String, FlxText>();
 	public var modchartSaves:Map<String, FlxSave> = new Map<String, FlxSave>();
 	#end
-	public var modchartShader:Map<String, Dynamic> = new Map<String, Dynamic>(); // idfk i can't make it ShaderFilter
-
 	#if CUSTOM_SHADERS_ALLOWED
+	public var modchartShader:Map<String, Dynamic> = new Map<String, Effect>();
 	public var shaderUpdates:Array<Float->Void> = [];
 	#end
 

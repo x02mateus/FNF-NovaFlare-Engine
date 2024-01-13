@@ -134,13 +134,13 @@ class CopyState extends MusicBeatState {
 	}
 
     public static function getFileBytes(file:String):ByteArray {
-		switch(Path.extension(file)) {
-			case 'otf' | 'ttf':
-				return cast LimeAssets.getAsset(file, FONT, false);
-			default:
-				return OpenflAssets.getBytes(file);
-		}
-	}
+        switch(Path.extension(file)) {
+            case 'otf' | 'ttf':
+                return cast OpenflAssets.getFont(file);
+            default:
+                return OpenflAssets.getBytes(file);
+        }
+    }
 	public static function getFile(file:String):String {
 		for(index in 1...8)
 			if(file.contains('/week$index/'))
