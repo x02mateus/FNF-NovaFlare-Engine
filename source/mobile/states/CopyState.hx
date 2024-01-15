@@ -5,7 +5,6 @@ package mobile.states;
 
 import flixel.addons.transition.FlxTransitionableState;
 import openfl.utils.Assets as OpenflAssets;
-import lime.utils.Assets as LimeAssets;
 import flixel.addons.util.FlxAsyncLoop;
 import openfl.utils.ByteArray;
 import openfl.system.System;
@@ -119,7 +118,7 @@ class CopyState extends MusicBeatState {
 		    if(!FileSystem.exists(directory))
 					SUtil.mkDirs(directory);
             try {
-                if(LimeAssets.exists(getFile(file))){
+                if(OpenflAssets.exists(getFile(file))){
                     if(textFilesExtensions.contains(Path.extension(file)))
                         createContentFromInternal(file);
                     else
@@ -157,7 +156,7 @@ class CopyState extends MusicBeatState {
         var fileName = Path.withoutDirectory(file);
         var directory = Path.directory(Path.join([to, file]));
         try {
-            var fileData:String = LimeAssets.getText(getFile(file));
+            var fileData:String = OpenflAssets.getText(getFile(file));
             if(fileData == null)
                 fileData = '';
             if(!FileSystem.exists(directory))
@@ -169,7 +168,7 @@ class CopyState extends MusicBeatState {
     }
 
     public static function checkExistingFiles():Bool{
-        locatedFiles = LimeAssets.list();
+        locatedFiles = OpenflAssets.list();
         // removes unwanted assets
         var assets = locatedFiles.filter(folder -> folder.startsWith('assets/'));
         var mods = locatedFiles.filter(folder -> folder.startsWith('mods/'));

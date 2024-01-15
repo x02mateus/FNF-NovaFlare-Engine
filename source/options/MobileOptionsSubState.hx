@@ -18,7 +18,6 @@ class MobileOptionsSubState extends BaseOptionsMenu
 		addOption(option);
 		#end
 			
-		#if !web
 		var option:Option = new Option('Hitbox Position', //Name
 			'If checked, the hitbox will be put at the bottom of the screen, otherwise will stay at the top.', //Description
 			'hitbox2', //Save data variable name
@@ -31,7 +30,6 @@ class MobileOptionsSubState extends BaseOptionsMenu
 		'string',
 		["NONE", "ONE", "TWO"]); //Variable type
 		addOption(option);
-		#end
 
 		var option:Option = new Option('Dynamic Controls Color',
 		'If checked, the mobile controls color will be set to the notes color in your settings.\n(have effect during gameplay only)',

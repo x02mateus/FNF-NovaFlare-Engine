@@ -120,6 +120,12 @@ jobs:
           haxelib install hmm --quiet
           haxelib run hmm install --quiet
 
+      - name: Install MobileVLCKit Framework
+        run: |
+          cd ${{ github.workspace }}/..
+          wget -q https://download.videolan.org/cocoapods/prod/MobileVLCKit-3.5.1-34408b84-e9eceaed.tar.xz
+          tar -xf MobileVLCKit-3.5.1-34408b84-e9eceaed.tar.xz
+
       - name: Compile
         run: haxelib run lime build ios -D NOVIDEO -D officialBuild -final
 
@@ -197,8 +203,8 @@ jobs:
         with:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
           prerelease: false
-          automatic_release_tag: "0.7.2h"
-          title: "0.7.2h"
+          automatic_release_tag: "0.7.3"
+          title: "0.7.3"
           files: |
             /home/runner/*.apk
             /home/runner/*.zip

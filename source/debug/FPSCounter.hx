@@ -23,10 +23,15 @@ class FPSCounter extends TextField
 	public var memoryMegas(get, never):Float;
 
 	@:noCompletion private var times:Array<Float>;
+	public var os:String = ''; 
 
 	public function new(x:Float = 10, y:Float = 10, color:Int = 0x000000)
 	{
 		super();
+		if(LimeSystem.platformName == LimeSystem.platformVersion || LimeSystem.platformVersion == null)
+			os = '\nOS: ${LimeSystem.platformName}';
+		else
+			os = '\nOS: ${LimeSystem.platformName} - ${LimeSystem.platformVersion}'; 
 
 		this.x = x;
 		this.y = y;
@@ -64,9 +69,11 @@ class FPSCounter extends TextField
 
 	public dynamic function updateText():Void // so people can override it in hscript
 	{
-		text = 'FPS: $currentFPS' + 
+		text = 
+		'FPS: $currentFPS' + 
 		'\nMemory: ${flixel.util.FlxStringUtil.formatBytes(memoryMegas)}' +
-		'\nOS: ${LimeSystem.platformName + ' - ' + LimeSystem.platformVersion}';
+		os;
+		
 
 		textColor = 0xFFFFFFFF;
 		if (currentFPS < FlxG.drawFramerate * 0.5)

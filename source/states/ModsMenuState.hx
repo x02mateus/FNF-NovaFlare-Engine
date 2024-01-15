@@ -7,7 +7,7 @@ import flixel.ui.FlxButton;
 import flixel.FlxBasic;
 import flixel.graphics.FlxGraphic;
 import openfl.geom.Rectangle;
-import lime.utils.Assets;
+import openfl.utils.Assets;
 import haxe.Json;
 
 import flixel.util.FlxSpriteUtil;

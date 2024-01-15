@@ -10,7 +10,6 @@ import haxe.io.Path;
 import haxe.CallStack;
 import lime.app.Application;
 import lime.system.System as LimeSystem;
-import lime.utils.Assets as LimeAssets;
 import openfl.utils.Assets as OpenflAssets;
 import lime.utils.Log as LimeLogger;
 import openfl.events.UncaughtErrorEvent;
@@ -225,16 +224,16 @@ class SUtil
 	public static function copyContent(copyPath:String, savePath:String):Void
 	{
 		try {
-			if (!FileSystem.exists(savePath) && LimeAssets.exists(copyPath))
+			if (!FileSystem.exists(savePath) && OpenflAssets.exists(copyPath))
 			{
 				if (!FileSystem.exists(Path.directory(savePath)))
 					mkDirs(Path.directory(savePath));
 				if(copyPath.endsWith('.otf') || copyPath.endsWith('.ttf'))
-					File.saveBytes(savePath, cast LimeAssets.getFont(copyPath));
+					File.saveBytes(savePath, cast OpenflAssets.getFont(copyPath));
 				else if(copyPath.endsWith('.txt'))
-					File.saveBytes(savePath, cast LimeAssets.getText(copyPath));
+					File.saveBytes(savePath, cast OpenflAssets.getText(copyPath));
 				else
-					File.saveBytes(savePath, LimeAssets.getBytes(copyPath));
+					File.saveBytes(savePath, OpenflAssets.getBytes(copyPath));
 			}
 		}
 		catch (e:Dynamic)
