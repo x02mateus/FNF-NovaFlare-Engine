@@ -1,4 +1,4 @@
-package backend;
+package mobile.backend;
 import flixel.FlxBasic;
 
 class TouchFunctions {

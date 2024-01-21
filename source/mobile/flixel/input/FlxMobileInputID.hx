@@ -1,18 +1,14 @@
 package mobile.flixel.input;
 import flixel.system.macros.FlxMacroUtil;
 
-    /**
-    * A high-level list of unique values for mobile inputs.
-    * These do NOT correspond to any actual hardware values but
-    * are the basis for all hardware-specific lookups.
-    * Maps enum values and strings to unique integer codes
-    *
-    * @author Karim Akra (UTFan) & Lily(mcagabe19)
-    */
-    @:enum
-    @:runtimeValue
-    abstract FlxMobileInputID(Int) from Int to Int
-    {
+/**
+* A high-level list of unique values for mobile input buttons.
+* Maps enum values and strings to unique integer codes
+* @author Karim Akra & Lily(mcagabe19)
+*/
+@:runtimeValue
+enum abstract FlxMobileInputID(Int) from Int to Int
+{
     public static var fromStringMap(default, null):Map<String, FlxMobileInputID> = FlxMacroUtil.buildMap("mobile.flixel.input.FlxMobileInputID");
     public static var toStringMap(default, null):Map<FlxMobileInputID, String> = FlxMacroUtil.buildMap("mobile.flixel.input.FlxMobileInputID", true);
     // Nothing & Anything
@@ -41,12 +37,12 @@ import flixel.system.macros.FlxMacroUtil;
     var LEFT2 = 19;
     var RIGHT = 20;
     var RIGHT2 = 21;
-    // HITBOX Hints
+    // HITBOX
     var hitboxUP = 22;
     var hitboxDOWN = 23;
     var hitboxLEFT = 24;
     var hitboxRIGHT = 25;
-    // PlayState x Controls Releated
+    // PlayState Releated
     var noteUP = 26;
     var noteDOWN = 27;
     var noteLEFT = 28;

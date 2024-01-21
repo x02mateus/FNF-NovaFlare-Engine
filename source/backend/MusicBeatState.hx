@@ -23,8 +23,6 @@ class MusicBeatState extends FlxUIState
 		return Controls.instance;
 	}
 
-	public var dpadMode:Map<String, FlxDPadMode>;
-	public var actionMode:Map<String, FlxActionMode>;
 	public var virtualPad:FlxVirtualPad;
 	public var mobileControls:MobileControls;
 	public var camControls:FlxCamera;
@@ -94,25 +92,6 @@ class MusicBeatState extends FlxUIState
 	var _psychCameraInitialized:Bool = false;
 
 	override function create() {
-		// FlxDPadModes (for Mobile Controls)
-		dpadMode = new Map<String, FlxDPadMode>();
-		dpadMode.set("UP_DOWN", UP_DOWN);
-		dpadMode.set("LEFT_RIGHT", LEFT_RIGHT);
-		dpadMode.set("LEFT_RIGHT", LEFT_RIGHT);
-		dpadMode.set("LEFT_FULL", LEFT_FULL);
-		dpadMode.set("RIGHT_FULL", RIGHT_FULL);
-		dpadMode.set("BOTH", BOTH);
-		dpadMode.set("NONE", NONE);
-
-		actionMode = new Map<String, FlxActionMode>();
-		actionMode.set('A', A);
-		actionMode.set('A_B', A_B);
-		actionMode.set('A_B_C', A_B_C);
-		actionMode.set('A_B_E', A_B_E);
-		actionMode.set('A_B_E', A_B_E);
-		actionMode.set('A_B_C_X_Y', A_B_C_X_Y);
-		actionMode.set('A_B_C_X_Y_Z', A_B_C_X_Y_Z);
-		actionMode.set('A_B_C_D_V_X_Y_Z', A_B_C_D_V_X_Y_Z);
 		instance = this;
 
 		var skip:Bool = FlxTransitionableState.skipNextTransOut;

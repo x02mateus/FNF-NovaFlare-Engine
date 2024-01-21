@@ -215,17 +215,31 @@ class ChromaticAberrationEffect extends Effect
 	public var shader:ShaderFilter = new ShaderFilter(new ChromaticAberrationShader());
 
 
-	public function setChrome(chromeOffset:Float):Void
+	public function setChrome(globalChromeOffset:Float, ?redOffset:Float = 0.0, ?greenOffset:Float = 0.0, ?blueOffset:Float = 0.0):Void
 	{
-		shader.shader.data.rOffset.value = [chromeOffset];
-		shader.shader.data.gOffset.value = [0.0];
-		shader.shader.data.bOffset.value = [chromeOffset * -1];
+		if(globalChromeOffset != 0.0){
+			shader.shader.data.rOffset.value = [globalChromeOffset];
+			shader.shader.data.gOffset.value = [0.0];
+			shader.shader.data.bOffset.value = [-globalChromeOffset];
+		} else {
+			shader.shader.data.rOffset.value = [redOffset];
+			shader.shader.data.gOffset.value = [greenOffset];
+			shader.shader.data.bOffset.value = [blueOffset];
+		}
 	}
 
-	public function new(chromeOffset:Float){
+	public function new(globalChromeOffset:Float, ?redOffset:Float = 0.0, ?greenOffset:Float = 0.0, ?blueOffset:Float = 0.0){
 		super();
 		daShader = shader;
-		setChrome(chromeOffset);
+		if(globalChromeOffset != 0.0){
+			shader.shader.data.rOffset.value = [globalChromeOffset];
+			shader.shader.data.gOffset.value = [0.0];
+			shader.shader.data.bOffset.value = [-globalChromeOffset];
+		} else {
+			shader.shader.data.rOffset.value = [redOffset];
+			shader.shader.data.gOffset.value = [greenOffset];
+			shader.shader.data.bOffset.value = [blueOffset];
+		}
 	}
 }
 

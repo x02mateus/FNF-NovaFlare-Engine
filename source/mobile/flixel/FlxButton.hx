@@ -37,6 +37,7 @@ class FlxButton extends FlxTypedButton<FlxText>
 	public var text(get, set):String;
 
 	public var tag:String;
+	public var IDs:Array<FlxMobileInputID> = [];
 
 	/**
 	 * Creates a new `FlxButton` object with a gray background
@@ -44,15 +45,18 @@ class FlxButton extends FlxTypedButton<FlxText>
 	 *
 	 * @param   X         The x position of the button.
 	 * @param   Y         The y position of the button.
+	 * @param   ID        The button's IDs(used for input handling so be careful).
 	 * @param   Text      The text that you want to appear on the button.
 	 * @param   OnClick   The function to call whenever the button is clicked.
 	 */
-	public function new(X:Float = 0, Y:Float = 0, ?Text:String, ?OnClick:Void->Void):Void
+	public function new(X:Float = 0, Y:Float = 0, ?IDs:Array<FlxMobileInputID> = null, ?Text:String, ?OnClick:Void->Void):Void
 	{
 		super(X, Y, OnClick);
 
 		for (point in labelOffsets)
 			point.set(point.x - 1, point.y + 3);
+
+		this.IDs = IDs;
 
 		initLabel(Text);
 	}
@@ -302,14 +306,6 @@ class FlxTypedButton<T:FlxSprite> extends FlxSprite implements IFlxInput
 		{
 			_spriteLabel.cameras = cameras;
 			_spriteLabel.draw();
-		}
-	}
-
-	public function hasState(state:ButtonsStates):Bool {
-		return switch (state) {
-			case JUST_RELEASED: justReleased;
-			case PRESSED: pressed;
-			case JUST_PRESSED: justPressed;
 		}
 	}
 
@@ -591,9 +587,4 @@ private class FlxButtonEvent implements IFlxDestroyable
 			sound.play(true);
 		#end
 	}
-}
-enum ButtonsStates{
-	PRESSED;
-	JUST_PRESSED;
-	JUST_RELEASED;
 }

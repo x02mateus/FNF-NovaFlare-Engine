@@ -1,20 +1,18 @@
 package mobile.flixel;
 
-import mobile.flixel.FlxButton;
-import mobile.flixel.FlxButton.ButtonsStates;
 import flixel.graphics.frames.FlxTileFrames;
+import mobile.flixel.input.FlxMobileInputManager;
+import mobile.flixel.FlxButton;
 import flixel.math.FlxPoint;
-import haxe.ds.Map;
-import flixel.group.FlxSpriteGroup.FlxTypedSpriteGroup;
 
 /**
  * A gamepad.
  * It's easy to customize the layout.
  *
  * @original author Ka Wing Chin & Mihai Alexandru
- * @modification's author: Karim Akra (UTFan) & Lily (mcagabe19)
+ * @modification's author: Karim Akra & Lily (mcagabe19)
  */
-class FlxVirtualPad extends FlxButtonGroup
+class FlxVirtualPad extends FlxMobileInputManager
 {
 	public var buttonLeft:FlxButton = new FlxButton(0, 0);
 	public var buttonUp:FlxButton = new FlxButton(0, 0);
@@ -37,36 +35,6 @@ class FlxVirtualPad extends FlxButtonGroup
 	public var buttonY:FlxButton = new FlxButton(0, 0);
 	public var buttonZ:FlxButton = new FlxButton(0, 0);
 	public var buttonP:FlxButton = new FlxButton(0, 0);
-
-	public var buttonsMap:Map<FlxMobileInputID, FlxButton> = new Map<FlxMobileInputID, FlxButton>();
-	// kill me -Karim
-	public var buttons:Array<FlxMobileInputID> = [
-		FlxMobileInputID.A,
-		FlxMobileInputID.B,
-		FlxMobileInputID.C,
-		FlxMobileInputID.D,
-		FlxMobileInputID.E,
-		FlxMobileInputID.F,
-		FlxMobileInputID.G,
-		FlxMobileInputID.S,
-		FlxMobileInputID.V,
-		FlxMobileInputID.X,
-		FlxMobileInputID.Y,
-		FlxMobileInputID.Z,
-		FlxMobileInputID.P,
-		FlxMobileInputID.UP,
-		FlxMobileInputID.UP2,
-		FlxMobileInputID.DOWN,
-		FlxMobileInputID.DOWN2,
-		FlxMobileInputID.LEFT,
-		FlxMobileInputID.LEFT2,
-		FlxMobileInputID.RIGHT,
-		FlxMobileInputID.RIGHT2,
-		FlxMobileInputID.noteUP,
-		FlxMobileInputID.noteDOWN,
-		FlxMobileInputID.noteLEFT,
-		FlxMobileInputID.noteRIGHT
-	];
 
 	/**
 	 * Create a gamepad.
@@ -93,148 +61,148 @@ class FlxVirtualPad extends FlxButtonGroup
 		switch (DPad)
 		{
 			case UP_DOWN:
-				add(buttonUp = createButton(0, FlxG.height - 255, 132, 127, 'up', buttonUpColor[0]));
-				add(buttonDown = createButton(0, FlxG.height - 135, 132, 127, 'down', buttonDownColor[0]));
+				add(buttonUp = createButton(0, FlxG.height - 255, 132, 127, 'up', buttonUpColor[0], [FlxMobileInputID.UP, FlxMobileInputID.noteUP]));
+				add(buttonDown = createButton(0, FlxG.height - 135, 132, 127, 'down', buttonDownColor[0], [FlxMobileInputID.DOWN, FlxMobileInputID.noteDOWN]));
 			case LEFT_RIGHT:
-				add(buttonLeft = createButton(0, FlxG.height - 135, 132, 127, 'left', buttonLeftColor[0]));
-				add(buttonRight = createButton(127, FlxG.height - 135, 132, 127, 'right', buttonRightColor[0]));
+				add(buttonLeft = createButton(0, FlxG.height - 135, 132, 127, 'left', buttonLeftColor[0], [FlxMobileInputID.LEFT, FlxMobileInputID.noteLEFT]));
+				add(buttonRight = createButton(127, FlxG.height - 135, 132, 127, 'right', buttonRightColor[0], [FlxMobileInputID.RIGHT, FlxMobileInputID.noteRIGHT]));
 			case UP_LEFT_RIGHT:
-				add(buttonUp = createButton(105, FlxG.height - 243, 132, 127, 'up', buttonUpColor[0]));
-				add(buttonLeft = createButton(0, FlxG.height - 135, 132, 127, 'left', buttonLeftColor[0]));
-				add(buttonRight = createButton(207, FlxG.height - 135, 132, 127, 'right', buttonRightColor[0]));
+				add(buttonUp = createButton(105, FlxG.height - 243, 132, 127, 'up', buttonUpColor[0], [FlxMobileInputID.UP, FlxMobileInputID.noteUP]));
+				add(buttonLeft = createButton(0, FlxG.height - 135, 132, 127, 'left', buttonLeftColor[0], [FlxMobileInputID.LEFT, FlxMobileInputID.noteLEFT]));
+				add(buttonRight = createButton(207, FlxG.height - 135, 132, 127, 'right', buttonRightColor[0], [FlxMobileInputID.RIGHT, FlxMobileInputID.noteRIGHT]));
 			case LEFT_FULL:
-				add(buttonUp = createButton(105, FlxG.height - 345, 132, 127, 'up', buttonUpColor[0]));
-				add(buttonLeft = createButton(0, FlxG.height - 243, 132, 127, 'left', buttonLeftColor[0]));
-				add(buttonRight = createButton(207, FlxG.height - 243, 132, 127, 'right', buttonRightColor[0]));
-				add(buttonDown = createButton(105, FlxG.height - 135, 132, 127, 'down', buttonDownColor[0]));
+				add(buttonUp = createButton(105, FlxG.height - 345, 132, 127, 'up', buttonUpColor[0], [FlxMobileInputID.UP, FlxMobileInputID.noteUP]));
+				add(buttonLeft = createButton(0, FlxG.height - 243, 132, 127, 'left', buttonLeftColor[0], [FlxMobileInputID.LEFT, FlxMobileInputID.noteLEFT]));
+				add(buttonRight = createButton(207, FlxG.height - 243, 132, 127, 'right', buttonRightColor[0], [FlxMobileInputID.RIGHT, FlxMobileInputID.noteRIGHT]));
+				add(buttonDown = createButton(105, FlxG.height - 135, 132, 127, 'down', buttonDownColor[0], [FlxMobileInputID.DOWN, FlxMobileInputID.noteDOWN]));
 			case RIGHT_FULL:
-				add(buttonUp = createButton(FlxG.width - 258, FlxG.height - 408, 132, 127, 'up', buttonUpColor[0]));
-				add(buttonLeft = createButton(FlxG.width - 384, FlxG.height - 309, 132, 127, 'left', buttonLeftColor[0]));
-				add(buttonRight = createButton(FlxG.width - 132, FlxG.height - 309, 132, 127, 'right', buttonRightColor[0]));
-				add(buttonDown = createButton(FlxG.width - 258, FlxG.height - 201, 132, 127, 'down', buttonDownColor[0]));
+				add(buttonUp = createButton(FlxG.width - 258, FlxG.height - 408, 132, 127, 'up', buttonUpColor[0], [FlxMobileInputID.UP, FlxMobileInputID.noteUP]));
+				add(buttonLeft = createButton(FlxG.width - 384, FlxG.height - 309, 132, 127, 'left', buttonLeftColor[0], [FlxMobileInputID.LEFT, FlxMobileInputID.noteLEFT]));
+				add(buttonRight = createButton(FlxG.width - 132, FlxG.height - 309, 132, 127, 'right', buttonRightColor[0], [FlxMobileInputID.RIGHT, FlxMobileInputID.noteRIGHT]));
+				add(buttonDown = createButton(FlxG.width - 258, FlxG.height - 201, 132, 127, 'down', buttonDownColor[0], [FlxMobileInputID.DOWN, FlxMobileInputID.noteDOWN]));
 			case BOTH:
-				add(buttonUp = createButton(105, FlxG.height - 345, 132, 127, 'up', buttonUpColor[0]));
-				add(buttonLeft = createButton(0, FlxG.height - 243, 132, 127, 'left', buttonLeftColor[0]));
-				add(buttonRight = createButton(207, FlxG.height - 243, 132, 127, 'right', buttonRightColor[0]));
-				add(buttonDown = createButton(105, FlxG.height - 135, 132, 127, 'down', buttonDownColor[0]));
-				add(buttonUp2 = createButton(FlxG.width - 258, FlxG.height - 408, 132, 127, 'up', buttonUpColor[0]));
-				add(buttonLeft2 = createButton(FlxG.width - 384, FlxG.height - 309, 132, 127, 'left', buttonLeftColor[0]));
-				add(buttonRight2 = createButton(FlxG.width - 132, FlxG.height - 309, 132, 127, 'right', buttonRightColor[0]));
-				add(buttonDown2 = createButton(FlxG.width - 258, FlxG.height - 201, 132, 127, 'down', buttonDownColor[0]));
+				add(buttonUp = createButton(105, FlxG.height - 345, 132, 127, 'up', buttonUpColor[0], [FlxMobileInputID.UP, FlxMobileInputID.noteUP]));
+				add(buttonLeft = createButton(0, FlxG.height - 243, 132, 127, 'left', buttonLeftColor[0], [FlxMobileInputID.LEFT, FlxMobileInputID.noteLEFT]));
+				add(buttonRight = createButton(207, FlxG.height - 243, 132, 127, 'right', buttonRightColor[0], [FlxMobileInputID.RIGHT, FlxMobileInputID.noteRIGHT]));
+				add(buttonDown = createButton(105, FlxG.height - 135, 132, 127, 'down', buttonDownColor[0], [FlxMobileInputID.DOWN, FlxMobileInputID.noteDOWN]));
+				add(buttonUp2 = createButton(FlxG.width - 258, FlxG.height - 408, 132, 127, 'up', buttonUpColor[0], [FlxMobileInputID.UP2, FlxMobileInputID.noteUP]));
+				add(buttonLeft2 = createButton(FlxG.width - 384, FlxG.height - 309, 132, 127, 'left', buttonLeftColor[0], [FlxMobileInputID.LEFT2, FlxMobileInputID.noteLEFT]));
+				add(buttonRight2 = createButton(FlxG.width - 132, FlxG.height - 309, 132, 127, 'right', buttonRightColor[0], [FlxMobileInputID.RIGHT2, FlxMobileInputID.noteRIGHT]));
+				add(buttonDown2 = createButton(FlxG.width - 258, FlxG.height - 201, 132, 127, 'down', buttonDownColor[0], [FlxMobileInputID.DOWN2, FlxMobileInputID.noteDOWN]));
 			// PSYCH RELEATED BUTTONS
 			case DIALOGUE_PORTRAIT:
-				add(buttonUp = createButton(105, FlxG.height - 345, 132, 127, 'up', buttonUpColor[0]));
-				add(buttonLeft = createButton(0, FlxG.height - 243, 132, 127, 'left', buttonLeftColor[0]));
-				add(buttonRight = createButton(207, FlxG.height - 243, 132, 127, 'right', buttonRightColor[0]));
-				add(buttonDown = createButton(105, FlxG.height - 135, 132, 127, 'down', buttonDownColor[0]));
-				add(buttonUp2 = createButton(105, 0, 132, 127, 'up', buttonUpColor[0]));
-				add(buttonLeft2 = createButton(0, 82, 132, 127, 'left', buttonLeftColor[0]));
-				add(buttonRight2 = createButton(207, 82, 132, 127, 'right', buttonRightColor[0]));
-				add(buttonDown2 = createButton(105, 190, 132, 127, 'down', buttonDownColor[0]));
+				add(buttonUp = createButton(105, FlxG.height - 345, 132, 127, 'up', buttonUpColor[0], [FlxMobileInputID.UP]));
+				add(buttonLeft = createButton(0, FlxG.height - 243, 132, 127, 'left', buttonLeftColor[0], [FlxMobileInputID.LEFT]));
+				add(buttonRight = createButton(207, FlxG.height - 243, 132, 127, 'right', buttonRightColor[0], [FlxMobileInputID.RIGHT]));
+				add(buttonDown = createButton(105, FlxG.height - 135, 132, 127, 'down', buttonDownColor[0], [FlxMobileInputID.DOWN]));
+				add(buttonUp2 = createButton(105, 0, 132, 127, 'up', buttonUpColor[0], [FlxMobileInputID.UP2]));
+				add(buttonLeft2 = createButton(0, 82, 132, 127, 'left', buttonLeftColor[0], [FlxMobileInputID.LEFT2]));
+				add(buttonRight2 = createButton(207, 82, 132, 127, 'right', buttonRightColor[0], [FlxMobileInputID.RIGHT2]));
+				add(buttonDown2 = createButton(105, 190, 132, 127, 'down', buttonDownColor[0], [FlxMobileInputID.LEFT2]));
 			case MENU_CHARACTER:
-				add(buttonUp = createButton(105, 0, 132, 127, 'up', buttonUpColor[0]));
-				add(buttonLeft = createButton(0, 82, 132, 127, 'left', buttonLeftColor[0]));
-				add(buttonRight = createButton(207, 82, 132, 127, 'right', buttonRightColor[0]));
-				add(buttonDown = createButton(105, 190, 132, 127, 'down', buttonDownColor[0]));
+				add(buttonUp = createButton(105, 0, 132, 127, 'up', buttonUpColor[0], [FlxMobileInputID.UP]));
+				add(buttonLeft = createButton(0, 82, 132, 127, 'left', buttonLeftColor[0], [FlxMobileInputID.LEFT]));
+				add(buttonRight = createButton(207, 82, 132, 127, 'right', buttonRightColor[0], [FlxMobileInputID.RIGHT]));
+				add(buttonDown = createButton(105, 190, 132, 127, 'down', buttonDownColor[0], [FlxMobileInputID.DOWN]));
 			case NOTE_SPLASH_DEBUG:
-				add(buttonLeft = createButton(0, 0, 132, 127, 'left', buttonLeftColor[0]));
-				add(buttonRight = createButton(127, 0, 132, 127, 'right', buttonRightColor[0]));
-				add(buttonUp = createButton(0, 125, 132, 127, 'up', buttonUpColor[0]));
-				add(buttonDown = createButton(127, 125, 132, 127, 'down', buttonDownColor[0]));
-				add(buttonUp2 = createButton(127, 393, 132, 127, 'up', buttonUpColor[0]));
-				add(buttonLeft2 = createButton(0, 393, 132, 127, 'left', buttonLeftColor[0]));
-				add(buttonRight2 = createButton(1145, 393, 132, 127, 'right', buttonRightColor[0]));
-				add(buttonDown2 = createButton(1015, 393, 132, 127, 'down', buttonDownColor[0]));
+				add(buttonUp = createButton(0, 125, 132, 127, 'up', buttonUpColor[0], [FlxMobileInputID.UP]));
+				add(buttonLeft = createButton(0, 0, 132, 127, 'left', buttonLeftColor[0], [FlxMobileInputID.LEFT]));
+				add(buttonRight = createButton(127, 0, 132, 127, 'right', buttonRightColor[0], [FlxMobileInputID.RIGHT]));
+				add(buttonDown = createButton(127, 125, 132, 127, 'down', buttonDownColor[0], [FlxMobileInputID.DOWN]));
+				add(buttonUp2 = createButton(127, 393, 132, 127, 'up', buttonUpColor[0], [FlxMobileInputID.UP2]));
+				add(buttonLeft2 = createButton(0, 393, 132, 127, 'left', buttonLeftColor[0], [FlxMobileInputID.LEFT2]));
+				add(buttonRight2 = createButton(1145, 393, 132, 127, 'right', buttonRightColor[0], [FlxMobileInputID.RIGHT2]));
+				add(buttonDown2 = createButton(1015, 393, 132, 127, 'down', buttonDownColor[0], [FlxMobileInputID.DOWN2]));
 			case NONE: // do nothing
 		}
 
 		switch (Action)
 		{
 			case A:
-				add(buttonA = createButton(FlxG.width - 132, FlxG.height - 135, 132, 127, 'a', 0xFF0000));
+				add(buttonA = createButton(FlxG.width - 132, FlxG.height - 135, 132, 127, 'a', 0xFF0000, [FlxMobileInputID.A]));
 			case B:
-				add(buttonB = createButton(FlxG.width - 132, FlxG.height - 135, 132, 127, 'b', 0xFFCB00));
+				add(buttonB = createButton(FlxG.width - 132, FlxG.height - 135, 132, 127, 'b', 0xFFCB00, [FlxMobileInputID.B]));
 			case B_X:
-				add(buttonB = createButton(FlxG.width - 258, FlxG.height - 135, 132, 127, 'b', 0xFFCB00));
-				add(buttonX = createButton(FlxG.width - 132, FlxG.height - 135, 132, 127, 'x', 0x99062D));
+				add(buttonB = createButton(FlxG.width - 258, FlxG.height - 135, 132, 127, 'b', 0xFFCB00, [FlxMobileInputID.B]));
+				add(buttonX = createButton(FlxG.width - 132, FlxG.height - 135, 132, 127, 'x', 0x99062D, [FlxMobileInputID.X]));
 			case A_B:
-				add(buttonB = createButton(FlxG.width - 258, FlxG.height - 135, 132, 127, 'b', 0xFFCB00));
-				add(buttonA = createButton(FlxG.width - 132, FlxG.height - 135, 132, 127, 'a', 0xFF0000));
+				add(buttonB = createButton(FlxG.width - 258, FlxG.height - 135, 132, 127, 'b', 0xFFCB00, [FlxMobileInputID.B]));
+				add(buttonA = createButton(FlxG.width - 132, FlxG.height - 135, 132, 127, 'a', 0xFF0000, [FlxMobileInputID.A]));
 			case A_B_C:
-				add(buttonC = createButton(FlxG.width - 384, FlxG.height - 135, 132, 127, 'c', 0x44FF00));
-				add(buttonB = createButton(FlxG.width - 258, FlxG.height - 135, 132, 127, 'b', 0xFFCB00));
-				add(buttonA = createButton(FlxG.width - 132, FlxG.height - 135, 132, 127, 'a', 0xFF0000));
+				add(buttonC = createButton(FlxG.width - 384, FlxG.height - 135, 132, 127, 'c', 0x44FF00, [FlxMobileInputID.C]));
+				add(buttonB = createButton(FlxG.width - 258, FlxG.height - 135, 132, 127, 'b', 0xFFCB00, [FlxMobileInputID.B]));
+				add(buttonA = createButton(FlxG.width - 132, FlxG.height - 135, 132, 127, 'a', 0xFF0000, [FlxMobileInputID.A]));
 			case A_B_E:
-				add(buttonE = createButton(FlxG.width - 384, FlxG.height - 135, 132, 127, 'e', 0xFF7D00));
-				add(buttonB = createButton(FlxG.width - 258, FlxG.height - 135, 132, 127, 'b', 0xFFCB00));
-				add(buttonA = createButton(FlxG.width - 132, FlxG.height - 135, 132, 127, 'a', 0xFF0000));
+				add(buttonE = createButton(FlxG.width - 384, FlxG.height - 135, 132, 127, 'e', 0xFF7D00, [FlxMobileInputID.E]));
+				add(buttonB = createButton(FlxG.width - 258, FlxG.height - 135, 132, 127, 'b', 0xFFCB00, [FlxMobileInputID.B]));
+				add(buttonA = createButton(FlxG.width - 132, FlxG.height - 135, 132, 127, 'a', 0xFF0000, [FlxMobileInputID.A]));
 			case A_B_X_Y:
-				add(buttonX = createButton(FlxG.width - 510, FlxG.height - 135, 132, 127, 'x', 0x99062D));
-				add(buttonB = createButton(FlxG.width - 258, FlxG.height - 135, 132, 127, 'b', 0xFFCB00));
-				add(buttonY = createButton(FlxG.width - 384, FlxG.height - 135, 132, 127, 'y', 0x4A35B9));
-				add(buttonA = createButton(FlxG.width - 132, FlxG.height - 135, 132, 127, 'a', 0xFF0000));
+				add(buttonX = createButton(FlxG.width - 510, FlxG.height - 135, 132, 127, 'x', 0x99062D, [FlxMobileInputID.X]));
+				add(buttonB = createButton(FlxG.width - 258, FlxG.height - 135, 132, 127, 'b', 0xFFCB00, [FlxMobileInputID.B]));
+				add(buttonY = createButton(FlxG.width - 384, FlxG.height - 135, 132, 127, 'y', 0x4A35B9, [FlxMobileInputID.Y]));
+				add(buttonA = createButton(FlxG.width - 132, FlxG.height - 135, 132, 127, 'a', 0xFF0000, [FlxMobileInputID.A]));
 			case A_B_C_X_Y:
-				add(buttonC = createButton(FlxG.width - 384, FlxG.height - 135, 132, 127, 'c', 0x44FF00));
-				add(buttonX = createButton(FlxG.width - 258, FlxG.height - 255, 132, 127, 'x', 0x99062D));
-				add(buttonB = createButton(FlxG.width - 258, FlxG.height - 135, 132, 127, 'b', 0xFFCB00));
-				add(buttonY = createButton(FlxG.width - 132, FlxG.height - 255, 132, 127, 'y', 0x4A35B9));
-				add(buttonA = createButton(FlxG.width - 132, FlxG.height - 135, 132, 127, 'a', 0xFF0000));
+				add(buttonC = createButton(FlxG.width - 384, FlxG.height - 135, 132, 127, 'c', 0x44FF00, [FlxMobileInputID.C]));
+				add(buttonX = createButton(FlxG.width - 258, FlxG.height - 255, 132, 127, 'x', 0x99062D, [FlxMobileInputID.X]));
+				add(buttonB = createButton(FlxG.width - 258, FlxG.height - 135, 132, 127, 'b', 0xFFCB00, [FlxMobileInputID.B]));
+				add(buttonY = createButton(FlxG.width - 132, FlxG.height - 255, 132, 127, 'y', 0x4A35B9, [FlxMobileInputID.Y]));
+				add(buttonA = createButton(FlxG.width - 132, FlxG.height - 135, 132, 127, 'a', 0xFF0000, [FlxMobileInputID.A]));
 			case A_B_C_X_Y_Z:
-				add(buttonX = createButton(FlxG.width - 384, FlxG.height - 255, 132, 127, 'x', 0x99062D));
-				add(buttonC = createButton(FlxG.width - 384, FlxG.height - 135, 132, 127, 'c', 0x44FF00));
-				add(buttonY = createButton(FlxG.width - 258, FlxG.height - 255, 132, 127, 'y', 0x4A35B9));
-				add(buttonB = createButton(FlxG.width - 258, FlxG.height - 135, 132, 127, 'b', 0xFFCB00));
-				add(buttonZ = createButton(FlxG.width - 132, FlxG.height - 255, 132, 127, 'z', 0xCCB98E));
-				add(buttonA = createButton(FlxG.width - 132, FlxG.height - 135, 132, 127, 'a', 0xFF0000));
+				add(buttonX = createButton(FlxG.width - 384, FlxG.height - 255, 132, 127, 'x', 0x99062D, [FlxMobileInputID.X]));
+				add(buttonC = createButton(FlxG.width - 384, FlxG.height - 135, 132, 127, 'c', 0x44FF00, [FlxMobileInputID.C]));
+				add(buttonY = createButton(FlxG.width - 258, FlxG.height - 255, 132, 127, 'y', 0x4A35B9, [FlxMobileInputID.Y]));
+				add(buttonB = createButton(FlxG.width - 258, FlxG.height - 135, 132, 127, 'b', 0xFFCB00, [FlxMobileInputID.B]));
+				add(buttonZ = createButton(FlxG.width - 132, FlxG.height - 255, 132, 127, 'z', 0xCCB98E, [FlxMobileInputID.Z]));
+				add(buttonA = createButton(FlxG.width - 132, FlxG.height - 135, 132, 127, 'a', 0xFF0000, [FlxMobileInputID.A]));
 			case A_B_C_D_V_X_Y_Z:
-				add(buttonV = createButton(FlxG.width - 510, FlxG.height - 255, 132, 127, 'v', 0x49A9B2));
-				add(buttonD = createButton(FlxG.width - 510, FlxG.height - 135, 132, 127, 'd', 0x0078FF));
-				add(buttonX = createButton(FlxG.width - 384, FlxG.height - 255, 132, 127, 'x', 0x99062D));
-				add(buttonC = createButton(FlxG.width - 384, FlxG.height - 135, 132, 127, 'c', 0x44FF00));
-				add(buttonY = createButton(FlxG.width - 258, FlxG.height - 255, 132, 127, 'y', 0x4A35B9));
-				add(buttonB = createButton(FlxG.width - 258, FlxG.height - 135, 132, 127, 'b', 0xFFCB00));
-				add(buttonZ = createButton(FlxG.width - 132, FlxG.height - 255, 132, 127, 'z', 0xCCB98E));
-				add(buttonA = createButton(FlxG.width - 132, FlxG.height - 135, 132, 127, 'a', 0xFF0000));
+				add(buttonV = createButton(FlxG.width - 510, FlxG.height - 255, 132, 127, 'v', 0x49A9B2, [FlxMobileInputID.V]));
+				add(buttonD = createButton(FlxG.width - 510, FlxG.height - 135, 132, 127, 'd', 0x0078FF, [FlxMobileInputID.D]));
+				add(buttonX = createButton(FlxG.width - 384, FlxG.height - 255, 132, 127, 'x', 0x99062D, [FlxMobileInputID.X]));
+				add(buttonC = createButton(FlxG.width - 384, FlxG.height - 135, 132, 127, 'c', 0x44FF00, [FlxMobileInputID.C]));
+				add(buttonY = createButton(FlxG.width - 258, FlxG.height - 255, 132, 127, 'y', 0x4A35B9, [FlxMobileInputID.Y]));
+				add(buttonB = createButton(FlxG.width - 258, FlxG.height - 135, 132, 127, 'b', 0xFFCB00, [FlxMobileInputID.B]));
+				add(buttonZ = createButton(FlxG.width - 132, FlxG.height - 255, 132, 127, 'z', 0xCCB98E, [FlxMobileInputID.Z]));
+				add(buttonA = createButton(FlxG.width - 132, FlxG.height - 135, 132, 127, 'a', 0xFF0000, [FlxMobileInputID.A]));
 			// PSYCH RELEATED BUTTONS
 			case CHARACTER_EDITOR:
-				add(buttonV = createButton(FlxG.width - 510, FlxG.height - 255, 132, 127, 'v', 0x49A9B2));
-				add(buttonD = createButton(FlxG.width - 510, FlxG.height - 135, 132, 127, 'd', 0x0078FF));
-				add(buttonX = createButton(FlxG.width - 384, FlxG.height - 255, 132, 127, 'x', 0x99062D));
-				add(buttonC = createButton(FlxG.width - 384, FlxG.height - 135, 132, 127, 'c', 0x44FF00));
-				add(buttonS = createButton(FlxG.width - 636, FlxG.height - 135, 132, 127, 's', 0xEA00FF));
-				add(buttonF = createButton(FlxG.width - 410, 0, 132, 127, 'f', 0xFF009D));
-				add(buttonY = createButton(FlxG.width - 258, FlxG.height - 255, 132, 127, 'y', 0x4A35B9));
-				add(buttonB = createButton(FlxG.width - 258, FlxG.height - 135, 132, 127, 'b', 0xFFCB00));
-				add(buttonZ = createButton(FlxG.width - 132, FlxG.height - 255, 132, 127, 'z', 0xCCB98E));
-				add(buttonA = createButton(FlxG.width - 132, FlxG.height - 135, 132, 127, 'a', 0xFF0000));
+				add(buttonV = createButton(FlxG.width - 510, FlxG.height - 255, 132, 127, 'v', 0x49A9B2, [FlxMobileInputID.V]));
+				add(buttonD = createButton(FlxG.width - 510, FlxG.height - 135, 132, 127, 'd', 0x0078FF, [FlxMobileInputID.D]));
+				add(buttonX = createButton(FlxG.width - 384, FlxG.height - 255, 132, 127, 'x', 0x99062D, [FlxMobileInputID.X]));
+				add(buttonC = createButton(FlxG.width - 384, FlxG.height - 135, 132, 127, 'c', 0x44FF00, [FlxMobileInputID.C]));
+				add(buttonS = createButton(FlxG.width - 636, FlxG.height - 135, 132, 127, 's', 0xEA00FF, [FlxMobileInputID.S]));
+				add(buttonF = createButton(FlxG.width - 410, 0, 132, 127, 'f', 0xFF009D, [FlxMobileInputID.F]));
+				add(buttonY = createButton(FlxG.width - 258, FlxG.height - 255, 132, 127, 'y', 0x4A35B9, [FlxMobileInputID.Y]));
+				add(buttonB = createButton(FlxG.width - 258, FlxG.height - 135, 132, 127, 'b', 0xFFCB00, [FlxMobileInputID.B]));
+				add(buttonZ = createButton(FlxG.width - 132, FlxG.height - 255, 132, 127, 'z', 0xCCB98E, [FlxMobileInputID.Z]));
+				add(buttonA = createButton(FlxG.width - 132, FlxG.height - 135, 132, 127, 'a', 0xFF0000, [FlxMobileInputID.A]));
 			case DIALOGUE_PORTRAIT:
-				add(buttonX = createButton(FlxG.width - 384, 0, 132, 127, 'x', 0x99062D));
-				add(buttonC = createButton(FlxG.width - 384, 125, 132, 127, 'c', 0x44FF00));
-				add(buttonY = createButton(FlxG.width - 258, 0, 132, 127, 'y', 0x4A35B9));
-				add(buttonB = createButton(FlxG.width - 258, 125, 132, 127, 'b', 0xFFCB00));
-				add(buttonZ = createButton(FlxG.width - 132, 0, 132, 127, 'z', 0xCCB98E));
-				add(buttonA = createButton(FlxG.width - 132, 125, 132, 127, 'a', 0xFF0000));
+				add(buttonX = createButton(FlxG.width - 384, 0, 132, 127, 'x', 0x99062D, [FlxMobileInputID.X]));
+				add(buttonC = createButton(FlxG.width - 384, 125, 132, 127, 'c', 0x44FF00, [FlxMobileInputID.C]));
+				add(buttonY = createButton(FlxG.width - 258, 0, 132, 127, 'y', 0x4A35B9, [FlxMobileInputID.Y]));
+				add(buttonB = createButton(FlxG.width - 258, 125, 132, 127, 'b', 0xFFCB00, [FlxMobileInputID.B]));
+				add(buttonZ = createButton(FlxG.width - 132, 0, 132, 127, 'z', 0xCCB98E, [FlxMobileInputID.Z]));
+				add(buttonA = createButton(FlxG.width - 132, 125, 132, 127, 'a', 0xFF0000, [FlxMobileInputID.A]));
 			case MENU_CHARACTER:
-				add(buttonC = createButton(FlxG.width - 384, 0, 132, 127, 'c', 0x44FF00));
-				add(buttonB = createButton(FlxG.width - 258, 0, 132, 127, 'b', 0xFFCB00));
-				add(buttonA = createButton(FlxG.width - 132, 0, 132, 127, 'a', 0xFF0000));
+				add(buttonC = createButton(FlxG.width - 384, 0, 132, 127, 'c', 0x44FF00, [FlxMobileInputID.C]));
+				add(buttonB = createButton(FlxG.width - 258, 0, 132, 127, 'b', 0xFFCB00, [FlxMobileInputID.B]));
+				add(buttonA = createButton(FlxG.width - 132, 0, 132, 127, 'a', 0xFF0000, [FlxMobileInputID.A]));
 			case NOTE_SPLASH_DEBUG:
-				add(buttonB = createButton(FlxG.width - 258, FlxG.height - 135, 132, 127, 'b', 0xFFCB00));
-				add(buttonE = createButton(FlxG.width - 132, 0, 132, 127, 'e', 0xFF7D00));
-				add(buttonX = createButton(FlxG.width - 258, 0, 132, 127, 'x', 0x99062D));
-				add(buttonY = createButton(FlxG.width - 132, 250, 132, 127, 'y', 0x4A35B9));
-				add(buttonZ = createButton(FlxG.width - 258, 250, 132, 127, 'z', 0xCCB98E));
-				add(buttonA = createButton(FlxG.width - 132, FlxG.height - 135, 132, 127, 'a', 0xFF0000));
-				add(buttonC = createButton(FlxG.width - 132, 125, 132, 127, 'c', 0x44FF00));
-				add(buttonV = createButton(FlxG.width - 258, 125, 132, 127, 'v', 0x49A9B2));
+				add(buttonB = createButton(FlxG.width - 258, FlxG.height - 135, 132, 127, 'b', 0xFFCB00, [FlxMobileInputID.B]));
+				add(buttonE = createButton(FlxG.width - 132, 0, 132, 127, 'e', 0xFF7D00, [FlxMobileInputID.E]));
+				add(buttonX = createButton(FlxG.width - 258, 0, 132, 127, 'x', 0x99062D, [FlxMobileInputID.X]));
+				add(buttonY = createButton(FlxG.width - 132, 250, 132, 127, 'y', 0x4A35B9, [FlxMobileInputID.Y]));
+				add(buttonZ = createButton(FlxG.width - 258, 250, 132, 127, 'z', 0xCCB98E, [FlxMobileInputID.Z]));
+				add(buttonA = createButton(FlxG.width - 132, FlxG.height - 135, 132, 127, 'a', 0xFF0000, [FlxMobileInputID.A]));
+				add(buttonC = createButton(FlxG.width - 132, 125, 132, 127, 'c', 0x44FF00, [FlxMobileInputID.C]));
+				add(buttonV = createButton(FlxG.width - 258, 125, 132, 127, 'v', 0x49A9B2, [FlxMobileInputID.V]));
 			case P:
-				add(buttonP = createButton(FlxG.width - 132, 0, 132, 127, 'x', 0x99062D));
+				add(buttonP = createButton(FlxG.width - 132, 0, 132, 127, 'x', 0x99062D, [FlxMobileInputID.P]));
 			case B_C:
-				add(buttonC = createButton(FlxG.width - 132, FlxG.height - 135, 132, 127, 'c', 0x44FF00));
-				add(buttonB = createButton(FlxG.width - 258, FlxG.height - 135, 132, 127, 'b', 0xFFCB00));
+				add(buttonC = createButton(FlxG.width - 132, FlxG.height - 135, 132, 127, 'c', 0x44FF00, [FlxMobileInputID.C]));
+				add(buttonB = createButton(FlxG.width - 258, FlxG.height - 135, 132, 127, 'b', 0xFFCB00, [FlxMobileInputID.B]));
 			case NONE: // do nothing
 		}
-		updateMap();
+		updateTrackedButtons();
 	}
 
 	/*
@@ -267,9 +235,9 @@ class FlxVirtualPad extends FlxButtonGroup
 		buttonP = FlxDestroyUtil.destroy(buttonP);
 	}
 
-	private function createButton(X:Float, Y:Float, Width:Int, Height:Int, Graphic:String, ?Color:Int = 0xFFFFFF):FlxButton
+	private function createButton(X:Float, Y:Float, Width:Int, Height:Int, Graphic:String, ?Color:Int = 0xFFFFFF, IDs:Array<FlxMobileInputID>):FlxButton
 	{
-		var button:FlxButton = new FlxButton(X, Y);
+		var button:FlxButton = new FlxButton(X, Y, IDs);
 		button.frames = FlxTileFrames.fromFrame(Paths.getSparrowAtlas('virtualpad').getByName(Graphic), FlxPoint.get(Width, Height));
 		button.resetSizeFromFrame();
 		button.solid = false;
@@ -278,149 +246,11 @@ class FlxVirtualPad extends FlxButtonGroup
 		button.scrollFactor.set();
 		button.color = Color;
 		button.antialiasing = ClientPrefs.data.antialiasing;
+		button.tag = Graphic.toUpperCase();
 		#if FLX_DEBUG
 		button.ignoreDrawDebug = true;
 		#end
-		button.tag = Graphic.toUpperCase();
 		return button;
-	}
-
-	/**
-	* Check to see if the button was pressed.
-	*
-	* @param	button 	A button ID
-	* @return	Whether at least one of the buttons passed was pressed.
-	*/
-	public inline function buttonPressed(button:FlxMobileInputID):Bool {
-		return anyPressed([button]);
-	}
-
-	/**
-	* Check to see if the button was just pressed.
-	*
-	* @param	button 	A button ID
-	* @return	Whether at least one of the buttons passed was just pressed.
-	*/
-	public inline function buttonJustPressed(button:FlxMobileInputID):Bool {
-		return anyJustPressed([button]);
-	}
-	
-	/**
-	* Check to see if the button was just released.
-	*
-	* @param	button 	A button ID
-	* @return	Whether at least one of the buttons passed was just released.
-	*/
-	public inline function buttonJustReleased(button:FlxMobileInputID):Bool {
-		return anyJustReleased([button]);
-	}
-
-	/**
-	* Check to see if at least one button from an array of buttons is pressed.
-	*
-	* @param	buttonsArray 	An array of buttos names
-	* @return	Whether at least one of the buttons passed in is pressed.
-	*/
-	public inline function anyPressed(buttonsArray:Array<FlxMobileInputID>):Bool {
-		return checkButtonArrayState(buttonsArray, PRESSED);
-	}
-
-	/**
-	* Check to see if at least one button from an array of buttons was just pressed.
-	*
-	* @param	buttonsArray 	An array of buttons names
-	* @return	Whether at least one of the buttons passed was just pressed.
-	*/
-	public inline function anyJustPressed(buttonsArray:Array<FlxMobileInputID>):Bool {
-		return checkButtonArrayState(buttonsArray, JUST_PRESSED);
-	}
-	
-	/**
-	* Check to see if at least one button from an array of buttons was just released.
-	*
-	* @param	buttonsArray 	An array of button names
-	* @return	Whether at least one of the buttons passed was just released.
-	*/
-	public inline function anyJustReleased(buttonsArray:Array<FlxMobileInputID>):Bool {
-		return checkButtonArrayState(buttonsArray, JUST_RELEASED);
-	}
-
-	/**
-	 * Check the status of a single button
-	 *
-	 * @param	Button		button to be checked.
-	 * @param	state		The button state to check for.
-	 * @return	Whether the provided key has the specified status.
-	 */
-	 public function checkStatus(button:FlxMobileInputID, state:ButtonsStates = JUST_PRESSED):Bool {
-		switch(button){
-			case FlxMobileInputID.ANY:
-				for(each in buttons){
-					checkStatusUnsafe(each, state);
-				}
-			case FlxMobileInputID.NONE:
-				return false;
-	
-			default:
-				if(this.buttonsMap.exists(button))
-					return checkStatusUnsafe(button, state);
-		}
-		return false;
-	}
-
-	/**
-	* Helper function to check the status of an array of buttons
-	*
-	* @param	Buttons	An array of buttons as Strings
-	* @param	state		The button state to check for
-	* @return	Whether at least one of the buttons has the specified status
-	*/
-	function checkButtonArrayState(Buttons:Array<FlxMobileInputID>, state:ButtonsStates = JUST_PRESSED):Bool {
-		if(Buttons == null)
-			return false;
-	
-		for(button in Buttons)
-			if(checkStatus(button, state))
-				return true;
-
-		return false;
-	}
-
-	function checkStatusUnsafe(button:FlxMobileInputID, state:ButtonsStates = JUST_PRESSED):Bool {
-		return this.buttonsMap.get(button).hasState(state);
-	}
-
-	function updateMap() {
-		buttonsMap.clear();
-		// DPad Buttons
-		buttonsMap.set(FlxMobileInputID.UP, buttonUp);
-		buttonsMap.set(FlxMobileInputID.UP2, buttonUp2);
-		buttonsMap.set(FlxMobileInputID.DOWN, buttonDown);
-		buttonsMap.set(FlxMobileInputID.DOWN2, buttonDown2);
-		buttonsMap.set(FlxMobileInputID.LEFT, buttonLeft);
-		buttonsMap.set(FlxMobileInputID.LEFT2, buttonLeft2);
-		buttonsMap.set(FlxMobileInputID.RIGHT, buttonRight);
-		buttonsMap.set(FlxMobileInputID.RIGHT2, buttonRight2);
-
-		buttonsMap.set(FlxMobileInputID.noteUP, buttonUp);
-		buttonsMap.set(FlxMobileInputID.noteRIGHT, buttonRight);
-		buttonsMap.set(FlxMobileInputID.noteLEFT, buttonLeft);
-		buttonsMap.set(FlxMobileInputID.noteDOWN, buttonDown);
-
-		// Actions buttons
-		buttonsMap.set(FlxMobileInputID.A, buttonA);
-		buttonsMap.set(FlxMobileInputID.B, buttonB);
-		buttonsMap.set(FlxMobileInputID.C, buttonC);
-		buttonsMap.set(FlxMobileInputID.D, buttonD);
-		buttonsMap.set(FlxMobileInputID.E, buttonE);
-		buttonsMap.set(FlxMobileInputID.F, buttonF);
-		buttonsMap.set(FlxMobileInputID.G, buttonG);
-		buttonsMap.set(FlxMobileInputID.S, buttonS);
-		buttonsMap.set(FlxMobileInputID.V, buttonV);
-		buttonsMap.set(FlxMobileInputID.X, buttonX);
-		buttonsMap.set(FlxMobileInputID.Y, buttonY);
-		buttonsMap.set(FlxMobileInputID.Z, buttonZ);
-		buttonsMap.set(FlxMobileInputID.P, buttonP);
 	}
 }
 
@@ -458,6 +288,3 @@ enum FlxActionMode
 	B_C;
 	NONE;
 }
-
-typedef FlxButtonGroup = FlxTypedSpriteGroup<FlxButton>;
-

@@ -14,7 +14,7 @@ import flixel.util.FlxSpriteUtil;
 import objects.AttachedSprite;
 import options.ModSettingsSubState;
 import flixel.addons.transition.FlxTransitionableState;
-import backend.TouchFunctions;
+import mobile.backend.TouchFunctions;
 
 class ModsMenuState extends MusicBeatState
 {

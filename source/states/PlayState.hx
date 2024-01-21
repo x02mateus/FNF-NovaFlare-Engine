@@ -55,6 +55,7 @@ import psychlua.HScript;
 #if SScript
 import tea.SScript;
 #end
+import mobile.backend.Data;
 
 /**
  * This is where all the Gameplay stuff happens and is managed
@@ -112,7 +113,7 @@ class PlayState extends MusicBeatState
 	public var modchartSaves:Map<String, FlxSave> = new Map<String, FlxSave>();
 	#end
 	#if CUSTOM_SHADERS_ALLOWED
-	public var modchartShader:Map<String, Dynamic> = new Map<String, Effect>();
+	public var modchartShader:Map<String, Effect> = new Map<String, Effect>();
 	public var shaderUpdates:Array<Float->Void> = [];
 	#end
 
@@ -152,6 +153,7 @@ class PlayState extends MusicBeatState
 	public var inst:FlxSound;
 	public var vocals:FlxSound;
 	public var opponentVocals:FlxSound;
+	public var splitVocals:Bool = false;
 
 	public var dad:Character = null;
 	public var gf:Character = null;
@@ -306,11 +308,14 @@ class PlayState extends MusicBeatState
 		camGame = initPsychCamera();
 		camHUD = new FlxCamera();
 		camOther = new FlxCamera();
+		luaVpadCam = new FlxCamera();
 		camHUD.bgColor.alpha = 0;
 		camOther.bgColor.alpha = 0;
+		luaVpadCam.bgColor.alpha = 0;
 		//FlxG.cameras.reset(camGame);
 		FlxG.cameras.add(camHUD, false);
 		FlxG.cameras.add(camOther, false);
+		FlxG.cameras.add(luaVpadCam, false);
 		grpNoteSplashes = new FlxTypedGroup<NoteSplash>();
 
 		persistentUpdate = true;
@@ -1117,7 +1122,7 @@ class PlayState extends MusicBeatState
 				daNote.ignoreNote = true;
 
 				unspawnNotes.remove(daNote);
-				daNote.kill();
+				if(!ClientPrefs.data.lowQuality || !ClientPrefs.data.popUpRating || !cpuControlled) daNote.kill();
 				daNote.destroy();
 			}
 			--i;
@@ -1305,7 +1310,10 @@ class PlayState extends MusicBeatState
 				vocals.loadEmbedded(playerVocals != null ? playerVocals : Paths.voices(songData.song));
 				
 				var oppVocals = Paths.voices(songData.song, (dad.vocalsFile == null || dad.vocalsFile.length < 1) ? 'Opponent' : dad.vocalsFile);
-				if(oppVocals != null) opponentVocals.loadEmbedded(oppVocals);
+				if(oppVocals != null){
+					opponentVocals.loadEmbedded(oppVocals);
+					splitVocals = true;
+				}
 			}
 		}
 		catch(e:Dynamic) {}
@@ -1562,8 +1570,8 @@ class PlayState extends MusicBeatState
 			return;
 		}
 
-		if(camera.filters.contains(effect))
-			camera.filters.remove(effect);
+		if(camera._filters.contains(effect))
+			camera._filters.remove(effect);
 	}
 
 	public function clearObjectShaders(obj:String) {
@@ -1676,7 +1684,10 @@ class PlayState extends MusicBeatState
 		{
 			if (FlxG.sound.music != null && !startingSong)
 			{
-				resyncVocals();
+				var vocalsToResync:Array<FlxSound> = [vocals];
+				if(splitVocals)
+					vocalsToResync.push(opponentVocals);
+				resyncVocals(vocalsToResync);
 			}
 			FlxTimer.globalManager.forEach(function(tmr:FlxTimer) if(!tmr.finished) tmr.active = true);
 			FlxTween.globalManager.forEach(function(twn:FlxTween) if(!twn.finished) twn.active = true);
@@ -1730,29 +1741,24 @@ class PlayState extends MusicBeatState
 		#end
 	}
 
-	function resyncVocals():Void
+	function resyncVocals(vocals:Array<FlxSound>):Void
 	{
-		if(finishTimer != null) return;
+		if(finishTimer != null || vocals == null || !SONG.needsVoices) return;
 
-		vocals.pause();
-		opponentVocals.pause();
+		for(vocal in vocals){
+			vocal.pause();
 
-		FlxG.sound.music.play();
-		#if FLX_PITCH FlxG.sound.music.pitch = playbackRate; #end
-		Conductor.songPosition = FlxG.sound.music.time;
-		if (Conductor.songPosition <= vocals.length)
-		{
-			vocals.time = Conductor.songPosition;
-			#if FLX_PITCH vocals.pitch = playbackRate; #end
+			FlxG.sound.music.play();
+			#if FLX_PITCH FlxG.sound.music.pitch = playbackRate; #end
+			Conductor.songPosition = FlxG.sound.music.time;
+
+			if(Conductor.songPosition <= vocal.length){
+				vocal.time = Conductor.songPosition;
+				#if FLX_PITCH vocal.pitch = playbackRate; #end
+			}
+
+			vocal.play();
 		}
-
-		if (Conductor.songPosition <= opponentVocals.length)
-		{
-			opponentVocals.time = Conductor.songPosition;
-			#if FLX_PITCH opponentVocals.pitch = playbackRate; #end
-		}
-		vocals.play();
-		opponentVocals.play();
 	}
 
 	public var paused:Bool = false;
@@ -3062,7 +3068,7 @@ class PlayState extends MusicBeatState
 			}
 		}
 
-		if(opponentVocals.length <= 0) vocals.volume = 1;
+		if(!splitVocals) vocals.volume = 1;
 		strumPlayAnim(true, Std.int(Math.abs(note.noteData)), Conductor.stepCrochet * 1.25 / 1000 / playbackRate);
 		note.hitByOpponent = true;
 		
@@ -3158,7 +3164,7 @@ class PlayState extends MusicBeatState
 
 	public function invalidateNote(note:Note):Void {
 		notes.remove(note, true);
-		note.kill();
+		if(!ClientPrefs.data.lowQuality || !ClientPrefs.data.popUpRating || !cpuControlled) note.kill();
 		note.destroy();
 	}
 
@@ -3220,6 +3226,9 @@ class PlayState extends MusicBeatState
 		Note.globalRgbShaders = [];
 		backend.NoteTypesConfig.clearNoteTypesData();
 		instance = null;
+		@:privateAccess
+		FlxG.game._filters = [];
+		camGame.filters = camHUD.filters = camOther.filters = [];
 		super.destroy();
 	}
 
@@ -3230,12 +3239,16 @@ class PlayState extends MusicBeatState
 		{
 			var timeSub:Float = Conductor.songPosition - Conductor.offset;
 			var syncTime:Float = 20 * playbackRate;
-			if (Math.abs(FlxG.sound.music.time - timeSub) > syncTime ||
-			(vocals.length > 0 && Math.abs(vocals.time - timeSub) > syncTime) ||
-			(opponentVocals.length > 0 && Math.abs(opponentVocals.time - timeSub) > syncTime))
-			{
-				resyncVocals();
+			if (Math.abs(FlxG.sound.music.time - timeSub) > syncTime){
+				var vocalsToSync:Array<FlxSound> = [vocals];
+				if(splitVocals)
+					vocalsToSync.push(opponentVocals);
+				resyncVocals(vocalsToSync);
 			}
+			if(Math.abs(vocals.time - timeSub) > syncTime)
+				resyncVocals([vocals]);
+			if(splitVocals && Math.abs(opponentVocals.time - timeSub) > syncTime)
+				resyncVocals([opponentVocals]);
 		}
 
 		super.stepHit();
@@ -3727,7 +3740,7 @@ class PlayState extends MusicBeatState
 	public function makeLuaVirtualPad(DPadMode:String, ActionMode:String) {
 		if(!variables.exists("luaVirtualPad"))
 			variables.set("luaVirtualPad", luaVirtualPad);
-		luaVirtualPad = new FlxVirtualPad(dpadMode.get(DPadMode), actionMode.get(ActionMode));
+		luaVirtualPad = new FlxVirtualPad(Data.dpadMode.get(DPadMode), Data.actionMode.get(ActionMode));
 		luaVirtualPad.alpha = ClientPrefs.data.controlsAlpha;
 	}
 	
@@ -3738,13 +3751,9 @@ class PlayState extends MusicBeatState
 		target.insert(target.members.length + 1, luaVirtualPad);
 	}
 
-	public function addLuaVirtualPadCamera(?DefaultDrawTarget:Bool = false) {
-		if(luaVirtualPad != null) {
-			luaVpadCam = new FlxCamera();
-			luaVpadCam.bgColor.alpha = 0;
-			FlxG.cameras.add(luaVpadCam, DefaultDrawTarget);
+	public function addLuaVirtualPadCamera() {
+		if(luaVirtualPad != null)
 			luaVirtualPad.cameras = [luaVpadCam];
-		}
 	}
 
 	public function removeLuaVirtualPad() {
@@ -3752,33 +3761,55 @@ class PlayState extends MusicBeatState
 			luaVirtualPad.kill();
 			luaVirtualPad.destroy();
 			remove(luaVirtualPad);
+			luaVirtualPad = null;
 		}
 	}
 
 	public function luaVirtualPadPressed(button:Dynamic):Bool {
-		if(Std.isOfType(button, String))
-			return luaVirtualPad.buttonPressed(button);
-		else if(Std.isOfType(button, Array))
-			return luaVirtualPad.anyPressed(button);
-		else
-			return false;
+		if(luaVirtualPad != null) {
+			if(Std.isOfType(button, String))
+				return luaVirtualPad.buttonPressed(FlxMobileInputID.fromString(button));
+			else if(Std.isOfType(button, Array)){
+				var FUCK:Array<String> = button; // haxe said "You Can't Iterate On A Dyanmic Value Please Specificy Iterator or Iterable *insert ned emoji*" so that's the only i foud to fix
+				var idArray:Array<FlxMobileInputID> = [];
+				for(strId in FUCK)
+					idArray.push(FlxMobileInputID.fromString(strId));
+				return luaVirtualPad.anyPressed(idArray);
+			} else
+				return false;
+		}
+		return false;
 	}
 
 	public function luaVirtualPadJustPressed(button:Dynamic):Bool {
-		if(Std.isOfType(button, String))
-			return luaVirtualPad.buttonJustPressed(button);
-		else if(Std.isOfType(button, Array))
-			return luaVirtualPad.anyJustPressed(button);
-		else
-			return false;
+		if(luaVirtualPad != null) {
+			if(Std.isOfType(button, String))
+				return luaVirtualPad.buttonJustPressed(FlxMobileInputID.fromString(button));
+			else if(Std.isOfType(button, Array)){
+				var FUCK:Array<String> = button;
+				var idArray:Array<FlxMobileInputID> = [];
+				for(strId in FUCK)
+					idArray.push(FlxMobileInputID.fromString(strId));
+				return luaVirtualPad.anyJustPressed(idArray);
+			} else
+				return false;
+		}
+		return false;
 	}
 	
 	public function luaVirtualPadJustReleased(button:Dynamic):Bool {
-		if(Std.isOfType(button, String))
-			return luaVirtualPad.buttonJustReleased(button);
-		else if(Std.isOfType(button, Array))
-			return luaVirtualPad.anyJustReleased(button);
-		else
-			return false;
+		if(luaVirtualPad != null) {
+			if(Std.isOfType(button, String))
+				return luaVirtualPad.buttonJustReleased(FlxMobileInputID.fromString(button));
+			else if(Std.isOfType(button, Array)){
+				var FUCK:Array<String> = button;
+				var idArray:Array<FlxMobileInputID> = [];
+				for(strId in FUCK)
+					idArray.push(FlxMobileInputID.fromString(strId));
+				return luaVirtualPad.anyJustReleased(idArray);
+			} else
+				return false;
+		}
+		return false;
 	}
 }

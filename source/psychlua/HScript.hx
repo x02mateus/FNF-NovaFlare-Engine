@@ -306,21 +306,21 @@ class HScript extends SScript
                         set('addBehindBF', PlayState.instance.addBehindBF);
                         setSpecialObject(PlayState.instance, false, PlayState.instance.instancesExclude);
                 }
-		#if mobile
-		set("makeVirtualPad", (DPadMode:String, ActionMode:String) -> {
+		set("addVirtualPad", (DPadMode:String, ActionMode:String) -> {
 			PlayState.instance.makeLuaVirtualPad(DPadMode, ActionMode);
+			PlayState.instance.addLuaVirtualPad();
 		  });
   
-		set("addVirtualPad", PlayState.instance.addLuaVirtualPad);
+		set("removeVirtualPad", () -> {
+			PlayState.instance.removeLuaVirtualPad();
+		});
   
-		set("removeVirtualPad", PlayState.instance.removeLuaVirtualPad);
-  
-		set("addVirtualPadCamera", (?DefaultDrawTarget:Bool=false) -> {
+		set("addVirtualPadCamera", () -> {
 			if(PlayState.instance.luaVirtualPad == null){
 				FunkinLua.luaTrace('addVirtualPadCamera: Virtual Pad Does Not Exist!!');
 				return;
 			}
-			PlayState.instance.addVirtualPadCamera(DefaultDrawTarget);
+			PlayState.instance.addLuaVirtualPadCamera();
 		});
   
 		set("virtualPadJustPressed", function(button:Dynamic):Bool {
@@ -346,7 +346,6 @@ class HScript extends SScript
 			}
 			return PlayState.instance.luaVirtualPadJustReleased(button);
 		});
-		#end
 
 		if(varsToBring != null) {
 			for (key in Reflect.fields(varsToBring)) {

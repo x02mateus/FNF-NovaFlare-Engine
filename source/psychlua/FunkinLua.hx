@@ -41,9 +41,7 @@ import flixel.input.gamepad.FlxGamepadInputID;
 
 import haxe.Json;
 
-#if mobile
 import mobile.psychlua.Functions;
-#end
 
 class FunkinLua {
 	public var lua:State = null;
@@ -204,25 +202,6 @@ class FunkinLua {
 
 		// build target (windows, mac, linux, etc.)
 		set('buildTarget', LuaUtils.getBuildTarget());
-
-		function getMobileControlsAsString():String {
-			switch (MobileControls.getMode()){
-			case 0:
-				return 'left';
-			case 1:
-				return 'right';
-			case 2:
-				return 'custom';
-			case 3:
-				return 'duo';
-			case 4:
-				return 'hitbox';
-			case 5:
-				return 'none';
-			}
-			return 'null';
-		}
-        set('mobileControlsMode', getMobileControlsAsString());
 
 		for (name => func in customFunctions)
 		{
@@ -1500,7 +1479,7 @@ class FunkinLua {
 		CustomSubstate.implement(this);
 		ShaderFunctions.implement(this);
 		DeprecatedFunctions.implement(this);
-		#if mobile MobileFunctions.implement(this); #end
+		MobileFunctions.implement(this);
 		#if android AndroidFunctions.implement(this); #end
 
 		try{

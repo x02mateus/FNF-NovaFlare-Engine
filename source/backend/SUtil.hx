@@ -61,58 +61,6 @@ class SUtil
 	}
 
 	/**
-	 * A simple function that checks for game files/folders.
-	 */
-	/*public static function checkFiles():Void
-	{
-		#if mobile
-		if (!FileSystem.exists('assets') && !FileSystem.exists('mods'))
-		{
-			Lib.application.window.alert("Whoops, seems like you didn't extract the files from the .APK!\nPlease copy the files from the .APK to\n"
-				+ Sys.getCwd(), 'Error!');
-			LimeSystem.exit(1);
-		}
-		else if ((FileSystem.exists('assets') && !FileSystem.isDirectory('assets'))
-			&& (FileSystem.exists('mods') && !FileSystem.isDirectory('mods')))
-		{
-			Lib.application.window.alert("Why did you create two files called assets and mods instead of copying the folders from the .APK?, expect a crash.",
-				'Error!');
-			LimeSystem.exit(1);
-		}
-		else
-		{
-			if (!FileSystem.exists('assets'))
-			{
-				Lib.application.window.alert("Whoops, seems like you didn't extract the assets/assets folder from the .APK!\nPlease copy the assets/assets folder from the .APK to\n"
-					+ Sys.getCwd(),
-					'Error!');
-				LimeSystem.exit(1);
-			}
-			else if (FileSystem.exists('assets') && !FileSystem.isDirectory('assets'))
-			{
-				Lib.application.window.alert("Why did you create a file called assets instead of copying the assets directory from the .APK?, expect a crash.",
-					'Error!');
-				LimeSystem.exit(1);
-			}
-
-			if (!FileSystem.exists('mods'))
-			{
-				Lib.application.window.alert("Whoops, seems like you didn't extract the assets/mods folder from the .APK!\nPlease copy the assets/mods folder from the .APK to\n"
-					+ Sys.getCwd(),
-					'Error!');
-				LimeSystem.exit(1);
-			}
-			else if (FileSystem.exists('mods') && !FileSystem.isDirectory('mods'))
-			{
-				Lib.application.window.alert("Why did you create a file called mods instead of copying the mods directory from the .APK?, expect a crash.",
-					'Error!');
-				LimeSystem.exit(1);
-			}
-		}
-		#end
-	}*/
-
-	/**
 	 * Uncaught error handler, original made by: Sqirra-RNG and YoshiCrafter29
 	 */
 	public static function uncaughtErrorHandler():Void
@@ -254,7 +202,7 @@ class SUtil
 				Permissions.requestPermission(Permissions.READ_EXTERNAL_STORAGE);
 			if(!Permissions.getGrantedPermissions().contains(Permissions.WRITE_EXTERNAL_STORAGE))
 				Permissions.requestPermission(Permissions.WRITE_EXTERNAL_STORAGE);
-			FlxG.stage.window.alert('Please Make Sure You Accepted The Permissions To Be Able To Run The Game', '');
+			FlxG.stage.window.alert('Please Make Sure You Accepted The Permissions To Be Able To Run The Game', 'Notice!');
 		}
 	}
 	#end

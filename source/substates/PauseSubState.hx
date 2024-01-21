@@ -338,7 +338,7 @@ class PauseSubState extends MusicBeatSubstate
 					FlxG.camera.followLerp = 0;
 			}
 		}
-        if (controls.BACK) close();
+
 		if (virtualPad == null){ //sometimes it dosent add the vpad, hopefully this fixes it
 			if (PlayState.chartingMode)
 				{
@@ -371,8 +371,7 @@ class PauseSubState extends MusicBeatSubstate
 	}
 
 	public static function restartSong(noTrans:Bool = false)
-	{
-		
+	{		
 		PlayState.instance.paused = true; // For lua
 		FlxG.sound.music.volume = 0;
 		PlayState.instance.vocals.volume = 0;
