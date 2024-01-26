@@ -1,14 +1,14 @@
-package backend;
+package mobile.backend;
 
 #if android
 import android.content.Context;
 import android.widget.Toast;
 import android.os.Environment;
 import android.Permissions;
+import lime.app.Application;
 #end
 import haxe.io.Path;
 import haxe.CallStack;
-import lime.app.Application;
 import lime.system.System as LimeSystem;
 import openfl.utils.Assets as OpenflAssets;
 import lime.utils.Log as LimeLogger;
@@ -20,10 +20,10 @@ using StringTools;
 enum StorageType
 {
 	//DATA;
-    EXTERNAL;
+	EXTERNAL;
 	EXTERNAL_DATA;
 	EXTERNAL_OBB;
-    MEDIA;
+	MEDIA;
 }
 
 /**
@@ -48,7 +48,7 @@ class SUtil
 				daPath = Context.getExternalFilesDir(null);
 			case EXTERNAL_OBB:
 				daPath = Context.getObbDir();
-            case EXTERNAL:
+			case EXTERNAL:
 				daPath = Environment.getExternalStorageDirectory() + '/.' + Application.current.meta.get('file');
 			case MEDIA:
 				daPath = Environment.getExternalStorageDirectory() + '/Android/media/' + Application.current.meta.get('packageName');
@@ -109,14 +109,20 @@ class SUtil
 		}
 		#end
 
-		LimeLogger.println(msg);
-		Lib.application.window.alert(msg, 'Error!');
+		showPopUp(msg, "Error!");
 
 		#if DISCORD_ALLOWED
 		DiscordClient.shutdown();
 		#end
 
+                #if js
+                if (FlxG.sound.music != null)
+			FlxG.sound.music.stop();
+
+                js.Browser.window.location.reload(true);
+                #else
 		LimeSystem.exit(1);
+                #end
 	}
 
 	/**
@@ -157,7 +163,7 @@ class SUtil
 				FileSystem.createDirectory('saves');
 
 			File.saveContent('saves/' + fileName + fileExtension, fileData);
-			Lib.application.window.alert(fileName + " file has been saved", "Success!");
+			showPopUp(fileName + " file has been saved", "Success!");
 		}
 		catch (e:Dynamic)
 		{
@@ -196,14 +202,24 @@ class SUtil
 
 	#end
 	#if android
-	public static function doPermissionsShit(){
+	public static function doPermissionsShit():Void
+        {
 		if(!Permissions.getGrantedPermissions().contains(Permissions.READ_EXTERNAL_STORAGE) || !Permissions.getGrantedPermissions().contains(Permissions.WRITE_EXTERNAL_STORAGE)) {
 			if(!Permissions.getGrantedPermissions().contains(Permissions.READ_EXTERNAL_STORAGE))
 				Permissions.requestPermission(Permissions.READ_EXTERNAL_STORAGE);
 			if(!Permissions.getGrantedPermissions().contains(Permissions.WRITE_EXTERNAL_STORAGE))
 				Permissions.requestPermission(Permissions.WRITE_EXTERNAL_STORAGE);
-			FlxG.stage.window.alert('Please Make Sure You Accepted The Permissions To Be Able To Run The Game', 'Notice!');
+			showPopUp('Please Make Sure You Accepted The Permissions To Be Able To Run The Game', 'Notice!');
 		}
 	}
 	#end
+
+        public static function showPopUp(message:String, title:String):Void
+        {
+                #if (windows || mobile || js || wasm)
+                Lib.application.window.alert(message, title);
+                #else
+                LimeLogger.println('$title - $message');
+                #end
+        }
 }

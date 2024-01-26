@@ -19,7 +19,7 @@ jobs:
           haxelib run hmm install --quiet
 
       - name: Compile
-        run: haxelib run lime build html5 -final
+        run: haxelib run lime build html5
 
       - name: Upload Artifact
         if: ${{ success() }}
@@ -59,7 +59,7 @@ jobs:
         run: haxelib run lime config EMSCRIPTEN_SDK $EMSDK
 
       - name: Compile
-        run: PATH=$EMSDK:$PATH haxelib run lime build emscripten -final
+        run: PATH=$EMSDK:$PATH haxelib run lime build emscripten
 
       - name: Upload Artifact
         if: ${{ success() }}

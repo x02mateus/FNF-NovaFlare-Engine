@@ -142,6 +142,9 @@ class PauseSubState extends MusicBeatSubstate
 		missingText.visible = false;
 		add(missingText);
 
+		regenMenu();
+		cameras = [FlxG.cameras.list[FlxG.cameras.list.length - 1]];
+
 		if (PlayState.chartingMode)
 		{
 			addVirtualPad(LEFT_FULL, A);
@@ -151,9 +154,6 @@ class PauseSubState extends MusicBeatSubstate
 			addVirtualPad(UP_DOWN, A);
 		}
 		addVirtualPadCamera(false);
-
-		regenMenu();
-		cameras = [FlxG.cameras.list[FlxG.cameras.list.length - 1]];
 
 		super.create();
 	}
@@ -230,7 +230,7 @@ class PauseSubState extends MusicBeatSubstate
 			{
 				try{
 					if(menuItems.length - 1 != curSelected && difficultyChoices.contains(daSelected)) {
-						
+
 						var name:String = PlayState.SONG.song;
 						var poop = Highscore.formatSong(name, curSelected);
 						PlayState.SONG = Song.loadFromJson(poop, name);
@@ -256,7 +256,7 @@ class PauseSubState extends MusicBeatSubstate
 					return;
 				}
 
-				 //i think this is called when you presse back
+
 				menuItems = menuItemsOG;
 				regenMenu();
 			}
@@ -277,15 +277,12 @@ class PauseSubState extends MusicBeatSubstate
 					restartSong();
 				case 'Chart Editor':
 					PlayState.instance.openChartEditor();
-				case 'Character Editor':
-					PlayState.instance.openCharacterEditor();
 				case "Leave Charting Mode":
 					restartSong();
 					PlayState.chartingMode = false;
 				case 'Skip Time':
 					if(curTime < Conductor.songPosition)
 					{
-						
 						PlayState.startOnTime = curTime;
 						restartSong(true);
 					}
@@ -303,7 +300,6 @@ class PauseSubState extends MusicBeatSubstate
 					PlayState.instance.notes.clear();
 					PlayState.instance.unspawnNotes = [];
 					PlayState.instance.finishSong(true);
-					
 				case 'Toggle Botplay':
 					PlayState.instance.cpuControlled = !PlayState.instance.cpuControlled;
 					PlayState.changedDifficulty = true;
@@ -339,22 +335,23 @@ class PauseSubState extends MusicBeatSubstate
 			}
 		}
 
-		if (virtualPad == null){ //sometimes it dosent add the vpad, hopefully this fixes it
+		if (virtualPad == null) //sometimes it dosent add the vpad, hopefully this fixes it
+		{
 			if (PlayState.chartingMode)
-				{
-					addVirtualPad(LEFT_FULL, A);
-					virtualPad.buttonLeft.color = 0xFFC24B99;
-					virtualPad.buttonDown.color = 0xFF00FFFF;
-					virtualPad.buttonUp.color = 0xFF12FA05;
-					virtualPad.buttonRight.color = 0xFFF9393F; 
-				}
-				else
-				{
-					addVirtualPad(UP_DOWN, A);
-					virtualPad.buttonDown.color = 0xFF00FFFF;
-					virtualPad.buttonUp.color = 0xFF12FA05;
-				}
-				addVirtualPadCamera(false);
+			{
+				addVirtualPad(LEFT_FULL, A);
+				virtualPad.buttonLeft.color = 0xFFC24B99;
+				virtualPad.buttonDown.color = 0xFF00FFFF;
+				virtualPad.buttonUp.color = 0xFF12FA05;
+				virtualPad.buttonRight.color = 0xFFF9393F; 
+			}
+			else
+			{
+				addVirtualPad(UP_DOWN, A);
+				virtualPad.buttonDown.color = 0xFF00FFFF;
+				virtualPad.buttonUp.color = 0xFF12FA05;
+			}
+			addVirtualPadCamera(false);
 		}
 	}
 
@@ -362,8 +359,8 @@ class PauseSubState extends MusicBeatSubstate
 	{
 		if(skipTimeText != null)
 		{
-			remove(skipTimeText);
 			skipTimeText.kill();
+			remove(skipTimeText);
 			skipTimeText.destroy();
 		}
 		skipTimeText = null;
@@ -371,7 +368,7 @@ class PauseSubState extends MusicBeatSubstate
 	}
 
 	public static function restartSong(noTrans:Bool = false)
-	{		
+	{
 		PlayState.instance.paused = true; // For lua
 		FlxG.sound.music.volume = 0;
 		PlayState.instance.vocals.volume = 0;
@@ -431,8 +428,8 @@ class PauseSubState extends MusicBeatSubstate
 	function regenMenu():Void {
 		for (i in 0...grpMenuShit.members.length) {
 			var obj = grpMenuShit.members[0];
-			grpMenuShit.remove(obj, true);
 			obj.kill();
+			grpMenuShit.remove(obj, true);
 			obj.destroy();
 		}
 

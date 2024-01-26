@@ -10,17 +10,6 @@ import openfl.utils.Assets;
 
 class ExtraFunctions
 {
-	public static var mobileExtraInput(get, null):Dynamic;
-	private static function get_mobileExtraInput():Dynamic{
-		switch (MobileControls.getMode()){
-			case 0 | 1 | 2 | 3: // virtual pad
-				return MusicBeatState.instance.mobileControls.virtualPadExtra;
-			case 4: // hitbox
-				return MusicBeatState.instance.mobileControls.hitbox;
-			default: //keybaord
-				return null;
-		}
-	}
 	public static function implement(funk:FunkinLua)
 		{
 		// Keyboard & Gamepads
@@ -31,8 +20,8 @@ class ExtraFunctions
 						var space = Reflect.getProperty(FlxG.keys.justPressed, 'SPACE');
 						var mobileShit:Bool = false;
 						if (Controls.instance.mobileC)
-							if (mobileExtraInput != null)
-								mobileShit = mobileExtraInput.buttonExtra.justPressed;
+							if (MusicBeatState.instance.mobileControls != null)
+								mobileShit = MusicBeatState.instance.mobileControls.current.buttonExtra.justPressed;
 						return space || mobileShit;
 
 					default:
@@ -46,8 +35,8 @@ class ExtraFunctions
 						var space = Reflect.getProperty(FlxG.keys.pressed, 'SPACE');
 						var mobileShit:Bool = false;
 						if (Controls.instance.mobileC)
-							if (mobileExtraInput != null)
-								mobileShit = mobileExtraInput.buttonExtra.pressed;
+							if (MusicBeatState.instance.mobileControls != null)
+								mobileShit = MusicBeatState.instance.mobileControls.current.buttonExtra.pressed;
 						return space || mobileShit;
 
 					default:
@@ -61,8 +50,8 @@ class ExtraFunctions
 						var space = Reflect.getProperty(FlxG.keys.justReleased, 'SPACE');
 						var mobileShit:Bool = false;
 						if (Controls.instance.mobileC)
-							if (mobileExtraInput != null)
-								mobileShit = mobileExtraInput.buttonExtra.justReleased;
+							if (MusicBeatState.instance.mobileControls != null)
+								mobileShit = MusicBeatState.instance.mobileControls.current.buttonExtra.justReleased;
 						return space || mobileShit;
 
 					default:

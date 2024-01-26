@@ -76,7 +76,7 @@ class FPSCounter extends TextField
 		return cast(OpenFlSystem.totalMemory, UInt);
 
 	public inline function positionFPS(X:Float, Y:Float, ?scale:Float = 1){
-		scaleX = scaleY = (scale > 1 ? scale : 1);
+		scaleX = scaleY = #if mobile (scale > 1 ? scale : 1) #else (scale < 1 ? scale : 1) #end;
 		x = FlxG.game.x + X;
 		y = FlxG.game.y + Y;
 	}

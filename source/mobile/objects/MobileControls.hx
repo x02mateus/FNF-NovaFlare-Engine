@@ -2,110 +2,69 @@ package mobile.objects;
 
 import haxe.ds.Map;
 import flixel.math.FlxPoint;
+import mobile.flixel.input.FlxMobileInputManager;
+import haxe.extern.EitherType;
+import mobile.flixel.FlxButton;
 
-class MobileControls extends FlxSpriteGroup
+class MobileControls extends FlxTypedSpriteGroup<FlxMobileInputManager>
 {
-	public var htiboxMap:Map<String, Modes>;
-	public static var instance:MobileControls;
-	public var virtualPad:FlxVirtualPad;
-	public var virtualPadExtra:FlxVirtualPadExtra;
-	public var hitbox:FlxHitbox;
-	var padMap:Map<String, FlxExtraActions>;
+	public var virtualPad:FlxVirtualPad = new FlxVirtualPad(NONE, NONE, NONE);
+	public var hitbox:FlxHitbox = new FlxHitbox(NONE);
+	// YOU CAN'T CHANGE PROPERTIES USING THIS EXCEPT WHEN IN RUNTIME!!
+	public var current:CurrentManager;
 
-	public function new()
+	public static var mode(get, set):Int;
+	public static var forcedControl:Null<Int>;
+
+	public function new(?forceType:Int, ?extra:Bool = true)
 	{
-		instance = this;
 		super();
-		switch (MobileControls.getMode())
+		forcedControl = mode;
+		if (forceType != null)
+			forcedControl = forceType;
+		switch (forcedControl)
 		{
 			case 0: // RIGHT_FULL
-				initControler(0);
+				initControler(0, extra);
 			case 1: // LEFT_FULL
-				initControler(1);
+				initControler(1, extra);
 			case 2: // CUSTOM
-				initControler(2);
+				initControler(2, extra);
 			case 3: // BOTH
-				initControler(3);
+				initControler(3, extra);
 			case 4: // HITBOX
-				initControler(4);
+				initControler(4, extra);
 			case 5: // KEYBOARD
 		}
+		current = new CurrentManager(this);
+		// Options related stuff
+		alpha = ClientPrefs.data.controlsAlpha;
+		updateButtonsColors();
 	}
 
-	private function initControler(virtualPadMode:Int = 0):Void
+	private function initControler(virtualPadMode:Int = 0, ?extra:Bool = true):Void
 	{
-		padMap = new Map<String, FlxExtraActions>();
-		padMap.set("NONE", NONE);
-		padMap.set("ONE", SINGLE);
-		padMap.set("TWO", DOUBLE);
+		var extraAction = Data.extraActions.get(ClientPrefs.data.extraButtons);
+		if (!extra)
+			extraAction = NONE;
 		switch (virtualPadMode)
 		{
 			case 0:
-				virtualPad = new FlxVirtualPad(RIGHT_FULL, NONE);
+				virtualPad = new FlxVirtualPad(RIGHT_FULL, NONE, extraAction);
 				add(virtualPad);
-				virtualPadExtra = MobileControls.getExtraCustomMode(new FlxVirtualPadExtra(padMap.get(ClientPrefs.data.extraButtons)));
-				add(virtualPadExtra);
-				virtualPadExtra.alpha = ClientPrefs.data.controlsAlpha;
 			case 1:
-				virtualPad = new FlxVirtualPad(LEFT_FULL, NONE);
+				virtualPad = new FlxVirtualPad(LEFT_FULL, NONE, extraAction);
 				add(virtualPad);
-				virtualPadExtra = MobileControls.getExtraCustomMode(new FlxVirtualPadExtra(padMap.get(ClientPrefs.data.extraButtons)));
-				add(virtualPadExtra);
-				virtualPadExtra.alpha = ClientPrefs.data.controlsAlpha;
 			case 2:
-				virtualPad = MobileControls.getCustomMode(new FlxVirtualPad(RIGHT_FULL, NONE));
+				virtualPad = MobileControls.getCustomMode(new FlxVirtualPad(RIGHT_FULL, NONE, extraAction));
 				add(virtualPad);
-				virtualPadExtra = MobileControls.getExtraCustomMode(new FlxVirtualPadExtra(padMap.get(ClientPrefs.data.extraButtons)));
-				add(virtualPadExtra);
-				virtualPadExtra.alpha = ClientPrefs.data.controlsAlpha;
 			case 3:
-				virtualPad = new FlxVirtualPad(BOTH, NONE);
+				virtualPad = new FlxVirtualPad(BOTH, NONE, extraAction);
 				add(virtualPad);
-				virtualPadExtra = MobileControls.getExtraCustomMode(new FlxVirtualPadExtra(padMap.get(ClientPrefs.data.extraButtons)));
-				add(virtualPadExtra);
-				virtualPadExtra.alpha = ClientPrefs.data.controlsAlpha;
 			case 4:
-			htiboxMap = new Map<String, Modes>();
-			htiboxMap.set("NONE", DEFAULT);
-			htiboxMap.set("ONE", SINGLE);
-			htiboxMap.set("TWO", DOUBLE);
-			hitbox = new FlxHitbox(htiboxMap.get(ClientPrefs.data.extraButtons));
+				hitbox = new FlxHitbox(extraAction);
 				add(hitbox);
 		}
-	}
-
-	override public function destroy():Void
-	{
-		super.destroy();
-
-		if (virtualPad != null)
-		{
-			virtualPad = FlxDestroyUtil.destroy(virtualPad);
-			virtualPad = null;
-		}
-
-		if (hitbox != null)
-		{
-			hitbox = FlxDestroyUtil.destroy(hitbox);
-			hitbox = null;
-		}
-	}
-
-	public static function setMode(mode:Int = 0):Void
-	{
-		FlxG.save.data.mobileControlsMode = mode;
-		FlxG.save.flush();
-	}
-
-	public static function getMode():Int
-	{
-		if (FlxG.save.data.mobileControlsMode == null)
-		{
-			FlxG.save.data.mobileControlsMode = 0;
-			FlxG.save.flush();
-		}
-
-		return FlxG.save.data.mobileControlsMode;
 	}
 
 	public static function setCustomMode(virtualPad:FlxVirtualPad):Void
@@ -138,50 +97,119 @@ class MobileControls extends FlxSpriteGroup
 
 		for (buttons in virtualPad)
 		{
-			buttons.x = FlxG.save.data.buttons[tempCount].x;
-			buttons.y = FlxG.save.data.buttons[tempCount].y;
+			if(FlxG.save.data.buttons[tempCount] != null){
+				buttons.x = FlxG.save.data.buttons[tempCount].x;
+				buttons.y = FlxG.save.data.buttons[tempCount].y;
+			}
 			tempCount++;
 		}
 
 		return virtualPad;
 	}
-	public static function setExtraCustomMode(virtualPad:FlxVirtualPadExtra):Void
+
+	override public function destroy():Void
+	{
+		super.destroy();
+
+		if (virtualPad != null)
 		{
-			if (FlxG.save.data.buttonsExtra == null)
-			{
-				FlxG.save.data.buttonsExtra = new Array();
-				for (buttons in virtualPad)
-					FlxG.save.data.buttonsExtra.push(FlxPoint.get(buttons.x, buttons.y));
-			}
-			else
-			{
-				var tempCount:Int = 0;
-				for (buttons in virtualPad)
-				{
-					FlxG.save.data.buttonsExtra[tempCount] = FlxPoint.get(buttons.x, buttons.y);
-					tempCount++;
-				}
-			}
-	
+			virtualPad = FlxDestroyUtil.destroy(virtualPad);
+			virtualPad = null;
+		}
+
+		if (hitbox != null)
+		{
+			hitbox = FlxDestroyUtil.destroy(hitbox);
+			hitbox = null;
+		}
+	}
+
+	static function set_mode(mode:Int = 0)
+	{
+		FlxG.save.data.mobileControlsMode = mode;
+		FlxG.save.flush();
+		return mode;
+	}
+
+	static function get_mode():Int
+	{
+		if (forcedControl != null)
+			return forcedControl;
+
+		if (FlxG.save.data.mobileControlsMode == null)
+		{
+			FlxG.save.data.mobileControlsMode = 0;
 			FlxG.save.flush();
 		}
-	
-		public static function getExtraCustomMode(virtualPad:FlxVirtualPadExtra):FlxVirtualPadExtra
-		{
-			var tempCount:Int = 0;
-	
-			if (FlxG.save.data.buttonsExtra == null)
-				return virtualPad;
-			for (buttons in virtualPad)
-				FlxG.save.data.buttonsExtra.push(FlxPoint.get(buttons.x, buttons.y));
 
-			for (buttons in virtualPad)
-			{
-				buttons.x = FlxG.save.data.buttonsExtra[tempCount].x;
-				buttons.y = FlxG.save.data.buttonsExtra[tempCount].y;
-				tempCount++;
-			}
-	
-			return virtualPad;
+		return FlxG.save.data.mobileControlsMode;
+	}
+
+	public function updateButtonsColors() {
+		// Dynamic Controls Color
+		var buttonsColors:Array<FlxColor> = [];
+		var data:Dynamic;
+		if (ClientPrefs.data.dynamicColors)
+			data = ClientPrefs.data;
+		else
+			data = ClientPrefs.defaultData;
+
+		buttonsColors.push(data.arrowRGB[0][0]);
+		buttonsColors.push(data.arrowRGB[1][0]);
+		buttonsColors.push(data.arrowRGB[2][0]);
+		buttonsColors.push(data.arrowRGB[3][0]);
+		if (mode == 3)
+		{
+			virtualPad.buttonLeft2.color = buttonsColors[0];
+			virtualPad.buttonDown2.color = buttonsColors[1];
+			virtualPad.buttonUp2.color = buttonsColors[2];
+			virtualPad.buttonRight2.color = buttonsColors[3];
 		}
+		current.buttonLeft.color = buttonsColors[0];
+		current.buttonDown.color = buttonsColors[1];
+		current.buttonUp.color = buttonsColors[2];
+		current.buttonRight.color = buttonsColors[3];
+		
+		/*if(mode == 4){
+			hitbox.buttonLeft.color = buttonsColors[0];
+			hitbox.buttonDown.color = buttonsColors[1];
+			hitbox.buttonUp.color = buttonsColors[2];
+			hitbox.buttonRight.color = buttonsColors[3];
+		} else {
+			virtualPad.buttonLeft.color = buttonsColors[0];
+			virtualPad.buttonDown.color = buttonsColors[1];
+			virtualPad.buttonUp.color = buttonsColors[2];
+			virtualPad.buttonRight.color = buttonsColors[3];
+		}*/
+	}
+}
+
+class CurrentManager {
+	public var buttonLeft:FlxButton;
+	public var buttonDown:FlxButton;
+	public var buttonUp:FlxButton;
+	public var buttonRight:FlxButton;
+	public var buttonExtra:FlxButton;
+	public var buttonExtra2:FlxButton;
+	public var target:FlxMobileInputManager;
+
+	public function new(control:MobileControls){
+		if(MobileControls.mode == 4) {
+			target = control.hitbox;
+			buttonLeft = control.hitbox.buttonLeft;
+			buttonDown = control.hitbox.buttonDown;
+			buttonUp = control.hitbox.buttonUp;
+			buttonRight = control.hitbox.buttonRight;
+			buttonExtra = control.hitbox.buttonExtra;
+			buttonExtra2 = control.hitbox.buttonExtra2;
+		} else {
+			target = control.virtualPad;
+			buttonLeft = control.virtualPad.buttonLeft;
+			buttonDown = control.virtualPad.buttonDown;
+			buttonUp = control.virtualPad.buttonUp;
+			buttonRight = control.virtualPad.buttonRight;
+			buttonExtra = control.virtualPad.buttonExtra;
+			buttonExtra2 = control.virtualPad.buttonExtra2;
+		}
+	}
 }

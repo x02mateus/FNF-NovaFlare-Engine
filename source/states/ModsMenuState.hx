@@ -59,7 +59,7 @@ class ModsMenuState extends MusicBeatState
 		var daButton:String = "BACKSPACE";
 
 		if (controls.mobileC)
-			daButton = B;
+			daButton = 'B';
 		Paths.clearStoredMemory();
 		Paths.clearUnusedMemory();
 		persistentUpdate = false;
@@ -862,10 +862,7 @@ class ModItem extends FlxSpriteGroup
 			{
 				var errorTitle = 'Mod name: ' + Mods.currentModDirectory;
 				var errorMsg = 'An error occurred: $e';
-				#if (windows || mobile)
-				lime.app.Application.current.window.alert(errorMsg, errorTitle);
-				#end
-				trace('$errorTitle - $errorMsg');
+				SUtil.showPopUp(errorMsg, errorTitle);
 			}
 		}
 

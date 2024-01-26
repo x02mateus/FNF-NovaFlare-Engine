@@ -5,7 +5,6 @@ import openfl.Lib;
 import android.widget.Toast;
 #end
 import haxe.PosInfos;
-import lime.app.Application;
 import lime.system.System;
 #if sys
 import sys.io.File;
@@ -66,8 +65,15 @@ class Log
 				#end
 
 				println(message);
-				Application.current.window.alert(message, 'Error!');
+				Lib.application.window.alert(message, 'Error!');
+				#if js
+				if (FlxG.sound.music != null)
+					FlxG.sound.music.stop();
+				
+				js.Browser.window.location.reload(true);
+				#else
 				System.exit(1);
+				#end
 			}
 			else
 			{

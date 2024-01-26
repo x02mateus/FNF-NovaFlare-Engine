@@ -96,6 +96,7 @@ class HScript extends SScript
 		set('Countdown', backend.BaseStage.Countdown);
 		set('PlayState', PlayState);
 		set('Paths', Paths);
+		set('SUtil', SUtil);
 		set('Conductor', Conductor);
 		set('ClientPrefs', ClientPrefs);
 		#if ACHIEVEMENTS_ALLOWED
@@ -306,6 +307,7 @@ class HScript extends SScript
                         set('addBehindBF', PlayState.instance.addBehindBF);
                         setSpecialObject(PlayState.instance, false, PlayState.instance.instancesExclude);
                 }
+                #if LUA_ALLOWED
 		set("addVirtualPad", (DPadMode:String, ActionMode:String) -> {
 			PlayState.instance.makeLuaVirtualPad(DPadMode, ActionMode);
 			PlayState.instance.addLuaVirtualPad();
@@ -317,7 +319,7 @@ class HScript extends SScript
   
 		set("addVirtualPadCamera", () -> {
 			if(PlayState.instance.luaVirtualPad == null){
-				FunkinLua.luaTrace('addVirtualPadCamera: Virtual Pad Does Not Exist!!');
+				FunkinLua.luaTrace('addVirtualPadCamera: VPAD does not exist.');
 				return;
 			}
 			PlayState.instance.addLuaVirtualPadCamera();
@@ -325,7 +327,7 @@ class HScript extends SScript
   
 		set("virtualPadJustPressed", function(button:Dynamic):Bool {
 			if(PlayState.instance.luaVirtualPad == null){
-			  FunkinLua.luaTrace('virtualPadJustPressed: Virtual Pad Does Not Exist!!');
+			  //FunkinLua.luaTrace('virtualPadJustPressed: VPAD does not exist.');
 			  return false;
 			}
 		  return PlayState.instance.luaVirtualPadJustPressed(button);
@@ -333,7 +335,7 @@ class HScript extends SScript
   
 		set("virtualPadPressed", function(button:Dynamic):Bool {
 			if(PlayState.instance.luaVirtualPad == null){
-				FunkinLua.luaTrace('virtualPadPressed: Virtual Pad Does Not Exist!!');
+				//FunkinLua.luaTrace('virtualPadPressed: VPAD does not exist.');
 				return false;
 			}
 			return PlayState.instance.luaVirtualPadPressed(button);
@@ -341,11 +343,12 @@ class HScript extends SScript
   
 		set("virtualPadJustReleased", function(button:Dynamic):Bool {
 			if(PlayState.instance.luaVirtualPad == null){
-				FunkinLua.luaTrace('virtualPadJustReleased: Virtual Pad Does Not Exist!!');
+				//FunkinLua.luaTrace('virtualPadJustReleased: VPAD does not exist.');
 				return false;
 			}
 			return PlayState.instance.luaVirtualPadJustReleased(button);
 		});
+                #end
 
 		if(varsToBring != null) {
 			for (key in Reflect.fields(varsToBring)) {

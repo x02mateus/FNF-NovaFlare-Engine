@@ -2,10 +2,6 @@
 
 Engine originally used on [Mind Games Mod](https://gamebanana.com/mods/301107), intended to be a fix for the vanilla version's many issues while keeping the casual play aspect of it. Also aiming to be an easier alternative to newbie coders.
 
-## Installation:
-
-Refer to [the Build Instructions](./BUILDING.md)
-
 ## Customization:
 
 if you wish to disable things like *Lua Scripts* or *Video Cutscenes*, you can read over to `Project.xml`
