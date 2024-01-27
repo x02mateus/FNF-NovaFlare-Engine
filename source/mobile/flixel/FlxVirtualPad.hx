@@ -18,10 +18,17 @@ class FlxVirtualPad extends FlxMobileInputManager
 	public var buttonUp:FlxButton = new FlxButton(0, 0, [FlxMobileInputID.UP, FlxMobileInputID.noteUP]);
 	public var buttonRight:FlxButton = new FlxButton(0, 0, [FlxMobileInputID.RIGHT, FlxMobileInputID.noteRIGHT]);
 	public var buttonDown:FlxButton = new FlxButton(0, 0, [FlxMobileInputID.DOWN, FlxMobileInputID.noteDOWN]);
+	
 	public var buttonLeft2:FlxButton = new FlxButton(0, 0, [FlxMobileInputID.LEFT2, FlxMobileInputID.noteLEFT]);
 	public var buttonUp2:FlxButton = new FlxButton(0, 0, [FlxMobileInputID.UP2, FlxMobileInputID.noteUP]);
 	public var buttonRight2:FlxButton = new FlxButton(0, 0, [FlxMobileInputID.RIGHT2, FlxMobileInputID.noteRIGHT]);
 	public var buttonDown2:FlxButton = new FlxButton(0, 0, [FlxMobileInputID.DOWN2, FlxMobileInputID.noteDOWN]);
+	
+	public var buttonExtra1:FlxButton = new FlxButton(0, 0);
+	public var buttonExtra2:FlxButton = new FlxButton(0, 0);
+	public var buttonExtra3:FlxButton = new FlxButton(0, 0);
+	public var buttonExtra4:FlxButton = new FlxButton(0, 0);
+	
 	public var buttonA:FlxButton = new FlxButton(0, 0, [FlxMobileInputID.A]);
 	public var buttonB:FlxButton = new FlxButton(0, 0, [FlxMobileInputID.B]);
 	public var buttonC:FlxButton = new FlxButton(0, 0, [FlxMobileInputID.C]);
@@ -35,8 +42,7 @@ class FlxVirtualPad extends FlxMobileInputManager
 	public var buttonY:FlxButton = new FlxButton(0, 0, [FlxMobileInputID.Y]);
 	public var buttonZ:FlxButton = new FlxButton(0, 0, [FlxMobileInputID.Z]);
 	public var buttonP:FlxButton = new FlxButton(0, 0, [FlxMobileInputID.P]);
-	public var buttonExtra:FlxButton = new FlxButton(0, 0);
-	public var buttonExtra2:FlxButton = new FlxButton(0, 0);
+	
 
 	var storedButtonsIDs:Map<String, Array<FlxMobileInputID>> = new Map<String, Array<FlxMobileInputID>>();
 
@@ -161,6 +167,11 @@ class FlxVirtualPad extends FlxMobileInputManager
 				add(buttonB = createButton(FlxG.width - 258, FlxG.height - 135, 132, 127, 'b', 0xFFCB00));
 				add(buttonZ = createButton(FlxG.width - 132, FlxG.height - 255, 132, 127, 'z', 0xCCB98E));
 				add(buttonA = createButton(FlxG.width - 132, FlxG.height - 135, 132, 127, 'a', 0xFF0000));
+			case controlExtend:
+			    if (Type.getClass(FlxG.state) != PlayState || Type.getClass(FlxG.state) == PlayState && ClientPrefs.data.ExtraKey > 0) add(buttonExtra1 = createButton(FlxG.width * 0.5 - 44 * 3, FlxG.height * 0.5 - 127 * 0.5, 44 * 3, 127, "a", 0xFF0000));
+				if (Type.getClass(FlxG.state) != PlayState || Type.getClass(FlxG.state) == PlayState && ClientPrefs.data.ExtraKey > 1) add(buttonExtra2 = createButton(FlxG.width * 0.5, FlxG.height * 0.5 - 127 * 0.5, 44 * 3, 127, "b", 0xFFFF00));
+				if (Type.getClass(FlxG.state) != PlayState || Type.getClass(FlxG.state) == PlayState && ClientPrefs.data.ExtraKey > 2) add(buttonExtra3 = createButton(FlxG.width * 0.5 - 44 * 3, FlxG.height * 0.5 - 127 * 0.5, 44 * 3, 127, "c", 0xFF0000));
+				if (Type.getClass(FlxG.state) != PlayState || Type.getClass(FlxG.state) == PlayState && ClientPrefs.data.ExtraKey > 3) add(buttonExtra4 = createButton(FlxG.width * 0.5, FlxG.height * 0.5 - 127 * 0.5, 44 * 3, 127, "d", 0xFFFF00));
 			// PSYCH RELEATED BUTTONS
 			case CHARACTER_EDITOR:
 				add(buttonV = createButton(FlxG.width - 510, FlxG.height - 255, 132, 127, 'v', 0x49A9B2));
@@ -201,17 +212,7 @@ class FlxVirtualPad extends FlxMobileInputManager
 			case NONE: // do nothing
 		}
 
-		switch (Extra)
-		{
-			case SINGLE:
-				add(buttonExtra = createButton(0, FlxG.height - 135, 132, 127, 's', 0xFF0066FF));
-				setExtrasPos();
-			case DOUBLE:
-				add(buttonExtra = createButton(0, FlxG.height - 135, 132, 127, 's', 0xFF0066FF));
-				add(buttonExtra2 = createButton(FlxG.width - 132, FlxG.height - 135, 132, 127, 'g', 0xA6FF00));
-				setExtrasPos();
-			case NONE: // nothing
-		}
+		
 
 		for (button in Reflect.fields(this))
 		{
@@ -305,7 +306,9 @@ class FlxVirtualPad extends FlxMobileInputManager
 		buttonY = FlxDestroyUtil.destroy(buttonY);
 		buttonZ = FlxDestroyUtil.destroy(buttonZ);
 		buttonP = FlxDestroyUtil.destroy(buttonP);
-		buttonExtra = FlxDestroyUtil.destroy(buttonExtra);
+		buttonExtra1 = FlxDestroyUtil.destroy(buttonExtra1);
 		buttonExtra2 = FlxDestroyUtil.destroy(buttonExtra2);
+		buttonExtra3 = FlxDestroyUtil.destroy(buttonExtra3);
+		buttonExtra4 = FlxDestroyUtil.destroy(buttonExtra4);
 	}
 }
