@@ -183,25 +183,25 @@ class MobileControlSelectSubState extends MusicBeatSubstate
 		if (options[curOption] != 'Hitbox'){
     	    if (buttonBinded)
 			{
-				if (touch.justReleased)
+				if (TouchFunctions.touchJustReleased)
 				{
-	    			bindButton = null;
-		    		buttonBinded = false;
+					bindButton = null;
+					buttonBinded = false;
 				}
 				else
-					moveButton(touch, bindButton);
+					moveButton(TouchFunctions.touch, bindButton);
 			} else {
     			if (control.virtualPad.buttonExtra1.justPressed) {
-    				moveButton(touch, control.virtualPad.buttonExtra1);
+    				moveButton(TouchFunctions.touch, control.virtualPad.buttonExtra1);
     			}				
     			if (control.virtualPad.buttonExtra2.justPressed) {
-    				moveButton(touch, control.virtualPad.buttonExtra2);
+    				moveButton(TouchFunctions.touch, control.virtualPad.buttonExtra2);
     			}
     			if (control.virtualPad.buttonExtra3.justPressed) {
-    				moveButton(touch, control.virtualPad.buttonExtra3);
+    				moveButton(TouchFunctions.touch, control.virtualPad.buttonExtra3);
     			}
     			if (control.virtualPad.buttonExtra4.justPressed) {
-    				moveButton(touch, control.virtualPad.buttonExtra4);
+    				moveButton(TouchFunctions.touch, control.virtualPad.buttonExtra4);
     			}
     		}
     	}
