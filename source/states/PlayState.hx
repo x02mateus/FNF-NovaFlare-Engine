@@ -3684,10 +3684,10 @@ class PlayState extends MusicBeatState
 			#if (LUA_ALLOWED || HSCRIPT_ALLOWED)
 			addTextToDebug('Missing shader $name .frag AND .vert files!', FlxColor.RED);
 			#else
-			FlxG.log.warn('Missing shader $name .frag AND .vert files!');
+			FlxG.log.warn("Missing shader $name .frag AND .vert files!");
 			#end
 		#else
-		FlxG.log.warn('This platform doesn\'t support Runtime Shaders!');
+		FlxG.log.warn("This platform doesn\'t support Runtime Shaders!");
 		#end
 		return false;
 	}
@@ -3699,7 +3699,7 @@ class PlayState extends MusicBeatState
 		if(!variables.exists("luaVirtualPad"))
 			variables.set("luaVirtualPad", luaVirtualPad);
 
-		luaVirtualPad = new FlxVirtualPad(Data.dpadMode.get(DPadMode), Data.actionMode.get(ActionMode), NONE);
+		luaVirtualPad = new FlxVirtualPad(Data.dpadMode.get(DPadMode), Data.actionMode.get(ActionMode));
 		luaVirtualPad.alpha = ClientPrefs.data.controlsAlpha;
 	}
 	
