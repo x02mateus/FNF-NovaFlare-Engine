@@ -47,6 +47,7 @@ enum FlxActionMode
 	A_B_C_X_Y;
 	A_B_C_X_Y_Z;
 	A_B_C_D_V_X_Y_Z;
+	controlExtend;
 	CHARACTER_EDITOR;
 	DIALOGUE_PORTRAIT;
 	MENU_CHARACTER;
