@@ -1,6 +1,6 @@
 package;
 
-import debug.FPSCounter;
+import objects.Watermark;
 
 import flixel.graphics.FlxGraphic;
 import flixel.FlxGame;
@@ -40,7 +40,8 @@ class Main extends Sprite
 		startFullscreen: false // if the game should start at fullscreen mode
 	};
 
-	public static var fpsVar:FPSCounter;
+	public static var fpsVar:FPS;
+	public static var watermark:Watermark;
 
 	#if mobile
 	public static final platform:String = "Phones";
@@ -132,12 +133,30 @@ class Main extends Sprite
 
 		Achievements.load();
 
-		fpsVar = new FPSCounter(10, 3, 0xFFFFFF);
+		fpsVar = new FPS(5, 5, 0xFFFFFF);
 		addChild(fpsVar);
+		if(fpsVar != null) {
+			fpsVar.visible = ClientPrefs.data.showFPS;
+		}
+		
 		Lib.current.stage.align = "tl";
 		Lib.current.stage.scaleMode = StageScaleMode.NO_SCALE;
-		if(fpsVar != null)
-			fpsVar.visible = ClientPrefs.data.showFPS;
+		
+		#if mobile
+		FlxG.fullscreen = true;
+		#end
+		
+	    var image:String = Paths.modFolders('images/menuExtend/Others/watermark.png');
+	    
+	    if (FileSystem.exists(image)) {
+    	    watermark = new Watermark(
+    	    5,
+    	    Lib.current.stage.stageHeight - 5,
+    	    0.4);	    
+    		addChild(watermark);
+    		//watermark.x -= watermark.bitmapData.width;
+    		watermark.y -= watermark.bitmapData.height;
+		}
 
 		#if linux
 		var icon = Image.fromFile("icon.png");
@@ -164,8 +183,8 @@ class Main extends Sprite
 
 		// shader coords fix
 		FlxG.signals.gameResized.add(function (w, h) {
-			if(fpsVar != null)
-				fpsVar.positionFPS(10, 3, Math.min(Lib.current.stage.stageWidth / FlxG.width, Lib.current.stage.stageHeight / FlxG.height));
+			//if(fpsVar != null)
+				//fpsVar.positionFPS(10, 3, Math.min(Lib.current.stage.stageWidth / FlxG.width, Lib.current.stage.stageHeight / FlxG.height));
 		     if (FlxG.cameras != null) {
 			   for (cam in FlxG.cameras.list) {
 				if (cam != null && cam.filters != null)
