@@ -44,9 +44,6 @@ class MobileControls extends FlxTypedSpriteGroup<FlxMobileInputManager>
 
 	private function initControler(virtualPadMode:Int = 0):Void
 	{
-		var extraAction = Data.extraActions.get(ClientPrefs.data.extraButtons);
-		if (!extra)
-			extraAction = NONE;
 		switch (virtualPadMode)
 		{
 			case 0:
