@@ -7,38 +7,65 @@ import states.TitleState;
 
 // Add a variable here and it will get automatically saved
 @:structInit class SaveVariables {
-        // Mobile Controls Releated
-	public var extraButtons:String = "NONE"; // mobile extra button option
-	public var hitbox2:Bool = true; // hitbox extra button position option
-	public var dynamicColors:Bool = true; // yes cause its cool -Karim
-	public var controlsAlpha:Float = #if (mobile || mobileC) 0.6 #else 0.001 #end;
-	public var screensaver:Bool = false;
-        public var hideHitboxHints:Bool = false;
-        // end of Mobile Controls Releated
-	public var popUpRating:Bool = true;
 	public var downScroll:Bool = false;
 	public var middleScroll:Bool = false;
+	public var filpChart:Bool = false;
+	public var fixLNL:Int= 0; //fix long note length
+	public var noteDetectionFix:Bool = true;
+	
+	public var playOpponent:Bool = false;
+	public var OpponentCodeFix:Bool = false;
+	public var botOpponentFix:Bool = true;
+	public var HealthDrainOPPOMult:Float = 0.5;
+	public var HealthDrainOPPO:Bool = true;
 	public var opponentStrums:Bool = true;
+	
 	public var showFPS:Bool = true;
+	public var showMS:Bool = true;
+	public var showMEM:Bool = true;
+	public var rainbowFPS:Bool = false;
+	public var memoryType:Int = 3;
+	public var guitarHeroSustains:Bool = true;
+	public var skipTitleVideo:Bool = false;
+		
 	public var flashing:Bool = true;
+	public var ResultsScreen:Bool = true;
 	public var autoPause:Bool = true;
 	public var antialiasing:Bool = true;
+	
 	public var noteSkin:String = 'Default';
 	public var splashSkin:String = 'Psych';
+	public var noteRGB:Bool = true;
+	public var splashRGB:Bool = true;
+	public var showSplash:Bool = true;
 	public var splashAlpha:Float = 0.6;
+	
+	public var screensaver:Bool = false;
 	public var lowQuality:Bool = false;
 	public var shaders:Bool = true;
-	public var cacheOnGPU:Bool = #if !switch false #else true #end; //From Stilic
+	public var colorblindMode:Int = 0;
+	public var cacheOnGPU:Bool = #if !switch false #else true #end; //From Stilic	
+	public var imagePersist:Bool = false;
 	public var framerate:Int = 60;
+	
+	public var CustomFade:String = 'Move';
+	public var CustomFadeSound:Float = 0.5;
+	public var CustomFadeText:Bool = true;
+	
 	public var gameOverVibration:Bool = false;
+	
+	public var discordRPC:Bool = true;
 	public var camZooms:Bool = true;
+	public var judgementCounter:Bool = true;
 	public var hideHud:Bool = false;
 	public var noteOffset:Int = 0;
+	public var combeColor:Bool = true;
 	public var arrowRGB:Array<Array<FlxColor>> = [
 		[0xFFC24B99, 0xFFFFFFFF, 0xFF3C1F56],
 		[0xFF00FFFF, 0xFFFFFFFF, 0xFF1542B7],
 		[0xFF12FA05, 0xFFFFFFFF, 0xFF0A4447],
 		[0xFFF9393F, 0xFFFFFFFF, 0xFF651038]];
+		
 	public var arrowRGBPixel:Array<Array<FlxColor>> = [
 		[0xFFE276FF, 0xFFFFF9FF, 0xFF60008D],
 		[0xFF3DCAFF, 0xFFF4FFFF, 0xFF003060],
@@ -52,8 +79,11 @@ import states.TitleState;
 	public var healthBarAlpha:Float = 1;
 	public var hitsoundVolume:Float = 0;
 	public var pauseMusic:String = 'Tea Time';
-	public var checkForUpdates:Bool = true;
+	public var checkForUpdates:Bool = false;
 	public var comboStacking:Bool = true;
+	public var showComboNum:Bool = true;
+	public var showRating:Bool = true;
+	public var comboColor:Bool = true;
 	public var gameplaySettings:Map<String, Dynamic> = [
 		'scrollspeed' => 1.0,
 		'scrolltype' => 'multiplicative', 
@@ -75,15 +105,29 @@ import states.TitleState;
 		'botplay' => false,
 		'opponentplay' => false
 	];
-
+	
+	public var marvelousRating:Bool = true;	
+	public var marvelousSprite:Bool = true;	
+    public var marvelousWindow:Int = 15;
+    
 	public var comboOffset:Array<Int> = [0, 0, 0, 0];
-	public var ratingOffset:Int = 0;
+	public var ratingOffset:Int = 0;	
 	public var sickWindow:Int = 45;
 	public var goodWindow:Int = 90;
 	public var badWindow:Int = 135;
-	public var safeFrames:Float = 10;
-	public var guitarHeroSustains:Bool = true;
-	public var discordRPC:Bool = true;
+	public var safeFrames:Float = 10;			
+	
+	public var dynamicColors:Bool = true;
+	public var hitboxLocation:String = 'Bottom';
+	public var controlsAlpha:Float = 0.6;
+	
+	public var ExtraKey:Int = 4;
+	public var ExtraKeyReturn1:String = 'SPACE';
+	public var ExtraKeyReturn2:String = 'SPACE';
+	public var ExtraKeyReturn3:String = 'SPACE';
+	public var ExtraKeyReturn4:String = 'SPACE';
+	
+	public var language:Int = 0; //for english at begin
 }
 
 class ClientPrefs {
@@ -120,8 +164,8 @@ class ClientPrefs {
 	public static var gamepadBinds:Map<String, Array<FlxGamepadInputID>> = [
 		'note_up'		=> [DPAD_UP, Y],
 		'note_left'		=> [DPAD_LEFT, X],
-		'note_down'		=> [DPAD_DOWN, A],
-		'note_right'	        => [DPAD_RIGHT, B],
+		'note_down'	=> [DPAD_DOWN, A],
+		'note_right'     => [DPAD_RIGHT, B],
 		
 		'ui_up'			=> [DPAD_UP, LEFT_STICK_DIGITAL_UP],
 		'ui_left'		=> [DPAD_LEFT, LEFT_STICK_DIGITAL_LEFT],
@@ -136,7 +180,7 @@ class ClientPrefs {
 	public static var mobileBinds:Map<String, Array<FlxMobileInputID>> = [
 		'note_up'		=> [noteUP, UP2],
 		'note_left'		=> [noteLEFT, LEFT2],
-		'note_down'		=> [noteDOWN, DOWN2],
+		'note_down'	=> [noteDOWN, DOWN2],
 		'note_right'	=> [noteRIGHT, RIGHT2],
 
 		'ui_up'			=> [UP, noteUP],
@@ -146,7 +190,7 @@ class ClientPrefs {
 
 		'accept'		=> [A],
 		'back'			=> [B],
-		'pause'			=> [#if android NONE #else P #end],
+		'pause'		=> [#if android NONE #else P #end],
 		'reset'			=> [NONE]
 	];
 	public static var defaultMobileBinds:Map<String, Array<FlxMobileInputID>> = null;

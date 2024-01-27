@@ -23,9 +23,15 @@ class Paths
 			dumpExclusions.push(key);
 	}
 
-	public static var dumpExclusions:Array<String> = ['assets/shared/music/freakyMenu.$SOUND_EXT'];
+	public static var dumpExclusions:Array<String> =
+	[
+		'assets/shared/music/freakyMenu.$SOUND_EXT',
+		'assets/shared/music/breakfast.$SOUND_EXT',
+		'assets/shared/music/tea-time.$SOUND_EXT',
+	];
 	/// haya I love you for the base cache dump I took to the max
 	public static function clearUnusedMemory() {
+	    if (ClientPrefs.data.imagePersist) return;
 		// clear non local assets in the tracked assets list
 		for (key in currentTrackedAssets.keys()) {
 			// if it is not currently contained within the used local assets
@@ -48,21 +54,18 @@ class Paths
 
 		// run the garbage collector for good measure lmfao
 		System.gc();
-		#if cpp
-		cpp.NativeGc.run(true);
-		#end
 	}
 
 	// define the locally tracked assets
 	public static var localTrackedAssets:Array<String> = [];
-	public static function clearStoredMemory() {
+	public static function clearStoredMemory(?cleanUnused:Bool = false) {
+	    if (ClientPrefs.data.imagePersist) return;
 		// clear anything not in the tracked assets list
 		@:privateAccess
 		for (key in FlxG.bitmap._cache.keys())
 		{
 			var obj = FlxG.bitmap._cache.get(key);
-			if (obj != null && !currentTrackedAssets.exists(key))
-			{
+			if (obj != null && !currentTrackedAssets.exists(key)) {
 				openfl.Assets.cache.removeBitmapData(key);
 				FlxG.bitmap._cache.remove(key);
 				obj.destroy();
@@ -70,10 +73,10 @@ class Paths
 		}
 
 		// clear all sounds that are cached
-		for (key => asset in currentTrackedSounds)
-		{
-			if (!localTrackedAssets.contains(key) && !dumpExclusions.contains(key) && asset != null)
-			{
+		for (key in currentTrackedSounds.keys()) {
+			if (!localTrackedAssets.contains(key)
+			&& !dumpExclusions.contains(key) && key != null) {
+				//trace('test: ' + dumpExclusions, key);
 				Assets.cache.clear(key);
 				currentTrackedSounds.remove(key);
 			}
@@ -330,6 +333,8 @@ class Paths
 			
 			if (FileSystem.exists(mods('$key')))
 				return true;
+			if (FileSystem.exists(#if mobile Sys.getCwd() + #end 'assets/shared/' + key))
+				return true;
 		}
 		#end
 
@@ -415,7 +420,7 @@ class Paths
 
 	inline static public function formatToSongPath(path:String) {
 		var invalidChars = ~/[~&\\;:<>#]/;
-		var hideChars = ~/[.,'"%?!]/;
+		var hideChars = ~/[.,'"%?!]/; //'
 
 		var path = invalidChars.split(path.replace(' ', '-')).join("-");
 		return hideChars.split(path).join("").toLowerCase();
@@ -426,16 +431,14 @@ class Paths
 		#if MODS_ALLOWED
 		var modLibPath:String = '';
 		if (library != null) modLibPath = '$library/';
-		if (path != null) modLibPath += '$path';
+		if (path != null) modLibPath += '$path/';
 
 		var file:String = modsSounds(modLibPath, key);
 		if(FileSystem.exists(file)) {
-			if(!currentTrackedSounds.exists(file))
-			{
+			if(!currentTrackedSounds.exists(file)) {
 				currentTrackedSounds.set(file, Sound.fromFile(file));
-				//trace('precached mod sound: $file');
 			}
-			localTrackedAssets.push(file);
+			localTrackedAssets.push(key);
 			return currentTrackedSounds.get(file);
 		}
 		#end
@@ -451,10 +454,7 @@ class Paths
 			var retKey:String = (path != null) ? '$path/$key' : key;
 			retKey = ((path == 'songs') ? 'songs:' : '') + getPath('$retKey.$SOUND_EXT', SOUND, library);
 			if(Assets.exists(retKey, SOUND))
-			{
 				currentTrackedSounds.set(gottenPath, Assets.getSound(retKey));
-				//trace('precached vanilla sound: $retKey');
-			}
 		}
 		localTrackedAssets.push(gottenPath);
 		return currentTrackedSounds.get(gottenPath);
@@ -524,7 +524,15 @@ class Paths
 			if(FileSystem.exists(fileToCheck))
 				return fileToCheck;
 		}
-		return #if mobile Sys.getCwd() + #end 'mods/' + key;
+		
+		    var fileToCheck:String = #if mobile Sys.getCwd() + #end 'mods/' + key;
+			if(FileSystem.exists(fileToCheck)) 
+			return fileToCheck;			
+		    
+		    var fileToCheck:String = #if mobile Sys.getCwd() + #end 'assets/shared/' + key;
+			if(FileSystem.exists(fileToCheck)) 
+			return fileToCheck;
+		return #if mobile Sys.getCwd() + #end 'mods/' + key;	
 	}
 	#end
 
