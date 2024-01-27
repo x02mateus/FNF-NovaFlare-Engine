@@ -15,48 +15,51 @@ class ExtraFunctions
 		// Keyboard & Gamepads
 		funk.set("keyboardJustPressed", function(name:String)
 			{
-				switch(name.toUpperCase()){
-					case 'SPACE':
-						var space = Reflect.getProperty(FlxG.keys.justPressed, 'SPACE');
-						var mobileShit:Bool = false;
-						if (Controls.instance.mobileC)
-							if (MusicBeatState.instance.mobileControls != null)
-								mobileShit = MusicBeatState.instance.mobileControls.current.buttonExtra1.justPressed;
-						return space || mobileShit;
-
-					default:
-						return Reflect.getProperty(FlxG.keys.justPressed, name.toUpperCase());
-				}
+				name = name.toUpperCase();
+			    
+				if (MusicBeatState.instance.mobileControls != null){				    
+					    
+					if (name == ClientPrefs.data.ExtraKeyReturn1.toUpperCase() && MusicBeatState.instance.mobileControls.current.buttonExtra1 != null && MusicBeatState.instance.mobileControls.current.buttonExtra1.justPressed) return true;
+					        
+					if (name == ClientPrefs.data.ExtraKeyReturn2.toUpperCase() && MusicBeatState.instance.mobileControls.current.buttonExtra2 != null && MusicBeatState.instance.mobileControls.current.buttonExtra2.justPressed) return true;
+                            
+					if (name == ClientPrefs.data.ExtraKeyReturn3.toUpperCase() && MusicBeatState.instance.mobileControls.current.buttonExtra3 != null && MusicBeatState.instance.mobileControls.current.buttonExtra3.justPressed) return true;
+                            
+					if (name == ClientPrefs.data.ExtraKeyReturn4.toUpperCase() && MusicBeatState.instance.mobileControls.current.buttonExtra4 != null && MusicBeatState.instance.mobileControls.current.buttonExtra4.justPressed) return true;                       					
+			    }
+			    return Reflect.getProperty(FlxG.keys.justPressed, name);				
 			});
 			funk.set("keyboardPressed", function(name:String)
 			{
-				switch(name.toUpperCase()){
-					case 'SPACE':
-						var space = Reflect.getProperty(FlxG.keys.pressed, 'SPACE');
-						var mobileShit:Bool = false;
-						if (Controls.instance.mobileC)
-							if (MusicBeatState.instance.mobileControls != null)
-								mobileShit = MusicBeatState.instance.mobileControls.current.buttonExtra1.pressed;
-						return space || mobileShit;
-
-					default:
-						return Reflect.getProperty(FlxG.keys.pressed, name.toUpperCase());
-				}
+				name = name.toUpperCase();
+			    
+				if (MusicBeatState.instance.mobileControls != null){				    
+					    
+					if (name == ClientPrefs.data.ExtraKeyReturn1.toUpperCase() && MusicBeatState.instance.mobileControls.current.buttonExtra1 != null && MusicBeatState.instance.mobileControls.current.buttonExtra1.pressed) return true;
+					        
+					if (name == ClientPrefs.data.ExtraKeyReturn2.toUpperCase() && MusicBeatState.instance.mobileControls.current.buttonExtra2 != null && MusicBeatState.instance.mobileControls.current.buttonExtra2.pressed) return true;
+                            
+					if (name == ClientPrefs.data.ExtraKeyReturn3.toUpperCase() && MusicBeatState.instance.mobileControls.current.buttonExtra3 != null && MusicBeatState.instance.mobileControls.current.buttonExtra3.pressed) return true;
+                            
+					if (name == ClientPrefs.data.ExtraKeyReturn4.toUpperCase() && MusicBeatState.instance.mobileControls.current.buttonExtra4 != null && MusicBeatState.instance.mobileControls.current.buttonExtra4.pressed) return true;                       					
+			    }
+			    return Reflect.getProperty(FlxG.keys.pressed, name);	
 			});
 			funk.set("keyboardReleased", function(name:String)
 			{
-				switch(name.toUpperCase()){
-					case 'SPACE':
-						var space = Reflect.getProperty(FlxG.keys.justReleased, 'SPACE');
-						var mobileShit:Bool = false;
-						if (Controls.instance.mobileC)
-							if (MusicBeatState.instance.mobileControls != null)
-								mobileShit = MusicBeatState.instance.mobileControls.current.buttonExtra1.justReleased;
-						return space || mobileShit;
-
-					default:
-						return Reflect.getProperty(FlxG.keys.justReleased, name.toUpperCase());
-				}
+				name = name.toUpperCase();
+			    
+				if (MusicBeatState.instance.mobileControls != null){				    
+					    
+					if (name == ClientPrefs.data.ExtraKeyReturn1.toUpperCase() && MusicBeatState.instance.mobileControls.current.buttonExtra1 != null && MusicBeatState.instance.mobileControls.current.buttonExtra1.justReleased) return true;
+					        
+					if (name == ClientPrefs.data.ExtraKeyReturn2.toUpperCase() && MusicBeatState.instance.mobileControls.current.buttonExtra2 != null && MusicBeatState.instance.mobileControls.current.buttonExtra2.justReleased) return true;
+                            
+					if (name == ClientPrefs.data.ExtraKeyReturn3.toUpperCase() && MusicBeatState.instance.mobileControls.current.buttonExtra3 != null && MusicBeatState.instance.mobileControls.current.buttonExtra3.justReleased) return true;
+                            
+					if (name == ClientPrefs.data.ExtraKeyReturn4.toUpperCase() && MusicBeatState.instance.mobileControls.current.buttonExtra4 != null && MusicBeatState.instance.mobileControls.current.buttonExtra4.justReleased) return true;                       					
+			    }
+			    return Reflect.getProperty(FlxG.keys.justReleased, name);	
 			});
 	
 			funk.set("anyGamepadJustPressed", function(name:String) return FlxG.gamepads.anyJustPressed(name.toUpperCase()));
