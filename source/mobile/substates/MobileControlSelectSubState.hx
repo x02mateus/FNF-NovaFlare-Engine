@@ -159,7 +159,7 @@ class MobileControlSelectSubState extends MusicBeatSubstate
 			changeOption(1);
 		});
 
-		if (options[curOption] == 'Pad-Custom')
+		if (options[curOption] == 'Pad-Custom' || options[curOption] == 'Pad-Extra')
 		{
 			if (buttonBinded)
 			{
@@ -180,38 +180,12 @@ class MobileControlSelectSubState extends MusicBeatSubstate
 				});
 			}
 		}
-		if (options[curOption] != 'Hitbox'){
-    	    if (buttonBinded)
-			{
-				if (TouchFunctions.touchJustReleased)
-				{
-					bindButton = null;
-					buttonBinded = false;
-				}
-				else
-					moveButton(TouchFunctions.touch, bindButton);
-			} else {
-    			if (control.virtualPad.buttonExtra1.justPressed) {
-    				moveButton(TouchFunctions.touch, control.virtualPad.buttonExtra1);
-    			}				
-    			if (control.virtualPad.buttonExtra2.justPressed) {
-    				moveButton(TouchFunctions.touch, control.virtualPad.buttonExtra2);
-    			}
-    			if (control.virtualPad.buttonExtra3.justPressed) {
-    				moveButton(TouchFunctions.touch, control.virtualPad.buttonExtra3);
-    			}
-    			if (control.virtualPad.buttonExtra4.justPressed) {
-    				moveButton(TouchFunctions.touch, control.virtualPad.buttonExtra4);
-    			}
-    		}
-    	}
 
 		tweenieShit += 180 * elapsed;
 		keyboardText.alpha = 1 - Math.sin((Math.PI * tweenieShit) / 180);
 
 		super.update(elapsed);
 	}
-
 	function changeControls(?type:Int = null, ?extraMode:Bool = false)
 	{
 		if (type == null)
