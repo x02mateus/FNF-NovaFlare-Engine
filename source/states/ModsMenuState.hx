@@ -59,7 +59,7 @@ class ModsMenuState extends MusicBeatState
 		var daButton:String = "BACKSPACE";
 
 		if (controls.mobileC)
-			daButton = B;
+			daButton = 'B';
 		Paths.clearStoredMemory();
 		Paths.clearUnusedMemory();
 		persistentUpdate = false;
