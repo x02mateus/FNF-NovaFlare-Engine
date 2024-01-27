@@ -628,7 +628,7 @@ class OptionsState extends MusicBeatState
 					if (!onPlayState)
 					{
 						resetOptions();
-						MusicBeatState.switchState(new mobile.substates.MobileControlsSubState());
+						MusicBeatState.switchState(new mobile.substates.MobileControlSelectSubState());
 						FlxG.sound.play(Paths.sound('scrollMenu'), 0.6);
 						new FlxTimer().start(1.5, function(tmr:FlxTimer)
 						{
