@@ -21,7 +21,7 @@ class ExtraFunctions
 						var mobileShit:Bool = false;
 						if (Controls.instance.mobileC)
 							if (MusicBeatState.instance.mobileControls != null)
-								mobileShit = MusicBeatState.instance.mobileControls.current.buttonExtra.justPressed;
+								mobileShit = MusicBeatState.instance.mobileControls.current.buttonExtra1.justPressed;
 						return space || mobileShit;
 
 					default:
@@ -36,7 +36,7 @@ class ExtraFunctions
 						var mobileShit:Bool = false;
 						if (Controls.instance.mobileC)
 							if (MusicBeatState.instance.mobileControls != null)
-								mobileShit = MusicBeatState.instance.mobileControls.current.buttonExtra.pressed;
+								mobileShit = MusicBeatState.instance.mobileControls.current.buttonExtra1.pressed;
 						return space || mobileShit;
 
 					default:
@@ -51,7 +51,7 @@ class ExtraFunctions
 						var mobileShit:Bool = false;
 						if (Controls.instance.mobileC)
 							if (MusicBeatState.instance.mobileControls != null)
-								mobileShit = MusicBeatState.instance.mobileControls.current.buttonExtra.justReleased;
+								mobileShit = MusicBeatState.instance.mobileControls.current.buttonExtra1.justReleased;
 						return space || mobileShit;
 
 					default:
