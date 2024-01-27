@@ -23,7 +23,7 @@ class MobileFunctions
 					case 'second':
 						return MusicBeatState.instance.mobileControls.current.buttonExtra2.pressed;
 					default:
-						return MusicBeatState.instance.mobileControls.current.buttonExtra.pressed;
+						return MusicBeatState.instance.mobileControls.current.buttonExtra1.pressed;
 				}
 			}
 			return false;
@@ -39,7 +39,7 @@ class MobileFunctions
 					case 'second':
 						return MusicBeatState.instance.mobileControls.current.buttonExtra2.justPressed;
 					default:
-						return MusicBeatState.instance.mobileControls.current.buttonExtra.justPressed;
+						return MusicBeatState.instance.mobileControls.current.buttonExtra1.justPressed;
 				}
 			}
 			return false;
@@ -55,7 +55,7 @@ class MobileFunctions
 					case 'second':
 						return MusicBeatState.instance.mobileControls.current.buttonExtra2.justReleased;
 					default:
-						return MusicBeatState.instance.mobileControls.current.buttonExtra.justReleased;
+						return MusicBeatState.instance.mobileControls.current.buttonExtra1.justReleased;
 				}
 			}
 			return false;
