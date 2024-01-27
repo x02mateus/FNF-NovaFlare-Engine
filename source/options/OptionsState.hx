@@ -36,7 +36,7 @@ class OptionsState extends MusicBeatState
 			case 'Adjust Delay and Combo':
 				MusicBeatState.switchState(new options.NoteOffsetState());
 			case 'Mobile Options':
-				openSubState(new options.MobileOptionsSubState());
+				openSubState(new mobile.options.MobileOptionsSubState());
 		}
 	}
 

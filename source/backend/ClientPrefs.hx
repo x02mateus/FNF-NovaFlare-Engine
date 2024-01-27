@@ -7,11 +7,14 @@ import states.TitleState;
 
 // Add a variable here and it will get automatically saved
 @:structInit class SaveVariables {
+        // Mobile Controls Releated
 	public var extraButtons:String = "NONE"; // mobile extra button option
 	public var hitbox2:Bool = true; // hitbox extra button position option
 	public var dynamicColors:Bool = true; // yes cause its cool -Karim
 	public var controlsAlpha:Float = #if (mobile || mobileC) 0.6 #else 0.001 #end;
 	public var screensaver:Bool = false;
+        public var hideHitboxHints:Bool = false;
+        // end of Mobile Controls Releated
 	public var popUpRating:Bool = true;
 	public var downScroll:Bool = false;
 	public var middleScroll:Bool = false;

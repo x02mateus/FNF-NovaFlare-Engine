@@ -59,8 +59,8 @@ class FlxHitbox extends FlxMobileInputManager
 				add(buttonUp = createHint(FlxG.width / 2, offsetSec, Std.int(FlxG.width / 4), Std.int(FlxG.height / 4) * 3, 0xFF12FA05));
 				add(buttonRight = createHint((FlxG.width / 2) + (FlxG.width / 4), offsetSec, Std.int(FlxG.width / 4), Std.int(FlxG.height / 4) * 3,
 					0xFFF9393F));
-				add(buttonExtra = createHint(Std.int(FlxG.width / 2), offsetFir, Std.int(FlxG.width / 2), Std.int(FlxG.height / 4), 0xFF0066FF));
-				add(buttonExtra2 = createHint(0, offsetFir, Std.int(FlxG.width / 2), Std.int(FlxG.height / 4), 0xA6FF00));
+				add(buttonExtra2 = createHint(Std.int(FlxG.width / 2), offsetFir, Std.int(FlxG.width / 2), Std.int(FlxG.height / 4), 0xA6FF00));
+				add(buttonExtra = createHint(0, offsetFir, Std.int(FlxG.width / 2), Std.int(FlxG.height / 4), 0xFF0066FF));
 		}
 
 		for (button in Reflect.fields(this))
@@ -100,44 +100,47 @@ class FlxHitbox extends FlxMobileInputManager
 		hint.scrollFactor.set();
 		hint.alpha = 0.00001;
 		hint.antialiasing = ClientPrefs.data.antialiasing;
-		hint.onDown.callback = function()
+		if (!ClientPrefs.data.hideHitboxHints)
 		{
-			if (hintTween != null)
-				hintTween.cancel();
+			hint.onDown.callback = function()
+			{
+				if (hintTween != null)
+					hintTween.cancel();
 
-			hintTween = FlxTween.tween(hint, {alpha: ClientPrefs.data.controlsAlpha}, ClientPrefs.data.controlsAlpha / 100, {
-				ease: FlxEase.circInOut,
-				onComplete: function(twn:FlxTween)
-				{
-					hintTween = null;
-				}
-			});
-		}
-		hint.onUp.callback = function()
-		{
-			if (hintTween != null)
-				hintTween.cancel();
+				hintTween = FlxTween.tween(hint, {alpha: ClientPrefs.data.controlsAlpha}, ClientPrefs.data.controlsAlpha / 100, {
+					ease: FlxEase.circInOut,
+					onComplete: function(twn:FlxTween)
+					{
+						hintTween = null;
+					}
+				});
+			}
+			hint.onUp.callback = function()
+			{
+				if (hintTween != null)
+					hintTween.cancel();
 
-			hintTween = FlxTween.tween(hint, {alpha: 0.00001}, ClientPrefs.data.controlsAlpha / 10, {
-				ease: FlxEase.circInOut,
-				onComplete: function(twn:FlxTween)
-				{
-					hintTween = null;
-				}
-			});
-		}
-		hint.onOut.callback = function()
-		{
-			if (hintTween != null)
-				hintTween.cancel();
+				hintTween = FlxTween.tween(hint, {alpha: 0.00001}, ClientPrefs.data.controlsAlpha / 10, {
+					ease: FlxEase.circInOut,
+					onComplete: function(twn:FlxTween)
+					{
+						hintTween = null;
+					}
+				});
+			}
+			hint.onOut.callback = function()
+			{
+				if (hintTween != null)
+					hintTween.cancel();
 
-			hintTween = FlxTween.tween(hint, {alpha: 0.00001}, ClientPrefs.data.controlsAlpha / 10, {
-				ease: FlxEase.circInOut,
-				onComplete: function(twn:FlxTween)
-				{
-					hintTween = null;
-				}
-			});
+				hintTween = FlxTween.tween(hint, {alpha: 0.00001}, ClientPrefs.data.controlsAlpha / 10, {
+					ease: FlxEase.circInOut,
+					onComplete: function(twn:FlxTween)
+					{
+						hintTween = null;
+					}
+				});
+			}
 		}
 		#if FLX_DEBUG
 		hint.ignoreDrawDebug = true;

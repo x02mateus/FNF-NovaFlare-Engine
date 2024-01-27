@@ -64,8 +64,12 @@ class Log
 				}
 				#end
 
-				println(message);
+				#if (windows || android || js || wasm)
 				Lib.application.window.alert(message, 'Error!');
+				#else
+				println('Error! - $message');
+				#end
+
 				#if js
 				if (FlxG.sound.music != null)
 					FlxG.sound.music.stop();
@@ -135,12 +139,8 @@ class Log
 	{
 		#if sys
 		Sys.println(Std.string(message));
-		#elseif flash
-		untyped __global__["trace"](Std.string(message));
-		#elseif js
-		untyped #if haxe4 js.Syntax.code #else __js__ #end ("console").log(Std.string(message));
 		#else
-		trace(Std.string(message));
+		print(message);
 		#end
 	}
 

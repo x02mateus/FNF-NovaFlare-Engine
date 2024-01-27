@@ -1,7 +1,7 @@
 package mobile.states;
 
-import lime.utils.Assets;
 import flixel.addons.transition.FlxTransitionableState;
+import lime.utils.Assets as LimeAssets;
 import openfl.utils.Assets as OpenflAssets;
 import flixel.addons.util.FlxAsyncLoop;
 import openfl.utils.ByteArray;
@@ -10,7 +10,6 @@ import states.TitleState;
 import haxe.io.Path;
 #if (target.threaded)
 import sys.thread.Thread;
-//import sys.thread.Mutex;
 #end
 
 class CopyState extends MusicBeatState
@@ -31,10 +30,6 @@ class CopyState extends MusicBeatState
 
 	static final textFilesExtensions:Array<String> = ['txt', 'xml', 'lua', 'hx', 'json', 'frag', 'vert'];
 
-	/*#if (target.threaded)
-	var mutex:Mutex = new Mutex();
-	#end*/
-
 	override function create()
 	{
 		locatedFiles = [];
@@ -42,7 +37,6 @@ class CopyState extends MusicBeatState
 		checkExistingFiles();
 		if (maxLoopTimes > 0)
 		{
-			//trace(locatedFiles);
 			shouldCopy = true;
 			SUtil.showPopUp("Seems like you have some missing files that are necessary to run the game\nPress OK to begin the copy process", "Notice!");
 
@@ -64,7 +58,6 @@ class CopyState extends MusicBeatState
 
 			#if (target.threaded)
 			Thread.create(() -> {
-				//mutex.acquire();
 			#end
 				var ticks:Int = 15;
 				if (maxLoopTimes <= 15)
@@ -73,7 +66,6 @@ class CopyState extends MusicBeatState
 				add(copyLoop);
 				copyLoop.start();
 			#if (target.threaded)
-			        //mutex.release();
 			});
 			#end
 		}
@@ -176,8 +168,8 @@ class CopyState extends MusicBeatState
 	public static function getFile(file:String):String
 	{
 		@:privateAccess
-		for(library in Assets.libraries.keys()){
-			if(Assets.exists('$library:$file') && library != 'default')
+		for(library in LimeAssets.libraries.keys()){
+			if(OpenflAssets.exists('$library:$file') && library != 'default')
 				return '$library:$file';
 		}
 		return file;
