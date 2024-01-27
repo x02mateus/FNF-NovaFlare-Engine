@@ -180,7 +180,7 @@ class MobileControlSelectSubState extends MusicBeatSubstate
 				});
 			}
 		}
-		if (controlsItems[Math.floor(curSelected)] != 'Hitbox'){
+		if (options[curOption] != 'Hitbox'){
     	    if (buttonBinded)
 			{
 				if (touch.justReleased)
