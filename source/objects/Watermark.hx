@@ -174,8 +174,7 @@ class FPS extends TextField
             
             if (ClientPrefs.data.showMS) text += '\n' + "Delay: " + Math.floor(1 / DisplayFPS * 10000 + 0.5) / 10 + " MS";
             
-            text += "\nNF V1.1.0(Beta-3)";
-            text += "\nAPK Version:" + Lib.application.meta.get('version');       
+            text += "\nNF V1.1.0(Beta-3)";            
 			text += "\n";
 	
 	}
