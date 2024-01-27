@@ -239,8 +239,8 @@ class CurrentManager {
 			buttonRight = control.hitbox.buttonRight;
 			buttonExtra1 = control.hitbox.buttonExtra1;
 			buttonExtra2 = control.hitbox.buttonExtra2;
-			buttonExtra3 = control.virtualPad.buttonExtra3;
-			buttonExtra4 = control.virtualPad.buttonExtra4;
+			buttonExtra3 = control.hitbox.buttonExtra3;
+			buttonExtra4 = control.hitbox.buttonExtra4;
 		} else {
 			target = control.virtualPad;
 			buttonLeft = control.virtualPad.buttonLeft;
