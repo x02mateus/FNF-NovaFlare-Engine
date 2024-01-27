@@ -30,8 +30,6 @@ class MobileControlSelectSubState extends MusicBeatSubstate
 	public function new()
 	{
 		super();
-		if (ClientPrefs.data.extraButtons != 'NONE')
-			options.push('Pad-Extra');
 
 		bg = new FlxBackdrop(FlxGridOverlay.createGrid(80, 80, 160, 160, true,
 			FlxColor.fromRGB(FlxG.random.int(0, 255), FlxG.random.int(0, 255), FlxG.random.int(0, 255)),
@@ -161,7 +159,7 @@ class MobileControlSelectSubState extends MusicBeatSubstate
 			changeOption(1);
 		});
 
-		if (options[curOption] == 'Pad-Custom' || options[curOption] == 'Pad-Extra')
+		if (options[curOption] == 'Pad-Custom')
 		{
 			if (buttonBinded)
 			{
@@ -182,6 +180,31 @@ class MobileControlSelectSubState extends MusicBeatSubstate
 				});
 			}
 		}
+		if (controlsItems[Math.floor(curSelected)] != 'Hitbox'){
+    	    if (buttonBinded)
+			{
+				if (touch.justReleased)
+				{
+	    			bindButton = null;
+		    		buttonBinded = false;
+				}
+				else
+					moveButton(touch, bindButton);
+			} else {
+    			if (control.virtualPad.buttonExtra1.justPressed) {
+    				moveButton(touch, control.virtualPad.buttonExtra1);
+    			}				
+    			if (control.virtualPad.buttonExtra2.justPressed) {
+    				moveButton(touch, control.virtualPad.buttonExtra2);
+    			}
+    			if (control.virtualPad.buttonExtra3.justPressed) {
+    				moveButton(touch, control.virtualPad.buttonExtra3);
+    			}
+    			if (control.virtualPad.buttonExtra4.justPressed) {
+    				moveButton(touch, control.virtualPad.buttonExtra4);
+    			}
+    		}
+    	}
 
 		tweenieShit += 180 * elapsed;
 		keyboardText.alpha = 1 - Math.sin((Math.PI * tweenieShit) / 180);
@@ -228,17 +251,7 @@ class MobileControlSelectSubState extends MusicBeatSubstate
 			case 5:
 				reset.visible = false;
 				keyboardText.revive();
-				changeControls();
-			case 6:
-				reset.visible = true;
-				keyboardText.kill();
-				changeControls(0, true);
-				control.virtualPad.forEachAlive((button:FlxButton) ->
-				{
-					var ignore = ['G', 'S'];
-					if (!ignore.contains(button.tag.toUpperCase()))
-						button.visible = button.active = false;
-				});
+				changeControls();			
 		}
 		updatePosText();
 		setOptionText();
