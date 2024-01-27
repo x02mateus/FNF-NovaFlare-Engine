@@ -52,7 +52,7 @@ class FlxVirtualPad extends FlxMobileInputManager
 	 * @param   DPadMode     The D-Pad mode. `LEFT_FULL` for example.
 	 * @param   ActionMode   The action buttons mode. `A_B_C` for example.
 	 */
-	public function new(DPad:FlxDPadMode, Action:FlxActionMode, ?Extra:ExtraActions = NONE)
+	public function new(DPad:FlxDPadMode, Action:FlxActionMode)
 	{
 		super();
 

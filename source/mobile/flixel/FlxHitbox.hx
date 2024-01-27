@@ -31,7 +31,7 @@ class FlxHitbox extends FlxMobileInputManager
 	/**
 	 * Create the zone.
 	 */
-	public function new(extraMode:ExtraActions)
+	public function new()
 	{
 		super();
 
