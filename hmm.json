@@ -14,8 +14,10 @@
     },
     {
       "name": "flixel",
-      "type": "haxelib",
-      "version": null
+      "type": "git",
+      "dir": null,
+      "ref": "main",
+      "url": "https://github.com/beihu235/flixel"
     },
     {
       "name": "flixel-addons",
@@ -45,13 +47,6 @@
       "dir": null,
       "ref": "main",
       "url": "https://github.com/mcagabe19-stuff/hxCodec"
-    },
-    {
-      "name": "hxvlc",
-      "type": "git",
-      "dir": null,
-      "ref": "main",
-      "url": "https://github.com/mcagabe19-stuff/hxvlc"
     },
     {
       "name": "SScript",
