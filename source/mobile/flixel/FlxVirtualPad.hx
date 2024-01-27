@@ -94,6 +94,11 @@ class FlxVirtualPad extends FlxMobileInputManager
 				add(buttonRight2 = createButton(FlxG.width - 132, FlxG.height - 309, 132, 127, 'right', 0xFFF9393F));
 				add(buttonDown2 = createButton(FlxG.width - 258, FlxG.height - 201, 132, 127, 'down', 0xFF00FFFF));
 			// PSYCH RELEATED BUTTONS
+			case PauseSubstate:	
+				add(buttonUp = createButton(0, FlxG.height - 85 * 3, 44 * 3, 127, "up", 0x00FF00));
+				add(buttonDown = createButton(0, FlxG.height - 45 * 3, 44 * 3, 127, "down", 0x00FFFF));
+				add(buttonLeft = createButton(84 * 3, FlxG.height - 45 * 3, 44 * 3, 127, "left", 0xFF00FF));
+				add(buttonRight = createButton(126 * 3, FlxG.height - 45 * 3, 44 * 3, 127, "right", 0xFF0000));		
 			case DIALOGUE_PORTRAIT:
 				add(buttonUp = createButton(105, FlxG.height - 345, 132, 127, 'up', 0xFF12FA05));
 				add(buttonLeft = createButton(0, FlxG.height - 243, 132, 127, 'left', 0xFFC24B99));
