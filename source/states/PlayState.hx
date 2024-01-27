@@ -1089,7 +1089,7 @@ class PlayState extends MusicBeatState
 				daNote.visible = false;
 				daNote.ignoreNote = true;
 
-				if(!ClientPrefs.data.lowQuality || !ClientPrefs.data.popUpRating || !cpuControlled) daNote.kill();
+				if(!ClientPrefs.data.lowQuality || !cpuControlled) daNote.kill();
 				unspawnNotes.remove(daNote);
 				daNote.destroy();
 			}
@@ -2613,7 +2613,7 @@ class PlayState extends MusicBeatState
 			if (PlayState.isPixelStage) uiSuffix = '-pixel';
 			antialias = !isPixelStage;
 		}
-		if(ClientPrefs.data.popUpRating) {
+		
 			rating.loadGraphicFromSprite(ratingsCache.get(uiPrefix + daRating.image + uiSuffix));
 			rating.screenCenter();
 			rating.x = placement - 40;
@@ -2713,7 +2713,7 @@ class PlayState extends MusicBeatState
 				},
 				startDelay: Conductor.crochet * 0.002 / playbackRate
 			});
-		}
+		
 	}
 
 	public var strumsBlocked:Array<Bool> = [];
@@ -3127,7 +3127,7 @@ class PlayState extends MusicBeatState
 	}
 
 	public function invalidateNote(note:Note):Void {
-		if(!ClientPrefs.data.lowQuality || !ClientPrefs.data.popUpRating || !cpuControlled) note.kill();
+		if(!ClientPrefs.data.lowQuality || !cpuControlled) note.kill();
 		notes.remove(note, true);
 		note.destroy();
 	}
