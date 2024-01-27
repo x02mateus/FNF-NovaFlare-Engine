@@ -120,6 +120,7 @@ import states.TitleState;
 	public var dynamicColors:Bool = true;
 	public var hitboxLocation:String = 'Bottom';
 	public var controlsAlpha:Float = 0.6;
+	public var hideHitboxHints:Bool = false;
 	
 	public var ExtraKey:Int = 4;
 	public var ExtraKeyReturn1:String = 'SPACE';
