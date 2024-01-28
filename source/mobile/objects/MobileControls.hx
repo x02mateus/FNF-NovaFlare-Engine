@@ -159,14 +159,14 @@ class MobileControls extends FlxTypedSpriteGroup<FlxMobileInputManager>
 		}
 	}
 
-	static function set_mode(mode:Int = 0)
+	public static function set_mode(mode:Int = 0)
 	{
 		FlxG.save.data.mobileControlsMode = mode;
 		FlxG.save.flush();
 		return mode;
 	}
 
-	static function get_mode():Int
+	public static function get_mode():Int
 	{
 		if (forcedControl != null)
 			return forcedControl;
