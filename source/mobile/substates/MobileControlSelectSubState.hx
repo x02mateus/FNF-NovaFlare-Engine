@@ -47,7 +47,7 @@ class MobileControlSelectSubState extends MusicBeatSubstate
 			buttonRightColor = ClientPrefs.defaultData.arrowRGB[3];
 		}
 
-		curSelected = MobileControls.get_Mode();
+		curSelected = MobileControls.get_mode();
 
                 var bg:FlxSprite = new FlxSprite(0, 0).makeGraphic(FlxG.width, FlxG.height, FlxColor.fromRGB(FlxG.random.int(0, 255), FlxG.random.int(0, 255), FlxG.random.int(0, 255)));
 		bg.scrollFactor.set();
@@ -63,7 +63,7 @@ class MobileControlSelectSubState extends MusicBeatSubstate
 			}
 
 			
-			MobileControls.set_Mode(curSelected);
+			MobileControls.set_mode(curSelected);
 
 			if (controlsItems[Math.floor(curSelected)] == 'Pad-Custom')
 				MobileControls.setCustomMode(virtualPadd);
