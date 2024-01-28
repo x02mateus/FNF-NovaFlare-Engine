@@ -231,4 +231,19 @@ class CustomFadeTransition extends FlxSubState {
 		
 		super.create();
 	}
+	
+	override function destroy() {
+		if(leTween != null) {
+			finishCallback();
+			leTween.cancel();
+			
+			if (loadLeftTween != null) loadLeftTween.cancel();
+			if (loadRightTween != null) loadRightTween.cancel();
+			if (loadAlphaTween != null) loadAlphaTween.cancel();
+			
+			loadTextTween.cancel();
+			EventTextTween.cancel();
+		}
+		super.destroy();
+	}
 }
