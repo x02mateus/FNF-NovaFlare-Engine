@@ -77,6 +77,7 @@ class CustomFadeTransition extends FlxSubState {
 			}
 			loadLeftTween = FlxTween.tween(loadLeft, {x: 0}, duration, {
 				onComplete: function(twn:FlxTween) {
+					close();
 					if(finishCallback != null) {
 						finishCallback();
 					}
@@ -85,6 +86,7 @@ class CustomFadeTransition extends FlxSubState {
 			
 			loadRightTween = FlxTween.tween(loadRight, {x: 0}, duration, {
 				onComplete: function(twn:FlxTween) {
+					close();
 					if(finishCallback != null) {
 						finishCallback();
 					}
@@ -93,6 +95,7 @@ class CustomFadeTransition extends FlxSubState {
 			
 			loadTextTween = FlxTween.tween(WaterMark, {x: 50}, duration, {
 				onComplete: function(twn:FlxTween) {
+					close();
 					if(finishCallback != null) {
 						finishCallback();
 					}
@@ -101,6 +104,7 @@ class CustomFadeTransition extends FlxSubState {
 			
 			EventTextTween = FlxTween.tween(EventText, {x: 50}, duration, {
 				onComplete: function(twn:FlxTween) {
+				    close();
 					if(finishCallback != null) {
 						finishCallback();
 					}
@@ -117,24 +121,36 @@ class CustomFadeTransition extends FlxSubState {
 			loadLeftTween = FlxTween.tween(loadLeft, {x: -1280}, duration, {
 				onComplete: function(twn:FlxTween) {
 					close();
+					if(finishCallback != null) {
+						finishCallback();
+					}
 				},
 			ease: FlxEase.expoInOut});
 			
 			loadRightTween = FlxTween.tween(loadRight, {x: 1280}, duration, {
 				onComplete: function(twn:FlxTween) {
 					close();
+					if(finishCallback != null) {
+						finishCallback();
+					}
 				},
 			ease: FlxEase.expoInOut});
 			
 			loadTextTween = FlxTween.tween(WaterMark, {x: -1230}, duration, {
 				onComplete: function(twn:FlxTween) {
 					close();
+					if(finishCallback != null) {
+						finishCallback();
+					}
 				},
 			ease: FlxEase.expoInOut});
 			
 			EventTextTween = FlxTween.tween(EventText, {x: -1230}, duration, {
 				onComplete: function(twn:FlxTween) {
 					close();
+					if(finishCallback != null) {
+						finishCallback();
+					}
 				},
 			ease: FlxEase.expoInOut});
 			
@@ -172,6 +188,7 @@ class CustomFadeTransition extends FlxSubState {
 			loadAlpha.alpha = 0;
 			loadAlphaTween = FlxTween.tween(loadAlpha, {alpha: 1}, duration, {
 				onComplete: function(twn:FlxTween) {
+					close();
 					if(finishCallback != null) {
 						finishCallback();
 					}
@@ -180,6 +197,7 @@ class CustomFadeTransition extends FlxSubState {
 			
 			loadTextTween = FlxTween.tween(WaterMark, {alpha: 1}, duration, {
 				onComplete: function(twn:FlxTween) {
+					close();
 					if(finishCallback != null) {
 						finishCallback();
 					}
@@ -188,6 +206,7 @@ class CustomFadeTransition extends FlxSubState {
 			
 			EventTextTween = FlxTween.tween(EventText, {alpha: 1}, duration, {
 				onComplete: function(twn:FlxTween) {
+					close();
 					if(finishCallback != null) {
 						finishCallback();
 					}
@@ -203,24 +222,27 @@ class CustomFadeTransition extends FlxSubState {
 			}
 			loadAlphaTween = FlxTween.tween(loadAlpha, {alpha: 0}, duration, {
 				onComplete: function(twn:FlxTween) {
+					close();
 					if(finishCallback != null) {
-						close();
+						finishCallback();
 					}
 				},
 			ease: FlxEase.sineInOut});
 			
 			loadTextTween = FlxTween.tween(WaterMark, {alpha: 0}, duration, {
 				onComplete: function(twn:FlxTween) {
+					close();
 					if(finishCallback != null) {
-						close();
+						finishCallback();
 					}
 				},
 			ease: FlxEase.sineInOut});
 			
 			EventTextTween = FlxTween.tween(EventText, {alpha: 0}, duration, {
 				onComplete: function(twn:FlxTween) {
+					close();
 					if(finishCallback != null) {
-						close();
+						finishCallback();
 					}
 				},
 			ease: FlxEase.sineInOut});
@@ -232,18 +254,4 @@ class CustomFadeTransition extends FlxSubState {
 		super.create();
 	}
 	
-	override function destroy() {
-		if(leTween != null) {
-			finishCallback();
-			leTween.cancel();
-			
-			if (loadLeftTween != null) loadLeftTween.cancel();
-			if (loadRightTween != null) loadRightTween.cancel();
-			if (loadAlphaTween != null) loadAlphaTween.cancel();
-			
-			loadTextTween.cancel();
-			EventTextTween.cancel();
-		}
-		super.destroy();
-	}
 }
