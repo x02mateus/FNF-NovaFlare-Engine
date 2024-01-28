@@ -830,6 +830,8 @@ class PauseSubState extends MusicBeatSubstate
 			i.alpha = 0;
 			i.x = 1280 + 200;
 		}
+		
+		super.destroy();
     }
 
     function changeMenuColor() {
