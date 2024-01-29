@@ -53,6 +53,8 @@ class Note extends FlxSprite
 	public var ignoreNote:Bool = false;
 	public var hitByOpponent:Bool = false;
 	public var noteWasHit:Bool = false;
+	public var isEndNote:Bool = false; // for better playAnim
+	public var susCanPress:Bool = true; // for better note check
 	public var prevNote:Note;
 	public var nextNote:Note;
 
@@ -233,7 +235,7 @@ class Note extends FlxSprite
 		if(noteData > -1) {
 			texture = '';
 			rgbShader = new RGBShaderReference(this, initializeGlobalRGBShader(noteData));
-			if(PlayState.SONG != null && PlayState.SONG.disableNoteRGB) rgbShader.enabled = false;
+			if(PlayState.SONG != null && (PlayState.SONG.disableNoteRGB || !ClientPrefs.data.noteRGB)) rgbShader.enabled = false;
 
 			x += swagWidth * (noteData);
 			if(!isSustainNote && noteData < colArray.length) { //Doing this 'if' check to fix the warnings on Senpai songs
@@ -254,6 +256,12 @@ class Note extends FlxSprite
 			multAlpha = 0.6;
 			hitsoundDisabled = true;
 			if(ClientPrefs.data.downScroll) flipY = true;
+			
+			earlyHitMult = 0.5;
+			lateHitMult = 0;
+			
+			noAnimation = true; //better work for play anim
+            isEndNote = true;
 
 			offsetX += width / 2;
 			copyAngle = false;
@@ -280,6 +288,12 @@ class Note extends FlxSprite
 				}
 				prevNote.updateHitbox();
 				// prevNote.setGraphicSize();
+				
+				prevNote.earlyHitMult = 0;
+			    prevNote.lateHitMult = 0.5;
+			
+				prevNote.noAnimation = false;
+				prevNote.isEndNote = false;
 			}
 
 			if(PlayState.isPixelStage)
@@ -326,8 +340,11 @@ class Note extends FlxSprite
 		var skin:String = texture + postfix;
 		if(texture.length < 1) {
 			skin = PlayState.SONG != null ? PlayState.SONG.arrowSkin : null;
-			if(skin == null || skin.length < 1)
+			if(skin == null || skin.length < 1){
 				skin = defaultNoteSkin + postfix;
+			    if (Paths.fileExists('images/NOTE_assets.png', IMAGE) && ClientPrefs.data.noteSkin == ClientPrefs.defaultData.noteSkin) //fix for load old mods note assets
+		        skin = 'NOTE_assets';
+		    }
 		}
 
 		var animName:String = null;
@@ -497,30 +514,28 @@ class Note extends FlxSprite
 	public function clipToStrumNote(myStrum:StrumNote)
 	{
 		var center:Float = myStrum.y + offsetY + Note.swagWidth / 2;
-		if(isSustainNote && (mustPress || !ignoreNote) &&
-			(!mustPress || (wasGoodHit || (prevNote.wasGoodHit && !canBeHit))))
+		if((isSustainNote && (mustPress || !ignoreNote) &&
+			(!mustPress || (wasGoodHit || (prevNote.wasGoodHit && !canBeHit)))
+			&& !ClientPrefs.data.playOpponent) || 
+		    (isSustainNote && (!mustPress || !ignoreNote) &&
+			(mustPress || (wasGoodHit || (prevNote.wasGoodHit && !canBeHit)))
+			&& ClientPrefs.data.playOpponent)
+	        )
 		{
 			var swagRect:FlxRect = clipRect;
 			if(swagRect == null) swagRect = new FlxRect(0, 0, frameWidth, frameHeight);
+            
+		    var time:Float = FlxMath.bound((Conductor.songPosition - strumTime) / (height / (0.45 * FlxMath.roundDecimal(PlayState.instance.songSpeed, 2))), 0, 1);
+		    
+		    swagRect.x = 0;
+		    swagRect.y = time * frameHeight;
+		    swagRect.width = frameWidth;
+		    swagRect.height = frameHeight;
 
-			if (myStrum.downScroll)
-			{
-				if(y - offset.y * scale.y + height >= center)
-				{
-					swagRect.width = frameWidth;
-					swagRect.height = (center - y) / scale.y;
-					swagRect.y = frameHeight - swagRect.height;
-				}
-			}
-			else if (y + offset.y * scale.y <= center)
-			{
-				swagRect.y = (center - y) / scale.y;
-				swagRect.width = width / scale.x;
-				swagRect.height = (height / scale.y) - swagRect.y;
-			}
-			clipRect = swagRect;
+		    clipRect = swagRect;
 		}
 	}
+	
 
 	@:noCompletion
 	override function set_clipRect(rect:FlxRect):FlxRect
