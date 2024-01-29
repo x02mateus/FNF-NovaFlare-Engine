@@ -119,7 +119,7 @@ import states.TitleState;
 	
 	public var dynamicColors:Bool = true;
 	public var hitboxLocation:String = 'Bottom';
-	public var hitboxSkin:String = 'New';
+	public var hitboxSkin:String = 'Classic';
 	public var controlsAlpha:Float = 0.6;
 	public var hideHitboxHints:Bool = false;
 	
