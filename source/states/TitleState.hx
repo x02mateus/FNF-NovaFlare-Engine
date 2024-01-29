@@ -55,6 +55,8 @@ class TitleState extends MusicBeatState
 	var textGroup:FlxGroup;
 	var ngSpr:FlxSprite;
 	
+	var skipVideo:FlxText;
+	
 	var titleTextColors:Array<FlxColor> = [0xFF33FFFF, 0xFF3333CC];
 	var titleTextAlphas:Array<Float> = [1, .64];
 
@@ -231,10 +233,7 @@ class TitleState extends MusicBeatState
 	}
 	
 	function startCutscenesOut()
-	{
-	    #if android
-		AndroidDialogsExtend.OpenToast(lang,2);
-		#end
+	{	    
 		inGame = true;
 		startIntro();
 	}
