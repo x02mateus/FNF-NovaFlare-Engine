@@ -180,12 +180,12 @@ class FlxHitbox extends FlxMobileInputManager
 
 	function createHintGraphic(Width:Int, Height:Int):BitmapData
 	{
+	    var shape:Shape = new Shape();
 	    if (ClientPrefs.data.hitboxSkin == 'New'){
     		var guh = ClientPrefs.data.controlsAlpha;
     		if (guh >= 0.9)
 			guh = ClientPrefs.data.controlsAlpha - 0.07;
 			
-    		var shape:Shape = new Shape();
     		shape.graphics.beginFill(0xFFFFFF);
     		shape.graphics.lineStyle(3, 0xFFFFFF, 1);
     		shape.graphics.drawRect(0, 0, Width, Height);
@@ -194,17 +194,14 @@ class FlxHitbox extends FlxMobileInputManager
     		shape.graphics.endFill();
     		shape.graphics.beginGradientFill(RADIAL, [0xFFFFFF, FlxColor.TRANSPARENT], [guh, 0], [0, 255], null, null, null, 0.5);
     		shape.graphics.drawRect(3, 3, Width - 6, Height - 6);
-    		shape.graphics.endFill();
-    		var bitmap:BitmapData = new BitmapData(Width, Height, true, 0);
-    		bitmap.draw(shape);
+    		shape.graphics.endFill();    		
 		}else{
-    		var shape:Shape = new Shape();
     		shape.graphics.beginFill(0xFFFFFF);
     		shape.graphics.drawRect(0, 0, Width, Height);    		
-    		shape.graphics.endFill();
-    		var bitmap:BitmapData = new BitmapData(Width, Height, true, 0);
-    		bitmap.draw(shape);
+    		shape.graphics.endFill();    		
     	}
+    	var bitmap:BitmapData = new BitmapData(Width, Height, true, 0);
+    		bitmap.draw(shape);
 		return bitmap;
 	}
 }
