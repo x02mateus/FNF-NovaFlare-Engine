@@ -1,5 +1,7 @@
 package states;
 
+import states.MainMenuState;
+
 class OutdatedState extends MusicBeatState
 {
 	public static var leftState:Bool = false;
