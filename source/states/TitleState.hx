@@ -116,9 +116,7 @@ class TitleState extends MusicBeatState
 
 		curWacky = FlxG.random.getObject(getIntroTextShit());
 
-		super.create();
-		
-		bpm = titleJSON.bpm;
+		super.create();		
 
 		FlxG.save.bind('funkin', CoolUtil.getSavePath());
 
@@ -160,6 +158,8 @@ class TitleState extends MusicBeatState
 
 		// IGNORE THIS!!!
 		titleJSON = tjson.TJSON.parse(Paths.getTextFromFile('images/gfDanceTitle.json'));
+		
+		bpm = titleJSON.bpm;
 
 		#if TITLE_SCREEN_EASTER_EGG
 		if (FlxG.save.data.psychDevsEasterEgg == null) FlxG.save.data.psychDevsEasterEgg = ''; //Crash prevention
