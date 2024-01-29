@@ -85,15 +85,7 @@ class TitleState extends MusicBeatState
 	override public function create():Void
 	{
 		Paths.clearStoredMemory();
-		
-		if(!checkOpenFirst){
-		
-		FlxTransitionableState.skipNextTransOut = true;
-										
-		checkOpenFirst = true;
-		
-		}
-
+				
 		#if android
 		FlxG.android.preventDefaultKeys = [BACK];
 		#end
@@ -131,6 +123,14 @@ class TitleState extends MusicBeatState
 		FlxG.save.bind('funkin', CoolUtil.getSavePath());
 
 		ClientPrefs.loadPrefs();
+		
+		if(!checkOpenFirst){
+		
+		FlxTransitionableState.skipNextTransOut = true;
+										
+		checkOpenFirst = true;
+		
+		}
 
 		#if CHECK_FOR_UPDATES
 		if(ClientPrefs.data.checkForUpdates && !closedState) {
@@ -206,12 +206,12 @@ class TitleState extends MusicBeatState
 			MusicBeatState.switchState(new FlashingState());
 		} else {
 			if (initialized)
-				startIntro();
+				startCutscenesIn()
 			else
 			{
 				new FlxTimer().start(1, function(tmr:FlxTimer)
 				{
-					startIntro();
+					startCutscenesIn()
 				});
 			}
 		}
