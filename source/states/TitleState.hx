@@ -206,12 +206,12 @@ class TitleState extends MusicBeatState
 			MusicBeatState.switchState(new FlashingState());
 		} else {
 			if (initialized)
-				startCutscenesIn();
+				startIntro();
 			else
 			{
 				new FlxTimer().start(1, function(tmr:FlxTimer)
 				{
-					startCutscenesIn();
+					startIntro();
 				});
 			}
 		}
