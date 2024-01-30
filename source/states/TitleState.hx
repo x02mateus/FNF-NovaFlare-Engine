@@ -85,6 +85,14 @@ class TitleState extends MusicBeatState
 	override public function create():Void
 	{
 		Paths.clearStoredMemory();
+		
+		if(!checkOpenFirst){
+		
+		FlxTransitionableState.skipNextTransOut = true;
+										
+		checkOpenFirst = true;
+		
+		}
 				
 		#if android
 		FlxG.android.preventDefaultKeys = [BACK];
@@ -120,15 +128,7 @@ class TitleState extends MusicBeatState
 
 		FlxG.save.bind('funkin', CoolUtil.getSavePath());
 
-		ClientPrefs.loadPrefs();
-		
-		if(!checkOpenFirst){
-		
-		FlxTransitionableState.skipNextTransOut = true;
-										
-		checkOpenFirst = true;
-		
-		}
+		ClientPrefs.loadPrefs();				
 
 		#if CHECK_FOR_UPDATES
 		if(ClientPrefs.data.checkForUpdates && !closedState) {
