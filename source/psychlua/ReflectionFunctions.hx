@@ -31,7 +31,8 @@ class ReflectionFunctions
 			return true;
 		});
 		funk.set("getPropertyFromClass", function(classVar:String, variable:String, ?allowMaps:Bool = false) {
-			var myClass:Dynamic = Type.resolveClass(classVar);
+			var myClass:Dynamic = classCheck(classVar);
+			variable = varCheck(myClass, variable);
 			if(myClass == null)
 			{
 				FunkinLua.luaTrace('getPropertyFromClass: Class $classVar not found', false, false, FlxColor.RED);
@@ -49,7 +50,8 @@ class ReflectionFunctions
 			return LuaUtils.getVarInArray(myClass, variable, allowMaps);
 		});
 		funk.set("setPropertyFromClass", function(classVar:String, variable:String, value:Dynamic, ?allowMaps:Bool = false) {
-			var myClass:Dynamic = Type.resolveClass(classVar);
+			var myClass:Dynamic = classCheck(classVar);
+			variable = varCheck(myClass, variable);
 			if(myClass == null)
 			{
 				FunkinLua.luaTrace('getPropertyFromClass: Class $classVar not found', false, false, FlxColor.RED);
@@ -182,6 +184,29 @@ class ReflectionFunctions
 			if(className != null) retStr += '::$className';
 			return retStr;
 		});
+	}
+	
+	public static function varCheck(className:Dynamic, variable:String):String{
+	    if (className == 'backend.ClientPrefs' && variable.indexOf('data.') == -1)
+	    return 'data.' + variable;
+	    
+	    return variable;
+	}
+	
+	public static function classCheck(className:String):Dynamic
+	{
+	    var classType:Array<String> = ['backend', 'cutscenes', 'objects', 'options', 'psychlua', 'states', 'substates'];
+	    
+	    for (i in 0...classType.length - 1){
+	        var newClass:Dynamic = Type.resolveClass(classType[i] + '.' + className);
+	    
+	        if(newClass != null)
+			{
+				return newClass;
+			}
+	    }
+	    
+	    return Type.resolveClass(className);
 	}
 
 	static function parseInstances(args:Array<Dynamic>)
