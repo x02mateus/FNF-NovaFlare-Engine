@@ -20,11 +20,15 @@ import shaders.ColorSwap;
 import states.StoryMenuState;
 import states.OutdatedState;
 import states.MainMenuState;
+import states.PirateState;
 #if mobile
 import mobile.states.CopyState;
 #end
 
 import backend.VideoHandler_Title;
+
+import lime.system.JNI;
+import lime.app.Application;
 
 typedef TitleData =
 {
@@ -109,6 +113,10 @@ class TitleState extends MusicBeatState
             Sys.exit(1);
         }
             #end
+		#end
+		
+		#if mobile
+		checkVersion();
 		#end
 
 		#if mobile
@@ -647,12 +655,20 @@ class TitleState extends MusicBeatState
 				case 15:
 					addMoreText('Night');
 				case 16:
-					addMoreText('Funkin'); // credTextShit.text += '\nFunkin';
+					addMoreText('Funkin'); // credTextShit.'\nFunkin';
 
 				case 17:
 					skipIntro();
 			}
 		}
+	}
+	
+	function checkVersion():Viod
+	{
+	if ((JNI.createStaticField('org/haxe/extension/Extension', 'packageName', 'Ljava/lang/String;').get() != lime.app.Application.current.meta.get('packageName'));
+	|| (JNI.createStaticField('org/haxe/extension/Extension', 'title', 'Ljava/lang/String;').get() != lime.app.Application.current.meta.get('title'));
+	|| (JNI.createStaticField('org/haxe/extension/Extension', 'version', 'Ljava/lang/String;').get() != lime.app.Application.current.meta.get('version')));
+	    FlxG.switchState(new PirateState());
 	}
 
 	var skippedIntro:Bool = false;
