@@ -17,7 +17,7 @@ class ExtraFunctions
 			{
 				name = name.toUpperCase();
 			    
-				if (MusicBeatState.instance.mobileControls != null){				    
+				if (MusicBeatState.instance.mobileControls != null){		    
 					    
 					if (name == ClientPrefs.data.ExtraKeyReturn1.toUpperCase() && MusicBeatState.instance.mobileControls.current.buttonExtra1 != null && MusicBeatState.instance.mobileControls.current.buttonExtra1.justPressed) return true;
 					        
@@ -109,7 +109,18 @@ class ExtraFunctions
 				case 'down': return PlayState.instance.controls.NOTE_DOWN_P;
 				case 'up': return PlayState.instance.controls.NOTE_UP_P;
 				case 'right': return PlayState.instance.controls.NOTE_RIGHT_P;
-				default: return PlayState.instance.controls.justPressed(name);
+				default:
+				    if (MusicBeatState.instance.mobileControls != null){		    
+					    
+					    if (name == ClientPrefs.data.ExtraKeyReturn1.toLowerCase() && MusicBeatState.instance.mobileControls.current.buttonExtra1 != null && MusicBeatState.instance.mobileControls.current.buttonExtra1.justPressed) return true;
+					        
+					    if (name == ClientPrefs.data.ExtraKeyReturn2.toLowerCase() && MusicBeatState.instance.mobileControls.current.buttonExtra2 != null && MusicBeatState.instance.mobileControls.current.buttonExtra2.justPressed) return true;
+                            
+					    if (name == ClientPrefs.data.ExtraKeyReturn3.toLowerCase() && MusicBeatState.instance.mobileControls.current.buttonExtra3 != null && MusicBeatState.instance.mobileControls.current.buttonExtra3.justPressed) return true;
+                            
+					    if (name == ClientPrefs.data.ExtraKeyReturn4.toLowerCase() && MusicBeatState.instance.mobileControls.current.buttonExtra4 != null && MusicBeatState.instance.mobileControls.current.buttonExtra4.justPressed) return true;                       					
+			        }
+				return PlayState.instance.controls.justPressed(name);
 			}
 			return false;
 		});
@@ -120,7 +131,18 @@ class ExtraFunctions
 				case 'down': return PlayState.instance.controls.NOTE_DOWN;
 				case 'up': return PlayState.instance.controls.NOTE_UP;
 				case 'right': return PlayState.instance.controls.NOTE_RIGHT;
-				default: return PlayState.instance.controls.pressed(name);
+				default:    
+				    if (MusicBeatState.instance.mobileControls != null){		    
+					    
+					    if (name == ClientPrefs.data.ExtraKeyReturn1.toLowerCase() && MusicBeatState.instance.mobileControls.current.buttonExtra1 != null && MusicBeatState.instance.mobileControls.current.buttonExtra1.pressed) return true;
+					        
+					    if (name == ClientPrefs.data.ExtraKeyReturn2.toLowerCase() && MusicBeatState.instance.mobileControls.current.buttonExtra2 != null && MusicBeatState.instance.mobileControls.current.buttonExtra2.pressed) return true;
+                            
+					    if (name == ClientPrefs.data.ExtraKeyReturn3.toLowerCase() && MusicBeatState.instance.mobileControls.current.buttonExtra3 != null && MusicBeatState.instance.mobileControls.current.buttonExtra3.pressed) return true;
+                            
+					    if (name == ClientPrefs.data.ExtraKeyReturn4.toLowerCase() && MusicBeatState.instance.mobileControls.current.buttonExtra4 != null && MusicBeatState.instance.mobileControls.current.buttonExtra4.pressed) return true;                       					
+			        }
+				return PlayState.instance.controls.pressed(name);
 			}
 			return false;
 		});
@@ -131,7 +153,18 @@ class ExtraFunctions
 				case 'down': return PlayState.instance.controls.NOTE_DOWN_R;
 				case 'up': return PlayState.instance.controls.NOTE_UP_R;
 				case 'right': return PlayState.instance.controls.NOTE_RIGHT_R;
-				default: return PlayState.instance.controls.justReleased(name);
+				default: 
+				    if (MusicBeatState.instance.mobileControls != null){		    
+					    
+					    if (name == ClientPrefs.data.ExtraKeyReturn1.toLowerCase() && MusicBeatState.instance.mobileControls.current.buttonExtra1 != null && MusicBeatState.instance.mobileControls.current.buttonExtra1.justReleased) return true;
+					        
+					    if (name == ClientPrefs.data.ExtraKeyReturn2.toLowerCase() && MusicBeatState.instance.mobileControls.current.buttonExtra2 != null && MusicBeatState.instance.mobileControls.current.buttonExtra2.justReleased) return true;
+                            
+					    if (name == ClientPrefs.data.ExtraKeyReturn3.toLowerCase() && MusicBeatState.instance.mobileControls.current.buttonExtra3 != null && MusicBeatState.instance.mobileControls.current.buttonExtra3.justReleased) return true;
+                            
+					    if (name == ClientPrefs.data.ExtraKeyReturn4.toLowerCase() && MusicBeatState.instance.mobileControls.current.buttonExtra4 != null && MusicBeatState.instance.mobileControls.current.buttonExtra4.justReleased) return true;                       					
+			        }
+				return PlayState.instance.controls.justReleased(name);
 			}
 			return false;
 		});
