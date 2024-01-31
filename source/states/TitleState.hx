@@ -678,7 +678,7 @@ class TitleState extends MusicBeatState
             controls.isInSubstate = false;
 			FlxTransitionableState.skipNextTransIn = true;
 			FlxTransitionableState.skipNextTransOut = true;
-			MusicBeatState.switchState(new PirateState());
+			MusicBeatState.switchState(new FlashingState());
         }   
 	}
 
