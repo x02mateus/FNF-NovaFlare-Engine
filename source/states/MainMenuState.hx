@@ -237,9 +237,7 @@ class MainMenuState extends MusicBeatState
 		#if android
 		addVirtualPad(MainMenuState, A_B_E);
 		virtualPad.cameras = [camHUD];
-		#end
-		
-		
+		#end		
         
 		super.create();
 	}
@@ -523,4 +521,6 @@ class MainMenuState extends MusicBeatState
         //camFollow.setPosition(menuItems.members[curSelected].getGraphicMidpoint().x,
 		//	menuItems.members[curSelected].getGraphicMidpoint().y - (menuItems.length > 4 ? menuItems.length * 8 : 0));
 	}
+	
+	
 }
