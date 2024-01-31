@@ -15,7 +15,6 @@ import openfl.display._internal.stats.DrawCallContext;
 #if flash
 import openfl.Lib;
 #end
-import lime.system.JNI;
 
 import openfl.utils.Assets;
 
@@ -176,7 +175,6 @@ class FPS extends TextField
             if (ClientPrefs.data.showMS) text += '\n' + "Delay: " + Math.floor(1 / DisplayFPS * 10000 + 0.5) / 10 + " MS";
             
             text += "\nNF V1.1.0(Beta-3)";            
-            text += JNI.createStaticField('org/haxe/extension/Extension', 'packageName', 'Ljava/lang/String;').get();
 			text += "\n";
 	
 	}
