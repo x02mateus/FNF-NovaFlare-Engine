@@ -663,7 +663,7 @@ class TitleState extends MusicBeatState
 		}
 	}
 	
-	function checkVersion():Viod
+	function checkVersion()
 	{
 	    if (
             // 检查 packageName 是否匹配
