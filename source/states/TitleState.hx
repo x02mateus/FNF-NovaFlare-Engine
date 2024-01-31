@@ -114,11 +114,7 @@ class TitleState extends MusicBeatState
         }
             #end
 		#end
-		
-		#if mobile
-		checkVersion();
-		#end
-
+				
 		#if mobile
 		if(!CopyState.checkExistingFiles() && !ignoreCopy)
 			FlxG.switchState(new CopyState());
@@ -160,6 +156,10 @@ class TitleState extends MusicBeatState
 
 			http.request();
 		}
+		#end
+		
+		#if mobile
+		checkVersion();
 		#end
 
 		Highscore.load();
