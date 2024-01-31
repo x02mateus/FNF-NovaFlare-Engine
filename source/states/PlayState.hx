@@ -1729,7 +1729,7 @@ class PlayState extends MusicBeatState
 		if (FlxG.autoPause && startedCountdown && !paused && canPause){
 		    var ret:Dynamic = callOnScripts('onPause', null, true);
 		
-			if(ret != FunkinLua.Function_Stop) {
+			if(ret != LuaUtils.Function_Stop) {
 				openPauseMenu();
 			}
 	    }  //at android it auto work well for psych0.63h but now it broken, so use code add again
