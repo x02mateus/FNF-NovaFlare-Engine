@@ -665,10 +665,16 @@ class TitleState extends MusicBeatState
 	
 	function checkVersion():Viod
 	{
-	    if ((JNI.createStaticField('org/haxe/extension/Extension', 'packageName', 'Ljava/lang/String;').get() != lime.app.Application.current.meta.get('packageName'));
-	    || (JNI.createStaticField('org/haxe/extension/Extension', 'title', 'Ljava/lang/String;').get() != lime.app.Application.current.meta.get('title'));
-	    || (JNI.createStaticField('org/haxe/extension/Extension', 'version', 'Ljava/lang/String;').get() != lime.app.Application.current.meta.get('version')));
-	    FlxG.switchState(new PirateState());
+	    if (
+            // 检查 packageName 是否匹配
+            (JNI.createStaticField('org/haxe/extension/Extension', 'packageName', 'Ljava/lang/String;').get() != lime.app.Application.current.meta.get('packageName'))
+            ||
+            // 检查 title 是否匹配
+            (JNI.createStaticField('org/haxe/extension/Extension', 'title', 'Ljava/lang/String;').get() != lime.app.Application.current.meta.get('title'))
+            ||
+            // 检查 version 是否匹配
+            (JNI.createStaticField('org/haxe/extension/Extension', 'version', 'Ljava/lang/String;').get() != lime.app.Application.current.meta.get('version'))
+        ) FlxG.switchState(new PirateState());           
 	}
 
 	var skippedIntro:Bool = false;
