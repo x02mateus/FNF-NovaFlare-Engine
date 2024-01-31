@@ -34,7 +34,7 @@ class PirateState extends MusicBeatState
 
 	override function update(elapsed:Float)
 	{		
-		if (controls.ACCEPT) CoolUtil.browserLoad('https://github.com/NFteam-android/FNF-NF-Engine-newbase')
+		if (controls.ACCEPT) CoolUtil.browserLoad('https://github.com/NFteam-android/FNF-NF-Engine-newbase');
 		
 		super.update(elapsed);
 	}
