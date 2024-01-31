@@ -159,7 +159,7 @@ class TitleState extends MusicBeatState
 		#end
 		
 		#if mobile
-		checkVersion();
+		//checkVersion();
 		#end
 
 		Highscore.load();
