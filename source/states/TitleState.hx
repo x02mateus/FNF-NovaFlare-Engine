@@ -665,9 +665,9 @@ class TitleState extends MusicBeatState
 	
 	function checkVersion():Viod
 	{
-	if ((JNI.createStaticField('org/haxe/extension/Extension', 'packageName', 'Ljava/lang/String;').get() != lime.app.Application.current.meta.get('packageName'));
-	|| (JNI.createStaticField('org/haxe/extension/Extension', 'title', 'Ljava/lang/String;').get() != lime.app.Application.current.meta.get('title'));
-	|| (JNI.createStaticField('org/haxe/extension/Extension', 'version', 'Ljava/lang/String;').get() != lime.app.Application.current.meta.get('version')));
+	    if ((JNI.createStaticField('org/haxe/extension/Extension', 'packageName', 'Ljava/lang/String;').get() != lime.app.Application.current.meta.get('packageName'));
+	    || (JNI.createStaticField('org/haxe/extension/Extension', 'title', 'Ljava/lang/String;').get() != lime.app.Application.current.meta.get('title'));
+	    || (JNI.createStaticField('org/haxe/extension/Extension', 'version', 'Ljava/lang/String;').get() != lime.app.Application.current.meta.get('version')));
 	    FlxG.switchState(new PirateState());
 	}
 
