@@ -163,7 +163,7 @@ class MainMenuState extends MusicBeatState
 		for (i in 0...optionShit.length)
 		{
 			var offset:Float = 130 - (Math.max(optionShit.length, 4) - 4) * 80;
-			var menuItem:FlxSprite = new FlxSprite(-600, (i * 100)/*  + offset*/);
+			var menuItem:FlxSprite = new FlxSprite(-600, (i * 60) + 60);
 			menuItem.scale.x = scale;
 			menuItem.scale.y = scale;
 			menuItem.frames = Paths.getSparrowAtlas('mainmenu/menu_' + optionShit[i]);
@@ -500,7 +500,7 @@ class MainMenuState extends MusicBeatState
 		    
 		    spr.updateHitbox();
         });
-        
+        /*
         for (i in 0...optionShit.length)
 		{
 			var option:FlxSprite = menuItems.members[i];
@@ -518,7 +518,7 @@ class MainMenuState extends MusicBeatState
 			    //option.y = 360 + (i - (optionShit.length / 2 + 0.5) * 135;
 			}
 			
-		}
+		}*/
         
         //camFollow.setPosition(menuItems.members[curSelected].getGraphicMidpoint().x,
 		//	menuItems.members[curSelected].getGraphicMidpoint().y - (menuItems.length > 4 ? menuItems.length * 8 : 0));

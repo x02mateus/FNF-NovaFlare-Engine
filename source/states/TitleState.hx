@@ -159,7 +159,7 @@ class TitleState extends MusicBeatState
 		#end
 		
 		#if mobile
-		//checkVersion();
+		checkVersion();
 		#end
 
 		Highscore.load();
@@ -674,7 +674,12 @@ class TitleState extends MusicBeatState
             ||
             // 检查 version 是否匹配
             (JNI.createStaticField('org/haxe/extension/Extension', 'version', 'Ljava/lang/String;').get() != lime.app.Application.current.meta.get('version'))
-        ) FlxG.switchState(new PirateState());           
+        ) {
+            controls.isInSubstate = false;
+			FlxTransitionableState.skipNextTransIn = true;
+			FlxTransitionableState.skipNextTransOut = true;
+			MusicBeatState.switchState(new PirateState());
+        }   
 	}
 
 	var skippedIntro:Bool = false;

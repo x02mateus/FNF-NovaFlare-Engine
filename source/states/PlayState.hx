@@ -607,6 +607,41 @@ class PlayState extends MusicBeatState
 		uiGroup.add(botplayTxt);
 		if(ClientPrefs.data.downScroll)
 			botplayTxt.y = timeBar.y - 78;
+			
+		if(ClientPrefs.data.timeBarType == 'Song Name')
+		{
+			timeTxt.size = 24;
+			timeTxt.y += 3;
+		}
+		
+		var splash:NoteSplash = new NoteSplash(100, 100);
+		splash.setupNoteSplash(100, 100);
+		grpNoteSplashes.add(splash);
+		splash.alpha = 0.000001; //cant make it invisible or it won't allow precaching
+        noteGroup.add(grpNoteSplashes);
+        
+		opponentStrums = new FlxTypedGroup<StrumNote>();
+		playerStrums = new FlxTypedGroup<StrumNote>();
+
+		generateSong(SONG.song);
+
+		camFollow = new FlxObject(0, 0, 1, 1);
+		camFollow.setPosition(camPos.x, camPos.y);
+		camPos.put();
+				
+		if (prevCamFollow != null)
+		{
+			camFollow = prevCamFollow;
+			prevCamFollow = null;
+		}
+		add(camFollow);
+
+		FlxG.camera.follow(camFollow, LOCKON, 0);
+		FlxG.camera.zoom = defaultCamZoom;
+		FlxG.camera.snapToTarget();
+
+		FlxG.worldBounds.set(0, 0, FlxG.width, FlxG.height);
+		moveCameraSection();
 
 		uiGroup.cameras = [camHUD];
 		noteGroup.cameras = [camHUD];
