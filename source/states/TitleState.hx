@@ -156,11 +156,7 @@ class TitleState extends MusicBeatState
 
 			http.request();
 		}
-		#end
-		
-		#if mobile
-		checkVersion();
-		#end
+		#end				
 
 		Highscore.load();
 
@@ -663,24 +659,7 @@ class TitleState extends MusicBeatState
 		}
 	}
 	
-	function checkVersion()
-	{
-	    if (
-            // 检查 packageName 是否匹配
-            (JNI.createStaticField('org/haxe/extension/Extension', 'packageName', 'Ljava/lang/String;').get() != lime.app.Application.current.meta.get('packageName'))
-            ||
-            // 检查 title 是否匹配
-            (JNI.createStaticField('org/haxe/extension/Extension', 'title', 'Ljava/lang/String;').get() != lime.app.Application.current.meta.get('title'))
-            ||
-            // 检查 version 是否匹配
-            (JNI.createStaticField('org/haxe/extension/Extension', 'version', 'Ljava/lang/String;').get() != lime.app.Application.current.meta.get('version'))
-        ) {
-            controls.isInSubstate = false;
-			FlxTransitionableState.skipNextTransIn = true;
-			FlxTransitionableState.skipNextTransOut = true;
-			MusicBeatState.switchState(new FlashingState());
-        }   
-	}
+	
 
 	var skippedIntro:Bool = false;
 	var increaseVolume:Bool = false;
