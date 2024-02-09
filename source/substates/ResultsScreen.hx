@@ -22,6 +22,8 @@ import states.FreeplayState;
 
 import backend.Conductor;
 import backend.Mods;
+import backend.Highscore;
+import backend.DiffCalc;
 
 import flixel.util.FlxSpriteUtil;
 import openfl.display.Sprite;
@@ -157,7 +159,7 @@ class ResultsScreen extends MusicBeatSubstate
 		scTextAdd('Highest Combe: ' + game.songMisses, 2);
 		scTextAdd('Accuracy: ', game.ratingPercent, 1);
 		if (game.ratingFC == '') scTextAdd('Rank: N/A', 2);
-		else scTextAdd('Rank: ' + game.RatingName + ' - ' + game.RatingFC, 2);
+		else scTextAdd('Rank: ' + game.ratingName + ' - ' + game.ratingFC, 2);
 		scTextAdd('Hits: ' + game.songHits, 1);
 		scTextAdd('Combo Break: ' + game.Misses, 2);
 		
@@ -267,7 +269,7 @@ class ResultsScreen extends MusicBeatSubstate
 		{
 		    if (getReadyClose){
     		    NewCustomFadeTransition();
-                PlayState.cancelMusicFadeTween();
+                //PlayState.cancelMusicFadeTween();
                 closeCheck = true;
             }else{
                 getReadyClose = true;
@@ -321,6 +323,7 @@ class ResultsScreen extends MusicBeatSubstate
 	    
 	    var noteSize = 2.3;
 	    var MoveSize = 0.8;
+	    var color:FlxColor;
 	    
 	    for (i in 0...game.NoteTime.length - 1){
 		    if (Math.abs(game.NoteMs[i]) <= ClientPrefs.data.marvelousWindow && ClientPrefs.data.marvelousRating) color = ColorArray[0];
@@ -332,9 +335,9 @@ class ResultsScreen extends MusicBeatSubstate
 		    		    
 		    FlxSpriteUtil.beginDraw(color);
 		    if (Math.abs(game.NoteMs[i]) <= safeZoneOffset){
-    		    FlxSpriteUtil.drawCircle(graphNote, graphNote.width * (game.NoteTime[i] / game.SongLength), graphNote.height * 0.5 + graphNote.height * 0.5 * MoveSize * (game.NoteMs[i] / safeZoneOffset), noteSize);
+    		    FlxSpriteUtil.drawCircle(graphNote, graphNote.width * (game.NoteTime[i] / game.songLength), graphNote.height * 0.5 + graphNote.height * 0.5 * MoveSize * (game.NoteMs[i] / safeZoneOffset), noteSize);
     		}else{
-    		    FlxSpriteUtil.drawCircle(graphNote, graphNote.width * (game.NoteTime[i] / game.SongLength), graphNote.height * 0.5 + graphNote.height * 0.5 * 0.9, noteSize);		
+    		    FlxSpriteUtil.drawCircle(graphNote, graphNote.width * (game.NoteTime[i] / game.songLength), graphNote.height * 0.5 + graphNote.height * 0.5 * 0.9, noteSize);		
     		}    				    
 		}
 		
