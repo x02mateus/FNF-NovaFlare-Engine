@@ -5,7 +5,7 @@ class Highscore
 	public static var weekScores:Map<String, Int> = new Map();
 	public static var songScores:Map<String, Int> = new Map<String, Int>();
 	public static var songRating:Map<String, Float> = new Map<String, Float>();
-    public static var songTimes:Map<String, Int> = new Map<String, String>();
+    public static var songTimes:Map<String, String> = new Map<String, String>();
     
 	public static function resetSong(song:String, diff:Int = 0):Void
 	{
