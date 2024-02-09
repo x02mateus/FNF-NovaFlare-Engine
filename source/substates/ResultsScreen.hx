@@ -26,6 +26,8 @@ import backend.Highscore;
 import backend.DiffCalc;
 
 import flixel.util.FlxSpriteUtil;
+import flixel.math.FlxRect;
+
 import openfl.display.Sprite;
 import openfl.display.Bitmap;
 import openfl.geom.Rectangle;
@@ -399,7 +401,7 @@ class ResultsScreen extends MusicBeatSubstate
 	    addRate(height, 'Shit', (ClientPrefs.data.safeFrames / 60) * 1000, numShits, ColorArray[4]);		    	    	
 	}
 	
-	function addRate(height:Int, RateName:String, ms:Int, number:Int, color:FlxColor){
+	function addRate(height:Int, RateName:String, ms:Float, number:Int, color:FlxColor){
 	
 	    var numberBG:FlxSprite = new FlxSprite(percentBG.x + 5, percentBG.y + 5 + percentRectBGNumber.length * height).makeGraphic(percentBG.width - 10, 30, FlxColor.BLACK);
 		numberBG.alpha = 0;
@@ -514,7 +516,7 @@ class ResultsScreen extends MusicBeatSubstate
 	    var showNum:Int = 0;
 	    
 	    var timerTween:FlxTimer = new FlxTimer().start(0.01, function(tmr:FlxTimer) {
-		    showWidth++;
+		    showNum++;
     		swagRect = sprite.clipRect;
     		swagRect.x = 0;
 	        swagRect.y = 0;
