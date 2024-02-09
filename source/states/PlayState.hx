@@ -260,7 +260,7 @@ class PlayState extends MusicBeatState
 
 	public var inCutscene:Bool = false;
 	public var skipCountdown:Bool = false;
-	var songLength:Float = 0;
+	public var songLength:Float = 0;
 
 	public var boyfriendCameraOffset:Array<Float> = null;
 	public var opponentCameraOffset:Array<Float> = null;
@@ -2600,8 +2600,19 @@ class PlayState extends MusicBeatState
 				Mods.loadTopMod();
 				#if DISCORD_ALLOWED DiscordClient.resetClientID(); #end
 
-				MusicBeatState.switchState(new FreeplayState());
-				FlxG.sound.playMusic(Paths.music('freakyMenu'));
+				if(ClientPrefs.data.ResultsScreen){								    
+                    rsCheck = true;
+                    
+                    FlxG.sound.playMusic(Paths.music('freakyMenu'),0.7);
+                    
+				    openSubState(new ResultsScreen(boyfriend.getScreenPosition().x, boyfriend.getScreenPosition().y));
+				}
+				else{
+				    MusicBeatState.switchState(new FreeplayState());
+				    FlxG.sound.playMusic(Paths.music('freakyMenu'),0);
+				    FlxG.sound.music.fadeIn(4, 0, 0.7);
+				    
+				}
 				changedDifficulty = false;
 			}
 			transitioning = true;
