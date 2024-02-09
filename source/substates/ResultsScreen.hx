@@ -311,7 +311,7 @@ class ResultsScreen extends MusicBeatSubstate
 	    numberText.alpha = 0;    	
 	    if (sameLine > 0) textWidth = 300;
 	    if (numberText.width > textWidth) numberText.scale.x = (textWidth - 1) / numberText.width; //fix width problem
-	    numberText.offset.x = 0
+	    numberText.offset.x = 0;
 	    type.add(numberText);		
 	}
 	
