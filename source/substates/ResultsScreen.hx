@@ -465,26 +465,23 @@ class ResultsScreen extends MusicBeatSubstate
 		
 		new FlxTimer().start(1, function(tmr:FlxTimer){
 			for (i in 0...mesTextNumber.length - 1){
-			    var sprite:FlxSprite = mesTextNumber[i];
 			    var tweenTimer:FlxTimer = new FlxTimer();
                 tweenTimer.start((0.5 - 0.1) / mesTextNumber.length, function(tmr:FlxTimer){
-			        FlxTween.tween(sprite, {alpha: 1}, 0.1);
+			        FlxTween.tween(mesTextNumber.mumbers[i], {alpha: 1}, 0.1);
 			    });
 			}
 			
 			for (i in 0...scTextNumber.length - 1){
-			    var sprite:FlxSprite = scTextNumber[i];
 			    var tweenTimer:FlxTimer = new FlxTimer();
                 tweenTimer.start((0.5 - 0.1) / scTextNumber.length, function(tmr:FlxTimer){			
-			        FlxTween.tween(sprite, {alpha: 1}, 0.1);
+			        FlxTween.tween(scTextNumber.mumbers[i], {alpha: 1}, 0.1);
 			    });								
 			}
 			
 			for (i in 0...opTextNumber.length - 1){
-			    var sprite:FlxSprite = opTextNumber[i];
 			    var tweenTimer:FlxTimer = new FlxTimer();
                 tweenTimer.start((0.5 - 0.1) / opTextNumber.length, function(tmr:FlxTimer){	
-			        FlxTween.tween(sprite, {alpha: 1}, 0.1);
+			        FlxTween.tween(opTextNumber.mumbers[i], {alpha: 1}, 0.1);
 			    });						
 			}
 		});
@@ -499,11 +496,11 @@ class ResultsScreen extends MusicBeatSubstate
 		
 		    for (i in 0...percentRectNumber.length - 1){
 		        percentRectNumber[i].alpha = 1;
-		        rectTween(percentRectNumber[i]);
+		        rectTween(percentRectNumber.mumbers[i]);
 		    }
 		    
 		    for (i in 0...percentTextNumber.length - 1){
-		        FlxTween.tween(percentTextNumber[i], {alpha: 1}, 0.5);
+		        FlxTween.tween(percentTextNumber.mumbers[i], {alpha: 1}, 0.5);
 		    }
 		});
 		
