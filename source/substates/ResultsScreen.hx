@@ -141,9 +141,9 @@ class ResultsScreen extends MusicBeatSubstate
 	    mesTextAdd('SongName: ' + PlayState.SONG.song + ' - ' + Difficulty.getString());
 		mesTextAdd('Played Time: ' + Date.now().toString());
 		
-		var poop:String = Highscore.formatSong(songs[curSelected].songName.toLowerCase(), curDifficulty);
-        var rate:Float = DiffCalc.CalculateDiff(Song.loadFromJson(poop, songs[curSelected].songName.toLowerCase())) / 3;
-			
+		//var poop:String = Highscore.formatSong(songs[curSelected].songName.toLowerCase(), curDifficulty);
+       // var rate:Float = DiffCalc.CalculateDiff(Song.loadFromJson(poop, songs[curSelected].songName.toLowerCase())) / 3;
+			var rate = 0;
 		mesTextAdd('Difficult: ' + rate);		
 		
 		//-------------------------
@@ -161,7 +161,7 @@ class ResultsScreen extends MusicBeatSubstate
 		if (game.ratingFC == '') scTextAdd('Rank: N/A', 2);
 		else scTextAdd('Rank: ' + game.ratingName + ' - ' + game.ratingFC, 2);
 		scTextAdd('Hits: ' + game.songHits, 1);
-		scTextAdd('Combo Break: ' + game.Misses, 2);
+		scTextAdd('Combo Break: ' + game.songMisses, 2);
 		
 		//-------------------------
 		
@@ -382,10 +382,10 @@ class ResultsScreen extends MusicBeatSubstate
 	
 	    for (i in 0...game.NoteTime.length - 1){
 		    if (Math.abs(game.NoteMs[i]) <= ClientPrefs.data.marvelousWindow && ClientPrefs.data.marvelousRating) numMarvelous++;
-		    else if (Math.abs(game.NoteMs[i]) <= ClientPrefs.data.sickWindow) color = numSicks++;
-		    else if (Math.abs(game.NoteMs[i]) <= ClientPrefs.data.goodWindow) color = numGoods++;
-		    else if (Math.abs(game.NoteMs[i]) <= ClientPrefs.data.badWindow) color = numBads++;
-		    else if (Math.abs(game.NoteMs[i]) <= safeZoneOffset) color = numShits++;		    	    		    		 
+		    else if (Math.abs(game.NoteMs[i]) <= ClientPrefs.data.sickWindow) numSicks++;
+		    else if (Math.abs(game.NoteMs[i]) <= ClientPrefs.data.goodWindow) numGoods++;
+		    else if (Math.abs(game.NoteMs[i]) <= ClientPrefs.data.badWindow) numBads++;
+		    else if (Math.abs(game.NoteMs[i]) <= safeZoneOffset) numShits++;		    	    		    		 
 	    }
 	    
 	    var height:Float = ClientPrefs.data.marvelousRating ? 300 / 5 : 300 / 4;	    
@@ -398,11 +398,11 @@ class ResultsScreen extends MusicBeatSubstate
 	
 	function addRate(height:Int, RateName:String, ms:Int, number:Int, color:FlxColor){
 	
-	    var numberBG:FlxSprite = new FlxSprite(percentBG.x + 5, percentBG.y + 5 + percentRectBGNumber.length * height).makeGraphic(percentBG.width - 10, 30, FlxColor.BLACK);
+	    var numberBG:FlxSprite = new FlxSprite(percentBG.x + 5, percentBG.y + 5 + percentRectBGNumber.length * height).makeGraphic(Std.int(percentBG.width - 10), 30, FlxColor.BLACK);
 		numberBG.alpha = 0;
 		percentRectBGNumber.add(numberBG);		
 		
-		var numberRect:FlxSprite = new FlxSprite(percentBG.x + 5, percentBG.y + 5 + percentRectBGNumber.length * height).makeGraphic(percentBG.width - 10, 30, color);
+		var numberRect:FlxSprite = new FlxSprite(percentBG.x + 5, percentBG.y + 5 + percentRectBGNumber.length * height).makeGraphic(Std.int(percentBG.width - 10), 30, color);
 		numberRect.alpha = 0;
 		percentRectNumber.add(numberRect);	
 	
