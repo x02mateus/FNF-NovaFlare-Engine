@@ -233,6 +233,9 @@ class ResultsScreen extends MusicBeatSubstate
 		
 		//-------------------------
 		
+		var backTextShow:String = 'Press Enter to continue';
+		#if android backTextShow = 'Press Text to continue'; #end
+		
 		backText = new FlxText(FlxG.width, 0, backTextShow);
 		backText.size = 28;
 		backText.font = Paths.font('vcr.ttf');
@@ -388,7 +391,7 @@ class ResultsScreen extends MusicBeatSubstate
 		    else if (Math.abs(game.NoteMs[i]) <= safeZoneOffset) numShits++;		    	    		    		 
 	    }
 	    
-	    var height:Float = ClientPrefs.data.marvelousRating ? 300 / 5 : 300 / 4;	    
+	    var height:Int = ClientPrefs.data.marvelousRating ? Std.int(300 / 5) : Std.int(300 / 4);	    
 	    if (ClientPrefs.data.marvelousRating) addRate(height, 'Marvelous', Reflect.field(ClientPrefs.data, 'marvelous'), numMarvelous, ColorArray[0]);
 	    addRate(height, 'Sick', Reflect.field(ClientPrefs.data, 'sick'), numSicks, ColorArray[1]);
 	    addRate(height, 'Good', Reflect.field(ClientPrefs.data, 'good'), numGoods, ColorArray[2]);
@@ -398,7 +401,7 @@ class ResultsScreen extends MusicBeatSubstate
 	
 	function addRate(height:Int, RateName:String, ms:Int, number:Int, color:FlxColor){
 	
-	    var numberBG:FlxSprite = new FlxSprite(percentBG.x + 5, percentBG.y + 5 + percentRectBGNumber.length * height).makeGraphic(Std.int(percentBG.width - 10), 30, FlxColor.BLACK);
+	    var numberBG:FlxSprite = new FlxSprite(percentBG.x + 5, percentBG.y + 5 + percentRectBGNumber.length * height).makeGraphic(percentBG.width - 10, 30, FlxColor.BLACK);
 		numberBG.alpha = 0;
 		percentRectBGNumber.add(numberBG);		
 		
