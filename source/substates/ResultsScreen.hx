@@ -467,21 +467,21 @@ class ResultsScreen extends MusicBeatSubstate
 			for (i in 0...mesTextNumber.length - 1){
 			    var tweenTimer:FlxTimer = new FlxTimer();
                 tweenTimer.start((0.5 - 0.1) / mesTextNumber.length, function(tmr:FlxTimer){
-			        FlxTween.tween(mesTextNumber.mumbers[i], {alpha: 1}, 0.1);
+			        FlxTween.tween(mesTextNumber.members[i], {alpha: 1}, 0.1);
 			    });
 			}
 			
 			for (i in 0...scTextNumber.length - 1){
 			    var tweenTimer:FlxTimer = new FlxTimer();
                 tweenTimer.start((0.5 - 0.1) / scTextNumber.length, function(tmr:FlxTimer){			
-			        FlxTween.tween(scTextNumber.mumbers[i], {alpha: 1}, 0.1);
+			        FlxTween.tween(scTextNumber.members[i], {alpha: 1}, 0.1);
 			    });								
 			}
 			
 			for (i in 0...opTextNumber.length - 1){
 			    var tweenTimer:FlxTimer = new FlxTimer();
                 tweenTimer.start((0.5 - 0.1) / opTextNumber.length, function(tmr:FlxTimer){	
-			        FlxTween.tween(opTextNumber.mumbers[i], {alpha: 1}, 0.1);
+			        FlxTween.tween(opTextNumber.members[i], {alpha: 1}, 0.1);
 			    });						
 			}
 		});
@@ -491,16 +491,16 @@ class ResultsScreen extends MusicBeatSubstate
 		    rectTween(graphNote);
 		
 		    for (i in 0...percentRectBGNumber.length - 1){		    
-		        FlxTween.tween(percentRectBGNumber[i], {alpha: 1}, 0.3);
+		        FlxTween.tween(percentRectBGNumber.members[i], {alpha: 1}, 0.3);
 		    }
 		
 		    for (i in 0...percentRectNumber.length - 1){
 		        percentRectNumber[i].alpha = 1;
-		        rectTween(percentRectNumber.mumbers[i]);
+		        rectTween(percentRectNumber.members[i]);
 		    }
 		    
 		    for (i in 0...percentTextNumber.length - 1){
-		        FlxTween.tween(percentTextNumber.mumbers[i], {alpha: 1}, 0.5);
+		        FlxTween.tween(percentTextNumber.members[i], {alpha: 1}, 0.5);
 		    }
 		});
 		
