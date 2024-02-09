@@ -159,7 +159,7 @@ class ResultsScreen extends MusicBeatSubstate
 		if (game.ratingFC == '') scTextAdd('Rank: N/A', 2);
 		else scTextAdd('Rank: ' + game.RatingName + ' - ' + game.RatingFC, 2);
 		scTextAdd('Hits: ' + game.songHits, 1);
-		scTextAdd('Combo Break: ' game.Misses, 2);
+		scTextAdd('Combo Break: ' + game.Misses, 2);
 		
 		//-------------------------
 		
