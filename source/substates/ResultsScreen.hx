@@ -21,6 +21,7 @@ import states.PlayState;
 import states.FreeplayState;
 
 import backend.Conductor;
+import backend.Mods;
 
 import flixel.util.FlxSpriteUtil;
 import openfl.display.Sprite;
@@ -30,40 +31,64 @@ import openfl.utils.Assets;
 
 class ResultsScreen extends MusicBeatSubstate
 {
-	public var background:FlxSprite;	
-    public var graphBG:FlxSprite;
-    public var lostPNGText:FlxText;
-    public var graphSizeUp:FlxSprite;
-	public var graphSizeDown:FlxSprite;
-	public var graphSizeLeft:FlxSprite;
-	public var graphSizeRight:FlxSprite;
+	var background:FlxSprite;	
+	//BG
+		    
+    var modsBG:FlxSprite;
+    var modsMenu:FlxSprite;
+    var modsText:FlxText;
+    //Results for what mod you played
+    
+    var mesBG:FlxSprite;
+    var mesTextNumber:FlxTypedGroup<FlxText>;
+    //Results for song message
+    
+    var scBG:FlxSprite;
+    var scTextNumber:FlxTypedGroup<FlxText>;
+    //Results for score
+    
+    var opBG:FlxSprite;
+    var opTextNumber:FlxTypedGroup<FlxText>;
+    //Results for option
+    
+    var graphBG:FlxSprite;
+    var graphNote:FlxSprite;
+    //Results for note offset
+    
+    var percentBG:FlxSprite;
+    var percentRectNumber:FlxTypedGroup<FlxSprite>;
+    var percentRectBGNumber:FlxTypedGroup<FlxSprite>;
+    var percentTextNumber:FlxTypedGroup<FlxText>;
+    //Results for note rate percent
+    
+	var backText:FlxText;
+    var backBG:FlxSprite;
+	//back image
 	
-	public var graphJudgeCenter:FlxSprite;
-	public var graphMarvelousUp:FlxSprite;
-	public var graphMarvelousDown:FlxSprite;
-	public var graphSickUp:FlxSprite;
-	public var graphSickDown:FlxSprite;
-	public var graphGoodUp:FlxSprite;
-	public var graphGoodDown:FlxSprite;
-	public var graphBadUp:FlxSprite;
-	public var graphBadDown:FlxSprite;
-	public var graphShitUp:FlxSprite;
-	public var graphShitDown:FlxSprite;
-    public var graphMiss:FlxSprite;
+	var camOther:FlxCamera;        
+    //camera
     
-    public var clearText:FlxText;
-	public var judgeText:FlxText;
-	public var setGameText:FlxText;
-	public var setMsText:FlxText;
-	public var backText:FlxText;
-	public var backBG:FlxSprite;
-	
-	public var camOther:FlxCamera;
+    var game = PlayState.instance;
     
-    //public var NoteTypeColor:NoteTypeColorData;
-    
-    public var ColorArray:Array<FlxColor> = [];
-    public var color:FlxColor;
+    var ColorArray:Array<FlxColor> = [
+    		0xFFFFFF00, //marvelous
+    		0xFF00FFFF, //sick
+    	    0xFF00FF00, //good
+    	    0xFFFF7F00, //bad
+    	    0xFFFF5858, //shit
+    	    0xFFFF0000 //miss
+    		];
+    var ColorArrayAlpha:Array<FlxColor> = [
+    		0x7FFFFF00, //marvelous
+    		0x7F00FFFF, //sick
+    	    0x7F00FF00, //good
+    	    0x7FFF7F00, //bad
+    	    0x7FFF5858, //shit
+    	    0x7FFF0000 //miss
+    		];
+    				
+    var safeZoneOffset:Float = (ClientPrefs.data.safeFrames / 60) * 1000;
+    		
 	public function new(x:Float, y:Float)
 	{
 	    
@@ -72,284 +97,139 @@ class ResultsScreen extends MusicBeatSubstate
 	    
 	    camOther = new FlxCamera();
 	    camOther.bgColor.alpha = 0;
-	    FlxG.cameras.add(camOther, false);
+	    FlxG.cameras.add(camOther, false);				
 	    
-		ColorArray = [
-		0xFFFFFF00, //marvelous
-		0xFF00FFFF, //sick
-	    0xFF00FF00, //good
-	    0xFFFF7F00, //bad
-	    0xFFFF5858, //shit
-	    0xFFFF0000 //miss
-		];
-		
-		var safeZoneOffset:Float = (ClientPrefs.data.safeFrames / 60) * 1000; //fix playBackRate shit
-		
-		background = new FlxSprite(0, 0).makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
-		background.scrollFactor.set();
+		background = new FlxSprite(0, 0).makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);		
 		background.alpha = 0;
-		add(background);
+		add(background);		
 		
-		var graphWidth = 550;
-		var graphHeight = 300;
+		//--------------------------
 		
-		var lossImage:Bool;
-		var image:String = Paths.modFolders('images/menuExtend/ResultsScreen/ResultsScreenBG.png');		
+		modsBG = new FlxSprite(20, 20).makeGraphic(600, 340 + 20, FlxColor.BLACK);		
+		modsBG.alpha = 0;
+		add(modsBG);		
 		
-		if (FileSystem.exists(image)){
-		    lossImage = false;
-		    graphBG = new FlxSprite(FlxG.width - 550 - 50, 50).loadGraphic(Paths.image('menuExtend/ResultsScreen/ResultsScreenBG'));		    
-		}else{
-		    lossImage = true;
-		    graphBG = new FlxSprite(FlxG.width - 550 - 50, 50).makeGraphic(graphWidth, graphHeight, 0x7F000000); //0x7F000000 is black for 60% alpha
-		}
-		graphBG.scrollFactor.set();
-		graphBG.alpha = 0;		
-		graphBG.setGraphicSize(graphWidth, graphHeight);
-		graphBG.updateHitbox();
+		modsMenu = new FlxSprite(20, 20).loadGraphic(Paths.image('menuBG'));
+		modsMenu.setGraphicSize(600, 338);		
+		modsMenu.updateHitbox();		
+		modsMenu.antialiasing = ClientPrefs.data.antialiasing;
+		modsMenu.alpha = 0;
+		add(modsMenu);		
 		
-		var noteSpr = FlxSpriteUtil.flashGfx;		
-		FlxSpriteUtil.beginDraw(0xFFFFFFFF);
+		modsText = new FlxText(20, 20 + modsMenu.height, 0, 'Mod name: ' + Mods.currentModDirectory);
+		modsText.size = 16;		
+		modsText.font = Paths.font('vcr.ttf');
+		modsText.setBorderStyle(FlxTextBorderStyle.OUTLINE, FlxColor.BLACK, 1, 1);		
+		modsText.antialiasing = ClientPrefs.data.antialiasing;
+	    modsText.alignment = CENTER;	
+	    modsText.alpha = 0;
+	    add(modsText);		
+	    if (modsText.width > 600) modsText.scale.x = 600 / modsText.width; //fix width problem
+	    modsText.offset.x = 0;
 	    
-	    var noteSize = 2.3;
-	    var MoveSize = 0.8;
-		for (i in 0...PlayState.rsNoteTime.length - 1){
-		    if (Math.abs(PlayState.rsNoteMs[i]) <= ClientPrefs.data.marvelousWindow && ClientPrefs.data.marvelousRating) color = ColorArray[0];
-		    else if (Math.abs(PlayState.rsNoteMs[i]) <= ClientPrefs.data.sickWindow) color = ColorArray[1];
-		    else if (Math.abs(PlayState.rsNoteMs[i]) <= ClientPrefs.data.goodWindow) color = ColorArray[2];
-		    else if (Math.abs(PlayState.rsNoteMs[i]) <= ClientPrefs.data.badWindow) color = ColorArray[3];
-		    else if (Math.abs(PlayState.rsNoteMs[i]) <= safeZoneOffset) color = ColorArray[4];
-		    else color = ColorArray[5];		    		    		    
-		    		    
-		    FlxSpriteUtil.beginDraw(color);
-		    if (Math.abs(PlayState.rsNoteMs[i]) <= safeZoneOffset){
-    		    noteSpr.drawCircle(graphWidth * (PlayState.rsNoteTime[i] / PlayState.rsSongLength), graphHeight * 0.5 + graphHeight * 0.5 * MoveSize * (PlayState.rsNoteMs[i] / safeZoneOffset), noteSize);
-    		}
-    		else{
-    		    noteSpr.drawCircle(graphWidth * (PlayState.rsNoteTime[i] / PlayState.rsSongLength), graphHeight * 0.5 + graphHeight * 0.5 * 0.9, noteSize);		
-    		}
-    		
-		    graphBG.pixels.draw(FlxSpriteUtil.flashGfxSprite);
-		}
-		graphBG.updateHitbox();
-		add(graphBG);
+	    //-------------------------		    		    
 		
-		lostPNGText = new FlxText(graphBG.x + graphBG.width / 2, graphBG.y + graphBG.height + 5, 0, "Error load: image/ResultsScreen/ResultsScreenBG.png");
-		lostPNGText.size = 20;
-		lostPNGText.alignment = CENTER;
-		lostPNGText.font = Paths.font('vcr.ttf');
-		lostPNGText.setBorderStyle(FlxTextBorderStyle.OUTLINE, FlxColor.BLACK, 1, 1);
-		lostPNGText.scrollFactor.set();
-	    lostPNGText.alpha = 0;	
-		lostPNGText.antialiasing = ClientPrefs.data.antialiasing;
-		lostPNGText.color = FlxColor.RED;
-		lostPNGText.x -= lostPNGText.width / 2;
-		lostPNGText.visible = lossImage;
-		add(lostPNGText);
+		mesBG = new FlxSprite(20, 20 + modsBG.height + 20).makeGraphic(600, 60, FlxColor.BLACK);
+		mesBG.alpha = 0;
+		add(mesBG);		
 		
-		var judgeHeight = 2;
-		graphJudgeCenter = new FlxSprite(graphBG.x, graphBG.y + graphHeight * 0.5 - judgeHeight * 0.5).makeGraphic(graphWidth, judgeHeight, FlxColor.WHITE);
-		graphJudgeCenter.scrollFactor.set();
-		graphJudgeCenter.alpha = 0;		
-		add(graphJudgeCenter);
-		
-		graphMarvelousUp = new FlxSprite(graphBG.x, graphBG.y + graphHeight * 0.5 - graphHeight * 0.5 * MoveSize * (ClientPrefs.data.marvelousWindow / safeZoneOffset) - judgeHeight * 0.5).makeGraphic(graphWidth, judgeHeight, ColorArray[0]);
-		graphMarvelousUp.scrollFactor.set();
-		graphMarvelousUp.alpha = 0;		
-		add(graphMarvelousUp);
-		if (!ClientPrefs.data.marvelousRating) graphMarvelousUp.visible = false;
-		
-		graphMarvelousDown = new FlxSprite(graphBG.x, graphBG.y + graphHeight * 0.5 + graphHeight * 0.5 * MoveSize * (ClientPrefs.data.marvelousWindow / safeZoneOffset) - judgeHeight * 0.5).makeGraphic(graphWidth, judgeHeight, ColorArray[0]);
-		graphMarvelousDown.scrollFactor.set();
-		graphMarvelousDown.alpha = 0;		
-		add(graphMarvelousDown);
-		if (!ClientPrefs.data.marvelousRating) graphMarvelousDown.visible = false;
-		
-		graphSickUp = new FlxSprite(graphBG.x, graphBG.y + graphHeight * 0.5 - graphHeight * 0.5 * MoveSize * (ClientPrefs.data.sickWindow / safeZoneOffset) - judgeHeight * 0.5).makeGraphic(graphWidth, judgeHeight, ColorArray[1]);
-		graphSickUp.scrollFactor.set();
-		graphSickUp.alpha = 0;		
-		add(graphSickUp);
-		if ((ClientPrefs.data.marvelousWindow >= ClientPrefs.data.sickWindow && ClientPrefs.data.marvelousRating)) graphSickUp.visible = false;
-		
-		graphSickDown = new FlxSprite(graphBG.x, graphBG.y + graphHeight * 0.5 + graphHeight * 0.5 * MoveSize * (ClientPrefs.data.sickWindow / safeZoneOffset) - judgeHeight * 0.5).makeGraphic(graphWidth, judgeHeight, ColorArray[1]);
-		graphSickDown.scrollFactor.set();
-		graphSickDown.alpha = 0;		
-		add(graphSickDown);
-		if ((ClientPrefs.data.marvelousWindow >= ClientPrefs.data.sickWindow && ClientPrefs.data.marvelousRating)) graphSickDown.visible = false;
-		
-		graphGoodUp = new FlxSprite(graphBG.x, graphBG.y + graphHeight * 0.5 - graphHeight * 0.5 * MoveSize * (ClientPrefs.data.goodWindow / safeZoneOffset) - judgeHeight * 0.5).makeGraphic(graphWidth, judgeHeight, ColorArray[2]);
-		graphGoodUp.scrollFactor.set();
-		graphGoodUp.alpha = 0;		
-		add(graphGoodUp);
-		if ((ClientPrefs.data.marvelousWindow >= ClientPrefs.data.goodWindow && ClientPrefs.data.marvelousRating) || ClientPrefs.data.sickWindow >= ClientPrefs.data.goodWindow) graphGoodUp.visible = false;
-		
-		graphGoodDown = new FlxSprite(graphBG.x, graphBG.y + graphHeight * 0.5 + graphHeight * 0.5 * MoveSize * (ClientPrefs.data.goodWindow / safeZoneOffset) - judgeHeight * 0.5).makeGraphic(graphWidth, judgeHeight, ColorArray[2]);
-		graphGoodDown.scrollFactor.set();
-		graphGoodDown.alpha = 0;		
-		add(graphGoodDown);
-		if ((ClientPrefs.data.marvelousWindow >= ClientPrefs.data.goodWindow && ClientPrefs.data.marvelousRating) || ClientPrefs.data.sickWindow >= ClientPrefs.data.goodWindow) graphGoodDown.visible = false;
-		
-		graphBadUp = new FlxSprite(graphBG.x, graphBG.y + graphHeight * 0.5 - graphHeight * 0.5 * MoveSize * (ClientPrefs.data.badWindow / safeZoneOffset) - judgeHeight * 0.5).makeGraphic(graphWidth, judgeHeight, ColorArray[3]);
-		graphBadUp.scrollFactor.set();
-		graphBadUp.alpha = 0;		
-		add(graphBadUp);
-		if ((ClientPrefs.data.marvelousWindow >= ClientPrefs.data.badWindow && ClientPrefs.data.marvelousRating) || ClientPrefs.data.sickWindow >= ClientPrefs.data.badWindow || ClientPrefs.data.goodWindow >= ClientPrefs.data.badWindow) graphBadUp.visible = false;
-		
-		graphBadDown = new FlxSprite(graphBG.x, graphBG.y + graphHeight * 0.5 + graphHeight * 0.5 * MoveSize * (ClientPrefs.data.badWindow / safeZoneOffset) - judgeHeight * 0.5).makeGraphic(graphWidth, judgeHeight, ColorArray[3]);
-		graphBadDown.scrollFactor.set();
-		graphBadDown.alpha = 0;		
-		add(graphBadDown);
-		if ((ClientPrefs.data.marvelousWindow >= ClientPrefs.data.badWindow && ClientPrefs.data.marvelousRating) || ClientPrefs.data.sickWindow >= ClientPrefs.data.badWindow || ClientPrefs.data.goodWindow >= ClientPrefs.data.badWindow) graphBadDown.visible = false;
-		
-		graphShitUp = new FlxSprite(graphBG.x, graphBG.y + graphHeight * 0.5 - graphHeight * 0.5 * MoveSize * (safeZoneOffset / safeZoneOffset) - judgeHeight * 0.5).makeGraphic(graphWidth, judgeHeight, ColorArray[4]);
-		graphShitUp.scrollFactor.set();
-		graphShitUp.alpha = 0;		
-		add(graphShitUp);
-		
-		graphShitDown = new FlxSprite(graphBG.x, graphBG.y + graphHeight * 0.5 + graphHeight * 0.5 * MoveSize * (safeZoneOffset / safeZoneOffset) - judgeHeight * 0.5).makeGraphic(graphWidth, judgeHeight, ColorArray[4]);
-		graphShitDown.scrollFactor.set();
-		graphShitDown.alpha = 0;		
-		add(graphShitDown);
-		
-		graphMiss = new FlxSprite(graphBG.x, graphBG.y + graphHeight * 0.5 + graphHeight * 0.5 * 0.9 - judgeHeight * 0.5).makeGraphic(graphWidth, judgeHeight, ColorArray[5]);
-		graphMiss.scrollFactor.set();
-		graphMiss.alpha = 0;		
-		add(graphMiss);
-		
-		graphJudgeCenter = new FlxSprite(graphBG.x, graphBG.y + graphHeight * 0.5 - judgeHeight * 0.5).makeGraphic(graphWidth, judgeHeight, FlxColor.WHITE);
-		graphJudgeCenter.scrollFactor.set();
-		graphJudgeCenter.alpha = 0;		
-		add(graphJudgeCenter);
-		
-		graphJudgeCenter = new FlxSprite(graphBG.x, graphBG.y + graphHeight * 0.5 - judgeHeight * 0.5).makeGraphic(graphWidth, judgeHeight, FlxColor.WHITE);
-		graphJudgeCenter.scrollFactor.set();
-		graphJudgeCenter.alpha = 0;		
-		add(graphJudgeCenter);
-		
-		graphJudgeCenter = new FlxSprite(graphBG.x, graphBG.y + graphHeight * 0.5 - judgeHeight * 0.5).makeGraphic(graphWidth, judgeHeight, FlxColor.WHITE);
-		graphJudgeCenter.scrollFactor.set();
-		graphJudgeCenter.alpha = 0;		
-		add(graphJudgeCenter);
-		
-		graphSizeUp = new FlxSprite(graphBG.x, graphBG.y - 2).makeGraphic(graphWidth + 2, 2, FlxColor.WHITE);
-		graphSizeUp.scrollFactor.set();
-		graphSizeUp.alpha = 0;		
-		add(graphSizeUp);
-		
-		graphSizeDown = new FlxSprite(graphBG.x - 2, graphBG.y + graphHeight).makeGraphic(graphWidth + 2, 2, FlxColor.WHITE);
-		graphSizeDown.scrollFactor.set();
-		graphSizeDown.alpha = 0;		
-		add(graphSizeDown);
-		
-		graphSizeLeft = new FlxSprite(graphBG.x - 2, graphBG.y - 2).makeGraphic(2, graphHeight + 2, FlxColor.WHITE);
-		graphSizeLeft.scrollFactor.set();
-		graphSizeLeft.alpha = 0;		
-		add(graphSizeLeft);
-		
-		graphSizeRight = new FlxSprite(graphBG.x + graphWidth, graphBG.y).makeGraphic(2, graphHeight + 2, FlxColor.WHITE);
-		graphSizeRight.scrollFactor.set();
-		graphSizeRight.alpha = 0;		
-		add(graphSizeRight);
-
-		
-		//-----------------------BG
-		var opponentExtend:String = '';
-		if (ClientPrefs.data.playOpponent) opponentExtend = ' - Opponent';
-		clearText = new FlxText(20, -180, 300, 'Song Cleared!\n' + PlayState.SONG.song + '\n'  + Difficulty.getString() + opponentExtend + '\n');
-		clearText.size = 30;
-		clearText.font = Paths.font('vcr.ttf');
-		clearText.setBorderStyle(FlxTextBorderStyle.OUTLINE, FlxColor.BLACK, 1, 1);
-		clearText.scrollFactor.set();
-		clearText.antialiasing = ClientPrefs.data.antialiasing;
-		add(clearText);		
+		mesTextNumber = new FlxTypedGroup<FlxText>();
+		add(mesTextNumber);
 	    
-	    var ACC = Math.ceil(PlayState.rsACC * 10000) / 100;
-	    var marvelousRate = ClientPrefs.data.marvelousRating ? '\nMarvelous: ' + PlayState.reMarvelouss : '';
-		judgeText = new FlxText(-400, 200, 0, 
-		'Judgements:'
-		+ marvelousRate
-		+ '\nSick: ' + PlayState.rsSicks
-		+ '\nGood: ' + PlayState.rsGoods 
-		+ '\nBad: ' + PlayState.rsBads 
-		+ '\nShit: ' + PlayState.rsShits 
-		+ '\n\nCombe Break: ' + PlayState.rsMisses 
-		+ '\nHighest Combe: ' + PlayState.highestCombo 
-		+ '\nScore: ' + PlayState.rsScore 
-		+ '\nAccuracy: ' + ACC + '%'
-		+ '\nRank: ' + PlayState.rsRatingName + '(' + PlayState.rsRatingFC + ')\n'
-		);
-		judgeText.size = 25;
-		judgeText.font = Paths.font('vcr.ttf');
-		judgeText.setBorderStyle(FlxTextBorderStyle.OUTLINE, FlxColor.BLACK, 1, 1);
-		judgeText.scrollFactor.set();
-		judgeText.antialiasing = ClientPrefs.data.antialiasing;
-		add(judgeText);
+	    mesTextAdd('SongName: ' + PlayState.SONG.song + ' - ' + Difficulty.getString());
+		mesTextAdd('Played Time: ' + Date.now().toString());
 		
-		var botplay:String = 'Disable';
-		if (ClientPrefs.getGameplaySetting('botplay')) botplay = 'Enable';
-		var practice:String = 'Disable';
-		if (ClientPrefs.getGameplaySetting('practice')) practice = 'Enable';
+		var poop:String = Highscore.formatSong(songs[curSelected].songName.toLowerCase(), curDifficulty);
+        var rate:Float = DiffCalc.CalculateDiff(Song.loadFromJson(poop, songs[curSelected].songName.toLowerCase())) / 3;
+			
+		mesTextAdd('Difficult: ' + rate);		
+		
+		//-------------------------
+		
+		scBG = new FlxSprite(20, 20 + modsBG.height + 20 + mesBG.height + 20).makeGraphic(600, 60, FlxColor.BLACK);	
+		scBG.alpha = 0;
+		add(scBG);		
+		
+		scTextNumber = new FlxTypedGroup<FlxText>();
+		add(scTextNumber);
+		
+		scTextAdd('Score: ' + game.songScore, 1);
+		scTextAdd('Highest Combe: ' + game.songMisses, 2);
+		scTextAdd('Accuracy: ', game.ratingPercent, 1);
+		if (game.ratingFC == '') scTextAdd('Rank: N/A', 2);
+		else scTextAdd('Rank: ' + game.RatingName + ' - ' + game.RatingFC, 2);
+		scTextAdd('Hits: ' + game.songHits, 1);
+		scTextAdd('Combo Break: ' game.Misses, 2);
+		
+		//-------------------------
+		
+		opBG = new FlxSprite(20, 20 + modsBG.height + 20).makeGraphic(600, 180, FlxColor.BLACK);	
+		opBG.alpha = 0;
+		add(opBG);		
+		
+		opTextNumber = new FlxTypedGroup<FlxText>();
+		add(opTextNumber);
+		
+		opTextAdd('HealthGain: ' + ClientPrefs.getGameplaySetting('healthgain'));
+		opTextAdd('HealthLoss: ' + ClientPrefs.getGameplaySetting('healthloss'));
 		
 		var speed:String = ClientPrefs.getGameplaySetting('scrollspeed');
 		if (ClientPrefs.getGameplaySetting('scrolltype') == 'multiplicative')
         speed = 'X' + speed;
         
-		setGameText = new FlxText(FlxG.width + 400, 420, 0,
-		'healthGain: X' + ClientPrefs.getGameplaySetting('healthgain')
-		+ '  healthLoss: X' + ClientPrefs.getGameplaySetting('healthloss')
-		+ '\n'
-		+ 'SongSpeed: ' + speed
-		+ '  PlaybackRate: X' + ClientPrefs.getGameplaySetting('songspeed')
-		+ '\n'
-		+ 'BotPlay: ' + botplay
-		+ '  PracticeMode: ' + practice
-		+ '\n'
-		+ 'Finished time: ' + Date.now().toString()
-		+ '\n'
-		);
-		setGameText.size = 25;
-		setGameText.alignment = RIGHT;
-		setGameText.font = Paths.font('vcr.ttf');
-		setGameText.setBorderStyle(FlxTextBorderStyle.OUTLINE, FlxColor.BLACK, 1, 1);
-		setGameText.scrollFactor.set();
-		setGameText.antialiasing = ClientPrefs.data.antialiasing;
-		add(setGameText);
+		opTextAdd('SongSpeed: ' + speed);
+		opTextAdd('PlaybackRate: X' + ClientPrefs.getGameplaySetting('songspeed'));
 		
-		var Main:Float = 0;
-		var allowData:Int = 0;
-		for (i in 0...PlayState.rsNoteTime.length - 1){
-		    if (Math.abs(PlayState.rsNoteMs[i]) <= safeZoneOffset){
-    		    Main = Main + Math.abs(PlayState.rsNoteMs[i]);
-    		    allowData = allowData + 1;
-		    }
-		}
-		var showMain = Math.ceil((Main / allowData) * 100) / 100;
-        var safeZoneOffsetFix:Float = Math.ceil(safeZoneOffset * 10) / 10;
-        
-        var marvelousRate = '';
-        if (ClientPrefs.data.marvelousRating) marvelousRate = 'MAR:' + ClientPrefs.data.marvelousWindow + 'ms,';
-          
-		setMsText = new FlxText(20, FlxG.height + 150, 0, 
-		'Main: ' + showMain + 'ms'
-		+ '\n'
-		+ '('
-		+ marvelousRate
-		+ 'SICK:' + ClientPrefs.data.sickWindow + 'ms,'
-		+ 'GOOD:' + ClientPrefs.data.goodWindow + 'ms,'
-		+ 'BAD:' + ClientPrefs.data.badWindow + 'ms,'
-		+ 'SHIT:' + safeZoneOffsetFix + 'ms'
-		+ ')'		
-		+ '\n'
-		);
-		setMsText.size = 16;
-		setMsText.font = Paths.font('vcr.ttf');
-		setMsText.setBorderStyle(FlxTextBorderStyle.OUTLINE, FlxColor.BLACK, 1, 1);
-		setMsText.scrollFactor.set();
-		setMsText.antialiasing = ClientPrefs.data.antialiasing;
-		add(setMsText);		
-
-		var backTextShow:String = 'Press Enter to continue';
-		#if android backTextShow = 'Press Text to continue'; #end
+		var botplay:String = 'Disable';
+		if (ClientPrefs.getGameplaySetting('botplay')) botplay = 'Enable';
+		var practice:String = 'Disable';
+		if (ClientPrefs.getGameplaySetting('practice')) practice = 'Enable';
+		var instakill:String = 'Disable';
+		if (ClientPrefs.getGameplaySetting('instakill')) instakill = 'Enable';		
+		
+		opTextAdd('PracticeMode: ' + practice);
+		opTextAdd('Instakill On Miss: ' + instakill);		
+		opTextAdd('Botplay: ' + botplay);
+		
+		var opponent:String = 'Disable';
+		if (ClientPrefs.data.playOpponent) opponent = 'Enable';
+		var filpChart:String = 'Disable';
+		if (ClientPrefs.data.filpChart) filpChart = 'Enable';
+		
+		
+		opTextAdd('PlayOpponent: ' + opponent);
+		opTextAdd('FilpChart: ' + filpChart);
+		
+		//-------------------------
+		
+		graphBG = new FlxSprite(20 + 640, 20).makeGraphic(600, 300, FlxColor.BLACK);
+		graphBG.alpha = 0;
+		add(graphBG);
+		
+		graphNote = new FlxSprite(20 + 640, 20).makeGraphic(600, 300, FlxColor.TRANSPARENT);
+		graphNote.alpha = 0;
+		add(graphNote);
+		
+		graphNoteDraw();
+		
+		//-------------------------
+		
+		percentBG = new FlxSprite(20 + 640, 20 + 300 + 20).makeGraphic(600, 300, FlxColor.BLACK);
+		percentBG.alpha = 0;
+		add(percentBG);									
+		
+		percentRectBGNumber = new FlxTypedGroup<FlxSprite>();
+		add(percentRectBGNumber);
+		
+		percentRectNumber = new FlxTypedGroup<FlxSprite>();
+		add(percentRectNumber);
+		
+		percentTextNumber = new FlxTypedGroup<FlxText>();
+		add(percentTextNumber);
+		
+		percentRateAdd();
+		
+		//-------------------------
 		
 		backText = new FlxText(FlxG.width, 0, backTextShow);
 		backText.size = 28;
@@ -359,7 +239,7 @@ class ResultsScreen extends MusicBeatSubstate
 		backText.antialiasing = ClientPrefs.data.antialiasing;
 	    backText.alignment = RIGHT;			    
 
-		backBG = new FlxSprite(FlxG.width, FlxG.height - 30).loadGraphic(Paths.image('menuExtend/ResultsScreen/backBG'));
+		backBG = new FlxSprite(FlxG.width, FlxG.height).loadGraphic(Paths.image('menuExtend/ResultsScreen/backBG'));
 		backBG.scrollFactor.set(0, 0);
 		backBG.scale.x = 0.5;
 		backBG.scale.y = 0.5;
@@ -368,60 +248,15 @@ class ResultsScreen extends MusicBeatSubstate
 		backBG.y -= backBG.height;		
 		add(backBG);
 		add(backText);		
+		
 		backBG.cameras = [camOther];
 		backText.cameras = [camOther];
+		
 		backText.y = backBG.y + backBG.height / 2 - backText.height / 2;
+							
+		//-------------------------				
 		
-		//--------------text
-		
-		//time = 0
-		FlxTween.tween(background, {alpha: 0.5}, 0.5);		
-		
-		new FlxTimer().start(0.5, function(tmr:FlxTimer){
-			FlxTween.tween(clearText, {y: ClientPrefs.data.showFPS ? 60 : 5}, 0.5, {ease: FlxEase.backInOut});
-		});
-		
-		
-		new FlxTimer().start(1, function(tmr:FlxTimer){
-			FlxTween.tween(setMsText, {y: FlxG.height - 25 * 2}, 0.5, {ease: FlxEase.backInOut});			
-		});
-		
-		new FlxTimer().start(1.5, function(tmr:FlxTimer){
-		    FlxTween.tween(judgeText, {x: 20}, 0.5, {ease: FlxEase.backInOut});		
-		    FlxTween.tween(setGameText, {x: FlxG.width - setGameText.width - 20}, 0.5, {ease: FlxEase.backInOut});		
-		});
-		
-		new FlxTimer().start(2, function(tmr:FlxTimer){
-			FlxTween.tween(graphBG, {alpha: 1}, 0.5);
-			
-			FlxTween.tween(lostPNGText, {alpha: 1}, 0.5);
-			if (lossImage)  new FlxTimer().start(5, function(tmr:FlxTimer){ FlxTween.tween(lostPNGText, {alpha: 0}, 1); });
-			
-			FlxTween.tween(graphJudgeCenter, {alpha: 0.3}, 0.5);	
-			FlxTween.tween(graphMarvelousUp, {alpha: 0.3}, 0.5);	
-			FlxTween.tween(graphMarvelousDown, {alpha: 0.3}, 0.5);	
-			FlxTween.tween(graphSickUp, {alpha: 0.3}, 0.5);	
-			FlxTween.tween(graphSickDown, {alpha: 0.3}, 0.5);	
-			FlxTween.tween(graphGoodUp, {alpha: 0.3}, 0.5);	
-			FlxTween.tween(graphGoodDown, {alpha: 0.3}, 0.5);	
-			FlxTween.tween(graphBadUp, {alpha: 0.3}, 0.5);	
-			FlxTween.tween(graphBadDown, {alpha: 0.3}, 0.5);	
-			FlxTween.tween(graphShitUp, {alpha: 0.3}, 0.5);
-			FlxTween.tween(graphShitDown, {alpha: 0.3}, 0.5);	
-			FlxTween.tween(graphMiss, {alpha: 0.3}, 0.5);	
-				
-		    FlxTween.tween(graphSizeUp, {alpha: 0.75}, 0.5);
-		    FlxTween.tween(graphSizeDown, {alpha: 0.75}, 0.5);
-		    FlxTween.tween(graphSizeLeft, {alpha: 0.75}, 0.5);
-		    FlxTween.tween(graphSizeRight, {alpha: 0.75}, 0.5);	
-		});
-		
-		new FlxTimer().start(2.5, function(tmr:FlxTimer){
-			FlxTween.tween(backBG, {x:  1280 - backBG.width}, 1, {ease: FlxEase.quintInOut});
-			FlxTween.tween(backText, {x: 1280 - backText.width - 50}, 1.2, {ease: FlxEase.quintInOut});
-		});
-				
-								
+	    startTween();
 	}
 	
 	var getReadyClose:Bool = false;    
@@ -450,6 +285,249 @@ class ResultsScreen extends MusicBeatSubstate
             }
 		}		    
 	}
+	
+	function mesTextAdd(text:String = '', sameLine:Int = 0){
+	    TextAdd(mesBG, mesTextNumber, text, sameLine);	
+	}
+	
+	function scTextAdd(text:String = '', sameLine:Int = 0){
+	    TextAdd(scBG, scTextNumber, text, sameLine);	
+	}
+	
+	function opTextAdd(text:String = '', sameLine:Int = 0){
+	    TextAdd(opBG, opTextNumber, text, sameLine);	
+	}
+	
+	var textSize = 20;	
+	function TextAdd(BG:Dynamic, type:Dynamic, text:String = '', sameLine:Int = 0){
+	    var textWidth = 600;
+	    var numberText = new FlxText(BG.x, BG.y + type.length * textSize, 0, text, textSize);	
+	    numberText.x += sameLine * 300;
+		numberText.font = Paths.font('vcr.ttf');
+		numberText.setBorderStyle(FlxTextBorderStyle.OUTLINE, FlxColor.BLACK, 1, 1);
+		numberText.scrollFactor.set();
+		numberText.antialiasing = ClientPrefs.data.antialiasing;
+	    numberText.alignment = LEFT;			
+	    numberText.alpha = 0;    	
+	    if (sameLine > 0) textWidth = 300;
+	    if (numberText.width > textWidth) numberText.scale.x = (textWidth - 1) / numberText.width; //fix width problem
+	    numberText.offset.x = 0
+	    type.add(numberText);		
+	}
+	
+	function graphNoteDraw(){
+	
+	    FlxSpriteUtil.beginDraw(0xFFFFFFFF);
+	    
+	    var noteSize = 2.3;
+	    var MoveSize = 0.8;
+	    
+	    for (i in 0...game.NoteTime.length - 1){
+		    if (Math.abs(game.NoteMs[i]) <= ClientPrefs.data.marvelousWindow && ClientPrefs.data.marvelousRating) color = ColorArray[0];
+		    else if (Math.abs(game.NoteMs[i]) <= ClientPrefs.data.sickWindow) color = ColorArray[1];
+		    else if (Math.abs(game.NoteMs[i]) <= ClientPrefs.data.goodWindow) color = ColorArray[2];
+		    else if (Math.abs(game.NoteMs[i]) <= ClientPrefs.data.badWindow) color = ColorArray[3];
+		    else if (Math.abs(game.NoteMs[i]) <= safeZoneOffset) color = ColorArray[4];
+		    else color = ColorArray[5];		    		    		    
+		    		    
+		    FlxSpriteUtil.beginDraw(color);
+		    if (Math.abs(game.NoteMs[i]) <= safeZoneOffset){
+    		    FlxSpriteUtil.drawCircle(graphNote, graphNote.width * (game.NoteTime[i] / game.SongLength), graphNote.height * 0.5 + graphNote.height * 0.5 * MoveSize * (game.NoteMs[i] / safeZoneOffset), noteSize);
+    		}else{
+    		    FlxSpriteUtil.drawCircle(graphNote, graphNote.width * (game.NoteTime[i] / game.SongLength), graphNote.height * 0.5 + graphNote.height * 0.5 * 0.9, noteSize);		
+    		}    				    
+		}
+		
+		if (!ClientPrefs.data.marvelousRating){
+    		FlxSpriteUtil.drawRect(graphNote, 0, graphNote.height * 0.5 + graphNote.height * 0.5 * MoveSize * (ClientPrefs.data.marvelousWindow / safeZoneOffset) - 1, graphNote.width, 2, ColorArrayAlpha[0]);
+    		FlxSpriteUtil.drawRect(graphNote, 0, graphNote.height * 0.5 - graphNote.height * 0.5 * MoveSize * (ClientPrefs.data.marvelousWindow / safeZoneOffset) - 1, graphNote.width, 2, ColorArrayAlpha[0]);
+		} //marvelous
+		
+		if (ClientPrefs.data.marvelousWindow >= ClientPrefs.data.sickWindow && ClientPrefs.data.marvelousRating){
+		    FlxSpriteUtil.drawRect(graphNote, 0, graphNote.height * 0.5 + graphNote.height * 0.5 * MoveSize * (ClientPrefs.data.sickWindow / safeZoneOffset) - 1, graphNote.width, 2, ColorArrayAlpha[1]);
+    		FlxSpriteUtil.drawRect(graphNote, 0, graphNote.height * 0.5 - graphNote.height * 0.5 * MoveSize * (ClientPrefs.data.sickWindow / safeZoneOffset) - 1, graphNote.width, 2, ColorArrayAlpha[1]);		
+		} //sick
+		
+		if ((ClientPrefs.data.marvelousWindow >= ClientPrefs.data.goodWindow && ClientPrefs.data.marvelousRating) || ClientPrefs.data.sickWindow >= ClientPrefs.data.goodWindow){
+		    FlxSpriteUtil.drawRect(graphNote, 0, graphNote.height * 0.5 + graphNote.height * 0.5 * MoveSize * (ClientPrefs.data.goodWindow / safeZoneOffset) - 1, graphNote.width, 2, ColorArrayAlpha[2]);
+    		FlxSpriteUtil.drawRect(graphNote, 0, graphNote.height * 0.5 - graphNote.height * 0.5 * MoveSize * (ClientPrefs.data.goodWindow / safeZoneOffset) - 1, graphNote.width, 2, ColorArrayAlpha[2]);		
+		} //good
+		
+		if ((ClientPrefs.data.marvelousWindow >= ClientPrefs.data.badWindow && ClientPrefs.data.marvelousRating) || ClientPrefs.data.sickWindow >= ClientPrefs.data.badWindow || ClientPrefs.data.goodWindow >= ClientPrefs.data.badWindow){
+		    FlxSpriteUtil.drawRect(graphNote, 0, graphNote.height * 0.5 + graphNote.height * 0.5 * MoveSize * (ClientPrefs.data.badWindow / safeZoneOffset) - 1, graphNote.width, 2, ColorArrayAlpha[3]);
+    		FlxSpriteUtil.drawRect(graphNote, 0, graphNote.height * 0.5 - graphNote.height * 0.5 * MoveSize * (ClientPrefs.data.badWindow / safeZoneOffset) - 1, graphNote.width, 2, ColorArrayAlpha[3]);				
+		} //bad
+		
+		FlxSpriteUtil.drawRect(graphNote, 0, graphNote.height * 0.5 + graphNote.height * 0.5 * MoveSize - 1, graphNote.width, 2, ColorArrayAlpha[4]); 
+    	FlxSpriteUtil.drawRect(graphNote, 0, graphNote.height * 0.5 - graphNote.height * 0.5 * MoveSize - 1, graphNote.width, 2, ColorArrayAlpha[4]); 
+    	//shit
+    	
+    	FlxSpriteUtil.drawRect(graphNote, 0, graphNote.height * 0.5 - graphNote.height * 0.5 * 0.9 - 1, graphNote.width, 2, ColorArrayAlpha[3]);
+    	//miss
+		
+		graphNote.updateHitbox();			
+	
+	}
+	
+	function percentRateAdd(){
+	
+	    var numMarvelous:Int = 0;
+    	var numSicks:Int = 0;
+    	var numGoods:Int = 0;
+    	var numBads:Int = 0;
+    	var numShits:Int = 0;
+	
+	    for (i in 0...game.NoteTime.length - 1){
+		    if (Math.abs(game.NoteMs[i]) <= ClientPrefs.data.marvelousWindow && ClientPrefs.data.marvelousRating) numMarvelous++;
+		    else if (Math.abs(game.NoteMs[i]) <= ClientPrefs.data.sickWindow) color = numSicks++;
+		    else if (Math.abs(game.NoteMs[i]) <= ClientPrefs.data.goodWindow) color = numGoods++;
+		    else if (Math.abs(game.NoteMs[i]) <= ClientPrefs.data.badWindow) color = numBads++;
+		    else if (Math.abs(game.NoteMs[i]) <= safeZoneOffset) color = numShits++;		    	    		    		 
+	    }
+	    
+	    var height:Float = ClientPrefs.data.marvelousRating ? 300 / 5 : 300 / 4;	    
+	    if (ClientPrefs.data.marvelousRating) addRate(height, 'Marvelous', Reflect.field(ClientPrefs.data, 'marvelous'), numMarvelous, ColorArray[0]);
+	    addRate(height, 'Sick', Reflect.field(ClientPrefs.data, 'sick'), numSicks, ColorArray[1]);
+	    addRate(height, 'Good', Reflect.field(ClientPrefs.data, 'good'), numGoods, ColorArray[2]);
+	    addRate(height, 'Bad', Reflect.field(ClientPrefs.data, 'bad'), numBads, ColorArray[3]);
+	    addRate(height, 'Shit', (ClientPrefs.data.safeFrames / 60) * 1000, numShits, ColorArray[4]);		    	    	
+	}
+	
+	function addRate(height:Int, RateName:String, ms:Int, number:Int, color:FlxColor){
+	
+	    var numberBG:FlxSprite = new FlxSprite(percentBG.x + 5, percentBG.y + 5 + percentRectBGNumber.length * height).makeGraphic(percentBG.width - 10, 30, FlxColor.BLACK);
+		numberBG.alpha = 0;
+		percentRectBGNumber.add(numberBG);		
+		
+		var numberRect:FlxSprite = new FlxSprite(percentBG.x + 5, percentBG.y + 5 + percentRectBGNumber.length * height).makeGraphic(percentBG.width - 10, 30, color);
+		numberRect.alpha = 0;
+		percentRectNumber.add(numberRect);	
+	
+	    var numberText = new FlxText(percentBG.x + 5, numberBG.y + numberBG.height, 0, RateName, 16);		    
+		numberText.font = Paths.font('vcr.ttf');
+		numberText.setBorderStyle(FlxTextBorderStyle.OUTLINE, FlxColor.BLACK, 1, 1);
+		numberText.scrollFactor.set();
+		numberText.antialiasing = ClientPrefs.data.antialiasing;
+	    numberText.alignment = LEFT;			
+	    numberText.alpha = 0;    	
+	    numberText.color = color;    
+	    percentTextNumber.add(numberText);
+	    
+	    var numberText = new FlxText(percentBG.x + 5 + percentBG.width / 2, numberBG.y + numberBG.height, 0, number + '(' + Math.ceil(number / game.NoteTime.length * 100) / 100 + '%)', 16);		    
+		numberText.font = Paths.font('vcr.ttf');
+		numberText.setBorderStyle(FlxTextBorderStyle.OUTLINE, FlxColor.BLACK, 1, 1);
+		numberText.scrollFactor.set();
+		numberText.antialiasing = ClientPrefs.data.antialiasing;
+	    numberText.alignment = LEFT;			
+	    numberText.alpha = 0;    	
+	    numberText.color = color;    
+	    numberText.x -= numberText.width * 0.5;
+	    percentTextNumber.add(numberText);
+	    
+	    var numberText = new FlxText(percentBG.x + 5 + percentBG.width, numberBG.y + numberBG.height, 0, ms + 'MS', 16);		    
+		numberText.font = Paths.font('vcr.ttf');
+		numberText.setBorderStyle(FlxTextBorderStyle.OUTLINE, FlxColor.BLACK, 1, 1);
+		numberText.scrollFactor.set();
+		numberText.antialiasing = ClientPrefs.data.antialiasing;
+	    numberText.alignment = LEFT;			
+	    numberText.alpha = 0;    	
+	    numberText.color = color;    	
+	    numberText.x -= numberText.width;
+	    percentTextNumber.add(numberText);	
+	}
+	
+	function startTween(){
+	
+	    FlxTween.tween(background, {alpha: 0.5}, 0.5);		
+		FlxTween.tween(modsBG, {alpha: 0.5}, 0.5);		
+		FlxTween.tween(mesBG, {alpha: 0.5}, 0.5);		
+		FlxTween.tween(scBG, {alpha: 0.5}, 0.5);		
+		FlxTween.tween(opBG, {alpha: 0.5}, 0.5);		
+		FlxTween.tween(graphBG, {alpha: 0.5}, 0.5);		
+		FlxTween.tween(percentBG, {alpha: 0.5}, 0.5);
+		
+		modsMenu.alpha = 1;
+		new FlxTimer().start(0.5, function(tmr:FlxTimer){
+		
+		    rectTween(modsMenu);
+            
+            FlxTween.tween(modsText, {alpha: 1}, 0.5);	
+		
+		});						
+		
+		new FlxTimer().start(1, function(tmr:FlxTimer){
+			for (i in 0...mesTextNumber.length - 1){
+			    new FlxTimer().start((0.5 - 0.1) / mesTextNumber.length, function(tmr:FlxTimer){			
+			        FlxTween.tween(mesTextNumber[i], {alpha: 1}, 0.1);
+			    }			
+			}
+			
+			for (i in 0...scTextNumber.length - 1){
+			    new FlxTimer().start((0.5 - 0.1) / scTextNumber.length, function(tmr:FlxTimer){			
+			        FlxTween.tween(scTextNumber[i], {alpha: 1}, 0.1);
+			    }									
+			}
+			
+			for (i in 0...opTextNumber.length - 1){
+			    new FlxTimer().start((0.5 - 0.1) / opTextNumber.length, function(tmr:FlxTimer){	
+			        FlxTween.tween(opTextNumber[i], {alpha: 1}, 0.1);
+			    }									
+			}
+		});
+		
+		new FlxTimer().start(1.5, function(tmr:FlxTimer){
+		
+		    rectTween(graphNote);
+		
+		    for (i in 0...percentRectBGNumber.length - 1){		    
+		        FlxTween.tween(percentRectBGNumber[i], {alpha: 1}, 0.3);
+		    }
+		
+		    for (i in 0...percentRectNumber.length - 1){
+		        percentRectNumber[i].alpha = 1;
+		        rectTween(percentRectNumber[i]);
+		    }
+		    
+		    for (i in 0...percentTextNumber.length - 1){
+		        FlxTween.tween(percentTextNumber[i], {alpha: 1}, 0.5);
+		    }
+		});
+		
+		
+		new FlxTimer().start(2, function(tmr:FlxTimer){
+			FlxTween.tween(backBG, {x:  1280 - backBG.width}, 1, {ease: FlxEase.cubeInOut});
+			FlxTween.tween(backText, {x: 1280 - backText.width - 50}, 1.2, {ease: FlxEase.cubeInOut});
+		});
+	
+		
+	}
+	
+    function rectTween(sprite:FlxSprite){
+    
+        var swagRect:FlxRect;
+	    var showNum:Int = 0;
+	    
+	    var timerTween:FlxTimer = new FlxTimer().start(0.01, function(tmr:FlxTimer) {
+		    showWidth++;
+    		swagRect = sprite.clipRect;
+    		swagRect.x = 0;
+	        swagRect.y = 0;
+	        swagRect.width = sprite.width;
+		    swagRect.height = sprite.height * (showNum / 50);    		    
+		    modsMenu.clipRect = swagRect;
+		    
+		    if (showNum == 50){
+		        timerTween.cancel();		        		        
+		    }
+        }, 0);            
+    }
+
+
+
+
+
+
+
 	
 	//NewCustomFadeTransition is work for better close Substate
 
