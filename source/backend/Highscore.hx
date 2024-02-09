@@ -5,11 +5,13 @@ class Highscore
 	public static var weekScores:Map<String, Int> = new Map();
 	public static var songScores:Map<String, Int> = new Map<String, Int>();
 	public static var songRating:Map<String, Float> = new Map<String, Float>();
-
+    public static var songTimes:Map<String, Int> = new Map<String, String>();
+    
 	public static function resetSong(song:String, diff:Int = 0):Void
 	{
 		var daSong:String = formatSong(song, diff);
 		setScore(daSong, 0);
+		setTime(daSong, 'N/A');
 		setRating(daSong, 0);
 	}
 
@@ -26,11 +28,13 @@ class Highscore
 		if (songScores.exists(daSong)) {
 			if (songScores.get(daSong) < score) {
 				setScore(daSong, score);
+				setTime(daSong, Date.now().toString());
 				if(rating >= 0) setRating(daSong, rating);
 			}
 		}
 		else {
 			setScore(daSong, score);
+			setTime(daSong, Date.now().toString());
 			if(rating >= 0) setRating(daSong, rating);
 		}
 	}
@@ -58,6 +62,7 @@ class Highscore
 		FlxG.save.data.songScores = songScores;
 		FlxG.save.flush();
 	}
+	
 	static function setWeekScore(week:String, score:Int):Void
 	{
 		// Reminder that I don't need to format this song, it should come formatted!
@@ -71,6 +76,14 @@ class Highscore
 		// Reminder that I don't need to format this song, it should come formatted!
 		songRating.set(song, rating);
 		FlxG.save.data.songRating = songRating;
+		FlxG.save.flush();
+	}
+	
+	static function setTime(song:String, time:String):Void
+	{
+		// Reminder that I don't need to format this song, it should come formatted!
+		songTimes.set(song, time);
+		FlxG.save.data.songTimes = songTimes;
 		FlxG.save.flush();
 	}
 
@@ -105,6 +118,15 @@ class Highscore
 
 		return weekScores.get(daWeek);
 	}
+	
+	public static function getTime(song:String, diff:Int):String
+	{
+		var daSong:String = formatSong(song, diff);
+		if (!songScores.exists(daSong))
+			setTime(daSong, 'N/A');
+
+		return songTimes.get(daSong);
+	}
 
 	public static function load():Void
 	{
@@ -119,6 +141,10 @@ class Highscore
 		if (FlxG.save.data.songRating != null)
 		{
 			songRating = FlxG.save.data.songRating;
+		}
+		if (FlxG.save.data.songTimes != null)
+		{
+			songTimes = FlxG.save.data.songTimes;
 		}
 	}
 }
