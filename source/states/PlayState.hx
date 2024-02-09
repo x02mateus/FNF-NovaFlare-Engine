@@ -30,6 +30,7 @@ import states.editors.CharacterEditorState;
 
 import substates.PauseSubState;
 import substates.GameOverSubstate;
+import substates.ResultsScreen;
 
 #if !flash
 import flixel.addons.display.FlxRuntimeShader;
@@ -176,27 +177,12 @@ class PlayState extends MusicBeatState
 
 	public var gfSpeed:Int = 1;
 	public var health(default, set):Float = 1;
-	public var combo:Int = 0;
+	public var combo:Int = 0;	
+	public var highestCombo:Int = 0;
 	
-	public static var highestCombo:Int = 0;
-	
-	public static var rsNoteMs:Array<Float> = [];
-    public static var rsNoteTime:Array<Float> = [];
-    public static var rsSongLength:Float = 0;
+	public var NoteMs:Array<Float> = [];
+    public var NoteTime:Array<Float> = [];    
     
-    public static var reMarvelouss:Int = 0;
-    public static var rsSicks:Int = 0;
-	public static var rsGoods:Int = 0;
-	public static var rsBads:Int = 0;
-	public static var rsShits:Int = 0;
-	public static var rsMisses:Int = 0;
-	
-	public static var rsACC:Float = 0;
-    public static var rsScore:Int = 0;
-	public static var rsHits:Int = 0;
-	
-	public static var rsRatingFC:String = '';
-    public static var rsRatingName:String = '';
     var rsCheck:Bool = false;
     
     var numItems:FlxTypedGroup<FlxSprite>;
@@ -408,11 +394,7 @@ class PlayState extends MusicBeatState
 		GF_X = stageData.girlfriend[0];
 		GF_Y = stageData.girlfriend[1];
 		DAD_X = stageData.opponent[0];
-		DAD_Y = stageData.opponent[1];
-		
-		highestCombo = 0;
-		rsNoteMs = [];
-		rsNoteTime = [];		
+		DAD_Y = stageData.opponent[1];				
 
 		if(stageData.camera_speed != null)
 			cameraSpeed = stageData.camera_speed;
@@ -2773,8 +2755,8 @@ class PlayState extends MusicBeatState
 		if ((ClientPrefs.data.playOpponent && cpuControlled_opponent) || (!ClientPrefs.data.playOpponent && cpuControlled)) noteDiff = 0;
 		//best botplay for real lmao
 		
-		rsNoteMs.push(noteDiff / playbackRate);
-		rsNoteTime.push(note.strumTime);
+		NoteMs.push(noteDiff / playbackRate);
+		NoteTime.push(note.strumTime);
 		
 		vocals.volume = 1;
 
@@ -3307,6 +3289,7 @@ class PlayState extends MusicBeatState
 		{
 			combo++;
 			if(combo > 9999) combo = 9999;
+			if (combo > highestCombo) highestCombo = combo;
 			popUpScore(note);
 		}
 		var gainHealth:Bool = true; // prevent health gain, *if* sustains are treated as a singular note
