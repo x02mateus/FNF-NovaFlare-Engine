@@ -159,7 +159,7 @@ class ResultsScreen extends MusicBeatSubstate
 		
 		scTextAdd('Score: ' + game.songScore, 1);
 		scTextAdd('Highest Combe: ' + game.songMisses, 2);
-		scTextAdd('Accuracy: ', game.ratingPercent, 1);
+		scTextAdd('Accuracy: ' + game.ratingPercent, 1);
 		if (game.ratingFC == '') scTextAdd('Rank: N/A', 2);
 		else scTextAdd('Rank: ' + game.ratingName + ' - ' + game.ratingFC, 2);
 		scTextAdd('Hits: ' + game.songHits, 1);
@@ -403,7 +403,7 @@ class ResultsScreen extends MusicBeatSubstate
 	
 	function addRate(height:Int, RateName:String, ms:Float, number:Int, color:FlxColor){
 	
-	    var numberBG:FlxSprite = new FlxSprite(percentBG.x + 5, percentBG.y + 5 + percentRectBGNumber.length * height).makeGraphic(percentBG.width - 10, 30, FlxColor.BLACK);
+	    var numberBG:FlxSprite = new FlxSprite(percentBG.x + 5, percentBG.y + 5 + percentRectBGNumber.length * height).makeGraphic(Std.int(percentBG.width - 10), 30, FlxColor.BLACK);
 		numberBG.alpha = 0;
 		percentRectBGNumber.add(numberBG);		
 		
