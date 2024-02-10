@@ -101,7 +101,7 @@ class FPS extends TextField
 	private #if !flash override #end function __enterFrame(deltaTime:Float):Void
 	{	
 		
-		logicFPStime += deltaTime;
+		logicFPStime += FlxG.elapsed * 1000;
         logicFPSnum ++;
         
         if (logicFPStime >= 200) //update data for 0.2s
