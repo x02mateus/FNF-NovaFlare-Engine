@@ -66,7 +66,7 @@ class ResultsScreen extends MusicBeatSubstate
     var percentTextNumber:FlxTypedGroup<FlxText>;
     //Results for note rate percent
     
-	var backText:FlxText;
+	var <=:FlxText;
     var backBG:FlxSprite;
 	//back image
 	
@@ -114,8 +114,11 @@ class ResultsScreen extends MusicBeatSubstate
 		modsBG.alpha = 0;
 		add(modsBG);		
 		
-		modsMenu = new FlxSprite(20, 20).loadGraphic(Paths.image('menuBG'));
-		modsMenu.setGraphicSize(600, 338);		
+		modsMenu = new FlxSprite(20, 20).loadGraphic(Paths.image('menuBG'));		
+		modsMenu.scale.x = 600 / modsMenu.width;
+		modsMenu.scale.y = 338 / modsMenu.height;
+		modsMenu.offset.x = 0;
+		modsMenu.offset.y = 0;
 		modsMenu.updateHitbox();		
 		modsMenu.antialiasing = ClientPrefs.data.antialiasing;
 		modsMenu.alpha = 0;
@@ -135,7 +138,7 @@ class ResultsScreen extends MusicBeatSubstate
 	    
 	    //-------------------------		    		    
 		
-		mesBG = new FlxSprite(20, 20 + modsBG.height + 20).makeGraphic(600, 60, FlxColor.BLACK);
+		mesBG = new FlxSprite(20, 20 + modsBG.height + 20).makeGraphic(600, 75, FlxColor.BLACK);
 		mesBG.alpha = 0;
 		add(mesBG);		
 		
@@ -151,7 +154,7 @@ class ResultsScreen extends MusicBeatSubstate
 		
 		//-------------------------
 		
-		scBG = new FlxSprite(20, 20 + modsBG.height + 20 + mesBG.height + 20).makeGraphic(600, 60, FlxColor.BLACK);	
+		scBG = new FlxSprite(20, 20 + modsBG.height + 20 + mesBG.height + 20).makeGraphic(600, 75, FlxColor.BLACK);	
 		scBG.alpha = 0;
 		add(scBG);		
 		
@@ -168,7 +171,7 @@ class ResultsScreen extends MusicBeatSubstate
 		
 		//-------------------------
 		
-		opBG = new FlxSprite(20, 20 + modsBG.height + 20 + mesBG.height + 20 + scBG.height + 20).makeGraphic(600, 100, FlxColor.BLACK);	
+		opBG = new FlxSprite(20, 20 + modsBG.height + 20 + mesBG.height + 20 + scBG.height + 20).makeGraphic(600, 125, FlxColor.BLACK);	
 		opBG.alpha = 0;
 		add(opBG);		
 		
@@ -241,7 +244,7 @@ class ResultsScreen extends MusicBeatSubstate
 		#if android backTextShow = 'Press Text to continue'; #end
 		
 		backText = new FlxText(FlxG.width, 0, backTextShow);
-		backText.size = 28;
+		<=.size = 28;
 		backText.font = Paths.font('vcr.ttf');
 		backText.setBorderStyle(FlxTextBorderStyle.OUTLINE, FlxColor.BLACK, 1, 1);
 		backText.scrollFactor.set();
@@ -254,7 +257,7 @@ class ResultsScreen extends MusicBeatSubstate
 		backBG.scale.y = 0.5;
 		backBG.updateHitbox();
 		backBG.antialiasing = ClientPrefs.data.antialiasing;
-		backBG.y -= backBG.height;		
+		backBG.y -= backBG.height - 10;		
 		add(backBG);
 		add(backText);		
 		
@@ -311,7 +314,7 @@ class ResultsScreen extends MusicBeatSubstate
 	function TextAdd(BG:Dynamic, type:Dynamic, text:String = '', sameLine:Int = 0){
 	    var textWidth = 600;	    
 	    var numberText = new FlxText(BG.x, BG.y, 0, text, textSize);	
-	    if (sameLine > 0) numberText.y += Math.floor(type.length / 2) * textSize;
+	    if (sameLine > 0) numberText.y += Math.floor(type.length / 2) * 25;
 	    else numberText.y += type.length * textSize;
 	    if (sameLine > 0) numberText.x += (sameLine - 1) * 300;
 		numberText.font = Paths.font('vcr.ttf');
@@ -499,7 +502,7 @@ class ResultsScreen extends MusicBeatSubstate
 		
 		new FlxTimer().start(2, function(tmr:FlxTimer){
 		
-		    FlxTween.tween(graphNote, {alpha: 0.5}, 0.5);
+		    FlxTween.tween(graphNote, {alpha: 1}, 0.5);
 		
 		    for (i in 0...percentRectBGNumber.length){		    
 		        FlxTween.tween(percentRectBGNumber.members[i], {alpha: 1}, 0.3);
@@ -517,7 +520,7 @@ class ResultsScreen extends MusicBeatSubstate
 		
 		new FlxTimer().start(2.5, function(tmr:FlxTimer){
 			FlxTween.tween(backBG, {x:  1280 - backBG.width}, 1, {ease: FlxEase.cubeInOut});
-			FlxTween.tween(backText, {x: 1280 - backBG.width + 50}, 1.2, {ease: FlxEase.cubeInOut});
+			FlxTween.tween(<=, {x: 1280 - backBG.width / 2 - <=.width / 2}, 1.2, {ease: FlxEase.cubeInOut});
 		});
 	
 		
