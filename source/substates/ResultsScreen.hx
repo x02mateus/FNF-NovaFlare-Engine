@@ -520,7 +520,7 @@ class ResultsScreen extends MusicBeatSubstate
 	}
 	
 	var timerTween:FlxTimer;
-    function rectTween(sprite:FlxSprite){
+    function rectTween(sprite:FlxSprite, tweenHeight:Bool = false){
     
         var swagRect:FlxRect;
 	    var showNum:Int = 0;
@@ -531,8 +531,13 @@ class ResultsScreen extends MusicBeatSubstate
     		if(swagRect == null) swagRect = new FlxRect(0, 0, 0, 0);
     		swagRect.x = 0;
 	        swagRect.y = 0;
-	        swagRect.width = sprite.width;
-		    swagRect.height = sprite.height * (showNum / 50);    		    
+	        if (!tweenHeight){
+	            swagRect.width = sprite.width;
+		        swagRect.height = sprite.height * (showNum / 50);    		
+		    }else{
+		        swagRect.width = sprite.width * (showNum / 50);
+		        swagRect.height = sprite.height;    				    
+		    }
 		    modsMenu.clipRect = swagRect;
 		    
 		    if (showNum == 50){
