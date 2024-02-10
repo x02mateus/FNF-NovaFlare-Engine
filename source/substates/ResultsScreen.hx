@@ -66,7 +66,7 @@ class ResultsScreen extends MusicBeatSubstate
     var percentTextNumber:FlxTypedGroup<FlxText>;
     //Results for note rate percent
     
-	var <=:FlxText;
+	var backText:FlxText;
     var backBG:FlxSprite;
 	//back image
 	
@@ -244,7 +244,7 @@ class ResultsScreen extends MusicBeatSubstate
 		#if android backTextShow = 'Press Text to continue'; #end
 		
 		backText = new FlxText(FlxG.width, 0, backTextShow);
-		<=.size = 28;
+		backText.size = 28;
 		backText.font = Paths.font('vcr.ttf');
 		backText.setBorderStyle(FlxTextBorderStyle.OUTLINE, FlxColor.BLACK, 1, 1);
 		backText.scrollFactor.set();
@@ -520,7 +520,7 @@ class ResultsScreen extends MusicBeatSubstate
 		
 		new FlxTimer().start(2.5, function(tmr:FlxTimer){
 			FlxTween.tween(backBG, {x:  1280 - backBG.width}, 1, {ease: FlxEase.cubeInOut});
-			FlxTween.tween(<=, {x: 1280 - backBG.width / 2 - <=.width / 2}, 1.2, {ease: FlxEase.cubeInOut});
+			FlxTween.tween(backText, {x: 1280 - backBG.width / 2 - backText.width / 2}, 1.2, {ease: FlxEase.cubeInOut});
 		});
 	
 		
