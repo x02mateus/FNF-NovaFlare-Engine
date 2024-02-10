@@ -148,8 +148,8 @@ class ResultsScreen extends MusicBeatSubstate
 	    mesTextAdd('SongName: ' + PlayState.SONG.song + ' - ' + Difficulty.getString());
 		mesTextAdd('Played Time: ' + Date.now().toString());
 		
-		var poop:String = Highscore.formatSong(PlayState.SONG.song.toLowerCase(), PlayState.storyDifficulty);
-        var rate:Float = DiffCalc.CalculateDiff(Song.loadFromJson(poop, PlayState.SONG.song.toLowerCase())) / 3;			
+		var poop:String = Highscore.formatSong(game.songName.toLowerCase(), PlayState.storyDifficulty);
+        var rate:Float = DiffCalc.CalculateDiff(Song.loadFromJson(poop, game.songName.toLowerCase())) / 3;			
 		mesTextAdd('Difficult: ' + Math.ceil(rate * 100) / 100);		
 		
 		//-------------------------
@@ -471,8 +471,7 @@ class ResultsScreen extends MusicBeatSubstate
 		
 		new FlxTimer().start(1, function(tmr:FlxTimer){
 		  
-		    rectTween(modsMenu, true,/* Std.int(modsMenu.width * modsMenu.width / 600), Std.int(modsMenu.height * modsMenu.height / 388)*/);
-            
+		    FlxTween.tween(modsMenu, {alpha: 1}, 0.5);	           
             FlxTween.tween(modsText, {alpha: 1}, 0.5);	
 		
 		});						
