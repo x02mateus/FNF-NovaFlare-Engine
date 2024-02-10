@@ -52,7 +52,7 @@ class Rating
 		if (ClientPrefs.data.marvelousRating){
     		var rating:Rating = new Rating('marvelous');
     		rating.ratingMod = 1;
-    		rating.score = 350;
+    		rating.score = 500;
     		rating.image = ClientPrefs.data.marvelousSprite ? 'marvelous' : 'sick';
     		rating.noteSplash = true;
 		    ratingsData.push(rating);
