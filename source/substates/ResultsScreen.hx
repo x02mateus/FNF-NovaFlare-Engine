@@ -168,22 +168,22 @@ class ResultsScreen extends MusicBeatSubstate
 		
 		//-------------------------
 		
-		opBG = new FlxSprite(20, 20 + modsBG.height + 20 + mesBG.height + 20 + scBG.height + 20).makeGraphic(600, 180, FlxColor.BLACK);	
+		opBG = new FlxSprite(20, 20 + modsBG.height + 20 + mesBG.height + 20 + scBG.height + 20).makeGraphic(600, 100, FlxColor.BLACK);	
 		opBG.alpha = 0;
 		add(opBG);		
 		
 		opTextNumber = new FlxTypedGroup<FlxText>();
 		add(opTextNumber);
 		
-		opTextAdd('HealthGain: X' + ClientPrefs.getGameplaySetting('healthgain'));
-		opTextAdd('HealthLoss: X' + ClientPrefs.getGameplaySetting('healthloss'));
+		opTextAdd('HealthGain: X' + ClientPrefs.getGameplaySetting('healthgain'), 1);
+		opTextAdd('HealthLoss: X' + ClientPrefs.getGameplaySetting('healthloss'), 2);
 		
 		var speed:String = ClientPrefs.getGameplaySetting('scrollspeed');
 		if (ClientPrefs.getGameplaySetting('scrolltype') == 'multiplicative')
         speed = 'X' + speed;
         
-		opTextAdd('SongSpeed: ' + speed);
-		opTextAdd('PlaybackRate: X' + ClientPrefs.getGameplaySetting('songspeed'));
+		opTextAdd('SongSpeed: ' + speed, 1);
+		opTextAdd('PlaybackRate: X' + ClientPrefs.getGameplaySetting('songspeed'), 2);
 		
 		var botplay:String = 'Disable';
 		if (ClientPrefs.getGameplaySetting('botplay')) botplay = 'Enable';
@@ -192,9 +192,10 @@ class ResultsScreen extends MusicBeatSubstate
 		var instakill:String = 'Disable';
 		if (ClientPrefs.getGameplaySetting('instakill')) instakill = 'Enable';		
 		
-		opTextAdd('PracticeMode: ' + practice);
-		opTextAdd('Instakill: ' + instakill);		
-		opTextAdd('Botplay: ' + botplay);
+		opTextAdd('PracticeMode: ' + practice, 1);
+		opTextAdd('Instakill: ' + instakill, 2);		
+		opTextAdd('Botplay: ' + botplay, 1);
+		opTextAdd('', 2);
 		
 		var opponent:String = 'Disable';
 		if (ClientPrefs.data.playOpponent) opponent = 'Enable';
@@ -202,8 +203,8 @@ class ResultsScreen extends MusicBeatSubstate
 		if (ClientPrefs.data.filpChart) filpChart = 'Enable';
 		
 		
-		opTextAdd('PlayOpponent: ' + opponent);
-		opTextAdd('FilpChart: ' + filpChart);
+		opTextAdd('PlayOpponent: ' + opponent, 1);
+		opTextAdd('FilpChart: ' + filpChart, 2);
 		
 		//-------------------------
 		
