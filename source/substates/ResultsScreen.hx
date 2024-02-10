@@ -495,7 +495,7 @@ class ResultsScreen extends MusicBeatSubstate
 		    }
 		
 		    for (i in 0...percentRectNumber.length - 1){
-		        percentRectNumber[i].alpha = 1;
+		        percentRectNumber.mumbers[i].alpha = 1;
 		        rectTween(percentRectNumber.members[i]);
 		    }
 		    
