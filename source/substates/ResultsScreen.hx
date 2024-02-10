@@ -471,23 +471,23 @@ class ResultsScreen extends MusicBeatSubstate
 		});						
 		
 		new FlxTimer().start(1.5, function(tmr:FlxTimer){
-			for (i in 0...mesTextNumber.length - 1){
+			for (i in 0...mesTextNumber.length){
 			    var tweenTimer:FlxTimer = new FlxTimer();
-                tweenTimer.start((0.5 - 0.1) / mesTextNumber.length, function(tmr:FlxTimer){
+                tweenTimer.start((0.5 - 0.1) / mesTextNumber.length * i, function(tmr:FlxTimer){
 			        FlxTween.tween(mesTextNumber.members[i], {alpha: 1}, 0.1);
 			    });
 			}
 			
-			for (i in 0...scTextNumber.length - 1){
+			for (i in 0...scTextNumber.length){
 			    var tweenTimer:FlxTimer = new FlxTimer();
-                tweenTimer.start((0.5 - 0.1) / scTextNumber.length, function(tmr:FlxTimer){			
+                tweenTimer.start((0.5 - 0.1) / scTextNumber.length * i, function(tmr:FlxTimer){			
 			        FlxTween.tween(scTextNumber.members[i], {alpha: 1}, 0.1);
 			    });								
 			}
 			
-			for (i in 0...opTextNumber.length - 1){
+			for (i in 0...opTextNumber.length){
 			    var tweenTimer:FlxTimer = new FlxTimer();
-                tweenTimer.start((0.5 - 0.1) / opTextNumber.length, function(tmr:FlxTimer){	
+                tweenTimer.start((0.5 - 0.1) / opTextNumber.length * i, function(tmr:FlxTimer){	
 			        FlxTween.tween(opTextNumber.members[i], {alpha: 1}, 0.1);
 			    });						
 			}
