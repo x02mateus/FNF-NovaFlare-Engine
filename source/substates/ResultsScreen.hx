@@ -372,7 +372,7 @@ class ResultsScreen extends MusicBeatSubstate
     	FlxSpriteUtil.drawRect(graphNote, 0, graphNote.height * 0.5 - graphNote.height * 0.5 * MoveSize - 1, graphNote.width, 2, ColorArrayAlpha[4]); 
     	//shit
     	
-    	FlxSpriteUtil.drawRect(graphNote, 0, graphNote.height * 0.5 - graphNote.height * 0.5 * 0.9 - 1, graphNote.width, 2, ColorArrayAlpha[3]);
+    	FlxSpriteUtil.drawRect(graphNote, 0, graphNote.height * 0.5 + graphNote.height * 0.5 * 0.9 - 1, graphNote.width, 2, ColorArrayAlpha[3]);
     	//miss
 		
 		graphNote.updateHitbox();			
