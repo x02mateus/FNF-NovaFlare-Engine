@@ -495,7 +495,7 @@ class ResultsScreen extends MusicBeatSubstate
 		    }
 		
 		    for (i in 0...percentRectNumber.length - 1){
-		        percentRectNumber.mumbers[i].alpha = 1;
+		        percentRectNumber.members[i].alpha = 1;
 		        rectTween(percentRectNumber.members[i]);
 		    }
 		    
@@ -513,12 +513,13 @@ class ResultsScreen extends MusicBeatSubstate
 		
 	}
 	
+	var timerTween:FlxTimer;
     function rectTween(sprite:FlxSprite){
     
         var swagRect:FlxRect;
 	    var showNum:Int = 0;
 	    
-	    var timerTween:FlxTimer = new FlxTimer().start(0.01, function(tmr:FlxTimer) {
+	    timerTween = new FlxTimer().start(0.01, function(tmr:FlxTimer) {
 		    showNum++;
     		swagRect = sprite.clipRect;
     		swagRect.x = 0;
