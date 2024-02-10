@@ -24,7 +24,7 @@ import backend.Conductor;
 import backend.Mods;
 import backend.Highscore;
 import backend.DiffCalc;
-import backend.Difficulty;
+import backend.Song;
 
 import flixel.util.FlxSpriteUtil;
 import flixel.math.FlxRect;
@@ -145,7 +145,7 @@ class ResultsScreen extends MusicBeatSubstate
 	    mesTextAdd('SongName: ' + PlayState.SONG.song + ' - ' + Difficulty.getString());
 		mesTextAdd('Played Time: ' + Date.now().toString());
 		
-		var poop:String = Highscore.formatSong(PlayState.SONG.song.toLowerCase(), Difficulty.getString().toUpperCase());
+		var poop:String = Highscore.formatSong(PlayState.SONG.song.toLowerCase(), PlayState.storyDifficulty);
         var rate:Float = DiffCalc.CalculateDiff(Song.loadFromJson(poop, PlayState.SONG.song.toLowerCase())) / 3;			
 		mesTextAdd('Difficult: ' + rate);		
 		
@@ -524,8 +524,8 @@ class ResultsScreen extends MusicBeatSubstate
 	var timerTween:FlxTimer;
     function rectTween(sprite:FlxSprite, tweenHeight:Bool = false, width:Int = 0, height:Int = 0){
         
-        if (width == 0) width = sprite.width;
-        if (height == 0) height = sprite.height;
+        if (width == 0) width = Std.int(sprite.width);
+        if (height == 0) height = Std.int(sprite.height);
         
         var swagRect:FlxRect;
 	    var showNum:Int = 0;
@@ -536,7 +536,7 @@ class ResultsScreen extends MusicBeatSubstate
     		if(swagRect == null) swagRect = new FlxRect(0, 0, 0, 0);
     		swagRect.x = 0;
 	        swagRect.y = 0;
-	        if (!weenHeight){
+	        if (!tweenHeight){
 	            swagRect.width = width;
 		        swagRect.height = height * (showNum / 20);    		
 		    }else{
