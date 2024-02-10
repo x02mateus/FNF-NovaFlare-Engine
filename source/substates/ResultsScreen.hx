@@ -193,7 +193,7 @@ class ResultsScreen extends MusicBeatSubstate
 		if (ClientPrefs.getGameplaySetting('instakill')) instakill = 'Enable';		
 		
 		opTextAdd('PracticeMode: ' + practice);
-		opTextAdd('Instakill On Miss: ' + instakill);		
+		opTextAdd('Instakill: ' + instakill);		
 		opTextAdd('Botplay: ' + botplay);
 		
 		var opponent:String = 'Disable';
@@ -308,8 +308,10 @@ class ResultsScreen extends MusicBeatSubstate
 	
 	var textSize = 20;	
 	function TextAdd(BG:Dynamic, type:Dynamic, text:String = '', sameLine:Int = 0){
-	    var textWidth = 600;
-	    var numberText = new FlxText(BG.x, BG.y + type.length * textSize, 0, text, textSize);	
+	    var textWidth = 600;	    
+	    var numberText = new FlxText(BG.x, BG.y, 0, text, textSize);	
+	    if (sameLine > 0) numberText.y += Math.floor(type.length / 2) * textSize;
+	    else numberText.y += type.length * textSize;
 	    if (sameLine > 0) numberText.x += (sameLine - 1) * 300;
 		numberText.font = Paths.font('vcr.ttf');
 		numberText.setBorderStyle(FlxTextBorderStyle.OUTLINE, FlxColor.BLACK, 1, 1);
@@ -338,12 +340,11 @@ class ResultsScreen extends MusicBeatSubstate
 		    else if (Math.abs(game.NoteMs[i]) <= ClientPrefs.data.badWindow) color = ColorArray[3];
 		    else if (Math.abs(game.NoteMs[i]) <= safeZoneOffset) color = ColorArray[4];
 		    else color = ColorArray[5];		    		    		    
-		    		    
-		    FlxSpriteUtil.beginDraw(color);
+		    		    		    
 		    if (Math.abs(game.NoteMs[i]) <= safeZoneOffset){
-    		    FlxSpriteUtil.drawCircle(graphNote, graphNote.width * (game.NoteTime[i] / game.songLength), graphNote.height * 0.5 + graphNote.height * 0.5 * MoveSize * (game.NoteMs[i] / safeZoneOffset), noteSize);
+    		    FlxSpriteUtil.drawCircle(graphNote, graphNote.width * (game.NoteTime[i] / game.songLength), graphNote.height * 0.5 + graphNote.height * 0.5 * MoveSize * (game.NoteMs[i] / safeZoneOffset), noteSize, color);
     		}else{
-    		    FlxSpriteUtil.drawCircle(graphNote, graphNote.width * (game.NoteTime[i] / game.songLength), graphNote.height * 0.5 + graphNote.height * 0.5 * 0.9, noteSize);		
+    		    FlxSpriteUtil.drawCircle(graphNote, graphNote.width * (game.NoteTime[i] / game.songLength), graphNote.height * 0.5 + graphNote.height * 0.5 * 0.9, noteSize, color);		
     		}    				    
 		}
 		
@@ -352,17 +353,17 @@ class ResultsScreen extends MusicBeatSubstate
     		FlxSpriteUtil.drawRect(graphNote, 0, graphNote.height * 0.5 - graphNote.height * 0.5 * MoveSize * (ClientPrefs.data.marvelousWindow / safeZoneOffset) - 1, graphNote.width, 2, ColorArrayAlpha[0]);
 		} //marvelous
 		
-		if (ClientPrefs.data.marvelousWindow >= ClientPrefs.data.sickWindow && ClientPrefs.data.marvelousRating){
+		if (ClientPrefs.data.marvelousWindow <= ClientPrefs.data.sickWindow && ClientPrefs.data.marvelousRating){
 		    FlxSpriteUtil.drawRect(graphNote, 0, graphNote.height * 0.5 + graphNote.height * 0.5 * MoveSize * (ClientPrefs.data.sickWindow / safeZoneOffset) - 1, graphNote.width, 2, ColorArrayAlpha[1]);
     		FlxSpriteUtil.drawRect(graphNote, 0, graphNote.height * 0.5 - graphNote.height * 0.5 * MoveSize * (ClientPrefs.data.sickWindow / safeZoneOffset) - 1, graphNote.width, 2, ColorArrayAlpha[1]);		
 		} //sick
 		
-		if ((ClientPrefs.data.marvelousWindow >= ClientPrefs.data.goodWindow && ClientPrefs.data.marvelousRating) || ClientPrefs.data.sickWindow >= ClientPrefs.data.goodWindow){
+		if ((ClientPrefs.data.marvelousWindow <= ClientPrefs.data.goodWindow && ClientPrefs.data.marvelousRating) || ClientPrefs.data.sickWindow <= ClientPrefs.data.goodWindow){
 		    FlxSpriteUtil.drawRect(graphNote, 0, graphNote.height * 0.5 + graphNote.height * 0.5 * MoveSize * (ClientPrefs.data.goodWindow / safeZoneOffset) - 1, graphNote.width, 2, ColorArrayAlpha[2]);
     		FlxSpriteUtil.drawRect(graphNote, 0, graphNote.height * 0.5 - graphNote.height * 0.5 * MoveSize * (ClientPrefs.data.goodWindow / safeZoneOffset) - 1, graphNote.width, 2, ColorArrayAlpha[2]);		
 		} //good
 		
-		if ((ClientPrefs.data.marvelousWindow >= ClientPrefs.data.badWindow && ClientPrefs.data.marvelousRating) || ClientPrefs.data.sickWindow >= ClientPrefs.data.badWindow || ClientPrefs.data.goodWindow >= ClientPrefs.data.badWindow){
+		if ((ClientPrefs.data.marvelousWindow <= ClientPrefs.data.badWindow && ClientPrefs.data.marvelousRating) || ClientPrefs.data.sickWindow <= ClientPrefs.data.badWindow || ClientPrefs.data.goodWindow <= ClientPrefs.data.badWindow){
 		    FlxSpriteUtil.drawRect(graphNote, 0, graphNote.height * 0.5 + graphNote.height * 0.5 * MoveSize * (ClientPrefs.data.badWindow / safeZoneOffset) - 1, graphNote.width, 2, ColorArrayAlpha[3]);
     		FlxSpriteUtil.drawRect(graphNote, 0, graphNote.height * 0.5 - graphNote.height * 0.5 * MoveSize * (ClientPrefs.data.badWindow / safeZoneOffset) - 1, graphNote.width, 2, ColorArrayAlpha[3]);				
 		} //bad
@@ -408,7 +409,7 @@ class ResultsScreen extends MusicBeatSubstate
 		numberBG.alpha = 0;
 		percentRectBGNumber.add(numberBG);		
 		
-		var numberRect:FlxSprite = new FlxSprite(percentBG.x + 5, percentBG.y + 5 + percentRectBGNumber.length * height).makeGraphic(Std.int(percentBG.width - 10), 30, color);
+		var numberRect:FlxSprite = new FlxSprite(percentBG.x + 5, percentBG.y + 5 + percentRectNumber.length * height).makeGraphic(Std.int(percentBG.width - 10), 30, color);
 		numberRect.alpha = 0;
 		percentRectNumber.add(numberRect);	
 	
@@ -464,7 +465,7 @@ class ResultsScreen extends MusicBeatSubstate
 		
 		new FlxTimer().start(1, function(tmr:FlxTimer){
 		  
-		    rectTween(modsMenu);
+		    rectTween(modsMenu, true, 600, 338);
             
             FlxTween.tween(modsText, {alpha: 1}, 0.5);	
 		
@@ -521,28 +522,31 @@ class ResultsScreen extends MusicBeatSubstate
 	}
 	
 	var timerTween:FlxTimer;
-    function rectTween(sprite:FlxSprite, tweenHeight:Bool = false){
-    
+    function rectTween(sprite:FlxSprite, tweenHeight:Bool = false, width:Int = 0, height:Int = 0){
+        
+        if (width == 0) width = sprite.width;
+        if (height == 0) height = sprite.height;
+        
         var swagRect:FlxRect;
 	    var showNum:Int = 0;
 	    
-	    timerTween = new FlxTimer().start(0.01, function(tmr:FlxTimer) {
+	    timerTween = new FlxTimer().start(0.025, function(tmr:FlxTimer) {
 		    showNum++;
     		swagRect = sprite.clipRect;
     		if(swagRect == null) swagRect = new FlxRect(0, 0, 0, 0);
     		swagRect.x = 0;
 	        swagRect.y = 0;
-	        if (!tweenHeight){
-	            swagRect.width = sprite.width;
-		        swagRect.height = sprite.height * (showNum / 50);    		
+	        if (!weenHeight){
+	            swagRect.width = width;
+		        swagRect.height = height * (showNum / 20);    		
 		    }else{
-		        swagRect.width = sprite.width * (showNum / 50);
-		        swagRect.height = sprite.height;    				    
+		        swagRect.width = width * (showNum / 20);
+		        swagRect.height = height;    				    
 		    }
 		    sprite.clipRect = swagRect;
 		    sprite.alpha = 1;
 		    
-		    if (showNum == 50){
+		    if (showNum == 20){
 		        timerTween.cancel();		        		        
 		    }
         }, 0);            
