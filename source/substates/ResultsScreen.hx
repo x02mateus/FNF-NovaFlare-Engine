@@ -434,7 +434,7 @@ class ResultsScreen extends MusicBeatSubstate
 	    numberText.x -= numberText.width * 0.5;
 	    percentTextNumber.add(numberText);
 	    
-	    var numberText = new FlxText(percentBG.x + 5 + percentBG.width, numberBG.y + numberBG.height, 0, ms + 'MS', 16);		    
+	    var numberText = new FlxText(percentBG.x - 5 + percentBG.width, numberBG.y + numberBG.height, 0, ms + 'MS', 16);		    
 		numberText.font = Paths.font('vcr.ttf');
 		numberText.setBorderStyle(FlxTextBorderStyle.OUTLINE, FlxColor.BLACK, 1, 1);
 		numberText.scrollFactor.set();
