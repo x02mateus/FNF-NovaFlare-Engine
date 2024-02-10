@@ -534,7 +534,7 @@ class ResultsScreen extends MusicBeatSubstate
 	    
 	    timerTween = new FlxTimer().start(0.025, function(tmr:FlxTimer) {
 		    showNum++;
-    		swagRect = sprite.clipRect;
+    		
     		if(swagRect == null) swagRect = new FlxRect(0, 0, 0, 0);
     		swagRect.x = 0;
 	        swagRect.y = 0;
