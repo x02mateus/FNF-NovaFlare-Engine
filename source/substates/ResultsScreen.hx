@@ -257,7 +257,7 @@ class ResultsScreen extends MusicBeatSubstate
 		backBG.scale.y = 0.5;
 		backBG.updateHitbox();
 		backBG.antialiasing = ClientPrefs.data.antialiasing;
-		backBG.y -= backBG.height - 10;		
+		backBG.y -= backBG.height + 10;		
 		add(backBG);
 		add(backText);		
 		
@@ -457,7 +457,7 @@ class ResultsScreen extends MusicBeatSubstate
 	    FlxTween.tween(background, {alpha: 0.5}, 0.5);	
 	    
 	    
-	    new FlxTimer().start(1, function(tmr:FlxTimer){				    
+	    new FlxTimer().start(0.5, function(tmr:FlxTimer){				    
 								
     		FlxTween.tween(modsBG, {alpha: 0.5}, 0.5);		
     		FlxTween.tween(mesBG, {alpha: 0.5}, 0.5);		
@@ -471,7 +471,7 @@ class ResultsScreen extends MusicBeatSubstate
 		
 		new FlxTimer().start(1, function(tmr:FlxTimer){
 		  
-		    rectTween(modsMenu, true, Std.int(modsMenu.width * modsMenu.width / 600), Std.int(modsMenu.height * modsMenu.height / 388));
+		    rectTween(modsMenu, true,/* Std.int(modsMenu.width * modsMenu.width / 600), Std.int(modsMenu.height * modsMenu.height / 388)*/);
             
             FlxTween.tween(modsText, {alpha: 1}, 0.5);	
 		
