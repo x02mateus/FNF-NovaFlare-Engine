@@ -348,6 +348,8 @@ class ResultsScreen extends MusicBeatSubstate
     		}    				    
 		}
 		
+		FlxSpriteUtil.drawRect(graphNote, 0, graphNote.height * 0.5 - 1, graphNote.width, 2, 0x7FFFFFFF);
+		
 		if (ClientPrefs.data.marvelousRating){
     		FlxSpriteUtil.drawRect(graphNote, 0, graphNote.height * 0.5 + graphNote.height * 0.5 * MoveSize * (ClientPrefs.data.marvelousWindow / safeZoneOffset) - 1, graphNote.width, 2, ColorArrayAlpha[0]);
     		FlxSpriteUtil.drawRect(graphNote, 0, graphNote.height * 0.5 - graphNote.height * 0.5 * MoveSize * (ClientPrefs.data.marvelousWindow / safeZoneOffset) - 1, graphNote.width, 2, ColorArrayAlpha[0]);
