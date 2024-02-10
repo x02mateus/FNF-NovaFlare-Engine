@@ -167,7 +167,7 @@ class ResultsScreen extends MusicBeatSubstate
 		
 		//-------------------------
 		
-		opBG = new FlxSprite(20, 20 + modsBG.height + 20).makeGraphic(600, 180, FlxColor.BLACK);	
+		opBG = new FlxSprite(20, 20 + modsBG.height + 20 + mesBG.height + 20 + scBG.height).makeGraphic(600, 180, FlxColor.BLACK);	
 		opBG.alpha = 0;
 		add(opBG);		
 		
@@ -446,24 +446,30 @@ class ResultsScreen extends MusicBeatSubstate
 	
 	function startTween(){
 	
-	    FlxTween.tween(background, {alpha: 0.5}, 0.5);		
-		FlxTween.tween(modsBG, {alpha: 0.5}, 0.5);		
-		FlxTween.tween(mesBG, {alpha: 0.5}, 0.5);		
-		FlxTween.tween(scBG, {alpha: 0.5}, 0.5);		
-		FlxTween.tween(opBG, {alpha: 0.5}, 0.5);		
-		FlxTween.tween(graphBG, {alpha: 0.5}, 0.5);		
-		FlxTween.tween(percentBG, {alpha: 0.5}, 0.5);
+	    FlxTween.tween(background, {alpha: 0.5}, 0.5);	
+	    
+	    
+	    new FlxTimer().start(1, function(tmr:FlxTimer){				    
+								
+    		FlxTween.tween(modsBG, {alpha: 0.5}, 0.5);		
+    		FlxTween.tween(mesBG, {alpha: 0.5}, 0.5);		
+    		FlxTween.tween(scBG, {alpha: 0.5}, 0.5);		
+    		FlxTween.tween(opBG, {alpha: 0.5}, 0.5);		
+    		
+    		FlxTween.tween(graphBG, {alpha: 0.5}, 0.5);		
+    		FlxTween.tween(percentBG, {alpha: 0.5}, 0.5);
+		});			
 		
-		modsMenu.alpha = 1;
-		new FlxTimer().start(0.5, function(tmr:FlxTimer){
 		
+		new FlxTimer().start(1, function(tmr:FlxTimer){
+		    modsMenu.alpha = 1;
 		    rectTween(modsMenu);
             
             FlxTween.tween(modsText, {alpha: 1}, 0.5);	
 		
 		});						
 		
-		new FlxTimer().start(1, function(tmr:FlxTimer){
+		new FlxTimer().start(1.5, function(tmr:FlxTimer){
 			for (i in 0...mesTextNumber.length - 1){
 			    var tweenTimer:FlxTimer = new FlxTimer();
                 tweenTimer.start((0.5 - 0.1) / mesTextNumber.length, function(tmr:FlxTimer){
@@ -486,7 +492,7 @@ class ResultsScreen extends MusicBeatSubstate
 			}
 		});
 		
-		new FlxTimer().start(1.5, function(tmr:FlxTimer){
+		new FlxTimer().start(2, function(tmr:FlxTimer){
 		
 		    rectTween(graphNote);
 		
@@ -505,7 +511,7 @@ class ResultsScreen extends MusicBeatSubstate
 		});
 		
 		
-		new FlxTimer().start(2, function(tmr:FlxTimer){
+		new FlxTimer().start(2.5, function(tmr:FlxTimer){
 			FlxTween.tween(backBG, {x:  1280 - backBG.width}, 1, {ease: FlxEase.cubeInOut});
 			FlxTween.tween(backText, {x: 1280 - backText.width - 50}, 1.2, {ease: FlxEase.cubeInOut});
 		});
@@ -522,6 +528,7 @@ class ResultsScreen extends MusicBeatSubstate
 	    timerTween = new FlxTimer().start(0.01, function(tmr:FlxTimer) {
 		    showNum++;
     		swagRect = sprite.clipRect;
+    		if(swagRect == null) swagRect = new FlxRect(0, 0, 0, 0);
     		swagRect.x = 0;
 	        swagRect.y = 0;
 	        swagRect.width = sprite.width;
