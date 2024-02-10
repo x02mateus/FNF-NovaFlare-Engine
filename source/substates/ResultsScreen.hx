@@ -405,7 +405,7 @@ class ResultsScreen extends MusicBeatSubstate
 	
 	function addRate(height:Int, RateName:String, ms:Float, number:Int, color:FlxColor){
 	
-	    var numberBG:FlxSprite = new FlxSprite(percentBG.x + 5, percentBG.y + 5 + percentRectBGNumber.length * height).makeGraphic(Std.int(percentBG.width - 10), 30, FlxColor.BLACK);
+	    var numberBG:FlxSprite = new FlxSprite(percentBG.x + 5, percentBG.y + 5 + percentRectBGNumber.length * height).makeGraphic(Std.int(percentBG.width - 10 * Math.ceil(number / (game.NoteTime.length - 1))), 30, FlxColor.BLACK);
 		numberBG.alpha = 0;
 		percentRectBGNumber.add(numberBG);		
 		
@@ -434,7 +434,7 @@ class ResultsScreen extends MusicBeatSubstate
 	    numberText.x -= numberText.width * 0.5;
 	    percentTextNumber.add(numberText);
 	    
-	    var numberText = new FlxText(percentBG.x - 5 + percentBG.width, numberBG.y + numberBG.height, 0, ms + 'MS', 16);		    
+	    var numberText = new FlxText(percentBG.x - 5 + percentBG.width, numberBG.y + numberBG.height, 0, Math.ceil(ms * 100) / 100 + 'MS', 16);		    
 		numberText.font = Paths.font('vcr.ttf');
 		numberText.setBorderStyle(FlxTextBorderStyle.OUTLINE, FlxColor.BLACK, 1, 1);
 		numberText.scrollFactor.set();
