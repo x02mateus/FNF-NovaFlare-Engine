@@ -24,6 +24,7 @@ import backend.Conductor;
 import backend.Mods;
 import backend.Highscore;
 import backend.DiffCalc;
+import backend.Difficulty;
 
 import flixel.util.FlxSpriteUtil;
 import flixel.math.FlxRect;
@@ -144,9 +145,8 @@ class ResultsScreen extends MusicBeatSubstate
 	    mesTextAdd('SongName: ' + PlayState.SONG.song + ' - ' + Difficulty.getString());
 		mesTextAdd('Played Time: ' + Date.now().toString());
 		
-		//var poop:String = Highscore.formatSong(songs[curSelected].songName.toLowerCase(), curDifficulty);
-       // var rate:Float = DiffCalc.CalculateDiff(Song.loadFromJson(poop, songs[curSelected].songName.toLowerCase())) / 3;
-			var rate = 0;
+		var poop:String = Highscore.formatSong(PlayState.SONG.song.toLowerCase(), Difficulty.getString().toUpperCase());
+        var rate:Float = DiffCalc.CalculateDiff(Song.loadFromJson(poop, PlayState.SONG.song.toLowerCase())) / 3;			
 		mesTextAdd('Difficult: ' + rate);		
 		
 		//-------------------------

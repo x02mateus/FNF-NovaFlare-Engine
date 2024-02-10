@@ -119,8 +119,8 @@ class PauseSubState extends MusicBeatSubstate
     //紫→酒红→红→橙→黄→青→蓝→深蓝→紫
     //渐变暂停界面
 
-    var curColor:Int = 0;
-    var curColorAgain:Int = 0;
+    public static var curColor:Int = 0;
+    public static var curColorAgain:Int = 0;
     var colorTween:FlxTween;
     var colorTweenShadow:FlxTween;
 
