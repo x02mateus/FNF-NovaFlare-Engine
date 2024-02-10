@@ -128,6 +128,7 @@ class ResultsScreen extends MusicBeatSubstate
 	    modsText.alignment = CENTER;	
 	    modsText.alpha = 0;
 	    add(modsText);		
+	    modsText.x += modsBG.width / 2 - modsText.width / 2;
 	    if (modsText.width > 600) modsText.scale.x = 600 / modsText.width; //fix width problem
 	    modsText.offset.x = 0;
 	    
@@ -167,7 +168,7 @@ class ResultsScreen extends MusicBeatSubstate
 		
 		//-------------------------
 		
-		opBG = new FlxSprite(20, 20 + modsBG.height + 20 + mesBG.height + 20 + scBG.height).makeGraphic(600, 180, FlxColor.BLACK);	
+		opBG = new FlxSprite(20, 20 + modsBG.height + 20 + mesBG.height + 20 + scBG.height + 20).makeGraphic(600, 180, FlxColor.BLACK);	
 		opBG.alpha = 0;
 		add(opBG);		
 		
@@ -309,7 +310,7 @@ class ResultsScreen extends MusicBeatSubstate
 	function TextAdd(BG:Dynamic, type:Dynamic, text:String = '', sameLine:Int = 0){
 	    var textWidth = 600;
 	    var numberText = new FlxText(BG.x, BG.y + type.length * textSize, 0, text, textSize);	
-	    numberText.x += sameLine * 300;
+	    if (sameLine > 0) numberText.x += (sameLine - 1) * 300;
 		numberText.font = Paths.font('vcr.ttf');
 		numberText.setBorderStyle(FlxTextBorderStyle.OUTLINE, FlxColor.BLACK, 1, 1);
 		numberText.scrollFactor.set();
@@ -421,7 +422,7 @@ class ResultsScreen extends MusicBeatSubstate
 	    numberText.color = color;    
 	    percentTextNumber.add(numberText);
 	    
-	    var numberText = new FlxText(percentBG.x + 5 + percentBG.width / 2, numberBG.y + numberBG.height, 0, number + '(' + Math.ceil(number / game.NoteTime.length * 100) / 100 + '%)', 16);		    
+	    var numberText = new FlxText(percentBG.x + 5 + percentBG.width / 2, numberBG.y + numberBG.height, 0, number + '(' + Math.ceil(number / game.NoteTime.length * 100) + '%)', 16);		    
 		numberText.font = Paths.font('vcr.ttf');
 		numberText.setBorderStyle(FlxTextBorderStyle.OUTLINE, FlxColor.BLACK, 1, 1);
 		numberText.scrollFactor.set();
@@ -462,7 +463,7 @@ class ResultsScreen extends MusicBeatSubstate
 		
 		
 		new FlxTimer().start(1, function(tmr:FlxTimer){
-		    modsMenu.alpha = 1;
+		  
 		    rectTween(modsMenu);
             
             FlxTween.tween(modsText, {alpha: 1}, 0.5);	
@@ -496,16 +497,16 @@ class ResultsScreen extends MusicBeatSubstate
 		
 		    rectTween(graphNote);
 		
-		    for (i in 0...percentRectBGNumber.length - 1){		    
+		    for (i in 0...percentRectBGNumber.length){		    
 		        FlxTween.tween(percentRectBGNumber.members[i], {alpha: 1}, 0.3);
 		    }
 		
-		    for (i in 0...percentRectNumber.length - 1){
+		    for (i in 0...percentRectNumber.length){
 		        percentRectNumber.members[i].alpha = 1;
 		        rectTween(percentRectNumber.members[i]);
 		    }
 		    
-		    for (i in 0...percentTextNumber.length - 1){
+		    for (i in 0...percentTextNumber.length){
 		        FlxTween.tween(percentTextNumber.members[i], {alpha: 1}, 0.5);
 		    }
 		});
@@ -538,7 +539,8 @@ class ResultsScreen extends MusicBeatSubstate
 		        swagRect.width = sprite.width * (showNum / 50);
 		        swagRect.height = sprite.height;    				    
 		    }
-		    modsMenu.clipRect = swagRect;
+		    sprite.clipRect = swagRect;
+		    sprite.alpha = 1;
 		    
 		    if (showNum == 50){
 		        timerTween.cancel();		        		        
