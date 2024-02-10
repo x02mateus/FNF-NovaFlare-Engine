@@ -468,7 +468,7 @@ class ResultsScreen extends MusicBeatSubstate
 		
 		new FlxTimer().start(1, function(tmr:FlxTimer){
 		  
-		    rectTween(modsMenu, true, 600, 338);
+		    rectTween(modsMenu, true);
             
             FlxTween.tween(modsText, {alpha: 1}, 0.5);	
 		
@@ -499,14 +499,13 @@ class ResultsScreen extends MusicBeatSubstate
 		
 		new FlxTimer().start(2, function(tmr:FlxTimer){
 		
-		    rectTween(graphNote);
+		    FlxTween.tween(graphNote, {alpha: 0.5}, 0.5);
 		
 		    for (i in 0...percentRectBGNumber.length){		    
 		        FlxTween.tween(percentRectBGNumber.members[i], {alpha: 1}, 0.3);
 		    }
 		
-		    for (i in 0...percentRectNumber.length){
-		        percentRectNumber.members[i].alpha = 1;
+		    for (i in 0...percentRectNumber.length){		        
 		        rectTween(percentRectNumber.members[i]);
 		    }
 		    
@@ -518,7 +517,7 @@ class ResultsScreen extends MusicBeatSubstate
 		
 		new FlxTimer().start(2.5, function(tmr:FlxTimer){
 			FlxTween.tween(backBG, {x:  1280 - backBG.width}, 1, {ease: FlxEase.cubeInOut});
-			FlxTween.tween(backText, {x: 1280 - backBG.width - 50}, 1.2, {ease: FlxEase.cubeInOut});
+			FlxTween.tween(backText, {x: 1280 - backBG.width + 50}, 1.2, {ease: FlxEase.cubeInOut});
 		});
 	
 		
