@@ -471,7 +471,7 @@ class ResultsScreen extends MusicBeatSubstate
 		
 		new FlxTimer().start(1, function(tmr:FlxTimer){
 		  
-		    rectTween(modsMenu, true, modsMenu.width * modsMenu.width / 600, modsMenu.height * modsMenu.height / 388);
+		    rectTween(modsMenu, true, Std.int(modsMenu.width * modsMenu.width / 600), Std.int(modsMenu.height * modsMenu.height / 388));
             
             FlxTween.tween(modsText, {alpha: 1}, 0.5);	
 		
