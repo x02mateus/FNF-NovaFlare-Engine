@@ -33,7 +33,7 @@ class NoteSplash extends FlxSprite
 		if(PlayState.SONG.splashSkin != null && PlayState.SONG.splashSkin.length > 0) skin = PlayState.SONG.splashSkin;
 		else{		    
 		    if (Paths.fileExists('images/noteSplashes.png', IMAGE) && ClientPrefs.data.splashSkin == ClientPrefs.defaultData.splashSkin) //fix for load old mods note assets
-		        skin = 'NOTE_assets';
+		        skin = 'noteSplashes';
 		    else skin = defaultNoteSplash + getSplashSkinPostfix();
 		    }
 		rgbShader = new PixelSplashShaderRef();
