@@ -348,7 +348,7 @@ class ResultsScreen extends MusicBeatSubstate
     		}    				    
 		}
 		
-		if (!ClientPrefs.data.marvelousRating){
+		if (ClientPrefs.data.marvelousRating){
     		FlxSpriteUtil.drawRect(graphNote, 0, graphNote.height * 0.5 + graphNote.height * 0.5 * MoveSize * (ClientPrefs.data.marvelousWindow / safeZoneOffset) - 1, graphNote.width, 2, ColorArrayAlpha[0]);
     		FlxSpriteUtil.drawRect(graphNote, 0, graphNote.height * 0.5 - graphNote.height * 0.5 * MoveSize * (ClientPrefs.data.marvelousWindow / safeZoneOffset) - 1, graphNote.width, 2, ColorArrayAlpha[0]);
 		} //marvelous
@@ -536,7 +536,7 @@ class ResultsScreen extends MusicBeatSubstate
     		if(swagRect == null) swagRect = new FlxRect(0, 0, 0, 0);
     		swagRect.x = 0;
 	        swagRect.y = 0;
-	        if (!tweenHeight){
+	        if (tweenHeight){
 	            swagRect.width = width;
 		        swagRect.height = height * (showNum / 20);    		
 		    }else{
