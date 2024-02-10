@@ -147,7 +147,7 @@ class ResultsScreen extends MusicBeatSubstate
 		
 		var poop:String = Highscore.formatSong(PlayState.SONG.song.toLowerCase(), PlayState.storyDifficulty);
         var rate:Float = DiffCalc.CalculateDiff(Song.loadFromJson(poop, PlayState.SONG.song.toLowerCase())) / 3;			
-		mesTextAdd('Difficult: ' + rate);		
+		mesTextAdd('Difficult: ' + Math.ceil(rate * 100) / 100);		
 		
 		//-------------------------
 		
@@ -175,8 +175,8 @@ class ResultsScreen extends MusicBeatSubstate
 		opTextNumber = new FlxTypedGroup<FlxText>();
 		add(opTextNumber);
 		
-		opTextAdd('HealthGain: ' + ClientPrefs.getGameplaySetting('healthgain'));
-		opTextAdd('HealthLoss: ' + ClientPrefs.getGameplaySetting('healthloss'));
+		opTextAdd('HealthGain: X' + ClientPrefs.getGameplaySetting('healthgain'));
+		opTextAdd('HealthLoss: X' + ClientPrefs.getGameplaySetting('healthloss'));
 		
 		var speed:String = ClientPrefs.getGameplaySetting('scrollspeed');
 		if (ClientPrefs.getGameplaySetting('scrolltype') == 'multiplicative')
@@ -405,11 +405,11 @@ class ResultsScreen extends MusicBeatSubstate
 	
 	function addRate(height:Int, RateName:String, ms:Float, number:Int, color:FlxColor){
 	
-	    var numberBG:FlxSprite = new FlxSprite(percentBG.x + 5, percentBG.y + 5 + percentRectBGNumber.length * height).makeGraphic(Std.int(percentBG.width - 10 * Math.ceil(number / (game.NoteTime.length - 1))), 30, FlxColor.BLACK);
+	    var numberBG:FlxSprite = new FlxSprite(percentBG.x + 5, percentBG.y + 5 + percentRectBGNumber.length * height).makeGraphic(Std.int(percentBG.width - 10)), 30, FlxColor.BLACK);
 		numberBG.alpha = 0;
 		percentRectBGNumber.add(numberBG);		
 		
-		var numberRect:FlxSprite = new FlxSprite(percentBG.x + 5, percentBG.y + 5 + percentRectNumber.length * height).makeGraphic(Std.int(percentBG.width - 10), 30, color);
+		var numberRect:FlxSprite = new FlxSprite(percentBG.x + 5, percentBG.y + 5 + percentRectNumber.length * height).makeGraphic(Std.int((percentBG.width - 10) * Math.ceil(number / (game.NoteTime.length - 1))), 30, color);
 		numberRect.alpha = 0;
 		percentRectNumber.add(numberRect);	
 	
@@ -423,7 +423,7 @@ class ResultsScreen extends MusicBeatSubstate
 	    numberText.color = color;    
 	    percentTextNumber.add(numberText);
 	    
-	    var numberText = new FlxText(percentBG.x + 5 + percentBG.width / 2, numberBG.y + numberBG.height, 0, number + '(' + Math.ceil(number / game.NoteTime.length * 100) + '%)', 16);		    
+	    var numberText = new FlxText(percentBG.x + 5 + percentBG.width / 2, numberBG.y + numberBG.height, 0, number + '(' + Math.ceil(number / (game.NoteTime.length - 1) * 100) + '%)', 16);		    
 		numberText.font = Paths.font('vcr.ttf');
 		numberText.setBorderStyle(FlxTextBorderStyle.OUTLINE, FlxColor.BLACK, 1, 1);
 		numberText.scrollFactor.set();
