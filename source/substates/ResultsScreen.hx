@@ -2,9 +2,9 @@ package substates;
 
 /*
     ResultsScreen made by NF|beihu (北狐丶逐梦)
-    youtube: https://b23.tv/SnqG443
-    bilbil: https://youtube.com/@beihu235?si=NHnWxcUWPS46EqUt
-    discord: beihu235
+    bilibili: https://b23.tv/SnqG443
+    youtube: https://youtube.com/@beihu235?si=NHnWxcUWPS46EqUt
+    discord: @beihu235
     
     you can use it but must give me credit(dont forget my icon)
     logic is very easy so I think everyone can understand it
