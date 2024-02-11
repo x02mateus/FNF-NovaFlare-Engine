@@ -25,7 +25,9 @@ import backend.Mods;
 import backend.Highscore;
 import backend.DiffCalc;
 import backend.Song;
+
 import flixel.math.FlxRect;
+import flixel.util.FlxSpriteUtil;
 
 import openfl.display.BitmapData;
 import openfl.display.Shape;
@@ -149,12 +151,13 @@ class ResultsScreen extends MusicBeatSubstate
 		{
 		    var poop:String = Highscore.formatSong(game.songName.toLowerCase(), PlayState.storyDifficulty);
             var rate:Float = DiffCalc.CalculateDiff(Song.loadFromJson(poop, game.songName.toLowerCase())) / 3;	
+            mesTextAdd('Difficult: ' + Math.ceil(rate * 100) / 100);		
         }
         catch (e:Dynamic)
         {
-             var rate:String = 'N/A';
+            mesTextAdd('Difficult: N/A');		
         }
-		mesTextAdd('Difficult: ' + Math.ceil(rate * 100) / 100);		
+		
 		
 		//-------------------------
 		
