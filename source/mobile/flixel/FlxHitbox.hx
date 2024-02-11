@@ -130,14 +130,14 @@ class FlxHitbox extends FlxMobileInputManager
 		hint.scrollFactor.set();
 		hint.alpha = 0.00001;
 		hint.antialiasing = ClientPrefs.data.antialiasing;
-		if (!ClientPrefs.data.hideHitboxHints)
+		if (ClientPrefs.data.playControlsAlpha <= 0)
 		{
 			hint.onDown.callback = function()
 			{
 				if (hintTween != null)
 					hintTween.cancel();
 
-				hintTween = FlxTween.tween(hint, {alpha: ClientPrefs.data.controlsAlpha}, ClientPrefs.data.controlsAlpha / 100, {
+				hintTween = FlxTween.tween(hint, {alpha: ClientPrefs.data.playControlsAlpha}, ClientPrefs.data.playControlsAlpha / 100, {
 					ease: FlxEase.circInOut,
 					onComplete: function(twn:FlxTween)
 					{
@@ -150,7 +150,7 @@ class FlxHitbox extends FlxMobileInputManager
 				if (hintTween != null)
 					hintTween.cancel();
 
-				hintTween = FlxTween.tween(hint, {alpha: 0.00001}, ClientPrefs.data.controlsAlpha / 10, {
+				hintTween = FlxTween.tween(hint, {alpha: 0.00001}, ClientPrefs.data.playControlsAlpha / 10, {
 					ease: FlxEase.circInOut,
 					onComplete: function(twn:FlxTween)
 					{
@@ -163,7 +163,7 @@ class FlxHitbox extends FlxMobileInputManager
 				if (hintTween != null)
 					hintTween.cancel();
 
-				hintTween = FlxTween.tween(hint, {alpha: 0.00001}, ClientPrefs.data.controlsAlpha / 10, {
+				hintTween = FlxTween.tween(hint, {alpha: 0.00001}, ClientPrefs.data.playControlsAlpha / 10, {
 					ease: FlxEase.circInOut,
 					onComplete: function(twn:FlxTween)
 					{
@@ -182,9 +182,9 @@ class FlxHitbox extends FlxMobileInputManager
 	{
 	    var shape:Shape = new Shape();
 	    if (ClientPrefs.data.hitboxSkin == 'New'){
-    		var guh = ClientPrefs.data.controlsAlpha;
+    		var guh = ClientPrefs.data.playControlsAlpha;
     		if (guh >= 0.9)
-			guh = ClientPrefs.data.controlsAlpha - 0.07;
+			guh = ClientPrefs.data.playControlsAlpha - 0.07;
 			
     		shape.graphics.beginFill(0xFFFFFF);
     		shape.graphics.lineStyle(3, 0xFFFFFF, 1);
