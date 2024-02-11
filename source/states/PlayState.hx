@@ -1201,7 +1201,7 @@ class PlayState extends MusicBeatState
 		+ 'Bads: ${ratingsData[2].hits}\n'
 		+ 'Shits: ${ratingsData[3].hits}\n';
 
-		if (!miss && ClientPrefs.data.playOpponent ? !cpuControlled_opponent : !cpuControlled;)
+		if (!miss && ClientPrefs.data.playOpponent ? !cpuControlled_opponent : !cpuControlled)
 			doScoreBop();
 
 		callOnScripts('onUpdateScore', [miss]);
@@ -1930,7 +1930,7 @@ class PlayState extends MusicBeatState
 		{
 			if(!inCutscene)
 			{
-				if(ClientPrefs.data.playOpponent ? !cpuControlled_opponent : !cpuControlled;)
+				if(ClientPrefs.data.playOpponent ? !cpuControlled_opponent : !cpuControlled)
 					keysCheck();
 				else
 					playerDance();
