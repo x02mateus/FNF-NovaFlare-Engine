@@ -461,6 +461,41 @@ class Note extends FlxSprite
 					wasGoodHit = true;
 			}
 		}
+		
+		if (mustPress)
+		{
+			if (!ClientPrefs.data.playOpponent) {
+        		canBeHit = (strumTime > Conductor.songPosition - (Conductor.safeZoneOffset * lateHitMult) &&
+        					strumTime < Conductor.songPosition + (Conductor.safeZoneOffset * earlyHitMult));
+        
+        		if (strumTime < Conductor.songPosition - Conductor.safeZoneOffset && !wasGoodHit)
+        			tooLate = true;
+			}else{
+				canBeHit = false;
+
+    			if (strumTime < Conductor.songPosition + (Conductor.safeZoneOffset * earlyHitMult))
+    			{
+    				if((isSustainNote && prevNote.wasGoodHit) || strumTime <= Conductor.songPosition)
+    					wasGoodHit = true;
+    			}		
+			}
+		}else{
+			if (ClientPrefs.data.playOpponent) {
+        		canBeHit = (strumTime > Conductor.songPosition - (Conductor.safeZoneOffset * lateHitMult) &&
+        					strumTime < Conductor.songPosition + (Conductor.safeZoneOffset * earlyHitMult));
+        
+        		if (strumTime < Conductor.songPosition - Conductor.safeZoneOffset && !wasGoodHit)
+        			tooLate = true;
+			}else{
+				canBeHit = false;
+
+    			if (strumTime < Conductor.songPosition + (Conductor.safeZoneOffset * earlyHitMult))
+    			{
+    				if((isSustainNote && prevNote.wasGoodHit) || strumTime <= Conductor.songPosition)
+    					wasGoodHit = true;
+    			}		
+			}			
+		}
 
 		if (tooLate && !inEditor)
 		{
