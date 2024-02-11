@@ -98,7 +98,7 @@ class FPS extends TextField
 	private #if !flash override #end function __enterFrame(deltaTime:Float):Void
 	{	
 		
-		logicFPStime += haxe.Timer.stamp() * 1000;
+		logicFPStime += deltaTime;
         logicFPSnum ++;
         
         if (logicFPStime >= 200) //update data for 0.2s

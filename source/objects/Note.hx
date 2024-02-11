@@ -54,7 +54,6 @@ class Note extends FlxSprite
 	public var hitByOpponent:Bool = false;
 	public var noteWasHit:Bool = false;
 	public var isEndNote:Bool = false; // for better playAnim
-	public var susCanPress:Bool = true; // for better note check
 	public var prevNote:Note;
 	public var nextNote:Note;
 
