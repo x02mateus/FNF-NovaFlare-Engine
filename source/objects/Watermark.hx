@@ -37,9 +37,6 @@ class Watermark extends Bitmap
 
 class FPS extends TextField
 {
-	/**
-		The current frame rate, expressed using frames-per-second
-	**/
 	public var currentFPS(default, null):Float;
     public var logicFPStime(default, null):Float;
     public var DisplayFPS(default, null):Float;
@@ -101,7 +98,7 @@ class FPS extends TextField
 	private #if !flash override #end function __enterFrame(deltaTime:Float):Void
 	{	
 		
-		logicFPStime += FlxG.elapsed * 1000;
+		logicFPStime += haxe.Timer.stamp() * 1000;
         logicFPSnum ++;
         
         if (logicFPStime >= 200) //update data for 0.2s
