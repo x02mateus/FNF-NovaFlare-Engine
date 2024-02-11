@@ -555,7 +555,7 @@ class ResultsScreen extends MusicBeatSubstate
         var swagRect:FlxRect;
 	    var showNum:Int = 0;
 	    
-	    timerTween = new FlxTimer().start(0.025, function(tmr:FlxTimer) {
+	    timerTween = new FlxTimer().start(0.01, function(tmr:FlxTimer) {
 		    showNum++;
     		
     		if(swagRect == null) swagRect = new FlxRect(0, 0, 0, 0);
@@ -571,7 +571,7 @@ class ResultsScreen extends MusicBeatSubstate
 		    sprite.clipRect = swagRect;
 		    sprite.alpha = 1;
 		    
-		    if (showNum == 20){
+		    if (showNum == 50){
 		        timerTween.cancel();		        		        
 		    }
         }, 0);            
