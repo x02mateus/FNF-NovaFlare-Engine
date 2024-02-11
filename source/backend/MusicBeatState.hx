@@ -51,7 +51,7 @@ class MusicBeatState extends FlxUIState
 
 		mobileControls.cameras = [camControls];
 		mobileControls.visible = false;
-		mobileControls.alpha = ClientPrefs.data.controlsAlpha;
+		mobileControls.alpha = ClientPrefs.data.playControlsAlpha;
 		add(mobileControls);
 	}
 
