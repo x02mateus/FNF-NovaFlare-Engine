@@ -147,9 +147,12 @@ class ResultsScreen extends MusicBeatSubstate
 	    
 	    mesTextAdd('SongName: ' + PlayState.SONG.song + ' - ' + Difficulty.getString());
 		mesTextAdd('Played Time: ' + Date.now().toString());
-		
-		var poop:String = Highscore.formatSong(game.songName.toLowerCase(), PlayState.storyDifficulty);
-        var rate:Float = DiffCalc.CalculateDiff(Song.loadFromJson(poop, game.songName.toLowerCase())) / 3;			
+		try{
+		    var poop:String = Highscore.formatSong(game.songName.toLowerCase(), PlayState.storyDifficulty);
+            var rate:Float = DiffCalc.CalculateDiff(Song.loadFromJson(poop, game.songName.toLowerCase())) / 3;	
+        }catch{
+             var rate:String = 'N/A';
+        }
 		mesTextAdd('Difficult: ' + Math.ceil(rate * 100) / 100);		
 		
 		//-------------------------
@@ -162,8 +165,8 @@ class ResultsScreen extends MusicBeatSubstate
 		add(scTextNumber);
 		
 		scTextAdd('Score: ' + game.songScore, 1);
-		scTextAdd('Highest Combe: ' + game.songMisses, 2);
-		scTextAdd('Accuracy: ' + Math.floor(game.ratingPercent * 100) / 100 + '%', 1);
+		scTextAdd('Highest Combe: ' + highestCombo, 2);
+		scTextAdd('Accuracy: ' + Math.floor(game.ratingPercent * 10000) / 100 + '%', 1);
 		if (game.ratingFC == '') scTextAdd('Rank: N/A', 2);
 		else scTextAdd('Rank: ' + game.ratingName + ' - ' + game.ratingFC, 2);
 		scTextAdd('Hits: ' + game.songHits, 1);
@@ -417,8 +420,7 @@ class ResultsScreen extends MusicBeatSubstate
 		percentRectBGNumber.add(numberBG);		
 		
 		var numberRect:FlxSprite = new FlxSprite(percentBG.x + 5, percentBG.y + 5 + percentRectNumber.length * height).makeGraphic(Std.int((percentBG.width - 10) * (number / (game.NoteTime.length - 1))), 30, FlxColor.TRANSPARENT);
-		FlxSpriteUtil.drawRoundRect(numberRect, 0, 0, numberRect.width, numberRect.height, 20, 20, FlxColor.BLACK);
-		numberRect.color = color; //FlxSpriteUtil have problem add this code fix
+		FlxSpriteUtil.drawRoundRect(numberRect, 0, 0, numberRect.width, numberRect.height, 20, 20, color);
 		numberRect.alpha = 0;
 		percentRectNumber.add(numberRect);	
 	
