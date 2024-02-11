@@ -25,6 +25,7 @@ class DiffCalc
 
 	public static function CalculateDiff(song:SwagSong, ?accuracy:Float = .93)
 	{
+	    try{
 		// cleaned notes
 		var cleanedNotes:Array<SmallNote> = [];
 
@@ -276,6 +277,10 @@ class DiffCalc
 		lastDiffHandTwo = hand_diffTwo;
 
 		return truncateFloat(chisel(accuracy, hand_diffOne, hand_diffTwo, point_npsOne, point_npsTwo, maxPoints), 2);
+		}
+		catch (e:Dynamic){
+		return 0;
+		}
 	}
 
 	public static function chisel(scoreGoal:Float, diffOne:Array<Float>, diffTwo:Array<Float>, pointsOne:Array<Float>, pointsTwo:Array<Float>, maxPoints:Float)
