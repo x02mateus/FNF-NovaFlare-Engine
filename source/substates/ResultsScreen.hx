@@ -25,13 +25,11 @@ import backend.Mods;
 import backend.Highscore;
 import backend.DiffCalc;
 import backend.Song;
-
-import flixel.util.FlxSpriteUtil;
 import flixel.math.FlxRect;
 
-import openfl.display.Sprite;
+import openfl.display.BitmapData;
+import openfl.display.Shape;
 import openfl.display.Bitmap;
-import openfl.geom.Rectangle;
 import openfl.utils.Assets;
 
 class ResultsScreen extends MusicBeatSubstate
