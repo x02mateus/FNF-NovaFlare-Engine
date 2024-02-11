@@ -414,13 +414,13 @@ class ResultsScreen extends MusicBeatSubstate
 	
 	function addRate(height:Int, RateName:String, ms:Float, number:Int, color:FlxColor){
 	
-	    var numberBG:FlxSprite = new FlxSprite(percentBG.x + 5, percentBG.y + 5 + percentRectBGNumber.length * height).makeGraphic(Std.int(percentBG.width - 10), 30, FlxColor.TRANSPARENT);
-	    FlxSpriteUtil.drawRoundRect(numberBG, 0, 0, numberBG.width, numberBG.height, 20, 20, FlxColor.BLACK);
+	    var numberBG:FlxSprite = new FlxSprite(percentBG.x + 5, percentBG.y + 5 + percentRectBGNumber.length * height).loadGraphic(createGraphic(Std.int(percentBG.width - 10), 30, 20, 20));
+	    numberBG.color = FlxColor.BLACK;
 		numberBG.alpha = 0;
 		percentRectBGNumber.add(numberBG);		
 		
-		var numberRect:FlxSprite = new FlxSprite(percentBG.x + 5, percentBG.y + 5 + percentRectNumber.length * height).makeGraphic(Std.int((percentBG.width - 10) * (number / (game.NoteTime.length - 1))), 30, FlxColor.TRANSPARENT);
-		FlxSpriteUtil.drawRoundRect(numberRect, 0, 0, numberRect.width, numberRect.height, 20, 20, color);
+		var numberRect:FlxSprite = new FlxSprite(percentBG.x + 5, percentBG.y + 5 + percentRectNumber.length * height).loadGraphic(createGraphic(Std.int((percentBG.width - 10) * (number / (game.NoteTime.length - 1))), 30, 20, 20));
+		numberRect.color = color;
 		numberRect.alpha = 0;
 		percentRectNumber.add(numberRect);	
 	
@@ -455,6 +455,18 @@ class ResultsScreen extends MusicBeatSubstate
 	    numberText.color = color;    	
 	    numberText.x -= numberText.width;
 	    percentTextNumber.add(numberText);	
+	}
+	
+	function createGraphic(Width:Int, Height:Int, ellipseWidth:Float, ellipseHeight:Float):BitmapData
+	{
+	    var shape:Shape = new Shape();	   
+		shape.graphics.beginFill(0xFFFFFF);
+		shape.graphics.drawRoundRect(0, 0, Width, Height, ellipseWidth, ellipseHeight);    		
+		shape.graphics.endFill();    		
+    	
+    	var bitmap:BitmapData = new BitmapData(Width, Height, true, 0);
+    		bitmap.draw(shape);
+		return bitmap;		
 	}
 	
 	function startTween(){
