@@ -147,10 +147,13 @@ class ResultsScreen extends MusicBeatSubstate
 	    
 	    mesTextAdd('SongName: ' + PlayState.SONG.song + ' - ' + Difficulty.getString());
 		mesTextAdd('Played Time: ' + Date.now().toString());
-		try{
+		try
+		{
 		    var poop:String = Highscore.formatSong(game.songName.toLowerCase(), PlayState.storyDifficulty);
             var rate:Float = DiffCalc.CalculateDiff(Song.loadFromJson(poop, game.songName.toLowerCase())) / 3;	
-        }catch{
+        }
+        catch (e:Dynamic)
+        {
              var rate:String = 'N/A';
         }
 		mesTextAdd('Difficult: ' + Math.ceil(rate * 100) / 100);		
