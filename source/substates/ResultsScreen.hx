@@ -416,7 +416,7 @@ class ResultsScreen extends MusicBeatSubstate
 		numberBG.alpha = 0;
 		percentRectBGNumber.add(numberBG);		
 		
-		var numberRect:FlxSprite = new FlxSprite(percentBG.x + 5, percentBG.y + 5 + percentRectNumber.length * height).makeGraphic(Std.int((percentBG.width - 10) * (number / (game.NoteTime.length - 1)))), 30, FlxColor.TRANSPARENT);
+		var numberRect:FlxSprite = new FlxSprite(percentBG.x + 5, percentBG.y + 5 + percentRectNumber.length * height).makeGraphic(Std.int((percentBG.width - 10) * (number / (game.NoteTime.length - 1))), 30, FlxColor.TRANSPARENT);
 		FlxSpriteUtil.drawRoundRect(numberRect, 0, 0, numberRect.width, numberRect.height, 5, 5, color);
 		numberRect.alpha = 0;
 		percentRectNumber.add(numberRect);	
@@ -431,7 +431,7 @@ class ResultsScreen extends MusicBeatSubstate
 	    numberText.color = color;    
 	    percentTextNumber.add(numberText);
 	    
-	    var numberText = new FlxText(percentBG.x + 5 + percentBG.width / 2, numberBG.y + numberBG.height, 0, number + '(' + Math.ceil(number / (game.NoteTime.length - 1) * 100) + '%)', 16);		    
+	    var numberText = new FlxText(percentBG.x + 5 + percentBG.width / 2, numberBG.y + numberBG.height, 0, number + '(' + Math.ceil(number / (game.NoteTime.length - 1) * 100 * 100) / 100 + '%)', 16);		    
 		numberText.font = Paths.font('vcr.ttf');
 		numberText.setBorderStyle(FlxTextBorderStyle.OUTLINE, FlxColor.BLACK, 1, 1);
 		numberText.scrollFactor.set();
