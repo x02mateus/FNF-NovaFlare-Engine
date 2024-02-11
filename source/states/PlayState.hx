@@ -3152,10 +3152,10 @@ class PlayState extends MusicBeatState
 
 						if (!released){						
     						if (daNote.mustPress && !ClientPrefs.data.playOpponent){
-    						goodNoteHit(daNote);
+    						goodNoteHit(n);
     						}
     						if (!daNote.mustPress && ClientPrefs.data.playOpponent){
-    						opponentNoteHitForOpponent(daNote);
+    						opponentNoteHitForOpponent(n);
     						}
 						}
 					}
@@ -3260,8 +3260,8 @@ class PlayState extends MusicBeatState
 		combo = 0;
 		
 		if (!note.isSustainNote && note != null){
-		    rsNoteMs.push(167);
-		    rsNoteTime.push(note.strumTime);
+		    NoteMs.push(167);
+		    NoteTime.push(note.strumTime);
 		}
 
 		health -= subtract * healthLoss;
@@ -3374,6 +3374,7 @@ class PlayState extends MusicBeatState
 		if(!note.noAnimation) {
 			if (SONG.notes[curSection] != null)
 			{
+			    var altAnim:String = note.animSuffix;
 				if (SONG.notes[curSection].altAnim && !SONG.notes[curSection].gfSection) {
 					altAnim = '-alt';
 				}
