@@ -3151,11 +3151,11 @@ class PlayState extends MusicBeatState
 						var released:Bool = !holdArray[n.noteData];
 
 						if (!released){						
-    						if (daNote.mustPress && !ClientPrefs.data.playOpponent){
-    						goodNoteHit(n);
+    						if (n.mustPress && !ClientPrefs.data.playOpponent){
+    						    goodNoteHit(n);
     						}
-    						if (!daNote.mustPress && ClientPrefs.data.playOpponent){
-    						opponentNoteHitForOpponent(n);
+    						if (!n.mustPress && ClientPrefs.data.playOpponent){
+    						    opponentNoteHitForOpponent(n);
     						}
 						}
 					}
@@ -3372,9 +3372,10 @@ class PlayState extends MusicBeatState
         */ // opponent dont need 
         
 		if(!note.noAnimation) {
+		    var altAnim:String = note.animSuffix;
+		    
 			if (SONG.notes[curSection] != null)
-			{
-			    var altAnim:String = note.animSuffix;
+			{			    
 				if (SONG.notes[curSection].altAnim && !SONG.notes[curSection].gfSection) {
 					altAnim = '-alt';
 				}
