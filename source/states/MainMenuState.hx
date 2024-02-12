@@ -20,6 +20,7 @@ import openfl.Lib;
 class MainMenuState extends MusicBeatState
 {
 	public static var psychEngineVersion:String = '0.7.3'; //This is also used for Discord RPC
+	public static var nfEngineVersion:String = '1.1.0';
 	public static var curSelected:Int = 0;
     public static var saveCurSelected:Int = 0;
     
