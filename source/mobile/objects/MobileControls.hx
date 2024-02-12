@@ -138,19 +138,19 @@ class MobileControls extends FlxTypedSpriteGroup<FlxMobileInputManager>
 		if (FlxG.save.data.extraButtons == null)
 			return virtualPad;
 
-		if (virtualPad.buttonExtra1 != null){
+		if (virtualPad.buttonExtra1 != null && FlxG.save.data.extraButtons[0] != null){
 	        virtualPad.buttonExtra1.x = FlxG.save.data.extraButtons[0].x;
 		    virtualPad.buttonExtra1.y = FlxG.save.data.extraButtons[0].y;
 	    }
-		if (virtualPad.buttonExtra2 != null){
+		if (virtualPad.buttonExtra2 != null && FlxG.save.data.extraButtons[1] != null)){
 		    virtualPad.buttonExtra2.x = FlxG.save.data.extraButtons[1].x;
 		    virtualPad.buttonExtra2.y = FlxG.save.data.extraButtons[1].y;
         }
-        if (virtualPad.buttonExtra3 != null){
+        if (virtualPad.buttonExtra3 != null && FlxG.save.data.extraButtons[2] != null)){
 	        virtualPad.buttonExtra3.x = FlxG.save.data.extraButtons[2].x;
 		    virtualPad.buttonExtra3.y = FlxG.save.data.extraButtons[2].y;
 	    }
-		if (virtualPad.buttonExtra4 != null){
+		if (virtualPad.buttonExtra4 != null && FlxG.save.data.extraButtons[3] != null)){
 		    virtualPad.buttonExtra4.x = FlxG.save.data.extraButtons[3].x;
 		    virtualPad.buttonExtra4.y = FlxG.save.data.extraButtons[3].y;
         }
