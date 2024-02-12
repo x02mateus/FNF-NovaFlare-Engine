@@ -176,10 +176,10 @@ class FlxVirtualPad extends FlxMobileInputManager
 				add(buttonZ = createButton(FlxG.width - 132, FlxG.height - 255, 132, 127, 'z', 0xCCB98E));
 				add(buttonA = createButton(FlxG.width - 132, FlxG.height - 135, 132, 127, 'a', 0xFF0000));
 			case controlExtend:
-			    if (Type.getClass(FlxG.state) != PlayState || Type.getClass(FlxG.state) == PlayState && ClientPrefs.data.ExtraKey > 0) add(buttonExtra1 = createButton(FlxG.width * 0.5 - 44 * 3, FlxG.height * 0.5 - 127 * 0.5, 44 * 3, 127, "a", 0xFF0000));
-				if (Type.getClass(FlxG.state) != PlayState || Type.getClass(FlxG.state) == PlayState && ClientPrefs.data.ExtraKey > 1) add(buttonExtra2 = createButton(FlxG.width * 0.5, FlxG.height * 0.5 - 127 * 0.5, 44 * 3, 127, "b", 0xFFFF00));
-				if (Type.getClass(FlxG.state) != PlayState || Type.getClass(FlxG.state) == PlayState && ClientPrefs.data.ExtraKey > 2) add(buttonExtra3 = createButton(FlxG.width * 0.5 - 44 * 3, FlxG.height * 0.5 - 127 * 0.5, 44 * 3, 127, "c", 0xFF0000));
-				if (Type.getClass(FlxG.state) != PlayState || Type.getClass(FlxG.state) == PlayState && ClientPrefs.data.ExtraKey > 3) add(buttonExtra4 = createButton(FlxG.width * 0.5, FlxG.height * 0.5 - 127 * 0.5, 44 * 3, 127, "d", 0xFFFF00));
+			    if (Type.getClass(FlxG.state) != PlayState || (Type.getClass(FlxG.state) == PlayState && ClientPrefs.data.ExtraKey > 0)) add(buttonExtra1 = createButton(FlxG.width * 0.5 - 44 * 3, FlxG.height * 0.5 - 127 * 0.5, 44 * 3, 127, "a", 0xFF0000));
+				if (Type.getClass(FlxG.state) != PlayState || (Type.getClass(FlxG.state) == PlayState && ClientPrefs.data.ExtraKey > 1)) add(buttonExtra2 = createButton(FlxG.width * 0.5, FlxG.height * 0.5 - 127 * 0.5, 44 * 3, 127, "b", 0xFFFF00));
+				if (Type.getClass(FlxG.state) != PlayState || (Type.getClass(FlxG.state) == PlayState && ClientPrefs.data.ExtraKey > 2)) add(buttonExtra3 = createButton(FlxG.width * 0.5 - 44 * 3, FlxG.height * 0.5 - 127 * 0.5, 44 * 3, 127, "c", 0xFF0000));
+				if (Type.getClass(FlxG.state) != PlayState || (Type.getClass(FlxG.state) == PlayState && ClientPrefs.data.ExtraKey > 3)) add(buttonExtra4 = createButton(FlxG.width * 0.5, FlxG.height * 0.5 - 127 * 0.5, 44 * 3, 127, "d", 0xFFFF00));
 			// PSYCH RELEATED BUTTONS
 			case CHARACTER_EDITOR:
 				add(buttonV = createButton(FlxG.width - 510, FlxG.height - 255, 132, 127, 'v', 0x49A9B2));
