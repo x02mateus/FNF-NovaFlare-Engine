@@ -16,8 +16,10 @@ class MobileControlSelectSubState extends MusicBeatSubstate
 	var downPozition:FlxText;
 	var leftPozition:FlxText;
 	var rightPozition:FlxText;
-	var extraPozition:FlxText;
 	var extra1Pozition:FlxText;
+	var extra2Pozition:FlxText;
+	var extra3Pozition:FlxText;
+	var extra4Pozition:FlxText;
 	var inputvari:FlxText;
 	var funitext:FlxText;
 	var leftArrow:FlxSprite;
@@ -49,9 +51,9 @@ class MobileControlSelectSubState extends MusicBeatSubstate
 
 		curSelected = MobileControls.get_mode();
 
-                var bg:FlxSprite = new FlxSprite(0, 0).makeGraphic(FlxG.width, FlxG.height, FlxColor.fromRGB(FlxG.random.int(0, 255), FlxG.random.int(0, 255), FlxG.random.int(0, 255)));
+        var bg:FlxSprite = new FlxSprite(0, 0).makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
 		bg.scrollFactor.set();
-		bg.alpha = 0.4;
+		bg.alpha = 0;
 		add(bg);
 
 		var exitButton:FlxButton = new FlxButton(FlxG.width - 200, 50, 'Exit', function()
@@ -168,15 +170,25 @@ class MobileControlSelectSubState extends MusicBeatSubstate
 		upPozition.borderSize = 2.4;
 		add(upPozition);
 
-		extraPozition = new FlxText(10, FlxG.height - 44, 0, '', 16);
-		extraPozition.setFormat('VCR OSD Mono', 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
-		extraPozition.borderSize = 2.4;
-		add(extraPozition);
-
-		extra1Pozition = new FlxText(10, FlxG.height - 64, 0, '', 16);
+		extra1Pozition = new FlxText(10, FlxG.height - 184, 0, '', 16);
 		extra1Pozition.setFormat('VCR OSD Mono', 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		extra1Pozition.borderSize = 2.4;
-		add(extra1Pozition);
+		add(extra3Pozition);
+
+		extra2Pozition = new FlxText(10, FlxG.height - 164, 0, '', 16);
+		extra2Pozition.setFormat('VCR OSD Mono', 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		extra2Pozition.borderSize = 2.4;
+		add(extra2Pozition);
+		
+		extra3Pozition = new FlxText(10, FlxG.height - 144, 0, '', 16);
+		extra3Pozition.setFormat('VCR OSD Mono', 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		extra3Pozition.borderSize = 2.4;
+		add(extra3Pozition);
+
+		extra4Pozition = new FlxText(10, FlxG.height - 124, 0, '', 16);
+		extra4Pozition.setFormat('VCR OSD Mono', 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		extra4Pozition.borderSize = 2.4;
+		add(extra4Pozition);
 
 		daFunny = new FlxText(0, 75, 0, 'Pad-Extras is not a control mode\nPlease selecte a valid mode such as hitbox, Pad-Left...', 35);
 		daFunny.setFormat('VCR OSD Mono', 35, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
@@ -189,7 +201,7 @@ class MobileControlSelectSubState extends MusicBeatSubstate
 		
 		super.create();
 
-		FlxTween.tween(bg, {alpha: 0.6}, 1, {ease: FlxEase.circInOut});
+		FlxTween.tween(bg, {alpha: 0.3}, 0.5, {ease: FlxEase.circInOut});
 	}
 
 	override function update(elapsed:Float)
@@ -276,7 +288,7 @@ class MobileControlSelectSubState extends MusicBeatSubstate
     		}
 		}
 
-		if (virtualPad != null)
+		if (virtualPadd != null)
 		{
 			if (virtualPadd.buttonUp != null)
 				upPozition.text = 'Button Up X:' + virtualPadd.buttonUp.x + ' Y:' + virtualPadd.buttonUp.y;
@@ -289,6 +301,18 @@ class MobileControlSelectSubState extends MusicBeatSubstate
 
 			if (virtualPadd.buttonRight != null)
 				rightPozition.text = 'Button Right X:' + virtualPadd.buttonRight.x + ' Y:' + virtualPadd.buttonRight.y;
+				
+			if (virtualPadd.buttonExtra1 != null)
+				extra1Pozition.text = 'Button Extra1 X:' + virtualPadd.buttonExtra1.x + ' Y:' + virtualPadd.buttonExtra1.y;
+			
+			if (virtualPadd.buttonExtra2 != null)
+				extra2Pozition.text = 'Button Extra1 X:' + virtualPadd.buttonExtra2.x + ' Y:' + virtualPadd.buttonExtra2.y;
+			
+			if (virtualPadd.buttonExtra3 != null)
+				extra3Pozition.text = 'Button Extra1 X:' + virtualPadd.buttonExtra3.x + ' Y:' + virtualPadd.buttonExtra3.y;
+			
+			if (virtualPadd.buttonExtra4 != null)
+				extra4Pozition.text = 'Button Extra1 X:' + virtualPadd.buttonExtra4.x + ' Y:' + virtualPadd.buttonExtra4.y;
 		}
 	}
 
@@ -317,7 +341,7 @@ class MobileControlSelectSubState extends MusicBeatSubstate
 				virtualPadd.destroy();
 				virtualPadd = new FlxVirtualPad(RIGHT_FULL, controlExtend);
 				virtualPadd = MobileControls.getExtraCustomMode(virtualPadd);
-				virtualPadd.alpha = ClientPrefs.data.controlsAlpha;
+				virtualPadd.alpha = ClientPrefs.data.playControlsAlpha;
 				add(virtualPadd);
 				virtualPadd.buttonLeft.color =  buttonLeftColor[0];
 				virtualPadd.buttonDown.color =  buttonDownColor[0];
@@ -329,7 +353,7 @@ class MobileControlSelectSubState extends MusicBeatSubstate
 				virtualPadd.destroy();
 				virtualPadd = new FlxVirtualPad(LEFT_FULL, controlExtend);
 				virtualPadd = MobileControls.getExtraCustomMode(virtualPadd);
-				virtualPadd.alpha = ClientPrefs.data.controlsAlpha;
+				virtualPadd.alpha = ClientPrefs.data.playControlsAlpha;
 				add(virtualPadd);
 				virtualPadd.buttonLeft.color =  buttonLeftColor[0];
 				virtualPadd.buttonDown.color =  buttonDownColor[0];
@@ -341,7 +365,7 @@ class MobileControlSelectSubState extends MusicBeatSubstate
 				virtualPadd.destroy();
 				virtualPadd = MobileControls.getCustomMode(new FlxVirtualPad(RIGHT_FULL, controlExtend));
 				virtualPadd = MobileControls.getExtraCustomMode(virtualPadd);
-				virtualPadd.alpha = ClientPrefs.data.controlsAlpha;
+				virtualPadd.alpha = ClientPrefs.data.playControlsAlpha;
 				add(virtualPadd);
 				virtualPadd.buttonLeft.color =  buttonLeftColor[0];
 				virtualPadd.buttonDown.color =  buttonDownColor[0];
@@ -353,7 +377,7 @@ class MobileControlSelectSubState extends MusicBeatSubstate
 				virtualPadd.destroy();
 				virtualPadd = new FlxVirtualPad(BOTH, controlExtend);
 				virtualPadd = MobileControls.getExtraCustomMode(virtualPadd);
-				virtualPadd.alpha = ClientPrefs.data.controlsAlpha;
+				virtualPadd.alpha = ClientPrefs.data.playControlsAlpha;
 				add(virtualPadd);
 				virtualPadd.buttonLeft.color =  buttonLeftColor[0];
 				virtualPadd.buttonDown.color =  buttonDownColor[0];
@@ -368,7 +392,7 @@ class MobileControlSelectSubState extends MusicBeatSubstate
 				hitbox.visible = true;
 				virtualPadd.visible = false;
 				
-				hitbox.alpha = ClientPrefs.data.controlsAlpha;
+				hitbox.alpha = ClientPrefs.data.playControlsAlpha;
 			case 'Keyboard':
 				hitbox.visible = false;
 				virtualPadd.visible = false;
@@ -383,6 +407,19 @@ class MobileControlSelectSubState extends MusicBeatSubstate
 		downPozition.visible = daChoice == 'Pad-Custom';
 		leftPozition.visible = daChoice == 'Pad-Custom';
 		rightPozition.visible = daChoice == 'Pad-Custom';
+		
+		if (virtualPadd != null)
+		{
+		    extra1Pozition.visible = true;
+		    extra2Pozition.visible = true;
+		    extra3Pozition.visible = true;
+		    extra4Pozition.visible = true;
+		}else{
+		    extra1Pozition.visible = false;
+		    extra2Pozition.visible = false;
+		    extra3Pozition.visible = false;
+		    extra4Pozition.visible = false;		
+		}
 	}
 
 	function moveButton(touch:FlxTouch, button:FlxButton):Void
