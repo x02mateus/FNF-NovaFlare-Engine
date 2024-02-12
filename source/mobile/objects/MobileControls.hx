@@ -38,7 +38,7 @@ class MobileControls extends FlxTypedSpriteGroup<FlxMobileInputManager>
 		}
 		current = new CurrentManager(this);
 		// Options related stuff
-		alpha = ClientPrefs.data.controlsAlpha;
+		//alpha = ClientPrefs.data.controlsAlpha;
 		updateButtonsColors();
 	}
 
@@ -50,10 +50,12 @@ class MobileControls extends FlxTypedSpriteGroup<FlxMobileInputManager>
 				virtualPad = new FlxVirtualPad(RIGHT_FULL, controlExtend);	
 				add(virtualPad);						
 				virtualPad = getCustomMode(virtualPad);
+				virtualPad = getExtraCustomMode(virtualPad);
 			case 1:
 				virtualPad = new FlxVirtualPad(LEFT_FULL, controlExtend);
 				add(virtualPad);			
 				virtualPad = getCustomMode(virtualPad);
+				virtualPad = getExtraCustomMode(virtualPad);
 			case 2:
 				virtualPad = new FlxVirtualPad(RIGHT_FULL, controlExtend);				
 				virtualPad = getCustomMode(virtualPad);
@@ -63,6 +65,7 @@ class MobileControls extends FlxTypedSpriteGroup<FlxMobileInputManager>
 				virtualPad = new FlxVirtualPad(BOTH, controlExtend);
 				add(virtualPad);		
 				virtualPad = getCustomMode(virtualPad);
+				virtualPad = getExtraCustomMode(virtualPad);
 			case 4:
 			  hitbox = new FlxHitbox();
 			  add(hitbox);			
