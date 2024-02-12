@@ -18,7 +18,7 @@ class Bar extends FlxSpriteGroup
 	public var barHeight(default, set):Int = 1;
 	public var barOffset:FlxPoint = FlxPoint.get(3, 3);
 
-	public function new(x:Float, y:Float, image:String = 'healthBar', valueFunction:Void->Float = null, boundX:Float = 0, boundY:Float = 1)
+	public function new(x:Float, y:Float, image:String = 'healthBar', valueFunction:Void->Float = null, boundX:Float = 0, boundY:Float = 1, ?oldVersion:Bool = false)
 	{
 		super(x, y);
 		
@@ -37,10 +37,17 @@ class Bar extends FlxSpriteGroup
 		rightBar = new FlxSprite().makeGraphic(Std.int(bg.width), Std.int(bg.height), FlxColor.WHITE);
 		rightBar.color = FlxColor.BLACK;
 		rightBar.antialiasing = ClientPrefs.data.antialiasing;
-
-		add(leftBar);
-		add(rightBar);
-		add(bg);
+        
+        if (oldVersion){
+            add(bg);
+    		add(leftBar);
+    		add(rightBar);    		
+	    }else{
+	        add(leftBar);
+    		add(rightBar);
+    		add(bg);	    
+	    }
+	    
 		regenerateClips();
 
 		moves = false;
