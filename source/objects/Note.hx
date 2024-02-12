@@ -442,25 +442,6 @@ class Note extends FlxSprite
 	override function update(elapsed:Float)
 	{
 		super.update(elapsed);
-
-		if (mustPress)
-		{
-			canBeHit = (strumTime > Conductor.songPosition - (Conductor.safeZoneOffset * lateHitMult) &&
-						strumTime < Conductor.songPosition + (Conductor.safeZoneOffset * earlyHitMult));
-
-			if (strumTime < Conductor.songPosition - Conductor.safeZoneOffset && !wasGoodHit)
-				tooLate = true;
-		}
-		else
-		{
-			canBeHit = false;
-
-			if (strumTime < Conductor.songPosition + (Conductor.safeZoneOffset * earlyHitMult))
-			{
-				if((isSustainNote && prevNote.wasGoodHit) || strumTime <= Conductor.songPosition)
-					wasGoodHit = true;
-			}
-		}
 		
 		if (mustPress)
 		{
@@ -522,8 +503,9 @@ class Note extends FlxSprite
 		if (!myStrum.downScroll) distance *= -1;
 
 		var angleDir = strumDirection * Math.PI / 180;
-		if (copyAngle)
-			angle = strumDirection - 90 + strumAngle + offsetAngle;
+		if (copyAngle) angle = strumDirection - 90 + strumAngle + offsetAngle;
+		else angle = strumDirection - 90 + offsetAngle;
+            
 
 		if(copyAlpha)
 			alpha = strumAlpha * multAlpha;
@@ -548,9 +530,10 @@ class Note extends FlxSprite
 	public function clipToStrumNote(myStrum:StrumNote)
 	{
 		var center:Float = myStrum.y + offsetY + Note.swagWidth / 2;
-		if((isSustainNote && (mustPress || !ignoreNote) &&
+		if(  (isSustainNote && (mustPress || !ignoreNote) &&
 			(!mustPress || (wasGoodHit || (prevNote.wasGoodHit && !canBeHit)))
-			&& !ClientPrefs.data.playOpponent) || 
+			&& !ClientPrefs.data.playOpponent)
+			|| 
 		    (isSustainNote && (!mustPress || !ignoreNote) &&
 			(mustPress || (wasGoodHit || (prevNote.wasGoodHit && !canBeHit)))
 			&& ClientPrefs.data.playOpponent)
