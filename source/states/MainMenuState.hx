@@ -163,7 +163,7 @@ class MainMenuState extends MusicBeatState
 		for (i in 0...optionShit.length)
 		{
 			
-			var menuItem:FlxSprite = new FlxSprite(-600, (i * 40) + 100);
+			var menuItem:FlxSprite = new FlxSprite(-600, (i * 30) + 200);
 			menuItem.scale.x = scale;
 			menuItem.scale.y = scale;
 			menuItem.frames = Paths.getSparrowAtlas('mainmenu/menu_' + optionShit[i]);
