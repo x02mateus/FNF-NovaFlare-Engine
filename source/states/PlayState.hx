@@ -3437,6 +3437,7 @@ class PlayState extends MusicBeatState
 			combo++;
 			if(combo > 9999) combo = 9999;
 			if (combo > highestCombo) highestCombo = combo;
+			notesHitArray.unshift(Date.now());
 			popUpScore(note);
 		}
 		var gainHealth:Bool = true; // prevent health gain, *if* sustains are treated as a singular note
@@ -3523,6 +3524,7 @@ class PlayState extends MusicBeatState
 			combo++;
 			if(combo > 9999) combo = 9999;
 			if (combo > highestCombo) highestCombo = combo;
+			notesHitArray.unshift(Date.now());
 			popUpScore(note);
 		}
 		var gainHealth:Bool = true; // prevent health gain, *if* sustains are treated as a singular note
