@@ -130,7 +130,7 @@ class FlxHitbox extends FlxMobileInputManager
 		hint.scrollFactor.set();
 		hint.alpha = 0.00001;
 		hint.antialiasing = ClientPrefs.data.antialiasing;
-		if (ClientPrefs.data.playControlsAlpha <= 0)
+		if (ClientPrefs.data.playControlsAlpha >= 0)
 		{
 			hint.onDown.callback = function()
 			{
