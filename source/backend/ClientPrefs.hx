@@ -39,6 +39,7 @@ import states.TitleState;
 	public var splashRGB:Bool = true;
 	public var showSplash:Bool = true;
 	public var splashAlpha:Float = 0.6;
+	public var oldHealthBarVersion:Bool = false;
 	
 	public var screensaver:Bool = false;
 	public var lowQuality:Bool = false;
