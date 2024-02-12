@@ -117,13 +117,17 @@ class MobileControls extends FlxTypedSpriteGroup<FlxMobileInputManager>
 		if (FlxG.save.data.extraButtons == null)
 		{
 			FlxG.save.data.extraButtons = new Array();
-	        FlxG.save.data.extraButtons[0] = FlxPoint.get(virtualPad.buttonG.x, virtualPad.buttonG.y);
-			FlxG.save.data.extraButtons[1] = FlxPoint.get(virtualPad.buttonF.x, virtualPad.buttonF.y);
+	        FlxG.save.data.extraButtons[0] = FlxPoint.get(virtualPad.buttonExtra1.x, virtualPad.buttonExtra1.y);
+			FlxG.save.data.extraButtons[1] = FlxPoint.get(virtualPad.buttonExtra2.x, virtualPad.buttonExtra2.y);
+			FlxG.save.data.extraButtons[2] = FlxPoint.get(virtualPad.buttonExtra3.x, virtualPad.buttonExtra3.y);
+			FlxG.save.data.extraButtons[3] = FlxPoint.get(virtualPad.buttonExtra4.x, virtualPad.buttonExtra4.y);
 		}
 		else
 		{			
-			FlxG.save.data.extraButtons[0] = FlxPoint.get(virtualPad.buttonG.x, virtualPad.buttonG.y);
-			FlxG.save.data.extraButtons[1] = FlxPoint.get(virtualPad.buttonF.x, virtualPad.buttonF.y);
+			FlxG.save.data.extraButtons[0] = FlxPoint.get(virtualPad.buttonExtra1.x, virtualPad.buttonExtra1.y);
+			FlxG.save.data.extraButtons[1] = FlxPoint.get(virtualPad.buttonExtra2.x, virtualPad.buttonExtra2.y);
+			FlxG.save.data.extraButtons[2] = FlxPoint.get(virtualPad.buttonExtra3.x, virtualPad.buttonExtra3.y);
+			FlxG.save.data.extraButtons[3] = FlxPoint.get(virtualPad.buttonExtra4.x, virtualPad.buttonExtra4.y);
 		}
 
 		FlxG.save.flush();
@@ -134,14 +138,22 @@ class MobileControls extends FlxTypedSpriteGroup<FlxMobileInputManager>
 		if (FlxG.save.data.extraButtons == null)
 			return virtualPad;
 
-		if (virtualPad.buttonG != null){
-		        virtualPad.buttonG.x = FlxG.save.data.extraButtons[0].x;
-			    virtualPad.buttonG.y = FlxG.save.data.extraButtons[0].y;
-			}
-			if (virtualPad.buttonF != null){
-			    virtualPad.buttonF.x = FlxG.save.data.extraButtons[1].x;
-			    virtualPad.buttonF.y = FlxG.save.data.extraButtons[1].y;
-            }
+		if (virtualPad.buttonExtra1 != null){
+	        virtualPad.buttonExtra1.x = FlxG.save.data.extraButtons[0].x;
+		    virtualPad.buttonExtra1.y = FlxG.save.data.extraButtons[0].y;
+	    }
+		if (virtualPad.buttonExtra2 != null){
+		    virtualPad.buttonExtra2.x = FlxG.save.data.extraButtons[1].x;
+		    virtualPad.buttonExtra2.y = FlxG.save.data.extraButtons[1].y;
+        }
+        if (virtualPad.buttonExtra3 != null){
+	        virtualPad.buttonExtra3.x = FlxG.save.data.extraButtons[2].x;
+		    virtualPad.buttonExtra3.y = FlxG.save.data.extraButtons[2].y;
+	    }
+		if (virtualPad.buttonExtra4 != null){
+		    virtualPad.buttonExtra4.x = FlxG.save.data.extraButtons[3].x;
+		    virtualPad.buttonExtra4.y = FlxG.save.data.extraButtons[3].y;
+        }
 		return virtualPad;
 	}
 
