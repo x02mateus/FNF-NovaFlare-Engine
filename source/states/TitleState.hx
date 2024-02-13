@@ -31,6 +31,9 @@ import backend.VideoHandler_Title;
 import lime.system.JNI;
 import lime.app.Application;
 
+import openfl.Lib;
+
+
 typedef TitleData =
 {
 	titlex:Float,
@@ -90,6 +93,9 @@ class TitleState extends MusicBeatState
 	override public function create():Void
 	{
 		Paths.clearStoredMemory();
+
+		Lib.application.window.title = "NovaFlare Engine - TitleState";
+
 		
 		if(!checkOpenFirst){
 		
