@@ -11,7 +11,7 @@ class OptionsHelpers
 	public static var colorblindFilterArray = ['None', 'Protanopia', 'Protanomaly', 'Deuteranopia','Deuteranomaly','Tritanopia','Tritanomaly','Achromatopsia','Achromatomaly'];
     public static var memoryTypeArray = ["Usage", "Reserved", "Current", "Large"];
     
-    static public function SetNoteSkin()
+    static public function setNoteSkin()
     {
         var noteSkins:Array<String> = [];
 		if(Mods.mergeAllTextsNamed('images/noteSkins/list.txt', 'shared').length > 0)
@@ -38,7 +38,7 @@ class OptionsHelpers
 		}
     }
     
-    static public function ChangeNoteSkin()
+    static public function changeNoteSkin()
     {
         var noteSkins:Array<String> = [];
 		if(Mods.mergeAllTextsNamed('images/noteSkins/list.txt', 'shared').length > 0)
@@ -61,6 +61,60 @@ class OptionsHelpers
             }
 		}else{
 		    ClientPrefs.data.noteSkin = ClientPrefs.defaultData.noteSkin;
+		    NoteskinOption.chooseNum = 0;
+		}
+    }
+    
+    static public function setSplashSkin()
+    {
+        var noteSplashes:Array<String> = [];
+		if(Mods.mergeAllTextsNamed('images/noteSplashes/list.txt', 'shared').length > 0)
+			noteSplashes = Mods.mergeAllTextsNamed('images/noteSplashes/list.txt', 'shared');
+		else
+			noteSplashes = CoolUtil.coolTextFile(Paths.getPreloadPath('shared/images/noteSplashes/list.txt'));
+			
+		if(noteSplashes.length > 0)
+		{
+		    noteSplashes.insert(0, ClientPrefs.defaultData.splashSkin);
+		    
+			if(!noteSplashes.contains(ClientPrefs.data.splashSkin)){
+				ClientPrefs.data.splashSkin = ClientPrefs.defaultData.splashSkin; //Reset to default if saved noteskin couldnt be found
+				NoteskinOption.chooseNum = 0;
+            }else{
+                for (i in 0...noteSplashes.length - 1){
+                    if (ClientPrefs.data.splashSkin == noteSplashes[i])
+                        NoteskinOption.chooseNum = i;
+                }
+            }
+		}else{
+		    ClientPrefs.data.splashSkin = ClientPrefs.defaultData.splashSkin;
+		    NoteskinOption.chooseNum = 0;
+		}
+    }
+    
+    static public function changeSplashSkin()
+    {
+        var noteSplashes:Array<String> = [];
+		if(Mods.mergeAllTextsNamed('images/noteSplashes/list.txt', 'shared').length > 0)
+			noteSplashes = Mods.mergeAllTextsNamed('images/noteSplashes/list.txt', 'shared');
+		else
+			noteSplashes = CoolUtil.coolTextFile(Paths.getSharedPath('shared/images/noteSplashes/list.txt'));
+			
+		if(noteSplashes.length > 0)
+		{
+		    noteSplashes.insert(0, ClientPrefs.defaultData.splashSkin);
+		
+		    if (NoteskinOption.chooseNum < 0) NoteskinOption.chooseNum = noteSplashes.length - 1;
+		    if (NoteskinOption.chooseNum > noteSplashes.length - 1) NoteskinOption.chooseNum = 0;
+		    
+			if(!noteSplashes.contains(ClientPrefs.data.splashSkin)){
+				ClientPrefs.data.splashSkin = ClientPrefs.defaultData.splashSkin; //Reset to default if saved noteskin couldnt be found
+				NoteskinOption.chooseNum = 0;
+            }else{
+                ClientPrefs.data.splashSkin = noteSplashes[NoteskinOption.chooseNum];
+            }
+		}else{
+		    ClientPrefs.data.splashSkin = ClientPrefs.defaultData.splashSkin;
 		    NoteskinOption.chooseNum = 0;
 		}
     }

@@ -60,14 +60,6 @@ class OptionCata extends FlxSprite
 		titleObject.setFormat(Paths.font(langTTF), 30, FlxColor.WHITE, FlxTextAlign.CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		titleObject.antialiasing = ClientPrefs.data.antialiasing;
 		titleObject.borderSize = 2;
-		/*
-		for (i in 0...4)
-        if (titleObject.width > 295) {
-            titleObject.scale.x -= 0.05;
-            titleObject.scale.y -= 0.05;
-            titleObject.updateHitbox();
-        }
-        */
         
 		if (middleType)
 		{
@@ -150,16 +142,6 @@ class OptionsState extends MusicBeatState
 	public static var currentColor:Int = 1;    
 	public static var currentColorAgain:Int = 0;    
 
-	/*
-	public function new(pauseMenu:Bool = false, reOpen:Bool = false)
-	{
-		super();
-
-		onPlayState = pauseMenu;
-		isReset = languageChange;
-	}
-	*/
-
 	public var menu:FlxTypedGroup<FlxSprite>;
 
 	public var descText:FlxText;
@@ -174,74 +156,68 @@ class OptionsState extends MusicBeatState
 		options = [
 			new OptionCata(50, 40, OptionsName.setGameplay(), [				
 				new DownscrollOption(OptionsName.setDownscrollOption()),
-				new MiddleScrollOption("Put your lane in the center or on the right."), 
-				new PlayOpponent('If checked, playing as opponent\nmay have bug in some mods\n(your score will not be recorded.'),
-				new FilpChart('If checked, filp chart for playing.'),
+				new MiddleScrollOption("Put your lane in the center or on the right."), 								
+				new FilpChart('If checked, filp chart for playing.'),				
 				new GuitarHeroSustains("If checked, Hold Notes can't be pressed if you miss\nUncheck this if you prefer the old Input System."),
-				new HitSoundOption("Adds 'hitsound' on note hits."),
+				new FixLNL('reduce Long Note length\nFix for some mod engines have been reduced'),												
 				new GhostTapOption("Toggle counting pressing a directional input when no arrow is there as a miss."),								
-				new NoReset("Toggle pressing R to gameover."),								
-                //new ControllerMode("Enables you to play with controller."),
-                //new DFJKOption(),
-                //new NotesOption(),
-                //new Customizeption(),
+				new NoReset("Toggle pressing R to gameover."),								               
+                new ResultsScreen('If checked, Open Results Screen at end song'),            
 				new Judgement("Create a custom judgement preset"),
 			]),
 			new OptionCata(345, 40, OptionsName.setAppearance(), [
-                new NoteskinOption("Change your current noteSkin"),
-                new SplashSkin('Change your current splashSkin'),
-				new HideOppStrumsOption("Shows/Hides opponent strums on screen."),
-                new ShowSplashes("Show particles on SICK hit."),
-                //new SplashAlpha('How much transparent should the Note Splashes be.'),
-				new CamZoomOption("Toggle the camera zoom in-game."),
-				new JudgementCounter("Show your judgements that you've gotten in the song"),				
-                new HideHud("Shows to you hud."),
-                new ShowComboNum("Combo sprite appearance."),
-                new ShowRating("Rating sprite appearance."),
-				//new ComboStacking("Ratings and Combo won't stack, saving on System Memory and making them easier to read."),
-                new ScoreZoom("Zoom score on 2'nd beat."),
-                new HealthBarAlpha("Healthbar Transparceny."),
-                new ComboColor("Allow Combe Sprite to get and use rating color.")
-                //new BlurNotes("(CONTAINS FPS ISSUES)/Make notes a bit 'blurred'."), // TODO: rework later - Snake
-			    //new TimeBarType("Change the song's current position bar."),
-			]),
-			new OptionCata(640, 40, OptionsName.setMisc(), [			    
-				new NoteRGB('Easier to set RGB for Note.'),
+                new NoteSkin("Change your current noteSkin"),
+                new NoteRGB('Easier to set RGB for Note.'),
+                new SplashSkin('Change your current splashSkin'),              
 				new SplashRGB('Easier to to RGB for Splash.'),
-				
-				new TimeBarType('What should the Time Bar display?'),
+                new HitSoundOption("Adds 'hitsound' on note hits."),				               
+				new CamZoomOption("Toggle the camera zoom in-game."),
+				new ScoreZoom("Zoom score on 2'nd beat."),				
+				new JudgementCounter("Show your judgements that you've gotten in the song"),								
+                new HideHud("Shows to you hud."),           
+                new HideOppStrumsOption("Shows/Hides opponent strums on screen."),		
+                new ShowComboNum("Combo sprite appearance."),
+                new ComboColor("Allow Combe Sprite to get and use rating color.")			    		
+                new ShowRating("Rating sprite appearance."),               
+                new ShowSplashes("Show particles on SICK hit."),
+                new SplashAlpha('How much transparent should the Note Splashes be.'),                 
+                new HealthBarAlpha("Healthbar Transparceny."),           
+                new TimeBarType('What should the Time Bar display?'),     
+			]),
+			new OptionCata(640, 40, OptionsName.setMisc(), [			    								
 				new PauseMusic('What song do you prefer for the Pause Screen?'),
 				#if CHECK_FOR_UPDATES new CheckForUpdates('On Release builds, turn this on to check for updates when you start the game.'), #end
-				#if desktop new DiscordRPC('Uncheck this to prevent accidental leaks, it will hide the Application from your \"Playing\" box on Discord'), #end
-								
-				new FixLNL('reduce Long Note length\nFix for some mod engines have been reduced'),
-				new ResultsScreen('If checked, Open Results Screen at end song'),
-				new RatingOffset('Changes how late/early you have to hit for a "Sick!"\nHigher values mean you have to hit later.'),			
-                
-				//new VintageOption("Adds 'vintage' on game screen."),
-                
-                
-				
+				#if desktop new DiscordRPC('Uncheck this to prevent accidental leaks, it will hide the Application from your \"Playing\" box on Discord'), #end				
+				#if mobile new GameOverVibration('If checked, your device will vibrate at game over.'),    	
+				new ScreenSaver('If checked, the phone will sleep after going inactive for few seconds.'), #end
         		]),
 			new OptionCata(935, 40, OptionsName.setOpponentMode(), [
-			    
+			    new PlayOpponent('If checked, playing as opponent\nmay have bug in some mods\n(your score will not be recorded.'),			    
 				new OpponentCodeFix('If checked, goodNoteHit and opponentNoteHit not follow playOpponent setting to change (if you playing it will return goodNoteHit function.'),
-				new BotOpponentFix('Bot Opponent Fix'),
+				new BotOpponentFix('Bot Opponent Fix'),				
 				new HealthDrainOPPO('Health Drain on opponent mode'),
-				new HealthDrainOPPOMult('Health Drain multiplier on opponent mode'),
-			 
+				new HealthDrainOPPOMult('Health Drain multiplier on opponent mode'),			 
 			]),			
 			new OptionCata(50, 40 + 64, OptionsName.setMenuExtend(), [
 			    new CustomFadeType('Change Custom Fade Type'),
 				new CustomFadeSound('Change Custom Fade Sound Volume.'),	
-				new CustomFadeText('Check for showcase engine version and loading condition.'),				
+				new CustomFadeText('Check for showcase engine version and loading condition.'),								
 				new SkipTitleVideo('Check for skip intro video'),
 			]),
 			new OptionCata(345, 40 + 64, OptionsName.setControls(), [
-			    new HideHud("Shows to you hud."),				
+			    new ControllerMode("Enables you to play with controller."),	
+                new KeyboardControls('Change your keyboard control.'),
+			    new AndroidControls('Change your android control.'),
+			    new ControlsAlpha('Virtual pad alpha at state.'),
+            	new PlayControlsAlpha('android control alpha for play.'),
+			    new HitboxLocation('Hitbox extra key location.'),
+            	new HitboxSkin('Hitbox skin'),            	
+            	new HideHitboxHints('if checked, Hitbox will hide.'),
+            	
 			]),
 			new OptionCata(640, 40 + 64, "System", [
 			    //new Language("Change language in some state."), //will use fot NF1.2.0
+			    new FPSCapOption("Change your FPS Cap."),					    
 			    new ColorblindModeOption("You can set colorblind filter (makes the game more playable for colorblind people)\nCode from Indie Cross'"),
 			    new ShadersOption("Shaders used for some visual effects, and also CPU intensive for weaker PCs."),
 				new GPUcacheOption("If checked, allows the GPU to be used for caching textures, decreasing RAM usage."),				
@@ -249,11 +225,9 @@ class OptionsState extends MusicBeatState
 				new FlashingLightsOption("Toggle flashing lights that can cause epileptic seizures and strain."),
 				new QualityLow("Turn off some object on stages"),
                 new AntialiasingOption("Toggle antialiasing, improving graphics quality at a slight performance penalty."),				  
-				new AutoPause("Stops game, when its unfocused"),
-				              
+				new AutoPause("Stops game, when its unfocused"),				              
 			]),			
-			new OptionCata(935, 40 + 64, "Watermark", [
-                new FPSCapOption("Change your FPS Cap."),		
+			new OptionCata(935, 40 + 64, "Watermark", [                
 				new FPSOption("Toggle the FPS Counter."),
 				new FPSRainbowOption("Make the FPS Counter flicker through rainbow colors."),
                 new MEMOption("Toggle the MEM Counter."),
@@ -263,6 +237,7 @@ class OptionsState extends MusicBeatState
 			new OptionCata(-1, 125, "Editing Judgements", [			
 				new FrameOption("Changes how many frames you have for hitting a note earlier or late."),
 				new OffsetThing("Change the note visual offset\nhow many milliseconds a note looks like it is offset in a chart"),
+                new RatingOffset('Changes how late/early you have to hit for a "Sick!"\nHigher values mean you have to hit later.'),			
 				new MarvelousMsOption("How many milliseconds are in the MARVELOUS hit window."),
 				new SickMsOption("How many milliseconds are in the SICK hit window."),
 				new GoodMsOption("How many milliseconds are in the GOOD hit window."),
@@ -330,8 +305,6 @@ class OptionsState extends MusicBeatState
 
 		for (i in 0...options.length - 1)
 		{
-			/*if (i >= 4)
-				continue;*/
 			var cat = options[i];
 			CatTeam.add(cat);
 			add(cat.titleObject);
@@ -390,10 +363,7 @@ class OptionsState extends MusicBeatState
 				var object = selectedCat.optionObjects.members[selectedOptionIndex];
 				object.text = selectedOption.getValue();
 			}
-            /*
-			if (selectedCatIndex > options.length - 2 && checkForOutOfBounds)
-				selectedCatIndex = 0;
-            */
+
 			if (selectedCat.middle)
 				remove(selectedCat.titleObject);
 
@@ -463,25 +433,7 @@ class OptionsState extends MusicBeatState
 			descText.text = option.getDescription();
 		}
 	}
-    /*
-	public static function openControllsState()
-		{
-			MusicBeatState.switchState(new ControlsSubState());
-			ClientPrefs.saveSettings();
-		}
 
-	public static function openNotesState()
-		{
-			MusicBeatState.switchState(new NotesSubState());
-			ClientPrefs.saveSettings();
-		}
-
-    public static function openAjustState()
-		{
-			LoadingState.loadAndSwitchState(new NoteOffsetState());
-			ClientPrefs.saveSettings();
-		}
-    */
     var accept = false;
     var back = false;
 	var reset = false;
@@ -573,7 +525,6 @@ class OptionsState extends MusicBeatState
 		anyKey = FlxG.keys.justPressed.ANY || (gamepad != null ? gamepad.justPressed.ANY : false);
 		back = controls.BACK;
 		reset = controls.RESET #if android || virtualPad.buttonC.justPressed #end;
-
 		
 			if (isInMain)
 			{
@@ -768,8 +719,7 @@ class OptionsState extends MusicBeatState
     						&& (selectedOptionIndex >= 5 || UPmoveFix)
     						&& selectedOptionIndex <= options[selectedCatIndex].options.length - 1 - 5
     						)						
-						{
-							//if (selectedOptionIndex >= (options[selectedCatIndex].options.length - 1) / 2)
+						{							
 								for (i in selectedCat.optionObjects.members)
 								{
 									i.y += 46;
@@ -809,14 +759,7 @@ class OptionsState extends MusicBeatState
 							resetOptions();
 							
 							FlxG.sound.play(Paths.sound('scrollMenu'), 0.6);
-							/*
-							new FlxTimer().start(1.5, function(tmr:FlxTimer)
-							{
-								
-                                FlxG.sound.music.fadeOut(0.3);
-                                FlxG.camera.fade(FlxColor.BLACK, 0.5, false, FlxG.resetGame, false);
-							});
-							*/
+							
 						}
 						else
 						{
@@ -840,8 +783,7 @@ class OptionsState extends MusicBeatState
 						
 						if (selectedCat.middle){
 						    resetOptionChoose();						    
-						}
-						else{
+						}else{
 						    isInMain = true;
 						}
 						
@@ -901,7 +843,7 @@ class OptionsState extends MusicBeatState
 
 	}
 	
-	public function resetOptionChoose()
+	public function resetOptionChoose()  //用于返回原来选择
 	{
         isReset = false;
         isInMain = false;  

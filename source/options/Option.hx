@@ -102,10 +102,7 @@ class Judgement extends Option
 	{
 		if (OptionsState.onPlayState)
 			return false;
-			
-		//OptionsState.instance.saveSelectedOptionIndex = OptionsState.instance.selectedOptionIndex;
-		//OptionsState.instance.saveSelectedCatIndex = OptionsState.instance.selectedCatIndex;
-		
+							
 		var num:Int = 8;	
 		OptionsState.instance.selectedCatIndex = num;
 		OptionsState.instance.switchCat(OptionsState.instance.options[num], false);
@@ -203,7 +200,7 @@ class MarvelousMsOption extends Option
 	public function new(desc:String)
 	{
 		super();
-		description = desc + " (Press R to reset)";
+		description = desc;
 		acceptType = true;
 	}
 
@@ -366,18 +363,12 @@ class DownscrollOption extends Option
 			description = desc;
 	}
 
-	public override function left():Bool
+	public override function press():Bool
 	{
 		if (OptionsState.onPlayState)
 			return false;
 		ClientPrefs.data.downScroll = !ClientPrefs.data.downScroll;
 		display = updateDisplay();
-		return true;
-	}
-
-	public override function right():Bool
-	{
-		left();
 		return true;
 	}
 
@@ -395,16 +386,10 @@ class GhostTapOption extends Option
 		description = desc;
 	}
 
-	public override function left():Bool
+	public override function press():Bool
 	{
 		ClientPrefs.data.ghostTapping = !ClientPrefs.data.ghostTapping;
 		display = updateDisplay();
-		return true;
-	}
-
-	public override function right():Bool
-	{
-		left();
 		return true;
 	}
 
@@ -423,16 +408,10 @@ class ScoreZoom extends Option
 		description = desc;
 	}
 
-	public override function left():Bool
+	public override function press():Bool
 	{
 		ClientPrefs.data.scoreZoom = !ClientPrefs.data.scoreZoom;
 		display = updateDisplay();
-		return true;
-	}
-
-	public override function right():Bool
-	{
-		left();
 		return true;
 	}
 
@@ -454,7 +433,7 @@ class HideHud extends Option
 
 	}
 
-	public override function left():Bool
+	public override function press():Bool
 	{
         //if (OptionsState.onPlayState)
 		//	return false;
@@ -485,12 +464,6 @@ class HideHud extends Option
 		return true;
 	}
 
-	public override function right():Bool
-	{
-		left();
-		return true;
-	}
-
 	private override function updateDisplay():String
 	{
 		return "HUD: < " + (!ClientPrefs.data.hideHud ? enable_O : disable_O) + " >";
@@ -505,16 +478,10 @@ class ShowComboNum extends Option
 		description = desc;
 	}
 
-	public override function left():Bool
+	public override function press():Bool
 	{
 		ClientPrefs.data.showComboNum = !ClientPrefs.data.showComboNum;
 		display = updateDisplay();
-		return true;
-	}
-
-	public override function right():Bool
-	{
-		left();
 		return true;
 	}
 
@@ -532,16 +499,10 @@ class ShowRating extends Option
 		description = desc;
 	}
 
-	public override function left():Bool
+	public override function press():Bool
 	{
 		ClientPrefs.data.showRating = !ClientPrefs.data.showRating;
 		display = updateDisplay();
-		return true;
-	}
-
-	public override function right():Bool
-	{
-		left();
 		return true;
 	}
 
@@ -559,16 +520,10 @@ class NoReset extends Option
 		description = desc;
 	}
 
-	public override function left():Bool
+	public override function press():Bool
 	{
 		ClientPrefs.data.noReset = !ClientPrefs.data.noReset;
 		display = updateDisplay();
-		return true;
-	}
-
-	public override function right():Bool
-	{
-		left();
 		return true;
 	}
 
@@ -642,9 +597,7 @@ class ColorblindModeOption extends Option
 		ClientPrefs.data.colorblindMode = 0;
 	    ColorblindFilter.UpdateColors();
 		return true;
-	}
-	
-	public override function change()
+	}	public override function change()
 	{
 	    ColorblindFilter.UpdateColors();
 	}
@@ -663,16 +616,10 @@ class FlashingLightsOption extends Option
 		description = desc;
 	}
 
-	public override function left():Bool
+	public override function press():Bool
 	{
 		ClientPrefs.data.flashing = !ClientPrefs.data.flashing;
 		display = updateDisplay();
-		return true;
-	}
-
-	public override function right():Bool
-	{
-		left();
 		return true;
 	}
 
@@ -693,19 +640,13 @@ class AntialiasingOption extends Option
 			description = desc;
 	}
 
-	public override function left():Bool
+	public override function press():Bool
 	{
 		if (OptionsState.onPlayState)
 			return false;
 		ClientPrefs.data.antialiasing = !ClientPrefs.data.antialiasing;
             onChangeAntiAliasing();
 		display = updateDisplay();
-		return true;
-	}
-
-	public override function right():Bool
-	{
-		left();
 		return true;
 	}
 
@@ -735,7 +676,7 @@ class FPSOption extends Option
 		description = desc;
 	}
 
-	public override function left():Bool
+	public override function press():Bool
 	{	
 		ClientPrefs.data.showFPS = !ClientPrefs.data.showFPS;
 		
@@ -743,18 +684,6 @@ class FPSOption extends Option
 		Main.fpsVar.visible = ClientPrefs.data.showFPS;
 			
 		display = updateDisplay();
-		return true;
-	}
-
-	public override function right():Bool
-	{
-		left();
-		return true;
-	}
-	
-	public override function press():Bool
-	{
-	    left();
 		return true;
 	}
 
@@ -772,16 +701,10 @@ class MEMOption extends Option
 		description = desc;
 	}
 
-	public override function left():Bool
+	public override function press():Bool
 	{
 	    ClientPrefs.data.showMEM = !ClientPrefs.data.showMEM;
 		display = updateDisplay();
-		return true;
-	}
-
-	public override function right():Bool
-	{
-		left();
 		return true;
 	}
 
@@ -829,16 +752,10 @@ class MSOption extends Option
 		description = desc;
 	}
 
-	public override function left():Bool
+	public override function press():Bool
 	{
 	    ClientPrefs.data.showMS = !ClientPrefs.data.showMS;
 		display = updateDisplay();
-		return true;
-	}
-
-	public override function right():Bool
-	{
-		left();
 		return true;
 	}
 
@@ -856,17 +773,11 @@ class AutoPause extends Option
 		description = desc;
 	}
 
-	public override function left():Bool
+	public override function press():Bool
 	{
 		ClientPrefs.data.autoPause = !ClientPrefs.data.autoPause;
         FlxG.autoPause = ClientPrefs.data.autoPause;
 		display = updateDisplay();
-		return true;
-	}
-
-	public override function right():Bool
-	{
-		left();
 		return true;
 	}
 
@@ -884,16 +795,10 @@ class ShowSplashes extends Option
 		description = desc;
 	}
 
-	public override function left():Bool
+	public override function press():Bool
 	{
         ClientPrefs.data.showSplash = !ClientPrefs.data.showSplash;
 		display = updateDisplay();
-		return true;
-	}
-
-	public override function right():Bool
-	{
-		left();
 		return true;
 	}
 
@@ -913,18 +818,12 @@ class QualityLow extends Option
 			description = desc;
 	}
 
-	public override function left():Bool
+	public override function press():Bool
 	{
              		if (OptionsState.onPlayState)
 			return false;
         ClientPrefs.data.lowQuality = !ClientPrefs.data.lowQuality;
 		display = updateDisplay();
-		return true;
-	}
-
-	public override function right():Bool
-	{
-		left();
 		return true;
 	}
 
@@ -941,11 +840,6 @@ class FPSCapOption extends Option
 		super();
 		description = desc;
 		acceptValues = true;
-	}
-
-	public override function press():Bool
-	{
-		return false;
 	}
 
 	private override function updateDisplay():String
@@ -1010,18 +904,12 @@ class FPSRainbowOption extends Option
 			description = desc;
 	}
 
-	public override function left():Bool
+	public override function press():Bool
 	{
         if (OptionsState.onPlayState)
 			return false;
         ClientPrefs.data.rainbowFPS = !ClientPrefs.data.rainbowFPS;
 		display = updateDisplay();
-		return true;
-	}
-
-	public override function right():Bool
-	{
-		left();
 		return true;
 	}
 
@@ -1039,16 +927,10 @@ class HideOppStrumsOption extends Option
 		description = desc;
 	}
 
-	public override function left():Bool
+	public override function press():Bool
 	{
 		ClientPrefs.data.opponentStrums = !ClientPrefs.data.opponentStrums;
 		display = updateDisplay();
-		return true;
-	}
-
-	public override function right():Bool
-	{
-		left();
 		return true;
 	}
 
@@ -1095,16 +977,10 @@ class CamZoomOption extends Option
         description = desc;
 	}
 
-	public override function left():Bool
+	public override function press():Bool
 	{
 		ClientPrefs.data.camZooms = !ClientPrefs.data.camZooms;
 		display = updateDisplay();
-		return true;
-	}
-
-	public override function right():Bool
-	{
-		left();
 		return true;
 	}
 
@@ -1122,7 +998,7 @@ class JudgementCounter extends Option
 		description = desc;
 	}
 
-	public override function left():Bool
+	public override function press():Bool
 	{
 		ClientPrefs.data.judgementCounter = !ClientPrefs.data.judgementCounter;
         /*
@@ -1134,12 +1010,6 @@ class JudgementCounter extends Option
 	    }
         */
 		display = updateDisplay();
-		return true;
-	}
-
-	public override function right():Bool
-	{
-		left();
 		return true;
 	}
 
@@ -1160,18 +1030,12 @@ class MiddleScrollOption extends Option
 			description = desc;
 	}
 
-	public override function left():Bool
+	public override function press():Bool
 	{
 		if (OptionsState.onPlayState)
 			return false;
 		ClientPrefs.data.middleScroll = !ClientPrefs.data.middleScroll;
 		display = updateDisplay();
-		return true;
-	}
-
-	public override function right():Bool
-	{
-		left();
 		return true;
 	}
 
@@ -1182,7 +1046,7 @@ class MiddleScrollOption extends Option
 }
 
 
-class NoteskinOption extends Option
+class NoteSkin extends Option
 {
     public static var chooseNum:Int;
     
@@ -1190,7 +1054,7 @@ class NoteskinOption extends Option
 	{
 		super();
 		chooseNum = 0;
-		OptionsHelpers.SetNoteSkin();
+		OptionsHelpers.setNoteSkin();
 		if (OptionsState.onPlayState)
 			description = "This option cannot be toggled in the pause menu.";
 		else
@@ -1203,7 +1067,7 @@ class NoteskinOption extends Option
 			return false;
 		chooseNum--;
 		
-     	OptionsHelpers.ChangeNoteSkin();
+     	OptionsHelpers.changeNoteSkin();
 		display = updateDisplay();
 		return true;
 	}
@@ -1214,7 +1078,7 @@ class NoteskinOption extends Option
 			return false;
 		chooseNum++;
 		
-        OptionsHelpers.ChangeNoteSkin();
+        OptionsHelpers.changeNoteSkin();
 		display = updateDisplay();
 		return true;
 	}
@@ -1225,7 +1089,7 @@ class NoteskinOption extends Option
 	}
 }
 
-/*
+
 class TimeBarType extends Option
 {
 	public function new(desc:String)
@@ -1278,7 +1142,7 @@ class HealthBarOption extends Option
 		description = desc;
 	}
 
-	public override function left():Bool
+	public override function press():Bool
 	{
 		ClientPrefs.data.visibleHealthbar = !ClientPrefs.data.visibleHealthbar;
 		display = updateDisplay();
@@ -1294,17 +1158,11 @@ class HealthBarOption extends Option
 		return true;
 	}
 
-	public override function right():Bool
-	{
-		left();
-		return true;
-	}
-
 	private override function updateDisplay():String
 	{
 		return "Health Bar: < " + (ClientPrefs.data.visibleHealthbar ? enable_O : disable_O) + " >";
 	}
-}*/
+}
 
 class HealthBarAlpha extends Option
 {
@@ -1378,54 +1236,13 @@ class ComboColor extends Option
 
 	}
 
-	override function left():Bool
+	override function press():Bool
 	{
 		right();
 		return true;
 	}
 }
-/*
-class SustainsAlpha extends Option
-{
-	public function new(desc:String)
-	{
-		super();
-		if (OptionsState.onPlayState)
-			description = "This option cannot be toggled in the pause menu.";
-		else
-			description = desc;
-		acceptValues = true;
-	}
 
-	override function right():Bool
-	{
-		if (OptionsState.onPlayState)
-			return false;
-		ClientPrefs.data.susTransper += 0.1;
-
-		if (ClientPrefs.data.susTransper > 1)
-			ClientPrefs.data.susTransper = 1;
-		return true;
-	}
-
-	override function left():Bool
-	{
-		if (OptionsState.onPlayState)
-			return false;
-		ClientPrefs.data.susTransper -= 0.1;
-
-		if (ClientPrefs.data.susTransper < 0)
-			ClientPrefs.data.susTransper = 0;
-
-		return true;
-	}
-
-	private override function updateDisplay():String
-		{
-			return "Sustain Notes Transparceny: < " + Utils.truncateFloat(ClientPrefs.data.susTransper, 1) + " >";
-		}
-	
-}*/
 
 class HitSoundOption extends Option
 {
@@ -1472,18 +1289,12 @@ class ShadersOption extends Option
 			description = desc;
 	}
 
-	public override function left():Bool
+	public override function press():Bool
 	{
 		if (OptionsState.onPlayState)
 			return false;
 		ClientPrefs.data.shaders = !ClientPrefs.data.shaders;
 		display = updateDisplay();
-		return true;
-	}
-
-	public override function right():Bool
-	{
-		left();
 		return true;
 	}
 
@@ -1504,18 +1315,12 @@ class GPUcacheOption extends Option
 			description = desc;
 	}
 
-	public override function left():Bool
+	public override function press():Bool
 	{
 		if (OptionsState.onPlayState)
 			return false;
 		ClientPrefs.data.cacheOnGPU = !ClientPrefs.data.cacheOnGPU;
 		display = updateDisplay();
-		return true;
-	}
-
-	public override function right():Bool
-	{
-		left();
 		return true;
 	}
 
@@ -1542,7 +1347,7 @@ class ImagePersist extends Option
 
 	}
 
-	override function left():Bool
+	override function press():Bool
 	{
 		right();
 		return true;
@@ -1562,16 +1367,10 @@ class ComboStacking extends Option
 		description = desc;
 	}
 
-	public override function left():Bool
+	public override function press():Bool
 	{
 		ClientPrefs.data.comboStacking = !ClientPrefs.data.comboStacking;
 		display = updateDisplay();
-		return true;
-	}
-
-	public override function right():Bool
-	{
-		left();
 		return true;
 	}
 
@@ -1628,18 +1427,12 @@ class NoteRGB extends Option
 			description = desc;
 	}
 
-	public override function left():Bool
+	public override function press():Bool
 	{
 		if (OptionsState.onPlayState)
 			return false;
 		ClientPrefs.data.noteRGB = !ClientPrefs.data.noteRGB;
 		display = updateDisplay();
-		return true;
-	}
-
-	public override function right():Bool
-	{
-		left();
 		return true;
 	}
 
@@ -1660,18 +1453,12 @@ class SplashRGB extends Option
 			description = desc;
 	}
 
-	public override function left():Bool
+	public override function press():Bool
 	{
 		if (OptionsState.onPlayState)
 			return false;
 		ClientPrefs.data.splashRGB = !ClientPrefs.data.splashRGB;
 		display = updateDisplay();
-		return true;
-	}
-
-	public override function right():Bool
-	{
-		left();
 		return true;
 	}
 
@@ -1728,7 +1515,7 @@ class CustomFadeSound extends Option
 		return true;
 	}
 
-	override function left():Bool
+	override function press():Bool
 	{
 		ClientPrefs.data.CustomFadeSound -= 0.1;
 
@@ -1753,16 +1540,10 @@ class CustomFadeText extends Option
 		description = desc;
 	}
 
-	public override function left():Bool
+	public override function press():Bool
 	{
 	    ClientPrefs.data.CustomFadeText = !ClientPrefs.data.CustomFadeText;
 		display = updateDisplay();
-		return true;
-	}
-
-	public override function right():Bool
-	{
-	    left();
 		return true;
 	}
 
@@ -1831,16 +1612,10 @@ class CheckForUpdates extends Option
 		super();
 	}
 
-	public override function left():Bool
+	public override function press():Bool
 	{
 		ClientPrefs.data.checkForUpdates = !ClientPrefs.data.checkForUpdates;
 		display = updateDisplay();
-		return true;
-	}
-
-	public override function right():Bool
-	{
-		left();
 		return true;
 	}
 
@@ -1860,18 +1635,12 @@ class DiscordRPC extends Option
 		super();
 	}
 
-	public override function left():Bool
+	public override function press():Bool
 	{
 		if (OptionsState.onPlayState)
 			return false;
 		ClientPrefs.data.discordRPC = !ClientPrefs.data.discordRPC;
 		display = updateDisplay();
-		return true;
-	}
-
-	public override function right():Bool
-	{
-		left();
 		return true;
 	}
 
@@ -1893,18 +1662,12 @@ class FilpChart extends Option
 			description = desc;
 	}
 
-	public override function left():Bool
+	public override function press():Bool
 	{
 		if (OptionsState.onPlayState)
 			return false;
 		ClientPrefs.data.filpChart = !ClientPrefs.data.filpChart;
 		display = updateDisplay();
-		return true;
-	}
-
-	public override function right():Bool
-	{
-		left();
 		return true;
 	}
 
@@ -1925,18 +1688,12 @@ class PlayOpponent extends Option
 			description = desc;
 	}
 
-	public override function left():Bool
+	public override function press():Bool
 	{
 		if (OptionsState.onPlayState)
 			return false;
 		ClientPrefs.data.playOpponent = !ClientPrefs.data.playOpponent;
 		display = updateDisplay();
-		return true;
-	}
-
-	public override function right():Bool
-	{
-		left();
 		return true;
 	}
 
@@ -1957,18 +1714,12 @@ class OpponentCodeFix extends Option
 			description = desc;
 	}
 
-	public override function left():Bool
+	public override function press():Bool
 	{
 		if (OptionsState.onPlayState)
 			return false;
 		ClientPrefs.data.OpponentCodeFix = !ClientPrefs.data.OpponentCodeFix;
 		display = updateDisplay();
-		return true;
-	}
-
-	public override function right():Bool
-	{
-		left();
 		return true;
 	}
 
@@ -1987,7 +1738,7 @@ class FixLNL extends Option
 		acceptType = true;
 	}
 
-	public override function left():Bool
+	public override function press():Bool
 	{
 		ClientPrefs.data.fixLNL--;
 		if (ClientPrefs.data.fixLNL < 0)
@@ -2022,18 +1773,12 @@ class ResultsScreen extends Option
 			description = desc;
 	}
 
-	public override function left():Bool
+	public override function press():Bool
 	{
 		if (OptionsState.onPlayState)
 			return false;
 		ClientPrefs.data.ResultsScreen = !ClientPrefs.data.ResultsScreen;
 		display = updateDisplay();
-		return true;
-	}
-
-	public override function right():Bool
-	{
-		left();
 		return true;
 	}
 
@@ -2084,7 +1829,7 @@ class SplashSkin extends Option
 	{
 		super();
 		chooseNum = 0;
-		OptionsHelpers.SetNoteSkin();
+		OptionsHelpers.setSplashSkin();
 		if (OptionsState.onPlayState)
 			description = "This option cannot be toggled in the pause menu.";
 		else
@@ -2097,7 +1842,7 @@ class SplashSkin extends Option
 			return false;
 		chooseNum--;
 		
-     	OptionsHelpers.ChangeNoteSkin();
+     	OptionsHelpers.changeSplashSkin();
 		display = updateDisplay();
 		return true;
 	}
@@ -2108,7 +1853,7 @@ class SplashSkin extends Option
 			return false;
 		chooseNum++;
 		
-        OptionsHelpers.ChangeNoteSkin();
+        OptionsHelpers.changeSplashSkin();
 		display = updateDisplay();
 		return true;
 	}
@@ -2126,16 +1871,10 @@ class MarvelousRating extends Option
 		super();
 	}
 
-	public override function left():Bool
+	public override function press():Bool
 	{
 		ClientPrefs.data.marvelousRating = !ClientPrefs.data.marvelousRating;
 		display = updateDisplay();
-		return true;
-	}
-
-	public override function right():Bool
-	{
-		left();
 		return true;
 	}
 
@@ -2152,16 +1891,10 @@ class MarvelousSprite extends Option
 		super();
 	}
 
-	public override function left():Bool
+	public override function press():Bool
 	{
 		ClientPrefs.data.marvelousSprite = !ClientPrefs.data.marvelousSprite;
 		display = updateDisplay();
-		return true;
-	}
-
-	public override function right():Bool
-	{
-		left();
 		return true;
 	}
 
@@ -2178,16 +1911,10 @@ class GuitarHeroSustains extends Option
 		super();
 	}
 
-	public override function left():Bool
+	public override function press():Bool
 	{
 		ClientPrefs.data.guitarHeroSustains = !ClientPrefs.data.guitarHeroSustains;
 		display = updateDisplay();
-		return true;
-	}
-
-	public override function right():Bool
-	{
-		left();
 		return true;
 	}
 
@@ -2206,16 +1933,10 @@ class SkipTitleVideo extends Option
 		super();
 	}
 
-	public override function left():Bool
+	public override function press():Bool
 	{
 		ClientPrefs.data.skipTitleVideo = !ClientPrefs.data.skipTitleVideo;
 		display = updateDisplay();
-		return true;
-	}
-
-	public override function right():Bool
-	{
-		left();
 		return true;
 	}
 
@@ -2234,16 +1955,10 @@ class BotOpponentFix extends Option
 		super();
 	}
 
-	public override function left():Bool
+	public override function press():Bool
 	{
 		ClientPrefs.data.botOpponentFix = !ClientPrefs.data.botOpponentFix;
 		display = updateDisplay();
-		return true;
-	}
-
-	public override function right():Bool
-	{
-		left();
 		return true;
 	}
 
@@ -2263,16 +1978,10 @@ class HealthDrainOPPO extends Option
 		super();
 	}
 
-	public override function left():Bool
+	public override function press():Bool
 	{
 		ClientPrefs.data.HealthDrainOPPO = !ClientPrefs.data.HealthDrainOPPO;
 		display = updateDisplay();
-		return true;
-	}
-
-	public override function right():Bool
-	{
-		left();
 		return true;
 	}
 
