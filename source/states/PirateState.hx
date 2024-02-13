@@ -5,6 +5,8 @@ import flixel.FlxSubState;
 import flixel.effects.FlxFlicker;
 import lime.app.Application;
 import flixel.addons.transition.FlxTransitionableState;
+import openfl.Lib;
+
 
 class PirateState extends MusicBeatState
 {
@@ -14,6 +16,8 @@ class PirateState extends MusicBeatState
 	override function create()
 	{
 		super.create();
+		Lib.application.window.title = "NovaFlare Engine - PirateState";
+
 
 		var bg:FlxSprite = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
 		add(bg);
