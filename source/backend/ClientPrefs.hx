@@ -7,31 +7,34 @@ import states.TitleState;
 
 // Add a variable here and it will get automatically saved
 @:structInit class SaveVariables {
+
 	public var downScroll:Bool = false;
 	public var middleScroll:Bool = false;
 	public var filpChart:Bool = false;
+	public var noReset:Bool = false;
 	public var fixLNL:Int= 0; //fix long note length
 	public var noteDetectionFix:Bool = true;
+	public var ghostTapping:Bool = true;
+	public var guitarHeroSustains:Bool = true;
 	
 	public var playOpponent:Bool = false;
 	public var OpponentCodeFix:Bool = false;
 	public var botOpponentFix:Bool = true;
 	public var HealthDrainOPPOMult:Float = 0.5;
 	public var HealthDrainOPPO:Bool = true;
-	public var opponentStrums:Bool = true;
+	
 	
 	public var showFPS:Bool = true;
 	public var showMS:Bool = true;
 	public var showMEM:Bool = true;
 	public var rainbowFPS:Bool = false;
-	public var memoryType:Int = 3;
-	public var guitarHeroSustains:Bool = true;
-	public var skipTitleVideo:Bool = false;
-		
-	public var flashing:Bool = true;
-	public var ResultsScreen:Bool = true;
+	public var memoryType:Int = 3;	
+	public var skipTitleVideo:Bool = false;		
+	
+	public var resultsScreen:Bool = true;
 	public var autoPause:Bool = true;
 	public var antialiasing:Bool = true;
+	public var screensaver:Bool = false;
 	
 	public var noteSkin:String = 'Default';
 	public var splashSkin:String = 'Psych';
@@ -40,9 +43,10 @@ import states.TitleState;
 	public var showSplash:Bool = true;
 	public var splashAlpha:Float = 0.6;
 	public var oldHealthBarVersion:Bool = false;
+	public var opponentStrums:Bool = true;
 	
-	public var screensaver:Bool = false;
 	public var lowQuality:Bool = false;
+	public var flashing:Bool = true;
 	public var shaders:Bool = true;
 	public var colorblindMode:Int = 0;
 	public var cacheOnGPU:Bool = #if !switch false #else true #end; //From Stilic	
@@ -60,7 +64,8 @@ import states.TitleState;
 	public var judgementCounter:Bool = true;
 	public var hideHud:Bool = false;
 	public var noteOffset:Int = 0;
-	public var combeColor:Bool = true;
+	
+	
 	public var arrowRGB:Array<Array<FlxColor>> = [
 		[0xFFC24B99, 0xFFFFFFFF, 0xFF3C1F56],
 		[0xFF00FFFF, 0xFFFFFFFF, 0xFF1542B7],
@@ -73,10 +78,10 @@ import states.TitleState;
 		[0xFF71E300, 0xFFF6FFE6, 0xFF003100],
 		[0xFFFF884E, 0xFFFFFAF5, 0xFF6C0000]];
 
-	public var ghostTapping:Bool = true;
+	
 	public var timeBarType:String = 'Time Left';
 	public var scoreZoom:Bool = true;
-	public var noReset:Bool = false;
+	
 	public var healthBarAlpha:Float = 1;
 	public var hitsoundVolume:Float = 0;
 	public var pauseMusic:String = 'Tea Time';
@@ -84,7 +89,8 @@ import states.TitleState;
 	public var comboStacking:Bool = true;
 	public var showComboNum:Bool = true;
 	public var showRating:Bool = true;
-	public var comboColor:Bool = true;
+	public var comboColor:Bool = true;	
+	
 	public var gameplaySettings:Map<String, Dynamic> = [
 		'scrollspeed' => 1.0,
 		'scrolltype' => 'multiplicative', 
