@@ -1,6 +1,8 @@
 package states;
 
 import states.MainMenuState;
+import openfl.Lib;
+
 
 class OutdatedState extends MusicBeatState
 {
@@ -10,6 +12,9 @@ class OutdatedState extends MusicBeatState
 	override function create()
 	{
 		super.create();
+
+		Lib.application.window.title = "NovaFlare Engine - OutdatedState";
+
 
 		var bg:FlxSprite = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
 		add(bg);
