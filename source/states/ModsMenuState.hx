@@ -15,6 +15,8 @@ import objects.AttachedSprite;
 import options.base.ModSettingsSubState;
 import flixel.addons.transition.FlxTransitionableState;
 import mobile.backend.TouchFunctions;
+import openfl.Lib;
+
 
 class ModsMenuState extends MusicBeatState
 {
@@ -63,6 +65,9 @@ class ModsMenuState extends MusicBeatState
 		Paths.clearStoredMemory();
 		Paths.clearUnusedMemory();
 		persistentUpdate = false;
+
+		Lib.application.window.title = "NovaFlare Engine - ModsMenuState";
+
 
 		modsList = Mods.parseList();
 		Mods.currentModDirectory = modsList.all[0] != null ? modsList.all[0] : '';
