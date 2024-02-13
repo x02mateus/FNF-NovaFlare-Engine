@@ -751,6 +751,9 @@ class PlayState extends MusicBeatState
 	public function addTextToDebug(text:String, color:FlxColor) {
 		var newText:psychlua.DebugLuaText = luaDebugGroup.recycle(psychlua.DebugLuaText);
 		newText.text = text;
+		#if android 
+        newText.text = StringTools.replace(text, "/storage/emulated/0/.NovaFlare Engine/", ""); //delete stupid path
+		#end
 		newText.color = color;
 		newText.disableTime = 6;
 		newText.alpha = 1;
