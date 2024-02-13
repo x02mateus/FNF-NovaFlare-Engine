@@ -56,6 +56,7 @@ import psychlua.HScript;
 import tea.SScript;
 #end
 
+import openfl.Lib;
 /**
  * This is where all the Gameplay stuff happens and is managed
  *
@@ -303,6 +304,9 @@ class PlayState extends MusicBeatState
 	{
 		//trace('Playback Rate: ' + playbackRate);
 		Paths.clearStoredMemory();
+
+		Lib.application.window.title = "NovaFlare Engine - " + songName;
+
 
 		startCallback = startCountdown;
 		endCallback = endSong;
