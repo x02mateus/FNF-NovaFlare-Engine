@@ -155,12 +155,12 @@ class OptionsState extends MusicBeatState
 		
 		options = [
 			new OptionCata(50, 40, OptionsName.setGameplay(), [				
-				new DownscrollOption(OptionsName.setDownscrollOption()),
-				new MiddleScrollOption("Put your lane in the center or on the right."), 								
+				new Downscroll(OptionsName.setDownscrollOption()),
+				new MiddleScroll("Put your lane in the center or on the right."), 								
 				new FilpChart('If checked, filp chart for playing.'),				
 				new GuitarHeroSustains("If checked, Hold Notes can't be pressed if you miss\nUncheck this if you prefer the old Input System."),
 				new FixLNL('reduce Long Note length\nFix for some mod engines have been reduced'),												
-				new GhostTapOption("Toggle counting pressing a directional input when no arrow is there as a miss."),								
+				new GhostTap("Toggle counting pressing a directional input when no arrow is there as a miss."),								
 				new NoReset("Toggle pressing R to gameover."),								               
                 new ResultsScreen('If checked, Open Results Screen at end song'),            
 				new Judgement("Create a custom judgement preset"),
@@ -170,14 +170,14 @@ class OptionsState extends MusicBeatState
                 new NoteRGB('Easier to set RGB for Note.'),
                 new SplashSkin('Change your current splashSkin'),              
 				new SplashRGB('Easier to to RGB for Splash.'),
-                new HitSoundOption("Adds 'hitsound' on note hits."),				               
-				new CamZoomOption("Toggle the camera zoom in-game."),
+                new HitSound("Adds 'hitsound' on note hits."),				               
+				new CamZoom("Toggle the camera zoom in-game."),
 				new ScoreZoom("Zoom score on 2'nd beat."),				
 				new JudgementCounter("Show your judgements that you've gotten in the song"),								
                 new HideHud("Shows to you hud."),           
-                new HideOppStrumsOption("Shows/Hides opponent strums on screen."),		
+                new HideOppStrums("Shows/Hides opponent strums on screen."),		
                 new ShowComboNum("Combo sprite appearance."),
-                new ComboColor("Allow Combe Sprite to get and use rating color.")			    		
+                new ComboColor("Allow Combe Sprite to get and use rating color."),		    		
                 new ShowRating("Rating sprite appearance."),               
                 new ShowSplashes("Show particles on SICK hit."),
                 new SplashAlpha('How much transparent should the Note Splashes be.'),                 
@@ -205,38 +205,38 @@ class OptionsState extends MusicBeatState
 				new SkipTitleVideo('Check for skip intro video'),
 			]),
 			new OptionCata(345, 40 + 64, OptionsName.setControls(), [
-			    new ControllerMode("Enables you to play with controller."),	
+			    //new ControllerMode("Enables you to play with controller."),	
                 new KeyboardControls('Change your keyboard control.'),
 			    new AndroidControls('Change your android control.'),
+			    new ExtraControls('Change android extra key return'),
+			    new ExtraControlsNum('How many extra key need'),
 			    new ControlsAlpha('Virtual pad alpha at state.'),
             	new PlayControlsAlpha('android control alpha for play.'),
 			    new HitboxLocation('Hitbox extra key location.'),
-            	new HitboxSkin('Hitbox skin'),            	
-            	new HideHitboxHints('if checked, Hitbox will hide.'),
-            	
+            	new HitboxSkin('Hitbox skin choose'),            	                 	
 			]),
 			new OptionCata(640, 40 + 64, "System", [
 			    //new Language("Change language in some state."), //will use fot NF1.2.0
-			    new FPSCapOption("Change your FPS Cap."),					    
-			    new ColorblindModeOption("You can set colorblind filter (makes the game more playable for colorblind people)\nCode from Indie Cross'"),
-			    new ShadersOption("Shaders used for some visual effects, and also CPU intensive for weaker PCs."),
-				new GPUcacheOption("If checked, allows the GPU to be used for caching textures, decreasing RAM usage."),				
+			    new FPSCap("Change your FPS Cap."),					    
+			    new ColorblindMode("You can set colorblind filter (makes the game more playable for colorblind people)\nCode from Indie Cross'"),
+			    new Shaders("Shaders used for some visual effects, and also CPU intensive for weaker PCs."),
+				new GPUcache("If checked, allows the GPU to be used for caching textures, decreasing RAM usage."),				
 				new ImagePersist("Images loaded will stay in memory until the game is closed."),
-				new FlashingLightsOption("Toggle flashing lights that can cause epileptic seizures and strain."),
+				new FlashingLights("Toggle flashing lights that can cause epileptic seizures and strain."),
 				new QualityLow("Turn off some object on stages"),
-                new AntialiasingOption("Toggle antialiasing, improving graphics quality at a slight performance penalty."),				  
+                new Antialiasing("Toggle antialiasing, improving graphics quality at a slight performance penalty."),				  
 				new AutoPause("Stops game, when its unfocused"),				              
 			]),			
 			new OptionCata(935, 40 + 64, "Watermark", [                
 				new FPSOption("Toggle the FPS Counter."),
 				new FPSRainbowOption("Make the FPS Counter flicker through rainbow colors."),
-                new MEMOption("Toggle the MEM Counter."),
+                new MEMOption("Toggle the memory counter."),
                 new MEMType("Choose memory showcase data."),
-                new MSOption("Toggle the delay time Counter."),
+                new DelayOption("Toggle the delay time counter."),
+                new WaterMarkOption('Toggle the watermark.'),
 			]),			
 			new OptionCata(-1, 125, "Editing Judgements", [			
 				new FrameOption("Changes how many frames you have for hitting a note earlier or late."),
-				new OffsetThing("Change the note visual offset\nhow many milliseconds a note looks like it is offset in a chart"),
                 new RatingOffset('Changes how late/early you have to hit for a "Sick!"\nHigher values mean you have to hit later.'),			
 				new MarvelousMsOption("How many milliseconds are in the MARVELOUS hit window."),
 				new SickMsOption("How many milliseconds are in the SICK hit window."),
@@ -329,11 +329,12 @@ class OptionsState extends MusicBeatState
 		selectedCatIndex = isReset ? saveSelectedCatIndex : 0;
 		
 		selectedOption = isReset ? selectedCat.options[saveSelectedOptionIndex] : selectedCat.options[0];
-		selectedOptionIndex = isReset ? saveSelectedOptionIndex : 0;                
+		selectedOptionIndex = isReset ? saveSelectedOptionIndex : 0;       
+		
+		isReset = false;                  
         
 		#if android
-        addVirtualPad(LEFT_FULL, A_B_C);
-        //addPadCamera();
+        addVirtualPad(LEFT_FULL, A_B_C);        
         #end
 		
 		super.create();
@@ -492,10 +493,7 @@ class OptionsState extends MusicBeatState
 		right_hold = false;
         left_hold = false;
 	    up_hold = false;
-		down_hold = false;
-		
-		if (FlxG.keys.justPressed.Z) openSubState(new options.base.ControlsSubState());
-		
+		down_hold = false;				
 	 
 		if (controls.UI_RIGHT_P || controls.UI_LEFT_P || controls.UI_UP_P || controls.UI_DOWN_P){
     		holdTime = 0;		
@@ -885,6 +883,13 @@ class OptionsState extends MusicBeatState
                 moveCheak(); //check again until not have problem
             }
         }
+	}
+	
+	public static function openSub(state:Dynamic){
+	    
+	    isReset = true;
+		openSubState(new state);		
+	    persistentUpdate = persistentDraw = false;
 	}
 }
 
