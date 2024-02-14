@@ -10,7 +10,8 @@ class OptionsHelpers
     public static var languageArray = ["English", "简体中文", "繁體中文"];
 	public static var colorblindFilterArray = ['None', 'Protanopia', 'Protanomaly', 'Deuteranopia','Deuteranomaly','Tritanopia','Tritanomaly','Achromatopsia','Achromatomaly'];
     public static var memoryTypeArray = ["Usage", "Reserved", "Current", "Large"];
-    
+    public static var TimeBarArray = ['Time Left', 'Time Elapsed', 'Song Name', 'Disabled'];
+    public static var PauseMusicArray = ['None', 'Breakfast', 'Tea Time'];
     static public function setNoteSkin()
     {
         var noteSkins:Array<String> = [];
@@ -117,6 +118,60 @@ class OptionsHelpers
 		    ClientPrefs.data.splashSkin = ClientPrefs.defaultData.splashSkin;
 		    SplashSkin.chooseNum = 0;
 		}
+    }
+    
+    static public function setTimeBarType()
+    {/*
+        var noteSplashes:Array<String> = [];
+		if(Mods.mergeAllTextsNamed('images/noteSplashes/list.txt', 'shared').length > 0)
+			noteSplashes = Mods.mergeAllTextsNamed('images/noteSplashes/list.txt', 'shared');
+		else
+			noteSplashes = CoolUtil.coolTextFile(Paths.getPreloadPath('shared/images/noteSplashes/list.txt'));
+			
+		if(noteSplashes.length > 0)
+		{
+		    noteSplashes.insert(0, ClientPrefs.defaultData.splashSkin);
+		    
+			if(!noteSplashes.contains(ClientPrefs.data.splashSkin)){
+				ClientPrefs.data.splashSkin = ClientPrefs.defaultData.splashSkin; //Reset to default if saved noteskin couldnt be found
+				SplashSkin.chooseNum = 0;
+            }else{
+                for (i in 0...noteSplashes.length - 1){
+                    if (ClientPrefs.data.splashSkin == noteSplashes[i])
+                        SplashSkin.chooseNum = i;
+                }
+            }
+		}else{
+		    ClientPrefs.data.splashSkin = ClientPrefs.defaultData.splashSkin;
+		    SplashSkin.chooseNum = 0;
+		}*/
+    }
+    
+    static public function changeTimeBarType()
+    {/*
+        var noteSplashes:Array<String> = [];
+		if(Mods.mergeAllTextsNamed('images/noteSplashes/list.txt', 'shared').length > 0)
+			noteSplashes = Mods.mergeAllTextsNamed('images/noteSplashes/list.txt', 'shared');
+		else
+			noteSplashes = CoolUtil.coolTextFile(Paths.getSharedPath('shared/images/noteSplashes/list.txt'));
+			
+		if(noteSplashes.length > 0)
+		{
+		    noteSplashes.insert(0, ClientPrefs.defaultData.splashSkin);
+		
+		    if (SplashSkin.chooseNum < 0) SplashSkin.chooseNum = noteSplashes.length - 1;
+		    if (SplashSkin.chooseNum > noteSplashes.length - 1) SplashSkin.chooseNum = 0;
+		    
+			if(!noteSplashes.contains(ClientPrefs.data.splashSkin)){
+				ClientPrefs.data.splashSkin = ClientPrefs.defaultData.splashSkin; //Reset to default if saved noteskin couldnt be found
+				SplashSkin.chooseNum = 0;
+            }else{
+                ClientPrefs.data.splashSkin = noteSplashes[SplashSkin.chooseNum];
+            }
+		}else{
+		    ClientPrefs.data.splashSkin = ClientPrefs.defaultData.splashSkin;
+		    SplashSkin.chooseNum = 0;
+		}*/
     }
     
 }

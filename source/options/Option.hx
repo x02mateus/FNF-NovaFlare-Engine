@@ -274,13 +274,13 @@ class ResultsScreen extends Option
 	{
 		if (OptionsState.onPlayState)
 			return;
-		ClientPrefs.data.ResultsScreen = !ClientPrefs.data.ResultsScreen;
+		ClientPrefs.data.resultsScreen = !ClientPrefs.data.resultsScreen;
 		display = updateDisplay();
     }
 
 	private override function updateDisplay():String
 	{
-		return "ResultsScreen: < " + (ClientPrefs.data.ResultsScreen ? enable_O : disable_O);
+		return "Results Screen: < " + (ClientPrefs.data.resultsScreen ? enable_O : disable_O);
 	}
 }
 
@@ -788,43 +788,33 @@ class HealthBarAlpha extends Option
 
 class TimeBarType extends Option
 {
+    public static var chooseNum:Int;
 	public function new(desc:String)
 	{
 		super();
         description = desc;
+        OptionsHelpers.setTimeBarType();
 	}
 
 	public override function left()
 	{
-		ClientPrefs.data.timeBarTypeNum--;
-		if (ClientPrefs.data.timeBarTypeNum < 0)
-			ClientPrefs.data.timeBarTypeNum = OptionsHelpers.TimeBarArray.length - 3;
-     	OptionsHelpers.ChangeTimeBar(ClientPrefs.data.timeBarTypeNum);
+		chooseNum--;
+		OptionsHelpers.changeTimeBarType();
 		display = updateDisplay();
-		if (Type.getClass(FlxG.state) == PlayState){
-		PlayState.instance.timeBarBG.visible = (ClientPrefs.data.timeBarType != 'Disabled');
-		PlayState.instance.timeBar.visible = (ClientPrefs.data.timeBarType != 'Disabled');
-		PlayState.instance.timeTxt.visible = (ClientPrefs.data.timeBarType != 'Disabled');
+		
 		}
     }
 
 	public override function right()
 	{
-        ClientPrefs.data.timeBarTypeNum++;
-		if (ClientPrefs.data.timeBarTypeNum > OptionsHelpers.TimeBarArray.length - 1)
-			ClientPrefs.data.timeBarTypeNum = OptionsHelpers.TimeBarArray.length - 1;
-        OptionsHelpers.ChangeTimeBar(ClientPrefs.data.timeBarTypeNum);
-		display = updateDisplay();
-		if (Type.getClass(FlxG.state) == PlayState){
-		PlayState.instance.timeBarBG.visible = (ClientPrefs.data.timeBarType != 'Disabled');
-		PlayState.instance.timeBar.visible = (ClientPrefs.data.timeBarType != 'Disabled');
-		PlayState.instance.timeTxt.visible = (ClientPrefs.data.timeBarType != 'Disabled');
-		}
+        chooseNum++;
+        OptionsHelpers.changeTimeBarType();
+		display = updateDisplay();				
     }
 
 	public override function getValue():String
 	{
-		return "Time bar type: < " + OptionsHelpers.getTimeBarByID(ClientPrefs.data.timeBarTypeNum) + " >";
+		return "Time bar type: < " + OptionsHelpers.getTimeBarByID(ClientPrefs.data.timeBarType) + " >";
 	}
 }
 
