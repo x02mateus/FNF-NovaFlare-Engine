@@ -220,7 +220,7 @@ class FixLNL extends Option
 
 	private override function updateDisplay():String
 	{
-		return "Long Note Length Reduce: < " + ClientPrefs.data.fixLNL + " >";
+		return "Long Note Length Reduce: < " + ClientPrefs.data.fixLNL + " Grid >";
 	}
 }
 
@@ -600,7 +600,7 @@ class HideHud extends Option
 
 	private override function updateDisplay():String
 	{
-		return "HUD: " + (!ClientPrefs.data.hideHud ? 'Hide' : 'Show');
+		return "HUD: " + (ClientPrefs.data.hideHud ? 'Hide' : 'Show');
 	}
 }
 
@@ -653,17 +653,15 @@ class ComboColor extends Option
 		acceptValues = true;
 	}
 
-	private override function updateDisplay():String
-	{
-		return "Combe Color: " + ClientPrefs.data.comboColor;
-	}
-
 	override function press()
 	{
 		ClientPrefs.data.comboColor = !ClientPrefs.data.comboColor;
 		display = updateDisplay();
-		
-
+	}
+	
+	private override function updateDisplay():String
+	{
+		return "Combe Color: " + (ClientPrefs.data.comboColor ? enable_O : disable_O);;
 	}
 }
 
@@ -789,6 +787,31 @@ class HealthBarAlpha extends Option
 		}
 }
 
+class HealthBarVersion extends Option
+{
+	public function new(desc:String)
+	{
+		super();
+		description = desc;
+	}
+
+	override function left()
+	{
+        ClientPrefs.data.oldHealthBarVersion = !ClientPrefs.data.oldHealthBarVersion;
+		display = updateDisplay();
+    }
+    
+    override function right()
+	{
+        left();
+    }
+
+	private override function updateDisplay():String
+	{
+		return "HealthBar Version: " + (ClientPrefs.data.oldHealthBarVersion ? '0.6.X' : '0.7.X');
+	} 
+}
+
 class TimeBarType extends Option
 {
     public static var chooseNum:Int;
@@ -825,6 +848,31 @@ class TimeBarType extends Option
 //----------------------------------------------------------------
 //----------------------------------------------------------------
 //大类3
+class HealthBarVersion extends Option
+{
+	public function new(desc:String)
+	{
+		super();
+		description = desc;
+	}
+
+	override function left()
+	{
+        ClientPrefs.data.oldHscriptVersion = !ClientPrefs.data.oldHscriptVersion;
+		display = updateDisplay();
+    }
+    
+    override function right()
+	{
+        left();
+    }
+
+	private override function updateDisplay():String
+	{
+		return "Runhaxecode Version: " + (ClientPrefs.data.oldHscriptVersion ? '0.6.X' : '0.7.X');
+	} 
+}
+
 class PauseMusic extends Option
 {
 	public function new(desc:String)
@@ -932,7 +980,7 @@ class ScreenSaver extends Option
 
 	private override function updateDisplay():String
 	{
-		return "Screen Saver: " + (ClientPrefs.data.gameOverVibration ? enable_O : disable_O);
+		return "Screen Saver: " + (ClientPrefs.data.screensaver ? enable_O : disable_O);
 	}
 }
 

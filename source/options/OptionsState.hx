@@ -181,10 +181,12 @@ class OptionsState extends MusicBeatState
                 new ShowRating("Rating sprite appearance."),               
                 new ShowSplashes("Show particles on SICK hit."),
                 new SplashAlpha('How much transparent should the Note Splashes be.'),                 
-                new HealthBarAlpha("Healthbar Transparceny."),           
+                new HealthBarAlpha("Healthbar Transparceny."),     
+                new HealthBarVersion('Reduced version for healthbar work better at old mods'),
                 new TimeBarType('What should the Time Bar display?'),     
 			]),
-			new OptionCata(640, 40, OptionsName.setMisc(), [			    								
+			new OptionCata(640, 40, OptionsName.setMisc(), [			    
+			    new HscriptVersion('Reduced version to use hscript work for runhaxecode'),							
 				new PauseMusic('What song do you prefer for the Pause Screen?'),
 				#if CHECK_FOR_UPDATES new CheckForUpdates('On Release builds, turn this on to check for updates when you start the game.'), #end
 				#if desktop new DiscordRPC('Uncheck this to prevent accidental leaks, it will hide the Application from your \"Playing\" box on Discord'), #end				
