@@ -52,6 +52,7 @@ class FunkinLua {
 
 	#if HSCRIPT_ALLOWED
 	public var hscript:HScript = null;
+	public var hscriptBase:HScriptBase = null
 	#end
 
 	public var callbacks:Map<String, Dynamic> = new Map<String, Dynamic>();
@@ -1470,7 +1471,10 @@ class FunkinLua {
 		});
 
 		#if DISCORD_ALLOWED DiscordClient.addLuaCallbacks(this); #end
-		#if HSCRIPT_ALLOWED HScript.implement(this); #end
+		#if HSCRIPT_ALLOWED 
+		    HScript.implement(this); 
+		    HScriptBase.implement(this);
+		#end
 		#if ACHIEVEMENTS_ALLOWED Achievements.addLuaCallbacks(this); #end
 		#if flxanimate FlxAnimateFunctions.implement(this); #end
 		ReflectionFunctions.implement(this);
@@ -1585,6 +1589,9 @@ class FunkinLua {
 			hscript.destroy();
 			hscript = null;
 		}
+		
+		if(hscriptBase != null) hscriptBase.interp = null;
+		hscriptBase = null;
 		#end
 	}
 
