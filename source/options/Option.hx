@@ -814,7 +814,7 @@ class TimeBarType extends Option
 
 	override function getValue():String
 	{
-		return "Time bar type: < " + OptionsHelpers.getTimeBarByID(ClientPrefs.data.timeBarType) + " >";
+		return "Time bar type: < " + ClientPrefs.data.timeBarType + " >";
 	}
 }
 
@@ -1186,7 +1186,7 @@ class KeyboardControls extends Option
 	override function press()
 	{	
 	    OptionsState.openSub();	
-	    OptionsState.openSubState(new ControlsSubState());				
+	    FlxG.state.openSubState(new ControlsSubState());				
     }
 }
 
@@ -1200,7 +1200,7 @@ class AndroidControls extends Option
 	override function press()
 	{		
 		OptionsState.openSub();	
-	    OptionsState.openSubState(new MobileControlSelectSubState());					
+	    FlxG.state.openSubState(new MobileControlSelectSubState());					
      }
 }
 
@@ -1816,7 +1816,7 @@ class WaterMarkOption extends Option
 
 	private override function updateDisplay():String
 	{
-		return "Watermark: < " + (ClientPrefs.data.showWaterMark ? 'Show' : 'Hide');
+		return "Watermark: < " + (ClientPrefs.data.showWatermark ? 'Show' : 'Hide');
 	} 
 }
 
@@ -2070,7 +2070,7 @@ class MarvelousSprite extends Option
 	{
 		ClientPrefs.data.marvelousSprite = !ClientPrefs.data.marvelousSprite;
 		display = updateDisplay();
-     }
+    }
 
 	private override function updateDisplay():String
 	{

@@ -454,9 +454,13 @@ class OptionsState extends MusicBeatState
 	var holdTime:Float = 0;	
     var checkTime:Float = 0;	
     var updateTime:Float = 0;
+    
+    var closeUpdate:Bool = false;
 	 
 	override function update(elapsed:Float)
 	{
+	    if (closeUpdate) persistentUpdate = persistentDraw = false;
+	    
 		super.update(elapsed);
 
 		for (c in options) {
@@ -887,7 +891,7 @@ class OptionsState extends MusicBeatState
 	
 	public static function openSub(){	    
 	    isReset = true;		
-	    persistentUpdate = persistentDraw = false;
+	    closeUpdate = true;	    
 	}
 }
 

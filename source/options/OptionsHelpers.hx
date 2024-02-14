@@ -72,7 +72,7 @@ class OptionsHelpers
 		if(Mods.mergeAllTextsNamed('images/noteSplashes/list.txt', 'shared').length > 0)
 			noteSplashes = Mods.mergeAllTextsNamed('images/noteSplashes/list.txt', 'shared');
 		else
-			noteSplashes = CoolUtil.coolTextFile(Paths.getPreloadPath('shared/images/noteSplashes/list.txt'));
+			noteSplashes = CoolUtil.coolTextFile(Paths.getSharedPath('shared/images/noteSplashes/list.txt'));
 			
 		if(noteSplashes.length > 0)
 		{
@@ -126,7 +126,7 @@ class OptionsHelpers
 		if(Mods.mergeAllTextsNamed('images/noteSplashes/list.txt', 'shared').length > 0)
 			noteSplashes = Mods.mergeAllTextsNamed('images/noteSplashes/list.txt', 'shared');
 		else
-			noteSplashes = CoolUtil.coolTextFile(Paths.getPreloadPath('shared/images/noteSplashes/list.txt'));
+			noteSplashes = CoolUtil.coolTextFile(Paths.getSharedPath('shared/images/noteSplashes/list.txt'));
 			
 		if(noteSplashes.length > 0)
 		{
