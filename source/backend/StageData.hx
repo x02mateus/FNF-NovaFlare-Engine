@@ -19,6 +19,13 @@ typedef StageFile = {
 	var camera_opponent:Array<Float>;
 	var camera_girlfriend:Array<Float>;
 	var camera_speed:Null<Float>;
+
+	#if !officialBuild
+	@:optional var name:String;
+	@:optional var layerArray:Array<LayerFile>;
+	#end
+
+	@:optional var preload:Dynamic;
 }
 
 class StageData {
@@ -128,3 +135,17 @@ class StageData {
 		return 'stage';
 	}
 }
+#if !officialBuild
+typedef LayerFile =
+{
+	public var name:String;
+	public var directory:String;
+	public var xAxis:Float;
+	public var yAxis:Float;
+	public var scrollX:Float;
+	public var scrollY:Float;
+	public var scale:Float;
+    public var flipX:Bool;
+	public var flipY:Bool;
+}
+#end
