@@ -191,7 +191,7 @@ class MainMenuState extends MusicBeatState
 			var option:FlxSprite = menuItems.members[i];
 			
 			if (optionShit.length % 2 == 0){
-			    option.y = 360 + (i - optionShit.length / 2) * 100;
+			    option.y = 360 + (i - optionShit.length / 2) * 120;
 			
 			}else{
 			    option.y = 360 + (i - (optionShit.length / 2 + 0.5)) * 135;
