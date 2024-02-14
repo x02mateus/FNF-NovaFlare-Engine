@@ -1122,7 +1122,7 @@ class CustomFadeSound extends Option
 
 	private override function updateDisplay():String
 		{
-		    var data: ClientPrefs.data.CustomFadeSound * 100;
+		    var data = ClientPrefs.data.CustomFadeSound * 100;
 			return "CustomFadeSound: < " + data + "% >";
 		}
 }
