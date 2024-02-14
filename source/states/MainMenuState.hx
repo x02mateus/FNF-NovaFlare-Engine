@@ -20,7 +20,7 @@ import openfl.Lib;
 class MainMenuState extends MusicBeatState
 {
 	public static var psychEngineVersion:String = '0.7.3'; //This is also used for Discord RPC
-	public static var nfEngineVersion:String = '1.1.0';
+	public static var novaFlareEngineVersion:String = '1.1.0';
 	public static var curSelected:Int = 0;
     public static var saveCurSelected:Int = 0;
     
@@ -74,7 +74,7 @@ class MainMenuState extends MusicBeatState
 		Paths.clearStoredMemory();
 		Paths.clearUnusedMemory();
 
-		Lib.application.window.title = "NovaFlare Engine - MainMenuState";
+		Lib.application.window.title = "NF Engine - MainMenuState";
 		
         Mainbpm = TitleState.bpm;
         bpm = TitleState.bpm;
@@ -164,7 +164,7 @@ class MainMenuState extends MusicBeatState
 		for (i in 0...optionShit.length)
 		{
 			
-			var menuItem:FlxSprite = new FlxSprite(-600, (i * 30) + 200);
+			var menuItem:FlxSprite = new FlxSprite(-600, 0);
 			menuItem.scale.x = scale;
 			menuItem.scale.y = scale;
 			menuItem.frames = Paths.getSparrowAtlas('mainmenu/menu_' + optionShit[i]);
@@ -191,7 +191,7 @@ class MainMenuState extends MusicBeatState
 			var option:FlxSprite = menuItems.members[i];
 			
 			if (optionShit.length % 2 == 0){
-			    option.y = 360 + (i - optionShit.length / 2) * 135;
+			    option.y = 360 + (i - optionShit.length / 2) * 100;
 			
 			}else{
 			    option.y = 360 + (i - (optionShit.length / 2 + 0.5)) * 135;
@@ -203,7 +203,7 @@ class MainMenuState extends MusicBeatState
 
 		//FlxG.camera.follow(camFollow, null, 0);
 
-		var versionShit:FlxText = new FlxText(12, FlxG.height - 44, 0, "NovaFlare Engine v" + '1.1.0' + ' (PSYCH v0.7.2h)', 12);
+		var versionShit:FlxText = new FlxText(12, FlxG.height - 44, 0, "NF Engine v" + '1.1.0' + ' (PSYCH v0.7.2h)', 12);
 		versionShit.scrollFactor.set();
 		versionShit.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		versionShit.antialiasing = ClientPrefs.data.antialiasing;
