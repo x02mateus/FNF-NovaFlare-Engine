@@ -3022,8 +3022,7 @@ class PlayState extends MusicBeatState
 		if(!generatedMusic || endingSong || char.stunned) return;
 
 		// had to name it like this else it'd break older scripts lol
-		var ret:Dynamic = callOnScripts('preKeyPress', [key], true);
-		if(ret == FunkinLua.Function_Stop) return;
+		var ret:Dynamic = callOnScripts('preKeyPress', [key], true);		
 
 		// more accurate hit time for the ratings?
 		var lastTime:Float = Conductor.songPosition;
@@ -3164,7 +3163,7 @@ class PlayState extends MusicBeatState
 					&& !daNote.tooLate 
 					&& !daNote.wasGoodHit
 					&& !daNote.blockHit
-					&& (daNote.susCanPress && ClientPrefs.data.guitarHeroSustains || !ClientPrefs.data.guitarHeroSustains)) 
+					) 
 					{
 						if (daNote.mustPress && !ClientPrefs.data.playOpponent){
 						goodNoteHit(daNote);
