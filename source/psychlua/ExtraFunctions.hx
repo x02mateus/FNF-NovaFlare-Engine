@@ -19,13 +19,13 @@ class ExtraFunctions
 			    
 				if (MusicBeatState.instance.mobileControls != null){		    
 					    
-					if (name == ClientPrefs.data.ExtraKeyReturn1.toUpperCase() && MusicBeatState.instance.mobileControls.current.buttonExtra1 != null && MusicBeatState.instance.mobileControls.current.buttonExtra1.justPressed) return true;
+					if (name == ClientPrefs.data.extraKeyReturn1.toUpperCase() && MusicBeatState.instance.mobileControls.current.buttonExtra1 != null && MusicBeatState.instance.mobileControls.current.buttonExtra1.justPressed) return true;
 					        
-					if (name == ClientPrefs.data.ExtraKeyReturn2.toUpperCase() && MusicBeatState.instance.mobileControls.current.buttonExtra2 != null && MusicBeatState.instance.mobileControls.current.buttonExtra2.justPressed) return true;
+					if (name == ClientPrefs.data.extraKeyReturn2.toUpperCase() && MusicBeatState.instance.mobileControls.current.buttonExtra2 != null && MusicBeatState.instance.mobileControls.current.buttonExtra2.justPressed) return true;
                             
-					if (name == ClientPrefs.data.ExtraKeyReturn3.toUpperCase() && MusicBeatState.instance.mobileControls.current.buttonExtra3 != null && MusicBeatState.instance.mobileControls.current.buttonExtra3.justPressed) return true;
+					if (name == ClientPrefs.data.extraKeyReturn3.toUpperCase() && MusicBeatState.instance.mobileControls.current.buttonExtra3 != null && MusicBeatState.instance.mobileControls.current.buttonExtra3.justPressed) return true;
                             
-					if (name == ClientPrefs.data.ExtraKeyReturn4.toUpperCase() && MusicBeatState.instance.mobileControls.current.buttonExtra4 != null && MusicBeatState.instance.mobileControls.current.buttonExtra4.justPressed) return true;                       					
+					if (name == ClientPrefs.data.extraKeyReturn4.toUpperCase() && MusicBeatState.instance.mobileControls.current.buttonExtra4 != null && MusicBeatState.instance.mobileControls.current.buttonExtra4.justPressed) return true;                       					
 			    }
 			    return Reflect.getProperty(FlxG.keys.justPressed, name);				
 			});
@@ -35,13 +35,13 @@ class ExtraFunctions
 			    
 				if (MusicBeatState.instance.mobileControls != null){				    
 					    
-					if (name == ClientPrefs.data.ExtraKeyReturn1.toUpperCase() && MusicBeatState.instance.mobileControls.current.buttonExtra1 != null && MusicBeatState.instance.mobileControls.current.buttonExtra1.pressed) return true;
+					if (name == ClientPrefs.data.extraKeyReturn1.toUpperCase() && MusicBeatState.instance.mobileControls.current.buttonExtra1 != null && MusicBeatState.instance.mobileControls.current.buttonExtra1.pressed) return true;
 					        
-					if (name == ClientPrefs.data.ExtraKeyReturn2.toUpperCase() && MusicBeatState.instance.mobileControls.current.buttonExtra2 != null && MusicBeatState.instance.mobileControls.current.buttonExtra2.pressed) return true;
+					if (name == ClientPrefs.data.extraKeyReturn2.toUpperCase() && MusicBeatState.instance.mobileControls.current.buttonExtra2 != null && MusicBeatState.instance.mobileControls.current.buttonExtra2.pressed) return true;
                             
-					if (name == ClientPrefs.data.ExtraKeyReturn3.toUpperCase() && MusicBeatState.instance.mobileControls.current.buttonExtra3 != null && MusicBeatState.instance.mobileControls.current.buttonExtra3.pressed) return true;
+					if (name == ClientPrefs.data.extraKeyReturn3.toUpperCase() && MusicBeatState.instance.mobileControls.current.buttonExtra3 != null && MusicBeatState.instance.mobileControls.current.buttonExtra3.pressed) return true;
                             
-					if (name == ClientPrefs.data.ExtraKeyReturn4.toUpperCase() && MusicBeatState.instance.mobileControls.current.buttonExtra4 != null && MusicBeatState.instance.mobileControls.current.buttonExtra4.pressed) return true;                       					
+					if (name == ClientPrefs.data.extraKeyReturn4.toUpperCase() && MusicBeatState.instance.mobileControls.current.buttonExtra4 != null && MusicBeatState.instance.mobileControls.current.buttonExtra4.pressed) return true;                       					
 			    }
 			    return Reflect.getProperty(FlxG.keys.pressed, name);	
 			});
@@ -51,13 +51,13 @@ class ExtraFunctions
 			    
 				if (MusicBeatState.instance.mobileControls != null){				    
 					    
-					if (name == ClientPrefs.data.ExtraKeyReturn1.toUpperCase() && MusicBeatState.instance.mobileControls.current.buttonExtra1 != null && MusicBeatState.instance.mobileControls.current.buttonExtra1.justReleased) return true;
+					if (name == ClientPrefs.data.extraKeyReturn1.toUpperCase() && MusicBeatState.instance.mobileControls.current.buttonExtra1 != null && MusicBeatState.instance.mobileControls.current.buttonExtra1.justReleased) return true;
 					        
-					if (name == ClientPrefs.data.ExtraKeyReturn2.toUpperCase() && MusicBeatState.instance.mobileControls.current.buttonExtra2 != null && MusicBeatState.instance.mobileControls.current.buttonExtra2.justReleased) return true;
+					if (name == ClientPrefs.data.extraKeyReturn2.toUpperCase() && MusicBeatState.instance.mobileControls.current.buttonExtra2 != null && MusicBeatState.instance.mobileControls.current.buttonExtra2.justReleased) return true;
                             
-					if (name == ClientPrefs.data.ExtraKeyReturn3.toUpperCase() && MusicBeatState.instance.mobileControls.current.buttonExtra3 != null && MusicBeatState.instance.mobileControls.current.buttonExtra3.justReleased) return true;
+					if (name == ClientPrefs.data.extraKeyReturn3.toUpperCase() && MusicBeatState.instance.mobileControls.current.buttonExtra3 != null && MusicBeatState.instance.mobileControls.current.buttonExtra3.justReleased) return true;
                             
-					if (name == ClientPrefs.data.ExtraKeyReturn4.toUpperCase() && MusicBeatState.instance.mobileControls.current.buttonExtra4 != null && MusicBeatState.instance.mobileControls.current.buttonExtra4.justReleased) return true;                       					
+					if (name == ClientPrefs.data.extraKeyReturn4.toUpperCase() && MusicBeatState.instance.mobileControls.current.buttonExtra4 != null && MusicBeatState.instance.mobileControls.current.buttonExtra4.justReleased) return true;                       					
 			    }
 			    return Reflect.getProperty(FlxG.keys.justReleased, name);	
 			});
@@ -112,13 +112,13 @@ class ExtraFunctions
 				default:
 				    if (MusicBeatState.instance.mobileControls != null){		    
 					    
-					    if (name == ClientPrefs.data.ExtraKeyReturn1.toLowerCase() && MusicBeatState.instance.mobileControls.current.buttonExtra1 != null && MusicBeatState.instance.mobileControls.current.buttonExtra1.justPressed) return true;
+					    if (name == ClientPrefs.data.extraKeyReturn1.toLowerCase() && MusicBeatState.instance.mobileControls.current.buttonExtra1 != null && MusicBeatState.instance.mobileControls.current.buttonExtra1.justPressed) return true;
 					        
-					    if (name == ClientPrefs.data.ExtraKeyReturn2.toLowerCase() && MusicBeatState.instance.mobileControls.current.buttonExtra2 != null && MusicBeatState.instance.mobileControls.current.buttonExtra2.justPressed) return true;
+					    if (name == ClientPrefs.data.extraKeyReturn2.toLowerCase() && MusicBeatState.instance.mobileControls.current.buttonExtra2 != null && MusicBeatState.instance.mobileControls.current.buttonExtra2.justPressed) return true;
                             
-					    if (name == ClientPrefs.data.ExtraKeyReturn3.toLowerCase() && MusicBeatState.instance.mobileControls.current.buttonExtra3 != null && MusicBeatState.instance.mobileControls.current.buttonExtra3.justPressed) return true;
+					    if (name == ClientPrefs.data.extraKeyReturn3.toLowerCase() && MusicBeatState.instance.mobileControls.current.buttonExtra3 != null && MusicBeatState.instance.mobileControls.current.buttonExtra3.justPressed) return true;
                             
-					    if (name == ClientPrefs.data.ExtraKeyReturn4.toLowerCase() && MusicBeatState.instance.mobileControls.current.buttonExtra4 != null && MusicBeatState.instance.mobileControls.current.buttonExtra4.justPressed) return true;                       					
+					    if (name == ClientPrefs.data.extraKeyReturn4.toLowerCase() && MusicBeatState.instance.mobileControls.current.buttonExtra4 != null && MusicBeatState.instance.mobileControls.current.buttonExtra4.justPressed) return true;                       					
 			        }
 				return PlayState.instance.controls.justPressed(name);
 			}
@@ -134,13 +134,13 @@ class ExtraFunctions
 				default:    
 				    if (MusicBeatState.instance.mobileControls != null){		    
 					    
-					    if (name == ClientPrefs.data.ExtraKeyReturn1.toLowerCase() && MusicBeatState.instance.mobileControls.current.buttonExtra1 != null && MusicBeatState.instance.mobileControls.current.buttonExtra1.pressed) return true;
+					    if (name == ClientPrefs.data.extraKeyReturn1.toLowerCase() && MusicBeatState.instance.mobileControls.current.buttonExtra1 != null && MusicBeatState.instance.mobileControls.current.buttonExtra1.pressed) return true;
 					        
-					    if (name == ClientPrefs.data.ExtraKeyReturn2.toLowerCase() && MusicBeatState.instance.mobileControls.current.buttonExtra2 != null && MusicBeatState.instance.mobileControls.current.buttonExtra2.pressed) return true;
+					    if (name == ClientPrefs.data.extraKeyReturn2.toLowerCase() && MusicBeatState.instance.mobileControls.current.buttonExtra2 != null && MusicBeatState.instance.mobileControls.current.buttonExtra2.pressed) return true;
                             
-					    if (name == ClientPrefs.data.ExtraKeyReturn3.toLowerCase() && MusicBeatState.instance.mobileControls.current.buttonExtra3 != null && MusicBeatState.instance.mobileControls.current.buttonExtra3.pressed) return true;
+					    if (name == ClientPrefs.data.extraKeyReturn3.toLowerCase() && MusicBeatState.instance.mobileControls.current.buttonExtra3 != null && MusicBeatState.instance.mobileControls.current.buttonExtra3.pressed) return true;
                             
-					    if (name == ClientPrefs.data.ExtraKeyReturn4.toLowerCase() && MusicBeatState.instance.mobileControls.current.buttonExtra4 != null && MusicBeatState.instance.mobileControls.current.buttonExtra4.pressed) return true;                       					
+					    if (name == ClientPrefs.data.extraKeyReturn4.toLowerCase() && MusicBeatState.instance.mobileControls.current.buttonExtra4 != null && MusicBeatState.instance.mobileControls.current.buttonExtra4.pressed) return true;                       					
 			        }
 				return PlayState.instance.controls.pressed(name);
 			}
@@ -156,13 +156,13 @@ class ExtraFunctions
 				default: 
 				    if (MusicBeatState.instance.mobileControls != null){		    
 					    
-					    if (name == ClientPrefs.data.ExtraKeyReturn1.toLowerCase() && MusicBeatState.instance.mobileControls.current.buttonExtra1 != null && MusicBeatState.instance.mobileControls.current.buttonExtra1.justReleased) return true;
+					    if (name == ClientPrefs.data.extraKeyReturn1.toLowerCase() && MusicBeatState.instance.mobileControls.current.buttonExtra1 != null && MusicBeatState.instance.mobileControls.current.buttonExtra1.justReleased) return true;
 					        
-					    if (name == ClientPrefs.data.ExtraKeyReturn2.toLowerCase() && MusicBeatState.instance.mobileControls.current.buttonExtra2 != null && MusicBeatState.instance.mobileControls.current.buttonExtra2.justReleased) return true;
+					    if (name == ClientPrefs.data.extraKeyReturn2.toLowerCase() && MusicBeatState.instance.mobileControls.current.buttonExtra2 != null && MusicBeatState.instance.mobileControls.current.buttonExtra2.justReleased) return true;
                             
-					    if (name == ClientPrefs.data.ExtraKeyReturn3.toLowerCase() && MusicBeatState.instance.mobileControls.current.buttonExtra3 != null && MusicBeatState.instance.mobileControls.current.buttonExtra3.justReleased) return true;
+					    if (name == ClientPrefs.data.extraKeyReturn3.toLowerCase() && MusicBeatState.instance.mobileControls.current.buttonExtra3 != null && MusicBeatState.instance.mobileControls.current.buttonExtra3.justReleased) return true;
                             
-					    if (name == ClientPrefs.data.ExtraKeyReturn4.toLowerCase() && MusicBeatState.instance.mobileControls.current.buttonExtra4 != null && MusicBeatState.instance.mobileControls.current.buttonExtra4.justReleased) return true;                       					
+					    if (name == ClientPrefs.data.extraKeyReturn4.toLowerCase() && MusicBeatState.instance.mobileControls.current.buttonExtra4 != null && MusicBeatState.instance.mobileControls.current.buttonExtra4.justReleased) return true;                       					
 			        }
 				return PlayState.instance.controls.justReleased(name);
 			}
