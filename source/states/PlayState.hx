@@ -3361,7 +3361,7 @@ class PlayState extends MusicBeatState
 		var leData:Int = Math.round(Math.abs(note.noteData));
 		var leType:String = note.noteType;
         
-        var functionReturn:String = ClientPrefs.data.OpponentCodeFix ? 'goodNoteHitPre' : 'opponentNoteHitPre';
+        var functionReturn:String = ClientPrefs.data.opponentCodeFix ? 'goodNoteHitPre' : 'opponentNoteHitPre';
 		var result:Dynamic = callOnLuas(functionReturn, [notes.members.indexOf(note), leData, leType, isSus]);
 		if(result != LuaUtils.Function_Stop && result != LuaUtils.Function_StopHScript && result != LuaUtils.Function_StopAll) callOnHScript(functionReturn, [note]);
         
@@ -3447,7 +3447,7 @@ class PlayState extends MusicBeatState
 		if (guitarHeroSustains && note.isSustainNote) gainHealth = false;
 		if (gainHealth) health += note.hitHealth * healthGain;
         
-        var functionReturn:String = ClientPrefs.data.OpponentCodeFix ? 'goodNoteHit' : 'opponentNoteHit';
+        var functionReturn:String = ClientPrefs.data.opponentCodeFix ? 'goodNoteHit' : 'opponentNoteHit';
 		var result:Dynamic = callOnLuas(functionReturn, [notes.members.indexOf(note), leData, leType, isSus]);
 		if(result != LuaUtils.Function_Stop && result != LuaUtils.Function_StopHScript && result != LuaUtils.Function_StopAll) callOnHScript(functionReturn, [note]);
 
@@ -3542,7 +3542,7 @@ class PlayState extends MusicBeatState
 	
 	function goodNoteHitForOpponent(note:Note):Void
 	{
-	    var functionReturn:String = ClientPrefs.data.OpponentCodeFix ? 'opponentNoteHitPre' : 'goodNoteHitPre';
+	    var functionReturn:String = ClientPrefs.data.opponentCodeFix ? 'opponentNoteHitPre' : 'goodNoteHitPre';
 		var result:Dynamic = callOnLuas(functionReturn, [notes.members.indexOf(note), Math.abs(note.noteData), note.noteType, note.isSustainNote]);
 		if(result != LuaUtils.Function_Stop && result != LuaUtils.Function_StopHScript && result != LuaUtils.Function_StopAll) callOnHScript(functionReturn, [note]);
 
@@ -3570,7 +3570,7 @@ class PlayState extends MusicBeatState
 		strumPlayAnim(false, Std.int(Math.abs(note.noteData)), Conductor.stepCrochet * 1.25 / 1000 / playbackRate);
 		note.hitByOpponent = true;
 		
-		var functionReturn:String = ClientPrefs.data.OpponentCodeFix ? 'opponentNoteHit' : 'goodNoteHit';
+		var functionReturn:String = ClientPrefs.data.opponentCodeFix ? 'opponentNoteHit' : 'goodNoteHit';
 		var result:Dynamic = callOnLuas(functionReturn, [notes.members.indexOf(note), Math.abs(note.noteData), note.noteType, note.isSustainNote]);
 		if(result != LuaUtils.Function_Stop && result != LuaUtils.Function_StopHScript && result != LuaUtils.Function_StopAll) callOnHScript(functionReturn, [note]);
 
