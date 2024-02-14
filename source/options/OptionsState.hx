@@ -459,7 +459,7 @@ class OptionsState extends MusicBeatState
 	 
 	override function update(elapsed:Float)
 	{
-	    if (closeUpdate) persistentUpdate = persistentDraw = false;
+	    if (closeUpdate) persistentUpdate = false;
 	    
 		super.update(elapsed);
 
@@ -581,7 +581,7 @@ class OptionsState extends MusicBeatState
 					if (!onPlayState)
 					{
 						resetOptions();
-						MusicBeatState.switchState(new mobile.substates.MobileControlSelectSubState());
+						
 						FlxG.sound.play(Paths.sound('scrollMenu'), 0.6);
 						new FlxTimer().start(1.5, function(tmr:FlxTimer)
 						{
