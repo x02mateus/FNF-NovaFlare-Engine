@@ -105,7 +105,7 @@ class Downscroll extends Option
 			description = desc;
 	}
 
-	public override function press()
+	override function press()
 	{
 		if (OptionsState.onPlayState)
 			return;
@@ -130,7 +130,7 @@ class MiddleScroll extends Option
 			description = desc;
 	}
 
-	public override function press()
+	override function press()
 	{
 		if (OptionsState.onPlayState)
 			return;
@@ -155,7 +155,7 @@ class FilpChart extends Option
 			description = desc;
 	}
 
-	public override function press()
+	override function press()
 	{
 		if (OptionsState.onPlayState)
 			return;
@@ -176,7 +176,7 @@ class GuitarHeroSustains extends Option
 		super();
 	}
 
-	public override function press()
+	override function press()
 	{
 		ClientPrefs.data.guitarHeroSustains = !ClientPrefs.data.guitarHeroSustains;
 		display = updateDisplay();
@@ -197,7 +197,7 @@ class FixLNL extends Option
 		acceptType = true;
 	}
 
-	public override function left()
+	override function left()
 	{
 		ClientPrefs.data.fixLNL--;
 		if (ClientPrefs.data.fixLNL < 0)
@@ -205,7 +205,7 @@ class FixLNL extends Option
 		display = updateDisplay();
     }
 
-	public override function right()
+	override function right()
 	{
 		ClientPrefs.data.fixLNL++;
 		if (ClientPrefs.data.fixLNL > 2)
@@ -227,7 +227,7 @@ class GhostTap extends Option
 		description = desc;
 	}
 
-	public override function press()
+	override function press()
 	{
 		ClientPrefs.data.ghostTapping = !ClientPrefs.data.ghostTapping;
 		display = updateDisplay();
@@ -247,7 +247,7 @@ class NoReset extends Option
 		description = desc;
 	}
 
-	public override function press()
+	override function press()
 	{
 		ClientPrefs.data.noReset = !ClientPrefs.data.noReset;
 		display = updateDisplay();
@@ -270,7 +270,7 @@ class ResultsScreen extends Option
 			description = desc;
 	}
 
-	public override function press()
+	override function press()
 	{
 		if (OptionsState.onPlayState)
 			return;
@@ -296,7 +296,7 @@ class Judgement extends Option
 		acceptValues = true;
 	}
 
-	public override function press()
+	override function press()
 	{
 		if (OptionsState.onPlayState)
 			return;
@@ -332,7 +332,7 @@ class NoteSkin extends Option
 			description = desc;
 	}
 
-	public override function left()
+	override function left()
 	{
 		if (OptionsState.onPlayState)
 			return;
@@ -342,7 +342,7 @@ class NoteSkin extends Option
 		display = updateDisplay();
     }
 
-	public override function right()
+	override function right()
 	{
 		if (OptionsState.onPlayState)
 			return;
@@ -352,7 +352,7 @@ class NoteSkin extends Option
 		display = updateDisplay();
     }
 
-	public override function getValue():String
+	override function getValue():String
 	{
 		return "Current Noteskin: < " + ClientPrefs.data.noteSkin + " >";
 	}
@@ -369,7 +369,7 @@ class NoteRGB extends Option
 			description = desc;
 	}
 
-	public override function press()
+	override function press()
 	{
 		if (OptionsState.onPlayState)
 			return;
@@ -398,7 +398,7 @@ class SplashSkin extends Option
 			description = desc;
 	}
 
-	public override function left()
+	override function left()
 	{
 		if (OptionsState.onPlayState)
 			return;
@@ -408,7 +408,7 @@ class SplashSkin extends Option
 		display = updateDisplay();
     }
 
-	public override function right()
+	override function right()
 	{
 		if (OptionsState.onPlayState)
 			return;
@@ -418,7 +418,7 @@ class SplashSkin extends Option
 		display = updateDisplay();
     }
 
-	public override function getValue():String
+	override function getValue():String
 	{
 		return "Current SplashSkin: < " + ClientPrefs.data.splashSkin + " >";
 	}
@@ -435,7 +435,7 @@ class SplashRGB extends Option
 			description = desc;
 	}
 
-	public override function press()
+	override function press()
 	{
 		if (OptionsState.onPlayState)
 			return;
@@ -490,7 +490,7 @@ class CamZoom extends Option
         description = desc;
 	}
 
-	public override function press()
+	override function press()
 	{
 		ClientPrefs.data.camZooms = !ClientPrefs.data.camZooms;
 		display = updateDisplay();
@@ -510,7 +510,7 @@ class ScoreZoom extends Option
 		description = desc;
 	}
 
-	public override function press()
+	override function press()
 	{
 		ClientPrefs.data.scoreZoom = !ClientPrefs.data.scoreZoom;
 		display = updateDisplay();
@@ -530,7 +530,7 @@ class JudgementCounter extends Option
 		description = desc;
 	}
 
-	public override function press()
+	override function press()
 	{
 		ClientPrefs.data.judgementCounter = !ClientPrefs.data.judgementCounter;
         /*
@@ -562,7 +562,7 @@ class HideHud extends Option
 
 	}
 
-	public override function press()
+	override function press()
 	{
         //if (OptionsState.onPlayState)
 		//	return;
@@ -606,7 +606,7 @@ class HideOppStrums extends Option
 		description = desc;
 	}
 
-	public override function press()
+	override function press()
 	{
 		ClientPrefs.data.opponentStrums = !ClientPrefs.data.opponentStrums;
 		display = updateDisplay();
@@ -626,7 +626,7 @@ class ShowComboNum extends Option
 		description = desc;
 	}
 
-	public override function press()
+	override function press()
 	{
 		ClientPrefs.data.showComboNum = !ClientPrefs.data.showComboNum;
 		display = updateDisplay();
@@ -674,7 +674,7 @@ class ShowRating extends Option
 		description = desc;
 	}
 
-	public override function press()
+	override function press()
 	{
 		ClientPrefs.data.showRating = !ClientPrefs.data.showRating;
 		display = updateDisplay();
@@ -694,7 +694,7 @@ class ShowSplashes extends Option
 		description = desc;
 	}
 
-	public override function press()
+	override function press()
 	{
         ClientPrefs.data.showSplash = !ClientPrefs.data.showSplash;
 		display = updateDisplay();
@@ -796,23 +796,23 @@ class TimeBarType extends Option
         OptionsHelpers.setTimeBarType();
 	}
 
-	public override function left()
+	override function left()
 	{
 		chooseNum--;
 		OptionsHelpers.changeTimeBarType();
 		display = updateDisplay();
 		
-		}
+		
     }
 
-	public override function right()
+	override function right()
 	{
         chooseNum++;
         OptionsHelpers.changeTimeBarType();
 		display = updateDisplay();				
     }
 
-	public override function getValue():String
+	override function getValue():String
 	{
 		return "Time bar type: < " + OptionsHelpers.getTimeBarByID(ClientPrefs.data.timeBarType) + " >";
 	}
@@ -830,11 +830,11 @@ class PauseMusic extends Option
 		description = desc;
 	}
 
-	public override function left()
+	override function left()
 	{
     }
 
-	public override function right()
+	override function right()
 	{
     }
 
@@ -852,7 +852,7 @@ class CheckForUpdates extends Option
 		super();
 	}
 
-	public override function press()
+	override function press()
 	{
 		ClientPrefs.data.checkForUpdates = !ClientPrefs.data.checkForUpdates;
 		display = updateDisplay();
@@ -873,7 +873,7 @@ class DiscordRPC extends Option
 		super();
 	}
 
-	public override function press()
+	override function press()
 	{
 		if (OptionsState.onPlayState)
 			return;
@@ -896,7 +896,7 @@ class GameOverVibration extends Option
 		description = desc;
 	}
 
-	public override function press()
+	override function press()
 	{
 		ClientPrefs.data.gameOverVibration = !ClientPrefs.data.gameOverVibration;
 		display = updateDisplay();
@@ -916,13 +916,13 @@ class ScreenSaver extends Option
 		description = desc;
 	}
 
-	public override function press()
+	override function press()
 	{
 		ClientPrefs.data.screensaver = !ClientPrefs.data.screensaver;
 		display = updateDisplay();
     }
 	
-	public override function change()
+	override function change()
 	{
 	    lime.system.System.allowScreenTimeout = ClientPrefs.data.screensaver;
 	}
@@ -948,7 +948,7 @@ class PlayOpponent extends Option
 			description = desc;
 	}
 
-	public override function press()
+	override function press()
 	{
 		if (OptionsState.onPlayState)
 			return;
@@ -973,7 +973,7 @@ class OpponentCodeFix extends Option
 			description = desc;
 	}
 
-	public override function press()
+	override function press()
 	{
 		if (OptionsState.onPlayState)
 			return;
@@ -994,7 +994,7 @@ class BotOpponentFix extends Option
 		super();
 	}
 
-	public override function press()
+	override function press()
 	{
 		ClientPrefs.data.botOpponentFix = !ClientPrefs.data.botOpponentFix;
 		display = updateDisplay();
@@ -1014,7 +1014,7 @@ class HealthDrainOPPO extends Option
 		super();
 	}
 
-	public override function press()
+	override function press()
 	{
 		ClientPrefs.data.HealthDrainOPPO = !ClientPrefs.data.HealthDrainOPPO;
 		display = updateDisplay();
@@ -1033,13 +1033,13 @@ class HealthDrainOPPOMult extends Option
 		super();
 	}
 
-	public override function left()
+	override function left()
 	{
 		ClientPrefs.data.HealthDrainOPPOMult += 0.1;
 		display = updateDisplay();
      }
 
-	public override function right()
+	override function right()
 	{
 		ClientPrefs.data.HealthDrainOPPOMult -= 0.1;
 		display = updateDisplay();
@@ -1063,7 +1063,7 @@ class CustomFadeType extends Option
 		description = desc;
 	}
 
-	public override function left()
+	override function left()
 	{
 	    if (ClientPrefs.data.CustomFade == 'Move')
 		    ClientPrefs.data.CustomFade = 'Alpha';
@@ -1071,7 +1071,7 @@ class CustomFadeType extends Option
 		display = updateDisplay();
      }
 
-	public override function right()
+	override function right()
 	{
 	    left();
 	}
@@ -1125,7 +1125,7 @@ class CustomFadeText extends Option
 		description = desc;
 	}
 
-	public override function press()
+	override function press()
 	{
 	    ClientPrefs.data.CustomFadeText = !ClientPrefs.data.CustomFadeText;
 		display = updateDisplay();
@@ -1144,7 +1144,7 @@ class SkipTitleVideo extends Option
 		super();
 	}
 
-	public override function press()
+	override function press()
 	{
 		ClientPrefs.data.skipTitleVideo = !ClientPrefs.data.skipTitleVideo;
 		display = updateDisplay();
@@ -1169,7 +1169,7 @@ class ControllerMode extends Option
 		super();
 	}
 
-	public override function press()
+	override function press()
 	{		
 		OptionsState.openSub(options.base.ControlsSubState());		
      }
@@ -1183,7 +1183,7 @@ class KeyboardControls extends Option
 		super();
 	}
 
-	public override function press()
+	override function press()
 	{	
 	    OptionsState.openSub();	
 	    OptionsState.openSubState(new ControlsSubState());				
@@ -1197,7 +1197,7 @@ class AndroidControls extends Option
 		super();
 	}
 
-	public override function press()
+	override function press()
 	{		
 		OptionsState.openSub();	
 	    OptionsState.openSubState(new MobileControlSelectSubState());					
@@ -1211,7 +1211,7 @@ class ExtraControls extends Option
 		super();
 	}
 
-	public override function press()
+	override function press()
 	{		
 		//OptionsState.openSub(mobile.substates.MobileControlSelectSubState());		
      }
@@ -1388,7 +1388,7 @@ class Language extends Option
 		description = desc;
 	}		
 
-	public override function left()
+	override function left()
 	{
 		ClientPrefs.data.language--;
 		if (ClientPrefs.data.language < 0)
@@ -1399,7 +1399,7 @@ class Language extends Option
 		
     }
 
-	public override function right()
+	override function right()
 	{
 		ClientPrefs.data.language++;
 		if (ClientPrefs.data.language > OptionsHelpers.languageArray.length -1)
@@ -1473,7 +1473,7 @@ class ColorblindMode extends Option
 		description = desc;
 	}		
 
-	public override function left()
+	override function left()
 	{
 		ClientPrefs.data.colorblindMode--;
 		if (ClientPrefs.data.colorblindMode < 0)
@@ -1481,7 +1481,7 @@ class ColorblindMode extends Option
 		ColorblindFilter.UpdateColors();
     }
 
-	public override function right()
+	override function right()
 	{
 		ClientPrefs.data.colorblindMode++;
 		if (ClientPrefs.data.colorblindMode > OptionsHelpers.colorblindFilterArray.length -1)
@@ -1489,7 +1489,7 @@ class ColorblindMode extends Option
 	    ColorblindFilter.UpdateColors();
     }	
 	
-	public override function change()
+	override function change()
 	{
 	    ColorblindFilter.UpdateColors();
 	}
@@ -1511,7 +1511,7 @@ class Shaders extends Option
 			description = desc;
 	}
 
-	public override function press()
+	override function press()
 	{
 		if (OptionsState.onPlayState)
 			return;
@@ -1536,7 +1536,7 @@ class GPUcache extends Option
 			description = desc;
 	}
 
-	public override function press()
+	override function press()
 	{
 		if (OptionsState.onPlayState)
 			return;
@@ -1586,7 +1586,7 @@ class FlashingLights extends Option
 		description = desc;
 	}
 
-	public override function press()
+	override function press()
 	{
 		ClientPrefs.data.flashing = !ClientPrefs.data.flashing;
 		display = updateDisplay();
@@ -1609,7 +1609,7 @@ class QualityLow extends Option
 			description = desc;
 	}
 
-	public override function press()
+	override function press()
 	{
              		if (OptionsState.onPlayState)
 			return;
@@ -1634,7 +1634,7 @@ class Antialiasing extends Option
 			description = desc;
 	}
 
-	public override function press()
+	override function press()
 	{
 		if (OptionsState.onPlayState)
 			return;
@@ -1643,7 +1643,7 @@ class Antialiasing extends Option
 		display = updateDisplay();
     }	
 
-    public override function change()
+    override function change()
 	{
 	
 	}
@@ -1662,7 +1662,7 @@ class AutoPause extends Option
 		description = desc;
 	}
 
-	public override function press()
+	override function press()
 	{
 		ClientPrefs.data.autoPause = !ClientPrefs.data.autoPause;
         FlxG.autoPause = ClientPrefs.data.autoPause;
@@ -1687,7 +1687,7 @@ class FPSOption extends Option
 		description = desc;
 	}
 
-	public override function press()
+	override function press()
 	{	
 		ClientPrefs.data.showFPS = !ClientPrefs.data.showFPS;
 		
@@ -1714,7 +1714,7 @@ class FPSRainbowOption extends Option
 			description = desc;
 	}
 
-	public override function press()
+	override function press()
 	{
         if (OptionsState.onPlayState)
 			return;
@@ -1736,7 +1736,7 @@ class MEMOption extends Option
 		description = desc;
 	}
 
-	public override function press()
+	override function press()
 	{
 	    ClientPrefs.data.showMEM = !ClientPrefs.data.showMEM;
 		display = updateDisplay();
@@ -1756,14 +1756,14 @@ class MEMType extends Option
 		description = desc;
 	}
 
-	public override function left()
+	override function left()
 	{
 	    ClientPrefs.data.memoryType--;
 	    if (ClientPrefs.data.memoryType < 0) ClientPrefs.data.memoryType = OptionsHelpers.memoryTypeArray.length - 1;
 		display = updateDisplay();
     }
 
-	public override function right()
+	override function right()
 	{
 		ClientPrefs.data.memoryType++;
 		if (ClientPrefs.data.memoryType > OptionsHelpers.memoryTypeArray.length - 1) ClientPrefs.data.memoryType = 0;
@@ -1784,7 +1784,7 @@ class DelayOption extends Option
 		description = desc;
 	}
 
-	public override function press()
+	override function press()
 	{
 	    ClientPrefs.data.showMS = !ClientPrefs.data.showMS;
 		display = updateDisplay();
@@ -1804,7 +1804,7 @@ class WaterMarkOption extends Option
 		description = desc;
 	}
 
-	public override function press()
+	override function press()
 	{	
 		ClientPrefs.data.showWatermark = !ClientPrefs.data.showWatermark;
 		
@@ -1833,7 +1833,7 @@ class FrameOption extends Option
 		acceptType = true;
 	}
 
-	public override function left()
+	override function left()
 	{
 		ClientPrefs.data.safeFrames -= 0.1 ;
 		if (ClientPrefs.data.safeFrames < 0)
@@ -1841,7 +1841,7 @@ class FrameOption extends Option
 		display = updateDisplay();
     }
 
-	public override function right()
+	override function right()
 	{
 		ClientPrefs.data.safeFrames += 0.1;
 		if (ClientPrefs.data.safeFrames > 10)
@@ -1849,7 +1849,7 @@ class FrameOption extends Option
 		display = updateDisplay();
     }
 
-	public override function onType(char:String)
+	override function onType(char:String)
 	{
 		if (char.toLowerCase() == "r")
 			ClientPrefs.data.safeFrames = 10;
@@ -1870,7 +1870,7 @@ class RatingOffset extends Option
 		acceptType = true;
 	}
 
-	public override function left()
+	override function left()
 	{
 		ClientPrefs.data.ratingOffset--;
 		if (ClientPrefs.data.ratingOffset < -30)
@@ -1878,7 +1878,7 @@ class RatingOffset extends Option
 		display = updateDisplay();
     }
 
-	public override function right()
+	override function right()
 	{
 		ClientPrefs.data.ratingOffset++;
 		if (ClientPrefs.data.ratingOffset > 30)
@@ -1901,7 +1901,7 @@ class MarvelousMsOption extends Option
 		acceptType = true;
 	}
 
-	public override function left()
+	override function left()
 	{
 		ClientPrefs.data.marvelousWindow--;
 		if (ClientPrefs.data.marvelousWindow < 0)
@@ -1909,7 +1909,7 @@ class MarvelousMsOption extends Option
 		display = updateDisplay();
     }
 
-	public override function right()
+	override function right()
 	{
 		ClientPrefs.data.marvelousWindow++;
 		if (ClientPrefs.data.marvelousWindow > 166)
@@ -1917,7 +1917,7 @@ class MarvelousMsOption extends Option
 		display = updateDisplay();
     }
 
-	public override function onType(char:String)
+	override function onType(char:String)
 	{
 		if (char.toLowerCase() == "r")
 			ClientPrefs.data.marvelousWindow = 45;
@@ -1938,7 +1938,7 @@ class SickMsOption extends Option
 		acceptType = true;
 	}
 
-	public override function left()
+	override function left()
 	{
 		ClientPrefs.data.sickWindow--;
 		if (ClientPrefs.data.sickWindow < 0)
@@ -1946,7 +1946,7 @@ class SickMsOption extends Option
 		display = updateDisplay();
     }
 
-	public override function right()
+	override function right()
 	{
 		ClientPrefs.data.sickWindow++;
 		if (ClientPrefs.data.sickWindow > 166)
@@ -1954,7 +1954,7 @@ class SickMsOption extends Option
 		display = updateDisplay();
     }
 
-	public override function onType(char:String)
+	override function onType(char:String)
 	{
 		if (char.toLowerCase() == "r")
 			ClientPrefs.data.sickWindow = 45;
@@ -1975,7 +1975,7 @@ class GoodMsOption extends Option
 		acceptType = true;
 	}
 
-	public override function left()
+	override function left()
 	{
 		ClientPrefs.data.goodWindow--;
 		if (ClientPrefs.data.goodWindow < 0)
@@ -1983,7 +1983,7 @@ class GoodMsOption extends Option
 		display = updateDisplay();
     }
 
-	public override function right()
+	override function right()
 	{
 		ClientPrefs.data.goodWindow++;
 		if (ClientPrefs.data.goodWindow > 166)
@@ -1991,7 +1991,7 @@ class GoodMsOption extends Option
 		display = updateDisplay();
     }
 
-	public override function onType(char:String)
+	override function onType(char:String)
 	{
 		if (char.toLowerCase() == "r")
 			ClientPrefs.data.goodWindow = 90;
@@ -2012,7 +2012,7 @@ class BadMsOption extends Option
 		acceptType = true;
 	}
 
-	public override function left()
+	override function left()
 	{
 		ClientPrefs.data.badWindow--;
 		if (ClientPrefs.data.badWindow < 0)
@@ -2020,7 +2020,7 @@ class BadMsOption extends Option
 		display = updateDisplay();
     }
 
-	public override function right()
+	override function right()
 	{
 		ClientPrefs.data.badWindow++;
 		if (ClientPrefs.data.badWindow > 166)
@@ -2028,7 +2028,7 @@ class BadMsOption extends Option
 		display = updateDisplay();
     }
 
-	public override function onType(char:String)
+	override function onType(char:String)
 	{
 		if (char.toLowerCase() == "r")
 			ClientPrefs.data.badWindow = 135;
@@ -2047,7 +2047,7 @@ class MarvelousRating extends Option
 		super();
 	}
 
-	public override function press()
+	override function press()
 	{
 		ClientPrefs.data.marvelousRating = !ClientPrefs.data.marvelousRating;
 		display = updateDisplay();
@@ -2066,7 +2066,7 @@ class MarvelousSprite extends Option
 		super();
 	}
 
-	public override function press()
+	override function press()
 	{
 		ClientPrefs.data.marvelousSprite = !ClientPrefs.data.marvelousSprite;
 		display = updateDisplay();
