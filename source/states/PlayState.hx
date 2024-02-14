@@ -1954,7 +1954,7 @@ class PlayState extends MusicBeatState
 				if(ClientPrefs.data.playOpponent ? !cpuControlled_opponent : !cpuControlled)
 					keysCheck();
 				else
-					playerDance();
+					ClientPrefs.data.playOpponent ? opponentDance() : playerDance();
 
 				if(notes.length > 0)
 				{
@@ -3010,29 +3010,20 @@ class PlayState extends MusicBeatState
 	public var strumsBlocked:Array<Bool> = [];
 	private function onKeyPress(event:KeyboardEvent):Void
 	{
-
 		var eventKey:FlxKey = event.keyCode;
 		var key:Int = getKeyFromEvent(keysArray, eventKey);
-
-		if (!controls.controllerMode)
-		{
-			#if debug
-			//Prevents crash specifically on debug without needing to try catch shit
-			@:privateAccess if (!FlxG.keys._keyListMap.exists(eventKey)) return;
-			#end
-
-			if(FlxG.keys.checkStatus(eventKey, JUST_PRESSED)) keyPressed(key);
-		}
+		if (!controls.controllerMode && FlxG.keys.checkStatus(eventKey, JUST_PRESSED)) keyPressed(key);
 	}
-
+	
 	private function keyPressed(key:Int)
 	{
 		if(ClientPrefs.data.playOpponent ? cpuControlled_opponent : cpuControlled || paused || key < 0) return;
 		var char:Character = ClientPrefs.data.playOpponent ? dad : boyfriend;
 		if(!generatedMusic || endingSong || char.stunned) return;
 
-		var ret:Dynamic = callOnScripts('onKeyPressPre', [key]);
-		if(ret == LuaUtils.Function_Stop) return;
+		// had to name it like this else it'd break older scripts lol
+		var ret:Dynamic = callOnScripts('preKeyPress', [key], true);
+		if(ret == FunkinLua.Function_Stop) return;
 
 		// more accurate hit time for the ratings?
 		var lastTime:Float = Conductor.songPosition;
@@ -3057,26 +3048,29 @@ class PlayState extends MusicBeatState
 					// if the note has a 0ms distance (is on top of the current note), kill it
 					if (Math.abs(doubleNote.strumTime - funnyNote.strumTime) < 1.0)
 						invalidateNote(doubleNote);
-					else if (doubleNote.strumTime < funnyNote.strumTime)
+					else if (doubleNote.strumTime < funnyNote.strumTime && !doubleNote.hitCausesMiss)
 					{
 						// replace the note if its ahead of time (or at least ensure "doubleNote" is ahead)
 						funnyNote = doubleNote;
 					}
 				}
 			}
+
 			if (!ClientPrefs.data.playOpponent) goodNoteHit(funnyNote);
 			else opponentNoteHitForOpponent(funnyNote);
 		}
-		else if(shouldMiss)
-		{
-			callOnScripts('onGhostTap', [key]);
-			noteMissPress(key);
+		else {
+			if (shouldMiss && !char.stunned) {
+				callOnScripts('onGhostTap', [key]);
+				noteMissPress(key);
+			}
 		}
-
+		
 		// Needed for the  "Just the Two of Us" achievement.
 		//									- Shadow Mario
 		if(!keysPressed.contains(key)) keysPressed.push(key);
 
+		
 		//more accurate hit time for the ratings? part 2 (Now that the calculations are done, go back to the time it was before for not causing a note stutter)
 		Conductor.songPosition = lastTime;
 
@@ -3145,11 +3139,8 @@ class PlayState extends MusicBeatState
 		for (key in keysArray)
 		{
 			holdArray.push(controls.pressed(key));
-			if(controls.controllerMode)
-			{
-				pressArray.push(controls.justPressed(key));
-				releaseArray.push(controls.justReleased(key));
-			}
+			pressArray.push(controls.justPressed(key));
+			releaseArray.push(controls.justReleased(key));
 		}
 
 		// TO DO: Find a better way to handle controller inputs, this should work for now
@@ -3157,30 +3148,32 @@ class PlayState extends MusicBeatState
 			for (i in 0...pressArray.length)
 				if(pressArray[i] && strumsBlocked[i] != true)
 					keyPressed(i);
-
-		if (startedCountdown && !inCutscene && !boyfriend.stunned && generatedMusic)
+        var char:Character = ClientPrefs.data.playOpponent ? dad : boyfriend;
+		if (startedCountdown && !char.stunned && generatedMusic)
 		{
-			if (notes.length > 0) {
-				for (n in notes) { // I can't do a filter here, that's kinda awesome
-					var canHit:Bool = (n != null && !strumsBlocked[n.noteData] && n.canBeHit
-						&& !n.tooLate && !n.wasGoodHit && !n.blockHit);
-
-					if (guitarHeroSustains)
-						canHit = canHit && n.parent != null && n.parent.wasGoodHit;
-
-					if (canHit && n.isSustainNote) {
-						var released:Bool = !holdArray[n.noteData];
-
-						if (!released){						
-    						if (n.mustPress && !ClientPrefs.data.playOpponent){
-    						    goodNoteHit(n);
-    						}
-    						if (!n.mustPress && ClientPrefs.data.playOpponent){
-    						    opponentNoteHitForOpponent(n);
-    						}
+			// rewritten inputs???
+			if(notes.length > 0)
+			{
+				notes.forEachAlive(function(daNote:Note)
+				{
+					// hold note functions
+					if (strumsBlocked[daNote.noteData] != true 
+				    && daNote.isSustainNote 
+					&& holdArray[daNote.noteData] 
+					&& daNote.canBeHit
+					&& !daNote.tooLate 
+					&& !daNote.wasGoodHit
+					&& !daNote.blockHit
+					&& (daNote.susCanPress && ClientPrefs.data.guitarHeroSustains || !ClientPrefs.data.guitarHeroSustains)) 
+					{
+						if (daNote.mustPress && !ClientPrefs.data.playOpponent){
+						goodNoteHit(daNote);
+						}
+						if (!daNote.mustPress && ClientPrefs.data.playOpponent){
+						opponentNoteHitForOpponent(daNote);
 						}
 					}
-				}
+				});
 			}
 
 			if (!holdArray.contains(true) || endingSong)
