@@ -25,16 +25,16 @@ class OptionsHelpers
 		    
 			if(!noteSkins.contains(ClientPrefs.data.noteSkin)){
 				ClientPrefs.data.noteSkin = ClientPrefs.defaultData.noteSkin; //Reset to default if saved noteskin couldnt be found
-				NoteskinOption.chooseNum = 0;
+				NoteSkin.chooseNum = 0;
             }else{
                 for (i in 0...noteSkins.length - 1){
                     if (ClientPrefs.data.noteSkin == noteSkins[i])
-                        NoteskinOption.chooseNum = i;
+                        NoteSkin.chooseNum = i;
                 }
             }
 		}else{
 		    ClientPrefs.data.noteSkin = ClientPrefs.defaultData.noteSkin;
-		    NoteskinOption.chooseNum = 0;
+		    NoteSkin.chooseNum = 0;
 		}
     }
     
@@ -50,18 +50,18 @@ class OptionsHelpers
 		{
 		    noteSkins.insert(0, ClientPrefs.defaultData.noteSkin);
 		
-		    if (NoteskinOption.chooseNum < 0) NoteskinOption.chooseNum = noteSkins.length - 1;
-		    if (NoteskinOption.chooseNum > noteSkins.length - 1) NoteskinOption.chooseNum = 0;
+		    if (NoteSkin.chooseNum < 0) NoteSkin.chooseNum = noteSkins.length - 1;
+		    if (NoteSkin.chooseNum > noteSkins.length - 1) NoteSkin.chooseNum = 0;
 		    
 			if(!noteSkins.contains(ClientPrefs.data.noteSkin)){
 				ClientPrefs.data.noteSkin = ClientPrefs.defaultData.noteSkin; //Reset to default if saved noteskin couldnt be found
-				NoteskinOption.chooseNum = 0;
+				NoteSkin.chooseNum = 0;
             }else{
-                ClientPrefs.data.noteSkin = noteSkins[NoteskinOption.chooseNum];
+                ClientPrefs.data.noteSkin = noteSkins[NoteSkin.chooseNum];
             }
 		}else{
 		    ClientPrefs.data.noteSkin = ClientPrefs.defaultData.noteSkin;
-		    NoteskinOption.chooseNum = 0;
+		    NoteSkin.chooseNum = 0;
 		}
     }
     
@@ -79,16 +79,16 @@ class OptionsHelpers
 		    
 			if(!noteSplashes.contains(ClientPrefs.data.splashSkin)){
 				ClientPrefs.data.splashSkin = ClientPrefs.defaultData.splashSkin; //Reset to default if saved noteskin couldnt be found
-				NoteskinOption.chooseNum = 0;
+				SplashSkin.chooseNum = 0;
             }else{
                 for (i in 0...noteSplashes.length - 1){
                     if (ClientPrefs.data.splashSkin == noteSplashes[i])
-                        NoteskinOption.chooseNum = i;
+                        SplashSkin.chooseNum = i;
                 }
             }
 		}else{
 		    ClientPrefs.data.splashSkin = ClientPrefs.defaultData.splashSkin;
-		    NoteskinOption.chooseNum = 0;
+		    SplashSkin.chooseNum = 0;
 		}
     }
     
@@ -104,18 +104,18 @@ class OptionsHelpers
 		{
 		    noteSplashes.insert(0, ClientPrefs.defaultData.splashSkin);
 		
-		    if (NoteskinOption.chooseNum < 0) NoteskinOption.chooseNum = noteSplashes.length - 1;
-		    if (NoteskinOption.chooseNum > noteSplashes.length - 1) NoteskinOption.chooseNum = 0;
+		    if (SplashSkin.chooseNum < 0) SplashSkin.chooseNum = noteSplashes.length - 1;
+		    if (SplashSkin.chooseNum > noteSplashes.length - 1) SplashSkin.chooseNum = 0;
 		    
 			if(!noteSplashes.contains(ClientPrefs.data.splashSkin)){
 				ClientPrefs.data.splashSkin = ClientPrefs.defaultData.splashSkin; //Reset to default if saved noteskin couldnt be found
-				NoteskinOption.chooseNum = 0;
+				SplashSkin.chooseNum = 0;
             }else{
-                ClientPrefs.data.splashSkin = noteSplashes[NoteskinOption.chooseNum];
+                ClientPrefs.data.splashSkin = noteSplashes[SplashSkin.chooseNum];
             }
 		}else{
 		    ClientPrefs.data.splashSkin = ClientPrefs.defaultData.splashSkin;
-		    NoteskinOption.chooseNum = 0;
+		    SplashSkin.chooseNum = 0;
 		}
     }
     

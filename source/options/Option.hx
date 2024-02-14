@@ -76,12 +76,12 @@ class Option
 	
 	public function left()
 	{
-		return false;
+		return;
 	}
 
 	public function right()
 	{
-		return false;
+		return;
 	}
 	
 	private function updateDisplay():String
@@ -108,7 +108,7 @@ class Downscroll extends Option
 	public override function press()
 	{
 		if (OptionsState.onPlayState)
-			return false;
+			return;
 		ClientPrefs.data.downScroll = !ClientPrefs.data.downScroll;
 		display = updateDisplay();
     }
@@ -133,7 +133,7 @@ class MiddleScroll extends Option
 	public override function press()
 	{
 		if (OptionsState.onPlayState)
-			return false;
+			return;
 		ClientPrefs.data.middleScroll = !ClientPrefs.data.middleScroll;
 		display = updateDisplay();
     }
@@ -158,7 +158,7 @@ class FilpChart extends Option
 	public override function press()
 	{
 		if (OptionsState.onPlayState)
-			return false;
+			return;
 		ClientPrefs.data.filpChart = !ClientPrefs.data.filpChart;
 		display = updateDisplay();
     }
@@ -273,7 +273,7 @@ class ResultsScreen extends Option
 	public override function press()
 	{
 		if (OptionsState.onPlayState)
-			return false;
+			return;
 		ClientPrefs.data.ResultsScreen = !ClientPrefs.data.ResultsScreen;
 		display = updateDisplay();
     }
@@ -299,7 +299,7 @@ class Judgement extends Option
 	public override function press()
 	{
 		if (OptionsState.onPlayState)
-			return false;
+			return;
 							
 		var num:Int = 8;	
 		OptionsState.instance.selectedCatIndex = num;
@@ -335,7 +335,7 @@ class NoteSkin extends Option
 	public override function left()
 	{
 		if (OptionsState.onPlayState)
-			return false;
+			return;
 		chooseNum--;
 		
      	OptionsHelpers.changeNoteSkin();
@@ -345,7 +345,7 @@ class NoteSkin extends Option
 	public override function right()
 	{
 		if (OptionsState.onPlayState)
-			return false;
+			return;
 		chooseNum++;
 		
         OptionsHelpers.changeNoteSkin();
@@ -372,7 +372,7 @@ class NoteRGB extends Option
 	public override function press()
 	{
 		if (OptionsState.onPlayState)
-			return false;
+			return;
 		ClientPrefs.data.noteRGB = !ClientPrefs.data.noteRGB;
 		display = updateDisplay();
     }
@@ -401,7 +401,7 @@ class SplashSkin extends Option
 	public override function left()
 	{
 		if (OptionsState.onPlayState)
-			return false;
+			return;
 		chooseNum--;
 		
      	OptionsHelpers.changeSplashSkin();
@@ -411,7 +411,7 @@ class SplashSkin extends Option
 	public override function right()
 	{
 		if (OptionsState.onPlayState)
-			return false;
+			return;
 		chooseNum++;
 		
         OptionsHelpers.changeSplashSkin();
@@ -438,7 +438,7 @@ class SplashRGB extends Option
 	public override function press()
 	{
 		if (OptionsState.onPlayState)
-			return false;
+			return;
 		ClientPrefs.data.splashRGB = !ClientPrefs.data.splashRGB;
 		display = updateDisplay();
     }
@@ -565,7 +565,7 @@ class HideHud extends Option
 	public override function press()
 	{
         //if (OptionsState.onPlayState)
-		//	return false;
+		//	return;
 		ClientPrefs.data.hideHud = !ClientPrefs.data.hideHud;
 
 		if (Type.getClass(FlxG.state) == PlayState){
@@ -886,7 +886,7 @@ class DiscordRPC extends Option
 	public override function press()
 	{
 		if (OptionsState.onPlayState)
-			return false;
+			return;
 		ClientPrefs.data.discordRPC = !ClientPrefs.data.discordRPC;
 		display = updateDisplay();
     }
@@ -961,7 +961,7 @@ class PlayOpponent extends Option
 	public override function press()
 	{
 		if (OptionsState.onPlayState)
-			return false;
+			return;
 		ClientPrefs.data.playOpponent = !ClientPrefs.data.playOpponent;
 		display = updateDisplay();
     }
@@ -986,7 +986,7 @@ class OpponentCodeFix extends Option
 	public override function press()
 	{
 		if (OptionsState.onPlayState)
-			return false;
+			return;
 		ClientPrefs.data.opponentCodeFix = !ClientPrefs.data.opponentCodeFix;
 		display = updateDisplay();
     }
@@ -1524,7 +1524,7 @@ class Shaders extends Option
 	public override function press()
 	{
 		if (OptionsState.onPlayState)
-			return false;
+			return;
 		ClientPrefs.data.shaders = !ClientPrefs.data.shaders;
 		display = updateDisplay();
     }
@@ -1549,7 +1549,7 @@ class GPUcache extends Option
 	public override function press()
 	{
 		if (OptionsState.onPlayState)
-			return false;
+			return;
 		ClientPrefs.data.cacheOnGPU = !ClientPrefs.data.cacheOnGPU;
 		display = updateDisplay();
     }
@@ -1622,7 +1622,7 @@ class QualityLow extends Option
 	public override function press()
 	{
              		if (OptionsState.onPlayState)
-			return false;
+			return;
         ClientPrefs.data.lowQuality = !ClientPrefs.data.lowQuality;
 		display = updateDisplay();
     }
@@ -1647,7 +1647,7 @@ class Antialiasing extends Option
 	public override function press()
 	{
 		if (OptionsState.onPlayState)
-			return false;
+			return;
 		ClientPrefs.data.antialiasing = !ClientPrefs.data.antialiasing;
             
 		display = updateDisplay();
@@ -1727,7 +1727,7 @@ class FPSRainbowOption extends Option
 	public override function press()
 	{
         if (OptionsState.onPlayState)
-			return false;
+			return;
         ClientPrefs.data.rainbowFPS = !ClientPrefs.data.rainbowFPS;
 		display = updateDisplay();
     }
