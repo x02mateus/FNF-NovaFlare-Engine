@@ -848,7 +848,7 @@ class TimeBarType extends Option
 //----------------------------------------------------------------
 //----------------------------------------------------------------
 //大类3
-class HealthBarVersion extends Option
+class HscriptVersion extends Option
 {
 	public function new(desc:String)
 	{
