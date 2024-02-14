@@ -62,9 +62,7 @@ import states.TitleState;
 	public var discordRPC:Bool = true;
 	public var camZooms:Bool = true;
 	public var judgementCounter:Bool = true;
-	public var hideHud:Bool = false;
-	
-	
+	public var hideHud:Bool = false;	
 	
 	public var arrowRGB:Array<Array<FlxColor>> = [
 		[0xFFC24B99, 0xFFFFFFFF, 0xFF3C1F56],
@@ -86,6 +84,7 @@ import states.TitleState;
 	public var hitsoundVolume:Float = 0;
 	public var pauseMusic:String = 'Tea Time';
 	public var checkForUpdates:Bool = false;
+	public var oldHscriptVersion:Bool = false;
 	public var comboStacking:Bool = true;
 	public var showComboNum:Bool = true;
 	public var showRating:Bool = true;
