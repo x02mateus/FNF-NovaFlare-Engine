@@ -891,7 +891,7 @@ class OptionsState extends MusicBeatState
 	
 	public static function openSub(){	    
 	    isReset = true;		
-	    closeUpdate = true;	    
+	    instance.closeUpdate = true;	    
 	}
 }
 
