@@ -18,17 +18,17 @@ import states.TitleState;
 	public var guitarHeroSustains:Bool = true;
 	
 	public var playOpponent:Bool = false;
-	public var OpponentCodeFix:Bool = false;
+	public var opponentCodeFix:Bool = false;
 	public var botOpponentFix:Bool = true;
 	public var HealthDrainOPPOMult:Float = 0.5;
-	public var HealthDrainOPPO:Bool = true;
-	
+	public var HealthDrainOPPO:Bool = true;	
 	
 	public var showFPS:Bool = true;
 	public var showMS:Bool = true;
 	public var showMEM:Bool = true;
 	public var rainbowFPS:Bool = false;
 	public var memoryType:Int = 3;	
+	public var showWatermark:Bool = true;
 	public var skipTitleVideo:Bool = false;		
 	
 	public var resultsScreen:Bool = true;
@@ -63,7 +63,7 @@ import states.TitleState;
 	public var camZooms:Bool = true;
 	public var judgementCounter:Bool = true;
 	public var hideHud:Bool = false;
-	public var noteOffset:Int = 0;
+	
 	
 	
 	public var arrowRGB:Array<Array<FlxColor>> = [
@@ -119,6 +119,7 @@ import states.TitleState;
     
 	public var comboOffset:Array<Int> = [0, 0, 0, 0];
 	public var ratingOffset:Int = 0;	
+	public var noteOffset:Int = 0;
 	public var sickWindow:Int = 45;
 	public var goodWindow:Int = 90;
 	public var badWindow:Int = 135;
@@ -131,11 +132,11 @@ import states.TitleState;
 	public var playControlsAlpha:Float = 0.2;
 	public var hideHitboxHints:Bool = false;
 	
-	public var ExtraKey:Int = 4;
-	public var ExtraKeyReturn1:String = 'SPACE';
-	public var ExtraKeyReturn2:String = 'SPACE';
-	public var ExtraKeyReturn3:String = 'SPACE';
-	public var ExtraKeyReturn4:String = 'SPACE';
+	public var extraKey:Int = 4;
+	public var extraKeyReturn1:String = 'SPACE';
+	public var extraKeyReturn2:String = 'SPACE';
+	public var extraKeyReturn3:String = 'SPACE';
+	public var extraKeyReturn4:String = 'SPACE';
 	
 	public var language:Int = 0; //for english at begin
 }
