@@ -1572,7 +1572,7 @@ class GPUcache extends Option
 	}
 }
 
-class ImagePersist extends Option
+class LoadingScreen extends Option
 {
 	public function new(desc:String)
 	{
@@ -1583,7 +1583,7 @@ class ImagePersist extends Option
 
 	override function right()
 	{
-		ClientPrefs.data.imagePersist = !ClientPrefs.data.imagePersist;
+		ClientPrefs.data.loadingScreen = !ClientPrefs.data.loadingScreen;
 		display = updateDisplay();
 		
 
@@ -1596,7 +1596,7 @@ class ImagePersist extends Option
 	
 	private override function updateDisplay():String
 	{
-		return "ImagePersist: " + ClientPrefs.data.imagePersist;
+		return "Loading Screen: " + ClientPrefs.data.loadingScreen;
 	}
 }
 
