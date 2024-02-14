@@ -157,6 +157,9 @@ class Main extends Sprite
     		//watermark.x -= watermark.bitmapData.width;
     		watermark.y -= watermark.bitmapData.height;
 		}
+		if(watermark != null) {
+			watermark.visible = ClientPrefs.data.showWatermark;
+		}
 
 		#if linux
 		var icon = Image.fromFile("icon.png");
