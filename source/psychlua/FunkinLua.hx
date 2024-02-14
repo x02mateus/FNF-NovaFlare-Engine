@@ -52,7 +52,7 @@ class FunkinLua {
 
 	#if HSCRIPT_ALLOWED
 	public var hscript:HScript = null;
-	public var hscriptBase:HScriptBase = null
+	public var hscriptBase:HScriptBase = null;
 	#end
 
 	public var callbacks:Map<String, Dynamic> = new Map<String, Dynamic>();
