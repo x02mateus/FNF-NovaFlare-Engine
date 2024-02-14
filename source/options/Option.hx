@@ -184,7 +184,7 @@ class GuitarHeroSustains extends Option
 
 	private override function updateDisplay():String
 	{
-		return "Sustains Note Input: < " + (ClientPrefs.data.guitarHeroSustains ? 'New' : 'Classic');
+		return "Sustains Note Input: " + (ClientPrefs.data.guitarHeroSustains ? 'New' : 'Classic');
 	}
 }
 
@@ -280,7 +280,7 @@ class ResultsScreen extends Option
 
 	private override function updateDisplay():String
 	{
-		return "Results Screen: < " + (ClientPrefs.data.resultsScreen ? enable_O : disable_O);
+		return "Results Screen: " + (ClientPrefs.data.resultsScreen ? enable_O : disable_O);
 	}
 }
 
@@ -379,7 +379,7 @@ class NoteRGB extends Option
 
 	private override function updateDisplay():String
 	{
-		return "Note RGB: < " + (ClientPrefs.data.noteRGB ? enable_O : disable_O);
+		return "Note RGB: " + (ClientPrefs.data.noteRGB ? enable_O : disable_O);
 	}
 }
 
@@ -445,7 +445,7 @@ class SplashRGB extends Option
 
 	private override function updateDisplay():String
 	{
-		return "Splash RGB: < " + (ClientPrefs.data.splashRGB ? enable_O : disable_O);
+		return "Splash RGB: " + (ClientPrefs.data.splashRGB ? enable_O : disable_O);
 	}
 }
 
@@ -457,12 +457,7 @@ class HitSound extends Option
 		description = desc;
 		acceptValues = true;
 	}
-
-	private override function updateDisplay():String
-	{
-		return "HitSound volume: < " + ClientPrefs.data.hitsoundVolume + " >";
-	}
-
+	
 	override function right()
 	{
 		ClientPrefs.data.hitsoundVolume += 0.1;
@@ -480,6 +475,12 @@ class HitSound extends Option
 			ClientPrefs.data.hitsoundVolume = 0;
                 FlxG.sound.play(Paths.sound('hitsound'), ClientPrefs.data.hitsoundVolume);
     }
+    
+    private override function updateDisplay():String
+	{
+	    var data = ClientPrefs.data.hitsoundVolume * 100;
+		return "HitSound volume: < " + data + "% >";
+	}
 }
 
 class CamZoom extends Option
@@ -498,7 +499,7 @@ class CamZoom extends Option
 
 	private override function updateDisplay():String
 	{
-		return "Camera Zooming: < " + (ClientPrefs.data.camZooms ? enable_O : disable_O);
+		return "Camera Zooming: " + (ClientPrefs.data.camZooms ? enable_O : disable_O);
 	}
 }
 
@@ -518,7 +519,7 @@ class ScoreZoom extends Option
 
 	private override function updateDisplay():String
 	{
-		return "Score zomming in beats: < " + (ClientPrefs.data.scoreZoom ? enable_O : disable_O);
+		return "Score zomming in beats: " + (ClientPrefs.data.scoreZoom ? enable_O : disable_O);
 	}
 }
 
@@ -546,7 +547,7 @@ class JudgementCounter extends Option
 
 	private override function updateDisplay():String
 	{
-		return "Judgement Counter: < " + (ClientPrefs.data.judgementCounter ? enable_O : disable_O);
+		return "Judgement Counter: " + (ClientPrefs.data.judgementCounter ? 'Show' : 'Hide');
 	}
 }
 
@@ -594,7 +595,7 @@ class HideHud extends Option
 
 	private override function updateDisplay():String
 	{
-		return "HUD: < " + (!ClientPrefs.data.hideHud ? enable_O : disable_O);
+		return "HUD: " + (!ClientPrefs.data.hideHud ? 'Hide' : 'Show');
 	}
 }
 
@@ -614,7 +615,7 @@ class HideOppStrums extends Option
 
 	private override function updateDisplay():String
 	{
-		return "Opponent Strums: < " + (!ClientPrefs.data.opponentStrums ? 'Hide' : 'Show');
+		return "Opponent Strums: " + (!ClientPrefs.data.opponentStrums ? 'Hide' : 'Show');
 	}
 }
 
@@ -634,7 +635,7 @@ class ShowComboNum extends Option
 
 	private override function updateDisplay():String
 	{
-		return "Combo Sprite: < " + (ClientPrefs.data.showComboNum ? enable_O : disable_O);
+		return "Combo Sprite: " + (ClientPrefs.data.showComboNum ? 'Show' : 'Hide');
 	}
 }
 
@@ -649,21 +650,16 @@ class ComboColor extends Option
 
 	private override function updateDisplay():String
 	{
-		return "Combe Color: < " + ClientPrefs.data.comboColor;
+		return "Combe Color: " + ClientPrefs.data.comboColor;
 	}
 
-	override function right()
+	override function press()
 	{
 		ClientPrefs.data.comboColor = !ClientPrefs.data.comboColor;
 		display = updateDisplay();
 		
 
 	}
-
-	override function press()
-	{
-		right();
-    }
 }
 
 class ShowRating extends Option
@@ -682,7 +678,7 @@ class ShowRating extends Option
 
 	private override function updateDisplay():String
 	{
-		return "Rating Sprite: < " + (ClientPrefs.data.showRating ? enable_O : disable_O);
+		return "Rating Sprite: " + (ClientPrefs.data.showRating ? 'Show' : 'Hide');
 	}
 }
 
@@ -702,7 +698,7 @@ class ShowSplashes extends Option
 
 	private override function updateDisplay():String
 	{
-		return "showSplash: < " + (ClientPrefs.data.showSplash ? enable_O : disable_O);
+		return "showSplash: " + (ClientPrefs.data.showSplash ? 'Show' : 'Hide');
 	} 
 }
 
@@ -735,7 +731,8 @@ class SplashAlpha extends Option
 
 	private override function updateDisplay():String
 		{
-			return "Splash Alpha: < " + ClientPrefs.data.splashAlpha + " >";
+		    var data = ClientPrefs.data.splashAlpha * 100;
+			return "Splash Alpha: < " + data + "% >";
 		}
 }
 
@@ -782,7 +779,8 @@ class HealthBarAlpha extends Option
 
 	private override function updateDisplay():String
 		{
-			return "Healthbar Alpha: < " + ClientPrefs.data.healthBarAlpha + " >";
+		    var data = ClientPrefs.data.healthBarAlpha * 100;
+			return "Healthbar Alpha: < " + data + "% >";
 		}
 }
 
@@ -1133,7 +1131,7 @@ class CustomFadeText extends Option
 
 	private override function updateDisplay():String
 	{
-		return "Custom Fade Text: " + ClientPrefs.data.CustomFadeText;
+		return "Custom Fade Text: " + (ClientPrefs.data.CustomFadeText ? enable_O : disable_O);
 	}
 }
 
@@ -1188,6 +1186,11 @@ class KeyboardControls extends Option
 	    OptionsState.openSub();	
 	    FlxG.state.openSubState(new ControlsSubState());				
     }
+    
+    private override function updateDisplay():String
+	{
+		return "Keyboard Controls";
+	}
 }
 
 class AndroidControls extends Option
@@ -1201,7 +1204,12 @@ class AndroidControls extends Option
 	{		
 		OptionsState.openSub();	
 	    FlxG.state.openSubState(new MobileControlSelectSubState());					
-     }
+    }
+    
+    private override function updateDisplay():String
+	{
+		return "Android Controls";
+	}
 }
 
 class ExtraControls extends Option
@@ -1214,7 +1222,12 @@ class ExtraControls extends Option
 	override function press()
 	{		
 		//OptionsState.openSub(mobile.substates.MobileControlSelectSubState());		
-     }
+    }
+    
+    private override function updateDisplay():String
+	{
+		return "Extra Controls";
+	}
 }
 
 class ExtraControlsNum extends Option
@@ -1246,7 +1259,7 @@ class ExtraControlsNum extends Option
 
 	private override function updateDisplay():String
 	{
-		return "Android Extra Controls: < " + ClientPrefs.data.extraKey + "key >";
+		return "Android Extra Controls: < " + ClientPrefs.data.extraKey + " key >";
 	}	
 }
 
@@ -1279,7 +1292,8 @@ class ControlsAlpha extends Option
 
 	private override function updateDisplay():String
 	{
-		return "Android Controls Alpha: < " + ClientPrefs.data.controlsAlpha + " >";
+	    var data = ClientPrefs.data.controlsAlpha * 100;
+		return "Android Controls Alpha: < " + data + "% >";
 	}
 }
 
@@ -1312,7 +1326,8 @@ class PlayControlsAlpha extends Option
 
 	private override function updateDisplay():String
 	{
-		return "Android Play Controls Alpha: < " + ClientPrefs.data.playControlsAlpha + " >";
+	    var data = ClientPrefs.data.playControlsAlpha * 100;
+		return "Android Play Controls Alpha: < " + data + "% >";
 	}
 }
 
@@ -1521,7 +1536,7 @@ class Shaders extends Option
 
 	private override function updateDisplay():String
 	{
-		return "Shaders: < " + (ClientPrefs.data.shaders ? enable_O : disable_O);
+		return "Shaders: " + (ClientPrefs.data.shaders ? enable_O : disable_O);
 	}
 }
 
@@ -1546,7 +1561,7 @@ class GPUcache extends Option
 
 	private override function updateDisplay():String
 	{
-		return "GPU Cache: < " + (ClientPrefs.data.cacheOnGPU ? enable_O : disable_O);
+		return "GPU Cache: " + (ClientPrefs.data.cacheOnGPU ? enable_O : disable_O);
 	}
 }
 
@@ -1574,7 +1589,7 @@ class ImagePersist extends Option
 	
 	private override function updateDisplay():String
 	{
-		return "ImagePersist: < " + ClientPrefs.data.imagePersist;
+		return "ImagePersist: " + ClientPrefs.data.imagePersist;
 	}
 }
 
@@ -1594,7 +1609,7 @@ class FlashingLights extends Option
 
 	private override function updateDisplay():String
 	{
-		return "Flashing Lights: < " + (ClientPrefs.data.flashing ? enable_O : disable_O);
+		return "Flashing Lights: " + (ClientPrefs.data.flashing ? enable_O : disable_O);
 	}
 }
 
@@ -1619,7 +1634,7 @@ class QualityLow extends Option
 
 	private override function updateDisplay():String
 	{
-		return "Low Quality: < " + (ClientPrefs.data.lowQuality ? enable_O : disable_O);
+		return "Low Quality: " + (ClientPrefs.data.lowQuality ? enable_O : disable_O);
 	} 
 }
 
@@ -1650,7 +1665,7 @@ class Antialiasing extends Option
 	
 	private override function updateDisplay():String
 	{
-		return "Antialiasing: < " + (ClientPrefs.data.antialiasing ? enable_O : disable_O);
+		return "Antialiasing: " + (ClientPrefs.data.antialiasing ? enable_O : disable_O);
 	}
 }
 
@@ -1671,7 +1686,7 @@ class AutoPause extends Option
 
 	private override function updateDisplay():String
 	{
-		return "AutoPause: < " + (ClientPrefs.data.autoPause ? enable_O : disable_O);
+		return "AutoPause: " + (ClientPrefs.data.autoPause ? enable_O : disable_O);
 	} 
 }
 
@@ -1699,7 +1714,7 @@ class FPSOption extends Option
 
 	private override function updateDisplay():String
 	{
-		return "FPS Counter: < " + (ClientPrefs.data.showFPS ? enable_O : disable_O);
+		return "FPS Counter: " + (ClientPrefs.data.showFPS ? enable_O : disable_O);
 	} 
 }
 
@@ -1724,7 +1739,7 @@ class FPSRainbowOption extends Option
 
 	private override function updateDisplay():String
 	{
-		return "FPS Rainbow: < " + (ClientPrefs.data.rainbowFPS ? enable_O : disable_O);
+		return "FPS Rainbow: " + (ClientPrefs.data.rainbowFPS ? enable_O : disable_O);
 	} 
 }
 
@@ -1744,7 +1759,7 @@ class MEMOption extends Option
 
 	private override function updateDisplay():String
 	{
-		return "Memory Counter: < " + (ClientPrefs.data.showMEM ? enable_O : disable_O);
+		return "Memory Counter: " + (ClientPrefs.data.showMEM ? enable_O : disable_O);
 	} 
 }
 
@@ -1792,7 +1807,7 @@ class DelayOption extends Option
 
 	private override function updateDisplay():String
 	{
-		return "Update time Counter: < " + (ClientPrefs.data.showMS ? enable_O : disable_O);
+		return "Update time Counter: " + (ClientPrefs.data.showMS ? enable_O : disable_O);
 	} 
 }
 
@@ -1816,7 +1831,7 @@ class WaterMarkOption extends Option
 
 	private override function updateDisplay():String
 	{
-		return "Watermark: < " + (ClientPrefs.data.showWatermark ? 'Show' : 'Hide');
+		return "Watermark: " + (ClientPrefs.data.showWatermark ? 'Show' : 'Hide');
 	} 
 }
 
@@ -2055,7 +2070,7 @@ class MarvelousRating extends Option
 
 	private override function updateDisplay():String
 	{
-		return "Marvelous Rating: < " + (ClientPrefs.data.marvelousRating ? enable_O : disable_O);
+		return "Marvelous Rating: " + (ClientPrefs.data.marvelousRating ? enable_O : disable_O);
 	}
 }
 
@@ -2074,6 +2089,6 @@ class MarvelousSprite extends Option
 
 	private override function updateDisplay():String
 	{
-		return "Marvelous Sprite: < " + (ClientPrefs.data.marvelousSprite ? enable_O : disable_O);
+		return "Marvelous Sprite: " + (ClientPrefs.data.marvelousSprite ? enable_O : disable_O);
 	}
 }
