@@ -176,15 +176,20 @@ class GuitarHeroSustains extends Option
 		super();
 	}
 
-	override function press()
+	override function left()
 	{
 		ClientPrefs.data.guitarHeroSustains = !ClientPrefs.data.guitarHeroSustains;
 		display = updateDisplay();
     }
-
+    
+    override function right()
+    {
+        left();
+    }
+    
 	private override function updateDisplay():String
 	{
-		return "Sustains Note Input: " + (ClientPrefs.data.guitarHeroSustains ? 'New' : 'Classic');
+		return "Sustains Note Input: < " + (ClientPrefs.data.guitarHeroSustains ? 'New' : 'Classic') + ' >';
 	}
 }
 
