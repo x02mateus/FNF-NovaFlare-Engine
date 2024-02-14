@@ -24,10 +24,10 @@ class FlxVirtualPad extends FlxMobileInputManager
 	public var buttonRight2:FlxButton = new FlxButton(0, 0, [FlxMobileInputID.RIGHT2, FlxMobileInputID.noteRIGHT]);
 	public var buttonDown2:FlxButton = new FlxButton(0, 0, [FlxMobileInputID.DOWN2, FlxMobileInputID.noteDOWN]);
 	
-	public var buttonExtra1:FlxButton = new FlxButton(0, 0, null, ClientPrefs.data.ExtraKeyReturn1);
-	public var buttonExtra2:FlxButton = new FlxButton(0, 0, null, ClientPrefs.data.ExtraKeyReturn2);
-	public var buttonExtra3:FlxButton = new FlxButton(0, 0, null, ClientPrefs.data.ExtraKeyReturn3);
-	public var buttonExtra4:FlxButton = new FlxButton(0, 0, null, ClientPrefs.data.ExtraKeyReturn4);
+	public var buttonExtra1:FlxButton = new FlxButton(0, 0, null, ClientPrefs.data.extraKeyReturn1);
+	public var buttonExtra2:FlxButton = new FlxButton(0, 0, null, ClientPrefs.data.extraKeyReturn2);
+	public var buttonExtra3:FlxButton = new FlxButton(0, 0, null, ClientPrefs.data.extraKeyReturn3);
+	public var buttonExtra4:FlxButton = new FlxButton(0, 0, null, ClientPrefs.data.extraKeyReturn4);
 	
 	public var buttonA:FlxButton = new FlxButton(0, 0, [FlxMobileInputID.A]);
 	public var buttonB:FlxButton = new FlxButton(0, 0, [FlxMobileInputID.B]);
@@ -176,10 +176,10 @@ class FlxVirtualPad extends FlxMobileInputManager
 				add(buttonZ = createButton(FlxG.width - 132, FlxG.height - 255, 132, 127, 'z', 0xCCB98E));
 				add(buttonA = createButton(FlxG.width - 132, FlxG.height - 135, 132, 127, 'a', 0xFF0000));
 			case controlExtend:
-			    if (Type.getClass(FlxG.state) != PlayState || (Type.getClass(FlxG.state) == PlayState && ClientPrefs.data.ExtraKey > 0)) add(buttonExtra1 = createButton(FlxG.width * 0.5 - 44 * 3, FlxG.height * 0.5 - 127 * 0.5, 44 * 3, 127, "a", 0xFF0000));
-				if (Type.getClass(FlxG.state) != PlayState || (Type.getClass(FlxG.state) == PlayState && ClientPrefs.data.ExtraKey > 1)) add(buttonExtra2 = createButton(FlxG.width * 0.5, FlxG.height * 0.5 - 127 * 0.5, 44 * 3, 127, "b", 0xFFFF00));
-				if (Type.getClass(FlxG.state) != PlayState || (Type.getClass(FlxG.state) == PlayState && ClientPrefs.data.ExtraKey > 2)) add(buttonExtra3 = createButton(FlxG.width * 0.5 - 44 * 3, FlxG.height * 0.5 - 127 * 0.5, 44 * 3, 127, "c", 0xFF0000));
-				if (Type.getClass(FlxG.state) != PlayState || (Type.getClass(FlxG.state) == PlayState && ClientPrefs.data.ExtraKey > 3)) add(buttonExtra4 = createButton(FlxG.width * 0.5, FlxG.height * 0.5 - 127 * 0.5, 44 * 3, 127, "d", 0xFFFF00));
+			    if (Type.getClass(FlxG.state) != PlayState || (Type.getClass(FlxG.state) == PlayState && ClientPrefs.data.extraKey > 0)) add(buttonExtra1 = createButton(FlxG.width * 0.5 - 44 * 3, FlxG.height * 0.5 - 127 * 0.5, 44 * 3, 127, "a", 0xFF0000));
+				if (Type.getClass(FlxG.state) != PlayState || (Type.getClass(FlxG.state) == PlayState && ClientPrefs.data.extraKey > 1)) add(buttonExtra2 = createButton(FlxG.width * 0.5, FlxG.height * 0.5 - 127 * 0.5, 44 * 3, 127, "b", 0xFFFF00));
+				if (Type.getClass(FlxG.state) != PlayState || (Type.getClass(FlxG.state) == PlayState && ClientPrefs.data.extraKey > 2)) add(buttonExtra3 = createButton(FlxG.width * 0.5 - 44 * 3, FlxG.height * 0.5 - 127 * 0.5, 44 * 3, 127, "c", 0xFF0000));
+				if (Type.getClass(FlxG.state) != PlayState || (Type.getClass(FlxG.state) == PlayState && ClientPrefs.data.extraKey > 3)) add(buttonExtra4 = createButton(FlxG.width * 0.5, FlxG.height * 0.5 - 127 * 0.5, 44 * 3, 127, "d", 0xFFFF00));
 			// PSYCH RELEATED BUTTONS
 			case CHARACTER_EDITOR:
 				add(buttonV = createButton(FlxG.width - 510, FlxG.height - 255, 132, 127, 'v', 0x49A9B2));
