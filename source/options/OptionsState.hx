@@ -885,10 +885,8 @@ class OptionsState extends MusicBeatState
         }
 	}
 	
-	public static function openSub(state:Dynamic){
-	    
-	    isReset = true;
-		openSubState(new state);		
+	public static function openSub(){	    
+	    isReset = true;		
 	    persistentUpdate = persistentDraw = false;
 	}
 }

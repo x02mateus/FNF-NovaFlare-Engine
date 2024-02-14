@@ -4,7 +4,10 @@ import lime.app.Application;
 import backend.MusicBeatState;
 
 import flixel.addons.transition.FlxTransitionableState;
+
 import options.OptionsHelpers;
+import options.base.ControlsSubState;
+import mobile.substates.MobileControlSelectSubState;
 
 import shaders.ColorblindFilter;
 
@@ -1191,9 +1194,10 @@ class KeyboardControls extends Option
 	}
 
 	public override function press()
-	{		
-		OptionsState.openSub(options.base.ControlsSubState());		
-     }
+	{	
+	    OptionsState.openSub();	
+	    OptionsState.openSubState(new ControlsSubState());				
+    }
 }
 
 class AndroidControls extends Option
@@ -1205,7 +1209,8 @@ class AndroidControls extends Option
 
 	public override function press()
 	{		
-		OptionsState.openSub(mobile.substates.MobileControlSelectSubState());		
+		OptionsState.openSub();	
+	    OptionsState.openSubState(new MobileControlSelectSubState());					
      }
 }
 
