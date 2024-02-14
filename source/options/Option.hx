@@ -1438,7 +1438,7 @@ class FPSCap extends Option
 	
 	override function left()
 	{
-		else if (ClientPrefs.data.framerate <= 24)
+		if (ClientPrefs.data.framerate <= 24)
 			ClientPrefs.data.framerate = 24;
 		else
 			ClientPrefs.data.framerate = ClientPrefs.data.framerate - 1;
