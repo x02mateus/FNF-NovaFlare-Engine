@@ -661,7 +661,7 @@ class ComboColor extends Option
 	
 	private override function updateDisplay():String
 	{
-		return "Combe Color: " + (ClientPrefs.data.comboColor ? enable_O : disable_O);;
+		return "Combe Color: " + (ClientPrefs.data.comboColor ? enable_O : disable_O);
 	}
 }
 
