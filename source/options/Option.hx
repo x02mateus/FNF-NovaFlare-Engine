@@ -1184,6 +1184,7 @@ class KeyboardControls extends Option
 	public function new(desc:String)
 	{
 		super();
+		description = desc;
 	}
 
 	override function press()
@@ -1203,6 +1204,7 @@ class AndroidControls extends Option
 	public function new(desc:String)
 	{
 		super();
+		description = desc;
 	}
 
 	override function press()
@@ -1222,6 +1224,7 @@ class ExtraControls extends Option
 	public function new(desc:String)
 	{
 		super();
+		description = desc;
 	}
 
 	override function press()
@@ -1242,7 +1245,6 @@ class ExtraControlsNum extends Option
 		super();
 
 		description = desc;
-		acceptValues = true;
 	}
 
 	override function right()
