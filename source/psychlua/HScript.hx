@@ -511,10 +511,10 @@ class HScriptBase
 	public static function initHaxeModule(parent:FunkinLua)
 	{
 		#if HSCRIPT_ALLOWED
-		if(FunkinLua.hscript == null)
+		if(FunkinLua.hscriptBase == null)
 		{
 			//trace('initializing haxe interp for: $scriptName');
-			FunkinLua.hscript = new HScript(parent); //TO DO: Fix issue with 2 scripts not being able to use the same variable names
+			FunkinLua.hscriptBase = new HScriptBase(parent); //TO DO: Fix issue with 2 scripts not being able to use the same variable names
 		}
 		#end
 	}
@@ -636,16 +636,16 @@ class HScriptBase
     					for (key in Reflect.fields(varsToBring))
     					{
     						//trace('Key $key: ' + Reflect.field(varsToBring, key));
-    						FunkinLua.hscript.interp.variables.set(key, Reflect.field(varsToBring, key));
+    						FunkinLua.hscriptBase.interp.variables.set(key, Reflect.field(varsToBring, key));
     					}
     				}
-    				retVal = FunkinLua.hscript.execute(codeToRun, funcToRun, funcArgs);
+    				retVal = FunkinLua.hscriptBase.execute(codeToRun, funcToRun, funcArgs);
     			}
     			catch (e:Dynamic) {
-    				funk.luaTrace(funk.scriptName + ":" + funk.lastCalledFunction + " - " + e, false, false, FlxColor.RED);
+    				FunkinLua.luaTrace(funk.scriptName + ":" + funk.lastCalledFunction + " - " + e, false, false, FlxColor.RED);
     			}
     			#else
-    			funk.luaTrace("runHaxeCode: HScript isn't supported on this platform!", false, false, FlxColor.RED);
+    			FunkinLua.luaTrace("runHaxeCode: HScript isn't supported on this platform!", false, false, FlxColor.RED);
     			#end
     
     			if(retVal != null && !LuaUtils.isOfTypes(retVal, [Bool, Int, Float, String, Array])) retVal = null;
@@ -654,11 +654,11 @@ class HScriptBase
     		
     		Lua_helper.add_callback(lua, "runHaxeFunction", function(funcToRun:String, ?funcArgs:Array<Dynamic> = null) {
     			try {
-    				return FunkinLua.hscript.executeFunction(funcToRun, funcArgs);
+    				return FunkinLua.hscriptBase.executeFunction(funcToRun, funcArgs);
     			}
     			catch(e:Exception)
     			{
-    				funk.luaTrace(Std.string(e));
+    				FunkinLua.luaTrace(Std.string(e));
     				return null;
     			}
     		});
@@ -671,10 +671,10 @@ class HScriptBase
     				if(libPackage.length > 0)
     					str = libPackage + '.';
     
-    				FunkinLua.hscript.variables.set(libName, Type.resolveClass(str + libName));
+    				FunkinLua.hscriptBaseBase.variables.set(libName, Type.resolveClass(str + libName));
     			}
     			catch (e:Dynamic) {
-    				funk.luaTrace(funk.scriptName + ":" + funk.lastCalledFunction + " - " + e, false, false, FlxColor.RED);
+    				FunkinLua.luaTrace(funk.scriptName + ":" + funk.lastCalledFunction + " - " + e, false, false, FlxColor.RED);
     			}
     			#end
     		});
