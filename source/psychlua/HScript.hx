@@ -511,10 +511,10 @@ class HScriptBase
 	public static function initHaxeModule(parent:FunkinLua)
 	{
 		#if HSCRIPT_ALLOWED
-		if(FunkinLua.hscriptBase == null)
+		if(parent.hscriptBase == null)
 		{
 			//trace('initializing haxe interp for: $scriptName');
-			FunkinLua.hscriptBase = new HScriptBase(parent); //TO DO: Fix issue with 2 scripts not being able to use the same variable names
+			parent.hscriptBase = new HScriptBase(parent); //TO DO: Fix issue with 2 scripts not being able to use the same variable names
 		}
 		#end
 	}
@@ -564,7 +564,7 @@ class HScriptBase
 		});
 		interp.variables.set('debugPrint', function(text:String, ?color:FlxColor = null) {
 			if(color == null) color = FlxColor.WHITE;
-			parentLua.luaTrace(text, true, false, color);
+			FunkinLua.luaTrace(text, true, false, color);
 		});
 
 		// For adding your own callbacks
@@ -582,7 +582,7 @@ class HScriptBase
 				interp.variables.set(libName, Type.resolveClass(str + libName));
 			}
 			catch (e:Dynamic) {
-				parentLua.luaTrace(parentLua.scriptName + ":" + parentLua.lastCalledFunction + " - " + e, false, false, FlxColor.RED);
+				FunkinLua.luaTrace(parentLua.scriptName + ":" + parentLua.lastCalledFunction + " - " + e, false, false, FlxColor.RED);
 			}
 		});
 		interp.variables.set('parentLua', parentLua);
@@ -636,10 +636,10 @@ class HScriptBase
     					for (key in Reflect.fields(varsToBring))
     					{
     						//trace('Key $key: ' + Reflect.field(varsToBring, key));
-    						FunkinLua.hscriptBase.interp.variables.set(key, Reflect.field(varsToBring, key));
+    						funk.hscriptBase.interp.variables.set(key, Reflect.field(varsToBring, key));
     					}
     				}
-    				retVal = FunkinLua.hscriptBase.execute(codeToRun, funcToRun, funcArgs);
+    				retVal = funk.hscriptBase.execute(codeToRun, funcToRun, funcArgs);
     			}
     			catch (e:Dynamic) {
     				FunkinLua.luaTrace(funk.scriptName + ":" + funk.lastCalledFunction + " - " + e, false, false, FlxColor.RED);
@@ -654,7 +654,7 @@ class HScriptBase
     		
     		Lua_helper.add_callback(lua, "runHaxeFunction", function(funcToRun:String, ?funcArgs:Array<Dynamic> = null) {
     			try {
-    				return FunkinLua.hscriptBase.executeFunction(funcToRun, funcArgs);
+    				return funk.hscriptBase.executeFunction(funcToRun, funcArgs);
     			}
     			catch(e:Exception)
     			{
@@ -671,7 +671,7 @@ class HScriptBase
     				if(libPackage.length > 0)
     					str = libPackage + '.';
     
-    				FunkinLua.hscriptBaseBase.variables.set(libName, Type.resolveClass(str + libName));
+    				funk.hscriptBase.variables.set(libName, Type.resolveClass(str + libName));
     			}
     			catch (e:Dynamic) {
     				FunkinLua.luaTrace(funk.scriptName + ":" + funk.lastCalledFunction + " - " + e, false, false, FlxColor.RED);
