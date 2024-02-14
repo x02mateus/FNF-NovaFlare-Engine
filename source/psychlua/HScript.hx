@@ -591,11 +591,11 @@ class HScriptBase
 	public function execute(codeToRun:String, ?funcToRun:String = null, ?funcArgs:Array<Dynamic>):Dynamic
 	{
 		@:privateAccess
-		HScript.parser.line = 1;
-		HScript.parser.allowTypes = true;
-		var expr:Expr = HScript.parser.parseString(codeToRun);
+		HScriptBase.parser.line = 1;
+		HScriptBase.parser.allowTypes = true;
+		var expr:Expr = HScriptBase.parser.parseString(codeToRun);
 		try {
-			var value:Dynamic = interp.execute(HScript.parser.parseString(codeToRun));
+			var value:Dynamic = interp.execute(HScriptBase.parser.parseString(codeToRun));
 			return (funcToRun != null) ? executeFunction(funcToRun, funcArgs) : value;
 		}
 		catch(e:Exception)
@@ -629,7 +629,7 @@ class HScriptBase
     			var retVal:Dynamic = null;
     
     			#if HSCRIPT_ALLOWED
-    			HScript.initHaxeModule(funk);
+    			HScriptBase.initHaxeModule(funk);
     			try {
     				if(varsToBring != null)
     				{
@@ -665,7 +665,7 @@ class HScriptBase
     
     		Lua_helper.add_callback(lua, "addHaxeLibrary", function(libName:String, ?libPackage:String = '') {
     			#if HSCRIPT_ALLOWED
-    			HScript.initHaxeModule(funk);
+    			HScriptBase.initHaxeModule(funk);
     			try {
     				var str:String = '';
     				if(libPackage.length > 0)
