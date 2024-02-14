@@ -5,7 +5,7 @@
       "type": "git",
       "dir": null,
       "ref": "main",
-      "url": "https://github.com/beihu235/lime"
+      "url": "https://github.com/mcagabe19-stuff/lime"
     },
     {
       "name": "openfl",
@@ -16,7 +16,7 @@
       "name": "flixel",
       "type": "git",
       "dir": null,
-      "ref": "dev",
+      "ref": "main",
       "url": "https://github.com/beihu235/flixel"
     },
     {
@@ -39,19 +39,24 @@
       "type": "git",
       "dir": null,
       "ref": "master",
-      "url": "https://github.com/beihu235/hxcpp"
+      "url": "https://github.com/mcagabe19-stuff/hxcpp"
     },
     {
       "name": "hxCodec",
       "type": "git",
       "dir": null,
       "ref": "main",
-      "url": "https://github.com/beihu235/hxCodec"
+      "url": "https://github.com/mcagabe19-stuff/hxCodec"
     },
     {
       "name": "SScript",
       "type": "haxelib",
-      "version": "8.1.6"
+      "version": null
+    },
+    {
+      "name": "hscript",
+      "type": "haxelib",
+      "version": "2.5.0"
     },
     {
       "name": "hxcpp-debug-server",
