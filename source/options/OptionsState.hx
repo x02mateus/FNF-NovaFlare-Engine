@@ -455,7 +455,7 @@ class OptionsState extends MusicBeatState
     var checkTime:Float = 0;	
     var updateTime:Float = 0;
     
-    var closeUpdate:Bool = false;
+    public var closeUpdate:Bool = false;
 	 
 	override function update(elapsed:Float)
 	{
