@@ -318,7 +318,7 @@ class MobileControlSelectSubState extends MusicBeatSubstate
 
     function changeSelection(change:Int = 0):Void
     {
-        if (change != 0) MobileControls.setExtraCustomMode(virtualPadd);
+        if (change != 0 && virtualPadd != null) MobileControls.setExtraCustomMode(virtualPadd);
         
 		curSelected += change;
 		
