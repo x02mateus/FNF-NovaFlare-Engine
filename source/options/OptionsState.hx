@@ -946,7 +946,7 @@ class OptionsState extends MusicBeatState
 	}
 	
 	function specialCheck(){
-	    
+	    /*
 	    if (!isInMain && selectedCatIndex == 1 && selectedOptionIndex == 0){    	        	    
     			for (i in 0...Note.colArray.length)
         		{
@@ -965,7 +965,7 @@ class OptionsState extends MusicBeatState
         		}   		
         		if(notesTween[10] != null) notesTween[10].cancel();        			
         		notesTween[10] = FlxTween.tween(noteBG, {x: 300}, 0.75, {ease: FlxEase.quadInOut});        			
-	    }
+	    }*/
 	}
 }
 
