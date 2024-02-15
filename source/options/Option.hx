@@ -1238,6 +1238,7 @@ class KeyboardControls extends Option
 	override function press()
 	{	
 	    OptionsState.openSub();	
+	    MusicBeatState.removeVirtualPad();
 	    FlxG.state.openSubState(new ControlsSubState());				
     }
     
@@ -1258,7 +1259,7 @@ class AndroidControls extends Option
 	override function press()
 	{		
 		OptionsState.openSub();	
-		removeVirtualPad();
+		MusicBeatState.removeVirtualPad();
 	    FlxG.state.openSubState(new MobileControlSelectSubState());					
     }
     
