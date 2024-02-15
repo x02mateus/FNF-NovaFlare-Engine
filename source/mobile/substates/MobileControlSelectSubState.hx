@@ -201,7 +201,7 @@ class MobileControlSelectSubState extends MusicBeatSubstate
 		
 		super.create();
 
-		FlxTween.tween(bg, {alpha: 0.3}, 0.5, {ease: FlxEase.circInOut});
+		FlxTween.tween(bg, {alpha: 0.5}, 0.5, {ease: FlxEase.circInOut});
 	}
 
 	override function update(elapsed:Float)
