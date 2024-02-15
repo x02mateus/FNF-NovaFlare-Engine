@@ -6,6 +6,7 @@ import flixel.addons.transition.FlxTransitionableState;
 import flixel.util.FlxSave;
 import flixel.input.touch.FlxTouch;
 import openfl.utils.Assets;
+import flixel.ui.FlxButton as UIButton;
 
 class MobileControlSelectSubState extends MusicBeatSubstate
 {
@@ -55,8 +56,8 @@ class MobileControlSelectSubState extends MusicBeatSubstate
 		bg.scrollFactor.set();
 		bg.alpha = 0;
 		add(bg);
-
-		var exitButton:FlxButton = new FlxButton(FlxG.width - 200, 50, 'Exit', function()
+		
+		var exit = new UIButton(0, itemText.y - 25, "Exit & Save", () ->
 		{
 			if (curSelected == 6)
 				if (daFunny.alpha == 0 ){
@@ -78,20 +79,19 @@ class MobileControlSelectSubState extends MusicBeatSubstate
             FlxTransitionableState.skipNextTransIn = true;
 			FlxTransitionableState.skipNextTransOut = true;
 			MusicBeatState.switchState(new options.OptionsState());
-		
-
 		});
-		exitButton.setGraphicSize(Std.int(exitButton.width) * 3);
-		exitButton.label.setFormat(Paths.font('vcr.ttf'), 28, FlxColor.WHITE, FlxTextAlign.CENTER);
-		exitButton.label.fieldWidth = exitButton.width;
-		exitButton.label.x = ((exitButton.width - exitButton.label.width) / 2) + exitButton.x;
-		exitButton.label.offset.y = -10; // WHY THE FUCK I CAN'T CHANGE THE LABEL Y
-		exitButton.color = FlxColor.LIME;
-		add(exitButton);
-		
-		
+		exit.color = FlxColor.LIME;
+		exit.setGraphicSize(Std.int(exit.width) * 3);
+		exit.updateHitbox();
+		exit.x = FlxG.width - exit.width - 70;
+		exit.label.setFormat(Paths.font('vcr.ttf'), 28, FlxColor.WHITE, FlxTextAlign.CENTER);
+		exit.label.fieldWidth = exit.width;
+		exit.label.x = ((exit.width - exit.label.width) / 2) + exit.x;
+		exit.label.offset.y = -10; // WHY THE FUCK I CAN'T CHANGE THE LABEL Y
+		//exit.cameras = [ui];
+		add(exit);
 
-		resetButton = new FlxButton(exitButton.x, exitButton.y + 100, 'Reset', function()
+		resetButton = new UIButton(exit.x, exit.height + exit.y + 20, "Reset", () ->
 		{
 			if (resetButton.visible)
 			{
@@ -108,15 +108,15 @@ class MobileControlSelectSubState extends MusicBeatSubstate
 				virtualPadd.buttonLeft.x = FlxG.width - 384;
 				virtualPadd.buttonLeft.y = FlxG.height - 309;
 			}
-		}
-	});
+		});
+		resetButton.color = FlxColor.RED;
 		resetButton.setGraphicSize(Std.int(resetButton.width) * 3);
+		resetButton.updateHitbox();
 		resetButton.label.setFormat(Paths.font('vcr.ttf'), 28, FlxColor.WHITE, FlxTextAlign.CENTER);
 		resetButton.label.fieldWidth = resetButton.width;
 		resetButton.label.x = ((resetButton.width - resetButton.label.width) / 2) + resetButton.x;
-		resetButton.label.offset.y = -10; // WHY THE FUCK I CAN'T CHANGE THE LABEL Y
-		resetButton.color = FlxColor.RED;
-		resetButton.visible = false;
+		resetButton.label.offset.y = -10;
+		//resetButton.cameras = [ui];
 		add(resetButton);
 
 		virtualPadd = new FlxVirtualPad(NONE, NONE);
