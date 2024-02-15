@@ -130,7 +130,8 @@ class OptionsState extends MusicBeatState
 	
 	var notes:FlxTypedGroup<StrumNote>;
 	var notesTween:Array<FlxTween> = [];
-    camNote:FlxCamera;
+	var noteBG:FlxSprite;
+    var camNote:FlxCamera;
     
 	var ColorArray:Array<Int> = [
 		0xFF9400D3,
@@ -323,10 +324,16 @@ class OptionsState extends MusicBeatState
 		camNote.bgColor.alpha = 0;
 		FlxG.cameras.add(camNote, false);
 		
+		noteBG = new FlxSprite(0, 0).makeGraphic(300, 300, FlxColor.BLACK);
+		noteBG.alpha = 0.5;
+		noteBG.scrollFactor.set();
+		add(noteBG);
+		noteBG.cameras = [camNote];
+		
 		notes = new FlxTypedGroup<StrumNote>();
 		for (i in 0...Note.colArray.length)
 		{
-			var note:StrumNote = new StrumNote(370 + (400 / Note.colArray.length) * i, 300, i, 0);
+			var note:StrumNote = new StrumNote(0 + (300 / (Note.colArray.length + 1)) * (i + 1), 150, i, 0);
 			note.scale.x = note.scale.y = 0.5;
 			note.centerOffsets();
 			note.centerOrigin();
@@ -335,7 +342,12 @@ class OptionsState extends MusicBeatState
 		}
 		add(notes);
 		notes.cameras = [camNote];
-
+		
+		camNote.width = camNote.height = 300;		
+		camNote.x = background.x + background.width - 300;
+		camNote.y = background.y + background.height / 2 - 150;
+        camNote.offset.x = -300;
+        
 		isInMain = isReset ? false : true;		
 		
 		selectedCat = isReset ? options[saveSelectedCatIndex] : options[0];
@@ -923,25 +935,12 @@ class OptionsState extends MusicBeatState
 	
 	function specialCheck(){
 	    
-	    if (!isInMain && selectedCatIndex == 1 && selectedOptionIndex == 0){
-    	    if(noteOptionID < 0) return;
-    
-    		for (i in 0...Note.colArray.length)
-    		{
-    			var note:StrumNote = notes.members[i];
+	    if (!isInMain && selectedCatIndex == 1 && selectedOptionIndex == 0){    	        	    
     			if(notesTween[i] != null) notesTween[i].cancel();
-    			if(curSelected == noteOptionID)
-    				notesTween[i] = FlxTween.tween(note, {x: noteY}, Math.abs(note.y / (200 + noteY)) / 3, {ease: FlxEase.quadInOut});    			
-    		}	    
-	    }else{
-	        if(noteOptionID < 0) return;
-	        
-	        for (i in 0...Note.colArray.length)
-    		{
-    			var note:StrumNote = notes.members[i];
+    				notesTween[i] = FlxTween.tween(noteBG.offset, {x: 0}, 1, {ease: FlxEase.quadInOut});    			    		
+	    }else{	       	        	        
     			if(notesTween[i] != null) notesTween[i].cancel();    			
-    				notesTween[i] = FlxTween.tween(note, {x: -200}, Math.abs(note.y / (200 + noteY)) / 3, {ease: FlxEase.quadInOut});
-    		}	    	    
+    				notesTween[i] = FlxTween.tween(noteBG.offset, {x: -300}, 1, {ease: FlxEase.quadInOut});    			    	    
 	    }
 	}
 }
