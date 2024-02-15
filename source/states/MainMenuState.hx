@@ -192,7 +192,7 @@ class MainMenuState extends MusicBeatState
 			
 			if (optionShit.length % 2 == 0){
 			    option.y = 360 + (i - optionShit.length / 2) * 110;
-			    option.y += 40;
+			    //option.y += 20;
 			}else{
 			    option.y = 360 + (i - (optionShit.length / 2 + 0.5)) * 135;
 			}
