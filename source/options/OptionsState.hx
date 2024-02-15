@@ -904,9 +904,9 @@ class OptionsState extends MusicBeatState
         removeVirtualPad();
 	    
 	    switch(state){
-	        case 'ControlsSubState'
+	        case 'ControlsSubState':
 	            FlxG.state.openSubState(new ControlsSubState());	
-	        case 'MobileControl'
+	        case 'MobileControl':
 	            FlxG.state.openSubState(new MobileControlSelectSubState());			
 	    
 	    
