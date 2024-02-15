@@ -288,7 +288,7 @@ class MobileControlSelectSubState extends MusicBeatSubstate
     		}
 		}
 
-		if (virtualPadd != null)
+		if (virtualPadd.visible == true)
 		{
 			if (virtualPadd.buttonUp != null)
 				upPozition.text = 'Button Up X:' + virtualPadd.buttonUp.x + ' Y:' + virtualPadd.buttonUp.y;
@@ -408,7 +408,7 @@ class MobileControlSelectSubState extends MusicBeatSubstate
 		leftPozition.visible = daChoice == 'Pad-Custom';
 		rightPozition.visible = daChoice == 'Pad-Custom';
 		
-		if (virtualPadd != null)
+		if (virtualPadd.visible == true)
 		{
 		    extra1Pozition.visible = true;
 		    extra2Pozition.visible = true;
