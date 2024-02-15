@@ -70,7 +70,7 @@ class MobileControlSelectSubState extends MusicBeatSubstate
 			if (controlsItems[Math.floor(curSelected)] == 'Pad-Custom')
 				MobileControls.setCustomMode(virtualPadd);
 			
-			MobileControls.setExtraCustomMode(virtualPadd);	
+			if (virtualPadd != null) MobileControls.setExtraCustomMode(virtualPadd);	
 
 			controls.isInSubstate = false;
                         
