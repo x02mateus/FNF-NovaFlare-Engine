@@ -5,7 +5,6 @@ import objects.Character;
 import objects.Bar;
 
 import flixel.addons.display.shapes.FlxShapeCircle;
-import flixel.addons.transition.FlxTransitionableState;
 
 import states.stages.StageWeek1 as BackgroundStage;
 
@@ -411,8 +410,6 @@ class NoteOffsetState extends MusicBeatState
 
 			persistentUpdate = false;
 			
-			FlxTransitionableState.skipNextTransIn = true;
-    		FlxTransitionableState.skipNextTransOut = true;
     		MusicBeatState.switchState(new options.OptionsState());
 			if(OptionsState.onPlayState)
 			{
