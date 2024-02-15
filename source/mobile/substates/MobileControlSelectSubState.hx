@@ -54,9 +54,9 @@ class MobileControlSelectSubState extends MusicBeatSubstate
         var bg:FlxSprite = new FlxSprite(0, 0).makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
 		bg.scrollFactor.set();
 		bg.alpha = 0;
-		add(bg);		
-		
-		var exit = new FlxButton(0, itemText.y - 25, "Exit & Save", function()
+		add(bg);
+
+		var exitButton:FlxButton = new FlxButton(FlxG.width - 200, 50, 'Exit', function()
 		{
 			if (curSelected == 6)
 				if (daFunny.alpha == 0 ){
@@ -78,46 +78,46 @@ class MobileControlSelectSubState extends MusicBeatSubstate
             FlxTransitionableState.skipNextTransIn = true;
 			FlxTransitionableState.skipNextTransOut = true;
 			MusicBeatState.switchState(new options.OptionsState());
-		});
-		exit.color = FlxColor.LIME;
-		exit.setGraphicSize(Std.int(exit.width) * 3);
-		exit.updateHitbox();
-		exit.x = FlxG.width - exit.width - 70;
-		exit.label.setFormat(Paths.font('vcr.ttf'), 28, FlxColor.WHITE, FlxTextAlign.CENTER);
-		exit.label.fieldWidth = exit.width;
-		exit.label.x = ((exit.width - exit.label.width) / 2) + exit.x;
-		exit.label.offset.y = -10; // WHY THE FUCK I CAN'T CHANGE THE LABEL Y
-		exit.cameras = [ui];
-		add(exit);
+		
 
-		reset = new FlxButton(exit.x, exit.height + exit.y + 20, "Reset", function()
+		});
+		exitButton.setGraphicSize(Std.int(exitButton.width) * 3);
+		exitButton.label.setFormat(Paths.font('vcr.ttf'), 28, FlxColor.WHITE, FlxTextAlign.CENTER);
+		exitButton.label.fieldWidth = exitButton.width;
+		exitButton.label.x = ((exitButton.width - exitButton.label.width) / 2) + exitButton.x;
+		exitButton.label.offset.y = -10; // WHY THE FUCK I CAN'T CHANGE THE LABEL Y
+		exitButton.color = FlxColor.LIME;
+		add(exitButton);
+		
+		
+
+		resetButton = new FlxButton(exitButton.x, exitButton.y + 100, 'Reset', function()
 		{
 			if (resetButton.visible)
 			{
 				if (curSelected == 6)
-				{
+					{
 				
-    			} else {
-    				virtualPadd.buttonUp.x = FlxG.width - 258;
-    				virtualPadd.buttonUp.y = FlxG.height - 408;
-    				virtualPadd.buttonDown.x = FlxG.width - 258;
-    				virtualPadd.buttonDown.y = FlxG.height - 201;
-    				virtualPadd.buttonRight.x = FlxG.width - 132;
-    				virtualPadd.buttonRight.y = FlxG.height - 309;
-    				virtualPadd.buttonLeft.x = FlxG.width - 384;
-    				virtualPadd.buttonLeft.y = FlxG.height - 309;
-    			}
+			} else {
+				virtualPadd.buttonUp.x = FlxG.width - 258;
+				virtualPadd.buttonUp.y = FlxG.height - 408;
+				virtualPadd.buttonDown.x = FlxG.width - 258;
+				virtualPadd.buttonDown.y = FlxG.height - 201;
+				virtualPadd.buttonRight.x = FlxG.width - 132;
+				virtualPadd.buttonRight.y = FlxG.height - 309;
+				virtualPadd.buttonLeft.x = FlxG.width - 384;
+				virtualPadd.buttonLeft.y = FlxG.height - 309;
 			}
-		});
-		reset.color = FlxColor.RED;
-		reset.setGraphicSize(Std.int(reset.width) * 3);
-		reset.updateHitbox();
-		reset.label.setFormat(Paths.font('vcr.ttf'), 28, FlxColor.WHITE, FlxTextAlign.CENTER);
-		reset.label.fieldWidth = reset.width;
-		reset.label.x = ((reset.width - reset.label.width) / 2) + reset.x;
-		reset.label.offset.y = -10;
-		reset.cameras = [ui];
-		add(reset);
+		}
+	});
+		resetButton.setGraphicSize(Std.int(resetButton.width) * 3);
+		resetButton.label.setFormat(Paths.font('vcr.ttf'), 28, FlxColor.WHITE, FlxTextAlign.CENTER);
+		resetButton.label.fieldWidth = resetButton.width;
+		resetButton.label.x = ((resetButton.width - resetButton.label.width) / 2) + resetButton.x;
+		resetButton.label.offset.y = -10; // WHY THE FUCK I CAN'T CHANGE THE LABEL Y
+		resetButton.color = FlxColor.RED;
+		resetButton.visible = false;
+		add(resetButton);
 
 		virtualPadd = new FlxVirtualPad(NONE, NONE);
 		virtualPadd.visible = false;
