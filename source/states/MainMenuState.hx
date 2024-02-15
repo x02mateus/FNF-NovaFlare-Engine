@@ -156,7 +156,7 @@ class MainMenuState extends MusicBeatState
 		menuItems = new FlxTypedGroup<FlxSprite>();
 		add(menuItems);
 
-		var scale:Float = 0.7;
+		var scale:Float = 0.6;
 		if(optionShit.length > 6) {
 			scale = 6 / optionShit.length;
 		}
@@ -191,7 +191,7 @@ class MainMenuState extends MusicBeatState
 			var option:FlxSprite = menuItems.members[i];
 			
 			if (optionShit.length % 2 == 0){
-			    option.y = 360 + (i - optionShit.length / 2) * 120;
+			    option.y = 360 + (i - optionShit.length / 2) * 110;
 			    option.y += 40;
 			}else{
 			    option.y = 360 + (i - (optionShit.length / 2 + 0.5)) * 135;
@@ -369,10 +369,10 @@ class MainMenuState extends MusicBeatState
 			cameraTween[0] = FlxTween.tween(camGame, {zoom: 1}, 0.6, {ease: FlxEase.cubeOut});
 		    
 			menuItems.forEach(function(spr:FlxSprite)	{
-				spr.scale.x = 0.73;
-				spr.scale.y = 0.73;
-				    FlxTween.tween(spr.scale, {x: 0.7}, 0.6, {ease: FlxEase.cubeOut});
-				    FlxTween.tween(spr.scale, {y: 0.7}, 0.6, {ease: FlxEase.cubeOut});
+				spr.scale.x = 0.63;
+				spr.scale.y = 0.63;
+				    FlxTween.tween(spr.scale, {x: 0.6}, 0.6, {ease: FlxEase.cubeOut});
+				    FlxTween.tween(spr.scale, {y: 0.6}, 0.6, {ease: FlxEase.cubeOut});
 			
 				
             });
