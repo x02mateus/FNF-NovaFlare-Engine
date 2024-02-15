@@ -8,6 +8,8 @@ import options.OptionsHelpers;
 import options.base.ControlsSubState;
 import options.base.NoteOffsetState;
 import options.base.NotesSubState;
+import options.base.ControlsSubState;
+import mobile.substates.MobileControlSelectSubState;
 
 import backend.ClientPrefs;
 import backend.StageData;
@@ -898,7 +900,7 @@ class OptionsState extends MusicBeatState
         }
 	}
 	
-	public static function openSub(state:String){	    
+	function openSub2(state:String){
 	    isReset = true;			    
         persistentUpdate = false;
         removeVirtualPad();
@@ -910,7 +912,11 @@ class OptionsState extends MusicBeatState
 	            FlxG.state.openSubState(new MobileControlSelectSubState());			
 	    
 	    
-	    }
+	    }		
+	}
+	
+	public static function openSub(state:String){	    
+	    openSub2(state); //uhhhh
 	}
 	
 	function addNote(){
