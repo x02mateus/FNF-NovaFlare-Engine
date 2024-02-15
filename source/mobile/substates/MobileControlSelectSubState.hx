@@ -95,17 +95,18 @@ class MobileControlSelectSubState extends MusicBeatSubstate
 			if (resetButton.visible)
 			{
 				if (curSelected == 6)
-					{
+				{
 				
-			} else {
-				virtualPadd.buttonUp.x = FlxG.width - 258;
-				virtualPadd.buttonUp.y = FlxG.height - 408;
-				virtualPadd.buttonDown.x = FlxG.width - 258;
-				virtualPadd.buttonDown.y = FlxG.height - 201;
-				virtualPadd.buttonRight.x = FlxG.width - 132;
-				virtualPadd.buttonRight.y = FlxG.height - 309;
-				virtualPadd.buttonLeft.x = FlxG.width - 384;
-				virtualPadd.buttonLeft.y = FlxG.height - 309;
+    			} else {
+    				virtualPadd.buttonUp.x = FlxG.width - 258;
+    				virtualPadd.buttonUp.y = FlxG.height - 408;
+    				virtualPadd.buttonDown.x = FlxG.width - 258;
+    				virtualPadd.buttonDown.y = FlxG.height - 201;
+    				virtualPadd.buttonRight.x = FlxG.width - 132;
+    				virtualPadd.buttonRight.y = FlxG.height - 309;
+    				virtualPadd.buttonLeft.x = FlxG.width - 384;
+    				virtualPadd.buttonLeft.y = FlxG.height - 309;
+    			}
 			}
 		});
 		reset.color = FlxColor.RED;
