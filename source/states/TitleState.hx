@@ -102,6 +102,11 @@ class TitleState extends MusicBeatState
 		#if android
 		FlxG.android.preventDefaultKeys = [BACK];
 		#end
+		
+		#if mobile
+		if(!CopyState.checkExistingFiles() && !ignoreCopy)
+			FlxG.switchState(new CopyState());
+		#end
 
 		#if LUA_ALLOWED
         	#if (android && EXTERNAL || MEDIA)
@@ -116,11 +121,6 @@ class TitleState extends MusicBeatState
             #end
 		#end
 				
-		#if mobile
-		if(!CopyState.checkExistingFiles() && !ignoreCopy)
-			FlxG.switchState(new CopyState());
-		#end
-
 		Mods.loadTopMod();
 
 		FlxG.fixedTimestep = false;
