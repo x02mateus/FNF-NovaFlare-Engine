@@ -936,11 +936,11 @@ class OptionsState extends MusicBeatState
 	function specialCheck(){
 	    
 	    if (!isInMain && selectedCatIndex == 1 && selectedOptionIndex == 0){    	        	    
-    			if(notesTween[0] != null) notesTween[i].cancel();
-    				notesTween[0] = FlxTween.tween(noteBG.scroll, {x: 0}, 1, {ease: FlxEase.quadInOut});    			    		
+    			if(notesTween[0] != null) notesTween[0].cancel();
+    				notesTween[0] = FlxTween.tween(camNote.scroll, {x: 0}, 1, {ease: FlxEase.quadInOut});    			    		
 	    }else{	       	        	        
-    			if(notesTween[0] != null) notesTween[i].cancel();    			
-    				notesTween[0] = FlxTween.tween(noteBG.scroll, {x: -300}, 1, {ease: FlxEase.quadInOut});    			    	    
+    			if(notesTween[0] != null) notesTween[0].cancel();    			
+    				notesTween[0] = FlxTween.tween(camNote.scroll, {x: -300}, 1, {ease: FlxEase.quadInOut});    			    	    
 	    }
 	}
 }
