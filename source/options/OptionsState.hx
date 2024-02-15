@@ -320,33 +320,7 @@ class OptionsState extends MusicBeatState
 		add(descBack);
 		add(descText);
 		
-		camNote = new FlxCamera();
-		camNote.bgColor.alpha = 0;
-		FlxG.cameras.add(camNote, false);
-		
-		noteBG = new FlxSprite(0, 0).makeGraphic(300, 300, FlxColor.BLACK);
-		noteBG.alpha = 0.5;
-		noteBG.scrollFactor.set();
-		add(noteBG);
-		noteBG.cameras = [camNote];
-		
-		notes = new FlxTypedGroup<StrumNote>();
-		for (i in 0...Note.colArray.length)
-		{
-			var note:StrumNote = new StrumNote(0 + (300 / (Note.colArray.length + 1)) * (i + 1), 150, i, 0);
-			note.scale.x = note.scale.y = 0.5;
-			note.centerOffsets();
-			note.centerOrigin();
-			note.playAnim('static');
-			notes.add(note);
-		}
-		add(notes);
-		notes.cameras = [camNote];
-		
-		camNote.width = camNote.height = 300;		
-		camNote.x = background.x + background.width - 300;
-		camNote.y = background.y + background.height / 2 - 150;
-        camNote.scroll.x = -300;
+		addNote();
         
 		isInMain = isReset ? false : true;		
 		
@@ -484,11 +458,7 @@ class OptionsState extends MusicBeatState
     public var closeUpdate:Bool = false;
 	 
 	override function update(elapsed:Float)
-	{
-	    if (closeUpdate){
-	        persistentUpdate = false;
-	        removeVirtualPad();
-	    }
+	{	    
 	    
 		super.update(elapsed);
 
@@ -928,9 +898,51 @@ class OptionsState extends MusicBeatState
         }
 	}
 	
-	public static function openSub(){	    
-	    isReset = true;		
-	    instance.closeUpdate = true;	    	    
+	public static function openSub(state:String){	    
+	    isReset = true;			    
+        persistentUpdate = false;
+        removeVirtualPad();
+	    
+	    switch(state){
+	        case 'ControlsSubState'
+	            FlxG.state.openSubState(new ControlsSubState());	
+	        case 'MobileControl'
+	            FlxG.state.openSubState(new MobileControlSelectSubState());			
+	    
+	    
+	    }
+	}
+	
+	function addNote(){
+	
+	    camNote = new FlxCamera();
+		camNote.bgColor.alpha = 0;
+		FlxG.cameras.add(camNote, false);
+		
+		noteBG = new FlxSprite(0, 0).makeGraphic(300, 300, FlxColor.BLACK);
+		noteBG.alpha = 0.5;
+		noteBG.scrollFactor.set();
+		add(noteBG);
+		noteBG.cameras = [camNote];
+		
+		notes = new FlxTypedGroup<StrumNote>();
+		for (i in 0...Note.colArray.length)
+		{
+			var note:StrumNote = new StrumNote(0 + (300 / (Note.colArray.length + 1)) * (i + 1), 150, i, 0);
+			note.scale.x = note.scale.y = 0.5;
+			note.centerOffsets();
+			note.centerOrigin();
+			note.playAnim('static');
+			notes.add(note);
+		}
+		add(notes);
+		notes.cameras = [camNote];
+		
+		camNote.width = camNote.height = 300;		
+		camNote.x = background.x + background.width - 300;
+		camNote.y = background.y + background.height / 2 - 150;
+        camNote.scroll.x = -300;
+	
 	}
 	
 	function specialCheck(){

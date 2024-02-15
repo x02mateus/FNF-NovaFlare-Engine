@@ -1237,8 +1237,8 @@ class KeyboardControls extends Option
 
 	override function press()
 	{	
-	    OptionsState.openSub();		    
-	    FlxG.state.openSubState(new ControlsSubState());				
+	    OptionsState.openSub('ControlsSubState');		    
+	    			
     }
     
     private override function updateDisplay():String
@@ -1257,8 +1257,7 @@ class AndroidControls extends Option
 
 	override function press()
 	{		
-		OptionsState.openSub();	
-	    FlxG.state.openSubState(new MobileControlSelectSubState());					
+		OptionsState.openSub('MobileControl');		    		
     }
     
     private override function updateDisplay():String
