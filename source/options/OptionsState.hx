@@ -452,7 +452,10 @@ class OptionsState extends MusicBeatState
 	 
 	override function update(elapsed:Float)
 	{
-	    if (closeUpdate) persistentUpdate = false;
+	    if (closeUpdate){
+	        persistentUpdate = false;
+	        removeVirtualPad();
+	    }
 	    
 		super.update(elapsed);
 
@@ -884,7 +887,7 @@ class OptionsState extends MusicBeatState
 	
 	public static function openSub(){	    
 	    isReset = true;		
-	    instance.closeUpdate = true;	    
+	    instance.closeUpdate = true;	    	    
 	}
 }
 
