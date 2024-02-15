@@ -41,62 +41,63 @@ class Log
 			var message:String = "[" + info.className + "] ERROR: " + Std.string(message);
 			
 			//var checkCrash:Bool = true;
-		if (message != '[openfl.display.Shader] ERROR: Unable to initialize the shader program\nLink failed because of invalid fragment shader.'){
-            // if you delete this shader crash will have two log
-
-			if (info.className == 'openfl.display.Shader'){
-    			var textfix:Array<String> = message.trim().split('#ifdef GL_ES');
-    			
-    			message = textfix[0].trim();
+    		if (message != '[openfl.display.Shader] ERROR: Unable to initialize the shader program\nLink failed because of invalid fragment shader.'){
+                // if you delete this shader crash will have two log
     
-    			if (throwErrors)
-    			{
-    				#if sys
-    				try
-    				{
-    					if (!FileSystem.exists('logs'))
-    						FileSystem.createDirectory('logs');
-    
-    					File.saveContent('logs/'
-    						+ Date.now().toString().replace(' ', '-').replace(':', "'")
-    						+ '.txt',
-    						message
-    						+ '\n');
-    				}
-    				catch (e:Dynamic)
-    				{
-    					#if (android && debug)
-    					Toast.makeText("Error!\nCouldn't save the crash log because:\n" + e, Toast.LENGTH_LONG);
-    					#else
-    					println("Error!\nCouldn't save the crash log because:\n" + e);
-    					#end
-    				}
-    				#end
-    
-    				#if (windows || android || js || wasm)
-    				Lib.application.window.alert(message, 'Error!');
-    				#else
-    				println('Error! - $message');
-    				#end
-    
-    				#if js
-    				if (FlxG.sound.music != null)
-    					FlxG.sound.music.stop();
-    				
-    				js.Browser.window.location.reload(true);
-    				#else
-    				System.exit(1);
-    				#end
+    			if (info.className == 'openfl.display.Shader'){
+        			var textfix:Array<String> = message.trim().split('#ifdef GL_ES');
+        			
+        			message = textfix[0].trim();
+        
+        			if (throwErrors)
+        			{
+        				#if sys
+        				try
+        				{
+        					if (!FileSystem.exists('logs'))
+        						FileSystem.createDirectory('logs');
+        
+        					File.saveContent('logs/'
+        						+ Date.now().toString().replace(' ', '-').replace(':', "'")
+        						+ '.txt',
+        						message
+        						+ '\n');
+        				}
+        				catch (e:Dynamic)
+        				{
+        					#if (android && debug)
+        					Toast.makeText("Error!\nCouldn't save the crash log because:\n" + e, Toast.LENGTH_LONG);
+        					#else
+        					println("Error!\nCouldn't save the crash log because:\n" + e);
+        					#end
+        				}
+        				#end
+        
+        				#if (windows || android || js || wasm)
+        				Lib.application.window.alert(message, 'Error!');
+        				#else
+        				println('Error! - $message');
+        				#end
+        
+        				#if js
+        				if (FlxG.sound.music != null)
+        					FlxG.sound.music.stop();
+        				
+        				js.Browser.window.location.reload(true);
+        				#else
+        				System.exit(1);
+        				#end
+        			}
+        			else
+        			{
+        				#if js
+        				untyped #if haxe4 js.Syntax.code #else __js__ #end ("console").error(message);
+        				#else
+        				println(message);
+        				#end
+        			}
     			}
-    			else
-    			{
-    				#if js
-    				untyped #if haxe4 js.Syntax.code #else __js__ #end ("console").error(message);
-    				#else
-    				println(message);
-    				#end
-    			}
-			}
+    		}
 		}
 	}
 
