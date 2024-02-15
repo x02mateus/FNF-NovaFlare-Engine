@@ -287,6 +287,26 @@ class ResultsScreen extends Option
 	}
 }
 
+class NoteOffsetState extends Option
+{
+	public function new(desc:String)
+	{
+		super();
+		description = desc;
+	}
+
+	override function press()
+	{	
+	    OptionsState.instance.openSub('NoteOffsetState');		    
+	    			
+    }
+    
+    private override function updateDisplay():String
+	{
+		return "Note Offset Option";
+	}
+}
+
 class Judgement extends Option
 {
 	public function new(desc:String)
@@ -320,6 +340,26 @@ class Judgement extends Option
 //----------------------------------------------------------------
 //----------------------------------------------------------------
 //大类2
+class NotesSubState extends Option
+{
+	public function new(desc:String)
+	{
+		super();
+		description = desc;
+	}
+
+	override function press()
+	{	
+	    OptionsState.instance.openSub('NotesSubState');		    
+	    			
+    }
+    
+    private override function updateDisplay():String
+	{
+		return "Note RGB Option";
+	}
+}
+
 class NoteSkin extends Option
 {
     public static var chooseNum:Int;

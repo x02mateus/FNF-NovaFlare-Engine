@@ -169,10 +169,12 @@ class OptionsState extends MusicBeatState
 				new FixLNL('reduce Long Note length\nFix for some mod engines have been reduced'),												
 				new GhostTap("Toggle counting pressing a directional input when no arrow is there as a miss."),								
 				new NoReset("Toggle pressing R to gameover."),								               
-                new ResultsScreen('If checked, Open Results Screen at end song'),            
-				new Judgement("Create a custom judgement preset"),
+                new ResultsScreen('If checked, Open Results Screen at end song.'),          
+                new NoteOffsetState('Change NoteOffset and judgement position.'),
+				new Judgement("Create a custom judgement preset."),
 			]),
 			new OptionCata(345, 40, OptionsName.setAppearance(), [
+			    new NotesSubState('Change Note RGB Setting'),
                 new NoteSkin("Change your current noteSkin"),
                 new NoteRGB('Easier to set RGB for Note.'),
                 new SplashSkin('Change your current splashSkin'),              
@@ -202,7 +204,7 @@ class OptionsState extends MusicBeatState
         		]),
 			new OptionCata(935, 40, OptionsName.setOpponentMode(), [
 			    new PlayOpponent('If checked, playing as opponent\nmay have bug in some mods\n(your score will not be recorded.'),			    
-				new OpponentCodeFix('If checked, goodNoteHit and opponentNoteHit not follow playOpponent setting to change (if you playing it will return goodNoteHit function.'),
+				new OpponentCodeFix('If checked, goodNoteHit and opponentNoteHit not follow playOpponent setting to change.\nif you playing it will return goodNoteHit function.'),
 				new BotOpponentFix('Bot Opponent Fix'),				
 				new HealthDrainOPPO('Health Drain on opponent mode'),
 				new HealthDrainOPPOMult('Health Drain multiplier on opponent mode'),			 
@@ -227,7 +229,7 @@ class OptionsState extends MusicBeatState
 			new OptionCata(640, 40 + 64, "System", [
 			    //new Language("Change language in some state."), //will use fot NF1.2.0
 			    new FPSCap("Change your FPS Cap."),					    
-			    new ColorblindMode("You can set colorblind filter (makes the game more playable for colorblind people)\nCode from Indie Cross'"),
+			    new ColorblindMode("You can set colorblind filter (makes the game more playable for colorblind people)"),
 			    new Shaders("Shaders used for some visual effects, and also CPU intensive for weaker PCs."),
 				new GPUcache("If checked, allows the GPU to be used for caching textures, decreasing RAM usage."),				
 				new LoadingScreen("Add a LoadingScreen for PlayState and load faster\nif have some problem please disable it"),
@@ -909,7 +911,11 @@ class OptionsState extends MusicBeatState
 	        case 'ControlsSubState':
 	            FlxG.state.openSubState(new ControlsSubState());	
 	        case 'MobileControl':
-	            FlxG.state.openSubState(new MobileControlSelectSubState());				    	    
+	            FlxG.state.openSubState(new MobileControlSelectSubState());		
+	        case 'NotesSubState':
+	            FlxG.state.openSubState(new NotesSubState());		
+	        case 'NoteOffsetState':
+	            FlxG.state.openSubState(new NoteOffsetState());	
 	    }
 	}
 	
