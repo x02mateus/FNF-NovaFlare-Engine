@@ -941,18 +941,30 @@ class OptionsState extends MusicBeatState
 		camNote.width = camNote.height = 300;		
 		camNote.x = background.x + background.width - 300;
 		camNote.y = background.y + background.height / 2 - 150;
-        camNote.scroll.x = -300;
+        //camNote.scroll.x = -300;
 	
 	}
 	
 	function specialCheck(){
 	    
 	    if (!isInMain && selectedCatIndex == 1 && selectedOptionIndex == 0){    	        	    
-    			if(notesTween[0] != null) notesTween[0].cancel();
-    				notesTween[0] = FlxTween.tween(camNote, {scroll.x: 0}, 1, {ease: FlxEase.quadInOut});    			    		
+    			for (i in 0...Note.colArray.length)
+        		{
+        			var note:StrumNote = notes.members[i];
+        			if(notesTween[i] != null) notesTween[i].cancel();        			
+        				notesTween[i] = FlxTween.tween(note, {x: 0 + (300 / (Note.colArray.length + 1)) * (i + 1)}, 0.75, {ease: FlxEase.quadInOut});        			
+        		}   		
+        		if(notesTween[10] != null) notesTween[10].cancel();        			
+        		notesTween[10] = FlxTween.tween(noteBG, {x: 0}, 0.75, {ease: FlxEase.quadInOut});        			
 	    }else{	       	        	        
-    			if(notesTween[0] != null) notesTween[0].cancel();    			
-    				notesTween[0] = FlxTween.tween(camNote, {scroll.x: -300}, 1, {ease: FlxEase.quadInOut});    			    	    
+    			for (i in 0...Note.colArray.length)
+        		{
+        			var note:StrumNote = notes.members[i];
+        			if(notesTween[i] != null) notesTween[i].cancel();        			
+        				notesTween[i] = FlxTween.tween(note, {x: 300 + (300 / (Note.colArray.length + 1)) * (i + 1)}, 0.75, {ease: FlxEase.quadInOut});        			
+        		}   		
+        		if(notesTween[10] != null) notesTween[10].cancel();        			
+        		notesTween[10] = FlxTween.tween(noteBG, {x: 300}, 0.75, {ease: FlxEase.quadInOut});        			
 	    }
 	}
 }
