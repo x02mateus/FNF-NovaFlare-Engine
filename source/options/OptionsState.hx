@@ -898,9 +898,9 @@ class OptionsState extends MusicBeatState
                 moveCheak(); //check again until not have problem
             }
         }
-	}
-	
-	function openSub2(state:String){
+	}	
+		
+	public function openSub(state:String){
 	    isReset = true;			    
         persistentUpdate = false;
         removeVirtualPad();
@@ -909,14 +909,8 @@ class OptionsState extends MusicBeatState
 	        case 'ControlsSubState':
 	            FlxG.state.openSubState(new ControlsSubState());	
 	        case 'MobileControl':
-	            FlxG.state.openSubState(new MobileControlSelectSubState());			
-	    
-	    
-	    }		
-	}
-	
-	public static function openSub(state:String){	    
-	    openSub2(state); //uhhhh
+	            FlxG.state.openSubState(new MobileControlSelectSubState());				    	    
+	    }
 	}
 	
 	function addNote(){

@@ -6,8 +6,6 @@ import backend.MusicBeatState;
 import flixel.addons.transition.FlxTransitionableState;
 
 import options.OptionsHelpers;
-import options.base.ControlsSubState;
-import mobile.substates.MobileControlSelectSubState;
 
 import shaders.ColorblindFilter;
 
@@ -1237,7 +1235,7 @@ class KeyboardControls extends Option
 
 	override function press()
 	{	
-	    OptionsState.openSub('ControlsSubState');		    
+	    OptionsState.instance.openSub('ControlsSubState');		    
 	    			
     }
     
@@ -1257,7 +1255,7 @@ class AndroidControls extends Option
 
 	override function press()
 	{		
-		OptionsState.openSub('MobileControl');		    		
+		OptionsState.instance.openSub('MobileControl');		    		
     }
     
     private override function updateDisplay():String
