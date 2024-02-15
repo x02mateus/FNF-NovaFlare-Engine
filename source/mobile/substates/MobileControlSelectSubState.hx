@@ -28,7 +28,7 @@ class MobileControlSelectSubState extends MusicBeatSubstate
 	var curSelected:Int = 0;
 	var buttonBinded:Bool = false;
 	var bindButton:FlxButton;
-	var resetButton:FlxButton;
+	var resetButton:UIButton;
 	var daFunny:FlxText;
 	var buttonLeftColor:Array<FlxColor>;
 	var buttonDownColor:Array<FlxColor>;
@@ -57,7 +57,7 @@ class MobileControlSelectSubState extends MusicBeatSubstate
 		bg.alpha = 0;
 		add(bg);
 		
-		var exit = new UIButton(0, itemText.y - 25, "Exit & Save", () ->
+		var exit = new UIButton(FlxG.width - 200 , 50, "Exit & Save", () ->
 		{
 			if (curSelected == 6)
 				if (daFunny.alpha == 0 ){
@@ -83,7 +83,6 @@ class MobileControlSelectSubState extends MusicBeatSubstate
 		exit.color = FlxColor.LIME;
 		exit.setGraphicSize(Std.int(exit.width) * 3);
 		exit.updateHitbox();
-		exit.x = FlxG.width - exit.width - 70;
 		exit.label.setFormat(Paths.font('vcr.ttf'), 28, FlxColor.WHITE, FlxTextAlign.CENTER);
 		exit.label.fieldWidth = exit.width;
 		exit.label.x = ((exit.width - exit.label.width) / 2) + exit.x;
