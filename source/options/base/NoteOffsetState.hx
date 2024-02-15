@@ -3,7 +3,9 @@ package options.base;
 import backend.StageData;
 import objects.Character;
 import objects.Bar;
+
 import flixel.addons.display.shapes.FlxShapeCircle;
+import flixel.addons.transition.FlxTransitionableState;
 
 import states.stages.StageWeek1 as BackgroundStage;
 
