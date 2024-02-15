@@ -406,6 +406,7 @@ class FreeplayState extends MusicBeatState
 				super.update(elapsed);
 				return;
 			}
+			LoadingState.prepareToSong();
 			LoadingState.loadAndSwitchState(new PlayState());
 
 			FlxG.sound.music.volume = 0;
