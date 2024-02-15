@@ -498,7 +498,7 @@ class OptionsState extends MusicBeatState
 	    	updateTime = 0.1;
 		}
 		
-		if(controls.UI_DOWN || controls.UI_UP || controls.UI_LEFT || controls.UI_RIGHT)
+		if(controls.UI_LEFT || controls.UI_RIGHT)
 			{
 			    holdTime += elapsed;
 			    checkTime += elapsed;
@@ -507,8 +507,8 @@ class OptionsState extends MusicBeatState
 				    checkTime = 0;
 				    if (updateTime > 1 / ClientPrefs.data.framerate)
 				    updateTime = updateTime - 0.005;
-				    else if (updateTime < 1 / ClientPrefs.data.framerate)
-				    updateTime = 1 / ClientPrefs.data.framerate;
+				    else if (updateTime < 1 / 30)
+				    updateTime = 1 / 30;
 				    
 				    right_hold = controls.UI_RIGHT;
 				    left_hold = controls.UI_LEFT;

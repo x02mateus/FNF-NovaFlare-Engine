@@ -483,7 +483,7 @@ class HitSound extends Option
     
     private override function updateDisplay():String
 	{
-	    var data = ClientPrefs.data.hitsoundVolume * 100;
+	    var data = FlxMath.roundDecimal(ClientPrefs.data.hitsoundVolume * 100, 1);
 		return "HitSound volume: < " + data + "% >";
 	}
 }
@@ -734,7 +734,7 @@ class SplashAlpha extends Option
 
 	private override function updateDisplay():String
 		{
-		    var data = ClientPrefs.data.splashAlpha * 100;
+		    var data = FlxMath.roundDecimal(ClientPrefs.data.splashAlpha * 100, 1);
 			return "Splash Alpha: < " + data + "% >";
 		}
 }
@@ -782,7 +782,7 @@ class HealthBarAlpha extends Option
 
 	private override function updateDisplay():String
 		{
-		    var data = ClientPrefs.data.healthBarAlpha * 100;
+		    var data = FlxMath.roundDecimal(ClientPrefs.data.healthBarAlpha * 100, 1);
 			return "Healthbar Alpha: < " + data + "% >";
 		}
 }
@@ -1163,7 +1163,7 @@ class CustomFadeSound extends Option
 
 	private override function updateDisplay():String
 		{
-		    var data = ClientPrefs.data.CustomFadeSound * 100;
+		    var data = FlxMath.roundDecimal(ClientPrefs.data.CustomFadeSound * 100, 1);
 			return "CustomFadeSound: < " + data + "% >";
 		}
 }
@@ -1349,7 +1349,7 @@ class ControlsAlpha extends Option
 
 	private override function updateDisplay():String
 	{
-	    var data = ClientPrefs.data.controlsAlpha * 100;
+	    var data = FlxMath.roundDecimal(ClientPrefs.data.controlsAlpha * 100, 1);
 		return "Android Controls Alpha: < " + data + "% >";
 	}
 }
@@ -1383,7 +1383,7 @@ class PlayControlsAlpha extends Option
 
 	private override function updateDisplay():String
 	{
-	    var data = ClientPrefs.data.playControlsAlpha * 100;
+	    var data = FlxMath.roundDecimal(ClientPrefs.data.playControlsAlpha * 100, 1);
 		return "Android Play Controls Alpha: < " + data + "% >";
 	}
 }
