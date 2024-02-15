@@ -54,9 +54,9 @@ class MobileControlSelectSubState extends MusicBeatSubstate
         var bg:FlxSprite = new FlxSprite(0, 0).makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
 		bg.scrollFactor.set();
 		bg.alpha = 0;
-		add(bg);
-
-		var exitButton:FlxButton = new FlxButton(FlxG.width - 200, 50, 'Exit', function()
+		add(bg);		
+		
+		var exit = new FlxButton(0, itemText.y - 25, "Exit & Save", function()
 		{
 			if (curSelected == 6)
 				if (daFunny.alpha == 0 ){
@@ -78,17 +78,19 @@ class MobileControlSelectSubState extends MusicBeatSubstate
             FlxTransitionableState.skipNextTransIn = true;
 			FlxTransitionableState.skipNextTransOut = true;
 			MusicBeatState.switchState(new options.OptionsState());
-		
-
 		});
-		exitButton.setGraphicSize(Std.int(exitButton.width) * 3);
-		exitButton.label.setFormat(Assets.getFont('assets/fonts/vcr.ttf').fontName, 21, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK, true);
-		exitButton.color = FlxColor.LIME;
-		add(exitButton);
-		
-		
+		exit.color = FlxColor.LIME;
+		exit.setGraphicSize(Std.int(exit.width) * 3);
+		exit.updateHitbox();
+		exit.x = FlxG.width - exit.width - 70;
+		exit.label.setFormat(Paths.font('vcr.ttf'), 28, FlxColor.WHITE, FlxTextAlign.CENTER);
+		exit.label.fieldWidth = exit.width;
+		exit.label.x = ((exit.width - exit.label.width) / 2) + exit.x;
+		exit.label.offset.y = -10; // WHY THE FUCK I CAN'T CHANGE THE LABEL Y
+		exit.cameras = [ui];
+		add(exit);
 
-		resetButton = new FlxButton(exitButton.x, exitButton.y + 100, 'Reset', function()
+		reset = new FlxButton(exit.x, exit.height + exit.y + 20, "Reset", function()
 		{
 			if (resetButton.visible)
 			{
@@ -105,13 +107,16 @@ class MobileControlSelectSubState extends MusicBeatSubstate
 				virtualPadd.buttonLeft.x = FlxG.width - 384;
 				virtualPadd.buttonLeft.y = FlxG.height - 309;
 			}
-		}
-	});
-		resetButton.setGraphicSize(Std.int(resetButton.width) * 3);
-		resetButton.label.setFormat(Assets.getFont('assets/fonts/vcr.ttf').fontName, 21, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK, true);
-		resetButton.color = FlxColor.RED;
-		resetButton.visible = false;
-		add(resetButton);
+		});
+		reset.color = FlxColor.RED;
+		reset.setGraphicSize(Std.int(reset.width) * 3);
+		reset.updateHitbox();
+		reset.label.setFormat(Paths.font('vcr.ttf'), 28, FlxColor.WHITE, FlxTextAlign.CENTER);
+		reset.label.fieldWidth = reset.width;
+		reset.label.x = ((reset.width - reset.label.width) / 2) + reset.x;
+		reset.label.offset.y = -10;
+		reset.cameras = [ui];
+		add(reset);
 
 		virtualPadd = new FlxVirtualPad(NONE, NONE);
 		virtualPadd.visible = false;
