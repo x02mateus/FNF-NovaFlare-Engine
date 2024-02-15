@@ -1666,18 +1666,13 @@ class LoadingScreen extends Option
 		acceptValues = true;
 	}	
 
-	override function right()
+	override function press()
 	{
 		ClientPrefs.data.loadingScreen = !ClientPrefs.data.loadingScreen;
 		display = updateDisplay();
 		
 
 	}
-
-	override function press()
-	{
-		right();
-    }
 	
 	private override function updateDisplay():String
 	{

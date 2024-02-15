@@ -130,10 +130,13 @@ class OptionsState extends MusicBeatState
 
 	public var visibleRange = [114, 640];
 	
+	public var camGame:FlxCamera;
+	public var camNote:FlxCamera;
+	
 	var notes:FlxTypedGroup<StrumNote>;
 	var notesTween:Array<FlxTween> = [];
 	var noteBG:FlxSprite;
-    var camNote:FlxCamera;
+    
     
 	var ColorArray:Array<Int> = [
 		0xFF9400D3,
@@ -261,6 +264,8 @@ class OptionsState extends MusicBeatState
 		persistentUpdate = persistentDraw = true;
 
 		instance = this;
+		
+		camGame = initPsychCamera();
 
 		menu = new FlxTypedGroup<FlxSprite>();
 
@@ -338,7 +343,7 @@ class OptionsState extends MusicBeatState
 		isReset = false;                  
         
 		#if android
-        addVirtualPad(LEFT_FULL, A_B_C);        
+        addVirtualPad(PauseSubstate, A_B_C);        
         #end
 		
 		super.create();
@@ -943,10 +948,10 @@ class OptionsState extends MusicBeatState
 		}
 		add(notes);
 		notes.cameras = [camNote];
-		/*
+		
 		camNote.width = camNote.height = 300;		
 		camNote.x = background.x + background.width - 300;
-		camNote.y = background.y + background.height / 2 - 150;*/
+		camNote.y = background.y + background.height / 2 - 150;
         //camNote.scroll.x = -300;
 	
 	}
