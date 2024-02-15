@@ -10,10 +10,10 @@ import options.base.NoteOffsetState;
 import options.base.NotesSubState;
 
 import backend.ClientPrefs;
-
-import flixel.addons.display.FlxBackdrop;
-
 import backend.StageData;
+
+import objects.Note;
+import objects.StrumNote;
 
 import flixel.addons.transition.FlxTransitionableState;
 import flixel.input.gamepad.FlxGamepad;
@@ -127,7 +127,11 @@ class OptionsState extends MusicBeatState
 	public var shownStuff:FlxTypedGroup<FlxText>;
 
 	public var visibleRange = [114, 640];
-
+	
+	var notes:FlxTypedGroup<StrumNote>;
+	var notesTween:Array<FlxTween> = [];
+    camNote:FlxCamera;
+    
 	var ColorArray:Array<Int> = [
 		0xFF9400D3,
 		0xFF4B0082,
@@ -314,6 +318,23 @@ class OptionsState extends MusicBeatState
 
 		add(descBack);
 		add(descText);
+		
+		camNote = new FlxCamera();
+		camNote.bgColor.alpha = 0;
+		FlxG.cameras.add(camNote, false);
+		
+		notes = new FlxTypedGroup<StrumNote>();
+		for (i in 0...Note.colArray.length)
+		{
+			var note:StrumNote = new StrumNote(370 + (400 / Note.colArray.length) * i, 300, i, 0);
+			note.scale.x = note.scale.y = 0.5;
+			note.centerOffsets();
+			note.centerOrigin();
+			note.playAnim('static');
+			notes.add(note);
+		}
+		add(notes);
+		notes.cameras = [camNote];
 
 		isInMain = isReset ? false : true;		
 		
@@ -478,6 +499,8 @@ class OptionsState extends MusicBeatState
         		
         		selectedOption.change();
         		
+        		specialCheck();
+        		
         		FlxG.sound.play(Paths.sound('scrollMenu'), 0.6);
 			}
 		}		
@@ -632,6 +655,7 @@ class OptionsState extends MusicBeatState
 				{
 					if (accept)
 					{
+					    FlxG.sound.play(Paths.sound('scrollMenu'), 0.6);
 						var prev = selectedOptionIndex;
 						var object = selectedCat.optionObjects.members[selectedOptionIndex];																		
            				
@@ -646,7 +670,7 @@ class OptionsState extends MusicBeatState
 					}
 
 					if (down || down_hold)
-					{					    					    
+					{   					    
 						if (selectedOption.acceptType)
 							selectedOption.waitingType = false;
 						FlxG.sound.play(Paths.sound('scrollMenu'), 0.6);
@@ -681,6 +705,8 @@ class OptionsState extends MusicBeatState
 								i.y -= 46;
 							}							
 						}
+						
+						specialCheck();
 						
 						moveCheak();
 
@@ -723,6 +749,8 @@ class OptionsState extends MusicBeatState
 									i.y += 46;
 								}
 						}
+						
+                        specialCheck();
                         
                         moveCheak();
                         
@@ -736,7 +764,7 @@ class OptionsState extends MusicBeatState
 						selectedOption.right();
                         selectedOption.change();
 						ClientPrefs.saveSettings();
-
+                        
 						object.text = selectedOption.getValue();
 					}
 					else if (left || left_hold)
@@ -746,7 +774,7 @@ class OptionsState extends MusicBeatState
 						selectedOption.left();
                         selectedOption.change();
 						ClientPrefs.saveSettings();
-
+                        
 						object.text = selectedOption.getValue();
 					}
 
@@ -768,10 +796,11 @@ class OptionsState extends MusicBeatState
 					if (back)
 					{
 						FlxG.sound.play(Paths.sound('scrollMenu'), 0.6);
+						
                         
 						if (selectedCatIndex >= 9)  //这是干啥用的,但是目前来看没用
-							selectedCatIndex = 0;
-
+							selectedCatIndex = 0;                        
+                                                
 						for (i in 0...selectedCat.options.length)
 						{
 							var opt = selectedCat.optionObjects.members[i];
@@ -784,6 +813,8 @@ class OptionsState extends MusicBeatState
 						}else{
 						    isInMain = true;
 						}
+						
+						specialCheck();
 						
 						if (selectedCat.optionObjects != null){ //别删这个if包含的代码，会出问题
 							for (i in selectedCat.optionObjects.members)
@@ -888,6 +919,30 @@ class OptionsState extends MusicBeatState
 	public static function openSub(){	    
 	    isReset = true;		
 	    instance.closeUpdate = true;	    	    
+	}
+	
+	function specialCheck(){
+	    
+	    if (!isInMain && selectedCatIndex == 1 && selectedOptionIndex == 0){
+    	    if(noteOptionID < 0) return;
+    
+    		for (i in 0...Note.colArray.length)
+    		{
+    			var note:StrumNote = notes.members[i];
+    			if(notesTween[i] != null) notesTween[i].cancel();
+    			if(curSelected == noteOptionID)
+    				notesTween[i] = FlxTween.tween(note, {x: noteY}, Math.abs(note.y / (200 + noteY)) / 3, {ease: FlxEase.quadInOut});    			
+    		}	    
+	    }else{
+	        if(noteOptionID < 0) return;
+	        
+	        for (i in 0...Note.colArray.length)
+    		{
+    			var note:StrumNote = notes.members[i];
+    			if(notesTween[i] != null) notesTween[i].cancel();    			
+    				notesTween[i] = FlxTween.tween(note, {x: -200}, Math.abs(note.y / (200 + noteY)) / 3, {ease: FlxEase.quadInOut});
+    		}	    	    
+	    }
 	}
 }
 
