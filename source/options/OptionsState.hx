@@ -174,7 +174,7 @@ class OptionsState extends MusicBeatState
 				new Judgement("Create a custom judgement preset."),
 			]),
 			new OptionCata(345, 40, OptionsName.setAppearance(), [
-			    new NotesSubState('Change Note RGB Setting'),
+			    new NotesState('Change Note RGB Setting'),
                 new NoteSkin("Change your current noteSkin"),
                 new NoteRGB('Easier to set RGB for Note.'),
                 new SplashSkin('Change your current splashSkin'),              

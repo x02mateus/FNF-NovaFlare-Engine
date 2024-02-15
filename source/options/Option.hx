@@ -340,7 +340,7 @@ class Judgement extends Option
 //----------------------------------------------------------------
 //----------------------------------------------------------------
 //大类2
-class NotesSubState extends Option
+class NotesState extends Option
 {
 	public function new(desc:String)
 	{
