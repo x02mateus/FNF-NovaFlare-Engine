@@ -2706,11 +2706,9 @@ class PlayState extends MusicBeatState
 				#if DISCORD_ALLOWED DiscordClient.resetClientID(); #end
 
 				if(ClientPrefs.data.resultsScreen){								    
-                    rsCheck = true;
-                    
-                    FlxG.sound.playMusic(Paths.music('freakyMenu'),0.7);
-                    
+                    rsCheck = true;                                                            
 				    openSubState(new ResultsScreen(boyfriend.getScreenPosition().x, boyfriend.getScreenPosition().y));
+				    FlxG.sound.playMusic(Paths.music('freakyMenu'),0.7);
 				}
 				else{
 				    MusicBeatState.switchState(new FreeplayState());
