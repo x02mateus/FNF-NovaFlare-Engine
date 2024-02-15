@@ -943,17 +943,17 @@ class OptionsState extends MusicBeatState
 		}
 		add(notes);
 		notes.cameras = [camNote];
-		
+		/*
 		camNote.width = camNote.height = 300;		
 		camNote.x = background.x + background.width - 300;
-		camNote.y = background.y + background.height / 2 - 150;
+		camNote.y = background.y + background.height / 2 - 150;*/
         //camNote.scroll.x = -300;
 	
 	}
 	
 	function specialCheck(){
-	    /*
-	    if (!isInMain && selectedCatIndex == 1 && selectedOptionIndex == 0){    	        	    
+	    
+	    if (!isInMain && selectedCatIndex == 1 && selectedOptionIndex == 1){    	        	    
     			for (i in 0...Note.colArray.length)
         		{
         			var note:StrumNote = notes.members[i];
@@ -971,7 +971,7 @@ class OptionsState extends MusicBeatState
         		}   		
         		if(notesTween[10] != null) notesTween[10].cancel();        			
         		notesTween[10] = FlxTween.tween(noteBG, {x: 300}, 0.75, {ease: FlxEase.quadInOut});        			
-	    }*/
+	    }
 	}
 }
 
