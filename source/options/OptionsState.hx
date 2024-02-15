@@ -346,7 +346,7 @@ class OptionsState extends MusicBeatState
 		camNote.width = camNote.height = 300;		
 		camNote.x = background.x + background.width - 300;
 		camNote.y = background.y + background.height / 2 - 150;
-        camNote.offset.x = -300;
+        camNote.scroll.x = -300;
         
 		isInMain = isReset ? false : true;		
 		
@@ -936,11 +936,11 @@ class OptionsState extends MusicBeatState
 	function specialCheck(){
 	    
 	    if (!isInMain && selectedCatIndex == 1 && selectedOptionIndex == 0){    	        	    
-    			if(notesTween[i] != null) notesTween[i].cancel();
-    				notesTween[i] = FlxTween.tween(noteBG.offset, {x: 0}, 1, {ease: FlxEase.quadInOut});    			    		
+    			if(notesTween[0] != null) notesTween[i].cancel();
+    				notesTween[0] = FlxTween.tween(noteBG.scroll, {x: 0}, 1, {ease: FlxEase.quadInOut});    			    		
 	    }else{	       	        	        
-    			if(notesTween[i] != null) notesTween[i].cancel();    			
-    				notesTween[i] = FlxTween.tween(noteBG.offset, {x: -300}, 1, {ease: FlxEase.quadInOut});    			    	    
+    			if(notesTween[0] != null) notesTween[i].cancel();    			
+    				notesTween[0] = FlxTween.tween(noteBG.scroll, {x: -300}, 1, {ease: FlxEase.quadInOut});    			    	    
 	    }
 	}
 }
