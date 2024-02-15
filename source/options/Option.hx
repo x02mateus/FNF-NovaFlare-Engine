@@ -287,7 +287,7 @@ class ResultsScreen extends Option
 	}
 }
 
-class NoteOffsetState extends Option
+class NoteOffset extends Option
 {
 	public function new(desc:String)
 	{
@@ -739,7 +739,7 @@ class ShowSplashes extends Option
 
 	private override function updateDisplay():String
 	{
-		return "showSplash: " + (ClientPrefs.data.showSplash ? 'Show' : 'Hide');
+		return "Splash: " + (ClientPrefs.data.showSplash ? 'Show' : 'Hide');
 	} 
 }
 
