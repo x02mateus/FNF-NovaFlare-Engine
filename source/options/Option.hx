@@ -808,7 +808,7 @@ class HealthBarVersion extends Option
 
 	private override function updateDisplay():String
 	{
-		return "HealthBar Version: " + (ClientPrefs.data.oldHealthBarVersion ? '0.6.X' : '0.7.X');
+		return "HealthBar Version: < " + (ClientPrefs.data.oldHealthBarVersion ? '0.6.X' : '0.7.X') +' >';
 	} 
 }
 
@@ -869,7 +869,7 @@ class HscriptVersion extends Option
 
 	private override function updateDisplay():String
 	{
-		return "Runhaxecode Version: " + (ClientPrefs.data.oldHscriptVersion ? '0.6.X' : '0.7.X');
+		return "Runhaxecode Version: < " + (ClientPrefs.data.oldHscriptVersion ? '0.6.X' : '0.7.X') + ' >';
 	} 
 }
 
@@ -1258,6 +1258,7 @@ class AndroidControls extends Option
 	override function press()
 	{		
 		OptionsState.openSub();	
+		removeVirtualPad();
 	    FlxG.state.openSubState(new MobileControlSelectSubState());					
     }
     
@@ -1644,7 +1645,7 @@ class LoadingScreen extends Option
 	
 	private override function updateDisplay():String
 	{
-		return "Loading Screen: " + ClientPrefs.data.loadingScreen;
+		return "Loading Screen: " + (ClientPrefs.data.loadingScreen ? enable_O : disable_O);
 	}
 }
 

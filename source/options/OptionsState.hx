@@ -287,16 +287,7 @@ class OptionsState extends MusicBeatState
     		bg.updateHitbox();
     		bg.screenCenter();
     		bg.antialiasing = ClientPrefs.data.antialiasing;
-    		add(bg);
-    		
-        	var bgMove:FlxBackdrop = new FlxBackdrop(Paths.image('menuExtend/backdrop'), XY, 0, 0);
-    		bgMove.alpha = 0.1;
-    		bgMove.color = ColorArray[currentColor];
-    		bgMove.screenCenter();
-    		bgMove.velocity.set(FlxG.random.bool(50) ? 90 : -90, FlxG.random.bool(50) ? 90 : -90);
-    		bgMove.antialiasing = ClientPrefs.data.antialiasing;
-    		add(bgMove);	
-		
+    		add(bg);		
 		}
 
 		add(menu);
