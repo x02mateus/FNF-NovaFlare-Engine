@@ -57,7 +57,7 @@ class MobileControlSelectSubState extends MusicBeatSubstate
 		bg.alpha = 0;
 		add(bg);
 		
-		var exit = new UIButton(FlxG.width - 200 , 50, "Exit & Save", () ->
+		var exit = new UIButton(FlxG.width - 300 , 50, "Exit & Save", () ->
 		{
 			if (curSelected == 6)
 				if (daFunny.alpha == 0 ){
