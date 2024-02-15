@@ -1896,7 +1896,7 @@ class FrameOption extends Option
 	public function new(desc:String)
 	{
 		super();
-		description = desc + " (Press R to reset)";
+		description = desc;
 		acceptType = true;
 	}
 
@@ -1933,7 +1933,7 @@ class RatingOffset extends Option
 	public function new(desc:String)
 	{
 		super();
-		description = desc + " (Press R to reset)";
+		description = desc;
 		acceptType = true;
 	}
 
@@ -2001,7 +2001,7 @@ class SickMsOption extends Option
 	public function new(desc:String)
 	{
 		super();
-		description = desc + " (Press R to reset)";
+		description = desc;
 		acceptType = true;
 	}
 
@@ -2038,7 +2038,7 @@ class GoodMsOption extends Option
 	public function new(desc:String)
 	{
 		super();
-		description = desc + " (Press R to reset)";
+		description = desc;
 		acceptType = true;
 	}
 
@@ -2075,7 +2075,7 @@ class BadMsOption extends Option
 	public function new(desc:String)
 	{
 		super();
-		description = desc + " (Press R to reset)";
+		description = desc;
 		acceptType = true;
 	}
 
@@ -2112,6 +2112,7 @@ class MarvelousRating extends Option
 	public function new(desc:String)
 	{
 		super();
+		description = desc;
 	}
 
 	override function press()
@@ -2131,6 +2132,7 @@ class MarvelousSprite extends Option
 	public function new(desc:String)
 	{
 		super();
+		description = desc;
 	}
 
 	override function press()
