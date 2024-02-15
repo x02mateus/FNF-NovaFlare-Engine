@@ -1000,18 +1000,14 @@ class FunkinLua {
 			if(spr != null) spr.makeGraphic(width, height, CoolUtil.colorFromString(color));
 		});
 		set("addAnimationByPrefix", function(obj:String, name:String, prefix:String, framerate:Int = 24, loop:Bool = true) {
-			var obj:Dynamic = LuaUtils.getObjectDirectly(obj, false);
-			if(obj != null && obj.animation != null)
-			{
-				obj.animation.addByPrefix(name, prefix, framerate, loop);
-				if(obj.animation.curAnim == null)
-				{
-					if(obj.playAnim != null) obj.playAnim(name, true);
-					else obj.animation.play(name, true);
+			if(PlayState.instance.getLuaObject(obj,false)!=null) {
+				var cock:FlxSprite = PlayState.instance.getLuaObject(obj,false);
+				cock.animation.addByPrefix(name, prefix, framerate, loop);
+				if(cock.animation.curAnim == null) {
+					cock.animation.play(name, true);
 				}
-				return true;
+				return;
 			}
-			return false;
 		});
 
 		set("addAnimation", function(obj:String, name:String, frames:Array<Int>, framerate:Int = 24, loop:Bool = true) {
