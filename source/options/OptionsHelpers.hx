@@ -143,7 +143,7 @@ class OptionsHelpers
     
     static public function setPauseMusicType()
     {        
-        if(!PauseMusicArray.contains(ClientPrefs.data.pauseMusic){
+        if (!PauseMusicArray.contains(ClientPrefs.data.pauseMusic)){
 			ClientPrefs.data.pauseMusic = ClientPrefs.defaultData.pauseMusic; //Reset to default if saved noteskin couldnt be found
 			PauseMusic.chooseNum = 0;
         }else{
