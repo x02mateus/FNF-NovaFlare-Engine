@@ -101,8 +101,8 @@ class FlxVirtualPad extends FlxMobileInputManager
 			case OptionState:
 			    add(buttonUp = createButton(0, FlxG.height - 85 * 3, 44 * 3, 127, "up", 0x00FF00));
 				add(buttonDown = createButton(0, FlxG.height - 45 * 3, 44 * 3, 127, "down", 0x00FFFF));
-				add(buttonLeft = createButton(FlxG.width - 84 * 3, FlxG.height - 85 * 3, 44 * 3, 127, "left", 0xFF00FF));
-				add(buttonRight = createButton(FlxG.width - 42 * 3, FlxG.height - 85 * 3, 44 * 3, 127, "right", 0xFF0000));		
+				add(buttonLeft = createButton(FlxG.width - 258, FlxG.height - 85 * 3, 44 * 3, 127, "left", 0xFF00FF));
+				add(buttonRight = createButton(FlxG.width - 132, FlxG.height - 85 * 3, 44 * 3, 127, "right", 0xFF0000));		
 			case MainMenuState:
 			    add(buttonUp = createButton(FlxG.width - 44 * 3, FlxG.height - 165 * 3, 44 * 3, 127, 'up', 0xFF12FA05));
 				add(buttonDown = createButton(FlxG.width - 44 * 3, FlxG.height - 125 * 3, 44 * 3, 127, 'down', 0xFF00FFFF));
