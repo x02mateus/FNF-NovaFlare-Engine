@@ -121,57 +121,45 @@ class OptionsHelpers
     }
     
     static public function setTimeBarType()
-    {/*
-        var noteSplashes:Array<String> = [];
-		if(Mods.mergeAllTextsNamed('images/noteSplashes/list.txt', 'shared').length > 0)
-			noteSplashes = Mods.mergeAllTextsNamed('images/noteSplashes/list.txt', 'shared');
-		else
-			noteSplashes = CoolUtil.coolTextFile(Paths.getSharedPath('shared/images/noteSplashes/list.txt'));
-			
-		if(noteSplashes.length > 0)
-		{
-		    noteSplashes.insert(0, ClientPrefs.defaultData.splashSkin);
-		    
-			if(!noteSplashes.contains(ClientPrefs.data.splashSkin)){
-				ClientPrefs.data.splashSkin = ClientPrefs.defaultData.splashSkin; //Reset to default if saved noteskin couldnt be found
-				SplashSkin.chooseNum = 0;
-            }else{
-                for (i in 0...noteSplashes.length - 1){
-                    if (ClientPrefs.data.splashSkin == noteSplashes[i])
-                        SplashSkin.chooseNum = i;
-                }
+    {        
+        if(!TimeBarArray.contains(ClientPrefs.data.timeBarType)){
+			ClientPrefs.data.timeBarType = ClientPrefs.defaultData.timeBarType; //Reset to default if saved noteskin couldnt be found
+			NoteSkin.chooseNum = 0;
+        }else{
+            for (i in 0...noteSkins.length - 1){
+                if (ClientPrefs.data.timeBarType == TimeBarArray[i])
+                    TimeBarType.chooseNum == i;
             }
-		}else{
-		    ClientPrefs.data.splashSkin = ClientPrefs.defaultData.splashSkin;
-		    SplashSkin.chooseNum = 0;
-		}*/
+        }
     }
     
     static public function changeTimeBarType()
-    {/*
-        var noteSplashes:Array<String> = [];
-		if(Mods.mergeAllTextsNamed('images/noteSplashes/list.txt', 'shared').length > 0)
-			noteSplashes = Mods.mergeAllTextsNamed('images/noteSplashes/list.txt', 'shared');
-		else
-			noteSplashes = CoolUtil.coolTextFile(Paths.getSharedPath('shared/images/noteSplashes/list.txt'));
-			
-		if(noteSplashes.length > 0)
-		{
-		    noteSplashes.insert(0, ClientPrefs.defaultData.splashSkin);
+    {
+        if (TimeBarType.chooseNum < 0) TimeBarType.chooseNum = TimeBarArray.length - 1;
+		if (TimeBarType.chooseNum > TimeBarArray.length - 1) TimeBarType.chooseNum = 0;
 		
-		    if (SplashSkin.chooseNum < 0) SplashSkin.chooseNum = noteSplashes.length - 1;
-		    if (SplashSkin.chooseNum > noteSplashes.length - 1) SplashSkin.chooseNum = 0;
-		    
-			if(!noteSplashes.contains(ClientPrefs.data.splashSkin)){
-				ClientPrefs.data.splashSkin = ClientPrefs.defaultData.splashSkin; //Reset to default if saved noteskin couldnt be found
-				SplashSkin.chooseNum = 0;
-            }else{
-                ClientPrefs.data.splashSkin = noteSplashes[SplashSkin.chooseNum];
+		ClientPrefs.data.timeBarType = TimeBarArray[TimeBarType.chooseNum];
+    }
+    
+    static public function setPauseMusicType()
+    {        
+        if(!PauseMusicArray.contains(ClientPrefs.data.pauseMusic){
+			ClientPrefs.data.pauseMusic = ClientPrefs.defaultData.pauseMusic; //Reset to default if saved noteskin couldnt be found
+			PauseMusic.chooseNum = 0;
+        }else{
+            for (i in 0...PauseMusicArray.length - 1){
+                if (ClientPrefs.data.timeBarType == PauseMusicArray[i])
+                    PauseMusicType.chooseNum == i;
             }
-		}else{
-		    ClientPrefs.data.splashSkin = ClientPrefs.defaultData.splashSkin;
-		    SplashSkin.chooseNum = 0;
-		}*/
+        }
+    }
+    
+    static public function changePauseMusicType()
+    {
+        if (PauseMusicType.chooseNum < 0) PauseMusicType.chooseNum = PauseMusicArray.length - 1;
+		if (PauseMusicType.chooseNum > PauseMusicArray.length - 1) PauseMusicType.chooseNum = 0;
+		
+		ClientPrefs.data.pauseMusic = PauseMusicArray[PauseMusicType.chooseNum];
     }
     
 }

@@ -859,8 +859,7 @@ class TimeBarType extends Option
 	{
 		chooseNum--;
 		OptionsHelpers.changeTimeBarType();
-		display = updateDisplay();
-		
+		display = updateDisplay();		
 		
     }
 
@@ -908,18 +907,24 @@ class HscriptVersion extends Option
 
 class PauseMusic extends Option
 {
+    public static var chooseNum:Int;
 	public function new(desc:String)
 	{
 		super();
 		description = desc;
+		OptionsHelpers.getPauseMusicType();
 	}
 
 	override function left()
 	{
+	    chooseNum--;
+	    OptionsHelpers.setPauseMusicType();
     }
 
 	override function right()
 	{
+	    chooseNum++;
+	    OptionsHelpers.setPauseMusicType();
     }
 
 	private override function updateDisplay():String
