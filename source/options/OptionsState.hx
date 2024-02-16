@@ -1053,7 +1053,7 @@ class OptionsState extends MusicBeatState
 		
         for (i in 0...Note.colArray.length)
         {
-            var note = strumNote[i];
+            var note = strumNote.members[i];
     		note.texture = skin; //Load texture and anims
     		note.reloadNote();
     		note.playAnim('static');
@@ -1072,7 +1072,7 @@ class OptionsState extends MusicBeatState
 
 		for (i in 0...Note.colArray.length)
         {
-            var note = normalNote[i];
+            var note = normalNote.members[i];
     		note.texture = skin; //Load texture and anims
     		note.reloadNote();
     		note.playAnim(Note.colArray[i] + 'Scroll');
