@@ -912,19 +912,19 @@ class PauseMusic extends Option
 	{
 		super();
 		description = desc;
-		OptionsHelpers.getPauseMusicType();
+		OptionsHelpers.setPauseMusicType();
 	}
 
 	override function left()
 	{
 	    chooseNum--;
-	    OptionsHelpers.setPauseMusicType();
+	    OptionsHelpers.changePauseMusicType();
     }
 
 	override function right()
 	{
 	    chooseNum++;
-	    OptionsHelpers.setPauseMusicType();
+	    OptionsHelpers.changePauseMusicType();
     }
 
 	private override function updateDisplay():String

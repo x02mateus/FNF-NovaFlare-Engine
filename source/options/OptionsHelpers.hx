@@ -126,7 +126,7 @@ class OptionsHelpers
 			ClientPrefs.data.timeBarType = ClientPrefs.defaultData.timeBarType; //Reset to default if saved noteskin couldnt be found
 			NoteSkin.chooseNum = 0;
         }else{
-            for (i in 0...noteSkins.length - 1){
+            for (i in 0...TimeBarArray.length - 1){
                 if (ClientPrefs.data.timeBarType == TimeBarArray[i])
                     TimeBarType.chooseNum == i;
             }
@@ -149,17 +149,17 @@ class OptionsHelpers
         }else{
             for (i in 0...PauseMusicArray.length - 1){
                 if (ClientPrefs.data.timeBarType == PauseMusicArray[i])
-                    PauseMusicType.chooseNum == i;
+                    PauseMusic.chooseNum == i;
             }
         }
     }
     
     static public function changePauseMusicType()
     {
-        if (PauseMusicType.chooseNum < 0) PauseMusicType.chooseNum = PauseMusicArray.length - 1;
-		if (PauseMusicType.chooseNum > PauseMusicArray.length - 1) PauseMusicType.chooseNum = 0;
+        if (PauseMusic.chooseNum < 0) PauseMusic.chooseNum = PauseMusicArray.length - 1;
+		if (PauseMusic.chooseNum > PauseMusicArray.length - 1) PauseMusic.chooseNum = 0;
 		
-		ClientPrefs.data.pauseMusic = PauseMusicArray[PauseMusicType.chooseNum];
+		ClientPrefs.data.pauseMusic = PauseMusicArray[PauseMusic.chooseNum];
     }
     
 }
