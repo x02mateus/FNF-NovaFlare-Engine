@@ -133,7 +133,8 @@ class OptionsState extends MusicBeatState
 	public var camGame:FlxCamera;
 	public var camNote:FlxCamera;
 	
-	var notes:FlxTypedGroup<StrumNote>;
+	var strumNote:FlxTypedGroup<StrumNote>;
+	var normalNote:FlxTypedGroup<Note>;
 	var notesTween:Array<FlxTween> = [];
 	var noteBG:FlxSprite;
     
@@ -930,52 +931,83 @@ class OptionsState extends MusicBeatState
 		camNote.bgColor.alpha = 0;
 		FlxG.cameras.add(camNote, false);
 		
-		noteBG = new FlxSprite(0, 0).makeGraphic(300, 300, FlxColor.BLACK);
+		noteBG = new FlxSprite(300, 0).makeGraphic(300, 300, FlxColor.BLACK);
 		noteBG.alpha = 0.5;
 		noteBG.scrollFactor.set();
 		add(noteBG);
 		noteBG.cameras = [camNote];
 		
-		notes = new FlxTypedGroup<StrumNote>();
+		strumNote = new FlxTypedGroup<StrumNote>();
 		for (i in 0...Note.colArray.length)
 		{
-			var note:StrumNote = new StrumNote(0 + (300 / (Note.colArray.length + 1)) * (i + 1), 150, i, 0);
+			var note:StrumNote = new StrumNote(300 + (300 / Note.colArray.length) * i, 0, i, 0);
 			note.scale.x = note.scale.y = 0.5;
 			note.centerOffsets();
 			note.centerOrigin();
+			note.updateHitbox();
 			note.playAnim('static');
-			notes.add(note);
+			strumNote.add(note);
 		}
-		add(notes);
-		notes.cameras = [camNote];
+		add(strumNote);
+		strumNote.cameras = [camNote];
 		
-		camNote.width = camNote.height = 300;		
-		camNote.x = background.x + background.width - 300;
-		camNote.y = background.y + background.height / 2 - 150;
-        //camNote.scroll.x = -300;
+		normalNote = new FlxTypedGroup<Note>();
+		for (i in 0...Note.colArray.length)
+		{
+			var note:StrumNote = new Note(300 + (300 / Note.colArray.length) * i, 120, false, true);
+			note.scale.x = note.scale.y = 0.5;
+			note.centerOffsets();
+			note.centerOrigin();
+			note.updateHitbox();
+			note.rgbShader.parent = Note.globalRgbShaders[curSelectedNote];
+			note.animation.addByPrefix('note$i', Note.colArray[i] + '0', 24, true);
+			note.playAnim('note$i', Note.colArray[i] + '0');
+			normalNote.add(note);
+		}
+		add(normalNote);
+		normalNote.cameras = [camNote];				        
 	
 	}
 	
-	function specialCheck(){
-	    
-	    if (!isInMain && selectedCatIndex == 1 && selectedOptionIndex == 1){    	        	    
-    			for (i in 0...Note.colArray.length)
-        		{
-        			var note:StrumNote = notes.members[i];
-        			if(notesTween[i] != null) notesTween[i].cancel();        			
-        				notesTween[i] = FlxTween.tween(note, {x: 0 + (300 / (Note.colArray.length + 1)) * (i + 1)}, 0.75, {ease: FlxEase.quadInOut});        			
-        		}   		
-        		if(notesTween[10] != null) notesTween[10].cancel();        			
-        		notesTween[10] = FlxTween.tween(noteBG, {x: 0}, 0.75, {ease: FlxEase.quadInOut});        			
-	    }else{	       	        	        
-    			for (i in 0...Note.colArray.length)
-        		{
-        			var note:StrumNote = notes.members[i];
-        			if(notesTween[i] != null) notesTween[i].cancel();        			
-        				notesTween[i] = FlxTween.tween(note, {x: 300 + (300 / (Note.colArray.length + 1)) * (i + 1)}, 0.75, {ease: FlxEase.quadInOut});        			
-        		}   		
-        		if(notesTween[10] != null) notesTween[10].cancel();        			
-        		notesTween[10] = FlxTween.tween(noteBG, {x: 300}, 0.75, {ease: FlxEase.quadInOut});        			
+	var typeCheck:Bool = false;
+	function specialCheck(){	    
+	    if (!isInMain && selectedCatIndex == 1 && selectedOptionIndex == 1){    	
+            typeCheck = true;        	    
+			for (i in 0...Note.colArray.length)
+    		{
+    			var note:StrumNote = strumNote.members[i];
+    			if(notesTween[i] != null) notesTween[i].cancel();        			
+    				notesTween[i] = FlxTween.tween(note, {x: 0 + (300 / Note.colArray.length) * i}, 0.3, {ease: FlxEase.quadInOut});        			
+    		}   		
+    		
+    		for (i in 0...Note.colArray.length)
+    		{
+    			var note:Note = normalNote.members[i];
+    			if(notesTween[i + 3] != null && !typeCheck) notesTween[i + 3].cancel();        			
+    				notesTween[i + 3] = FlxTween.tween(note, {x: 0 + (300 / Note.colArray.length) * i}, 0.3, {ease: FlxEase.quadInOut});        			
+    		}   		
+    		
+    		if(notesTween[10] != null) notesTween[10].cancel();        			
+    		notesTween[10] = FlxTween.tween(noteBG, {x: 0}, 0.3, {ease: FlxEase.quadInOut});        			
+	    }else{	       	        	        			
+    		for (i in 0...Note.colArray.length)
+    		{
+    			var note:StrumNote = strumNote.members[i];
+    			if(notesTween[i] != null && !typeCheck) notesTween[i].cancel();        			
+    				notesTween[i] = FlxTween.tween(note, {x: 0 + (300 / Note.colArray.length) * i}, 0.3, {ease: FlxEase.quadInOut});        			
+    		}   		
+    		
+    		for (i in 0...Note.colArray.length)
+    		{
+    			var note:Note = normalNote.members[i];
+    			if(notesTween[i + 3] != null && !typeCheck) notesTween[i + 3].cancel();        			
+    				notesTween[i + 3] = FlxTween.tween(note, {x: 0 + (300 / Note.colArray.length) * i}, 0.3, {ease: FlxEase.quadInOut});        			
+    		}   		
+    		
+    		if(notesTween[10] != null && !typeCheck) notesTween[10].cancel();        			
+    		notesTween[10] = FlxTween.tween(noteBG, {x: 300}, 0.3, {ease: FlxEase.quadInOut});        
+    		
+    		typeCheck = false;			
 	    }
 	}
 }
