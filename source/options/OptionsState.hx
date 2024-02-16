@@ -932,6 +932,10 @@ class OptionsState extends MusicBeatState
 		camNote.bgColor.alpha = 0;
 		FlxG.cameras.add(camNote, false);
 		
+		camNote.width = camNote.height = 300;		
+		camNote.x = background.x + background.width - 300;
+		camNote.y = background.y + background.height / 2 - 150;
+		
 		camMove = new FlxCamera();
 		camMove.bgColor.alpha = 0;
 		FlxG.cameras.add(camMove, false);  //it just use fix bug
@@ -966,7 +970,7 @@ class OptionsState extends MusicBeatState
 			note.centerOffsets();
 			note.centerOrigin();
 			note.updateHitbox();
-			//note.rgbShader.parent = Note.globalRgbShaders[curSelectedNote];			
+			if (!ClientPrefs.data.noteRGB) note.rgbShader.enabled = false;
 			note.animation.play(Note.colArray[i] + 'Scroll');
 			normalNote.add(note);
 		}
@@ -1000,14 +1004,14 @@ class OptionsState extends MusicBeatState
     		{
     			var note:StrumNote = strumNote.members[i];
     			if(notesTween[i] != null && !typeCheck) notesTween[i].cancel();        			
-    				notesTween[i] = FlxTween.tween(note, {x: 0 + (300 / Note.colArray.length) * i}, 0.3, {ease: FlxEase.quadInOut});        			
+    				notesTween[i] = FlxTween.tween(note, {x: 300 + (300 / Note.colArray.length) * i}, 0.3, {ease: FlxEase.quadInOut});        			
     		}   		
     		
     		for (i in 0...Note.colArray.length)
     		{
     			var note:Note = normalNote.members[i];
     			if(notesTween[i + 3] != null && !typeCheck) notesTween[i + 3].cancel();        			
-    				notesTween[i + 3] = FlxTween.tween(note, {x: 0 + (300 / Note.colArray.length) * i}, 0.3, {ease: FlxEase.quadInOut});        			
+    				notesTween[i + 3] = FlxTween.tween(note, {x: 300 + (300 / Note.colArray.length) * i}, 0.3, {ease: FlxEase.quadInOut});        			
     		}   		
     		
     		if(notesTween[10] != null && !typeCheck) notesTween[10].cancel();        			
