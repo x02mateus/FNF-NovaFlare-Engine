@@ -954,14 +954,13 @@ class OptionsState extends MusicBeatState
 		normalNote = new FlxTypedGroup<Note>();
 		for (i in 0...Note.colArray.length)
 		{
-			var note:StrumNote = new Note(300 + (300 / Note.colArray.length) * i, 120, false, true);
+			var note:Note = new Note(300 + (300 / Note.colArray.length) * i, 120, false, true);
 			note.scale.x = note.scale.y = 0.5;
 			note.centerOffsets();
 			note.centerOrigin();
 			note.updateHitbox();
-			note.rgbShader.parent = Note.globalRgbShaders[curSelectedNote];
-			note.animation.addByPrefix('note$i', Note.colArray[i] + '0', 24, true);
-			note.playAnim('note$i', Note.colArray[i] + '0');
+			//note.rgbShader.parent = Note.globalRgbShaders[curSelectedNote];			
+			note.playAnim(Note.colArray[i] + 'Scroll');
 			normalNote.add(note);
 		}
 		add(normalNote);
