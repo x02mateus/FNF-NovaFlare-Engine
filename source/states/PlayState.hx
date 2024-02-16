@@ -1749,8 +1749,9 @@ class PlayState extends MusicBeatState
 		stagesFunc(function(stage:BaseStage) stage.closeSubState());
 		if (paused)
 		{
-			if (FlxG.sound.music != null && !startingSong)
-				resyncVocals(splitVocals ? [opponentVocals, vocals] : [vocals]);
+			if(FlxG.sound.music != null && !startingSong)
+				resyncVocals();
+	
 			FlxTimer.globalManager.forEach(function(tmr:FlxTimer) if(!tmr.finished) tmr.active = true);
 			FlxTween.globalManager.forEach(function(twn:FlxTween) if(!twn.finished) twn.active = true);
 
@@ -1891,7 +1892,21 @@ class PlayState extends MusicBeatState
 		updateIconsPosition();
 
 		if (startedCountdown && !paused)
-			Conductor.songPosition += FlxG.elapsed * 1000 * playbackRate;
+		{
+			Conductor.songPosition += elapsed * 1000 * playbackRate;
+			if(checkIfDesynced)
+			{
+				var diff:Float = 20 * playbackRate;
+				var timeSub:Float = Conductor.songPosition - Conductor.offset;
+				if (Math.abs(FlxG.sound.music.time - timeSub) > diff
+					|| (vocals.length > 0 && Math.abs(vocals.time - timeSub) > diff)
+					|| (opponentVocals.length > 0 && Math.abs(opponentVocals.time - timeSub) > diff))
+				{
+					resyncVocals();
+				}
+				checkIfDesynced = false;
+			}
+		}
 
 		if (startingSong)
 		{
@@ -3645,20 +3660,12 @@ class PlayState extends MusicBeatState
 		super.destroy();
 	}
 
+	var checkIfDesynced:Bool = false;
 	var lastStepHit:Int = -1;
 	override function stepHit()
 	{
 		if (SONG.needsVoices && FlxG.sound.music.time >= -ClientPrefs.data.noteOffset)
-		{
-			var timeSub:Float = Conductor.songPosition - Conductor.offset;
-			var syncTime:Float = 20 * playbackRate;
-			if (Math.abs(FlxG.sound.music.time - timeSub) > syncTime)
-				resyncVocals(splitVocals ? [opponentVocals, vocals] : [vocals]);
-			if(Math.abs(vocals.time - timeSub) > syncTime)
-				resyncVocals([vocals]);
-			if(splitVocals && Math.abs(opponentVocals.time - timeSub) > syncTime)
-				resyncVocals([opponentVocals]);
-		}
+			checkIfDesynced = true;
 
 		super.stepHit();
 
