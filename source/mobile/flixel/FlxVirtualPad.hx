@@ -93,12 +93,16 @@ class FlxVirtualPad extends FlxMobileInputManager
 				add(buttonLeft2 = createButton(FlxG.width - 384, FlxG.height - 309, 132, 127, 'left', 0xFFC24B99));
 				add(buttonRight2 = createButton(FlxG.width - 132, FlxG.height - 309, 132, 127, 'right', 0xFFF9393F));
 				add(buttonDown2 = createButton(FlxG.width - 258, FlxG.height - 201, 132, 127, 'down', 0xFF00FFFF));
-			// PSYCH RELEATED BUTTONS
 			case PauseSubstate:	
 				add(buttonUp = createButton(0, FlxG.height - 85 * 3, 44 * 3, 127, "up", 0x00FF00));
 				add(buttonDown = createButton(0, FlxG.height - 45 * 3, 44 * 3, 127, "down", 0x00FFFF));
-				add(buttonLeft = createButton(84 * 3, FlxG.height - 45 * 3, 44 * 3, 127, "left", 0xFF00FF));
-				add(buttonRight = createButton(126 * 3, FlxG.height - 45 * 3, 44 * 3, 127, "right", 0xFF0000));		
+				add(buttonLeft = createButton(42 * 3, FlxG.height - 45 * 3, 44 * 3, 127, "left", 0xFF00FF));
+				add(buttonRight = createButton(84 * 3, FlxG.height - 45 * 3, 44 * 3, 127, "right", 0xFF0000));		
+			case OptionState:
+			    add(buttonUp = createButton(0, FlxG.height - 85 * 3, 44 * 3, 127, "up", 0x00FF00));
+				add(buttonDown = createButton(0, FlxG.height - 45 * 3, 44 * 3, 127, "down", 0x00FFFF));
+				add(buttonLeft = createButton(FlxG.width - 42 * 3, FlxG.height - 85 * 3, 44 * 3, 127, "left", 0xFF00FF));
+				add(buttonRight = createButton(FlxG.width - 84 * 3, FlxG.height - 85 * 3, 44 * 3, 127, "right", 0xFF0000));		
 			case MainMenuState:
 			    add(buttonUp = createButton(FlxG.width - 44 * 3, FlxG.height - 165 * 3, 44 * 3, 127, 'up', 0xFF12FA05));
 				add(buttonDown = createButton(FlxG.width - 44 * 3, FlxG.height - 125 * 3, 44 * 3, 127, 'down', 0xFF00FFFF));
@@ -180,7 +184,9 @@ class FlxVirtualPad extends FlxMobileInputManager
 				if (Type.getClass(FlxG.state) != PlayState || (Type.getClass(FlxG.state) == PlayState && ClientPrefs.data.extraKey > 1)) add(buttonExtra2 = createButton(FlxG.width * 0.5, FlxG.height * 0.5 - 127 * 0.5, 44 * 3, 127, "b", 0xFFFF00));
 				if (Type.getClass(FlxG.state) != PlayState || (Type.getClass(FlxG.state) == PlayState && ClientPrefs.data.extraKey > 2)) add(buttonExtra3 = createButton(FlxG.width * 0.5 - 44 * 3, FlxG.height * 0.5 - 127 * 0.5, 44 * 3, 127, "c", 0xFF0000));
 				if (Type.getClass(FlxG.state) != PlayState || (Type.getClass(FlxG.state) == PlayState && ClientPrefs.data.extraKey > 3)) add(buttonExtra4 = createButton(FlxG.width * 0.5, FlxG.height * 0.5 - 127 * 0.5, 44 * 3, 127, "d", 0xFFFF00));
-			// PSYCH RELEATED BUTTONS
+			case OptionState:
+			    add(buttonB = createButton(FlxG.width - 258, FlxG.height - 135, 132, 127, 'b', 0xFFCB00));
+				add(buttonA = createButton(FlxG.width - 132, FlxG.height - 135, 132, 127, 'a', 0xFF0000));
 			case CHARACTER_EDITOR:
 				add(buttonV = createButton(FlxG.width - 510, FlxG.height - 255, 132, 127, 'v', 0x49A9B2));
 				add(buttonD = createButton(FlxG.width - 510, FlxG.height - 135, 132, 127, 'd', 0x0078FF));
