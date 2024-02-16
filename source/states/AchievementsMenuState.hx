@@ -132,7 +132,6 @@ class AchievementsMenuState extends MusicBeatState
 
 	override function closeSubState() {
 		super.closeSubState();
-		addVirtualPad(LEFT_FULL, B_C);
 	}
 
 	function makeAchievement(achievement:String, data:Achievement, unlocked:Bool, mod:String = null)
