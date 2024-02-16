@@ -123,8 +123,8 @@ class TitleState extends MusicBeatState
 				
 		Mods.loadTopMod();
 
-		//FlxG.fixedTimestep = false;
-		//FlxG.game.focusLostFramerate = 60;
+		FlxG.fixedTimestep = false;
+		FlxG.game.focusLostFramerate = 60;
 		FlxG.keys.preventDefaultKeys = [TAB];
 
 		curWacky = FlxG.random.getObject(getIntroTextShit());
