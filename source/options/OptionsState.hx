@@ -949,7 +949,7 @@ class OptionsState extends MusicBeatState
 		strumNote = new FlxTypedGroup<StrumNote>();
 		for (i in 0...Note.colArray.length)
 		{
-			var note:StrumNote = new StrumNote(300 + (300 / Note.colArray.length) * i, 0, i, 0);
+			var note:StrumNote = new StrumNote(300 + (300 / Note.colArray.length) * i, 50, i, 0);
 			note.scale.x = note.scale.y = 0.5;
 			note.centerOffsets();
 			note.centerOrigin();
@@ -965,7 +965,7 @@ class OptionsState extends MusicBeatState
 		{
 			var note:Note = new Note(0, i);
 			note.x = 300 + (300 / Note.colArray.length) * i;
-			note.y = 120;
+			note.y = 120 + 50;
 			note.scale.x = note.scale.y = 0.5;
 			note.centerOffsets();
 			note.centerOrigin();
@@ -999,24 +999,25 @@ class OptionsState extends MusicBeatState
     		
     		if(notesTween[10] != null) notesTween[10].cancel();        			
     		notesTween[10] = FlxTween.tween(noteBG, {x: 0}, 0.3, {ease: FlxEase.quadInOut});        			
-	    }else{	       	        	        			
-    		for (i in 0...Note.colArray.length)
-    		{
-    			var note:StrumNote = strumNote.members[i];
-    			if(notesTween[i] != null && !typeCheck) notesTween[i].cancel();        			
-    				notesTween[i] = FlxTween.tween(note, {x: 300 + (300 / Note.colArray.length) * i}, 0.3, {ease: FlxEase.quadInOut});        			
-    		}   		
-    		
-    		for (i in 0...Note.colArray.length)
-    		{
-    			var note:Note = normalNote.members[i];
-    			if(notesTween[i + 3] != null && !typeCheck) notesTween[i + 3].cancel();        			
-    				notesTween[i + 3] = FlxTween.tween(note, {x: 300 + (300 / Note.colArray.length) * i}, 0.3, {ease: FlxEase.quadInOut});        			
-    		}   		
-    		
-    		if(notesTween[10] != null && !typeCheck) notesTween[10].cancel();        			
-    		notesTween[10] = FlxTween.tween(noteBG, {x: 300}, 0.3, {ease: FlxEase.quadInOut});        
-    		
+	    }else{	       	        	        
+	        if (typeCheck){
+        		for (i in 0...Note.colArray.length)
+        		{
+        			var note:StrumNote = strumNote.members[i];
+        			if(notesTween[i] != null) notesTween[i].cancel();        			
+        				notesTween[i] = FlxTween.tween(note, {x: 300 + (300 / Note.colArray.length) * i}, 0.3, {ease: FlxEase.quadInOut});        			
+        		}   		
+        		
+        		for (i in 0...Note.colArray.length)
+        		{
+        			var note:Note = normalNote.members[i];
+        			if(notesTween[i + 3] != null) notesTween[i + 3].cancel();        			
+        				notesTween[i + 3] = FlxTween.tween(note, {x: 300 + (300 / Note.colArray.length) * i}, 0.3, {ease: FlxEase.quadInOut});        			
+        		}   		
+        		
+        		if(notesTween[10] != null) notesTween[10].cancel();        			
+        		notesTween[10] = FlxTween.tween(noteBG, {x: 300}, 0.3, {ease: FlxEase.quadInOut});        
+    		}    		
     		typeCheck = false;			
 	    }
 	}
