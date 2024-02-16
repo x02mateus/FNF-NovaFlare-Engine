@@ -1048,14 +1048,8 @@ class OptionsState extends MusicBeatState
 	{
 		var skin:String = Note.defaultNoteSkin;
 		var customSkin:String = skin + Note.getNoteSkinPostfix();
-		if (Paths.fileExists('images/NOTE_assets.png', IMAGE) && ClientPrefs.data.noteSkin = ClientPrefs.defaultData.noteSkin) 
-		{
-		    skin = "NOTE_assets";
-		}
-		else if (Paths.fileExists('images/$customSkin.png', IMAGE))
-		{
-		    skin = customSkin;
-		} 
+		if (Paths.fileExists('images/NOTE_assets.png', IMAGE) && ClientPrefs.data.noteSkin == ClientPrefs.defaultData.noteSkin) skin = "NOTE_assets";
+		else if (Paths.fileExists('images/$customSkin.png', IMAGE)) skin = customSkin;
 		
         for (i in 0...Note.colArray.length)
         {
@@ -1073,14 +1067,8 @@ class OptionsState extends MusicBeatState
 	{
 		var skin:String = Note.defaultNoteSkin;
 		var customSkin:String = skin + Note.getNoteSkinPostfix();
-		if (Paths.fileExists('images/NOTE_assets.png', IMAGE) && ClientPrefs.data.noteSkin = ClientPrefs.defaultData.noteSkin) 
-		{
-		    skin = "NOTE_assets";
-		}
-		else if (Paths.fileExists('images/$customSkin.png', IMAGE))
-		{
-		    skin = customSkin;
-		} 
+		if (Paths.fileExists('images/NOTE_assets.png', IMAGE) && ClientPrefs.data.noteSkin == ClientPrefs.defaultData.noteSkin) skin = "NOTE_assets";
+		else if (Paths.fileExists('images/$customSkin.png', IMAGE)) skin = customSkin;
 
 		for (i in 0...Note.colArray.length)
         {
