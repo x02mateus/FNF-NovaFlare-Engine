@@ -959,7 +959,9 @@ class OptionsState extends MusicBeatState
 		normalNote = new FlxTypedGroup<Note>();
 		for (i in 0...Note.colArray.length)
 		{
-			var note:Note = new Note(300 + (300 / Note.colArray.length) * i, 120, false, true);
+			var note:Note = new Note(0, i);
+			note.x = 300 + (300 / Note.colArray.length) * i;
+			note.y = 120;
 			note.scale.x = note.scale.y = 0.5;
 			note.centerOffsets();
 			note.centerOrigin();
