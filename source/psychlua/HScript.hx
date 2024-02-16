@@ -17,7 +17,7 @@ import hscript.Expr;
 
 import haxe.Exception;
 
-//#if HSCRIPT_ALLOWED
+#if HSCRIPT_ALLOWED
 import tea.SScript;
 class HScript extends SScript
 {
@@ -496,7 +496,6 @@ class HScript extends SScript
 
 class HScriptBase
 {
-	#if HSCRIPT_ALLOWED
 	public static var parser:Parser = new Parser();
 	public var interp:Interp;
 
@@ -733,4 +732,4 @@ class CustomFlxColor {
 		return cast FlxColor.fromString(str);
 	}
 }
-//#end
+#end
