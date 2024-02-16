@@ -1885,8 +1885,7 @@ class PlayState extends MusicBeatState
 		updateIconsPosition();
 
 		if (startedCountdown && !paused)
-			if(Conductor.songPosition >= 0) Conductor.songPosition = FlxG.sound.music.time;
-			else Conductor.songPosition += FlxG.elapsed * 1000 * playbackRate;
+			Conductor.songPosition += FlxG.elapsed * 1000 * playbackRate;
 
 		if (startingSong)
 		{
@@ -3027,6 +3026,7 @@ class PlayState extends MusicBeatState
 
 		// more accurate hit time for the ratings?
 		var lastTime:Float = Conductor.songPosition;
+		Conductor.songPosition = FlxG.sound.music.time;
 
 		// obtain notes that the player can hit
 		var plrInputNotes:Array<Note> = notes.members.filter(function(n:Note):Bool {
