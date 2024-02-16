@@ -107,7 +107,9 @@ class ControlsSubState extends MusicBeatSubstate
 		text.setScale(0.4);
 		add(text);
 
-		addVirtualPad(LEFT_FULL, A_B_C);
+		addVirtualPad(OptionState, OptionState);        
+        
+		virtualPad.y -= 80;
 
 		createTexts();
 	}
