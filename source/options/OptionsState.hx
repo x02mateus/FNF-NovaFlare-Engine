@@ -137,8 +137,8 @@ class OptionsState extends MusicBeatState
 	public var camGame:FlxCamera;
 	public var camNote:FlxCamera;
 	
-	var strumNote:FlxTypedGroup<StrumNote>;
-	var normalNote:FlxTypedGroup<Note>;
+	public var strumNote:FlxTypedGroup<StrumNote>;
+	public var normalNote:FlxTypedGroup<Note>;
 	var notesTween:Array<FlxTween> = [];
 	var noteBG:FlxSprite;
     
@@ -1019,6 +1019,7 @@ class OptionsState extends MusicBeatState
 			note.centerOffsets();
 			note.centerOrigin();
 			note.updateHitbox();
+			note.rgbShader.enabled = ClientPrefs.data.noteRGB;
 			note.playAnim('static');
 			strumNote.add(note);
 		}
@@ -1035,13 +1036,50 @@ class OptionsState extends MusicBeatState
 			note.centerOffsets();
 			note.centerOrigin();
 			note.updateHitbox();
-			if (!ClientPrefs.data.noteRGB) note.rgbShader.enabled = false;
+			note.rgbShader.enabled = ClientPrefs.data.noteRGB;
 			note.animation.play(Note.colArray[i] + 'Scroll');
 			normalNote.add(note);
 		}
 		add(normalNote);
-		normalNote.cameras = [camNote];				        
+		normalNote.cameras = [camNote];				        	
+	}
 	
+	public function changeStrumNoteSkin()
+	{
+		var skin:String = Note.defaultNoteSkin;
+		var customSkin:String = skin + Note.getNoteSkinPostfix();
+		if (Paths.fileExists('images/NOTE_assets.png', IMAGE) && ClientPrefs.data.noteSkin = ClientPrefs.defaultData.noteSkin) skin = 'NOTE_assets';
+		else if (Paths.fileExists('images/$customSkin.png', IMAGE)) skin = customSkin;
+		
+        for (i in 0...Note.colArray.length)
+        {
+            var note = strumNote[i];
+    		note.texture = skin; //Load texture and anims
+    		note.reloadNote();
+    		note.playAnim('static');
+    		note.rgbShader.enabled = ClientPrefs.data.noteRGB;
+    		note.centerOffsets();
+    		note.centerOrigin();
+    	}
+	}
+	
+	public function changeNoteSkin()
+	{
+		var skin:String = Note.defaultNoteSkin;
+		var customSkin:String = skin + Note.getNoteSkinPostfix();
+		if (Paths.fileExists('images/NOTE_assets.png', IMAGE) && ClientPrefs.data.noteSkin = ClientPrefs.defaultData.noteSkin) skin = 'NOTE_assets';
+		else if (Paths.fileExists('images/$customSkin.png', IMAGE)) skin = customSkin;
+
+		for (i in 0...Note.colArray.length)
+        {
+            var note = normalNote[i];
+    		note.texture = skin; //Load texture and anims
+    		note.reloadNote();
+    		note.playAnim(Note.colArray[i] + 'Scroll');
+    		note.rgbShader.enabled = ClientPrefs.data.noteRGB;
+    		note.centerOffsets();
+    		note.centerOrigin();
+    	}
 	}
 	
 	var typeCheck:Bool = false;

@@ -394,7 +394,13 @@ class NoteSkin extends Option
         OptionsHelpers.changeNoteSkin();
 		display = updateDisplay();
     }
-
+    
+    override function change()
+	{
+        OptionsState.instance.changeNoteSkin();
+        OptionsState.instance.changeStrumNoteSkin();
+    }
+    
 	override function getValue():String
 	{
 		return "Current Noteskin: < " + ClientPrefs.data.noteSkin + " >";
