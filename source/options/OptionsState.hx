@@ -132,7 +132,6 @@ class OptionsState extends MusicBeatState
 	
 	public var camGame:FlxCamera;
 	public var camNote:FlxCamera;
-	public var camMove:FlxCamera;
 	
 	var strumNote:FlxTypedGroup<StrumNote>;
 	var normalNote:FlxTypedGroup<Note>;
@@ -346,8 +345,9 @@ class OptionsState extends MusicBeatState
         
 		
         addVirtualPad(OptionState, OptionState);        
+        addVirtualPadCamera(false);
         
-		virtualPad.y -= 80;
+		virtualPad.y -= 75;
 		
 		super.create();
 	}
@@ -933,16 +933,13 @@ class OptionsState extends MusicBeatState
 		camNote.bgColor.alpha = 0;
 		FlxG.cameras.add(camNote, false);
 		
-		camNote.width = camNote.height = 300;		
+		camNote.width = 300
+		camNote.height = 150;		
 		camNote.x = background.x + background.width - 300;
-		camNote.y = background.y + background.height / 2 - 150;
-		
-		camMove = new FlxCamera();
-		camMove.bgColor.alpha = 0;
-		FlxG.cameras.add(camMove, false);  //it just use fix bug
+		camNote.y = background.y + 64 * 2;
 		
 		noteBG = new FlxSprite(300, 0).makeGraphic(300, 300, FlxColor.BLACK);
-		noteBG.alpha = 0.5;
+		noteBG.alpha = 0.4;
 		noteBG.scrollFactor.set();
 		add(noteBG);
 		noteBG.cameras = [camNote];
@@ -950,7 +947,7 @@ class OptionsState extends MusicBeatState
 		strumNote = new FlxTypedGroup<StrumNote>();
 		for (i in 0...Note.colArray.length)
 		{
-			var note:StrumNote = new StrumNote(300 + (300 / Note.colArray.length) * i, 50, i, 0);
+			var note:StrumNote = new StrumNote(300 + (300 / Note.colArray.length) * i, 0, i, 0);
 			note.scale.x = note.scale.y = 0.5;
 			note.centerOffsets();
 			note.centerOrigin();
@@ -966,7 +963,7 @@ class OptionsState extends MusicBeatState
 		{
 			var note:Note = new Note(0, i);
 			note.x = 300 + (300 / Note.colArray.length) * i;
-			note.y = 120 + 50;
+			note.y = 75;
 			note.scale.x = note.scale.y = 0.5;
 			note.centerOffsets();
 			note.centerOrigin();
@@ -994,8 +991,8 @@ class OptionsState extends MusicBeatState
     		for (i in 0...Note.colArray.length)
     		{
     			var note:Note = normalNote.members[i];
-    			if(notesTween[i + 3] != null && !typeCheck) notesTween[i + 3].cancel();        			
-    				notesTween[i + 3] = FlxTween.tween(note, {x: 0 + (300 / Note.colArray.length) * i}, 0.3, {ease: FlxEase.quadInOut});        			
+    			if(notesTween[i + 4] != null && !typeCheck) notesTween[i + 3].cancel();        			
+    				notesTween[i + 4] = FlxTween.tween(note, {x: 0 + (300 / Note.colArray.length) * i}, 0.3, {ease: FlxEase.quadInOut});        			
     		}   		
     		
     		if(notesTween[10] != null) notesTween[10].cancel();        			
@@ -1012,8 +1009,8 @@ class OptionsState extends MusicBeatState
         		for (i in 0...Note.colArray.length)
         		{
         			var note:Note = normalNote.members[i];
-        			if(notesTween[i + 3] != null) notesTween[i + 3].cancel();        			
-        				notesTween[i + 3] = FlxTween.tween(note, {x: 300 + (300 / Note.colArray.length) * i}, 0.3, {ease: FlxEase.quadInOut});        			
+        			if(notesTween[i + 4] != null) notesTween[i + 3].cancel();        			
+        				notesTween[i + 4] = FlxTween.tween(note, {x: 300 + (300 / Note.colArray.length) * i}, 0.3, {ease: FlxEase.quadInOut});        			
         		}   		
         		
         		if(notesTween[10] != null) notesTween[10].cancel();        			
