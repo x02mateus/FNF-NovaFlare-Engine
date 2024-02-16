@@ -344,9 +344,10 @@ class OptionsState extends MusicBeatState
 		
 		isReset = false;                  
         
-		#if android
-        addVirtualPad(PauseSubstate, A_B_C);        
-        #end
+		
+        addVirtualPad(OptionState, OptionState);        
+        
+		virtualPad.y -= 80;
 		
 		super.create();
 	}
