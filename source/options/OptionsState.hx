@@ -960,7 +960,7 @@ class OptionsState extends MusicBeatState
 			note.centerOrigin();
 			note.updateHitbox();
 			//note.rgbShader.parent = Note.globalRgbShaders[curSelectedNote];			
-			note.playAnim(Note.colArray[i] + 'Scroll');
+			note.animation.play(Note.colArray[i] + 'Scroll');
 			normalNote.add(note);
 		}
 		add(normalNote);
