@@ -38,6 +38,8 @@ class OptionCata extends FlxSprite
 	public var titleObject:FlxText;
 	
 	public var positionFix:Int;
+	
+	public var length:Int;
 
 	public var middle:Bool = false;
 
@@ -53,6 +55,8 @@ class OptionCata extends FlxSprite
 		options = _options;
 
 		optionObjects = new FlxTypedGroup();
+		
+		length = _options.length;
 		
 		var langTTF:String = '';		
 	    langTTF = OptionsName.setTTF();
@@ -925,7 +929,7 @@ class OptionsState extends MusicBeatState
                 ClientPrefs.data.marvelousSprite = ClientPrefs.defaultData.marvelousSprite; 
         }
         
-        for (mem in 0...selectedCat._options.length - 1)
+        for (mem in 0...selectedCat.length - 1)
             selectedCat.options[mem].change();
 	}
 	
