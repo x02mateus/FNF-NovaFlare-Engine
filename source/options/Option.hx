@@ -1792,13 +1792,15 @@ class FPSOption extends Option
 
 	override function press()
 	{	
-		ClientPrefs.data.showFPS = !ClientPrefs.data.showFPS;
-		
-		if(Main.fpsVar != null)
-		Main.fpsVar.visible = ClientPrefs.data.showFPS;
-			
+		ClientPrefs.data.showFPS = !ClientPrefs.data.showFPS;							
 		display = updateDisplay();
     }
+    
+    override function change()
+	{	
+	    if(Main.fpsVar != null)
+		Main.fpsVar.visible = ClientPrefs.data.showFPS;
+	}
 
 	private override function updateDisplay():String
 	{
@@ -1911,11 +1913,16 @@ class WaterMarkOption extends Option
 	{	
 		ClientPrefs.data.showWatermark = !ClientPrefs.data.showWatermark;
 		
-		if(Main.watermark != null)
-		Main.watermark.visible = ClientPrefs.data.showWatermark;
+		
 					
 		display = updateDisplay();
     }
+    
+    override function change()
+	{	
+	    if(Main.watermark != null)
+		Main.watermark.visible = ClientPrefs.data.showWatermark;
+	}
 
 	private override function updateDisplay():String
 	{
