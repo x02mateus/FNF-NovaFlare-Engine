@@ -132,6 +132,7 @@ class OptionsState extends MusicBeatState
 	
 	public var camGame:FlxCamera;
 	public var camNote:FlxCamera;
+	public var camMove:FlxCamera;
 	
 	var strumNote:FlxTypedGroup<StrumNote>;
 	var normalNote:FlxTypedGroup<Note>;
@@ -930,6 +931,10 @@ class OptionsState extends MusicBeatState
 	    camNote = new FlxCamera();
 		camNote.bgColor.alpha = 0;
 		FlxG.cameras.add(camNote, false);
+		
+		camMove = new FlxCamera();
+		camMove.bgColor.alpha = 0;
+		FlxG.cameras.add(camMove, false);  //it just use fix bug
 		
 		noteBG = new FlxSprite(300, 0).makeGraphic(300, 300, FlxColor.BLACK);
 		noteBG.alpha = 0.5;
