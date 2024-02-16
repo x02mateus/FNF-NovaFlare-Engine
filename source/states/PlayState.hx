@@ -1810,23 +1810,29 @@ class PlayState extends MusicBeatState
 		#end
 	}
 
-	function resyncVocals(vocals:Array<FlxSound>):Void
+	function resyncVocals():Void
 	{
-		if(finishTimer != null || vocals == null) return;
+		if(finishTimer != null) return;
 
-		for(vocal in vocals){
-			vocal.pause();
+		trace('resynced vocals at ' + Math.floor(Conductor.songPosition));
 
-			FlxG.sound.music.play();
-			#if FLX_PITCH FlxG.sound.music.pitch = playbackRate; #end
-			Conductor.songPosition = FlxG.sound.music.time;
+		FlxG.sound.music.play();
+		#if FLX_PITCH FlxG.sound.music.pitch = playbackRate; #end
+		Conductor.songPosition = FlxG.sound.music.time;
 
-			if(Conductor.songPosition <= vocal.length){
-				vocal.time = Conductor.songPosition;
-				#if FLX_PITCH vocal.pitch = playbackRate; #end
-			}
-			vocal.play();
+		if (Conductor.songPosition <= vocals.length)
+		{
+			vocals.time = Conductor.songPosition;
+			#if FLX_PITCH vocals.pitch = playbackRate; #end
 		}
+
+		if (Conductor.songPosition <= opponentVocals.length)
+		{
+			opponentVocals.time = Conductor.songPosition;
+			#if FLX_PITCH opponentVocals.pitch = playbackRate; #end
+		}
+		vocals.play();
+		opponentVocals.play();
 	}
 
 	public var paused:Bool = false;
