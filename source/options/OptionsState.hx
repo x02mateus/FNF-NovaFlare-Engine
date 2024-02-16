@@ -1050,7 +1050,7 @@ class OptionsState extends MusicBeatState
 		var customSkin:String = skin + Note.getNoteSkinPostfix();
 		if (Paths.fileExists('images/NOTE_assets.png', IMAGE) && ClientPrefs.data.noteSkin = ClientPrefs.defaultData.noteSkin) 
 		{
-		    skin = 'NOTE_assets';
+		    skin = "NOTE_assets";
 		}
 		else if (Paths.fileExists('images/$customSkin.png', IMAGE))
 		{
@@ -1075,7 +1075,7 @@ class OptionsState extends MusicBeatState
 		var customSkin:String = skin + Note.getNoteSkinPostfix();
 		if (Paths.fileExists('images/NOTE_assets.png', IMAGE) && ClientPrefs.data.noteSkin = ClientPrefs.defaultData.noteSkin) 
 		{
-		    skin = 'NOTE_assets';
+		    skin = "NOTE_assets";
 		}
 		else if (Paths.fileExists('images/$customSkin.png', IMAGE))
 		{
