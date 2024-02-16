@@ -30,6 +30,7 @@ enum FlxDPadMode
 	RIGHT_FULL;
 	BOTH;
 	PauseSubstate;
+    OptionState;
 	MainMenuState;
 	DIALOGUE_PORTRAIT;
 	MENU_CHARACTER;
@@ -50,6 +51,7 @@ enum FlxActionMode
 	A_B_C_X_Y_Z;
 	A_B_C_D_V_X_Y_Z;
 	controlExtend;
+	OptionState;
 	CHARACTER_EDITOR;
 	DIALOGUE_PORTRAIT;
 	MENU_CHARACTER;
