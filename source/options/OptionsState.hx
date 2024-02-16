@@ -847,7 +847,7 @@ class OptionsState extends MusicBeatState
 
 	function resetOptions()
 	{
-        switch(selectedOptionIndex){
+        switch(selectedCatIndex){
         
             case 0:
                 ClientPrefs.data.downScroll = ClientPrefs.defaultData.downScroll;
@@ -1058,7 +1058,7 @@ class OptionsState extends MusicBeatState
     		for (i in 0...Note.colArray.length)
     		{
     			var note:Note = normalNote.members[i];
-    			if(notesTween[i + 4] != null && !typeCheck) notesTween[i + 3].cancel();        			
+    			if(notesTween[i + 4] != null && !typeCheck) notesTween[i + 4].cancel();        			
     				notesTween[i + 4] = FlxTween.tween(note, {x: 0 + (300 / Note.colArray.length) * i}, 0.3, {ease: FlxEase.quadInOut});        			
     		}   		
     		
@@ -1076,7 +1076,7 @@ class OptionsState extends MusicBeatState
         		for (i in 0...Note.colArray.length)
         		{
         			var note:Note = normalNote.members[i];
-        			if(notesTween[i + 4] != null) notesTween[i + 3].cancel();        			
+        			if(notesTween[i + 4] != null) notesTween[i + 4].cancel();        			
         				notesTween[i + 4] = FlxTween.tween(note, {x: 300 + (300 / Note.colArray.length) * i}, 0.3, {ease: FlxEase.quadInOut});        			
         		}   		
         		
