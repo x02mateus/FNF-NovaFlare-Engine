@@ -589,26 +589,6 @@ class OptionsState extends MusicBeatState
 					selectedOption.change();
 				}
 
-				if(reset)
-				{
-					if (!onPlayState)
-					{
-						resetOptions();
-						
-						FlxG.sound.play(Paths.sound('scrollMenu'), 0.6);
-						new FlxTimer().start(1.5, function(tmr:FlxTimer)
-						{
-							
-                         //   FlxG.sound.music.fadeOut(0.3);
-                         //   FlxG.camera.fade(FlxColor.BLACK, 0.5, false, FlxG.resetGame, false);
-						});
-					}
-					else
-					{
-						
-					}
-				}
-
 				if (back)
 				{
 					if (!onPlayState) {
@@ -861,9 +841,92 @@ class OptionsState extends MusicBeatState
 		}
 	}
 
-	public static function resetOptions()
+	function resetOptions()
 	{
-
+        switch(selectedOptionIndex){
+        
+            case 0:
+                ClientPrefs.data.downScroll = ClientPrefs.defaultData.downScroll;
+                ClientPrefs.data.middleScroll = ClientPrefs.defaultData.middleScroll;
+                ClientPrefs.data.filpChart = ClientPrefs.defaultData.filpChart;
+                ClientPrefs.data.guitarHeroSustains = ClientPrefs.defaultData.guitarHeroSustains;
+                ClientPrefs.data.fixLNL = ClientPrefs.defaultData.fixLNL;
+                ClientPrefs.data.ghostTapping = ClientPrefs.defaultData.ghostTapping;
+                ClientPrefs.data.noReset = ClientPrefs.defaultData.noReset;
+                ClientPrefs.data.resultsScreen = ClientPrefs.defaultData.resultsScreen;
+            case 1:
+                ClientPrefs.data.noteSkin = ClientPrefs.defaultData.noteSkin;
+                ClientPrefs.data.noteRGB = ClientPrefs.defaultData.noteRGB;
+                ClientPrefs.data.splashSkin = ClientPrefs.defaultData.splashSkin;
+                ClientPrefs.data.splashRGB = ClientPrefs.defaultData.splashRGB;
+                ClientPrefs.data.hitsoundVolume = ClientPrefs.defaultData.hitsoundVolume;
+                ClientPrefs.data.camZooms = ClientPrefs.defaultData.camZooms;
+                ClientPrefs.data.scoreZoom = ClientPrefs.defaultData.scoreZoom;
+                ClientPrefs.data.judgementCounter = ClientPrefs.defaultData.judgementCounter;
+                ClientPrefs.data.hideHud = ClientPrefs.defaultData.hideHud;
+                ClientPrefs.data.opponentStrums = ClientPrefs.defaultData.opponentStrums;
+                ClientPrefs.data.showComboNum = ClientPrefs.defaultData.showComboNum;
+                ClientPrefs.data.comboColor = ClientPrefs.defaultData.comboColor;
+                ClientPrefs.data.showRating = ClientPrefs.defaultData.showRating;
+                ClientPrefs.data.showSplash = ClientPrefs.defaultData.showSplash;
+                ClientPrefs.data.splashAlpha = ClientPrefs.defaultData.splashAlpha;
+                ClientPrefs.data.healthBarAlpha = ClientPrefs.defaultData.healthBarAlpha;
+                ClientPrefs.data.oldHealthBarVersion = ClientPrefs.defaultData.oldHealthBarVersion;
+                ClientPrefs.data.timeBarType = ClientPrefs.defaultData.timeBarType;
+            case 2:
+                ClientPrefs.data.oldHscriptVersion = ClientPrefs.defaultData.oldHscriptVersion;
+                ClientPrefs.data.pauseMusic = ClientPrefs.defaultData.pauseMusic;
+                ClientPrefs.data.checkForUpdates = ClientPrefs.defaultData.checkForUpdates;
+                ClientPrefs.data.discordRPC = ClientPrefs.defaultData.discordRPC;
+                ClientPrefs.data.gameOverVibration = ClientPrefs.defaultData.gameOverVibration;
+                ClientPrefs.data.screensaver = ClientPrefs.defaultData.screensaver;                                
+            case 3:
+                ClientPrefs.data.playOpponent = ClientPrefs.defaultData.playOpponent;
+                ClientPrefs.data.opponentCodeFix = ClientPrefs.defaultData.opponentCodeFix;
+                ClientPrefs.data.botOpponentFix = ClientPrefs.defaultData.botOpponentFix;
+                ClientPrefs.data.HealthDrainOPPO = ClientPrefs.defaultData.HealthDrainOPPO;
+                ClientPrefs.data.HealthDrainOPPOMult = ClientPrefs.defaultData.HealthDrainOPPOMult;                                
+            case 4:
+                ClientPrefs.data.CustomFade = ClientPrefs.defaultData.CustomFade;
+                ClientPrefs.data.CustomFadeSound = ClientPrefs.defaultData.CustomFadeSound;
+                ClientPrefs.data.CustomFadeText = ClientPrefs.defaultData.CustomFadeText;
+                ClientPrefs.data.skipTitleVideo = ClientPrefs.defaultData.skipTitleVideo;                
+            case 5:
+                ClientPrefs.data.extraKey = ClientPrefs.defaultData.extraKey;
+                ClientPrefs.data.controlsAlpha = ClientPrefs.defaultData.controlsAlpha;
+                ClientPrefs.data.playControlsAlpha = ClientPrefs.defaultData.playControlsAlpha;
+                ClientPrefs.data.hitboxLocation = ClientPrefs.defaultData.hitboxLocation;     
+                ClientPrefs.data.hitboxSkin = ClientPrefs.defaultData.hitboxSkin;
+            case 6:
+                ClientPrefs.data.framerate = ClientPrefs.defaultData.framerate;
+                ClientPrefs.data.colorblindMode = ClientPrefs.defaultData.colorblindMode;
+                ClientPrefs.data.shaders = ClientPrefs.defaultData.shaders;
+                ClientPrefs.data.cacheOnGPU = ClientPrefs.defaultData.cacheOnGPU;
+                ClientPrefs.data.loadingScreen = ClientPrefs.defaultData.loadingScreen;     
+                ClientPrefs.data.flashing = ClientPrefs.defaultData.flashing;
+                ClientPrefs.data.lowQuality = ClientPrefs.defaultData.lowQuality;
+                ClientPrefs.data.antialiasing = ClientPrefs.defaultData.antialiasing;      
+                ClientPrefs.data.autoPause = ClientPrefs.defaultData.autoPause;                     
+            case 7:                
+                ClientPrefs.data.showFPS = ClientPrefs.defaultData.showFPS;                
+                ClientPrefs.data.rainbowFPS = ClientPrefs.defaultData.rainbowFPS;
+                ClientPrefs.data.showMEM = ClientPrefs.defaultData.showMEM;
+                ClientPrefs.data.memoryType = ClientPrefs.defaultData.memoryType;
+                ClientPrefs.data.showMS = ClientPrefs.defaultData.showMS;
+                ClientPrefs.data.showWatermark = ClientPrefs.defaultData.showWatermark;
+            case 8:
+                ClientPrefs.data.safeFrames = ClientPrefs.defaultData.safeFrames;
+                ClientPrefs.data.ratingOffset = ClientPrefs.defaultData.ratingOffset;
+                ClientPrefs.data.marvelousWindow = ClientPrefs.defaultData.marvelousWindow;
+                ClientPrefs.data.sickWindow = ClientPrefs.defaultData.sickWindow;
+                ClientPrefs.data.goodWindow = ClientPrefs.defaultData.goodWindow;
+                ClientPrefs.data.badWindow = ClientPrefs.defaultData.badWindow;     
+                ClientPrefs.data.marvelousRating = ClientPrefs.defaultData.marvelousRating;          
+                ClientPrefs.data.marvelousSprite = ClientPrefs.defaultData.marvelousSprite; 
+        }
+        
+        for (mem in 0...selectedCat._options.length - 1)
+            selectedCat.options[mem].change();
 	}
 	
 	public function resetOptionChoose()  //用于返回原来选择

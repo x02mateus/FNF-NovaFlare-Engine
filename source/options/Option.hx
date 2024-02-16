@@ -577,14 +577,6 @@ class JudgementCounter extends Option
 	override function press()
 	{
 		ClientPrefs.data.judgementCounter = !ClientPrefs.data.judgementCounter;
-        /*
-		if (Type.getClass(FlxG.state) == PlayState){
-		if(ClientPrefs.data.showJudgement) 
-			//PlayState.instance.judgementCounter.visible = (!ClientPrefs.data.hideHud && !PlayState.instance.cpuControlled);
-		else
-			//PlayState.instance.judgementCounter.visible = false;
-	     }
-        */
 		display = updateDisplay();
     }
 
@@ -598,11 +590,8 @@ class HideHud extends Option
 {
 	public function new(desc:String)
 	{
-		super();
-        //if (OptionsState.onPlayState)
-		//	description = "This option cannot be toggled in the pause menu.";
-		//else
-			description = desc;
+		super();        
+		description = desc;
 
 	}
 
@@ -1136,7 +1125,8 @@ class HealthDrainOPPOMult extends Option
 
 	private override function updateDisplay():String
 	{
-		return "Health Drain multipler: < " + ClientPrefs.data.HealthDrainOPPOMult + " >";
+	    var data = FlxMath.roundDecimal(ClientPrefs.data.HealthDrainOPPOMult, 1);
+		return "Health Drain multipler: < " + data + " >";
 	}
 }
 
@@ -2178,6 +2168,6 @@ class MarvelousSprite extends Option
 
 	private override function updateDisplay():String
 	{
-		return "Marvelous Sprite: " + (ClientPrefs.data.marvelousSprite ? enable_O : disable_O);
+		return "Marvelous Sprite: " + (ClientPrefs.data.marvelousSprite ? 'marvelous' : 'sick');
 	}
 }
