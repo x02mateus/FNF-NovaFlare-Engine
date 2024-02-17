@@ -31,6 +31,7 @@ enum FlxDPadMode
 	BOTH;
 	PauseSubstate;
     OptionState;
+    ChartingState;
 	MainMenuState;
 	DIALOGUE_PORTRAIT;
 	MENU_CHARACTER;
@@ -52,6 +53,7 @@ enum FlxActionMode
 	A_B_C_D_V_X_Y_Z;
 	controlExtend;
 	OptionState;
+	ChartingState;
 	CHARACTER_EDITOR;
 	DIALOGUE_PORTRAIT;
 	MENU_CHARACTER;
