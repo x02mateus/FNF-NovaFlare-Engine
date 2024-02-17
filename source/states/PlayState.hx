@@ -1397,7 +1397,7 @@ class PlayState extends MusicBeatState
 				var daStrumTime:Float = songNotes[0];
 				var daNoteData:Int = Std.int(songNotes[1] % 4);
 				var gottaHitNote:Bool = section.mustHitSection;
-				
+				/*
 				if (ClientPrefs.data.filpChart) {
 				    if (daNoteData == 0) {
 				        daNoteData = 3;
@@ -1411,7 +1411,7 @@ class PlayState extends MusicBeatState
 				    else if (daNoteData == 3) {
 				        daNoteData = 0;
 				    } 
-				}
+				}*/
 
 				if (songNotes[1] > 3)
 				{
@@ -1436,7 +1436,7 @@ class PlayState extends MusicBeatState
 				unspawnNotes.push(swagNote);
 
 				final susLength:Float = swagNote.sustainLength / Conductor.stepCrochet;
-				final floorSus:Int = Math.floor(susLength);
+				final floorSus:Int = Math.floor(susLength) - ClientPrefs.data.fixLNL;
 
 				if(floorSus > 0) {
 					for (susNote in 0...floorSus + 1)
