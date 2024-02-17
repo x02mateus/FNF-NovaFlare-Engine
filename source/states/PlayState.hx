@@ -157,8 +157,9 @@ class PlayState extends MusicBeatState
 	public var dad:Character = null;
 	public var gf:Character = null;
 	public var boyfriend:Character = null;
-
+//修改
 	public var notes:FlxTypedGroup<Note>;
+	public var killNotes:Array<Note> = [];
 	public var unspawnNotes:Array<Note> = [];
 	public var eventNotes:Array<EventNote> = [];
 
@@ -2041,6 +2042,8 @@ class PlayState extends MusicBeatState
 			}
 			checkEventNote();
 		}
+		
+		destroyNotes();
 
 		#if debug
 		if(!endingSong && !startingSong) {
@@ -3589,11 +3592,23 @@ class PlayState extends MusicBeatState
 
 		if (!note.isSustainNote) invalidateNote(note);
 	}
+//修改
+	public function invalidateNote(note:Note):Void {	    
+	    killNotes.push(note);
+	}
+	
+	public function destroyNotes():Void {	    
 
-	public function invalidateNote(note:Note):Void {
-		if(!ClientPrefs.data.lowQuality || !cpuControlled) note.kill();
-		notes.remove(note, true);
-		note.destroy();
+        var iterator:Iterator<Note> = killNotes.iterator();
+    
+        while(iterator.hasNext()) {
+            var note:Note = iterator.next();
+            
+            if(!ClientPrefs.data.lowQuality || ClientPrefs.data.playOpponent ? !cpuControlled_opponent : !cpuControlled) note.kill();
+		    notes.remove(note, true);
+		    note.destroy();
+        }
+        killNotes = [];
 	}
 
 	#if VIDEOS_ALLOWED
