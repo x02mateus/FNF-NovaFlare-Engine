@@ -104,11 +104,11 @@ class FlxVirtualPad extends FlxMobileInputManager
 			case MainMenuState:
 			    add(buttonUp = createButton(FlxG.width - 44 * 3, FlxG.height - 165 * 3, 44 * 3, 127, 'up', 0xFF12FA05));
 				add(buttonDown = createButton(FlxG.width - 44 * 3, FlxG.height - 125 * 3, 44 * 3, 127, 'down', 0xFF00FFFF));
-			case ChartingState:
+			case ChartingState:/*
 			    add(buttonUp = createButton(0, FlxG.height - 85 * 3, 132, 127, 'up', 0xFF12FA05));
 				add(buttonLeft = createButton(132, FlxG.height - 85 * 3, 132, 127, 'left', 0xFFC24B99));
 				add(buttonRight = createButton(132, FlxG.height - 45 * 3, 132, 127, 'right', 0xFFF9393F));
-				add(buttonDown = createButton(0, FlxG.height - 45 * 3, 132, 127, 'down', 0xFF00FFFF));
+				add(buttonDown = createButton(0, FlxG.height - 45 * 3, 132, 127, 'down', 0xFF00FFFF));*/
 			case DIALOGUE_PORTRAIT:
 				add(buttonUp = createButton(105, FlxG.height - 345, 132, 127, 'up', 0xFF12FA05));
 				add(buttonLeft = createButton(0, FlxG.height - 243, 132, 127, 'left', 0xFFC24B99));
@@ -194,6 +194,7 @@ class FlxVirtualPad extends FlxMobileInputManager
 			    add(buttonB = createButton(FlxG.width - 258, FlxG.height - 135, 132, 127, 'b', 0xFFCB00));
 				add(buttonA = createButton(FlxG.width - 132, FlxG.height - 135, 132, 127, 'a', 0xFF0000));				
 			case ChartingState:
+			/*
 			    add(buttonG = createButton(FlxG.width - (44 + 42 * 1) * 3, 25, 132, 127, 'g', 0x49A9B2));
 			    add(buttonP = createButton(FlxG.width - 636, FlxG.height - 255, 132, 127, 'up', 0x49A9B2));
 			    add(buttonE = createButton(FlxG.width - 636, FlxG.height - 255, 132, 127, 'down', 0x49A9B2));
@@ -205,6 +206,7 @@ class FlxVirtualPad extends FlxMobileInputManager
 				add(buttonB = createButton(FlxG.width - 258, FlxG.height - 135, 132, 127, 'b', 0xFFCB00));
 				add(buttonZ = createButton(FlxG.width - 132, FlxG.height - 255, 132, 127, 'z', 0xCCB98E));
 				add(buttonA = createButton(FlxG.width - 132, FlxG.height - 135, 132, 127, 'a', 0xFF0000));
+				*/
 			case CHARACTER_EDITOR:
 				add(buttonV = createButton(FlxG.width - 510, FlxG.height - 255, 132, 127, 'v', 0x49A9B2));
 				add(buttonD = createButton(FlxG.width - 510, FlxG.height - 135, 132, 127, 'd', 0x0078FF));
