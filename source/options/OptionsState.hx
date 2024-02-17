@@ -211,7 +211,7 @@ class OptionsState extends MusicBeatState
 				new ScreenSaver('If checked, the phone will sleep after going inactive for few seconds.'), #end
         		]),
 			new OptionCata(935, 40, OptionsName.setOpponentMode(), [
-			    new PlayOpponent('If checked, playing as opponent\nmay have bug in some mods\n(your score will not be recorded.'),			    
+			    new PlayOpponent('If checked, playing as opponent(your score will not be recorded)\nmay have bug in some mods.'),			    
 				new OpponentCodeFix('If checked, goodNoteHit and opponentNoteHit not follow playOpponent setting to change.\nif you playing it will return goodNoteHit function.'),
 				new BotOpponentFix('Bot Opponent Fix'),				
 				new HealthDrainOPPO('Health Drain on opponent mode'),
@@ -1068,7 +1068,7 @@ class OptionsState extends MusicBeatState
     		note.texture = skin; //Load texture and anims
     		note.reloadNote();
     		note.playAnim('static');    		
-    		loadLeft.setGraphicSize(75, 75);
+    		note.setGraphicSize(75, 75);
     		note.updateHitbox();
     	}
 	}

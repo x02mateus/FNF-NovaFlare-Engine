@@ -1080,6 +1080,7 @@ class BotOpponentFix extends Option
 	public function new(desc:String)
 	{
 		super();
+		description = desc;
 	}
 
 	override function press()
@@ -1100,6 +1101,7 @@ class HealthDrainOPPO extends Option
 	public function new(desc:String)
 	{
 		super();
+		description = desc;
 	}
 
 	override function press()
@@ -1119,6 +1121,7 @@ class HealthDrainOPPOMult extends Option
 	public function new(desc:String)
 	{
 		super();
+		description = desc;
 	}
 
 	override function left()
