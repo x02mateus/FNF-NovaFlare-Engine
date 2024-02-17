@@ -348,7 +348,7 @@ class OptionsState extends MusicBeatState
 		isReset = false;                  
         
 		
-        addVirtualPad(OptionState, OptionState);        
+        addVirtualPad(OptionStateC, OptionStateC);        
         addVirtualPadCamera(false);
         
 		virtualPad.y -= 75;
