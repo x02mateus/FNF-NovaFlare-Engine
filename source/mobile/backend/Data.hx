@@ -29,10 +29,10 @@ enum FlxDPadMode
 	LEFT_FULL;
 	RIGHT_FULL;
 	BOTH;
-	PauseSubstate;
-    OptionState;    
-	MainMenuState;
-	ChartingState;
+	PauseSubstateC;
+    OptionStateC;    
+	MainMenuStateC;
+	ChartingStateC;
 	DIALOGUE_PORTRAIT;
 	MENU_CHARACTER;
 	NOTE_SPLASH_DEBUG;
@@ -52,8 +52,8 @@ enum FlxActionMode
 	A_B_C_X_Y_Z;
 	A_B_C_D_V_X_Y_Z;
 	controlExtend;
-	OptionState;
-	ChartingState;
+	OptionStateC;
+	ChartingStateC;
 	CHARACTER_EDITOR;
 	DIALOGUE_PORTRAIT;
 	MENU_CHARACTER;
@@ -63,9 +63,4 @@ enum FlxActionMode
 	NONE;
 }
 
-enum ExtraActions
-{
-	SINGLE;
-	DOUBLE;
-	NONE;
-}
+
