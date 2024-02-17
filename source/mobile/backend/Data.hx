@@ -13,10 +13,7 @@ class Data
 			dpadMode.set(data.getName(), data);
 
 		for (data in FlxActionMode.createAll())
-			actionMode.set(data.getName(), data);
-
-		for (data in ExtraActions.createAll())
-			extraActions.set(data.getName(), data);
+			actionMode.set(data.getName(), data);		
 	}
 }
 
