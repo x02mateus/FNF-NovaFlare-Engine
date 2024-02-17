@@ -1044,27 +1044,6 @@ class OptionsState extends MusicBeatState
 		normalNote.cameras = [camNote];				        	
 	}
 	
-	public function changeStrumNoteSkin()
-	{
-		var skin:String = Note.defaultNoteSkin;
-		var customSkin:String = skin + Note.getNoteSkinPostfix();
-		if (Paths.fileExists('images/NOTE_assets.png', IMAGE) && ClientPrefs.data.noteSkin == ClientPrefs.defaultData.noteSkin) skin = "NOTE_assets";
-		else if (Paths.fileExists('images/$customSkin.png', IMAGE)) skin = customSkin;
-		
-        for (i in 0...Note.colArray.length)
-        {
-            var note = strumNote.members[i];
-    		note.texture = skin; //Load texture and anims
-    		note.reloadNote();
-    		note.playAnim('static');
-    		note.rgbShader.enabled = ClientPrefs.data.noteRGB;
-    		note.scale.x = note.scale.y = 0.5;
-    		note.centerOffsets();
-    		note.centerOrigin();
-    		note.updateHitbox();
-    	}
-	}
-	
 	public function changeNoteSkin()
 	{
 		var skin:String = Note.defaultNoteSkin;
@@ -1079,9 +1058,17 @@ class OptionsState extends MusicBeatState
     		note.reloadNote();
     		note.animation.play(Note.colArray[i] + 'Scroll');
     		note.rgbShader.enabled = ClientPrefs.data.noteRGB;
-    		note.scale.x = note.scale.y = 0.5;
-    		note.centerOffsets();
-    		note.centerOrigin();
+    		note.setGraphicSize(75, 75);
+    		note.updateHitbox();
+    	}
+		
+        for (i in 0...Note.colArray.length)
+        {
+            var note = strumNote.members[i];
+    		note.texture = skin; //Load texture and anims
+    		note.reloadNote();
+    		note.playAnim('static');    		
+    		loadLeft.setGraphicSize(75, 75);
     		note.updateHitbox();
     	}
 	}
@@ -1090,11 +1077,6 @@ class OptionsState extends MusicBeatState
 	    for (i in 0...Note.colArray.length)
         {
             var note = normalNote.members[i];    		
-    		note.rgbShader.enabled = ClientPrefs.data.noteRGB;    		
-    	}		
-    	for (i in 0...Note.colArray.length)
-        {
-            var note = strumNote.members[i];    		
     		note.rgbShader.enabled = ClientPrefs.data.noteRGB;    		
     	}		
 	}
@@ -1126,18 +1108,18 @@ class OptionsState extends MusicBeatState
         		{
         			var note:StrumNote = strumNote.members[i];
         			if(notesTween[i] != null) notesTween[i].cancel();        			
-        				notesTween[i] = FlxTween.tween(note, {x: 310 + (300 / Note.colArray.length) * i}, 0.3, {ease: FlxEase.quadInOut});        			
+        				notesTween[i] = FlxTween.tween(note, {x: 300 + (300 / Note.colArray.length) * i}, 0.3, {ease: FlxEase.quadInOut});        			
         		}   		
         		
         		for (i in 0...Note.colArray.length)
         		{
         			var note:Note = normalNote.members[i];
         			if(notesTween[i + 4] != null) notesTween[i + 4].cancel();        			
-        				notesTween[i + 4] = FlxTween.tween(note, {x: 310 + (300 / Note.colArray.length) * i}, 0.3, {ease: FlxEase.quadInOut});        			
+        				notesTween[i + 4] = FlxTween.tween(note, {x: 300 + (300 / Note.colArray.length) * i}, 0.3, {ease: FlxEase.quadInOut});        			
         		}   		
         		
         		if(notesTween[10] != null) notesTween[10].cancel();        			
-        		notesTween[10] = FlxTween.tween(noteBG, {x: 310}, 0.3, {ease: FlxEase.quadInOut});        
+        		notesTween[10] = FlxTween.tween(noteBG, {x: 300}, 0.3, {ease: FlxEase.quadInOut});        
     		}    		
     		typeCheck = false;			
 	    }

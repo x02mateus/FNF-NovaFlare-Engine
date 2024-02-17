@@ -397,8 +397,7 @@ class NoteSkin extends Option
     
     override function change()
 	{
-        OptionsState.instance.changeNoteSkin();
-        OptionsState.instance.changeStrumNoteSkin();
+        OptionsState.instance.changeNoteSkin();        
     }
     
 	override function getValue():String
