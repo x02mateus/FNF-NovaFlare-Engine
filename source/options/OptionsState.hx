@@ -1000,11 +1000,11 @@ class OptionsState extends MusicBeatState
 		FlxG.cameras.add(camNote, false);
 		
 		camNote.width = 300;
-		camNote.height = 150;		
+		camNote.height = 160;		
 		camNote.x = background.x + background.width - 300;
 		camNote.y = background.y + 64 * 2;
 		
-		noteBG = new FlxSprite(300, 0).makeGraphic(300, 300, FlxColor.BLACK);
+		noteBG = new FlxSprite(300, 0).makeGraphic(300, 160, FlxColor.BLACK);
 		noteBG.alpha = 0.4;
 		noteBG.scrollFactor.set();
 		add(noteBG);
@@ -1014,8 +1014,7 @@ class OptionsState extends MusicBeatState
 		for (i in 0...Note.colArray.length)
 		{
 			var note:StrumNote = new StrumNote(300 + (300 / Note.colArray.length) * i, 0, i, 0);
-			note.scale.x = 75 / note.width;
-    		note.scale.y = 75 / note.height;
+			note.scale.x = note.scale.y = 0.5;
     		note.centerOffsets();
 			note.centerOrigin();
 			note.updateHitbox();
@@ -1031,8 +1030,7 @@ class OptionsState extends MusicBeatState
 			var note:Note = new Note(0, i);
 			note.x = 300 + (300 / Note.colArray.length) * i;
 			note.y = 75;
-			note.scale.x = 75 / note.width;
-    		note.scale.y = 75 / note.height;
+			note.scale.x = note.scale.y = 0.5;
 			note.centerOffsets();
 			note.centerOrigin();
 			note.updateHitbox();
@@ -1058,8 +1056,7 @@ class OptionsState extends MusicBeatState
     		note.reloadNote();
     		note.animation.play(Note.colArray[i] + 'Scroll');
     		note.rgbShader.enabled = ClientPrefs.data.noteRGB;
-    		note.scale.x = 75 / note.width;
-    		note.scale.y = 75 / note.height;
+    		note.scale.x = note.scale.y = 0.5;
     		note.centerOffsets();
 			note.centerOrigin();
     		note.updateHitbox();
@@ -1071,8 +1068,7 @@ class OptionsState extends MusicBeatState
     		note.texture = skin; //Load texture and anims
     		note.reloadNote();
     		note.playAnim('static');    		
-    		note.scale.x = 75 / note.width;
-    		note.scale.y = 75 / note.height;
+    		note.scale.x = note.scale.y = 0.5;
     		note.centerOffsets();
 			note.centerOrigin();
     		note.updateHitbox();
@@ -1107,18 +1103,18 @@ class OptionsState extends MusicBeatState
         		{
         			var note:StrumNote = strumNote.members[i];
         			if(notesTween[i] != null) notesTween[i].cancel();        			
-        				notesTween[i] = FlxTween.tween(note, {x: 300 + (300 / Note.colArray.length) * i}, 0.3, {ease: FlxEase.quadInOut});        			
+        				notesTween[i] = FlxTween.tween(note, {x: 310 + (300 / Note.colArray.length) * i}, 0.3, {ease: FlxEase.quadInOut});        			
         		}   		
         		
         		for (i in 0...Note.colArray.length)
         		{
         			var note:Note = normalNote.members[i];
         			if(notesTween[i + 4] != null) notesTween[i + 4].cancel();        			
-        				notesTween[i + 4] = FlxTween.tween(note, {x: 300 + (300 / Note.colArray.length) * i}, 0.3, {ease: FlxEase.quadInOut});        			
+        				notesTween[i + 4] = FlxTween.tween(note, {x: 310 + (300 / Note.colArray.length) * i}, 0.3, {ease: FlxEase.quadInOut});        			
         		}   		
         		
         		if(notesTween[10] != null) notesTween[10].cancel();        			
-        		notesTween[10] = FlxTween.tween(noteBG, {x: 300}, 0.3, {ease: FlxEase.quadInOut});        
+        		notesTween[10] = FlxTween.tween(noteBG, {x: 310}, 0.3, {ease: FlxEase.quadInOut});        
     		}    		
     		typeCheck = false;			
 	    }
