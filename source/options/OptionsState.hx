@@ -1015,8 +1015,9 @@ class OptionsState extends MusicBeatState
 		for (i in 0...Note.colArray.length)
 		{
 			var note:StrumNote = new StrumNote(300 + (300 / Note.colArray.length) * i, 0, i, 0);
-			note.scale.x = note.scale.y = 0.5;
-			note.centerOffsets();
+			note.scale.x = 75 / note.width;
+    		note.scale.y = 75 / note.height;
+    		note.centerOffsets();
 			note.centerOrigin();
 			note.updateHitbox();
 			note.playAnim('static');
@@ -1031,7 +1032,8 @@ class OptionsState extends MusicBeatState
 			var note:Note = new Note(0, i);
 			note.x = 300 + (300 / Note.colArray.length) * i;
 			note.y = 75;
-			note.scale.x = note.scale.y = 0.5;
+			note.scale.x = 75 / note.width;
+    		note.scale.y = 75 / note.height;
 			note.centerOffsets();
 			note.centerOrigin();
 			note.updateHitbox();
@@ -1057,7 +1059,10 @@ class OptionsState extends MusicBeatState
     		note.reloadNote();
     		note.animation.play(Note.colArray[i] + 'Scroll');
     		note.rgbShader.enabled = ClientPrefs.data.noteRGB;
-    		note.setGraphicSize(75, 75);
+    		note.scale.x = 75 / note.width;
+    		note.scale.y = 75 / note.height;
+    		note.centerOffsets();
+			note.centerOrigin();
     		note.updateHitbox();
     	}
 		
@@ -1067,7 +1072,10 @@ class OptionsState extends MusicBeatState
     		note.texture = skin; //Load texture and anims
     		note.reloadNote();
     		note.playAnim('static');    		
-    		note.setGraphicSize(75, 75);
+    		note.scale.x = 75 / note.width;
+    		note.scale.y = 75 / note.height;
+    		note.centerOffsets();
+			note.centerOrigin();
     		note.updateHitbox();
     	}
 	}
