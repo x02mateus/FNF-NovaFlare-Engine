@@ -245,7 +245,7 @@ class OptionsState extends MusicBeatState
 				new LoadingScreen("Add a LoadingScreen for PlayState and load faster\nif have some problem please disable it."),
 				new FlashingLights("Toggle flashing lights that can cause epileptic seizures and strain."),
 				new QualityLow("Turn off some object on stages."),
-				new GameQuality('Change game quality for screen.') 
+				new GameQuality('Change game quality for screen.'),
                 new Antialiasing("Toggle antialiasing, improving graphics quality at a slight performance penalty."),				  
 				new AutoPause("Stops game, when its unfocused."),				              
 			]),			
