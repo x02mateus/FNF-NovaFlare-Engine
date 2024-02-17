@@ -1080,22 +1080,14 @@ class OptionsState extends MusicBeatState
     	}
 	}
 	
-	function shaderCheck(){
-	    for (i in 0...Note.colArray.length)
-        {
-            var note = normalNote.members[i];    		
-    		note.rgbShader.enabled = ClientPrefs.data.noteRGB;    		
-    	}		
-	}
-	
 	var typeCheck:Bool = false;
 	function specialCheck(){	    
 	    if (!isInMain && selectedCatIndex == 1 && selectedOptionIndex == 1){    	
             typeCheck = true;        	    
-            shaderCheck();
 			for (i in 0...Note.colArray.length)
     		{
     			var note:StrumNote = strumNote.members[i];
+    			note.rgbShader.enabled = ClientPrefs.data.noteRGB;    		
     			if(notesTween[i] != null) notesTween[i].cancel();        			
     				notesTween[i] = FlxTween.tween(note, {x: 0 + (300 / Note.colArray.length) * i}, 0.3, {ease: FlxEase.quadInOut});        			
     		}   		
