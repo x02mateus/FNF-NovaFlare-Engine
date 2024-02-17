@@ -3360,7 +3360,7 @@ class PlayState extends MusicBeatState
 		}
 		
 		if (ClientPrefs.data.HealthDrainOPPO) {
-		    health -= healthLoss * ClientPrefs.data.HealthDrainOPPOMult;
+		    health -= note.missHealth * healthLoss * ClientPrefs.data.HealthDrainOPPOMult;
 		    if (health <= 0) health = 0.01; //not die
 		}
 
@@ -3589,7 +3589,7 @@ class PlayState extends MusicBeatState
 		}
 		
 		if (ClientPrefs.data.HealthDrainOPPO) {
-		    health -= healthLoss * ClientPrefs.data.HealthDrainOPPOMult;
+		    health -= note.missHealth * healthLoss * ClientPrefs.data.HealthDrainOPPOMult;
 		    if (health <= 0) health = 0.01; //not die
 		}
 
@@ -3614,7 +3614,7 @@ class PlayState extends MusicBeatState
     
         while(iterator.hasNext()) {
             var note:Note = iterator.next();
-            
+            note.active = note.visible = false;
             if(!ClientPrefs.data.lowQuality || ClientPrefs.data.playOpponent ? !cpuControlled_opponent : !cpuControlled) note.kill();
 		    notes.remove(note, true);
 		    note.destroy();
