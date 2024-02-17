@@ -1526,7 +1526,7 @@ class ControlColor extends Option
 
 	private override function updateDisplay():String
 	{
-		return "Controls color as note: " + (ClientPrefs.data.dynamicColors ? enable_O : disable_O);;
+		return "Controls color as note: " + (ClientPrefs.data.dynamicColors ? enable_O : disable_O);
 	}
 }
 
