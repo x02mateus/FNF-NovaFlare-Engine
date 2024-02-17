@@ -30,9 +30,9 @@ enum FlxDPadMode
 	RIGHT_FULL;
 	BOTH;
 	PauseSubstate;
-    OptionState;
-    ChartingState;
+    OptionState;    
 	MainMenuState;
+	ChartingState;
 	DIALOGUE_PORTRAIT;
 	MENU_CHARACTER;
 	NOTE_SPLASH_DEBUG;
