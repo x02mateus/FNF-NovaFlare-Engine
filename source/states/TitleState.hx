@@ -115,7 +115,7 @@ class TitleState extends MusicBeatState
 		Mods.pushGlobalMods();
             #if (android && EXTERNAL || MEDIA)
         } catch (e:Dynamic) {
-            SUtil.showPopUp("Please create folder to\n" + #if EXTERNAL "/storage/emulated/0/." + lime.app.Application.current.meta.get('file') #else "/storage/emulated/0/Android/media/" + lime.app.Application.current.meta.get('packageName') #end + "\nPress OK to close the game", "Error!");
+            SUtil.showPopUp("permission is not obtained, restart the application", "Error!");
             Sys.exit(1);
         }
             #end
