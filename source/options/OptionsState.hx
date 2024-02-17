@@ -638,13 +638,10 @@ class OptionsState extends MusicBeatState
 						var object = selectedCat.optionObjects.members[selectedOptionIndex];																		
            				
 						selectedOption.press();
-                        selectedOption.change();
-						if (selectedOptionIndex == prev)
-						{
-							ClientPrefs.saveSettings();
+                        selectedOption.change();						
+						ClientPrefs.saveSettings();
 
-							object.text = selectedOption.getValue();
-						}
+						object.text = selectedOption.getValue();
 					}
 
 					if (down || down_hold)
@@ -928,6 +925,8 @@ class OptionsState extends MusicBeatState
                 ClientPrefs.data.marvelousRating = ClientPrefs.defaultData.marvelousRating;          
                 ClientPrefs.data.marvelousSprite = ClientPrefs.defaultData.marvelousSprite; 
         }
+        
+        ClientPrefs.saveSettings();
         
         for (mem in 0...selectedCat.length - 1)
             selectedCat.options[mem].change();
