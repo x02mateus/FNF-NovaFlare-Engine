@@ -257,7 +257,7 @@ class Note extends FlxSprite
 			if(ClientPrefs.data.downScroll) flipY = true;
 			
 			earlyHitMult = 0.5;
-			lateHitMult = 0.5;
+			lateHitMult = 0;
 			
 			noAnimation = true; //better work for play anim
             isEndNote = true;
@@ -288,7 +288,7 @@ class Note extends FlxSprite
 				prevNote.updateHitbox();
 				// prevNote.setGraphicSize();
 				
-				prevNote.earlyHitMult = 0.5;
+				prevNote.earlyHitMult = 0;
 			    prevNote.lateHitMult = 0.5;
 			
 				prevNote.noAnimation = false;
