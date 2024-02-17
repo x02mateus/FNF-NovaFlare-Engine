@@ -104,11 +104,6 @@ class FlxVirtualPad extends FlxMobileInputManager
 			case MainMenuState:
 			    add(buttonUp = createButton(FlxG.width - 44 * 3, FlxG.height - 165 * 3, 44 * 3, 127, 'up', 0xFF12FA05));
 				add(buttonDown = createButton(FlxG.width - 44 * 3, FlxG.height - 125 * 3, 44 * 3, 127, 'down', 0xFF00FFFF));
-			case ChartingState:/*
-			    add(buttonUp = createButton(0, FlxG.height - 85 * 3, 132, 127, 'up', 0xFF12FA05));
-				add(buttonLeft = createButton(132, FlxG.height - 85 * 3, 132, 127, 'left', 0xFFC24B99));
-				add(buttonRight = createButton(132, FlxG.height - 45 * 3, 132, 127, 'right', 0xFFF9393F));
-				add(buttonDown = createButton(0, FlxG.height - 45 * 3, 132, 127, 'down', 0xFF00FFFF));*/
 			case DIALOGUE_PORTRAIT:
 				add(buttonUp = createButton(105, FlxG.height - 345, 132, 127, 'up', 0xFF12FA05));
 				add(buttonLeft = createButton(0, FlxG.height - 243, 132, 127, 'left', 0xFFC24B99));
@@ -183,30 +178,16 @@ class FlxVirtualPad extends FlxMobileInputManager
 				add(buttonZ = createButton(FlxG.width - 132, FlxG.height - 255, 132, 127, 'z', 0xCCB98E));
 				add(buttonA = createButton(FlxG.width - 132, FlxG.height - 135, 132, 127, 'a', 0xFF0000));
 			case controlExtend:
-			    if (Type.getClass(FlxG.state) != PlayState || (Type.getClass(FlxG.state) == PlayState && ClientPrefs.data.extraKey > 0)) add(buttonExtra1 = createButton(FlxG.width * 0.5 - 84 * 3, FlxG.height * 0.5 - 127 * 0.5, 44 * 3, 127, "a", 0xFF0000));
+			    if (Type.getClass(FlxG.state) != PlayState || (Type.getClass(FlxG.state) == PlayState && ClientPrefs.data.extraKey > 0)) add(buttonExtra1 = createButton(FlxG.width * 0.5 - 44 * 3, FlxG.height * 0.5 - 127 * 0.5, 44 * 3, 127, "a", 0xFF0000));
 				if (Type.getClass(FlxG.state) != PlayState || (Type.getClass(FlxG.state) == PlayState && ClientPrefs.data.extraKey > 1)) add(buttonExtra2 = createButton(FlxG.width * 0.5, FlxG.height * 0.5 - 127 * 0.5, 44 * 3, 127, "b", 0xFFFF00));
 				if (Type.getClass(FlxG.state) != PlayState || (Type.getClass(FlxG.state) == PlayState && ClientPrefs.data.extraKey > 2)) add(buttonExtra3 = createButton(FlxG.width * 0.5 - 44 * 3, FlxG.height * 0.5 - 127 * 0.5, 44 * 3, 127, "c", 0xFF0000));
-				if (Type.getClass(FlxG.state) != PlayState || (Type.getClass(FlxG.state) == PlayState && ClientPrefs.data.extraKey > 3)) add(buttonExtra4 = createButton(FlxG.width * 0.5 + 44 * 3, FlxG.height * 0.5 - 127 * 0.5, 44 * 3, 127, "d", 0xFFFF00));
+				if (Type.getClass(FlxG.state) != PlayState || (Type.getClass(FlxG.state) == PlayState && ClientPrefs.data.extraKey > 3)) add(buttonExtra4 = createButton(FlxG.width * 0.5, FlxG.height * 0.5 - 127 * 0.5, 44 * 3, 127, "d", 0xFFFF00));
 			case OptionState:
-			    add(buttonLeft = createButton(FlxG.width - 258, FlxG.height - 85 * 3, 44 * 3, 127, "left", 0xFF00FF));
-				add(buttonRight = createButton(FlxG.width - 132, FlxG.height - 85 * 3, 44 * 3, 127, "right", 0xFF0000));
 			    add(buttonC = createButton(FlxG.width - 384, FlxG.height - 135, 132, 127, 'c', 0x44FF00));
 			    add(buttonB = createButton(FlxG.width - 258, FlxG.height - 135, 132, 127, 'b', 0xFFCB00));
-				add(buttonA = createButton(FlxG.width - 132, FlxG.height - 135, 132, 127, 'a', 0xFF0000));				
-			case ChartingState:
-			/*
-			    add(buttonG = createButton(FlxG.width - (44 + 42 * 1) * 3, 25, 132, 127, 'g', 0x49A9B2));
-			    add(buttonP = createButton(FlxG.width - 636, FlxG.height - 255, 132, 127, 'up', 0x49A9B2));
-			    add(buttonE = createButton(FlxG.width - 636, FlxG.height - 255, 132, 127, 'down', 0x49A9B2));
-				add(buttonV = createButton(FlxG.width - 510, FlxG.height - 255, 132, 127, 'v', 0x49A9B2));
-				add(buttonD = createButton(FlxG.width - 510, FlxG.height - 135, 132, 127, 'd', 0x0078FF));
-				add(buttonX = createButton(FlxG.width - 384, FlxG.height - 255, 132, 127, 'x', 0x99062D));
-				add(buttonC = createButton(FlxG.width - 384, FlxG.height - 135, 132, 127, 'c', 0x44FF00));
-				add(buttonY = createButton(FlxG.width - 258, FlxG.height - 255, 132, 127, 'y', 0x4A35B9));
-				add(buttonB = createButton(FlxG.width - 258, FlxG.height - 135, 132, 127, 'b', 0xFFCB00));
-				add(buttonZ = createButton(FlxG.width - 132, FlxG.height - 255, 132, 127, 'z', 0xCCB98E));
 				add(buttonA = createButton(FlxG.width - 132, FlxG.height - 135, 132, 127, 'a', 0xFF0000));
-				*/
+				add(buttonLeft = createButton(FlxG.width - 258, FlxG.height - 85 * 3, 44 * 3, 127, "left", 0xFF00FF));
+				add(buttonRight = createButton(FlxG.width - 132, FlxG.height - 85 * 3, 44 * 3, 127, "right", 0xFF0000));	
 			case CHARACTER_EDITOR:
 				add(buttonV = createButton(FlxG.width - 510, FlxG.height - 255, 132, 127, 'v', 0x49A9B2));
 				add(buttonD = createButton(FlxG.width - 510, FlxG.height - 135, 132, 127, 'd', 0x0078FF));
