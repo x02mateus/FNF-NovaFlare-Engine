@@ -383,7 +383,7 @@ class PauseSubState extends MusicBeatSubstate
     	#if mobile
     	if (PlayState.chartingMode)
 		{
-			addVirtualPad(PauseSubstate, A);
+			addVirtualPad(PauseSubstateC, A);
 		}
 		else
 		{
