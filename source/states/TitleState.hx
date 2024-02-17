@@ -105,8 +105,6 @@ class TitleState extends MusicBeatState
 		
 		#if mobile
 		if(!CopyState.checkExistingFiles() && !ignoreCopy)
-		    FlxTransitionableState.skipNextTransIn = true;
-		    FlxTransitionableState.skipNextTransOut = true;
 			FlxG.switchState(new CopyState());
 		#end
 
