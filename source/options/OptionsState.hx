@@ -1054,7 +1054,7 @@ class OptionsState extends MusicBeatState
 		for (i in 0...Note.colArray.length)
         {
             var note = normalNote.members[i];
-    		note.texture = skin; //Load texture and anims
+    		note.texture = skin;
     		note.reloadNote();
     		note.animation.play(Note.colArray[i] + 'Scroll');
     		note.rgbShader.enabled = ClientPrefs.data.noteRGB;
