@@ -1019,7 +1019,6 @@ class OptionsState extends MusicBeatState
 			note.centerOffsets();
 			note.centerOrigin();
 			note.updateHitbox();
-			note.rgbShader.enabled = ClientPrefs.data.noteRGB;
 			note.playAnim('static');
 			strumNote.add(note);
 		}
