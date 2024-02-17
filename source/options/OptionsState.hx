@@ -1087,15 +1087,16 @@ class OptionsState extends MusicBeatState
 			for (i in 0...Note.colArray.length)
     		{
     			var note:StrumNote = strumNote.members[i];
-    			note.rgbShader.enabled = ClientPrefs.data.noteRGB;    		
+    			  		
     			if(notesTween[i] != null) notesTween[i].cancel();        			
-    				notesTween[i] = FlxTween.tween(note, {x: 0 + (300 / Note.colArray.length) * i}, 0.3, {ease: FlxEase.quadInOut});        			
+    				notesTween[i] = FlxTween.tween(note, {x: 0 + (300 / Note.colArray.length) * i}, 0.3, {ease: FlxEase.quadInOut});             			 			
     		}   		
     		
     		for (i in 0...Note.colArray.length)
     		{
     			var note:Note = normalNote.members[i];
-    			if(notesTween[i + 4] != null && !typeCheck) notesTween[i + 4].cancel();        			
+    			note.rgbShader.enabled = ClientPrefs.data.noteRGB;  
+    			if(notesTween[i + 4] != null) notesTween[i + 4].cancel();        			
     				notesTween[i + 4] = FlxTween.tween(note, {x: 0 + (300 / Note.colArray.length) * i}, 0.3, {ease: FlxEase.quadInOut});        			
     		}   		
     		
