@@ -194,7 +194,8 @@ class OptionsState extends MusicBeatState
                 new HideHud("Shows to you hud."),           
                 new HideOppStrums("Shows/Hides opponent strums on screen."),		
                 new ShowComboNum("Combo sprite appearance."),
-                new ComboColor("Allow Combe Sprite to get and use rating color."),		    		
+                new ComboColor("Allow combo Sprite to get and use rating color."),	
+                new ComboOffset('Fix combo member position skewing.'),
                 new ShowRating("Rating sprite appearance."),               
                 new ShowSplashes("Show particles on SICK hit."),
                 new SplashAlpha('How much transparent should the Note Splashes be.'),                 
@@ -232,19 +233,21 @@ class OptionsState extends MusicBeatState
 			    new ControlsAlpha('Virtual pad alpha at state.'),
             	new PlayControlsAlpha('android control alpha for play.'),
 			    new HitboxLocation('Hitbox extra key location.'),
-            	new HitboxSkin('Hitbox skin choose'),            	                 	
+            	new HitboxSkin('Hitbox skin choose'),   
+            	new ControlColor('Make your control color as note color.'),       	                 	
 			]),
 			new OptionCata(640, 40 + 64, "System", [
 			    //new Language("Change language in some state."), //will use fot NF1.2.0
 			    new FPSCap("Change your FPS Cap."),					    
-			    new ColorblindMode("You can set colorblind filter (makes the game more playable for colorblind people)"),
+			    new ColorblindMode("You can set colorblind filter.\nmakes the game more playable for colorblind people"),
 			    new Shaders("Shaders used for some visual effects, and also CPU intensive for weaker PCs."),
 				new GPUcache("If checked, allows the GPU to be used for caching textures, decreasing RAM usage."),				
-				new LoadingScreen("Add a LoadingScreen for PlayState and load faster\nif have some problem please disable it"),
+				new LoadingScreen("Add a LoadingScreen for PlayState and load faster\nif have some problem please disable it."),
 				new FlashingLights("Toggle flashing lights that can cause epileptic seizures and strain."),
-				new QualityLow("Turn off some object on stages"),
+				new QualityLow("Turn off some object on stages."),
+				new GameQuality('Change game quality for screen.') 
                 new Antialiasing("Toggle antialiasing, improving graphics quality at a slight performance penalty."),				  
-				new AutoPause("Stops game, when its unfocused"),				              
+				new AutoPause("Stops game, when its unfocused."),				              
 			]),			
 			new OptionCata(935, 40 + 64, "Watermark", [                
 				new FPSOption("Toggle the FPS Counter."),
@@ -868,6 +871,7 @@ class OptionsState extends MusicBeatState
                 ClientPrefs.data.opponentStrums = ClientPrefs.defaultData.opponentStrums;
                 ClientPrefs.data.showComboNum = ClientPrefs.defaultData.showComboNum;
                 ClientPrefs.data.comboColor = ClientPrefs.defaultData.comboColor;
+                ClientPrefs.data.comboOffsetFix = ClientPrefs.defaultData.comboOffsetFix;
                 ClientPrefs.data.showRating = ClientPrefs.defaultData.showRating;
                 ClientPrefs.data.showSplash = ClientPrefs.defaultData.showSplash;
                 ClientPrefs.data.splashAlpha = ClientPrefs.defaultData.splashAlpha;
@@ -898,6 +902,7 @@ class OptionsState extends MusicBeatState
                 ClientPrefs.data.playControlsAlpha = ClientPrefs.defaultData.playControlsAlpha;
                 ClientPrefs.data.hitboxLocation = ClientPrefs.defaultData.hitboxLocation;     
                 ClientPrefs.data.hitboxSkin = ClientPrefs.defaultData.hitboxSkin;
+                ClientPrefs.data.dynamicColors = ClientPrefs.defaultData.dynamicColors;
             case 6:
                 ClientPrefs.data.framerate = ClientPrefs.defaultData.framerate;
                 ClientPrefs.data.colorblindMode = ClientPrefs.defaultData.colorblindMode;
@@ -906,6 +911,7 @@ class OptionsState extends MusicBeatState
                 ClientPrefs.data.loadingScreen = ClientPrefs.defaultData.loadingScreen;     
                 ClientPrefs.data.flashing = ClientPrefs.defaultData.flashing;
                 ClientPrefs.data.lowQuality = ClientPrefs.defaultData.lowQuality;
+                ClientPrefs.data.gameQuality = ClientPrefs.defaultData.gameQuality;
                 ClientPrefs.data.antialiasing = ClientPrefs.defaultData.antialiasing;      
                 ClientPrefs.data.autoPause = ClientPrefs.defaultData.autoPause;                     
             case 7:                

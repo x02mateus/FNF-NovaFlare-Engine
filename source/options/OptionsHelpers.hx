@@ -8,6 +8,7 @@ import options.Option;
 class OptionsHelpers
 {
     public static var languageArray = ["English", "简体中文", "繁體中文"];
+    public static var qualityArray = ["Low", "Normal", "High", 'Very High'];
 	public static var colorblindFilterArray = ['None', 'Protanopia', 'Protanomaly', 'Deuteranopia','Deuteranomaly','Tritanopia','Tritanomaly','Achromatopsia','Achromatomaly'];
     public static var memoryTypeArray = ["Usage", "Reserved", "Current", "Large"];
     public static var TimeBarArray = ['Time Left', 'Time Elapsed', 'Song Name', 'Disabled'];

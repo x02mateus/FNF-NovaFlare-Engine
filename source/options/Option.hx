@@ -350,8 +350,7 @@ class NotesState extends Option
 
 	override function press()
 	{	
-	    OptionsState.instance.openSub('NotesSubState');		    
-	    			
+	    OptionsState.instance.openSub('NotesSubState');		    	    			
     }
     
     private override function updateDisplay():String
@@ -694,6 +693,31 @@ class ComboColor extends Option
 	private override function updateDisplay():String
 	{
 		return "Combe Color: " + (ClientPrefs.data.comboColor ? enable_O : disable_O);
+	}
+}
+
+class ComboOffset extends Option
+{
+	public function new(desc:String)
+	{
+		super();
+		if (OptionsState.onPlayState)
+			description = "This option cannot be toggled in the pause menu.";
+		else
+			description = desc;
+	}
+
+	override function press()
+	{
+		if (OptionsState.onPlayState)
+			return;
+		ClientPrefs.data.comboOffsetFix = !ClientPrefs.data.comboOffsetFix;
+		display = updateDisplay();
+    }
+
+	private override function updateDisplay():String
+	{
+		return "Combo Offset Fix: " + (ClientPrefs.data.comboOffsetFix ? enable_O : disable_O);
 	}
 }
 
@@ -1484,6 +1508,28 @@ class HitboxSkin extends Option
 	}
 }
 
+class ControlColor extends Option
+{
+	public function new(desc:String)
+	{
+		super();
+
+		description = desc;
+		acceptValues = true;
+	}
+
+	override function press()
+	{
+		ClientPrefs.data.dynamicColors = !ClientPrefs.data.dynamicColors;
+		display = updateDisplay();
+    }
+
+	private override function updateDisplay():String
+	{
+		return "Controls color as note: " + (ClientPrefs.data.dynamicColors ? enable_O : disable_O);;
+	}
+}
+
 //----------------------------------------------------------------
 //----------------------------------------------------------------
 //----------------------------------------------------------------
@@ -1728,6 +1774,44 @@ class QualityLow extends Option
 	} 
 }
 
+class GameQuality extends Option
+{
+	public function new(desc:String)
+	{
+		super();
+              if (OptionsState.onPlayState)
+			description = "This option cannot be toggled in the pause menu.";
+		else
+			description = desc;
+	}
+
+	override function left()
+	{
+        
+        ClientPrefs.data.gameQuality -= 1;
+        if (ClientPrefs.data.gameQuality < 0) ClientPrefs.data.gameQuality = 0;
+		display = updateDisplay();
+    }
+    
+    override function right()
+	{
+        
+        ClientPrefs.data.gameQuality += 1;
+        if (ClientPrefs.data.gameQuality > 3) ClientPrefs.data.gameQuality = 3;
+		display = updateDisplay();
+    }
+    
+    override function change()
+	{
+	    FlxG.game.stage.quality = ClientPrefs.data.gameQuality;
+	}
+
+	private override function updateDisplay():String
+	{
+		return "Game Quality: " + OptionsHelpers.qualityArray[ClientPrefs.data.gameQuality];
+	} 
+}
+
 class Antialiasing extends Option
 {
 	public function new(desc:String)
@@ -1746,12 +1830,7 @@ class Antialiasing extends Option
 		ClientPrefs.data.antialiasing = !ClientPrefs.data.antialiasing;
             
 		display = updateDisplay();
-    }	
-
-    override function change()
-	{
-	
-	}
+    }	    
 	
 	private override function updateDisplay():String
 	{
