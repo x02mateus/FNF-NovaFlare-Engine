@@ -385,7 +385,7 @@ class ChartingState extends MusicBeatState
 
 		updateGrid();
 
-        addVirtualPad(ChartingState, ChartingState);
+        addVirtualPad(ChartingStateC, ChartingStateC);
 				
 		super.create();
 	}
