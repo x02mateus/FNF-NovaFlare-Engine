@@ -13,6 +13,14 @@ import backend.VideoManager;
 import backend.VideoSpriteManager;
 #end
 
+#if android
+import android.content.Context;
+import android.widget.Toast;
+import android.os.Environment;
+import android.Permissions;
+import lime.app.Application;
+#end
+
 //Mobile Controls
 import mobile.objects.MobileControls;
 import mobile.flixel.FlxHitbox;
