@@ -1126,13 +1126,13 @@ class HealthDrainOPPOMult extends Option
 
 	override function left()
 	{
-		ClientPrefs.data.HealthDrainOPPOMult += 0.1;
+		ClientPrefs.data.HealthDrainOPPOMult -= 0.1;
 		display = updateDisplay();
      }
 
 	override function right()
 	{
-		ClientPrefs.data.HealthDrainOPPOMult -= 0.1;
+		ClientPrefs.data.HealthDrainOPPOMult += 0.1;
 		display = updateDisplay();
      }
 
