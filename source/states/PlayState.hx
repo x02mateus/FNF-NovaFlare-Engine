@@ -157,7 +157,7 @@ class PlayState extends MusicBeatState
 	public var dad:Character = null;
 	public var gf:Character = null;
 	public var boyfriend:Character = null;
-//修改
+
 	public var notes:FlxTypedGroup<Note>;
 	public var killNotes:Array<Note> = [];
 	public var unspawnNotes:Array<Note> = [];
@@ -330,6 +330,7 @@ class PlayState extends MusicBeatState
 		instakillOnMiss = ClientPrefs.getGameplaySetting('instakill');
 		practiceMode = ClientPrefs.getGameplaySetting('practice');
 		cpuControlled = ClientPrefs.getGameplaySetting('botplay');
+		cpuControlled_opponent = ClientPrefs.getGameplaySetting('botplay');
 		guitarHeroSustains = ClientPrefs.data.guitarHeroSustains;
         if (ClientPrefs.data.playOpponent) cpuControlled = ClientPrefs.data.botOpponentFix;
 
@@ -3357,6 +3358,11 @@ class PlayState extends MusicBeatState
 				char.holdTimer = 0;
 			}
 		}
+		
+		if (ClientPrefs.data.HealthDrainOPPO) {
+		    health -= healthLoss * ClientPrefs.data.HealthDrainOPPOMult;
+		    if (health <= 0) health = 0.01; //not die
+		}
 
 		if(!splitVocals) vocals.volume = 1;
 		strumPlayAnim(true, Std.int(Math.abs(note.noteData)), Conductor.stepCrochet * 1.25 / 1000 / playbackRate);
@@ -3581,6 +3587,11 @@ class PlayState extends MusicBeatState
 				char.holdTimer = 0;
 			}
 		}
+		
+		if (ClientPrefs.data.HealthDrainOPPO) {
+		    health -= healthLoss * ClientPrefs.data.HealthDrainOPPOMult;
+		    if (health <= 0) health = 0.01; //not die
+		}
 
 		if(!splitVocals) vocals.volume = 1;
 		strumPlayAnim(false, Std.int(Math.abs(note.noteData)), Conductor.stepCrochet * 1.25 / 1000 / playbackRate);
@@ -3592,9 +3603,9 @@ class PlayState extends MusicBeatState
 
 		if (!note.isSustainNote) invalidateNote(note);
 	}
-//修改
+
 	public function invalidateNote(note:Note):Void {	    
-	    killNotes.push(note);
+	    killNotes.push(note); //I want detele this function but make sure not have bug so retain it
 	}
 	
 	public function destroyNotes():Void {	    
