@@ -2831,15 +2831,15 @@ class PlayState extends MusicBeatState
 		
 		var placement:Float = FlxG.width * 0.35;
 		
-		rateSpr_S = new FlxSprite().loadGraphic(Paths.image(uiPrefix + ratingsData[ClientPrefs.data.marvelousRating ? 4 : 0].image + uiSuffix));
+		rateSpr_S = new FlxSprite().loadGraphic(Paths.image(uiPrefix + ratingsData[0].image + uiSuffix));
 		rateSpr_S.cameras = [camHUD];
 		rateSpr_S.screenCenter();
 		rateSpr_S.x = placement - 40;
 		rateSpr_S.y -= 60;
 		rateSpr_S.x += ClientPrefs.data.comboOffset[0];
 		rateSpr_S.y -= ClientPrefs.data.comboOffset[1];
-		rateSpr_S.x += rateSpr_S.width * 0.7 * 0.5;
-		rateSpr_S.y += rateSpr_S.height * 0.7 * 0.5;
+		rateSpr_S.x -= rateSpr_S.width * 0.7 * 0.5;
+		rateSpr_S.y -= rateSpr_S.height * 0.7 * 0.5;
 		rateSpr_S.antialiasing = antialias;
 		rateSpr_S.alpha = 0.000001;
 		rateSpr_S.visible = showRating;
@@ -2872,9 +2872,6 @@ class PlayState extends MusicBeatState
 			numScore.screenCenter();
 			numScore.x = placement + (50 * comboNum) - 90 + ClientPrefs.data.comboOffset[2];
 			numScore.y += 80 - ClientPrefs.data.comboOffset[3];
-			
-			if (!PlayState.isPixelStage) numScore.setGraphicSize(Std.int(numScore.width * 0.5));
-			else numScore.setGraphicSize(Std.int(numScore.width * daPixelZoom));
 			numScore.updateHitbox();			
 			numScore.antialiasing = antialias;
             numScore.alpha = 0.000001;
