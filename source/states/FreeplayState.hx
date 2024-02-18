@@ -1221,21 +1221,24 @@ class FreeplayState extends MusicBeatState {
 
 class SongMetadata
 {
-	var folder:String = "";
-	var lastDifficulty:String = null;
-	var bg:Dynamic = Paths.image('menuDesat');
-	
-	var folder = Mods.currentModDirectory;
-	if(folder == null) folder = '';
-	
-	public function new(song:String, weekNum:Int, songCharacter:String, color:Int)
+	public var songName:String = "";
+	public var week:Int = 0;
+	public var songCharacter:String = "";
+	public var color:Int = -7179779;
+	public var folder:String = "";
+	public var lastDifficulty:String = null;
+	public var bg:Dynamic;
+	public var searchnum:Dynamic = 0;
+
+	public function new(song:String, week:Int, songCharacter:String, color:Int)
 	{
-		this.songName = songName;
-		this.week =  weekNum;
+		this.songName = song;
+		this.week = week;
 		this.songCharacter = songCharacter;
 		this.color = color;
-		this.bg =  bg;
-		this.searchnum = 0;
-		this.folder = folder;
+		this.folder = Mods.currentModDirectory;
+		this.bg = Paths.image('menuDesat');
+		this.searchnum = searchnum;
+		if(this.folder == null) this.folder = '';
 	}
 }
