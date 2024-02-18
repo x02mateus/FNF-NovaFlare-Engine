@@ -104,6 +104,8 @@ class MobileExtraControl extends MusicBeatSubstate
     
     override function update(elapsed:Float)
 	{
+	    super.update(elapsed);
+	    
 		var accept = controls.ACCEPT;
 		var right = controls.UI_RIGHT_P;
 		var left = controls.UI_LEFT_P;
@@ -169,7 +171,7 @@ class MobileExtraControl extends MusicBeatSubstate
 		        }				
 		}
 		
-	    super.update(elapsed);
+	    
 	}
 	
 	function displayOption(){
