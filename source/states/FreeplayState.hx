@@ -401,6 +401,8 @@ class FreeplayState extends MusicBeatState {
     	makeListenMenu();
     	
     	changeSong(0);
+    	
+    	super.create();
     }
     
     var startMouseY:Float;
@@ -463,6 +465,8 @@ class FreeplayState extends MusicBeatState {
     	
     	camSong.scroll.x = FlxMath.lerp(-(curSelectedFloat) * 20 * 0.75, camSong.scroll.x, FlxMath.bound(1 - (elapsed * 9), 0, 1));
         camSong.scroll.y = FlxMath.lerp((curSelectedFloat) * 75 * 0.75, camSong.scroll.y, FlxMath.bound(1 - (elapsed * 9), 0, 1));
+        
+        super.update(elapsed);
     }
     
     var listeningSongName:FlxText;
