@@ -52,7 +52,7 @@ class MobileExtraControl extends MusicBeatSubstate
         
         for (i in 0...3){
 	        var realKey:Int = i + 1;
-	        var controlReturn:String;
+	        var controlReturn:String = '';
 	        
             switch(i){
                 case 0:
@@ -206,7 +206,7 @@ class MobileExtraControl extends MusicBeatSubstate
 	function displayData(){
 	    for (i in 0...3)
 		{
-		    var controlReturn:String;
+		    var controlReturn:String = '';
 	        
             switch(i){
                 case 0:
