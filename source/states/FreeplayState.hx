@@ -111,7 +111,7 @@ class FreeplayState extends MusicBeatState {
     
 	override function create()
 	{
-	    persistentUpdate = true;
+	    persistentUpdate = persistentDraw = true;
 	    PlayState.isStoryMode = false;
 		WeekData.reloadWeekFiles(false);
 		
