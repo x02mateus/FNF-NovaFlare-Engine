@@ -1237,5 +1237,5 @@ class SongMetadata
 		this.bg =  bg,
 		this.searchnum =  0,
 		this.folder = folder
-	};
+	}
 }
