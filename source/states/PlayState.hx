@@ -1261,7 +1261,7 @@ class PlayState extends MusicBeatState
 
 		if (Conductor.songPosition <= vocals.length)
 		{
-			vocals.time = time;
+			//vocals.time = time;
 			opponentVocals.time = time;
 			#if FLX_PITCH
 			vocals.pitch = playbackRate;
