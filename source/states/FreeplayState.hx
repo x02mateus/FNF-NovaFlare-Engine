@@ -441,7 +441,7 @@ class FreeplayState extends MusicBeatState {
     	if(FlxG.mouse.wheel != 0 && FlxG.mouse.x > FlxG.width/2)
 		{
 			FlxG.sound.play(Paths.sound('scrollMenu'), 0.2);
-			changeSong(-2 * FlxG.mouse.wheel, false);
+			changeSong(-2 * FlxG.mouse.wheel);
 		}
 		
 		if (controls.RESET) {
@@ -693,7 +693,7 @@ class FreeplayState extends MusicBeatState {
     	add(searchtext);
     	searchtext.alpha = 0.5;
     	
-    	var underbar = new FlxSprite(60, 190).makeGraphic(450, 2.5, FlxColor.WHITE);
+    	var underbar = new FlxSprite(60, 190).makeGraphic(450, 2, FlxColor.WHITE);
     	underbar.camera = camSearch;
     	underbar.updateHitbox();
     	add(underbar);
@@ -1236,7 +1236,7 @@ class SongMetadata
 		this.color = color;
 		this.folder = Mods.currentModDirectory;
 		this.bg = Paths.image('menuDesat');
-		this.searchnum = searchnum;
+		this.searchnum = 0;
 		if(this.folder == null) this.folder = '';
 	}
 }
