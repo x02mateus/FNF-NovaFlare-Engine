@@ -1341,7 +1341,7 @@ class ExtraControls extends Option
 
 	override function press()
 	{		
-		OptionsState.openSub('MobileExtraControl');		
+		OptionsState.instance.openSub('MobileExtraControl');		
     }
     
     private override function updateDisplay():String
