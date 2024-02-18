@@ -18,7 +18,7 @@ class MobileExtraControl extends MusicBeatSubstate
         'OTHERS'
     ];
     
-    var chooseArray:Array = [];                
+    var chooseArray:Array<String> = [];                
     
     var mainNum:Int = 0; //所处阶段
     
