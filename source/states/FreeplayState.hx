@@ -34,7 +34,6 @@ import flixel.text.FlxText;
 import backend.MusicBeatState;
 import flixel.math.FlxMath;
 import flixel.math.FlxRect;
-import flixel.text.FlxTextBorderStyle;
 import states.PlayState;
 import states.LoadingState;
 import states.MainMenuState;
@@ -1218,24 +1217,25 @@ class FreeplayState extends MusicBeatState {
 		    }
         }, 0);
 	}
+}
+
+class SongMetadata
+{
+	var folder:String = "";
+	var lastDifficulty:String = null;
+	var bg:Dynamic = Paths.image('menuDesat');
 	
-	function SongMetadata(songName:String, weekNum:Int, songCharacter:String, color:Int)
+	folder = Mods.currentModDirectory;
+	if(folder == null) folder = '';
+	
+	public function new(song:String, weekNum:Int, songCharacter:String, color:Int)
 	{
-		var folder:String = "";
-		var lastDifficulty:String = null;
-		var bg:Dynamic = Paths.image('menuDesat');
-		
-		folder = Mods.currentModDirectory;
-		if(folder == null) folder = '';
-		
-		return {
-			songName: songName,
-			week: weekNum,
-			songCharacter: songCharacter,
-			color: color,
-			bg: bg,
-			searchnum: 0,
-			folder: folder
-		};
-	}
+		this.songName = songName,
+		this.week =  weekNum,
+		this.songCharacter = songCharacter,
+		this.color = color,
+		this.bg =  bg,
+		this.searchnum =  0,
+		this.folder = folder
+	};
 }
