@@ -411,7 +411,7 @@ class FreeplayState extends MusicBeatState {
     		changeSong(-1);
     	//debugPrint(mousechecker.x + ' || ' + mousechecker.y);
     	mousechecker.setPosition(FlxG.mouse.getScreenPosition(camUI).x, FlxG.mouse.getScreenPosition(camUI).y);
-    	if ((FlxG.mouse.justPressed && FlxG.pixelPerfectOverlap(difficultyLeft, mousechecker, 25 || controls.UI_LEFT_P)))
+    	if ((FlxG.mouse.justPressed && FlxG.pixelPerfectOverlap(difficultyLeft, mousechecker, 25)) || controls.UI_LEFT_P)
     		changeDiff(-1);
     	if ((FlxG.mouse.justPressed && FlxG.pixelPerfectOverlap(difficultyRight, mousechecker, 25)) || controls.UI_RIGHT_P)
     		changeDiff(1);
@@ -1146,7 +1146,7 @@ class FreeplayState extends MusicBeatState {
 	
 	 function addSong(songName:String, weekNum:Int, songCharacter:String, color:Int)
 	{
-		songs.push(SongMetadata(songName, weekNum, songCharacter, color));
+		songs.push(new SongMetadata(songName, weekNum, songCharacter, color));
 	}
 	
 	function bgCheck()
@@ -1226,7 +1226,7 @@ class SongMetadata
 	public var folder:String = "";
 	public var lastDifficulty:String = null;
 	public var bg:Dynamic;
-	public var searchnum:Dynamic = 0;
+	public var searchnumm:Int = 0;
 
 	public function new(song:String, week:Int, songCharacter:String, color:Int)
 	{
@@ -1236,7 +1236,7 @@ class SongMetadata
 		this.color = color;
 		this.folder = Mods.currentModDirectory;
 		this.bg = Paths.image('menuDesat');
-		this.searchnum = searchnum;
+		this.searchnum = searchnumm;
 		if(this.folder == null) this.folder = '';
 	}
 }
