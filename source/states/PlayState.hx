@@ -2941,15 +2941,15 @@ class PlayState extends MusicBeatState
 		var numScale:Float = 0;
 		if (!PlayState.isPixelStage)
 		{
-			//rateSpr_S.setGraphicSize(Std.int(rateSpr_S.width * 0.7));
-			//comboSpr_S.setGraphicSize(Std.int(comboSpr_S.width * 0.6));
+			rateSpr_S.setGraphicSize(Std.int(rateSpr_S.width * 0.7));
+			comboSpr_S.setGraphicSize(Std.int(comboSpr_S.width * 0.6));
 			scale = 0.7;
 			numScale = 0.5;
 		}
 		else
 		{
-			//rateSpr_S.setGraphicSize(Std.int(rateSpr_S.width * daPixelZoom * 0.85));
-			//comboSpr_S.setGraphicSize(Std.int(comboSpr_S.width * daPixelZoom * 0.85));
+			rateSpr_S.setGraphicSize(Std.int(rateSpr_S.width * daPixelZoom * 0.85));
+			comboSpr_S.setGraphicSize(Std.int(comboSpr_S.width * daPixelZoom * 0.85));
 			scale = 0.85 * daPixelZoom;
 			numScale = daPixelZoom;
 		}
@@ -2973,8 +2973,8 @@ class PlayState extends MusicBeatState
 			numScore.loadGraphic(Paths.image(uiPrefix + 'num' + seperatedScore[comboNum] + uiSuffix));
 			if (ClientPrefs.data.comboColor) numScore.color = daRating.color;
 			
-			/*if (!PlayState.isPixelStage) numScore.setGraphicSize(Std.int(numScore.width * 0.5));
-			else numScore.setGraphicSize(Std.int(numScore.width * daPixelZoom));*/
+			iif (!PlayState.isPixelStage) numScore.setGraphicSize(Std.int(numScore.width * 0.5));
+			else numScore.setGraphicSize(Std.int(numScore.width * daPixelZoom));
 			numScore.updateHitbox();			
 			numScore.antialiasing = antialias;
 			
