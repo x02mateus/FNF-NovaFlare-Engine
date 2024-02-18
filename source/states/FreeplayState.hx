@@ -95,7 +95,7 @@ class FreeplayState extends MusicBeatState {
     var colorTween:FlxTween;
     
     var font = Paths.font('montserrat.ttf');
-    var filePath:String = 'menuExtend/FreePlay/';
+    var filePath:String = 'menuExtend/FreePlayState/';
     
     /*private static */var curSelected:Int = 0;
 	var lerpSelected:Float = 0;
@@ -1225,7 +1225,7 @@ class SongMetadata
 	var lastDifficulty:String = null;
 	var bg:Dynamic = Paths.image('menuDesat');
 	
-	folder = Mods.currentModDirectory;
+	var folder = Mods.currentModDirectory;
 	if(folder == null) folder = '';
 	
 	public function new(song:String, weekNum:Int, songCharacter:String, color:Int)
