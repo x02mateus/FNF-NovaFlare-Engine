@@ -1230,12 +1230,12 @@ class SongMetadata
 	
 	public function new(song:String, weekNum:Int, songCharacter:String, color:Int)
 	{
-		this.songName = songName,
-		this.week =  weekNum,
-		this.songCharacter = songCharacter,
-		this.color = color,
-		this.bg =  bg,
-		this.searchnum =  0,
-		this.folder = folder
+		this.songName = songName;
+		this.week =  weekNum;
+		this.songCharacter = songCharacter;
+		this.color = color;
+		this.bg =  bg;
+		this.searchnum = 0;
+		this.folder = folder;
 	}
 }
