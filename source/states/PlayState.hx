@@ -2973,7 +2973,7 @@ class PlayState extends MusicBeatState
 			numScore.loadGraphic(Paths.image(uiPrefix + 'num' + seperatedScore[comboNum] + uiSuffix));
 			if (ClientPrefs.data.comboColor) numScore.color = daRating.color;
 			
-			iif (!PlayState.isPixelStage) numScore.setGraphicSize(Std.int(numScore.width * 0.5));
+			if (!PlayState.isPixelStage) numScore.setGraphicSize(Std.int(numScore.width * 0.5));
 			else numScore.setGraphicSize(Std.int(numScore.width * daPixelZoom));
 			numScore.updateHitbox();			
 			numScore.antialiasing = antialias;
