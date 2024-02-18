@@ -2868,9 +2868,11 @@ class PlayState extends MusicBeatState
 		{
 			var numScore:FlxSprite = new FlxSprite().loadGraphic(Paths.image(uiPrefix + 'num' + 0 + uiSuffix));
 			numScore.screenCenter();
-			numScore.x = placement + (50 * comboNum) - 90 + ClientPrefs.data.comboOffset[2];
+			numScore.x = placement + (50 * (comboNum - 1)) - 90 + ClientPrefs.data.comboOffset[2];
 			numScore.y += 80 - ClientPrefs.data.comboOffset[3];
-			numScore.updateHitbox();			
+			numScore.setGraphicSize(Std.int(numScore.width * 0.5));
+			numScore.updateHitbox();
+			numScore.y += numScore.width * 0.5;	
 			numScore.antialiasing = antialias;
             numScore.alpha = 0.000001;
             
