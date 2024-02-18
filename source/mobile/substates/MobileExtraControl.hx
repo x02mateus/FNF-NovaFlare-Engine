@@ -74,7 +74,7 @@ class MobileExtraControl extends MusicBeatSubstate
 	    }	
 	    
 	    for (i in 0...4){	    	    	    
-	        if (i != 0)
+	        if (i != 0){
     	        var titleObject = new FlxText(0, 250 + 50 * i + 500, 0, showArray[i-1]);
         		titleObject.setFormat(Paths.font('vcr.ttf'), 20, FlxColor.WHITE, FlxTextAlign.CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
         		titleObject.antialiasing = ClientPrefs.data.antialiasing;

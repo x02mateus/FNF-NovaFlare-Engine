@@ -94,10 +94,8 @@ class MobileControlSelectSubState extends MusicBeatSubstate
 		{
 			if (resetButton.visible)
 			{
-				if (curSelected == 6)
+				if (daChoice == 'Pad-Custom')
 				{
-				
-    			} else {
     				virtualPadd.buttonUp.x = FlxG.width - 258;
     				virtualPadd.buttonUp.y = FlxG.height - 408;
     				virtualPadd.buttonDown.x = FlxG.width - 258;
@@ -106,6 +104,15 @@ class MobileControlSelectSubState extends MusicBeatSubstate
     				virtualPadd.buttonRight.y = FlxG.height - 309;
     				virtualPadd.buttonLeft.x = FlxG.width - 384;
     				virtualPadd.buttonLeft.y = FlxG.height - 309;
+    			}else{
+    			    virtualPadd.buttonExtra1.x = FlxG.width * 0.5 - 84 * 3;
+    			    virtualPadd.buttonExtra1.y = FlxG.height * 0.5 - 127 * 0.5;
+    			    virtualPadd.buttonExtra2.x = FlxG.width * 0.5 - 44 * 3;
+    			    virtualPadd.buttonExtra2.y = FlxG.height * 0.5 - 127 * 0.5;
+    			    virtualPadd.buttonExtra3.x = FlxG.width * 0.5;
+    			    virtualPadd.buttonExtra3.y = FlxG.height * 0.5 - 127 * 0.5;
+    			    virtualPadd.buttonExtra4.x = FlxG.width * 0.5 + 44 * 3;
+    			    virtualPadd.buttonExtra4.y = FlxG.height * 0.5 - 127 * 0.5;
     			}
 			}
 		});
@@ -405,7 +412,7 @@ class MobileControlSelectSubState extends MusicBeatSubstate
 		}
 
 		funitext.visible = daChoice == 'Keyboard';
-		if (daChoice == 'Pad-Custom')
+		if (daChoice != 'Keyboard' || daChoice != 'Hitbox')
 		resetButton.visible = true;
 		else resetButton.visible = false;
 
