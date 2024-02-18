@@ -160,9 +160,6 @@ class FreeplayState extends MusicBeatState {
     	loadSong();
     	addSongTxt();
     	
-    	bg.color = songs[curSelected].color;
-    	intendedColor = bg.color;
-    	
     	curDifficulty = Math.round(Math.max(0, Difficulty.defaultList.indexOf(lastDifficultyName)));    	    	
     	
     	songBarSelected = new FlxSprite().loadGraphic(Paths.image(filePath + 'songBarSelected'));
