@@ -373,7 +373,7 @@ class FreeplayState extends MusicBeatState {
     	searchButton.camera = camUI;
     	add(searchButton);
     	
-    	var objs:Array = [randomButton, musicButton, searchButton];
+    	var objs:Array<FlxSprite> = [randomButton, musicButton, searchButton];
     	for (i in 0...objs.length) {
     		objs[i].scale.set(60/1500, 60/1500);
     		objs[i].updateHitbox();
@@ -441,7 +441,7 @@ class FreeplayState extends MusicBeatState {
     	if(FlxG.mouse.wheel != 0 && FlxG.mouse.x > FlxG.width/2)
 		{
 			FlxG.sound.play(Paths.sound('scrollMenu'), 0.2);
-			changeSelection(-2 * FlxG.mouse.wheel, false);
+			changeSong(-2 * FlxG.mouse.wheel, false);
 		}
 		
 		if (controls.RESET) {
@@ -658,7 +658,7 @@ class FreeplayState extends MusicBeatState {
     	}
 	}
     
-    public function destroyFreeplayVocals() {
+    public static function destroyFreeplayVocals() {
 		if(vocals != null) {
 			vocals.stop();
 			vocals.destroy();
@@ -770,7 +770,7 @@ class FreeplayState extends MusicBeatState {
     	if(FlxG.mouse.wheel != 0 && FlxG.mouse.x <= FlxG.width/2)
     	{
 			FlxG.sound.play(Paths.sound('scrollMenu'), 0.2);
-			searchChangeSong(-2 * FlxG.mouse.wheel, false);
+			searchChangeSong(-2 * FlxG.mouse.wheel);
 		}
 	}
     
@@ -998,7 +998,7 @@ class FreeplayState extends MusicBeatState {
 		
 		try {
 			var song = songs[curSelected].songName.toLowerCase();
-			if (Paths.fileExists('data/' + Paths.formatToSongPath(song) + '/' + Paths.formatToSongPath(song) + Difficulty.getFilePath(curDifficulty)+'.json')) {
+			if (Paths.fileExists('data/' + Paths.formatToSongPath(song) + '/' + Paths.formatToSongPath(song) + Difficulty.getFilePath(curDifficulty)+'.json'), TEXT) {
 				var poop:String = Highscore.formatSong(song, curDifficulty);
 				rate = DiffCalc.CalculateDiff(Song.loadFromJson(poop, songs[curSelected].songName.toLowerCase())) / 4;
 			}
@@ -1186,7 +1186,7 @@ class FreeplayState extends MusicBeatState {
     	}
 	}
 	
-	var saveVar = 0;
+	var saveVar:Float = 0;
 	function rateCheck(Rate:Float = 0)
 	{
 		rateText.text = 'Lv. ' + (Math.floor(Rate*100)/100);
@@ -1210,7 +1210,7 @@ class FreeplayState extends MusicBeatState {
 		    rate.clipRect = swagRect;
 		    
 		    if (showWidth == 20){ 
-		        timerTween.cancel();
+		        tmr.cancel();
 		        saveVar = swagRect.width;
 		    }
         }, 0);
@@ -1226,7 +1226,7 @@ class SongMetadata
 	public var folder:String = "";
 	public var lastDifficulty:String = null;
 	public var bg:Dynamic;
-	public var searchnumm:Int = 0;
+	public var searchnum:Int = 0;
 
 	public function new(song:String, week:Int, songCharacter:String, color:Int)
 	{
@@ -1236,7 +1236,7 @@ class SongMetadata
 		this.color = color;
 		this.folder = Mods.currentModDirectory;
 		this.bg = Paths.image('menuDesat');
-		this.searchnum = searchnumm;
+		this.searchnum = searchnum;
 		if(this.folder == null) this.folder = '';
 	}
 }
