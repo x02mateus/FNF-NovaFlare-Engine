@@ -325,7 +325,7 @@ class ChooseButton extends FlxSprite
 {
     
     public var titleObject:FlxText;
-    public var extendTitleObject:FlxText
+    public var extendTitleObject:FlxText;
     
     public var _width:Int = 0;
     public var _height:Int = 0;
