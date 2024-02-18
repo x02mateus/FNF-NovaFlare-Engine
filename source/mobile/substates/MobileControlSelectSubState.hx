@@ -94,6 +94,7 @@ class MobileControlSelectSubState extends MusicBeatSubstate
 		{
 			if (resetButton.visible)
 			{
+			    var daChoice:String = controlsItems[Math.floor(curSelected)];
 				if (daChoice == 'Pad-Custom')
 				{
     				virtualPadd.buttonUp.x = FlxG.width - 258;

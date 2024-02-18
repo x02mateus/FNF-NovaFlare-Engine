@@ -244,7 +244,7 @@ class MobileExtraControl extends MusicBeatSubstate
 			var button:ChooseButton = optionNumber.members[i];
 			
 			if (chooseTween[i] != null) chooseTween[i].cancel();
-        		chooseTween[i] = FlxTween.tween(obj, {y: 250 + 50 * i}, 0.5 + i * 0.05, {ease: FlxEase.quadInOut});
+        		chooseTween[i] = FlxTween.tween(button, {y: 250 + 50 * i}, 0.5 + i * 0.05, {ease: FlxEase.quadInOut});
 	    }	
 	    
 	    for (i in 0...4)
@@ -325,11 +325,16 @@ class ChooseButton extends FlxSprite
 {
     
     public var titleObject:FlxText;
-    public var extendTitleObject:FlxText;
+    public var extendTitleObject:FlxText
+    
+    public var _width:Int = 0;
+    public var _height:Int = 0;
     
     public function new(x:Float, y:Float, width:Int, height:Int, title:String, ?extendTitle:String = null)
 	{
 	    super(x, y);
+	    _width = width;
+	    _height = height;
 	    
 	    makeGraphic(width, height, FlxColor.BLACK);
 		alpha = 0.4;
@@ -340,7 +345,6 @@ class ChooseButton extends FlxSprite
 		titleObject.borderSize = 2;
 		titleObject.x -= titleObject.width / 2;
 		titleObject.y -= titleObject.height / 2;
-		add(titleObject);	
 		
 		if (extendTitle != null){
 		    titleObject.y = y;
@@ -351,12 +355,12 @@ class ChooseButton extends FlxSprite
     		extendTitleObject.borderSize = 2;
     		extendTitleObject.x -= extendTitleObject.width / 2;
     		extendTitleObject.y += height - extendTitleObject.height;
-    		add(extendTitleObject);					
+    			
 		}
 	}
 	
 	public function changeColor(color:FlxColor){
-	    makeGraphic(width, height, FlxColor.BLACK);
+	    makeGraphic(_width, _height, FlxColor.BLACK);
 		alpha = 0.4;
 	    updateHitbox();	
 	}
