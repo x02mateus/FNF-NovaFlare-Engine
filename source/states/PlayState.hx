@@ -2838,8 +2838,6 @@ class PlayState extends MusicBeatState
 		rateSpr_S.y -= 60;
 		rateSpr_S.x += ClientPrefs.data.comboOffset[0];
 		rateSpr_S.y -= ClientPrefs.data.comboOffset[1];
-		rateSpr_S.x -= rateSpr_S.width * 0.7 * 0.5;
-		rateSpr_S.y -= rateSpr_S.height * 0.7 * 0.5;
 		rateSpr_S.antialiasing = antialias;
 		rateSpr_S.alpha = 0.000001;
 		rateSpr_S.visible = showRating;

@@ -111,6 +111,12 @@ class FreeplayState extends MusicBeatState {
     
 	override function create()
 	{
+	    persistentUpdate = true;
+	    PlayState.isStoryMode = false;
+		WeekData.reloadWeekFiles(false);
+		
+		loadSong();
+		
 		camGame = new FlxCamera();
 		camGame.bgColor = 0x00;
 		
@@ -156,8 +162,7 @@ class FreeplayState extends MusicBeatState {
     	mousechecker.alpha = 0.1;
     	add(mousechecker);
     	mousechecker.camera = camUI;
-    	
-    	loadSong();
+    	    	
     	addSongTxt();
     	
     	if(curSelected >= songs.length) curSelected = 0;
@@ -1086,6 +1091,7 @@ class FreeplayState extends MusicBeatState {
     			addSong(song[0], i, song[1], FlxColor.fromRGB(colors[0], colors[1], colors[2]));
     		}
        	}
+       	Mods.loadTopMod();
 	}
 	
 	function addSongTxt()
