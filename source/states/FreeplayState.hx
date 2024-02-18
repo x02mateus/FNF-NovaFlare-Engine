@@ -136,9 +136,7 @@ class FreeplayState extends MusicBeatState {
 		FlxG.cameras.add(camSearch, false);
 		FlxG.cameras.add(camListen, false);
 		FlxG.cameras.add(camUI, false);
-		
-		game.luaDebugGroup.camera = camInfo;
-    	
+		    	
     	songsbg = new FlxSprite(700, -75).makeGraphic(550, 900, FlxColor.WHITE);
     	songsbg.camera = camGame;
     	songsbg.angle = 15;
@@ -480,22 +478,22 @@ class FreeplayState extends MusicBeatState {
     function makeListenMenu() {
     	startMusic(false);
     	listeningSongName = new FlxText(50, 190, 500, songs[curSelected].songName);
-    	listeningSongName.setFormat(font, 50, FlxColor.GREY, CENTER);
+    	listeningSongName.setFormat(font, 50, FlxColor.WHITE, CENTER);
     	listeningSongName.camera = camListen;
     	add(listeningSongName);
     	
     	playingSongName = new FlxText(50, 235, 500, 'Playing: ' + (playingSong == -1 ? songs[curSelected].songName : songs[playingSong].songName));
-    	playingSongName.setFormat(font, 30, FlxColor.GREY, CENTER);
+    	playingSongName.setFormat(font, 30, FlxColor.WHITE, CENTER);
     	playingSongName.camera = camListen;
     	add(playingSongName);
     	
     	listeningSongTime = new FlxText(350, 350, 0, '-:-/-:-');
-    	listeningSongTime.setFormat(font, 30, FlxColor.GREY, LEFT);
+    	listeningSongTime.setFormat(font, 30, FlxColor.WHITE, LEFT);
     	listeningSongTime.camera = camListen;
     	add(listeningSongTime);
     	
     	playText = new FlxText(120, 350, 0, 'PLAY');
-    	playText.setFormat(font, 30, FlxColor.GREY, LEFT);
+    	playText.setFormat(font, 30, FlxColor.WHITE, LEFT);
     	playText.camera = camListen;
     	add(playText);
     	
@@ -505,7 +503,7 @@ class FreeplayState extends MusicBeatState {
     	add(playButton);
     	
     	pauseText = new FlxText(50, 440, 0, 'PAUSE');
-    	pauseText.setFormat(font, 30, FlxColor.GREY, LEFT);
+    	pauseText.setFormat(font, 30, FlxColor.WHITE, LEFT);
     	pauseText.camera = camListen;
     	add(pauseText);
     	
@@ -690,7 +688,7 @@ class FreeplayState extends MusicBeatState {
     var oldText:String = '';
     function makeSearchUI() {
     	searchtext = new FlxText(60, 150, 0, 'Type Song Name...');
-    	searchtext.setFormat(font, 28, FlxColor.GREY, LEFT);
+    	searchtext.setFormat(font, 28, FlxColor.WHITE, LEFT);
     	searchtext.camera = camSearch;
     	add(searchtext);
     	searchtext.alpha = 0.5;
@@ -711,7 +709,7 @@ class FreeplayState extends MusicBeatState {
 		
 		for (i in 0...6) {
 			var searchobj = new FlxText(125-i*15, 260+i*60, 0, '');
-    		searchobj.setFormat(font, 35, FlxColor.GREY, LEFT);
+    		searchobj.setFormat(font, 35, FlxColor.WHITE, LEFT);
     		searchobj.camera = camSearch;
     		searchTextGroup.push(searchobj);
     		
@@ -772,7 +770,7 @@ class FreeplayState extends MusicBeatState {
     	if(FlxG.mouse.wheel != 0 && FlxG.mouse.x <= FlxG.width/2)
     	{
 			FlxG.sound.play(Paths.sound('scrollMenu'), 0.2);
-			searchChangeSong(-shiftMult * FlxG.mouse.wheel, false);
+			searchChangeSong(-2 * FlxG.mouse.wheel, false);
 		}
 	}
     
