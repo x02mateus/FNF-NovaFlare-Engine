@@ -10,6 +10,7 @@ import options.base.NoteOffsetState;
 import options.base.NotesSubState;
 import options.base.ControlsSubState;
 import mobile.substates.MobileControlSelectSubState;
+import mobile.substates.MobileExtraControl;
 
 import backend.ClientPrefs;
 import backend.StageData;
@@ -996,6 +997,8 @@ class OptionsState extends MusicBeatState
 	            FlxG.state.openSubState(new NotesSubState());		
 	        case 'NoteOffsetState':
 	            MusicBeatState.switchState(new NoteOffsetState());	
+	        case 'MobileExtraControl':
+	            MusicBeatState.switchState(new MobileExtraControl());	
 	    }
 	}
 	
