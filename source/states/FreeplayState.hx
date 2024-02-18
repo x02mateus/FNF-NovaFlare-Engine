@@ -790,7 +790,7 @@ class FreeplayState extends MusicBeatState {
     		else
     			searchTextGroup[i].text = '';
     			
-    		searchCheckGroup[i].makeGraphic(searchTextGroup[i].width, searchTextGroup[i].height, FlxColor.WHITE);
+    		searchCheckGroup[i].makeGraphic(Std.int(searchTextGroup[i].width), Std.int(searchTextGroup[i].height), FlxColor.WHITE);
    		}
     }
     
