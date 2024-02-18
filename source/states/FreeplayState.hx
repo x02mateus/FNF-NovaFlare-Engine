@@ -73,7 +73,7 @@ class FreeplayState extends MusicBeatState {
 	var rate:FlxSprite;
 	var timerTween:FlxTimer;
 	var swagRect:FlxRect;
-    /*public static*/ var songs:Array<SongMetadata> = [];
+    public static var songs:Array<SongMetadata> = [];
     var songtextsGroup:Array<FlxText> = [];
     var iconsArray:Array<HealthIcon> = [];
     var barsArray:Array<FlxSprite> = [];
@@ -97,10 +97,10 @@ class FreeplayState extends MusicBeatState {
     var font = Paths.font('montserrat.ttf');
     var filePath:String = 'menuExtend/FreePlayState/';
     
-    /*private static */var curSelected:Int = 0;
+    private static var curSelected:Int = 0;
 	var lerpSelected:Float = 0;
-	var curDifficulty:Int = -1;
-	/*private static */var lastDifficultyName:String = Difficulty.getDefault();
+	public static var curDifficulty:Int = -1;
+	private static var lastDifficultyName:String = Difficulty.getDefault();
 	
 	var camGame:FlxCamera;
     var camSong:FlxCamera;
@@ -403,8 +403,8 @@ class FreeplayState extends MusicBeatState {
     var curSelectedFloat:Float;
     var lastCurSelected:Int;
     var canMove:Bool;
-    var vocals:FlxSound = null;
-    var instPlaying:Int = 0;
+    public static var vocals:FlxSound = null;
+    public static var instPlaying:Int = 0;
     override function update(elapsed:Float)
     {
     	if (controls.UI_DOWN_P)
@@ -464,7 +464,7 @@ class FreeplayState extends MusicBeatState {
     var listeningSongName:FlxText;
     var playingSongName:FlxText;
     var listeningSongTime:FlxText;
-    var playingSong:Int = -1;
+    public static var playingSong:Int = -1;
     var maxTime:Float = 0;
     
     var playText:FlxText;
@@ -660,7 +660,7 @@ class FreeplayState extends MusicBeatState {
     	}
 	}
     
-    function destroyFreeplayVocals() {
+    public function destroyFreeplayVocals() {
 		if(vocals != null) {
 			vocals.stop();
 			vocals.destroy();
@@ -683,7 +683,7 @@ class FreeplayState extends MusicBeatState {
 	}
     
     var searchInput:FlxInputText;
-    var searchSelected:Int = 0;
+    public static var searchSelected:Int = 0;
     var searchSelectedObj:FlxSprite;
     var searchTextGroup:Array<FlxText> = [];
     var searchCheckGroup:Array<FlxSprite> = [];
@@ -730,7 +730,7 @@ class FreeplayState extends MusicBeatState {
     	searching = false;
     }
     
-    var songsSearched:Array<SongMetadata> = [];
+    public static var songsSearched:Array<SongMetadata> = [];
     var startMouseYsearch:Float = 0;
     var fakecurSelected = 0;
     function searchUpdate(elapsed:Float) {
