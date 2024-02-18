@@ -1261,7 +1261,7 @@ class PlayState extends MusicBeatState
 
 		if (Conductor.songPosition <= vocals.length)
 		{
-			//vocals.time = time;
+			vocals.time = time;
 			opponentVocals.time = time;
 			#if FLX_PITCH
 			vocals.pitch = playbackRate;
@@ -1752,7 +1752,7 @@ class PlayState extends MusicBeatState
 		if (paused)
 		{
 			if(FlxG.sound.music != null && !startingSong)
-				resyncVocals();
+				resyncVocals(true);
 	
 			FlxTimer.globalManager.forEach(function(tmr:FlxTimer) if(!tmr.finished) tmr.active = true);
 			FlxTween.globalManager.forEach(function(twn:FlxTween) if(!twn.finished) twn.active = true);
@@ -1813,7 +1813,7 @@ class PlayState extends MusicBeatState
 		#end
 	}
 
-	function resyncVocals():Void
+	function resyncVocals(?fixVocals:Bool = false):Void
 	{
 		if(finishTimer != null) return;
 
@@ -1825,13 +1825,13 @@ class PlayState extends MusicBeatState
 
 		if (Conductor.songPosition <= vocals.length)
 		{
-			vocals.time = Conductor.songPosition;
+			if (fixVocals) vocals.time = Conductor.songPosition;
 			#if FLX_PITCH vocals.pitch = playbackRate; #end
 		}
 
 		if (Conductor.songPosition <= opponentVocals.length)
 		{
-			opponentVocals.time = Conductor.songPosition;
+			if (fixVocals) opponentVocals.time = Conductor.songPosition;
 			#if FLX_PITCH opponentVocals.pitch = playbackRate; #end
 		}
 		vocals.play();
