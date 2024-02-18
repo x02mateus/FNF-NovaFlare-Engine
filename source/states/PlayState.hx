@@ -1397,7 +1397,7 @@ class PlayState extends MusicBeatState
 				var daStrumTime:Float = songNotes[0];
 				var daNoteData:Int = Std.int(songNotes[1] % 4);
 				var gottaHitNote:Bool = section.mustHitSection;
-				/*
+				
 				if (ClientPrefs.data.filpChart) {
 				    if (daNoteData == 0) {
 				        daNoteData = 3;
@@ -1411,7 +1411,7 @@ class PlayState extends MusicBeatState
 				    else if (daNoteData == 3) {
 				        daNoteData = 0;
 				    } 
-				}*/
+				}
 
 				if (songNotes[1] > 3)
 				{
@@ -2940,18 +2940,20 @@ class PlayState extends MusicBeatState
 		comboSpr_S.antialiasing = antialias;		
 		
 		var scale:Float = 0;
-		
+		var numScale:Float = 0;
 		if (!PlayState.isPixelStage)
 		{
-			rateSpr_S.setGraphicSize(Std.int(rateSpr_S.width * 0.7));
-			comboSpr_S.setGraphicSize(Std.int(comboSpr_S.width * 0.6));
+			//rateSpr_S.setGraphicSize(Std.int(rateSpr_S.width * 0.7));
+			//comboSpr_S.setGraphicSize(Std.int(comboSpr_S.width * 0.6));
 			scale = 0.7;
+			numScale = 0.5;
 		}
 		else
 		{
-			rateSpr_S.setGraphicSize(Std.int(rateSpr_S.width * daPixelZoom * 0.85));
-			comboSpr_S.setGraphicSize(Std.int(comboSpr_S.width * daPixelZoom * 0.85));
+			//rateSpr_S.setGraphicSize(Std.int(rateSpr_S.width * daPixelZoom * 0.85));
+			//comboSpr_S.setGraphicSize(Std.int(comboSpr_S.width * daPixelZoom * 0.85));
 			scale = 0.85 * daPixelZoom;
+			numScale = daPixelZoom;
 		}
 
 		comboSpr_S.updateHitbox();
@@ -2973,8 +2975,8 @@ class PlayState extends MusicBeatState
 			numScore.loadGraphic(Paths.image(uiPrefix + 'num' + seperatedScore[comboNum] + uiSuffix));
 			if (ClientPrefs.data.comboColor) numScore.color = daRating.color;
 			
-			if (!PlayState.isPixelStage) numScore.setGraphicSize(Std.int(numScore.width * 0.5));
-			else numScore.setGraphicSize(Std.int(numScore.width * daPixelZoom));
+			/*if (!PlayState.isPixelStage) numScore.setGraphicSize(Std.int(numScore.width * 0.5));
+			else numScore.setGraphicSize(Std.int(numScore.width * daPixelZoom));*/
 			numScore.updateHitbox();			
 			numScore.antialiasing = antialias;
 			
@@ -2985,12 +2987,12 @@ class PlayState extends MusicBeatState
 		    });
 		    
 		    if (comboNumTweenScaleX[comboNum] != null) comboNumTweenScaleX[comboNum].cancel();
-            numScore.scale.x = 0.5 + 0.07;                        
-            comboNumTweenScaleX[comboNum] = FlxTween.tween(numScore.scale, {x: 0.5}, 0.2 / playbackRate);
+            numScore.scale.x = numScale + 0.07;                        
+            comboNumTweenScaleX[comboNum] = FlxTween.tween(numScore.scale, {x: numScale}, 0.2 / playbackRate);
 		    
 		    if (comboNumTweenScaleY[comboNum] != null) comboNumTweenScaleY[comboNum].cancel();
-            numScore.scale.y = 0.5 + 0.07;                        
-            comboNumTweenScaleY[comboNum] = FlxTween.tween(numScore.scale, {y: 0.5}, 0.2 / playbackRate);
+            numScore.scale.y = numScale + 0.07;                        
+            comboNumTweenScaleY[comboNum] = FlxTween.tween(numScore.scale, {y: numScale}, 0.2 / playbackRate);
             
             if (ClientPrefs.data.comboOffsetFix)
             {
