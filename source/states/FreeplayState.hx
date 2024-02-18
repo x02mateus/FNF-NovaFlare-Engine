@@ -998,7 +998,7 @@ class FreeplayState extends MusicBeatState {
 		
 		try {
 			var song = songs[curSelected].songName.toLowerCase();
-			if (Paths.fileExists('data/' + Paths.formatToSongPath(song) + '/' + Paths.formatToSongPath(song) + Difficulty.getFilePath(curDifficulty)+'.json'), TEXT) {
+			if (Paths.fileExists('data/' + Paths.formatToSongPath(song) + '/' + Paths.formatToSongPath(song) + Difficulty.getFilePath(curDifficulty)+'.json', TEXT)) {
 				var poop:String = Highscore.formatSong(song, curDifficulty);
 				rate = DiffCalc.CalculateDiff(Song.loadFromJson(poop, songs[curSelected].songName.toLowerCase())) / 4;
 			}
