@@ -1128,5 +1128,9 @@ class OptionsState extends MusicBeatState
     		typeCheck = false;			
 	    }
 	}
+	
+	public function changeControlAlpha(){
+	    virtualPad.alpha = ClientPrefs.data.controlsAlpha;
+	}
 }
 

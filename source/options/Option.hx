@@ -70,7 +70,7 @@ class Option
 	public function press()
 	{
 	
-     }
+    }
 	
 	public function left()
 	{
@@ -625,7 +625,7 @@ class HideHud extends Option
 			}  
 		}*/
 
-	     }
+	    }
 		display = updateDisplay();
     }
 
@@ -1152,13 +1152,13 @@ class HealthDrainOPPOMult extends Option
 	{
 		ClientPrefs.data.HealthDrainOPPOMult -= 0.1;
 		display = updateDisplay();
-     }
+    }
 
 	override function right()
 	{
 		ClientPrefs.data.HealthDrainOPPOMult += 0.1;
 		display = updateDisplay();
-     }
+    }
 
 	private override function updateDisplay():String
 	{
@@ -1185,7 +1185,7 @@ class CustomFadeType extends Option
 		    ClientPrefs.data.CustomFade = 'Alpha';
 		else ClientPrefs.data.CustomFade = 'Move';
 		display = updateDisplay();
-     }
+    }
 
 	override function right()
 	{
@@ -1288,7 +1288,7 @@ class ControllerMode extends Option
 	override function press()
 	{		
 		OptionsState.openSub(options.base.ControlsSubState());		
-     }
+    }
 }
 */
 
@@ -1365,7 +1365,7 @@ class ExtraControlsNum extends Option
 		if (ClientPrefs.data.extraKey > 4)
 			ClientPrefs.data.extraKey = 4;
 		display = updateDisplay();
-     }
+    }
 
 	override function left()
 	{
@@ -1374,7 +1374,7 @@ class ExtraControlsNum extends Option
 		if (ClientPrefs.data.extraKey < 0)
 			ClientPrefs.data.extraKey = 0;
 		display = updateDisplay();	
-     }
+    }
 
 	private override function updateDisplay():String
 	{
@@ -1398,7 +1398,7 @@ class ControlsAlpha extends Option
 		if (ClientPrefs.data.controlsAlpha > 1)
 			ClientPrefs.data.controlsAlpha = 1;
 		display = updateDisplay();
-     }
+    }
 
 	override function left()
 	{
@@ -1407,7 +1407,11 @@ class ControlsAlpha extends Option
 		if (ClientPrefs.data.controlsAlpha < 0)
 			ClientPrefs.data.controlsAlpha = 0;
 		display = updateDisplay();	
-     }
+    }
+     
+    override function change(){
+        OptionsState.instance.changeControlAlpha();
+    }
 
 	private override function updateDisplay():String
 	{
@@ -1432,7 +1436,7 @@ class PlayControlsAlpha extends Option
 		if (ClientPrefs.data.playControlsAlpha > 1)
 			ClientPrefs.data.playControlsAlpha = 1;
 		display = updateDisplay();
-     }
+    }
 
 	override function left()
 	{
@@ -1441,7 +1445,7 @@ class PlayControlsAlpha extends Option
 		if (ClientPrefs.data.playControlsAlpha < 0)
 			ClientPrefs.data.playControlsAlpha = 0;
 		display = updateDisplay();	
-     }
+    }
 
 	private override function updateDisplay():String
 	{
@@ -1466,12 +1470,12 @@ class HitboxLocation extends Option
 		    ClientPrefs.data.hitboxLocation = 'Top';
 		else ClientPrefs.data.hitboxLocation = 'Bottom';
 		display = updateDisplay();
-     }
+    }
 
 	override function right()
 	{
 		left();
-     }       
+    }       
 
 	private override function updateDisplay():String
 	{
@@ -1495,12 +1499,12 @@ class HitboxSkin extends Option
 		    ClientPrefs.data.hitboxSkin = 'New';
 		else ClientPrefs.data.hitboxSkin = 'Classic';
 		display = updateDisplay();
-     }
+    }
 
 	override function right()
 	{
 		left();
-     }       
+    }       
 
 	private override function updateDisplay():String
 	{
