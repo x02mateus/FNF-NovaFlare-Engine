@@ -998,7 +998,7 @@ class OptionsState extends MusicBeatState
 	        case 'NoteOffsetState':
 	            MusicBeatState.switchState(new NoteOffsetState());	
 	        case 'MobileExtraControl':
-	            MusicBeatState.switchState(new MobileExtraControl());	
+	            FlxG.state.openSubState(new MobileExtraControl());	
 	    }
 	}
 	
