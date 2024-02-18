@@ -1,5 +1,7 @@
 package mobile.substates;
 
+import flixel.addons.transition.FlxTransitionableState;
+
 class MobileExtraControl extends MusicBeatSubstate
 {
     var returnArray:Array<Array> = [
