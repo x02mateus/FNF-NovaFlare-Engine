@@ -117,7 +117,7 @@ class FreeplayState extends MusicBeatState {
 		
 		loadSong();
 		
-		camGame = new initPsychCamera();		
+		camGame = initPsychCamera();
 		
 		camSong = new FlxCamera();
 		camSong.bgColor = 0x00;
