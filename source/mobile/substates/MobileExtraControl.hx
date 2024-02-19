@@ -50,7 +50,7 @@ class MobileExtraControl extends MusicBeatSubstate
         typeNumber = new FlxTypedGroup<FlxText>();
         add(typeNumber);
         
-        for (i in 0...3){
+        for (i in 0...4){
 	        var realKey:Int = i + 1;
 	        var controlReturn:String = '';
 	        
@@ -73,7 +73,7 @@ class MobileExtraControl extends MusicBeatSubstate
 	        optionNumber.add(button);	    
 	    }	
 	    
-	    for (i in 0...4){	    	    	    
+	    for (i in 0...5){	    	    	    
 	        if (i != 0){
     	        var titleObject = new FlxText(0, 250 + 50 * i + 500, 0, showArray[i-1]);
         		titleObject.setFormat(Paths.font('vcr.ttf'), 20, FlxColor.WHITE, FlxTextAlign.CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
@@ -96,7 +96,7 @@ class MobileExtraControl extends MusicBeatSubstate
         
         
 		
-		addVirtualPad(OptionStateC, A_B);
+		addVirtualPad(OptionStateC, OptionStateC);
 		addVirtualPadCamera(false);
 		
 		super.create();
