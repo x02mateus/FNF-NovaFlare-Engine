@@ -412,7 +412,8 @@ class FreeplayState extends MusicBeatState {
     public static var vocals:FlxSound = null;
     public static var instPlaying:Int = 0;
     override function update(elapsed:Float)
-    {
+    {        
+        
     	if (controls.UI_DOWN_P)
     		changeSong(1);
     	if (controls.UI_UP_P)
@@ -681,6 +682,7 @@ class FreeplayState extends MusicBeatState {
     }
     
     override function destroy() {
+        super.destroy();
     	destroyFreeplayVocals();
     	FlxG.sound.music.stop();
     }
