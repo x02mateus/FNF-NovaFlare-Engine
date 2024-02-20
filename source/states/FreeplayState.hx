@@ -163,7 +163,7 @@ class FreeplayState extends MusicBeatState {
     	mousechecker.camera = camUI;
     	    	
     	addSongTxt();
-    	
+    /*	
     	if(curSelected >= songs.length) curSelected = 0;
     	bg.color = songs[curSelected].color;
     	intendedColor = bg.color;
@@ -186,7 +186,7 @@ class FreeplayState extends MusicBeatState {
     	
     	songNameText = new FlxText(0, 0, 0, "", 32);
     	songNameText.setFormat(font, 40, FlxColor.BLACK, LEFT/*, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK*/);
-    	songNameText.camera = camUI;
+    /*	songNameText.camera = camUI;
     	songNameText.antialiasing = ClientPrefs.data.antialiasing;
     	songNameText.x = 660;
     	songNameText.y = 348;
@@ -226,7 +226,7 @@ class FreeplayState extends MusicBeatState {
     	
     	var RateBarText = new FlxText(0, 0, 0, "RATE:", 32);
     	RateBarText.setFormat(font, 21, FlxColor.BLACK, LEFT/*, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK*/);
-    	RateBarText.camera = camInfo;
+    /*	RateBarText.camera = camInfo;
     	RateBarText.antialiasing = ClientPrefs.data.antialiasing;
     	RateBarText.x = 0;
     	RateBarText.y = 305;
@@ -401,7 +401,7 @@ class FreeplayState extends MusicBeatState {
     	
     	changeSong(0);
     	
-    	addVirtualPad(LEFT_FULL, A_B_C_X_Y_Z);
+    */	addVirtualPad(LEFT_FULL, A_B_C_X_Y_Z);
 		super.create();
     	
     }
@@ -412,6 +412,7 @@ class FreeplayState extends MusicBeatState {
     var canMove:Bool;
     public static var vocals:FlxSound = null;
     public static var instPlaying:Int = 0;
+    /*
     override function update(elapsed:Float)
     {        
         
@@ -470,6 +471,7 @@ class FreeplayState extends MusicBeatState {
         
         super.update(elapsed);
     }
+    */
     
     var listeningSongName:FlxText;
     var playingSongName:FlxText;
