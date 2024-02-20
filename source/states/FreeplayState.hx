@@ -141,7 +141,6 @@ class FreeplayState extends MusicBeatState {
 		FlxG.cameras.add(camListen, false);
 		FlxG.cameras.add(camUI, false);
 		
-		super.create();
 		    	
     	songsbg = new FlxSprite(700, -75).makeGraphic(550, 900, FlxColor.WHITE);
     	songsbg.camera = camGame;
@@ -402,6 +401,8 @@ class FreeplayState extends MusicBeatState {
     	
     	changeSong(0);
     	
+    	addVirtualPad(LEFT_FULL, A_B_C_X_Y_Z);
+		super.create();
     	
     }
     
