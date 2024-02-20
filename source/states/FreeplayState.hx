@@ -140,6 +140,8 @@ class FreeplayState extends MusicBeatState {
 		FlxG.cameras.add(camSearch, false);
 		FlxG.cameras.add(camListen, false);
 		FlxG.cameras.add(camUI, false);
+		
+		super.create();
 		    	
     	songsbg = new FlxSprite(700, -75).makeGraphic(550, 900, FlxColor.WHITE);
     	songsbg.camera = camGame;
@@ -400,7 +402,7 @@ class FreeplayState extends MusicBeatState {
     	
     	changeSong(0);
     	
-    	super.create();
+    	
     }
     
     var startMouseY:Float;
@@ -1070,32 +1072,31 @@ class FreeplayState extends MusicBeatState {
 	
 	function loadSong()
 	{
-		songs = [];
 		for (i in 0...WeekData.weeksList.length) {
-    		if(weekIsLocked(WeekData.weeksList[i])) continue;
-    
-    		var leWeek:WeekData = WeekData.weeksLoaded.get(WeekData.weeksList[i]);
-    		var leSongs:Array<String> = [];
-    		var leChars:Array<String> = [];
-    
-    		for (j in 0...leWeek.songs.length)
-    		{
-    			leSongs.push(leWeek.songs[j][0]);
-    			leChars.push(leWeek.songs[j][1]);
-    		}
-    
-    		WeekData.setDirectoryFromWeek(leWeek);
-    		for (song in leWeek.songs)
-    		{
-    			var colors:Array<Int> = song[2];
-    			if(colors == null || colors.length < 3)
-    			{
-    				colors = [146, 113, 253];
-    			}
-    			addSong(song[0], i, song[1], FlxColor.fromRGB(colors[0], colors[1], colors[2]));
-    		}
-       	}
-       	Mods.loadTopMod();
+			if(weekIsLocked(WeekData.weeksList[i])) continue;
+
+			var leWeek:WeekData = WeekData.weeksLoaded.get(WeekData.weeksList[i]);
+			var leSongs:Array<String> = [];
+			var leChars:Array<String> = [];
+
+			for (j in 0...leWeek.songs.length)
+			{
+				leSongs.push(leWeek.songs[j][0]);
+				leChars.push(leWeek.songs[j][1]);
+			}
+
+			WeekData.setDirectoryFromWeek(leWeek);
+			for (song in leWeek.songs)
+			{
+				var colors:Array<Int> = song[2];
+				if(colors == null || colors.length < 3)
+				{
+					colors = [146, 113, 253];
+				}
+				addSong(song[0], i, song[1], FlxColor.fromRGB(colors[0], colors[1], colors[2]));
+			}
+		}
+		Mods.loadTopMod();
 	}
 	
 	function addSongTxt()
