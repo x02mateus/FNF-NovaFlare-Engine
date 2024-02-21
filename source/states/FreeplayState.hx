@@ -163,6 +163,244 @@ class FreeplayState extends MusicBeatState {
     	mousechecker.camera = camUI;
     	    	
     	addSongTxt();
+    	
+    	if(curSelected >= songs.length) curSelected = 0;
+    	bg.color = songs[curSelected].color;
+    	intendedColor = bg.color;
+    	
+    	curDifficulty = Math.round(Math.max(0, Difficulty.defaultList.indexOf(lastDifficultyName)));    	    	
+    	
+    	songBarSelected = new FlxSprite().loadGraphic(Paths.image(filePath + 'songBarSelected'));
+    	songBarSelected.antialiasing = ClientPrefs.data.antialiasing;
+    	songBarSelected.camera = camUI;
+    	add(songBarSelected);
+    	songBarSelected.screenCenter();
+    	
+    	songIcon = new HealthIcon(songs[curSelected].songCharacter);
+    	add(songIcon);
+    	songIcon.scale.set(0.5, 0.5);
+    	songIcon.camera = camUI;
+    	songIcon.x = 1120;
+    	songIcon.y = 300;
+    	songIcon.updateHitbox();
+    	
+    	songNameText = new FlxText(0, 0, 0, "", 32);
+    	songNameText.setFormat(font, 40, FlxColor.BLACK, LEFT/*, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK*/);
+    	songNameText.camera = camUI;
+    	songNameText.antialiasing = ClientPrefs.data.antialiasing;
+    	songNameText.x = 660;
+    	songNameText.y = 348;
+    	add(songNameText);
+    	
+    	rate = new FlxSprite().loadGraphic(Paths.image(filePath + 'rateBG'));
+    	rate.antialiasing = ClientPrefs.data.antialiasing;
+    	rate.camera = camInfo;
+    	rate.updateHitbox();
+    	rate.x = 61;
+    	rate.y = 304;
+    	add(rate);
+    	
+    	difficultyRight = new FlxSprite().loadGraphic(Paths.image(filePath + 'difficultyRight'));
+    	difficultyRight.antialiasing = ClientPrefs.data.antialiasing;
+    	difficultyRight.camera = camInfo;
+    	difficultyRight.updateHitbox();
+    	add(difficultyRight);
+    	
+    	difficultyLeft = new FlxSprite().loadGraphic(Paths.image(filePath + 'difficultyLeft'));
+    	difficultyLeft.antialiasing = ClientPrefs.data.antialiasing;
+    	difficultyLeft.camera = camInfo;
+    	difficultyLeft.updateHitbox();
+    	add(difficultyLeft);
+    		
+    	for (i in 1...9)
+    	{
+    		var back:FlxSprite = new FlxSprite().loadGraphic(Paths.image(filePath + 'infoBar' + i));
+    		back.antialiasing = ClientPrefs.data.antialiasing;
+    		back.camera = camInfo;
+    		back.updateHitbox();
+    		add(back);
+    		
+    		if (i >= 4 && i <= 7)
+    			holdOptionsChecker.push(back);
+    	}
+    	
+    	var RateBarText = new FlxText(0, 0, 0, "RATE:", 32);
+    	RateBarText.setFormat(font, 21, FlxColor.BLACK, LEFT/*, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK*/);
+    	RateBarText.camera = camInfo;
+    	RateBarText.antialiasing = ClientPrefs.data.antialiasing;
+    	RateBarText.x = 0;
+    	RateBarText.y = 305;
+    	add(RateBarText);
+    	
+    	var diffText:FlxText = new FlxText(360, 355, 0, "DIFFICULTY", 15);
+    	diffText.setFormat(font, 15, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+    	diffText.camera = camInfo;
+    	diffText.antialiasing = ClientPrefs.data.antialiasing;
+    	add(diffText);
+    	
+    	difficultyText = new FlxText(300, 360, 0, "difficulty", 55);
+    	difficultyText.setFormat(font, 55, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+    	difficultyText.camera = camInfo;
+    	difficultyText.antialiasing = ClientPrefs.data.antialiasing;
+    	add(difficultyText);
+    	
+    	rateText = new FlxText(60, 270, 0, "rate", 30);
+    	rateText.setFormat(font, 30, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+    	rateText.camera = camInfo;
+    	rateText.antialiasing = ClientPrefs.data.antialiasing;
+    	add(rateText);
+    	
+    	accText = new FlxText(75+115, 270, 0, "acc", 30);
+    	accText.setFormat(font, 30, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+    	accText.camera = camInfo;
+    	accText.antialiasing = ClientPrefs.data.antialiasing;
+    	add(accText);
+    	
+    	scoreText = new FlxText(75+270, 270, 0, "score", 30);
+    	scoreText.setFormat(font, 30, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+    	scoreText.camera = camInfo;
+    	scoreText.antialiasing = ClientPrefs.data.antialiasing;
+    	add(scoreText);
+    	
+    	timeText = new FlxText(50, 240, 0, "time", 28);
+    	timeText.setFormat(font, 28, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+    	timeText.camera = camInfo;
+    	timeText.antialiasing = ClientPrefs.data.antialiasing;
+    	add(timeText);
+    
+    	var alpha = 0;
+		bars1Option = new FlxSprite().loadGraphic(Paths.image(filePath + 'optionbar'));
+		bars1Option.camera = camInfo;
+		bars1Option.scale.set(0.66, 0.65);
+		bars1Option.antialiasing = ClientPrefs.data.antialiasing;
+		bars1Option.alpha = alpha;
+		add(bars1Option);
+		
+		bars2Option = new FlxSprite().loadGraphic(Paths.image(filePath + 'optionbar'));
+		bars2Option.camera = camInfo;
+		bars2Option.scale.set(0.62, 0.65);
+		bars2Option.antialiasing = ClientPrefs.data.antialiasing;
+		bars2Option.alpha = alpha;
+		add(bars2Option);
+		
+		bars3Option = new FlxSprite().loadGraphic(Paths.image(filePath + 'optionbar'));
+		bars3Option.camera = camInfo;
+		bars3Option.scale.set(0.65, 0.65);
+		bars3Option.antialiasing = ClientPrefs.data.antialiasing;
+		bars3Option.alpha = alpha;
+		add(bars3Option);
+		
+		bars4Option = new FlxSprite().loadGraphic(Paths.image(filePath + 'optionbar'));
+		bars4Option.camera = camInfo;
+		bars4Option.scale.set(0.62, 0.65);
+		bars4Option.antialiasing = ClientPrefs.data.antialiasing;
+		bars4Option.alpha = alpha;
+		add(bars4Option);
+    	
+    	bars1Option.setPosition(-52-1.5, 395.5);
+    	bars2Option.setPosition(195+8, 395.5);
+    	bars3Option.setPosition(-82, 457.5);
+    	bars4Option.setPosition(170+6, 457.5);
+			
+    	var options = new FlxText(140, 457, 0, "Options", 28);
+    	options.setFormat(font, 28, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+    	options.camera = camInfo;
+    	options.antialiasing = ClientPrefs.data.antialiasing;
+    	add(options);
+    	
+    	var options = new FlxText(380, 445, 0, "Gameplay\nChanger", 28);
+    	options.setFormat(font, 25, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+    	options.camera = camInfo;
+    	options.antialiasing = ClientPrefs.data.antialiasing;
+    	add(options);
+    	
+    	var options = new FlxText(80, 520, 0, "Reset Score", 28);
+    	options.setFormat(font, 28, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+    	options.camera = camInfo;
+    	options.antialiasing = ClientPrefs.data.antialiasing;
+    	add(options);
+    	
+    	for (i in [0, 3]) {
+    		var back:FlxSprite = new FlxSprite().loadGraphic(Paths.image(filePath + 'overlaps' + i));
+    		back.antialiasing = ClientPrefs.data.antialiasing;
+    		back.camera = camUI;
+    		back.updateHitbox();
+    		add(back);
+    	}
+    	
+    	startButton = new FlxSprite().loadGraphic(Paths.image(filePath + 'overlaps2'));
+    	startButton.antialiasing = ClientPrefs.data.antialiasing;
+    	startButton.camera = camUI;
+    	startButton.updateHitbox();
+    	add(startButton);
+    	
+    	backButton = new FlxSprite().loadGraphic(Paths.image(filePath + 'overlaps1'));
+    	backButton.antialiasing = ClientPrefs.data.antialiasing;
+    	backButton.camera = camUI;
+    	backButton.updateHitbox();
+    	add(backButton);
+    	
+    	startText = new FlxText(1140, 640, 0, "PLAY", 28);
+    	startText.setFormat(font, 35, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+    	startText.camera = camUI;
+    	startText.antialiasing = ClientPrefs.data.antialiasing;
+    	add(startText);
+    	
+    	backText = new FlxText(30, 30, 0, "EXIT", 28);
+    	backText.setFormat(font, 35, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+    	backText.camera = camUI;
+    	backText.antialiasing = ClientPrefs.data.antialiasing;
+    	add(backText);
+    	
+    	searchbg = new FlxSprite(-150, -200).makeGraphic(750, 1000, FlxColor.BLACK);
+    	searchbg.camera = camSearch;
+    	searchbg.angle = 15;
+    	searchbg.updateHitbox();
+    	searchbg.alpha = 0.75;
+    	add(searchbg);
+    	
+    	listenbg = new FlxSprite(-150, -200).makeGraphic(750, 1000, FlxColor.BLACK);
+    	listenbg.camera = camListen;
+    	listenbg.angle = 15;
+    	listenbg.updateHitbox();
+    	listenbg.alpha = 0.75;
+    	add(listenbg);
+    	
+    	randomButton = new FlxSprite().loadGraphic(Paths.image(filePath + 'random'));
+    	randomButton.camera = camUI;
+    	add(randomButton);
+    	
+    	musicButton = new FlxSprite().loadGraphic(Paths.image(filePath + 'musicplayer'));
+    	musicButton.camera = camUI;
+    	add(musicButton);
+    	
+    	searchButton = new FlxSprite().loadGraphic(Paths.image(filePath + 'search'));
+    	searchButton.camera = camUI;
+    	add(searchButton);
+    	
+    	var objs:Array<FlxSprite> = [randomButton, musicButton, searchButton];
+    	for (i in 0...objs.length) {
+    		objs[i].scale.set(60/1500, 60/1500);
+    		objs[i].updateHitbox();
+    		objs[i].x = FlxG.width - i*90 - 90;
+    	}
+    	
+    	var optionsText = new FlxText(190, 8, 0, 'E to Search Song | SPACE to Listen Song | O to get a random Song');
+    	optionsText.setFormat(font, 25, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+    	optionsText.camera = camUI;
+    	add(optionsText);
+    	optionsText.scale.x = 0.9;
+    	
+    	var optionsText = new FlxText(5, FlxG.height - 45, 0, 'Mouse wheel/Arrow keys to change Song | All UI can Control By Mouse');
+    	optionsText.setFormat(font, 25, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+    	optionsText.camera = camUI;
+    	add(optionsText);
+    	
+    	/*makeSearchUI();
+    	makeListenMenu();
+    	
+    	changeSong(0);*/
+    	
     	addVirtualPad(LEFT_FULL, A_B_C_X_Y_Z);
 		super.create();
     	
@@ -174,7 +412,66 @@ class FreeplayState extends MusicBeatState {
     var canMove:Bool;
     public static var vocals:FlxSound = null;
     public static var instPlaying:Int = 0;
-    
+    /*
+    override function update(elapsed:Float)
+    {        
+        
+    	if (controls.UI_DOWN_P)
+    		changeSong(1);
+    	if (controls.UI_UP_P)
+    		changeSong(-1);
+    	//debugPrint(mousechecker.x + ' || ' + mousechecker.y);
+    	mousechecker.setPosition(FlxG.mouse.getScreenPosition(camUI).x, FlxG.mouse.getScreenPosition(camUI).y);
+    	if ((FlxG.mouse.justPressed && FlxG.pixelPerfectOverlap(difficultyLeft, mousechecker, 25)) || controls.UI_LEFT_P)
+    		changeDiff(-1);
+    	if ((FlxG.mouse.justPressed && FlxG.pixelPerfectOverlap(difficultyRight, mousechecker, 25)) || controls.UI_RIGHT_P)
+    		changeDiff(1);
+    		
+    	if ((FlxG.mouse.overlaps(searchButton) && !searching && FlxG.mouse.justPressed) || FlxG.keys.justPressed.E) {
+    		searching = true;
+    		listening = false;
+			backText.text = 'BACK';
+    	}
+    	
+    	if ((FlxG.mouse.overlaps(musicButton) && !listening && FlxG.mouse.justPressed) || FlxG.keys.justPressed.SPACE) {
+    		listening = true;
+    		searching = false;
+			backText.text = 'BACK';
+    	}
+    	
+    	if ((FlxG.mouse.overlaps(randomButton) && FlxG.mouse.justPressed) || FlxG.keys.justPressed.O) {
+    		curSelected = FlxG.random.int(0, songs.length-1);
+    		changeSong(0);
+    	}
+    	
+    	if (searching) searchUpdate(elapsed);
+    	if (listening) listenUpdate(elapsed);
+    	checkButton(elapsed);
+    	mouseControl(elapsed);
+    	
+    	if(FlxG.mouse.wheel != 0 && FlxG.mouse.x > FlxG.width/2)
+		{
+			FlxG.sound.play(Paths.sound('scrollMenu'), 0.2);
+			changeSong(-2 * FlxG.mouse.wheel);
+		}
+		
+		if (controls.RESET) {
+			openSubState(new ResetScoreSubState(songs[curSelected].songName, curDifficulty, songs[curSelected].songCharacter));
+		} else if (FlxG.keys.justPressed.CONTROL)
+			openSubState(new GameplayChangersSubstate());
+		else if (FlxG.keys.justPressed.P)
+			LoadingState.loadAndSwitchState(new OptionsState());
+			
+    	camSearch.x = FlxMath.lerp(searching ? 0 : -1280, camSearch.x, FlxMath.bound(1 - (elapsed * 6), 0, 1));
+    	camListen.x = FlxMath.lerp(listening ? 0 : -1280, camListen.x, FlxMath.bound(1 - (elapsed * 6), 0, 1));
+    	camInfo.x = FlxMath.lerp((!listening && !searching) ? 0 : -1280, camInfo.x, FlxMath.bound(1 - (elapsed * 6), 0, 1));
+    	
+    	camSong.scroll.x = FlxMath.lerp(-(curSelectedFloat) * 20 * 0.75, camSong.scroll.x, FlxMath.bound(1 - (elapsed * 9), 0, 1));
+        camSong.scroll.y = FlxMath.lerp((curSelectedFloat) * 75 * 0.75, camSong.scroll.y, FlxMath.bound(1 - (elapsed * 9), 0, 1));
+        
+        super.update(elapsed);
+    }
+    */
     
     var listeningSongName:FlxText;
     var playingSongName:FlxText;
