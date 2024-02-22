@@ -396,10 +396,10 @@ class FreeplayState extends MusicBeatState {
     	optionsText.camera = camUI;
     	add(optionsText);
     	
-    	/*makeSearchUI();
+    	makeSearchUI();
     	makeListenMenu();
     	
-    	changeSong(0);*/
+    	changeSong(0);
     	
     	addVirtualPad(LEFT_FULL, A_B_C_X_Y_Z);
 		super.create();

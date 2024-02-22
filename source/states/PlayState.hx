@@ -3052,7 +3052,7 @@ class PlayState extends MusicBeatState
 
 		// more accurate hit time for the ratings?
 		var lastTime:Float = Conductor.songPosition;
-		Conductor.songPosition = FlxG.sound.music.time;
+		//Conductor.songPosition = FlxG.sound.music.time; 好傻逼的代码，这个会导致判定有更大偏差
 
 		// obtain notes that the player can hit
 		var plrInputNotes:Array<Note> = notes.members.filter(function(n:Note):Bool {
