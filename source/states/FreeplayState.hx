@@ -401,7 +401,7 @@ class FreeplayState extends MusicBeatState {
     	
     	changeSong(0);
     	
-    	addVirtualPad(LEFT_FULL, A_B_C_X_Y_Z);
+    	//addVirtualPad(LEFT_FULL, A_B_C_X_Y_Z);
 		super.create();
     	
     }
@@ -412,7 +412,7 @@ class FreeplayState extends MusicBeatState {
     var canMove:Bool;
     public static var vocals:FlxSound = null;
     public static var instPlaying:Int = 0;
-    /*
+    
     override function update(elapsed:Float)
     {        
         
@@ -471,7 +471,7 @@ class FreeplayState extends MusicBeatState {
         
         super.update(elapsed);
     }
-    */
+    
     
     var listeningSongName:FlxText;
     var playingSongName:FlxText;
@@ -714,7 +714,7 @@ class FreeplayState extends MusicBeatState {
     	add(underbar);
     	
     	searchInput = new FlxInputText(60, 150, 450, '', 30, 0x00FFFFFF);
-		searchInput.focusGained = () -> FlxG.stage.window.textInputEnabled = true;
+		//searchInput.focusGained = () -> FlxG.stage.window.textInputEnabled = true; //修改
 		searchInput.backgroundColor = FlxColor.TRANSPARENT;
 		searchInput.fieldBorderColor = FlxColor.TRANSPARENT;
 		searchInput.font = font;
