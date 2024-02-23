@@ -52,13 +52,15 @@ class StrumNote extends FlxSprite
 
 		var skin:String = null;
 		if(PlayState.SONG != null && PlayState.SONG.arrowSkin != null && PlayState.SONG.arrowSkin.length > 1) skin = PlayState.SONG.arrowSkin;
-		else skin = Note.defaultNoteSkin;
-
-		var customSkin:String = skin + Note.getNoteSkinPostfix();
-		if(Paths.fileExists('images/$customSkin.png', IMAGE)) skin = customSkin;
-		
-		if (Paths.fileExists('images/NOTE_assets.png', IMAGE) && ClientPrefs.data.noteSkin == ClientPrefs.defaultData.noteSkin) //fix for load old mods note assets
-		skin = 'NOTE_assets'; 
+		else{
+    		skin = Note.defaultNoteSkin;
+    
+    		var customSkin:String = skin + Note.getNoteSkinPostfix();
+    		if(Paths.fileExists('images/$customSkin.png', IMAGE)) skin = customSkin;
+    		
+    		if (Paths.fileExists('images/NOTE_assets.png', IMAGE) && ClientPrefs.data.noteSkin == ClientPrefs.defaultData.noteSkin) //fix for load old mods note assets
+    		skin = 'NOTE_assets'; 
+		}
 
 		texture = skin; //Load texture and anims
 		scrollFactor.set();
