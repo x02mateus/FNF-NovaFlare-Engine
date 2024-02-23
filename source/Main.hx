@@ -151,6 +151,18 @@ class Main extends Sprite
 		Lib.current.stage.align = "tl";
 		Lib.current.stage.scaleMode = StageScaleMode.NO_SCALE;
 		
+		switch (ClientPrefs.data.gameQuality)
+	    {
+	        case 0:
+	            FlxG.game.stage.quality = openfl.display.StageQuality.LOW;
+	        case 1:
+	            FlxG.game.stage.quality = openfl.display.StageQuality.HIGH;
+	        case 2:
+	            FlxG.game.stage.quality = openfl.display.StageQuality.MEDIUM;
+	        case 3:
+	            FlxG.game.stage.quality = openfl.display.StageQuality.BEST;
+	    }
+		
 		#if mobile
 		FlxG.fullscreen = true;
 		#end
