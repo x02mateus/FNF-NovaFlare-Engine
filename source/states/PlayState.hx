@@ -1449,6 +1449,7 @@ class PlayState extends MusicBeatState
 						sustainNote.noteType = swagNote.noteType;
 						sustainNote.scrollFactor.set();
 						sustainNote.parent = swagNote;
+						sustainNote.hitMultUpdate(susNote, floorSus + 1);
 						unspawnNotes.push(sustainNote);
 						swagNote.tail.push(sustainNote);
 
@@ -3050,10 +3051,6 @@ class PlayState extends MusicBeatState
 		// had to name it like this else it'd break older scripts lol
 		var ret:Dynamic = callOnScripts('preKeyPress', [key], true);		
 
-		// more accurate hit time for the ratings?
-		var lastTime:Float = Conductor.songPosition;
-		//Conductor.songPosition = FlxG.sound.music.time; 好傻逼的代码，这个会导致判定有更大偏差
-
 		// obtain notes that the player can hit
 		var plrInputNotes:Array<Note> = notes.members.filter(function(n:Note):Bool {
 			var canHit:Bool = !strumsBlocked[n.noteData] && n.canBeHit && ((n.mustPress && !ClientPrefs.data.playOpponent) || (!n.mustPress && ClientPrefs.data.playOpponent)) && !n.tooLate && !n.wasGoodHit && !n.blockHit;
@@ -3094,10 +3091,6 @@ class PlayState extends MusicBeatState
 		// Needed for the  "Just the Two of Us" achievement.
 		//									- Shadow Mario
 		if(!keysPressed.contains(key)) keysPressed.push(key);
-
-		
-		//more accurate hit time for the ratings? part 2 (Now that the calculations are done, go back to the time it was before for not causing a note stutter)
-		Conductor.songPosition = lastTime;
 
 		var spr:StrumNote = ClientPrefs.data.playOpponent ? opponentStrums.members[key] : playerStrums.members[key];
 		if(strumsBlocked[key] != true && spr != null && spr.animation.curAnim.name != 'confirm')
