@@ -490,7 +490,7 @@ class FreeplayState extends MusicBeatState {
     var timeRight:FlxSprite;
     var changingTime:Bool = false;
     function makeListenMenu() {
-    	startMusic(false);
+    	//startMusic(false);
     	listeningSongName = new FlxText(50, 190, 500, songs[curSelected].songName);
     	listeningSongName.setFormat(font, 50, FlxColor.WHITE, CENTER);
     	listeningSongName.camera = camListen;
@@ -714,7 +714,7 @@ class FreeplayState extends MusicBeatState {
     	add(underbar);
     	
     	searchInput = new FlxInputText(60, 150, 450, '', 30, 0x00FFFFFF);
-		//searchInput.focusGained = () -> FlxG.stage.window.textInputEnabled = true; //修改
+		searchInput.focusGained = () -> FlxG.stage.window.textInputEnabled = true; 
 		searchInput.backgroundColor = FlxColor.TRANSPARENT;
 		searchInput.fieldBorderColor = FlxColor.TRANSPARENT;
 		searchInput.font = font;
