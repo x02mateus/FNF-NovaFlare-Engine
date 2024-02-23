@@ -559,7 +559,7 @@ class TitleState extends MusicBeatState
 
 	function createCoolText(textArray:Array<String>, ?offset:Float = 0)
 	{
-		for (i in 0...textArray.length)
+		for (i in 0...textArray.length - 1)
 		{
 			var money:Alphabet = new Alphabet(0, 0, textArray[i], true);
 			money.screenCenter(X);

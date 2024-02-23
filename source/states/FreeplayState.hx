@@ -399,7 +399,7 @@ class FreeplayState extends MusicBeatState {
     	makeSearchUI();
     	makeListenMenu();
     	
-    	changeSong(0);
+    	//changeSong(0);
     	
     	//addVirtualPad(LEFT_FULL, A_B_C_X_Y_Z);
 		super.create();
@@ -412,7 +412,7 @@ class FreeplayState extends MusicBeatState {
     var canMove:Bool;
     public static var vocals:FlxSound = null;
     public static var instPlaying:Int = 0;
-    
+    /*
     override function update(elapsed:Float)
     {        
         
@@ -471,7 +471,7 @@ class FreeplayState extends MusicBeatState {
         
         super.update(elapsed);
     }
-    
+    */
     
     var listeningSongName:FlxText;
     var playingSongName:FlxText;
