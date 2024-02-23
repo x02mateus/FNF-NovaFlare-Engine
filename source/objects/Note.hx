@@ -289,8 +289,7 @@ class Note extends FlxSprite
 				prevNote.updateHitbox();
 				// prevNote.setGraphicSize();
 				
-				prevNote.earlyHitMult = 0;
-			    prevNote.lateHitMult = 0.5;
+				
 			
 				prevNote.noAnimation = false;
 				prevNote.isEndNote = false;
@@ -552,6 +551,19 @@ class Note extends FlxSprite
 
 		    clipRect = swagRect;
 		}
+	}
+	
+	public function hitMultUpdate(number:Int = 0, maxNumber:Int = 0){
+	    if (number == 0){
+	        earlyHitMult = 0;
+			lateHitMult = 0.5;	    
+	    }else if (number == maxNumber){
+	        earlyHitMult = 0.5;
+			lateHitMult = 0;	  	    
+	    }else{
+	        earlyHitMult = 0.5;
+			lateHitMult = 0.5;	
+	    }
 	}
 	
 
