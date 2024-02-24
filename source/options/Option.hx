@@ -510,6 +510,7 @@ class HitSound extends Option
 		ClientPrefs.data.hitsoundVolume += 0.1;
 		if (ClientPrefs.data.hitsoundVolume > 1)
 			ClientPrefs.data.hitsoundVolume = 1;
+		ClientPrefs.data.hitsoundVolume = FlxMath.roundDecimal(ClientPrefs.data.hitsoundVolume, 1);
                 FlxG.sound.play(Paths.sound('hitsound'), ClientPrefs.data.hitsoundVolume);
 		
 
@@ -520,13 +521,14 @@ class HitSound extends Option
 		ClientPrefs.data.hitsoundVolume -= 0.1;
 		if (ClientPrefs.data.hitsoundVolume < 0)
 			ClientPrefs.data.hitsoundVolume = 0;
-		ClientPrefs.data.hitsoundVolume = FlxMath.roundDecimal(ClientPrefs.data.hitsoundVolume * 100, 1);
+		ClientPrefs.data.hitsoundVolume = FlxMath.roundDecimal(ClientPrefs.data.hitsoundVolume, 1);
         FlxG.sound.play(Paths.sound('hitsound'), ClientPrefs.data.hitsoundVolume);
     }
     
     private override function updateDisplay():String
 	{
-		return "HitSound volume: < " + ClientPrefs.data.hitsoundVolume + "% >";
+	    var data:Float = ClientPrefs.data.hitsoundVolume * 100;
+		return "HitSound volume: < " + data + "% >";
 	}
 }
 
@@ -777,7 +779,7 @@ class SplashAlpha extends Option
 		if (ClientPrefs.data.splashAlpha > 1)
 			ClientPrefs.data.splashAlpha = 1;
 		
-		ClientPrefs.data.splashAlpha = FlxMath.roundDecimal(ClientPrefs.data.splashAlpha * 100, 1);	
+		ClientPrefs.data.splashAlpha = FlxMath.roundDecimal(ClientPrefs.data.splashAlpha, 1);	
     }
 
 	override function left()
@@ -787,13 +789,14 @@ class SplashAlpha extends Option
 		if (ClientPrefs.data.splashAlpha < 0)
 			ClientPrefs.data.splashAlpha = 0;
 		
-		ClientPrefs.data.splashAlpha = FlxMath.roundDecimal(ClientPrefs.data.splashAlpha * 100, 1);
+		ClientPrefs.data.splashAlpha = FlxMath.roundDecimal(ClientPrefs.data.splashAlpha, 1);
     }
 
 	private override function updateDisplay():String
-		{
-			return "Splash Alpha: < " + ClientPrefs.data.splashAlpha + "% >";
-		}
+	{
+	    var data:Float = ClientPrefs.data.splashAlpha * 100;
+		return "Splash Alpha: < " + data + "% >";
+	}
 }
 
 class HealthBarAlpha extends Option
@@ -811,7 +814,7 @@ class HealthBarAlpha extends Option
 		ClientPrefs.data.healthBarAlpha += 0.1;
 		if (ClientPrefs.data.healthBarAlpha > 1)
 			ClientPrefs.data.healthBarAlpha = 1;
-		FlxMath.roundDecimal(ClientPrefs.data.healthBarAlpha * 100, 1);
+		ClientPrefs.data.healthBarAlpha = FlxMath.roundDecimal(ClientPrefs.data.healthBarAlpha, 1);
 		
 		if (Type.getClass(FlxG.state) == PlayState){
 		/*PlayState.instance.healthBarBG.alpha = ClientPrefs.data.healthBarAlpha;
@@ -828,7 +831,7 @@ class HealthBarAlpha extends Option
 		ClientPrefs.data.healthBarAlpha -= 0.1;
 		if (ClientPrefs.data.healthBarAlpha < 0)
 			ClientPrefs.data.healthBarAlpha = 0;
-		FlxMath.roundDecimal(ClientPrefs.data.healthBarAlpha * 100, 1);
+		ClientPrefs.data.healthBarAlpha = FlxMath.roundDecimal(ClientPrefs.data.healthBarAlpha, 1);
 		
 		if (Type.getClass(FlxG.state) == PlayState){
 		/*PlayState.instance.healthBarBG.alpha = ClientPrefs.data.healthBarAlpha;
@@ -841,9 +844,10 @@ class HealthBarAlpha extends Option
     }
 
 	private override function updateDisplay():String
-		{
-			return "Healthbar Alpha: < " + ClientPrefs.data.healthBarAlpha + "% >";
-		}
+	{
+	    var data:Float = ClientPrefs.data.healthBarAlpha * 100;
+		return "Healthbar Alpha: < " + data + "% >";
+	}
 }
 
 class HealthBarVersion extends Option
@@ -1169,7 +1173,8 @@ class HealthDrainOPPOMult extends Option
 
 	private override function updateDisplay():String
 	{
-		return "Health Drain multipler: < " + ClientPrefs.data.HealthDrainOPPOMult + " >";
+	    var data:Float = ClientPrefs.data.HealthDrainOPPOMult * 100;
+		return "Health Drain multipler: < " + data + " >";
 	}
 }
 
@@ -1220,7 +1225,7 @@ class CustomFadeSound extends Option
 		ClientPrefs.data.CustomFadeSound += 0.1;
 		if (ClientPrefs.data.CustomFadeSound > 1)
 			ClientPrefs.data.CustomFadeSound = 1;
-		ClientPrefs.data.CustomFadeSound = FlxMath.roundDecimal(ClientPrefs.data.CustomFadeSound * 100, 1);
+		ClientPrefs.data.CustomFadeSound = FlxMath.roundDecimal(ClientPrefs.data.CustomFadeSound, 1);
 		display = updateDisplay();
     }
 
@@ -1230,14 +1235,15 @@ class CustomFadeSound extends Option
 
 		if (ClientPrefs.data.CustomFadeSound < 0)
 			ClientPrefs.data.CustomFadeSound = 0;
-		ClientPrefs.data.CustomFadeSound = FlxMath.roundDecimal(ClientPrefs.data.CustomFadeSound * 100, 1);
+		ClientPrefs.data.CustomFadeSound = FlxMath.roundDecimal(ClientPrefs.data.CustomFadeSound, 1);
 		display = updateDisplay();	
     }
 
 	private override function updateDisplay():String
-		{		    
-			return "CustomFadeSound: < " + ClientPrefs.data.CustomFadeSound + "% >";
-		}
+	{		    
+	    var data:Float = ClientPrefs.data.CustomFadeSound * 100;
+		return "CustomFadeSound: < " + data + "% >";
+	}
 }
 
 class CustomFadeText extends Option
@@ -1404,7 +1410,7 @@ class ControlsAlpha extends Option
 		ClientPrefs.data.controlsAlpha += 0.1;
 		if (ClientPrefs.data.controlsAlpha > 1)
 			ClientPrefs.data.controlsAlpha = 1;
-		ClientPrefs.data.controlsAlpha = FlxMath.roundDecimal(ClientPrefs.data.controlsAlpha * 100, 1);
+		ClientPrefs.data.controlsAlpha = FlxMath.roundDecimal(ClientPrefs.data.controlsAlpha, 1);
 		display = updateDisplay();
     }
 
@@ -1414,7 +1420,7 @@ class ControlsAlpha extends Option
 
 		if (ClientPrefs.data.controlsAlpha < 0)
 			ClientPrefs.data.controlsAlpha = 0;
-		ClientPrefs.data.controlsAlpha = FlxMath.roundDecimal(ClientPrefs.data.controlsAlpha * 100, 1);
+		ClientPrefs.data.controlsAlpha = FlxMath.roundDecimal(ClientPrefs.data.controlsAlpha, 1);
 			
 		display = updateDisplay();	
     }
@@ -1425,7 +1431,8 @@ class ControlsAlpha extends Option
 
 	private override function updateDisplay():String
 	{	   
-		return "Android Controls Alpha: < " + ClientPrefs.data.controlsAlpha + "% >";
+	    var data:Float = ClientPrefs.data.controlsAlpha * 100;
+		return "Android Controls Alpha: < " + data + "% >";
 	}
 }
 
@@ -1444,7 +1451,7 @@ class PlayControlsAlpha extends Option
 		ClientPrefs.data.playControlsAlpha += 0.1;
 		if (ClientPrefs.data.playControlsAlpha > 1)
 			ClientPrefs.data.playControlsAlpha = 1;
-		ClientPrefs.data.playControlsAlpha = FlxMath.roundDecimal(ClientPrefs.data.playControlsAlpha * 100, 1);
+		ClientPrefs.data.playControlsAlpha = FlxMath.roundDecimal(ClientPrefs.data.playControlsAlpha, 1);
 		display = updateDisplay();
     }
 
@@ -1454,13 +1461,14 @@ class PlayControlsAlpha extends Option
 
 		if (ClientPrefs.data.playControlsAlpha < 0)
 			ClientPrefs.data.playControlsAlpha = 0;
-		ClientPrefs.data.playControlsAlpha = FlxMath.roundDecimal(ClientPrefs.data.playControlsAlpha * 100, 1);
+		ClientPrefs.data.playControlsAlpha = FlxMath.roundDecimal(ClientPrefs.data.playControlsAlpha, 1);
 		display = updateDisplay();	
     }
 
 	private override function updateDisplay():String
 	{
-		return "Android Play Controls Alpha: < " + ClientPrefs.data.playControlsAlpha + "% >";
+	    var data:Float = ClientPrefs.data.playControlsAlpha * 100;
+		return "Android Play Controls Alpha: < " + data + "% >";
 	}
 }
 
@@ -1952,7 +1960,7 @@ class FPSScale extends Option
 		ClientPrefs.data.FPSScale -= 0.1;
 		if (ClientPrefs.data.FPSScale < 0.5)
 			ClientPrefs.data.FPSScale = 0.5;
-		ClientPrefs.data.FPSScale = FlxMath.roundDecimal(ClientPrefs.data.FPSScale * 100, 1);
+		ClientPrefs.data.FPSScale = FlxMath.roundDecimal(ClientPrefs.data.FPSScale, 1);
 		display = updateDisplay();
     }
 
@@ -1961,14 +1969,14 @@ class FPSScale extends Option
 		ClientPrefs.data.FPSScale += 0.1;
 		if (ClientPrefs.data.FPSScale > 2)
 			ClientPrefs.data.FPSScale = 2;
-		ClientPrefs.data.FPSScale = FlxMath.roundDecimal(ClientPrefs.data.FPSScale * 100, 1);
+		ClientPrefs.data.FPSScale = FlxMath.roundDecimal(ClientPrefs.data.FPSScale, 1);
 		display = updateDisplay();
     }
 
 	private override function updateDisplay():String
 	{
 	    var data:Float = ClientPrefs.data.FPSScale * 100;
-		return "Rating Offset: < " + data + "% >";
+		return "FPS Counter Scale: < " + data + "% >";
 	}
 	
 	override function change()
@@ -2091,7 +2099,7 @@ class WaterMarkScale extends Option
 		ClientPrefs.data.WatermarkScale -= 0.1;
 		if (ClientPrefs.data.WatermarkScale < 0.5)
 			ClientPrefs.data.WatermarkScale = 0.5;
-		ClientPrefs.data.WatermarkScale = FlxMath.roundDecimal(ClientPrefs.data.WatermarkScale * 100, 1);
+		ClientPrefs.data.WatermarkScale = FlxMath.roundDecimal(ClientPrefs.data.WatermarkScale, 1);
 		display = updateDisplay();
     }
 
@@ -2100,14 +2108,14 @@ class WaterMarkScale extends Option
 		ClientPrefs.data.WatermarkScale += 0.1;
 		if (ClientPrefs.data.WatermarkScale > 2)
 			ClientPrefs.data.WatermarkScale = 2;
-		ClientPrefs.data.WatermarkScale = FlxMath.roundDecimal(ClientPrefs.data.WatermarkScale * 100, 1);
+		ClientPrefs.data.WatermarkScale = FlxMath.roundDecimal(ClientPrefs.data.WatermarkScale, 1);
 		display = updateDisplay();
     }
 
 	private override function updateDisplay():String
 	{
 	    var data:Float = ClientPrefs.data.WatermarkScale * 100;
-		return "Rating Offset: < " + data + "% >";
+		return "Watermark Scale: < " + data + "% >";
 	}
 	
 	override function change()
