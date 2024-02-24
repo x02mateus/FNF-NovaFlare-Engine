@@ -34,7 +34,8 @@ class Alphabet extends FlxSpriteGroup
 		this.startPosition.x = x;
 		this.startPosition.y = y;
 		this.bold = bold;
-		this.text = text;
+		if (text != null) this.text = text;
+		else this.text = '';
 
 		moves = false;
 		immovable = true;
@@ -317,7 +318,7 @@ class AlphaCharacter extends FlxSprite
 		'-'  => {offsets: [0, 16], offsetsBold: [0, 16]},
 		'<'  => {offsetsBold: [0, -2]},
 		'>'  => {offsetsBold: [0, -2]},
-		'\'' => {anim: 'apostrophe', offsets: [0, 32], offsetsBold: [0, 40]},
+		'\'' => {anim: 'apostrophe', offsets: [0, 32], offsetsBold: [0, 40]}, //'
 		'"'  => {anim: 'quote', offsets: [0, 32], offsetsBold: [0, 40]},
 		'!'  => {anim: 'exclamation'},
 		'?'  => {anim: 'question'}, //also used for "unknown"
