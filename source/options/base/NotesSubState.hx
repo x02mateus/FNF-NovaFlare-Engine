@@ -46,7 +46,12 @@ class NotesSubState extends MusicBeatSubstate
 	var controllerPointer:FlxSprite;
 	var _lastControllerMode:Bool = false;
 	var tipTxt:FlxText;
-
+    
+    var AndroidColorGet:FlxUIInputText;
+	var underline_text_BG:FlxSprite;
+    var LengthCheck:String = '';
+    var ColorCheck:String = '';
+    
 	public function new() {
                 controls.isInSubstate = true;
 
@@ -133,16 +138,16 @@ class NotesSubState extends MusicBeatSubstate
 		add(colorWheelSelector);
 
 		var txtX = 980;
-		var txtY = 90;
+		var txtY = 90 + 20;
 		alphabetR = makeColorAlphabet(txtX - 100, txtY);
 		add(alphabetR);
 		alphabetG = makeColorAlphabet(txtX, txtY);
 		add(alphabetG);
 		alphabetB = makeColorAlphabet(txtX + 100, txtY);
 		add(alphabetB);
-		alphabetHex = makeColorAlphabet(txtX, txtY - 55);
+		alphabetHex = makeColorAlphabet(txtX, txtY - 40);
 		add(alphabetHex);
-		hexTypeLine = new FlxSprite(0, 20).makeGraphic(5, 62, FlxColor.WHITE);
+		hexTypeLine = new FlxSprite(0, txtY - 40).makeGraphic(5, 62, FlxColor.WHITE);
 		hexTypeLine.visible = false;
 		add(hexTypeLine);
 
@@ -181,6 +186,19 @@ class NotesSubState extends MusicBeatSubstate
 		FlxG.mouse.visible = !controls.controllerMode;
 		controllerPointer.visible = controls.controllerMode;
 		_lastControllerMode = controls.controllerMode;
+		
+		AndroidColorGet = new FlxUIInputText(940, 20, 160, '', 30);
+		AndroidColorGet.focusGained = () -> FlxG.stage.window.textInputEnabled = true;
+		LengthCheck = AndroidColorGet.text;
+		AndroidColorGet.backgroundColor = FlxColor.TRANSPARENT;
+		AndroidColorGet.fieldBorderColor = FlxColor.TRANSPARENT;
+		AndroidColorGet.font = Paths.font("vcr.ttf");
+		AndroidColorGet.antialiasing = ClientPrefs.data.antialiasing;
+		add(AndroidColorGet);
+		
+		underline_text_BG = new FlxSprite(940, 20 + 40).makeGraphic(160, 6, FlxColor.WHITE);
+		underline_text_BG.alpha = 0.6;
+		add(underline_text_BG);
 
         addVirtualPad(NONE, B_C);
 		virtualPad.buttonC.x = 0;
@@ -204,7 +222,9 @@ class NotesSubState extends MusicBeatSubstate
 		NUMPADZERO => '0', NUMPADONE => '1', NUMPADTWO => '2', NUMPADTHREE => '3', NUMPADFOUR => '4', NUMPADFIVE => '5', NUMPADSIX => '6',
 		NUMPADSEVEN => '7', NUMPADEIGHT => '8', NUMPADNINE => '9', A => 'A', B => 'B', C => 'C', D => 'D', E => 'E', F => 'F'];
 
-	override function update(elapsed:Float) {
+	override function update(elapsed:Float) {	
+	     LengthCheck = AndroidColorGet.text;
+	     
 		if (controls.BACK) {
 			FlxG.mouse.visible = false;
 			FlxG.sound.play(Paths.sound('cancelMenu'));
@@ -275,6 +295,23 @@ class NotesSubState extends MusicBeatSubstate
 			FlxG.sound.play(Paths.sound('scrollMenu'), 0.6);
 		}
 
+		if(LengthCheck.length == 6 && ColorCheck != LengthCheck)
+			{
+			    ColorCheck = LengthCheck;
+			
+				var curColor:String = alphabetHex.text;
+				var newColor:String = AndroidColorGet.text /*curColor.substring(0, hexTypeNum) + allowedTypeKeys.get(keyPressed) + curColor.substring(hexTypeNum + 1)*/ ;
+
+				var colorHex:FlxColor = FlxColor.fromString('#' + newColor);
+				setShaderColor(colorHex);
+				_storedColor = getShaderColor();
+				updateColors();
+				
+				// move you to next letter
+				//hexTypeNum++;
+				//changed = true;
+			}
+
 		if(hexTypeNum > -1)
 		{
 			var keyPressed:FlxKey = cast (FlxG.keys.firstJustPressed(), FlxKey);
@@ -284,23 +321,8 @@ class NotesSubState extends MusicBeatSubstate
 				hexTypeNum--;
 			else if(changed = FlxG.keys.justPressed.RIGHT)
 				hexTypeNum++;
-			else if(allowedTypeKeys.exists(keyPressed))
-			{
-				//trace('keyPressed: $keyPressed, lil str: ' + allowedTypeKeys.get(keyPressed));
-				var curColor:String = alphabetHex.text;
-				var newColor:String = curColor.substring(0, hexTypeNum) + allowedTypeKeys.get(keyPressed) + curColor.substring(hexTypeNum + 1);
-
-				var colorHex:FlxColor = FlxColor.fromString('#' + newColor);
-				setShaderColor(colorHex);
-				_storedColor = getShaderColor();
-				updateColors();
-				
-				// move you to next letter
-				hexTypeNum++;
-				changed = true;
-			}
 			else if(FlxG.keys.justPressed.ENTER)
-				hexTypeNum = -1;
+				hexTypeNum = -1;				
 			
 			var end:Bool = false;
 			if(changed)
@@ -316,11 +338,11 @@ class NotesSubState extends MusicBeatSubstate
 					if(hexTypeNum < 0) hexTypeNum = 0;
 					else if(hexTypeNum > 5) hexTypeNum = 5;
 					centerHexTypeLine();
-					hexTypeLine.visible = true;
+					hexTypeLine.visible = false;
 				}
 				FlxG.sound.play(Paths.sound('scrollMenu'), 0.6);
 			}
-			if(!end) hexTypeLine.visible = Math.floor(hexTypeVisibleTimer * 2) % 2 == 0;
+			if(!end) hexTypeLine.visible = false;
 		}
 		else
 		{
