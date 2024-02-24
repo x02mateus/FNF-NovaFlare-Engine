@@ -145,8 +145,8 @@ class Main extends Sprite
 		fpsVar = new FPS(5, 5, 0xFFFFFF);
 		addChild(fpsVar);
 		if(fpsVar != null) {
-		    fpsVar.scale.x = fpsVar.scale.y = ClientPrefs.data.FPSScale;
-		    fpsVar.offset.x = fpsVar.offset.y = 0;
+		    fpsVar.scaleX = fpsVar.scaleY = ClientPrefs.data.FPSScale;
+		    //fpsVar.offset.x = fpsVar.offset.y = 0;
 			fpsVar.visible = ClientPrefs.data.showFPS;
 		}
 		
@@ -181,7 +181,7 @@ class Main extends Sprite
 		}
 		if(watermark != null) {
 		    watermark.scaleX = watermark.scaleY = ClientPrefs.data.WatermarkScale;
-		    watermark.offset.x = watermark.offset.y = 0;
+		    //watermark.offset.x = watermark.offset.y = 0;
 			watermark.visible = ClientPrefs.data.showWatermark;
 		}
 
