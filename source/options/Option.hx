@@ -1974,8 +1974,8 @@ class FPSScale extends Option
 	override function change()
 	{	
 	    if(Main.fpsVar != null) {
-		    Main.fpsVar.scale.x = Main.fpsVar.scale.y = ClientPrefs.data.FPSScale;
-		    Main.fpsVar.offset.x = Main.fpsVar.offset.y = 0;		
+		    Main.fpsVar.scaleX = Main.fpsVar.scaleY = ClientPrefs.data.FPSScale;
+		    //Main.fpsVar.offset.x = Main.fpsVar.offset.y = 0;		
 		}
 	}
 }
@@ -2109,6 +2109,14 @@ class WaterMarkScale extends Option
 	    var data:Float = ClientPrefs.data.WatermarkScale * 100;
 		return "Rating Offset: < " + data + "% >";
 	}
+	
+	override function change()
+	{	
+	    if(Main.watermark != null) {
+		    Main.watermark.scaleX = Main.watermark.scaleY = ClientPrefs.data.WatermarkScale;
+		    //Main.watermark.offset.x = Main.watermark.offset.y = 0;
+		}
+	}
 }
 
 //----------------------------------------------------------------
@@ -2180,15 +2188,7 @@ class RatingOffset extends Option
 	private override function updateDisplay():String
 	{
 		return "Rating Offset: < " + ClientPrefs.data.ratingOffset + " >";
-	}
-	
-	override function change()
-	{	
-	    if(Main.watermark != null) {
-		    Main.watermark.scaleX = Main.watermark.scaleY = ClientPrefs.data.WatermarkScale;
-		    Main.watermark.offset.x = Main.watermark.offset.y = 0;
-		}
-	}
+	}		
 }
 
 class MarvelousMsOption extends Option
