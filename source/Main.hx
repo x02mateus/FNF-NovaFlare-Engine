@@ -145,6 +145,8 @@ class Main extends Sprite
 		fpsVar = new FPS(5, 5, 0xFFFFFF);
 		addChild(fpsVar);
 		if(fpsVar != null) {
+		    fpsVars.scale.x = fpsVars.scale.y = ClientPrefs.data.FPSScale;
+		    fpsVars.offset.x = fpsVars.offset.y = 0;
 			fpsVar.visible = ClientPrefs.data.showFPS;
 		}
 		
@@ -174,11 +176,12 @@ class Main extends Sprite
     	    5,
     	    Lib.current.stage.stageHeight - 5,
     	    0.4);	    
-    		addChild(watermark);
-    		//watermark.x -= watermark.bitmapData.width;
+    		addChild(watermark);    		
     		watermark.y -= watermark.bitmapData.height;
 		}
 		if(watermark != null) {
+		    watermark.scale.x = watermark.scale.y = ClientPrefs.data.WatermarkScale;
+		    watermark.offset.x = watermark.offset.y = 0;
 			watermark.visible = ClientPrefs.data.showWatermark;
 		}
 
