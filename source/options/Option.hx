@@ -1958,8 +1958,8 @@ class FPSScale extends Option
 	override function left()
 	{
 		ClientPrefs.data.FPSScale -= 0.1;
-		if (ClientPrefs.data.FPSScale < 0.5)
-			ClientPrefs.data.FPSScale = 0.5;
+		if (ClientPrefs.data.FPSScale < 0.3)
+			ClientPrefs.data.FPSScale = 0.3;
 		ClientPrefs.data.FPSScale = FlxMath.roundDecimal(ClientPrefs.data.FPSScale, 1);
 		display = updateDisplay();
     }
@@ -1967,8 +1967,8 @@ class FPSScale extends Option
 	override function right()
 	{
 		ClientPrefs.data.FPSScale += 0.1;
-		if (ClientPrefs.data.FPSScale > 2)
-			ClientPrefs.data.FPSScale = 2;
+		if (ClientPrefs.data.FPSScale > 3)
+			ClientPrefs.data.FPSScale = 3;
 		ClientPrefs.data.FPSScale = FlxMath.roundDecimal(ClientPrefs.data.FPSScale, 1);
 		display = updateDisplay();
     }
@@ -1982,8 +1982,7 @@ class FPSScale extends Option
 	override function change()
 	{	
 	    if(Main.fpsVar != null) {
-		    Main.fpsVar.scaleX = Main.fpsVar.scaleY = ClientPrefs.data.FPSScale;
-		    //Main.fpsVar.offset.x = Main.fpsVar.offset.y = 0;		
+		    Main.fpsVar.scaleX = Main.fpsVar.scaleY = ClientPrefs.data.FPSScale;	
 		}
 	}
 }
@@ -2097,8 +2096,8 @@ class WaterMarkScale extends Option
 	override function left()
 	{
 		ClientPrefs.data.WatermarkScale -= 0.1;
-		if (ClientPrefs.data.WatermarkScale < 0.5)
-			ClientPrefs.data.WatermarkScale = 0.5;
+		if (ClientPrefs.data.WatermarkScale < 0.3)
+			ClientPrefs.data.WatermarkScale = 0.3;
 		ClientPrefs.data.WatermarkScale = FlxMath.roundDecimal(ClientPrefs.data.WatermarkScale, 1);
 		display = updateDisplay();
     }
@@ -2106,8 +2105,8 @@ class WaterMarkScale extends Option
 	override function right()
 	{
 		ClientPrefs.data.WatermarkScale += 0.1;
-		if (ClientPrefs.data.WatermarkScale > 2)
-			ClientPrefs.data.WatermarkScale = 2;
+		if (ClientPrefs.data.WatermarkScale > 3)
+			ClientPrefs.data.WatermarkScale = 3;
 		ClientPrefs.data.WatermarkScale = FlxMath.roundDecimal(ClientPrefs.data.WatermarkScale, 1);
 		display = updateDisplay();
     }
@@ -2122,7 +2121,7 @@ class WaterMarkScale extends Option
 	{	
 	    if(Main.watermark != null) {
 		    Main.watermark.scaleX = Main.watermark.scaleY = ClientPrefs.data.WatermarkScale;
-		    //Main.watermark.offset.x = Main.watermark.offset.y = 0;
+		    Main.watermark.y == Lib.current.stage.stageHeight - 5 - watermark.bitmapData.height + (1 - ClientPrefs.data.WatermarkScale) * watermark.bitmapData.height;
 		}
 	}
 }

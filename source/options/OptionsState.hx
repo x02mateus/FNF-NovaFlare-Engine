@@ -848,7 +848,7 @@ class OptionsState extends MusicBeatState
 		}
 	}
 
-	function resetOptions()
+	function resetOptions() //stupid code but work well
 	{
         switch(selectedCatIndex){
         
@@ -920,10 +920,12 @@ class OptionsState extends MusicBeatState
             case 7:                
                 ClientPrefs.data.showFPS = ClientPrefs.defaultData.showFPS;                
                 ClientPrefs.data.rainbowFPS = ClientPrefs.defaultData.rainbowFPS;
+                ClientPrefs.data.FPSScale = ClientPrefs.defaultData.FPSScale;
                 ClientPrefs.data.showMEM = ClientPrefs.defaultData.showMEM;
                 ClientPrefs.data.memoryType = ClientPrefs.defaultData.memoryType;
                 ClientPrefs.data.showMS = ClientPrefs.defaultData.showMS;
                 ClientPrefs.data.showWatermark = ClientPrefs.defaultData.showWatermark;
+                ClientPrefs.data.WatermarkScale = ClientPrefs.defaultData.WatermarkScale;
             case 8:
                 ClientPrefs.data.safeFrames = ClientPrefs.defaultData.safeFrames;
                 ClientPrefs.data.ratingOffset = ClientPrefs.defaultData.ratingOffset;
