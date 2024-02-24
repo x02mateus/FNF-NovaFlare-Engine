@@ -77,6 +77,7 @@ import states.TitleState;
 	public var discordRPC:Bool = true;
 	public var checkForUpdates:Bool = false;
 	public var oldHscriptVersion:Bool = false;
+	public var pauseButton:Bool = true;
 	
 	public var marvelousRating:Bool = true;	
 	public var marvelousSprite:Bool = true;	
