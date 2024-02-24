@@ -3029,9 +3029,6 @@ class PlayState extends MusicBeatState
         if (comboTweenScaleY != null) comboTweenScaleY.cancel();
         comboSpr_S.scale.y = scale + 0.07;
 		comboTweenScaleY = FlxTween.tween(comboSpr_S.scale, {y: scale}, 0.2 / playbackRate);
-		
-		rateSpr_S.offset.x += rateSpr_S.width / 2;
-        rateSpr_S.offset.y += rateSpr_S.height / 2;
 	}
 
 	public var strumsBlocked:Array<Bool> = [];
