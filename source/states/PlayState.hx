@@ -238,6 +238,7 @@ class PlayState extends MusicBeatState
 	public var camGame:FlxCamera;
 	public var camOther:FlxCamera;
 	public var luaVpadCam:FlxCamera;
+	public var camPause:FlxCamera;
 	public var cameraSpeed:Float = 1;
 
 	public var songScore:Int = 0;
@@ -247,6 +248,8 @@ class PlayState extends MusicBeatState
 	public var judgementCounter_S:FlxText; //add _S is make sure nobody make a new one broken this
 	var timeTxt:FlxText;
 	var scoreTxtTween:FlxTween;
+	
+	public var pauseButton_menu:FlxSprite;
 
 	public static var campaignScore:Int = 0;
 	public static var campaignMisses:Int = 0;
@@ -339,12 +342,15 @@ class PlayState extends MusicBeatState
 		camHUD = new FlxCamera();
 		camOther = new FlxCamera();
 		luaVpadCam = new FlxCamera();
+		camPause = new FlxCamera();
 		camHUD.bgColor.alpha = 0;
 		camOther.bgColor.alpha = 0;
 		luaVpadCam.bgColor.alpha = 0;
+		camPause.bgColor.alpha = 0;
 		FlxG.cameras.add(camHUD, false);
 		FlxG.cameras.add(camOther, false);
 		FlxG.cameras.add(luaVpadCam, false);
+		FlxG.cameras.add(camPause, false);
 		grpNoteSplashes = new FlxTypedGroup<NoteSplash>();
 
 		persistentUpdate = persistentDraw = true;
@@ -598,6 +604,15 @@ class PlayState extends MusicBeatState
 			timeTxt.y += 3;
 		}
 		
+		if (ClientPrefs.data.pauseButton){
+    		pauseButton_menu:FlxSprite = new FlxSprite(5, 5).loadGraphic(Paths.image('menuExtend/PlayState/ppauseButton'));
+    		pauseButton_menu.cameras = [camPause];
+    		pauseButton_menu.setGraphicSize(200, 200);
+    		pauseButton_menu.scrollFactor.set();
+    		pauseButton_menu.updateHitbox();
+    		add(pauseButton_menu);
+		}
+		
 		var splash:NoteSplash = new NoteSplash(100, 100);
 		splash.setupNoteSplash(100, 100);
 		grpNoteSplashes.add(splash);
@@ -700,6 +715,8 @@ class PlayState extends MusicBeatState
 		addVirtualPad(NONE, P);
     	addVirtualPadCamera(false);
 		#end
+		
+		createPauseButton();
 
 		super.create();
 		Paths.clearUnusedMemory();
@@ -1848,6 +1865,18 @@ class PlayState extends MusicBeatState
 
 	override public function update(elapsed:Float)
 	{
+	    if (ClientPrefs.data.pauseButton){
+    	    if (FlxG.mouse.overlaps(pauseButton_menu) && FlxG.mouse.justPressed) && (startedCountdown && canPause))
+    		{
+    			var ret:Dynamic = callOnScripts('onPause', null, true);
+    			if(ret != LuaUtils.Function_Stop) {
+    				openPauseMenu();
+    				super.update(elapsed);
+    				return;
+    			}
+    		}
+		}
+		
 		if(!inCutscene && !paused && !freezeCamera) {
 			FlxG.camera.followLerp = 2.4 * cameraSpeed * playbackRate;
 			if(!startingSong && !endingSong && boyfriend.getAnimationName().startsWith('idle')) {
