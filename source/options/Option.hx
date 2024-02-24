@@ -1444,7 +1444,7 @@ class PlayControlsAlpha extends Option
 		ClientPrefs.data.playControlsAlpha += 0.1;
 		if (ClientPrefs.data.playControlsAlpha > 1)
 			ClientPrefs.data.playControlsAlpha = 1;
-		ClientPrefs.data.playControlsAlpha = FlxMath.roundDecimal(ClientPrefs.data.playControlsAlpha * 100, 1)
+		ClientPrefs.data.playControlsAlpha = FlxMath.roundDecimal(ClientPrefs.data.playControlsAlpha * 100, 1);
 		display = updateDisplay();
     }
 
@@ -1974,8 +1974,8 @@ class FPSScale extends Option
 	override function change()
 	{	
 	    if(Main.fpsVar != null) {
-		    Main.fpsVars.scale.x = Main.fpsVars.scale.y = ClientPrefs.data.FPSScale;
-		    Main.fpsVars.offset.x = Main.fpsVars.offset.y = 0;		
+		    Main.fpsVar.scale.x = Main.fpsVar.scale.y = ClientPrefs.data.FPSScale;
+		    Main.fpsVar.offset.x = Main.fpsVar.offset.y = 0;		
 		}
 	}
 }
@@ -2110,7 +2110,7 @@ class WaterMarkScale extends Option
 	override function change()
 	{	
 	    if(Main.watermark != null) {
-		    Main.watermark.scale.x = Main.watermark.scale.y = ClientPrefs.data.WatermarkScale;
+		    Main.watermark.scaleX = Main.watermark.scaleY = ClientPrefs.data.WatermarkScale;
 		    Main.watermark.offset.x = Main.watermark.offset.y = 0;
 		}
 	}
