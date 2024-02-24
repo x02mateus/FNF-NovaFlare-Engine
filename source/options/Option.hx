@@ -2122,7 +2122,7 @@ class WaterMarkScale extends Option
 	{
 	    if(Main.watermark != null) {
 		    Main.watermark.scaleX = Main.watermark.scaleY = ClientPrefs.data.WatermarkScale;
-		    Main.watermark.y == Lib.current.stage.stageHeight - 5 - ClientPrefs.data.WatermarkScale * Main.watermark.bitmapData.height;
+		    Main.watermark.y = Lib.current.stage.stageHeight - 5 - ClientPrefs.data.WatermarkScale * Main.watermark.bitmapData.height;
 		}
 	}
 }
