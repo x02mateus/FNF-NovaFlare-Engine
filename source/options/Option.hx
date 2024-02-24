@@ -2119,10 +2119,10 @@ class WaterMarkScale extends Option
 	}
 	
 	override function change()
-	{	
+	{
 	    if(Main.watermark != null) {
 		    Main.watermark.scaleX = Main.watermark.scaleY = ClientPrefs.data.WatermarkScale;
-		    Main.watermark.y == Lib.current.stage.stageHeight - 5 - Main.watermark.bitmapData.height + (1 - ClientPrefs.data.WatermarkScale) * Main.watermark.bitmapData.height;
+		    Main.watermark.y == Lib.current.stage.stageHeight - 5 - ClientPrefs.data.WatermarkScale * Main.watermark.bitmapData.height;
 		}
 	}
 }

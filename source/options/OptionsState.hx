@@ -939,8 +939,10 @@ class OptionsState extends MusicBeatState
         
         ClientPrefs.saveSettings();
         
-        for (mem in 0...selectedCat.length - 1)
+        for (mem in 0...selectedCat.length){
+            if (selectedCat.options[mem] != null) 
             selectedCat.options[mem].change();
+        }
 	}
 	
 	public function resetOptionChoose()  //用于返回原来选择
