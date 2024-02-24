@@ -2088,31 +2088,26 @@ class WaterMarkScale extends Option
 
 	override function left()
 	{
-		ClientPrefs.data.ratingOffset--;
-		if (ClientPrefs.data.ratingOffset < -30)
-			ClientPrefs.data.ratingOffset = -30;
+		ClientPrefs.data.WatermarkScale -= 0.1;
+		if (ClientPrefs.data.WatermarkScale < 0.5)
+			ClientPrefs.data.WatermarkScale = 0.5;
+		ClientPrefs.data.WatermarkScale = FlxMath.roundDecimal(ClientPrefs.data.WatermarkScale * 100, 1);
 		display = updateDisplay();
     }
 
 	override function right()
 	{
-		ClientPrefs.data.ratingOffset++;
-		if (ClientPrefs.data.ratingOffset > 30)
-			ClientPrefs.data.ratingOffset = 30;
+		ClientPrefs.data.WatermarkScale += 0.1;
+		if (ClientPrefs.data.WatermarkScale > 2)
+			ClientPrefs.data.WatermarkScale = 2;
+		ClientPrefs.data.WatermarkScale = FlxMath.roundDecimal(ClientPrefs.data.WatermarkScale * 100, 1);
 		display = updateDisplay();
     }
 
 	private override function updateDisplay():String
 	{
-		return "Rating Offset: < " + ClientPrefs.data.ratingOffset + " >";
-	}
-	
-	override function change()
-	{	
-	    if(Main.watermark != null) {
-		    Main.watermark.scaleX = Main.watermark.scaleY = ClientPrefs.data.WatermarkScale;
-		    Main.watermark.offset.x = Main.watermark.offset.y = 0;
-		}
+	    var data:Float = ClientPrefs.data.WatermarkScale * 100;
+		return "Rating Offset: < " + data + "% >";
 	}
 }
 
@@ -2157,7 +2152,7 @@ class FrameOption extends Option
 	}
 }
 
-class WaterMarkScale extends Option
+class RatingOffset extends Option
 {
 	public function new(desc:String)
 	{
@@ -2168,26 +2163,31 @@ class WaterMarkScale extends Option
 
 	override function left()
 	{
-		ClientPrefs.data.WatermarkScale -= 0.1;
-		if (ClientPrefs.data.WatermarkScale < 0.5)
-			ClientPrefs.data.WatermarkScale = 0.5;
-		ClientPrefs.data.WatermarkScale = FlxMath.roundDecimal(ClientPrefs.data.WatermarkScale * 100, 1);
+		ClientPrefs.data.ratingOffset--;
+		if (ClientPrefs.data.ratingOffset < -30)
+			ClientPrefs.data.ratingOffset = -30;
 		display = updateDisplay();
     }
 
 	override function right()
 	{
-		ClientPrefs.data.WatermarkScale += 0.1;
-		if (ClientPrefs.data.WatermarkScale > 2)
-			ClientPrefs.data.WatermarkScale = 2;
-		ClientPrefs.data.WatermarkScale = FlxMath.roundDecimal(ClientPrefs.data.WatermarkScale * 100, 1);
+		ClientPrefs.data.ratingOffset++;
+		if (ClientPrefs.data.ratingOffset > 30)
+			ClientPrefs.data.ratingOffset = 30;
 		display = updateDisplay();
     }
 
 	private override function updateDisplay():String
 	{
-	    var data:Float = ClientPrefs.data.WatermarkScale * 100;
-		return "Rating Offset: < " + data + "% >";
+		return "Rating Offset: < " + ClientPrefs.data.ratingOffset + " >";
+	}
+	
+	override function change()
+	{	
+	    if(Main.watermark != null) {
+		    Main.watermark.scaleX = Main.watermark.scaleY = ClientPrefs.data.WatermarkScale;
+		    Main.watermark.offset.x = Main.watermark.offset.y = 0;
+		}
 	}
 }
 
