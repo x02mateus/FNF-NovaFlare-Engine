@@ -28,6 +28,8 @@ import states.TitleState;
 	public var showMEM:Bool = true;
 	public var rainbowFPS:Bool = false;
 	public var memoryType:Int = 3;	
+	public var FPSScale:Float = 1;
+	public var WatermarkScale:Float = 1;
 	public var showWatermark:Bool = true;
 	public var skipTitleVideo:Bool = false;		
 	
