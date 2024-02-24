@@ -251,12 +251,14 @@ class OptionsState extends MusicBeatState
 				new AutoPause("Stops game, when its unfocused."),				              
 			]),			
 			new OptionCata(935, 40 + 64, "Watermark", [                
-				new FPSOption("Toggle the FPS Counter."),
+				new FPSOption("Toggle the FPS counter."),
 				new FPSRainbowOption("Make the FPS Counter flicker through rainbow colors."),
+				new FPSScale('Set the size of FPS counter.'),
                 new MEMOption("Toggle the memory counter."),
                 new MEMType("Choose memory showcase data."),
                 new DelayOption("Toggle the delay time counter."),
                 new WaterMarkOption('Toggle the watermark.'),
+                new WaterMarkScale('Set the size of watermark.'),
 			]),			
 			new OptionCata(-1, 125, "Editing Judgements", [			
 				new FrameOption("Changes how many frames you have for hitting a note earlier or late."),
