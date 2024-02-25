@@ -605,8 +605,7 @@ class PlayState extends MusicBeatState
 		}
 		
 		if (ClientPrefs.data.pauseButton){
-    		pauseButton_menu = new FlxSprite(5, 5).loadGraphic(Paths.image('menuExtend/PlayState/ppauseButton'));
-    		pauseButton_menu.cameras = [camPause];
+    		pauseButton_menu = new FlxSprite(5, 5).loadGraphic(Paths.image('menuExtend/PlayState/ppauseButton'));    		
     		pauseButton_menu.setGraphicSize(200, 200);
     		pauseButton_menu.scrollFactor.set();
     		pauseButton_menu.updateHitbox();
@@ -719,7 +718,8 @@ class PlayState extends MusicBeatState
 		
         FlxG.cameras.remove(camPause, false);
         FlxG.cameras.add(camPause, false);
-
+        pauseButton_menu.cameras = [camPause];
+        
 		super.create();
 		Paths.clearUnusedMemory();
 

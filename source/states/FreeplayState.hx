@@ -108,6 +108,7 @@ class FreeplayState extends MusicBeatState {
     var camInfo:FlxCamera;
     var camSearch:FlxCamera;
     var camListen:FlxCamera;
+    var camBG:FlxCamera;。
     
 	override function create()
 	{
@@ -134,13 +135,16 @@ class FreeplayState extends MusicBeatState {
 		camUI = new FlxCamera();
 		camUI.bgColor = 0x00;
 		
+		camBG = new FlxCamera();
+		camBG.bgColor = 0x00;
+		
 		FlxG.cameras.add(camSong, false);
 		FlxG.cameras.add(camInfo, false);
 		//FlxG.cameras.add(camUI, false);
 		FlxG.cameras.add(camSearch, false);
 		FlxG.cameras.add(camListen, false);
 		FlxG.cameras.add(camUI, false);
-		
+		FlxG.cameras.add(camBG, false);
 		    	
     	songsbg = new FlxSprite(700, -75).makeGraphic(550, 900, FlxColor.WHITE);
     	songsbg.camera = camGame;
@@ -401,9 +405,8 @@ class FreeplayState extends MusicBeatState {
     	
     	var blackBG = new FlxSprite(-1280, 0).makeGraphic(1280, 720, FlxColor.BLACK);
     	blackBG.antialiasing = ClientPrefs.data.antialiasing;
-    	blackBG.camera = camUI;
+    	blackBG.camera = camBG;
     	add(blackBG);
-    	blackBG.screenCenter();
     	
     	changeSong(0);
     	
