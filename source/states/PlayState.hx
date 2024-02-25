@@ -2885,7 +2885,7 @@ class PlayState extends MusicBeatState
 		rateSpr_S.updateHitbox();
 		rateSpr_S.x += rateSpr_S.width / 2;
         rateSpr_S.y += rateSpr_S.height / 2;
-		comboSpr_S.updateHitbox();		
+		rateSpr_S.updateHitbox();		
 		rateSpr_S.antialiasing = antialias;
 		rateSpr_S.alpha = 0.000001;
 		rateSpr_S.visible = showRating;
