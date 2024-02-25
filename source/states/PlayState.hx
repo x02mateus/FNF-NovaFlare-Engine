@@ -607,6 +607,7 @@ class PlayState extends MusicBeatState
 		if (ClientPrefs.data.pauseButton){
     		pauseButton_menu = new FlxSprite(2, 2).loadGraphic(Paths.image('menuExtend/PlayState/pauseButton'));    		
     		pauseButton_menu.setGraphicSize(100, 100);
+    		pauseButton_menu.alpha = 0.5;
     		pauseButton_menu.scrollFactor.set();
     		pauseButton_menu.updateHitbox();
     		add(pauseButton_menu);
@@ -1868,7 +1869,12 @@ class PlayState extends MusicBeatState
 	override public function update(elapsed:Float)
 	{
 	    if (ClientPrefs.data.pauseButton){
-    	    if (FlxG.mouse.overlaps(pauseButton_menu) && FlxG.mouse.justPressed && (startedCountdown && canPause))
+    	    if (FlxG.mouse.getScreenPosition(camPause).y >= pauseButton_menu.y 
+    	       && FlxG.mouse.getScreenPosition(camPause).y <= pauseButton_menu.y + pauseButton_menu.height
+    	       && FlxG.mouse.getScreenPosition(camPause).x >= pauseButton_menu.x 
+    	       && FlxG.mouse.getScreenPosition(camPause).x <= pauseButton_menu.x + pauseButton_menu.width
+    	       && FlxG.mouse.justPressed 
+    	       && (startedCountdown && canPause))
     		{
     			var ret:Dynamic = callOnScripts('onPause', null, true);
     			if(ret != LuaUtils.Function_Stop) {
