@@ -717,7 +717,8 @@ class PlayState extends MusicBeatState
 		#end
 		
 		
-        FlxG.cameras.setPosition(camPause, FlxG.cameras.length - 1);
+        FlxG.cameras.remove(camPause, false);
+        FlxG.cameras.add(camPause, false);
 
 		super.create();
 		Paths.clearUnusedMemory();
