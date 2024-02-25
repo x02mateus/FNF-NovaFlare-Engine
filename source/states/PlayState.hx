@@ -605,8 +605,8 @@ class PlayState extends MusicBeatState
 		}
 		
 		if (ClientPrefs.data.pauseButton){
-    		pauseButton_menu = new FlxSprite(5, 5).loadGraphic(Paths.image('menuExtend/PlayState/pauseButton'));    		
-    		pauseButton_menu.setGraphicSize(200, 200);
+    		pauseButton_menu = new FlxSprite(2, 2).loadGraphic(Paths.image('menuExtend/PlayState/pauseButton'));    		
+    		pauseButton_menu.setGraphicSize(100, 100);
     		pauseButton_menu.scrollFactor.set();
     		pauseButton_menu.updateHitbox();
     		add(pauseButton_menu);

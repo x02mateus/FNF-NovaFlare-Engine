@@ -135,7 +135,7 @@ class FreeplayState extends MusicBeatState {
 		camUI = new FlxCamera();
 		camUI.bgColor = 0x00;
 		
-		camBG = new FlxCamera();
+		camBG = new FlxCamera(-FlxG.width);
 		camBG.bgColor = 0x00;
 		
 		FlxG.cameras.add(camSong, false);
@@ -403,7 +403,7 @@ class FreeplayState extends MusicBeatState {
     	makeSearchUI();
     	makeListenMenu();
     	
-    	var blackBG = new FlxSprite(-1280, 0).makeGraphic(1280, 720, FlxColor.BLACK);
+    	var blackBG = new FlxSprite(0, 0).makeGraphic(1280, 720, FlxColor.BLACK);
     	blackBG.antialiasing = ClientPrefs.data.antialiasing;
     	blackBG.camera = camBG;
     	add(blackBG);
