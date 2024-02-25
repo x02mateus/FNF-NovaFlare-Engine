@@ -108,7 +108,7 @@ class FreeplayState extends MusicBeatState {
     var camInfo:FlxCamera;
     var camSearch:FlxCamera;
     var camListen:FlxCamera;
-    var camBG:FlxCamera;。
+    var camBG:FlxCamera;
     
 	override function create()
 	{
