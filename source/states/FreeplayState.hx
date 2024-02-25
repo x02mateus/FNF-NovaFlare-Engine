@@ -139,7 +139,7 @@ class FreeplayState extends MusicBeatState {
 		camBG = new FlxCamera(-FlxG.width);
 		camBG.bgColor = 0x00;
 		
-		camMove = new FlxCamera(-FlxG.width);
+		camMove = new FlxCamera();
 		camMove.bgColor = 0x00;
 		
 		FlxG.cameras.add(camSong, false);

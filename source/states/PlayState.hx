@@ -2876,6 +2876,16 @@ class PlayState extends MusicBeatState
 		rateSpr_S.y -= 60;
 		rateSpr_S.x += ClientPrefs.data.comboOffset[0];
 		rateSpr_S.y -= ClientPrefs.data.comboOffset[1];
+		if (!PlayState.isPixelStage)
+		{
+			rateSpr_S.setGraphicSize(Std.int(rateSpr_S.width * 0.7));			
+		}else{
+			rateSpr_S.setGraphicSize(Std.int(rateSpr_S.width * daPixelZoom * 0.85));			
+		}
+		rateSpr_S.updateHitbox();
+		rateSpr_S.x += rateSpr_S.width / 2;
+        rateSpr_S.y += rateSpr_S.height / 2;
+		comboSpr_S.updateHitbox();		
 		rateSpr_S.antialiasing = antialias;
 		rateSpr_S.alpha = 0.000001;
 		rateSpr_S.visible = showRating;
@@ -3066,6 +3076,9 @@ class PlayState extends MusicBeatState
         if (comboTweenScaleY != null) comboTweenScaleY.cancel();
         comboSpr_S.scale.y = scale + 0.07;
 		comboTweenScaleY = FlxTween.tween(comboSpr_S.scale, {y: scale}, 0.2 / playbackRate);
+		
+		rateSpr_S.offset.x += rateSpr_S.width / 2;
+        rateSpr_S.offset.y += rateSpr_S.height / 2;
 	}
 
 	public var strumsBlocked:Array<Bool> = [];
