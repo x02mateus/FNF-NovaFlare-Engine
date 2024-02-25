@@ -399,6 +399,12 @@ class FreeplayState extends MusicBeatState {
     	makeSearchUI();
     	makeListenMenu();
     	
+    	var blackBG = new FlxSprite(-1280, 0).makeGraphic(1280, 720, FlxColor.BLACK);
+    	blackBG.antialiasing = ClientPrefs.data.antialiasing;
+    	blackBG.camera = camUI;
+    	add(blackBG);
+    	blackBG.screenCenter();
+    	
     	changeSong(0);
     	
     	//addVirtualPad(LEFT_FULL, A_B_C_X_Y_Z);

@@ -715,7 +715,9 @@ class PlayState extends MusicBeatState
 		addVirtualPad(NONE, P);
     	addVirtualPadCamera(false);
 		#end
-			
+		
+		
+        FlxG.cameras.setPosition(camPause, FlxG.cameras.length - 1);
 
 		super.create();
 		Paths.clearUnusedMemory();
