@@ -715,8 +715,7 @@ class PlayState extends MusicBeatState
 		addVirtualPad(NONE, P);
     	addVirtualPadCamera(false);
 		#end
-		
-		createPauseButton();
+			
 
 		super.create();
 		Paths.clearUnusedMemory();
