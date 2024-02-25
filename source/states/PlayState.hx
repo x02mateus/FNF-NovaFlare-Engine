@@ -1866,7 +1866,7 @@ class PlayState extends MusicBeatState
 	override public function update(elapsed:Float)
 	{
 	    if (ClientPrefs.data.pauseButton){
-    	    if (FlxG.mouse.overlaps(pauseButton_menu) && FlxG.mouse.justPressed) && (startedCountdown && canPause))
+    	    if (FlxG.mouse.overlaps(pauseButton_menu) && FlxG.mouse.justPressed && (startedCountdown && canPause))
     		{
     			var ret:Dynamic = callOnScripts('onPause', null, true);
     			if(ret != LuaUtils.Function_Stop) {
