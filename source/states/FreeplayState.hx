@@ -665,9 +665,11 @@ class FreeplayState extends MusicBeatState {
     			FlxG.sound.music.stop();
     			playingSong = -1;
     			new FlxTimer().start(3, function(tmr:FlxTimer) {
-    				FlxG.sound.playMusic(Paths.music('freakyMenu'), 0);
-    				FlxG.sound.music.volume = 0.1;
-    			})
+    				if (playingSong == -1) {
+    					FlxG.sound.playMusic(Paths.music('freakyMenu'), 0);
+    					FlxG.sound.music.volume = 0.1;
+    				}
+    			});
     			return;
     		}
     		
