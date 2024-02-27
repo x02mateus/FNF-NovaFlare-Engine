@@ -777,7 +777,7 @@ class FreeplayState extends MusicBeatState {
 	}
 	
 	function setplaybackrate() {
-		songPlaybackRateText.text = songPlaybackRate;
+		songPlaybackRateText.text = Std.string(songPlaybackRate) + 'x';
 		if (vocals != null) vocals.pitch = songPlaybackRate;
 		FlxG.sound.music.pitch = songPlaybackRate;
 	}
