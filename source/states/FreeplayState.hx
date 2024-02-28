@@ -174,9 +174,9 @@ class FreeplayState extends MusicBeatState {
     	addSongTxt();
     	
     	if(curSelected >= songs.length) curSelected = 0;
-		bg.color = songs[curSelected].color    	
+		bg.color = songs[curSelected].color;
     	curDifficulty = Math.round(Math.max(0, Difficulty.defaultList.indexOf(lastDifficultyName)));
-    	camSong.scroll.x = -(curSelected) * 20 * 0.75;
+    	camSong.scroll.x = -curSelected * 20 * 0.75;
     	
     	songBarSelected = new FlxSprite().loadGraphic(Paths.image(filePath + 'songBarSelected'));
     	songBarSelected.antialiasing = ClientPrefs.data.antialiasing;
@@ -1302,7 +1302,9 @@ class FreeplayState extends MusicBeatState {
 	
 	function bgCheck(okokok:Bool)
 	{
-		if (okokok) return;
+		if (bg.color == songs[curSelected].color)
+			return;
+			
 	    if (modCheck != Mods.currentModDirectory){
     	    modCheck = Mods.currentModDirectory;
     	    
