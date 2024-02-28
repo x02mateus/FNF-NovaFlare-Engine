@@ -464,7 +464,7 @@ class FreeplayState extends MusicBeatState {
     	if ((FlxG.mouse.justPressed && FlxG.pixelPerfectOverlap(difficultyLeft, mousechecker, 25)) || controls.UI_LEFT_P) {
     		changeDiff(-1);
     		difficultyLeft.color = FlxColor.fromRGB(0, 255, 0);
-    		if (leftcolor != null) leftcolor.cancel()
+    		if (leftcolor != null) leftcolor.cancel();
     		leftcolor = FlxTween.color(bg, 1, difficultyLeft.color, 0x00FFFFFF, {
     			onComplete: function(twn:FlxTween) {
 					leftcolor = null;
@@ -474,7 +474,7 @@ class FreeplayState extends MusicBeatState {
     	if ((FlxG.mouse.justPressed && FlxG.pixelPerfectOverlap(difficultyRight, mousechecker, 25)) || controls.UI_RIGHT_P) {
     		changeDiff(1);
     		difficultyRight.color = FlxColor.fromRGB(255, 0, 0);
-    		if (rightcolor != null) rightcolor.cancel()
+    		if (rightcolor != null) rightcolor.cancel();
     		rightcolor = FlxTween.color(bg, 1, difficultyRight.color, 0x00FFFFFF, {
     			onComplete: function(twn:FlxTween) {
 					rightcolor = null;
