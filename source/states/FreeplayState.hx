@@ -1311,7 +1311,7 @@ class FreeplayState extends MusicBeatState {
     	    if (bgColorChange != null) bgColorChange.cancel();
     	    if (colorTween != null) colorTween.cancel();
        			
-    	    bgColorChange = FlxTween.color(bg, 0.35, bg.color, [FlxColor.BLACK], {
+    	    bgColorChange = FlxTween.color(bg, 0.35, bg.color, FlxColor.BLACK, {
 				onComplete: function(twn:FlxTween) {
 					bg.loadGraphic(Paths.image('menuDesat'));
     	            bg.screenCenter();
