@@ -539,6 +539,9 @@ class Note extends FlxSprite
 			&& ClientPrefs.data.playOpponent)
 	        )
 		{
+		    if (!wasGoodHit) return;
+		    
+		    updateHitbox();
 			var swagRect:FlxRect = clipRect;
 			if(swagRect == null) swagRect = new FlxRect(0, 0, frameWidth, frameHeight);
             
@@ -552,7 +555,7 @@ class Note extends FlxSprite
 		    clipRect = swagRect;
 		}
 	}
-	
+
 	public function hitMultUpdate(number:Int = 0, maxNumber:Int = 0){
 	    if (number == 0){
 	        earlyHitMult = 0;
