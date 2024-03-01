@@ -255,10 +255,7 @@ class Note extends FlxSprite
 			alpha = 0.6;
 			multAlpha = 0.6;
 			hitsoundDisabled = true;
-			if(ClientPrefs.data.downScroll) flipY = true;
-			
-			earlyHitMult = 0.5;
-			lateHitMult = 0;
+			if(ClientPrefs.data.downScroll) flipY = true;			
 			
 			noAnimation = true; //better work for play anim
             isEndNote = true;
@@ -286,10 +283,7 @@ class Note extends FlxSprite
 					prevNote.scale.y *= 1.19;
 					prevNote.scale.y *= (6 / height); //Auto adjust note size
 				}
-				prevNote.updateHitbox();
-				// prevNote.setGraphicSize();
-				
-				
+				prevNote.updateHitbox();								
 			
 				prevNote.noAnimation = false;
 				prevNote.isEndNote = false;
@@ -567,7 +561,7 @@ class Note extends FlxSprite
 	        earlyHitMult = 0.5;
 			lateHitMult = 0.5;	
 	    }
-	}
+	} //this shit can make hold note work better
 	
 
 	@:noCompletion
