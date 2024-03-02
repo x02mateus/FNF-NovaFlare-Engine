@@ -500,13 +500,19 @@ class PlayState extends MusicBeatState
             			for (file in FileSystem.readDirectory(folder))
             			{
             				#if LUA_ALLOWED
-            				if(file.toLowerCase().endsWith('.lua'))
+            				if(file.toLowerCase().endsWith('.lua')){
+            				    Thread.create(() -> {
             					new FunkinLua(folder + file);
+            					});
+            				}
             				#end
             
             				#if HSCRIPT_ALLOWED
-            				if(file.toLowerCase().endsWith('.hx'))
+            				if(file.toLowerCase().endsWith('.hx')){
+            				    Thread.create(() -> {
             					initHScript(folder + file);
+            					});
+            				}
             				#end
             			}
         			#end
@@ -777,13 +783,19 @@ class PlayState extends MusicBeatState
                 			for (file in FileSystem.readDirectory(folder))
                 			{
                 				#if LUA_ALLOWED
-                				if(file.toLowerCase().endsWith('.lua'))
+                				if(file.toLowerCase().endsWith('.lua')){
+                				    Thread.create(() -> {
                 					new FunkinLua(folder + file);
+                					});
+                				}
                 				#end
                 
                 				#if HSCRIPT_ALLOWED
-                				if(file.toLowerCase().endsWith('.hx'))
+                				if(file.toLowerCase().endsWith('.hx')){
+                				    Thread.create(() -> {
                 					initHScript(folder + file);
+                					});
+                				}
                 				#end
                 			}
 		
