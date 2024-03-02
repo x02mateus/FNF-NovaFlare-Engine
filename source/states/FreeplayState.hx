@@ -98,6 +98,7 @@ class FreeplayState extends MusicBeatState {
     var filePath:String = 'menuExtend/FreePlayState/';
     
     private static var curSelected:Int = 0;
+    private static var curSelectedFloat:Float;
 	var lerpSelected:Float = 0;
 	public static var curDifficulty:Int = -1;
 	private static var lastDifficultyName:String = Difficulty.getDefault();
@@ -329,7 +330,7 @@ class FreeplayState extends MusicBeatState {
     	add(options);
     	
     	var options = new FlxText(330, 520, 0, "Chart Editor", 28);
-    	options.setFormat(font, 28, FlxColor.WHITE, 'left', FlxTextBorderStyle.OUTLINE, FlxColor.TRANSPARENT);
+    	options.setFormat(font, 28, FlxColor.WHITE, LEFT);
     	options.camera = camInfo;
     	options.antialiasing = ClientPrefs.data.antialiasing;
     	add(options);
@@ -401,25 +402,25 @@ class FreeplayState extends MusicBeatState {
     	randomButton.setPosition(500, 665);
     	
     	var optionsText = new FlxText(850, 8, 0, 'E to Search Song');
-    	optionsText.setFormat(font, 25, FlxColor.WHITE, 'left', FlxTextBorderStyle.OUTLINE, FlxColor.TRANSPARENT);
+    	optionsText.setFormat(font, 25, FlxColor.WHITE, LEFT);
     	optionsText.camera = camUI;
     	add(optionsText);
     	optionsText.scale.x = 0.9;
     	
     	var optionsText = new FlxText(70, 675, 0, 'SPACE to Listen Song');
-    	optionsText.setFormat(font, 25, FlxColor.WHITE, 'left', FlxTextBorderStyle.OUTLINE, FlxColor.TRANSPARENT);
+    	optionsText.setFormat(font, 25, FlxColor.WHITE, LEFT);
     	optionsText.camera = camUI;
     	add(optionsText);
     	optionsText.scale.x = 0.9;
     	
     	var optionsText = new FlxText(550, 675, 0, 'O to get a Random Song');
-    	optionsText.setFormat(font, 25, FlxColor.WHITE, 'left', FlxTextBorderStyle.OUTLINE, FlxColor.TRANSPARENT);
+    	optionsText.setFormat(font, 25, FlxColor.WHITE, LEFT);
     	optionsText.camera = camUI;
     	add(optionsText);
     	optionsText.scale.x = 0.9;
     	
     	var optionsText = new FlxText(200, 8, 0, 'shitfuckmdcnmfnf');
-    	optionsText.setFormat(font, 25, FlxColor.WHITE, 'left', FlxTextBorderStyle.OUTLINE, FlxColor.TRANSPARENT);
+    	optionsText.setFormat(font, 25, FlxColor.WHITE, LEFT);
     	optionsText.camera = camUI;
     	add(optionsText);
     	optionsText.scale.x = 0.9;
@@ -432,6 +433,7 @@ class FreeplayState extends MusicBeatState {
     	blackBG.camera = camBG;
     	add(blackBG);
     	
+    	curSelectedFloat = curSelected;
     	changeSong(0);
     	
     	//addVirtualPad(LEFT_FULL, A_B_C_X_Y_Z);
@@ -440,7 +442,6 @@ class FreeplayState extends MusicBeatState {
     }
     
     var startMouseY:Float;
-    var curSelectedFloat:Float;
     var lastCurSelected:Int;
     var canMove:Bool;
     public static var vocals:FlxSound = null;
@@ -475,7 +476,7 @@ class FreeplayState extends MusicBeatState {
         		changeDiff(-1);
         		difficultyLeft.color = FlxColor.fromRGB(0, 255, 0);
         		if (leftcolor != null) leftcolor.cancel();
-        		leftcolor = FlxTween.color(difficultyLeft, 1, difficultyLeft.color, 0x00FFFFFF, {
+        		leftcolor = FlxTween.color(difficultyLeft, 1, difficultyLeft.color, 0xFFFFFF, {
         			onComplete: function(twn:FlxTween) {
     					leftcolor = null;
        				}
@@ -485,7 +486,7 @@ class FreeplayState extends MusicBeatState {
         		changeDiff(1);
         		difficultyRight.color = FlxColor.fromRGB(255, 0, 0);
         		if (rightcolor != null) rightcolor.cancel();
-        		rightcolor = FlxTween.color(difficultyRight, 1, difficultyRight.color, 0x00FFFFFF, {
+        		rightcolor = FlxTween.color(difficultyRight, 1, difficultyRight.color, 0xFFFFFF, {
         			onComplete: function(twn:FlxTween) {
     					rightcolor = null;
        				}
@@ -617,12 +618,12 @@ class FreeplayState extends MusicBeatState {
     	add(rateRight);
     	
     	songPlaybackRateText = new FlxText(350, 540, 100, '1.0');
-    	songPlaybackRateText.setFormat(font, 30, FlxColor.WHITE, 'left');
+    	songPlaybackRateText.setFormat(font, 30, FlxColor.WHITE, LEFT);
     	songPlaybackRateText.camera = camListen;
     	add(songPlaybackRateText);
     	
     	var rateResetText = new FlxText(50, 540, 0, 'RESET');
-    	rateResetText.setFormat(font, 30, FlxColor.WHITE, 'left');
+    	rateResetText.setFormat(font, 30, FlxColor.WHITE, LEFT);
     	rateResetText.camera = camListen;
     	add(rateResetText);
     	
@@ -1043,13 +1044,13 @@ class FreeplayState extends MusicBeatState {
     }
     
     function mouseControl(elapsed:Float){
-        if (FlxG.mouse.justPressed && !canMove)
+        if (FlxG.mouse.justPressed && !canMove && selectedThing == 'Nothing')
     	{
     		curSelectedFloat = curSelected;
     		lastCurSelected = curSelected;
     		startMouseY = FlxG.mouse.y;
     		
-    		if (FlxG.pixelPerfectOverlap(songsbg, mousechecker, 0) && selectedThing == 'Nothing' && FlxG.mouse.y > 50 && FlxG.mouse.y < FlxG.height - 50)
+    		if (FlxG.pixelPerfectOverlap(songsbg, mousechecker, 0) && FlxG.mouse.y > 50 && FlxG.mouse.y < FlxG.height - 50)
     			canMove = true;
     		else
     			canMove = false;
@@ -1110,7 +1111,7 @@ class FreeplayState extends MusicBeatState {
     			optionsGroup[curHoldOptions].alpha = 1;
     	}
     	
-    	if (searching) holdOptions = false;
+    	if (searching || listening) holdOptions = false;
     	
     	if (FlxG.mouse.justReleased) {
     		holdOptions = false;
