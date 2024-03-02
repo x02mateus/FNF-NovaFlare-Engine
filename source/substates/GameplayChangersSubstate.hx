@@ -81,7 +81,7 @@ class GameplayChangersSubstate extends MusicBeatSubstate
 
 	public function new()
 	{
-                controls.isInSubstate = true;
+        controls.isInSubstate = true;
 
 		super();
 
@@ -136,6 +136,8 @@ class GameplayChangersSubstate extends MusicBeatSubstate
 
 		changeSelection();
 		reloadCheckboxes();
+		
+		cameras = [FlxG.cameras.list[FlxG.cameras.list.length - 1]];			
 	}
 
 	var nextAccept:Int = 5;
