@@ -20,7 +20,7 @@ class LoadingSubstate extends MusicBeatSubstate
 
 	override function update(elapsed:Float)
 	{
-	    if (game.loadingStep == 9) close();
+	    if (game.loadingStep == 10) close();
 	    if (game.loadingStep != loadingStep) game.cacheCreate();
 	    if (game.reload){
 	        game.reload = false;
