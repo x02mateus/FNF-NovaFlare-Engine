@@ -496,82 +496,20 @@ class PlayState extends MusicBeatState
 			        mutex.acquire();
 			        #if ((LUA_ALLOWED || HSCRIPT_ALLOWED) && sys)
 			        
-			        var loadParallel:Int = 4;
-            		
-        		    if (luaLoadArray.length > 0){
-            		    if (luaLoadArray.length <= loadParallel){
-            		        luaNum = luaLoadArray.length - 1;
-            		        
-            		        for (num in 0...luaLoadArray.length - 1)
-            		        Thread.create(() -> {			                    
-            		            new FunkinLua(luaLoadArray[num]);             		            
-                            });          		        
-            		    }else{
-        		            if (luaLoadArray.length - luaNum > loadParallel){
-        		                var startLoad:Int = luaNum;
-        		                
-        		                for (num in startLoad...startLoad - 1 + loadParallel)
-                		        Thread.create(() -> {    			                    
-                		            new FunkinLua(luaLoadArray[num]);                  		           
-                                });          		      
-                                luaNum += loadParallel;  
-        		            }else{
-        		                var startLoad:Int = luaNum;
-        		                
-        		                for (num in startLoad...luaLoadArray.length - 1)
-                		        Thread.create(() -> {    			                   
-                		            new FunkinLua(luaLoadArray[num]);                  		            
-                                });          		                                    
-                                
-        		                luaNum = luaLoadArray.length - 1;
-        		            }        		    
-        		        }
-        		    }
-        		            		 
-        		    if (hscriptLoadArray.length > 0){
-            		    if (hscriptLoadArray.length <= loadParallel){
-            		        hscriptNum = hscriptLoadArray.length - 1;
-            		        
-            		        for (num in 0...hscriptLoadArray.length - 1)
-            		        Thread.create(() -> {			                    
-            		            initHScript(hscriptLoadArray[num]);             		            
-                            });          		        
-            		    }else{
-        		            if (hscriptLoadArray.length - hscriptNum > loadParallel){
-        		                var startLoad:Int = hscriptNum;
-        		                
-        		                for (num in startLoad...startLoad - 1 + loadParallel)
-                		        Thread.create(() -> {    			                    
-                		            initHScript(hscriptLoadArray[num]);                  		            
-                                });          		      
-                                hscriptNum += loadParallel;  
-        		            }else{
-        		                var startLoad:Int = hscriptNum;
-        		                
-        		                for (num in startLoad...hscriptLoadArray.length - 1)
-                		        Thread.create(() -> {    			                    
-                		            initHScript(hscriptLoadArray[num]);                  		         
-                                });          		                                    
-                                
-        		                hscriptNum = hscriptLoadArray.length - 1;
-        		            }        		    
-        		        }
-        		    }
-            		#end
-            		
-            		if (luaLoadArray.length == 0 || (luaLoadArray.length > 0 && luaNum == luaLoadArray.length - 1)
-            		   && (hscriptLoadArray.length == 0 || (hscriptLoadArray.length > 0 && hscriptNum == hscriptLoadArray.length - 1))
-            		){
-            		    loadingStep++;
-            		    
-            		    luaNum = 0;
-                        luaLoadArray = [];
-    
-                        hscriptNum = 0;
-                        hscriptLoadArray = [];
-            		}else{
-            		    reload = true;
-            		}
+			         (folder in Mods.directoriesWithFile(Paths.getSharedPath(), 'scripts/'))
+			for (file in FileSystem.readDirectory(folder))
+			{
+				#if LUA_ALLOWED
+				if(file.toLowerCase().endsWith('.lua'))
+					new FunkinLua(folder + file);
+				#end
+
+				#if HSCRIPT_ALLOWED
+				if(file.toLowerCase().endsWith('.hx'))
+					initHScript(folder + file);
+				#end
+			}
+			    loadingStep++;       
             	    mutex.release();
                 });
             case 2:
@@ -696,8 +634,7 @@ class PlayState extends MusicBeatState
             		var marvelousRate:String = ClientPrefs.data.marvelousRating ? 'Marvelous: 0\n' : '';
             		judgementCounter_S = new FlxText(10, 0, 0, "", 20);
             		judgementCounter_S.setFormat(Paths.font("vcr.ttf"), 20, FlxColor.WHITE, FlxTextAlign.LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
-            		judgementCounter_S.borderSize = 1.5;
-            		judgementCounter_S.borderQuality = 2;
+            		judgementCounter_S.borderSize = 1.25;           	
             		judgementCounter_S.scrollFactor.set();
             		judgementCounter_S.cameras = [camHUD];
             		judgementCounter_S.text = marvelousRate 
@@ -840,67 +777,21 @@ class PlayState extends MusicBeatState
 			        mutex.acquire();
             		#if ((LUA_ALLOWED || HSCRIPT_ALLOWED) && sys)
 			        
-			        var loadParallel:Int = 4;
-            		
-        		    if (luaLoadArray.length > 0){
-            		    if (luaLoadArray.length <= loadParallel){
-            		        luaNum = luaLoadArray.length - 1;
-            		        
-            		        for (num in 0...luaLoadArray.length - 1)
-            		        Thread.create(() -> {			                    
-            		            new FunkinLua(luaLoadArray[num]);             		            
-                            });          		        
-            		    }else{
-        		            if (luaLoadArray.length - luaNum > loadParallel){
-        		                var startLoad:Int = luaNum;
-        		                
-        		                for (num in startLoad...startLoad - 1 + loadParallel)
-                		        Thread.create(() -> {    			                    
-                		            new FunkinLua(luaLoadArray[num]);                  		            
-                                });          		      
-                                luaNum += loadParallel;  
-        		            }else{
-        		                var startLoad:Int = luaNum;
-        		                
-        		                for (num in startLoad...luaLoadArray.length - 1)
-                		        Thread.create(() -> {    			                    
-                		            new FunkinLua(luaLoadArray[num]);                  		            
-                                });          		                                    
-                                
-        		                luaNum = luaLoadArray.length - 1;
-        		            }        		    
-        		        }
-        		    }
-        		            		 
-        		    if (hscriptLoadArray.length > 0){
-            		    if (hscriptLoadArray.length <= loadParallel){
-            		        hscriptNum = hscriptLoadArray.length - 1;
-            		        
-            		        for (num in 0...hscriptLoadArray.length - 1)
-            		        Thread.create(() -> {			                    
-            		            initHScript(hscriptLoadArray[num]);             		            
-                            });          		        
-            		    }else{
-        		            if (hscriptLoadArray.length - hscriptNum > loadParallel){
-        		                var startLoad:Int = hscriptNum;
-        		                
-        		                for (num in startLoad...startLoad - 1 + loadParallel)
-                		        Thread.create(() -> {    			                    
-                		            initHScript(hscriptLoadArray[num]);                  		            
-                                });          		      
-                                hscriptNum += loadParallel;  
-        		            }else{
-        		                var startLoad:Int = hscriptNum;
-        		                
-        		                for (num in startLoad...hscriptLoadArray.length - 1)
-                		        Thread.create(() -> {    			                    
-                		            initHScript(hscriptLoadArray[num]);                  		            
-                                });          		                                    
-                                
-        		                hscriptNum = hscriptLoadArray.length - 1;
-        		            }        		    
-        		        }
-        		    }
+			       
+		for (folder in Mods.directoriesWithFile(Paths.getSharedPath(), 'data/$songName/'))
+			for (file in FileSystem.readDirectory(folder))
+			{
+				#if LUA_ALLOWED
+				if(file.toLowerCase().endsWith('.lua'))
+					new FunkinLua(folder + file);
+				#end
+
+				#if HSCRIPT_ALLOWED
+				if(file.toLowerCase().endsWith('.hx'))
+					initHScript(folder + file);
+				#end
+			}
+		
             		#end
             		
             		if (luaLoadArray.length == 0 || (luaLoadArray.length > 0 && luaNum == luaLoadArray.length - 1)
@@ -923,7 +814,7 @@ class PlayState extends MusicBeatState
 			        mutex.acquire();
             		addMobileControls(false);
             
-            		startCallback();
+            		
             		RecalculateRating();
             
             		FlxG.stage.addEventListener(KeyboardEvent.KEY_DOWN, onKeyPress);
@@ -960,6 +851,7 @@ class PlayState extends MusicBeatState
                     FlxG.cameras.add(camPause, false);
                     pauseButton_menu.cameras = [camPause];
                     
+            		startCallback();
             		
             		Paths.clearUnusedMemory();
             
