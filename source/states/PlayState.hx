@@ -497,18 +497,19 @@ class PlayState extends MusicBeatState
 			        #if ((LUA_ALLOWED || HSCRIPT_ALLOWED) && sys)
 			        
 			        for (folder in Mods.directoriesWithFile(Paths.getSharedPath(), 'scripts/'))
-			for (file in FileSystem.readDirectory(folder))
-			{
-				#if LUA_ALLOWED
-				if(file.toLowerCase().endsWith('.lua'))
-					new FunkinLua(folder + file);
-				#end
-
-				#if HSCRIPT_ALLOWED
-				if(file.toLowerCase().endsWith('.hx'))
-					initHScript(folder + file);
-				#end
-			}
+            			for (file in FileSystem.readDirectory(folder))
+            			{
+            				#if LUA_ALLOWED
+            				if(file.toLowerCase().endsWith('.lua'))
+            					new FunkinLua(folder + file);
+            				#end
+            
+            				#if HSCRIPT_ALLOWED
+            				if(file.toLowerCase().endsWith('.hx'))
+            					initHScript(folder + file);
+            				#end
+            			}
+        			#end
 			    loadingStep++;       
             	    
                 });
@@ -636,12 +637,7 @@ class PlayState extends MusicBeatState
             		judgementCounter_S.setFormat(Paths.font("vcr.ttf"), 20, FlxColor.WHITE, FlxTextAlign.LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
             		judgementCounter_S.borderSize = 1.25;           	
             		judgementCounter_S.scrollFactor.set();
-            		judgementCounter_S.cameras = [camHUD];
-            		judgementCounter_S.text = marvelousRate 
-            		+ 'Sicks: 0' + '\n'
-            		+ 'Goods: 0' + '\n'
-            		+ 'Bads: 0' + '\n'
-            		+ 'Shits: 0' + '\n';
+            		judgementCounter_S.cameras = [camHUD];          
             		judgementCounter_S.visible = (ClientPrefs.data.judgementCounter && !ClientPrefs.data.hideHud && !ClientPrefs.getGameplaySetting('botplay'));		
             		judgementCounter_S.cameras = [camHUD];
             		add(judgementCounter_S);
@@ -775,39 +771,25 @@ class PlayState extends MusicBeatState
             case 7:
                 Thread.create(() -> {
 			        
-            		#if ((LUA_ALLOWED || HSCRIPT_ALLOWED) && sys)
-			        
+            		#if ((LUA_ALLOWED || HSCRIPT_ALLOWED) && sys)			        
 			       
-		for (folder in Mods.directoriesWithFile(Paths.getSharedPath(), 'data/$songName/'))
-			for (file in FileSystem.readDirectory(folder))
-			{
-				#if LUA_ALLOWED
-				if(file.toLowerCase().endsWith('.lua'))
-					new FunkinLua(folder + file);
-				#end
-
-				#if HSCRIPT_ALLOWED
-				if(file.toLowerCase().endsWith('.hx'))
-					initHScript(folder + file);
-				#end
-			}
+                		for (folder in Mods.directoriesWithFile(Paths.getSharedPath(), 'data/$songName/'))
+                			for (file in FileSystem.readDirectory(folder))
+                			{
+                				#if LUA_ALLOWED
+                				if(file.toLowerCase().endsWith('.lua'))
+                					new FunkinLua(folder + file);
+                				#end
+                
+                				#if HSCRIPT_ALLOWED
+                				if(file.toLowerCase().endsWith('.hx'))
+                					initHScript(folder + file);
+                				#end
+                			}
 		
             		#end
-            		
-            		if (luaLoadArray.length == 0 || (luaLoadArray.length > 0 && luaNum == luaLoadArray.length - 1)
-            		   && (hscriptLoadArray.length == 0 || (hscriptLoadArray.length > 0 && hscriptNum == hscriptLoadArray.length - 1))
-            		){
-            		    loadingStep++;
-            		    
-            		    luaNum = 0;
-                        luaLoadArray = [];
-    
-                        hscriptNum = 0;
-                        hscriptLoadArray = [];
-            		}else{
-            		    reload = true;
-            		}
-            		
+            		            		
+            		loadingStep++;
                 });            
             case 8:
                 Thread.create(() -> {
