@@ -15,8 +15,8 @@ class LoadingSubstate extends MusicBeatSubstate
     
 	override function create()
 	{
-		RateBarText = new FlxText(0, 0, 0, "0", 32);
-    	RateBarText.setFormat(font, 21, FlxColor.BLACK, LEFT/*, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK*/);    	
+		RateBarText = new FlxText(50, 50, 0, "0", 32);
+    	//RateBarText.setFormat(font, 21, FlxColor.BLACK, LEFT/*, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK*/);    	
     	RateBarText.antialiasing = ClientPrefs.data.antialiasing;
     	RateBarText.x = 0;
     	RateBarText.y = 305;
