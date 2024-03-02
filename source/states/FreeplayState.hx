@@ -455,7 +455,7 @@ class FreeplayState extends MusicBeatState {
 			FlxG.sound.music.volume += 0.5 * FlxG.elapsed;
 		}
 		
-		if (FlxG.mouse.x > FlxG.width/2 || (!searching && ! listening))
+		if (FlxG.mouse.x > FlxG.width/2 || (!searching && ! listening)) {
     		if(FlxG.mouse.wheel != 0)
     		{
     			FlxG.sound.play(Paths.sound('scrollMenu'), 0.2);
