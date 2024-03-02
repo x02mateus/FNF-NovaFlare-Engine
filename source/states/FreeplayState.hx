@@ -940,9 +940,9 @@ class FreeplayState extends MusicBeatState {
     		}
 			
 			if (controls.UI_UP_P)
-				searchChangeSong(-1)
+				searchChangeSong(-1);
 			else if (controls.UI_DOWN_P)
-				searchChangeSong(1)
+				searchChangeSong(1);
 		}
 	}
     
