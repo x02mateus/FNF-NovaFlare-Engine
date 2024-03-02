@@ -428,6 +428,8 @@ class PlayState extends MusicBeatState
 	    
 	    super.create();	
 	}
+	
+	public var mutex:Mutex = new Mutex();
     
     public var loadingStep:Int = 0;
     public var reload:Bool = false;
