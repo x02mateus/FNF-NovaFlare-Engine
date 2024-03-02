@@ -428,7 +428,8 @@ class PlayState extends MusicBeatState
 		gfGroup = new FlxSpriteGroup(GF_X, GF_Y);
 		
 		theard = new FixedThreadPool(8);
-	    theard.run = () -> cacheCreate();
+	    cacheCreate();
+	    
 	    super.create();	
 	    
 	    //openSubState(new LoadingSubstate());
@@ -447,314 +448,316 @@ class PlayState extends MusicBeatState
     
 	public function cacheCreate():
 	{
-		switch (curStage)
-		{
-			case 'stage': new states.stages.StageWeek1(); //Week 1
-			case 'spooky': new states.stages.Spooky(); //Week 2
-			case 'philly': new states.stages.Philly(); //Week 3
-			case 'limo': new states.stages.Limo(); //Week 4
-			case 'mall': new states.stages.Mall(); //Week 5 - Cocoa, Eggnog
-			case 'mallEvil': new states.stages.MallEvil(); //Week 5 - Winter Horrorland
-			case 'school': new states.stages.School(); //Week 6 - Senpai, Roses
-			case 'schoolEvil': new states.stages.SchoolEvil(); //Week 6 - Thorns
-			case 'tank': new states.stages.Tank(); //Week 7 - Ugh, Guns, Stress
-		}
-
-		if(isPixelStage) {
-			introSoundsSuffix = '-pixel';
-		}
-
-		add(gfGroup);
-		add(dadGroup);
-		add(boyfriendGroup);
-
-		#if (LUA_ALLOWED || HSCRIPT_ALLOWED)
-		luaDebugGroup = new FlxTypedGroup<psychlua.DebugLuaText>();
-		luaDebugGroup.cameras = [camOther];
-		add(luaDebugGroup);
-		#end
-
-		// "GLOBAL" SCRIPTS
-		#if ((LUA_ALLOWED || HSCRIPT_ALLOWED) && sys)
-		for (folder in Mods.directoriesWithFile(Paths.getSharedPath(), 'scripts/'))
-			for (file in FileSystem.readDirectory(folder))
-			{
-				#if LUA_ALLOWED
-				if(file.toLowerCase().endsWith('.lua'))
-					new FunkinLua(folder + file);
-				#end
-
-				#if HSCRIPT_ALLOWED
-				if(file.toLowerCase().endsWith('.hx'))
-					initHScript(folder + file);
-				#end
-			}
-		#end
-
-		// STAGE SCRIPTS
-		#if LUA_ALLOWED
-		startLuasNamed('stages/' + curStage + '.lua');
-		#end
-
-		#if HSCRIPT_ALLOWED
-		startHScriptsNamed('stages/' + curStage + '.hx');
-		#end
-        
-        var stageData:StageFile = StageData.getStageFile(curStage);
-		if(stageData == null) { //Stage couldn't be found, create a dummy stage for preventing a crash
-			stageData = StageData.dummy();
-		}
-		if (!stageData.hide_girlfriend)
-		{
-			if(SONG.gfVersion == null || SONG.gfVersion.length < 1) SONG.gfVersion = 'gf'; //Fix for the Chart Editor
-			gf = new Character(0, 0, SONG.gfVersion);
-			startCharacterPos(gf);
-			gf.scrollFactor.set(0.95, 0.95);
-			gfGroup.add(gf);
-			startCharacterScripts(gf.curCharacter);
-		}
-
-		dad = new Character(0, 0, SONG.player2);
-		startCharacterPos(dad, true);
-		dadGroup.add(dad);
-		startCharacterScripts(dad.curCharacter);
-
-		boyfriend = new Character(0, 0, SONG.player1, true);
-		startCharacterPos(boyfriend);
-		boyfriendGroup.add(boyfriend);
-		startCharacterScripts(boyfriend.curCharacter);
-
-		var camPos:FlxPoint = FlxPoint.get(girlfriendCameraOffset[0], girlfriendCameraOffset[1]);
-		if(gf != null)
-		{
-			camPos.x += gf.getGraphicMidpoint().x + gf.cameraPosition[0];
-			camPos.y += gf.getGraphicMidpoint().y + gf.cameraPosition[1];
-		}
-
-		if(dad.curCharacter.startsWith('gf')) {
-			dad.setPosition(GF_X, GF_Y);
-			if(gf != null)
-				gf.visible = false;
-		}
-		stagesFunc(function(stage:BaseStage) stage.createPost());
-
-		comboGroup = new FlxSpriteGroup();
-		add(comboGroup);
-		cachePopUpScore();
-		
-		uiGroup = new FlxSpriteGroup();
-		add(uiGroup);
-		
-		noteGroup = new FlxTypedGroup<FlxBasic>();
-		add(noteGroup);		
-
-		Conductor.songPosition = -5000 / Conductor.songPosition;
-		var showTime:Bool = (ClientPrefs.data.timeBarType != 'Disabled');
-		timeTxt = new FlxText(STRUM_X + (FlxG.width / 2) - 248, 19, 400, "", 32);
-		timeTxt.setFormat(Paths.font("vcr.ttf"), 32, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
-		timeTxt.scrollFactor.set();
-		timeTxt.alpha = 0;
-		timeTxt.borderSize = 2;
-		timeTxt.visible = updateTime = showTime;
-		if(ClientPrefs.data.downScroll) timeTxt.y = FlxG.height - 44;
-		if(ClientPrefs.data.timeBarType == 'Song Name') timeTxt.text = SONG.song;
-
-		timeBar = new Bar(0, timeTxt.y + (timeTxt.height / 4), 'timeBar', function() return songPercent, 0, 1);
-		timeBar.scrollFactor.set();
-		timeBar.screenCenter(X);
-		timeBar.alpha = 0;
-		timeBar.visible = showTime;
-		uiGroup.add(timeBar);
-		uiGroup.add(timeTxt);
-		
-		healthBar = new Bar(0, FlxG.height * (!ClientPrefs.data.downScroll ? 0.89 : 0.11), 'healthBar', function() return health, 0, 2, ClientPrefs.data.oldHealthBarVersion);
-		healthBar.screenCenter(X);
-		healthBar.leftToRight = ClientPrefs.data.playOpponent;
-		healthBar.scrollFactor.set();
-		healthBar.visible = !ClientPrefs.data.hideHud;
-		healthBar.alpha = ClientPrefs.data.healthBarAlpha;
-		reloadHealthBarColors();
-		uiGroup.add(healthBar);
-
-		iconP1 = new HealthIcon(boyfriend.healthIcon, true);
-		iconP1.y = healthBar.y - 75;
-		iconP1.visible = !ClientPrefs.data.hideHud;
-		iconP1.alpha = ClientPrefs.data.healthBarAlpha;
-		uiGroup.add(iconP1);
-
-		iconP2 = new HealthIcon(dad.healthIcon, false);
-		iconP2.y = healthBar.y - 75;
-		iconP2.visible = !ClientPrefs.data.hideHud;
-		iconP2.alpha = ClientPrefs.data.healthBarAlpha;
-		uiGroup.add(iconP2);
-
-		scoreTxt = new FlxText(0, healthBar.y + 40, FlxG.width, "", 20);
-		scoreTxt.setFormat(Paths.font("vcr.ttf"), 16, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
-		scoreTxt.scrollFactor.set();
-		scoreTxt.borderSize = 1.25;
-		scoreTxt.visible = !ClientPrefs.data.hideHud;
-		uiGroup.add(scoreTxt);
-		
-		var marvelousRate:String = ClientPrefs.data.marvelousRating ? 'Marvelous: 0\n' : '';
-		judgementCounter_S = new FlxText(10, 0, 0, "", 20);
-		judgementCounter_S.setFormat(Paths.font("vcr.ttf"), 20, FlxColor.WHITE, FlxTextAlign.LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
-		judgementCounter_S.borderSize = 1.5;
-		judgementCounter_S.borderQuality = 2;
-		judgementCounter_S.scrollFactor.set();
-		judgementCounter_S.cameras = [camHUD];
-		judgementCounter_S.text = marvelousRate 
-		+ 'Sicks: 0' + '\n'
-		+ 'Goods: 0' + '\n'
-		+ 'Bads: 0' + '\n'
-		+ 'Shits: 0' + '\n';
-		judgementCounter_S.visible = (ClientPrefs.data.judgementCounter && !ClientPrefs.data.hideHud && !ClientPrefs.getGameplaySetting('botplay'));		
-		judgementCounter_S.cameras = [camHUD];
-		add(judgementCounter_S);
-		judgementCounter_S.y = FlxG.height / 2 - judgementCounter_S.height / 2;
-		
-		strumLineNotes = new FlxTypedGroup<StrumNote>();
-		noteGroup.add(strumLineNotes);
-		
-		botplayTxt = new FlxText(400, timeBar.y + 55, FlxG.width - 800, "BOTPLAY", 32);
-		botplayTxt.setFormat(Paths.font("vcr.ttf"), 32, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
-		botplayTxt.scrollFactor.set();
-		botplayTxt.borderSize = 1.25;
-		botplayTxt.visible = ClientPrefs.data.playOpponent ? cpuControlled_opponent : cpuControlled;
-		add(botplayTxt); //botplay text is special
-		botplayTxt.cameras = [camHUD];	
-		uiGroup.add(botplayTxt);
-		if(ClientPrefs.data.downScroll)
-			botplayTxt.y = timeBar.y - 78;
-			
-		if(ClientPrefs.data.timeBarType == 'Song Name')
-		{
-			timeTxt.size = 24;
-			timeTxt.y += 3;
-		}
-		
-		if (ClientPrefs.data.pauseButton){
-    		pauseButton_menu = new FlxSprite(2, 2).loadGraphic(Paths.image('menuExtend/PlayState/pauseButton'));    		
-    		pauseButton_menu.setGraphicSize(100, 100);
-    		pauseButton_menu.alpha = 0.5;
-    		pauseButton_menu.visible = false;
-    		pauseButton_menu.scrollFactor.set();
-    		pauseButton_menu.updateHitbox();
-    		add(pauseButton_menu);
-		}
-		
-		var splash:NoteSplash = new NoteSplash(100, 100);
-		splash.setupNoteSplash(100, 100);
-		grpNoteSplashes.add(splash);
-		splash.alpha = 0.000001; //cant make it invisible or it won't allow precaching
-        noteGroup.add(grpNoteSplashes);
-        
-		opponentStrums = new FlxTypedGroup<StrumNote>();
-		playerStrums = new FlxTypedGroup<StrumNote>();
-
-		generateSong(SONG.song);
-
-		camFollow = new FlxObject(0, 0, 1, 1);
-		camFollow.setPosition(camPos.x, camPos.y);
-		camPos.put();
-				
-		if (prevCamFollow != null)
-		{
-			camFollow = prevCamFollow;
-			prevCamFollow = null;
-		}
-		add(camFollow);
-
-		FlxG.camera.follow(camFollow, LOCKON, 0);
-		FlxG.camera.zoom = defaultCamZoom;
-		FlxG.camera.snapToTarget();
-
-		FlxG.worldBounds.set(0, 0, FlxG.width, FlxG.height);
-		moveCameraSection();
-
-		uiGroup.cameras = [camHUD];
-		noteGroup.cameras = [camHUD];
-		comboGroup.cameras = [camHUD];
-
-		startingSong = true;
-
-		#if LUA_ALLOWED
-		for (notetype in noteTypes)
-			startLuasNamed('custom_notetypes/' + notetype + '.lua');
-		for (event in eventsPushed)
-			startLuasNamed('custom_events/' + event + '.lua');
-		#end
-
-		#if HSCRIPT_ALLOWED
-		for (notetype in noteTypes)
-			startHScriptsNamed('custom_notetypes/' + notetype + '.hx');
-		for (event in eventsPushed)
-			startHScriptsNamed('custom_events/' + event + '.hx');
-		#end
-		noteTypes = null;
-		eventsPushed = null;
-
-		if(eventNotes.length > 1)
-		{
-			for (event in eventNotes) event.strumTime -= eventEarlyTrigger(event);
-			eventNotes.sort(sortByTime);
-		}
-
-		// SONG SPECIFIC SCRIPTS
-		#if ((LUA_ALLOWED || HSCRIPT_ALLOWED) && sys)
-		for (folder in Mods.directoriesWithFile(Paths.getSharedPath(), 'data/$songName/'))
-			for (file in FileSystem.readDirectory(folder))
-			{
-				#if LUA_ALLOWED
-				if(file.toLowerCase().endsWith('.lua'))
-					new FunkinLua(folder + file);
-				#end
-
-				#if HSCRIPT_ALLOWED
-				if(file.toLowerCase().endsWith('.hx'))
-					initHScript(folder + file);
-				#end
-			}
-		#end
-
-		addMobileControls(false);
-
-		startCallback();
-		RecalculateRating();
-
-		FlxG.stage.addEventListener(KeyboardEvent.KEY_DOWN, onKeyPress);
-		FlxG.stage.addEventListener(KeyboardEvent.KEY_UP, onKeyRelease);
-
-		//PRECACHING THINGS THAT GET USED FREQUENTLY TO AVOID LAGSPIKES
-		if(ClientPrefs.data.hitsoundVolume > 0) Paths.sound('hitsound');
-		for (i in 1...4) Paths.sound('missnote$i');
-		Paths.image('alphabet');
-
-		if (PauseSubState.songName != null)
-			Paths.music(PauseSubState.songName);
-		else if(Paths.formatToSongPath(ClientPrefs.data.pauseMusic) != 'none')
-			Paths.music(Paths.formatToSongPath(ClientPrefs.data.pauseMusic));
-
-		resetRPC();
-
-		callOnScripts('onCreatePost');
-
-		cacheCountdown();
-
-		#if (!android)
-		addVirtualPad(NONE, P);
-    	addVirtualPadCamera(false);
-		#end
-		
-		
-        FlxG.cameras.remove(camPause, false);
-        FlxG.cameras.add(camPause, false);
-        pauseButton_menu.cameras = [camPause];
-        
-        loadingStep++;
-        		
-		Paths.clearUnusedMemory();
-
-		if(eventNotes.length < 1) checkEventNote();
+	    theard.run(() -> {
+    		switch (curStage)
+    		{
+    			case 'stage': new states.stages.StageWeek1(); //Week 1
+    			case 'spooky': new states.stages.Spooky(); //Week 2
+    			case 'philly': new states.stages.Philly(); //Week 3
+    			case 'limo': new states.stages.Limo(); //Week 4
+    			case 'mall': new states.stages.Mall(); //Week 5 - Cocoa, Eggnog
+    			case 'mallEvil': new states.stages.MallEvil(); //Week 5 - Winter Horrorland
+    			case 'school': new states.stages.School(); //Week 6 - Senpai, Roses
+    			case 'schoolEvil': new states.stages.SchoolEvil(); //Week 6 - Thorns
+    			case 'tank': new states.stages.Tank(); //Week 7 - Ugh, Guns, Stress
+    		}
+    
+    		if(isPixelStage) {
+    			introSoundsSuffix = '-pixel';
+    		}
+    
+    		add(gfGroup);
+    		add(dadGroup);
+    		add(boyfriendGroup);
+    
+    		#if (LUA_ALLOWED || HSCRIPT_ALLOWED)
+    		luaDebugGroup = new FlxTypedGroup<psychlua.DebugLuaText>();
+    		luaDebugGroup.cameras = [camOther];
+    		add(luaDebugGroup);
+    		#end
+    
+    		// "GLOBAL" SCRIPTS
+    		#if ((LUA_ALLOWED || HSCRIPT_ALLOWED) && sys)
+    		for (folder in Mods.directoriesWithFile(Paths.getSharedPath(), 'scripts/'))
+    			for (file in FileSystem.readDirectory(folder))
+    			{
+    				#if LUA_ALLOWED
+    				if(file.toLowerCase().endsWith('.lua'))
+    					new FunkinLua(folder + file);
+    				#end
+    
+    				#if HSCRIPT_ALLOWED
+    				if(file.toLowerCase().endsWith('.hx'))
+    					initHScript(folder + file);
+    				#end
+    			}
+    		#end
+    
+    		// STAGE SCRIPTS
+    		#if LUA_ALLOWED
+    		startLuasNamed('stages/' + curStage + '.lua');
+    		#end
+    
+    		#if HSCRIPT_ALLOWED
+    		startHScriptsNamed('stages/' + curStage + '.hx');
+    		#end
+            
+            var stageData:StageFile = StageData.getStageFile(curStage);
+    		if(stageData == null) { //Stage couldn't be found, create a dummy stage for preventing a crash
+    			stageData = StageData.dummy();
+    		}
+    		if (!stageData.hide_girlfriend)
+    		{
+    			if(SONG.gfVersion == null || SONG.gfVersion.length < 1) SONG.gfVersion = 'gf'; //Fix for the Chart Editor
+    			gf = new Character(0, 0, SONG.gfVersion);
+    			startCharacterPos(gf);
+    			gf.scrollFactor.set(0.95, 0.95);
+    			gfGroup.add(gf);
+    			startCharacterScripts(gf.curCharacter);
+    		}
+    
+    		dad = new Character(0, 0, SONG.player2);
+    		startCharacterPos(dad, true);
+    		dadGroup.add(dad);
+    		startCharacterScripts(dad.curCharacter);
+    
+    		boyfriend = new Character(0, 0, SONG.player1, true);
+    		startCharacterPos(boyfriend);
+    		boyfriendGroup.add(boyfriend);
+    		startCharacterScripts(boyfriend.curCharacter);
+    
+    		var camPos:FlxPoint = FlxPoint.get(girlfriendCameraOffset[0], girlfriendCameraOffset[1]);
+    		if(gf != null)
+    		{
+    			camPos.x += gf.getGraphicMidpoint().x + gf.cameraPosition[0];
+    			camPos.y += gf.getGraphicMidpoint().y + gf.cameraPosition[1];
+    		}
+    
+    		if(dad.curCharacter.startsWith('gf')) {
+    			dad.setPosition(GF_X, GF_Y);
+    			if(gf != null)
+    				gf.visible = false;
+    		}
+    		stagesFunc(function(stage:BaseStage) stage.createPost());
+    
+    		comboGroup = new FlxSpriteGroup();
+    		add(comboGroup);
+    		cachePopUpScore();
+    		
+    		uiGroup = new FlxSpriteGroup();
+    		add(uiGroup);
+    		
+    		noteGroup = new FlxTypedGroup<FlxBasic>();
+    		add(noteGroup);		
+    
+    		Conductor.songPosition = -5000 / Conductor.songPosition;
+    		var showTime:Bool = (ClientPrefs.data.timeBarType != 'Disabled');
+    		timeTxt = new FlxText(STRUM_X + (FlxG.width / 2) - 248, 19, 400, "", 32);
+    		timeTxt.setFormat(Paths.font("vcr.ttf"), 32, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+    		timeTxt.scrollFactor.set();
+    		timeTxt.alpha = 0;
+    		timeTxt.borderSize = 2;
+    		timeTxt.visible = updateTime = showTime;
+    		if(ClientPrefs.data.downScroll) timeTxt.y = FlxG.height - 44;
+    		if(ClientPrefs.data.timeBarType == 'Song Name') timeTxt.text = SONG.song;
+    
+    		timeBar = new Bar(0, timeTxt.y + (timeTxt.height / 4), 'timeBar', function() return songPercent, 0, 1);
+    		timeBar.scrollFactor.set();
+    		timeBar.screenCenter(X);
+    		timeBar.alpha = 0;
+    		timeBar.visible = showTime;
+    		uiGroup.add(timeBar);
+    		uiGroup.add(timeTxt);
+    		
+    		healthBar = new Bar(0, FlxG.height * (!ClientPrefs.data.downScroll ? 0.89 : 0.11), 'healthBar', function() return health, 0, 2, ClientPrefs.data.oldHealthBarVersion);
+    		healthBar.screenCenter(X);
+    		healthBar.leftToRight = ClientPrefs.data.playOpponent;
+    		healthBar.scrollFactor.set();
+    		healthBar.visible = !ClientPrefs.data.hideHud;
+    		healthBar.alpha = ClientPrefs.data.healthBarAlpha;
+    		reloadHealthBarColors();
+    		uiGroup.add(healthBar);
+    
+    		iconP1 = new HealthIcon(boyfriend.healthIcon, true);
+    		iconP1.y = healthBar.y - 75;
+    		iconP1.visible = !ClientPrefs.data.hideHud;
+    		iconP1.alpha = ClientPrefs.data.healthBarAlpha;
+    		uiGroup.add(iconP1);
+    
+    		iconP2 = new HealthIcon(dad.healthIcon, false);
+    		iconP2.y = healthBar.y - 75;
+    		iconP2.visible = !ClientPrefs.data.hideHud;
+    		iconP2.alpha = ClientPrefs.data.healthBarAlpha;
+    		uiGroup.add(iconP2);
+    
+    		scoreTxt = new FlxText(0, healthBar.y + 40, FlxG.width, "", 20);
+    		scoreTxt.setFormat(Paths.font("vcr.ttf"), 16, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+    		scoreTxt.scrollFactor.set();
+    		scoreTxt.borderSize = 1.25;
+    		scoreTxt.visible = !ClientPrefs.data.hideHud;
+    		uiGroup.add(scoreTxt);
+    		
+    		var marvelousRate:String = ClientPrefs.data.marvelousRating ? 'Marvelous: 0\n' : '';
+    		judgementCounter_S = new FlxText(10, 0, 0, "", 20);
+    		judgementCounter_S.setFormat(Paths.font("vcr.ttf"), 20, FlxColor.WHITE, FlxTextAlign.LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+    		judgementCounter_S.borderSize = 1.5;
+    		judgementCounter_S.borderQuality = 2;
+    		judgementCounter_S.scrollFactor.set();
+    		judgementCounter_S.cameras = [camHUD];
+    		judgementCounter_S.text = marvelousRate 
+    		+ 'Sicks: 0' + '\n'
+    		+ 'Goods: 0' + '\n'
+    		+ 'Bads: 0' + '\n'
+    		+ 'Shits: 0' + '\n';
+    		judgementCounter_S.visible = (ClientPrefs.data.judgementCounter && !ClientPrefs.data.hideHud && !ClientPrefs.getGameplaySetting('botplay'));		
+    		judgementCounter_S.cameras = [camHUD];
+    		add(judgementCounter_S);
+    		judgementCounter_S.y = FlxG.height / 2 - judgementCounter_S.height / 2;
+    		
+    		strumLineNotes = new FlxTypedGroup<StrumNote>();
+    		noteGroup.add(strumLineNotes);
+    		
+    		botplayTxt = new FlxText(400, timeBar.y + 55, FlxG.width - 800, "BOTPLAY", 32);
+    		botplayTxt.setFormat(Paths.font("vcr.ttf"), 32, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+    		botplayTxt.scrollFactor.set();
+    		botplayTxt.borderSize = 1.25;
+    		botplayTxt.visible = ClientPrefs.data.playOpponent ? cpuControlled_opponent : cpuControlled;
+    		add(botplayTxt); //botplay text is special
+    		botplayTxt.cameras = [camHUD];	
+    		uiGroup.add(botplayTxt);
+    		if(ClientPrefs.data.downScroll)
+    			botplayTxt.y = timeBar.y - 78;
+    			
+    		if(ClientPrefs.data.timeBarType == 'Song Name')
+    		{
+    			timeTxt.size = 24;
+    			timeTxt.y += 3;
+    		}
+    		
+    		if (ClientPrefs.data.pauseButton){
+        		pauseButton_menu = new FlxSprite(2, 2).loadGraphic(Paths.image('menuExtend/PlayState/pauseButton'));    		
+        		pauseButton_menu.setGraphicSize(100, 100);
+        		pauseButton_menu.alpha = 0.5;
+        		pauseButton_menu.visible = false;
+        		pauseButton_menu.scrollFactor.set();
+        		pauseButton_menu.updateHitbox();
+        		add(pauseButton_menu);
+    		}
+    		
+    		var splash:NoteSplash = new NoteSplash(100, 100);
+    		splash.setupNoteSplash(100, 100);
+    		grpNoteSplashes.add(splash);
+    		splash.alpha = 0.000001; //cant make it invisible or it won't allow precaching
+            noteGroup.add(grpNoteSplashes);
+            
+    		opponentStrums = new FlxTypedGroup<StrumNote>();
+    		playerStrums = new FlxTypedGroup<StrumNote>();
+    
+    		generateSong(SONG.song);
+    
+    		camFollow = new FlxObject(0, 0, 1, 1);
+    		camFollow.setPosition(camPos.x, camPos.y);
+    		camPos.put();
+    				
+    		if (prevCamFollow != null)
+    		{
+    			camFollow = prevCamFollow;
+    			prevCamFollow = null;
+    		}
+    		add(camFollow);
+    
+    		FlxG.camera.follow(camFollow, LOCKON, 0);
+    		FlxG.camera.zoom = defaultCamZoom;
+    		FlxG.camera.snapToTarget();
+    
+    		FlxG.worldBounds.set(0, 0, FlxG.width, FlxG.height);
+    		moveCameraSection();
+    
+    		uiGroup.cameras = [camHUD];
+    		noteGroup.cameras = [camHUD];
+    		comboGroup.cameras = [camHUD];
+    
+    		startingSong = true;
+    
+    		#if LUA_ALLOWED
+    		for (notetype in noteTypes)
+    			startLuasNamed('custom_notetypes/' + notetype + '.lua');
+    		for (event in eventsPushed)
+    			startLuasNamed('custom_events/' + event + '.lua');
+    		#end
+    
+    		#if HSCRIPT_ALLOWED
+    		for (notetype in noteTypes)
+    			startHScriptsNamed('custom_notetypes/' + notetype + '.hx');
+    		for (event in eventsPushed)
+    			startHScriptsNamed('custom_events/' + event + '.hx');
+    		#end
+    		noteTypes = null;
+    		eventsPushed = null;
+    
+    		if(eventNotes.length > 1)
+    		{
+    			for (event in eventNotes) event.strumTime -= eventEarlyTrigger(event);
+    			eventNotes.sort(sortByTime);
+    		}
+    
+    		// SONG SPECIFIC SCRIPTS
+    		#if ((LUA_ALLOWED || HSCRIPT_ALLOWED) && sys)
+    		for (folder in Mods.directoriesWithFile(Paths.getSharedPath(), 'data/$songName/'))
+    			for (file in FileSystem.readDirectory(folder))
+    			{
+    				#if LUA_ALLOWED
+    				if(file.toLowerCase().endsWith('.lua'))
+    					new FunkinLua(folder + file);
+    				#end
+    
+    				#if HSCRIPT_ALLOWED
+    				if(file.toLowerCase().endsWith('.hx'))
+    					initHScript(folder + file);
+    				#end
+    			}
+    		#end
+    
+    		addMobileControls(false);
+    
+    		startCallback();
+    		RecalculateRating();
+    
+    		FlxG.stage.addEventListener(KeyboardEvent.KEY_DOWN, onKeyPress);
+    		FlxG.stage.addEventListener(KeyboardEvent.KEY_UP, onKeyRelease);
+    
+    		//PRECACHING THINGS THAT GET USED FREQUENTLY TO AVOID LAGSPIKES
+    		if(ClientPrefs.data.hitsoundVolume > 0) Paths.sound('hitsound');
+    		for (i in 1...4) Paths.sound('missnote$i');
+    		Paths.image('alphabet');
+    
+    		if (PauseSubState.songName != null)
+    			Paths.music(PauseSubState.songName);
+    		else if(Paths.formatToSongPath(ClientPrefs.data.pauseMusic) != 'none')
+    			Paths.music(Paths.formatToSongPath(ClientPrefs.data.pauseMusic));
+    
+    		resetRPC();
+    
+    		callOnScripts('onCreatePost');
+    
+    		cacheCountdown();
+    
+    		#if (!android)
+    		addVirtualPad(NONE, P);
+        	addVirtualPadCamera(false);
+    		#end
+    		
+    		
+            FlxG.cameras.remove(camPause, false);
+            FlxG.cameras.add(camPause, false);
+            pauseButton_menu.cameras = [camPause];
+            
+            loadingStep++;
+            		
+    		Paths.clearUnusedMemory();
+    
+    		if(eventNotes.length < 1) checkEventNote();
+    	});
 	}
 
 	function set_songSpeed(value:Float):Float
@@ -1043,7 +1046,7 @@ class PlayState extends MusicBeatState
 		Paths.sound('introGo' + introSoundsSuffix);
 	}
 
-	public dynamic function startCountdown()
+	public function startCountdown()
 	{
 		mobileControls.visible = true;
 		pauseButton_menu.visible = true;
