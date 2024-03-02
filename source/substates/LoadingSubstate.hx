@@ -10,7 +10,7 @@ class LoadingSubstate extends MusicBeatSubstate
 {
     
     var game = PlayState.instance;
-    var loadingStep:Int = 0;
+    var loadingStep:Int = -1;
     var RateBarText:FlxText;
     
 	override function create()
@@ -29,7 +29,10 @@ class LoadingSubstate extends MusicBeatSubstate
 	{
 	    RateBarText.text = 'data' + game.loadingStep;
 	    if (game.loadingStep == 10) close();
-	    if (game.loadingStep != loadingStep) game.cacheCreate();
+	    if (game.loadingStep != loadingStep) {
+    	    loadingStep = game.loadingStep;
+    	    game.cacheCreate();
+	    }
 	    if (game.reload){
 	        game.reload = false;
 	        game.cacheCreate();
