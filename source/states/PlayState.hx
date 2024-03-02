@@ -42,6 +42,9 @@ import openfl.filters.BitmapFilter;
 import shaders.CustomShaders;
 #end
 
+import sys.thread.Thread;
+import sys.thread.Mutex;
+
 import objects.Note.EventNote;
 import objects.*;
 import states.stages.objects.*;
