@@ -44,6 +44,7 @@ import shaders.CustomShaders;
 
 import sys.thread.Thread;
 import sys.thread.Mutex;
+import sys.thread.FixedThreadPool;
 
 import objects.Note.EventNote;
 import objects.*;
@@ -305,6 +306,8 @@ class PlayState extends MusicBeatState
 
 	public var luaVirtualPad:FlxVirtualPad;
 	
+	var theard:FixedThreadPool;
+	
 	override public function create(){
 	    Paths.clearStoredMemory();
 
@@ -424,11 +427,11 @@ class PlayState extends MusicBeatState
 		dadGroup = new FlxSpriteGroup(DAD_X, DAD_Y);
 		gfGroup = new FlxSpriteGroup(GF_X, GF_Y);
 		
-		
-	    
+		theard = new FixedThreadPool(8);
+	    theard.run(cacheCreate());
 	    super.create();	
 	    
-	    openSubState(new LoadingSubstate());
+	    //openSubState(new LoadingSubstate());
 	}
 	
 	public var mutex:Mutex = new Mutex();
@@ -444,7 +447,6 @@ class PlayState extends MusicBeatState
     
 	public function cacheCreate()
 	{
-	    Thread.create(() -> {
 		switch (curStage)
 		{
 			case 'stage': new states.stages.StageWeek1(); //Week 1
@@ -743,16 +745,15 @@ class PlayState extends MusicBeatState
     	addVirtualPadCamera(false);
 		#end
 		
-		loadingStep++;
 		
         FlxG.cameras.remove(camPause, false);
         FlxG.cameras.add(camPause, false);
         pauseButton_menu.cameras = [camPause];
-        		
+        
+		super.create();
 		Paths.clearUnusedMemory();
 
 		if(eventNotes.length < 1) checkEventNote();
-		});
 	}
 
 	function set_songSpeed(value:Float):Float
@@ -1899,7 +1900,7 @@ class PlayState extends MusicBeatState
 
 	override public function update(elapsed:Float)
 	{
-	    if (loadingStep != 1) {
+	    if (loadingStep != 10) {
 	        super.update(elapsed);
     		return;
 	    }
@@ -3783,7 +3784,7 @@ class PlayState extends MusicBeatState
 
 	override function beatHit()
 	{
-	    if (loadingStep != 1) {
+	    if (loadingStep != 10) {
 	
     		return;
 	    }
