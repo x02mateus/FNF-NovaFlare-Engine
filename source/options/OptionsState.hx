@@ -1072,6 +1072,7 @@ class OptionsState extends MusicBeatState
     		note.animation.play(Note.colArray[i] + 'Scroll');
     		note.rgbShader.enabled = ClientPrefs.data.noteRGB;
     		note.scale.x = note.scale.y = 0.5;
+    		note.alpha = 1;
     		note.centerOffsets();
 			note.centerOrigin();
     		note.updateHitbox();
@@ -1084,6 +1085,7 @@ class OptionsState extends MusicBeatState
     		note.reloadNote();
     		note.playAnim('static');    		
     		note.scale.x = note.scale.y = 0.5;
+    		note.alpha = 1;
     		note.centerOffsets();
 			note.centerOrigin();
     		note.updateHitbox();

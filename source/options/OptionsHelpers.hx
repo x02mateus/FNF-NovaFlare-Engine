@@ -13,6 +13,7 @@ class OptionsHelpers
     public static var memoryTypeArray = ["Usage", "Reserved", "Current", "Large"];
     public static var TimeBarArray = ['Time Left', 'Time Elapsed', 'Song Name', 'Disabled'];
     public static var PauseMusicArray = ['None', 'Breakfast', 'Tea Time'];
+    public static var fileLoadArray = ["NovaFlare Engine", "NF Engine", "PsychEngine", "OS Engine", "TG Engine", "SB Engine", "JS Engine"];
     static public function setNoteSkin()
     {
         var noteSkins:Array<String> = [];

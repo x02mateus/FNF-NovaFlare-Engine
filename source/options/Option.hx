@@ -2383,6 +2383,6 @@ class MarvelousSprite extends Option
 
 	private override function updateDisplay():String
 	{
-		return "Marvelous Sprite: " + (ClientPrefs.data.marvelousSprite ? 'marvelous' : 'sick');
+		return "Marvelous Sprite: <" + (ClientPrefs.data.marvelousSprite ? 'marvelous' : 'sick') + '>';
 	}
 }
