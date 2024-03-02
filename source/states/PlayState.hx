@@ -4002,6 +4002,11 @@ class PlayState extends MusicBeatState
 
 	override function beatHit()
 	{
+	    if (loadingStep != 10) {
+	        super.update(elapsed);
+    		return;
+	    }
+	    
 		if(lastBeatHit >= curBeat) {
 			//trace('BEAT HIT: ' + curBeat + ', LAST HIT: ' + lastBeatHit);
 			return;
