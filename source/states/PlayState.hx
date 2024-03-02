@@ -445,7 +445,7 @@ class PlayState extends MusicBeatState
     public var hscriptNum:Int = 0;
     public var hscriptLoadArray:Array<String> = [];
     
-	public function cacheCreate():Dynamic
+	public function cacheCreate():
 	{
 		switch (curStage)
 		{
@@ -1043,7 +1043,7 @@ class PlayState extends MusicBeatState
 		Paths.sound('introGo' + introSoundsSuffix);
 	}
 
-	public function startCountdown()
+	public dynamic function startCountdown()
 	{
 		mobileControls.visible = true;
 		pauseButton_menu.visible = true;
