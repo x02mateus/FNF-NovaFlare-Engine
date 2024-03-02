@@ -424,9 +424,11 @@ class PlayState extends MusicBeatState
 		dadGroup = new FlxSpriteGroup(DAD_X, DAD_Y);
 		gfGroup = new FlxSpriteGroup(GF_X, GF_Y);
 		
-		openSubState(new LoadingSubstate());
+		
 	    
 	    super.create();	
+	    
+	    openSubState(new LoadingSubstate());
 	}
 	
 	public var mutex:Mutex = new Mutex();
