@@ -750,7 +750,8 @@ class PlayState extends MusicBeatState
         FlxG.cameras.add(camPause, false);
         pauseButton_menu.cameras = [camPause];
         
-		super.create();
+        loadingStep++;
+        		
 		Paths.clearUnusedMemory();
 
 		if(eventNotes.length < 1) checkEventNote();
@@ -1900,7 +1901,7 @@ class PlayState extends MusicBeatState
 
 	override public function update(elapsed:Float)
 	{
-	    if (loadingStep != 10) {
+	    if (loadingStep != 1) {
 	        super.update(elapsed);
     		return;
 	    }
@@ -3784,7 +3785,7 @@ class PlayState extends MusicBeatState
 
 	override function beatHit()
 	{
-	    if (loadingStep != 10) {
+	    if (loadingStep != 1) {
 	
     		return;
 	    }
