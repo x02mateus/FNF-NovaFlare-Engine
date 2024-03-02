@@ -445,7 +445,7 @@ class PlayState extends MusicBeatState
     public var hscriptNum:Int = 0;
     public var hscriptLoadArray:Array<String> = [];
     
-	public function cacheCreate()
+	public dynamic function cacheCreate()
 	{
 		switch (curStage)
 		{
