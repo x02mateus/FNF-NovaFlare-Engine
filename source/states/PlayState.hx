@@ -564,7 +564,7 @@ class PlayState extends MusicBeatState
         		    }
             		#end
             		
-            		if ((luaLoadArray.length == 0 || (luaLoadArray.length > 0 && luaNum == luaLoadArray.length - 1)
+            		if (luaLoadArray.length == 0 || (luaLoadArray.length > 0 && luaNum == luaLoadArray.length - 1)
             		   && (hscriptLoadArray.length == 0 || (hscriptLoadArray.length > 0 && hscriptNum == hscriptLoadArray.length - 1))
             		){
             		    loadingStep++;
@@ -909,7 +909,7 @@ class PlayState extends MusicBeatState
         		    }
             		#end
             		
-            		if ((luaLoadArray.length == 0 || (luaLoadArray.length > 0 && luaNum == luaLoadArray.length - 1)
+            		if (luaLoadArray.length == 0 || (luaLoadArray.length > 0 && luaNum == luaLoadArray.length - 1)
             		   && (hscriptLoadArray.length == 0 || (hscriptLoadArray.length > 0 && hscriptNum == hscriptLoadArray.length - 1))
             		){
             		    loadingStep++;
