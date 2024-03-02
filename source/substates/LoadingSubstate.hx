@@ -11,15 +11,23 @@ class LoadingSubstate extends MusicBeatSubstate
     
     var game = PlayState.instance;
     var loadingStep:Int = 0;
+    var RateBarText:FlxText;
     
 	override function create()
 	{
-		
+		RateBarText = new FlxText(0, 0, 0, "0", 32);
+    	RateBarText.setFormat(font, 21, FlxColor.BLACK, LEFT/*, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK*/);    	
+    	RateBarText.antialiasing = ClientPrefs.data.antialiasing;
+    	RateBarText.x = 0;
+    	RateBarText.y = 305;
+    	add(RateBarText);
+    	
 		cameras = [FlxG.cameras.list[FlxG.cameras.list.length - 1]];
 	}
 
 	override function update(elapsed:Float)
 	{
+	    RateBarText.text = 'data' + game.loadingStep;
 	    if (game.loadingStep == 10) close();
 	    if (game.loadingStep != loadingStep) game.cacheCreate();
 	    if (game.reload){
