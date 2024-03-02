@@ -2120,7 +2120,7 @@ class PlayState extends MusicBeatState
 	var freezeCamera:Bool = false;
 	var allowDebugKeys:Bool = true;
 	
-	FlxTouch.justPressedPosition//修改
+	//FlxTouch.justPressedPosition//修改
 
 	override public function update(elapsed:Float)
 	{
