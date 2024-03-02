@@ -447,7 +447,7 @@ class PlayState extends MusicBeatState
 		switch(loadingStep){		    
             case 0: //stage and group add
                 Thread.create(() -> {
-			        mutex.acquire();
+			        
             		switch (curStage)
             		{
             			case 'stage': new states.stages.StageWeek1(); //Week 1
@@ -489,14 +489,14 @@ class PlayState extends MusicBeatState
             				#end
             			}
             		loadingStep++;            		
-                    mutex.release();
+                    
                 });
             case 1:  //lua and hscript load
                 Thread.create(() -> {
-			        mutex.acquire();
+			        
 			        #if ((LUA_ALLOWED || HSCRIPT_ALLOWED) && sys)
 			        
-			         (folder in Mods.directoriesWithFile(Paths.getSharedPath(), 'scripts/'))
+			        for (folder in Mods.directoriesWithFile(Paths.getSharedPath(), 'scripts/'))
 			for (file in FileSystem.readDirectory(folder))
 			{
 				#if LUA_ALLOWED
@@ -510,11 +510,11 @@ class PlayState extends MusicBeatState
 				#end
 			}
 			    loadingStep++;       
-            	    mutex.release();
+            	    
                 });
             case 2:
                 Thread.create(() -> {
-			        mutex.acquire();
+			        
             		// STAGE SCRIPTS
             		#if LUA_ALLOWED
             		startLuasNamed('stages/' + curStage + '.lua');
@@ -539,11 +539,11 @@ class PlayState extends MusicBeatState
             		}
             		
             		loadingStep++;            		
-            	    mutex.release();
+            	    
                 });
             case 3:
                 Thread.create(() -> {
-			        mutex.acquire();
+			        
             		dad = new Character(0, 0, SONG.player2);
             		startCharacterPos(dad, true);
             		dadGroup.add(dad);
@@ -579,11 +579,11 @@ class PlayState extends MusicBeatState
             		add(noteGroup);		
             		
             		loadingStep++;
-            	    mutex.release();
+            	    
                 });
             case 4:
                 Thread.create(() -> {
-			        mutex.acquire();
+			        
             		Conductor.songPosition = -5000 / Conductor.songPosition;
             		var showTime:Bool = (ClientPrefs.data.timeBarType != 'Disabled');
             		timeTxt = new FlxText(STRUM_X + (FlxG.width / 2) - 248, 19, 400, "", 32);
@@ -678,11 +678,11 @@ class PlayState extends MusicBeatState
             		}
             		
             		loadingStep++;
-            	    mutex.release();
+            	    
                 });
             case 5:		
                 Thread.create(() -> {
-			        mutex.acquire();
+			        
             		grpNoteSplashes = new FlxTypedGroup<NoteSplash>();
             		
             		var splash:NoteSplash = new NoteSplash(100, 100);
@@ -728,11 +728,11 @@ class PlayState extends MusicBeatState
             		startingSong = true;
             		
             		loadingStep++;
-            		mutex.release();
+            		
                 });
             case 6:
                 Thread.create(() -> {
-			        mutex.acquire();
+			        
             		#if LUA_ALLOWED
             		for (notetype in noteTypes)
             			startLuasNamed('custom_notetypes/' + notetype + '.lua');
@@ -770,11 +770,11 @@ class PlayState extends MusicBeatState
             			}
             		#end
             		loadingStep++;
-            	    mutex.release();
+            	    
                 });
             case 7:
                 Thread.create(() -> {
-			        mutex.acquire();
+			        
             		#if ((LUA_ALLOWED || HSCRIPT_ALLOWED) && sys)
 			        
 			       
@@ -807,11 +807,11 @@ class PlayState extends MusicBeatState
             		}else{
             		    reload = true;
             		}
-            		mutex.release();
+            		
                 });            
             case 8:
                 Thread.create(() -> {
-			        mutex.acquire();
+			        
             		addMobileControls(false);
             
             		
@@ -842,11 +842,11 @@ class PlayState extends MusicBeatState
             		#end
             		
             		loadingStep++;
-            		mutex.release();
+            		
                 });
             case 9:		
                 Thread.create(() -> {
-			        mutex.acquire();
+			        
                     FlxG.cameras.remove(camPause, false);
                     FlxG.cameras.add(camPause, false);
                     pauseButton_menu.cameras = [camPause];
@@ -860,7 +860,7 @@ class PlayState extends MusicBeatState
             		persistentUpdate = persistentDraw = true;
             		
             		loadingStep++;
-            		mutex.release();
+            		
                 });
             
         }
