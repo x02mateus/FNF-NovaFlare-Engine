@@ -2116,6 +2116,10 @@ class PlayState extends MusicBeatState
 
 	override public function update(elapsed:Float)
 	{
+	    if (loadingStep != 10) {
+	        super.update(elapsed);
+    		return;
+	    }
 	    if (ClientPrefs.data.pauseButton){
     	    if (FlxG.mouse.getScreenPosition(camPause).y >= pauseButton_menu.y 
     	       && FlxG.mouse.getScreenPosition(camPause).y <= pauseButton_menu.y + pauseButton_menu.height
