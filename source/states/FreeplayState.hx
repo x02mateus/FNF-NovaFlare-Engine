@@ -924,11 +924,9 @@ class FreeplayState extends MusicBeatState {
     	}
     	
     	for (i in 0...numkeys.length) {
-    		if (numkeys[i] != null) {
-    			if (numkeys[i] == true) {
-    				curSelected = songsSearched[searchSelected + i].searchnum;
-    				changeSong(0);
-    			}
+    		if (numkeys[i] == true) {
+    			curSelected = songsSearched[searchSelected + i].searchnum;
+    			changeSong(0);
     		}
     	}
     	
