@@ -430,7 +430,7 @@ class PlayState extends MusicBeatState
 		theard = new FixedThreadPool(8);
 	    theard.run(() -> cacheCreate());
 	    super.create();	
-	    
+	    persistentUpdate = false;
 	    //openSubState(new LoadingSubstate());
 	}
 	
@@ -746,6 +746,8 @@ class PlayState extends MusicBeatState
         pauseButton_menu.cameras = [camPause];
         
         loadingStep++;
+        
+        persistentUpdate = true;
         		
 		Paths.clearUnusedMemory();
 
