@@ -476,7 +476,7 @@ class FreeplayState extends MusicBeatState {
         		changeDiff(-1);
         		difficultyLeft.color = FlxColor.fromRGB(0, 255, 0);
         		if (leftcolor != null) leftcolor.cancel();
-        		leftcolor = FlxTween.color(difficultyLeft, 1, difficultyLeft.color, 0xFFFFFF, {
+        		leftcolor = FlxTween.color(difficultyLeft, 1, difficultyLeft.color, 0xFFFFFFFF, {
         			onComplete: function(twn:FlxTween) {
     					leftcolor = null;
        				}
@@ -486,7 +486,7 @@ class FreeplayState extends MusicBeatState {
         		changeDiff(1);
         		difficultyRight.color = FlxColor.fromRGB(255, 0, 0);
         		if (rightcolor != null) rightcolor.cancel();
-        		rightcolor = FlxTween.color(difficultyRight, 1, difficultyRight.color, 0xFFFFFF, {
+        		rightcolor = FlxTween.color(difficultyRight, 1, difficultyRight.color, 0xFFFFFFFF, {
         			onComplete: function(twn:FlxTween) {
     					rightcolor = null;
        				}
@@ -568,7 +568,7 @@ class FreeplayState extends MusicBeatState {
     	playingSongName.camera = camListen;
     	add(playingSongName);
     	
-    	listeningSongTime = new FlxText(30, 350, 0, '-:-/-:-');
+    	listeningSongTime = new FlxText(300, 350, 0, '-:-/-:-');
     	listeningSongTime.setFormat(font, 30, FlxColor.WHITE, LEFT);
     	listeningSongTime.camera = camListen;
     	add(listeningSongTime);
@@ -1215,7 +1215,7 @@ class FreeplayState extends MusicBeatState {
 			scoreText.scale.x = 215 / scoreText.width;
 			scoreText.updateHitbox();
     	
-		var rating = Highscore.getRating(songs[curSelected].songName, curDifficulty)*100;
+		var rating = Math.floor(Highscore.getRating(songs[curSelected].songName, curDifficulty)*10000)/100;
 		accText.text = 'ACC: ' + rating + '%';
 		accText.scale.x = 1;
 		accText.updateHitbox();
