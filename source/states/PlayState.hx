@@ -624,7 +624,7 @@ class PlayState extends MusicBeatState
 			timeTxt.size = 24;
 			timeTxt.y += 3;
 		}
-		return;
+		
 		if (ClientPrefs.data.pauseButton){
     		pauseButton_menu = new FlxSprite(2, 2).loadGraphic(Paths.image('menuExtend/PlayState/pauseButton'));    		
     		pauseButton_menu.setGraphicSize(100, 100);
@@ -643,7 +643,7 @@ class PlayState extends MusicBeatState
         
 		opponentStrums = new FlxTypedGroup<StrumNote>();
 		playerStrums = new FlxTypedGroup<StrumNote>();
-				
+		return;		
 		generateSong(SONG.song);
         
 		camFollow = new FlxObject(0, 0, 1, 1);
