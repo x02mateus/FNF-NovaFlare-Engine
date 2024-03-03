@@ -598,18 +598,11 @@ class PlayState extends MusicBeatState
 		var marvelousRate:String = ClientPrefs.data.marvelousRating ? 'Marvelous: 0\n' : '';
 		judgementCounter_S = new FlxText(10, 0, 0, "", 20);
 		judgementCounter_S.setFormat(Paths.font("vcr.ttf"), 20, FlxColor.WHITE, FlxTextAlign.LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
-		judgementCounter_S.borderSize = 1.5;
-		judgementCounter_S.borderQuality = 2;
+		judgementCounter_S.borderSize = 1.25;
 		judgementCounter_S.scrollFactor.set();
-		judgementCounter_S.cameras = [camHUD];
-		judgementCounter_S.text = marvelousRate 
-		+ 'Sicks: 0' + '\n'
-		+ 'Goods: 0' + '\n'
-		+ 'Bads: 0' + '\n'
-		+ 'Shits: 0' + '\n';
 		judgementCounter_S.visible = (ClientPrefs.data.judgementCounter && !ClientPrefs.data.hideHud && !ClientPrefs.getGameplaySetting('botplay'));		
 		judgementCounter_S.cameras = [camHUD];
-		add(judgementCounter_S);
+		uiGroup.add(judgementCounter_S);
 		judgementCounter_S.y = FlxG.height / 2 - judgementCounter_S.height / 2;
 		
 		strumLineNotes = new FlxTypedGroup<StrumNote>();
@@ -652,7 +645,7 @@ class PlayState extends MusicBeatState
 		playerStrums = new FlxTypedGroup<StrumNote>();
 				
 		generateSong(SONG.song);
-         /*               
+        
 		camFollow = new FlxObject(0, 0, 1, 1);
 		camFollow.setPosition(camPos.x, camPos.y);
 		camPos.put();
@@ -670,7 +663,7 @@ class PlayState extends MusicBeatState
             
 		FlxG.worldBounds.set(0, 0, FlxG.width, FlxG.height);
 		moveCameraSection();
-        */
+        
 		uiGroup.cameras = [camHUD];
 		noteGroup.cameras = [camHUD];
 		comboGroup.cameras = [camHUD];
