@@ -16,6 +16,8 @@ import openfl.display._internal.stats.DrawCallContext;
 import openfl.Lib;
 #end
 
+import sys.thread.FixedThreadPool;
+
 import openfl.utils.Assets;
 
 class Watermark extends Bitmap
@@ -67,15 +69,20 @@ class FPS extends TextField
 		times = [];
 
 		#if flash
-		addEventListener(Event.ENTER_FRAME, function(e)
+		theard = new FixedThreadPool(1);
+	    theard.run(() -> test());
+		
+		#end
+	}
+	
+	dynamic function test(){
+	    addEventListener(Event.ENTER_FRAME, function(e)
 		{
 			var time = Lib.getTimer();
 			__enterFrame(time - currentTime);
 		});
-		#end
+	
 	}
-	
-	
 	
 	public static var currentColor = 0;    
 	 var skippedFrames:Float = 0;
