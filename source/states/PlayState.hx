@@ -640,10 +640,10 @@ class PlayState extends MusicBeatState
 		grpNoteSplashes.add(splash);
 		splash.alpha = 0.000001; //cant make it invisible or it won't allow precaching
         noteGroup.add(grpNoteSplashes);
-        
+        return;
 		opponentStrums = new FlxTypedGroup<StrumNote>();
 		playerStrums = new FlxTypedGroup<StrumNote>();
-		return;		
+			
 		generateSong(SONG.song);
         
 		camFollow = new FlxObject(0, 0, 1, 1);
