@@ -12,10 +12,9 @@ import openfl.text.TextFormat;
 import openfl.display._internal.stats.Context3DStats;
 import openfl.display._internal.stats.DrawCallContext;
 #end
-
+#if flash
 import openfl.Lib;
-
-import sys.thread.FixedThreadPool;
+#end
 
 import openfl.utils.Assets;
 
@@ -42,6 +41,8 @@ class FPS extends TextField
     public var logicFPStime(default, null):Float;
     public var DisplayFPS(default, null):Float;
 
+	
+	@:noCompletion private var currentTime:Float;
 	@:noCompletion private var times:Array<Float>;
 
 	public function new(x:Float = 10, y:Float = 10, color:Int = 0x000000)
@@ -62,23 +63,19 @@ class FPS extends TextField
 		
 		text = "FPS: ";
 	
+		currentTime = 0;
 		times = [];
 
 		#if flash
-		theard = new FixedThreadPool(1);
-	    theard.run(() -> test());
-		
+		addEventListener(Event.ENTER_FRAME, function(e)
+		{
+			var time = Lib.getTimer();
+			__enterFrame(time - currentTime);
+		});
 		#end
 	}
 	
-	dynamic function test(){
-	    addEventListener(Event.ENTER_FRAME, function(e)
-		{
-			var time = Lib.getTimer();
-			__enterFrame(time);
-		});
 	
-	}
 	
 	public static var currentColor = 0;    
 	 var skippedFrames:Float = 0;
