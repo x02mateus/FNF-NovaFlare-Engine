@@ -447,6 +447,7 @@ class PlayState extends MusicBeatState
     
 	public dynamic function cacheCreate()
 	{
+	    mutex.acquire();
 		switch (curStage)
 		{
 			case 'stage': new states.stages.StageWeek1(); //Week 1
@@ -757,6 +758,7 @@ class PlayState extends MusicBeatState
 		Paths.clearUnusedMemory();
 
 		if(eventNotes.length < 1) checkEventNote();
+		mutex.release();
 	}
 
 	function set_songSpeed(value:Float):Float
