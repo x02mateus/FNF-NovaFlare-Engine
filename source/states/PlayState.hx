@@ -651,9 +651,13 @@ class PlayState extends MusicBeatState
         
 		opponentStrums = new FlxTypedGroup<StrumNote>();
 		playerStrums = new FlxTypedGroup<StrumNote>();
+		
+		scoreTxt.text = '1';
 
 		generateSong(SONG.song);
-
+        
+        scoreTxt.text = '2';
+        
 		camFollow = new FlxObject(0, 0, 1, 1);
 		camFollow.setPosition(camPos.x, camPos.y);
 		camPos.put();
