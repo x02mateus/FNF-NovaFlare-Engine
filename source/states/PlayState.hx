@@ -431,7 +431,7 @@ class PlayState extends MusicBeatState
 	    //theard.run(() -> cacheCreate());
 	    cacheCreate();
 	    super.create();	
-	    persistentUpdate = false;
+	    //persistentUpdate = false;
 	    //openSubState(new LoadingSubstate());
 	}
 	
