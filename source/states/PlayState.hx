@@ -595,6 +595,9 @@ class PlayState extends MusicBeatState
 		scoreTxt.visible = !ClientPrefs.data.hideHud;
 		uiGroup.add(scoreTxt);
 		
+		strumLineNotes = new FlxTypedGroup<StrumNote>();
+		noteGroup.add(strumLineNotes);
+		
 		var marvelousRate:String = ClientPrefs.data.marvelousRating ? 'Marvelous: 0\n' : '';
 		judgementCounter_S = new FlxText(10, 0, 0, "", 20);
 		judgementCounter_S.setFormat(Paths.font("vcr.ttf"), 20, FlxColor.WHITE, FlxTextAlign.LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
@@ -612,8 +615,7 @@ class PlayState extends MusicBeatState
 		add(judgementCounter_S);
 		judgementCounter_S.y = FlxG.height / 2 - judgementCounter_S.height / 2;
 		
-		strumLineNotes = new FlxTypedGroup<StrumNote>();
-		noteGroup.add(strumLineNotes);
+		
 		
 		botplayTxt = new FlxText(400, timeBar.y + 55, FlxG.width - 800, "BOTPLAY", 32);
 		botplayTxt.setFormat(Paths.font("vcr.ttf"), 32, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
@@ -651,7 +653,7 @@ class PlayState extends MusicBeatState
 		opponentStrums = new FlxTypedGroup<StrumNote>();
 		playerStrums = new FlxTypedGroup<StrumNote>();
 
-		//generateSong(SONG.song);
+		generateSong(SONG.song);
 
 		camFollow = new FlxObject(0, 0, 1, 1);
 		camFollow.setPosition(camPos.x, camPos.y);
