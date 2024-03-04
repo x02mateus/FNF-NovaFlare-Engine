@@ -603,6 +603,7 @@ class PlayState extends MusicBeatState
 		judgementCounter_S.scrollFactor.set();
 		judgementCounter_S.visible = (ClientPrefs.data.judgementCounter && !ClientPrefs.data.hideHud && !ClientPrefs.getGameplaySetting('botplay'));		
 		judgementCounter_S.cameras = [camHUD];
+		add(judgementCounter_S);
 		uiGroup.add(judgementCounter_S);
 		judgementCounter_S.y = FlxG.height / 2 - judgementCounter_S.height / 2;
 		
@@ -755,7 +756,8 @@ class PlayState extends MusicBeatState
         persistentUpdate = true;
         
 		if(eventNotes.length < 1) checkEventNote();
-	
+		
+	    theard.shutdown(); //close new thread
 	}
 
 	function set_songSpeed(value:Float):Float
