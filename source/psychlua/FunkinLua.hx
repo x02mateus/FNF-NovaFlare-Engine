@@ -134,7 +134,7 @@ class FunkinLua {
 		set('rating', 0);
 		set('ratingName', '');
 		set('ratingFC', '');
-		set('version', MainMenuState.psychEngineVersion);
+		set('version', MainMenuState.psychEngineVersion.trim());
 
 		set('inGameOver', false);
 		set('mustHitSection', false);
@@ -1309,6 +1309,7 @@ class FunkinLua {
 				game.startVideo(videoFile);
 				return true;
 			} else {
+			    game.startVideo(videoFile); //just fix bug
 				luaTrace('startVideo: Video file not found: ' + videoFile, false, false, FlxColor.RED);
 			}
 			return false;
