@@ -432,8 +432,8 @@ class PlayState extends MusicBeatState
 	    //cacheCreate();
 	    super.create();	
 	    
-	    theard.shutdown(); //close new thread	    
-        
+	    theard.shutdown(); //close new thread	            
+        startCallback();
         persistentUpdate = true;        
         loadingStep++;
 	}
