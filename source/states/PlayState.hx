@@ -713,8 +713,7 @@ class PlayState extends MusicBeatState
 		#end
 
 		addMobileControls(false);
-
-		startCallback();
+		
 		RecalculateRating();
 
 		FlxG.stage.addEventListener(KeyboardEvent.KEY_DOWN, onKeyPress);
@@ -746,12 +745,15 @@ class PlayState extends MusicBeatState
         FlxG.cameras.add(camPause, false);
         pauseButton_menu.cameras = [camPause];
         
+        
+        		
+		Paths.clearUnusedMemory();
+		
+		startCallback();
         loadingStep++;
         
         persistentUpdate = true;
-        		
-		Paths.clearUnusedMemory();
-
+        
 		if(eventNotes.length < 1) checkEventNote();
 	
 	}
