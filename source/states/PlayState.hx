@@ -1899,11 +1899,11 @@ class PlayState extends MusicBeatState
 	//FlxTouch.justPressedPosition//修改
 
 	override public function update(elapsed:Float)
-	{/*
+	{
 	    if (loadingStep != 1) {
 	        super.update(elapsed);
     		return;
-	    }*/
+	    }
 	    if (ClientPrefs.data.pauseButton){
     	    if (FlxG.mouse.getScreenPosition(camPause).y >= pauseButton_menu.y 
     	       && FlxG.mouse.getScreenPosition(camPause).y <= pauseButton_menu.y + pauseButton_menu.height
@@ -3783,11 +3783,11 @@ class PlayState extends MusicBeatState
 	var lastBeatHit:Int = -1;
 
 	override function beatHit()
-	{/*
+	{
 	    if (loadingStep != 1) {
 	
     		return;
-	    }*/
+	    }
 	    
 		if(lastBeatHit >= curBeat) {
 			//trace('BEAT HIT: ' + curBeat + ', LAST HIT: ' + lastBeatHit);
