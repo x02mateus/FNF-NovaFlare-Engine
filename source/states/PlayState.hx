@@ -427,9 +427,9 @@ class PlayState extends MusicBeatState
 		dadGroup = new FlxSpriteGroup(DAD_X, DAD_Y);
 		gfGroup = new FlxSpriteGroup(GF_X, GF_Y);
 		
-		//theard = new FixedThreadPool(8);
-	    //theard.run(() -> cacheCreate());
-	    cacheCreate();
+		theard = new FixedThreadPool(1);
+	    theard.run(() -> cacheCreate());
+	    //cacheCreate();
 	    super.create();	
 	    //persistentUpdate = false;
 	    //openSubState(new LoadingSubstate());
