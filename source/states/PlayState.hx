@@ -430,12 +430,7 @@ class PlayState extends MusicBeatState
 		theard = new FixedThreadPool(1);
 	    theard.run(() -> cacheCreate());
 	    //cacheCreate();
-	    super.create();	
-	    
-	    theard.shutdown(); //close new thread	            
-        startCallback();
-        persistentUpdate = true;        
-        loadingStep++;
+	    super.create();		    	    
 	}
 	
 	public var mutex:Mutex = new Mutex();
@@ -751,11 +746,16 @@ class PlayState extends MusicBeatState
         
         
         		
-		Paths.clearUnusedMemory();
+		//Paths.clearUnusedMemory();
 		        
 		if(eventNotes.length < 1) checkEventNote();
 		
-	    
+	           
+        startCallback();
+        persistentUpdate = true;        
+        loadingStep++;
+        
+        theard.shutdown(); //close new thread	     
 	}
 
 	function set_songSpeed(value:Float):Float
