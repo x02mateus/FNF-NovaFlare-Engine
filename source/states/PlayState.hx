@@ -357,7 +357,7 @@ class PlayState extends MusicBeatState
 		FlxG.cameras.add(luaVpadCam, false);
 		FlxG.cameras.add(camPause, false);
 		
-	    persistentUpdate = false;
+	    //persistentUpdate = false;
 	    
 	    if (SONG == null)
 			SONG = Song.loadFromJson('tutorial');
