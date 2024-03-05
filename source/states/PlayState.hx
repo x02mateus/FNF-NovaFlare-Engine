@@ -427,7 +427,15 @@ class PlayState extends MusicBeatState
 		dadGroup = new FlxSpriteGroup(DAD_X, DAD_Y);
 		gfGroup = new FlxSpriteGroup(GF_X, GF_Y);
 		
+		comboGroup = new FlxSpriteGroup();			
+		uiGroup = new FlxSpriteGroup();				
+		noteGroup = new FlxTypedGroup<FlxBasic>();		
+		
 		strumLineNotes = new FlxTypedGroup<StrumNote>();
+		grpNoteSplashes = new FlxTypedGroup<NoteSplash>();
+		
+		opponentStrums = new FlxTypedGroup<StrumNote>();
+		playerStrums = new FlxTypedGroup<StrumNote>();
 		
 		theard = new FixedThreadPool(8);
 	    theard.run(() -> cacheCreate());
@@ -538,15 +546,10 @@ class PlayState extends MusicBeatState
 				gf.visible = false;
 		}
 		stagesFunc(function(stage:BaseStage) stage.createPost());
-
-		comboGroup = new FlxSpriteGroup();
+		
 		add(comboGroup);
-		cachePopUpScore();
-		
-		uiGroup = new FlxSpriteGroup();
+		cachePopUpScore();				
 		add(uiGroup);
-		
-		noteGroup = new FlxTypedGroup<FlxBasic>();
 		add(noteGroup);		
 
 		Conductor.songPosition = -5000 / Conductor.songPosition;
@@ -641,7 +644,6 @@ class PlayState extends MusicBeatState
     		add(pauseButton_menu);
 		}
 		
-		grpNoteSplashes = new FlxTypedGroup<NoteSplash>();
 		
 		var splash:NoteSplash = new NoteSplash(100, 100);
 		splash.setupNoteSplash(100, 100);
@@ -649,8 +651,7 @@ class PlayState extends MusicBeatState
 		splash.alpha = 0.000001; //cant make it invisible or it won't allow precaching
         noteGroup.add(grpNoteSplashes);
         
-		opponentStrums = new FlxTypedGroup<StrumNote>();
-		playerStrums = new FlxTypedGroup<StrumNote>();
+		
 			
 		generateSong(SONG.song);
         
