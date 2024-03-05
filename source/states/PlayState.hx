@@ -1834,6 +1834,10 @@ class PlayState extends MusicBeatState
 
 	override public function onFocus():Void
 	{
+	    if (loadingStep != 1) {	
+    		return;
+	    }
+	    
 		callOnScripts('onFocus');
 		if (health > 0 && !paused) resetRPC(Conductor.songPosition > 0.0);
 		super.onFocus();
@@ -1842,6 +1846,10 @@ class PlayState extends MusicBeatState
 
 	override public function onFocusLost():Void
 	{
+	    if (loadingStep != 1) {	
+    		return;
+	    }
+	    
 		callOnScripts('onFocusLost');
 		#if DISCORD_ALLOWED
 		if (health > 0 && !paused && autoUpdateRPC) DiscordClient.changePresence(detailsPausedText, SONG.song + " (" + storyDifficultyText + ")", iconP2.getCharacter());
@@ -3775,6 +3783,10 @@ class PlayState extends MusicBeatState
 	var lastStepHit:Int = -1;
 	override function stepHit()
 	{
+	    if (loadingStep != 1) {	
+    		return;
+	    }
+	    
 		if (SONG.needsVoices && FlxG.sound.music.time >= -ClientPrefs.data.noteOffset)
 			checkIfDesynced = true;
 
@@ -3793,8 +3805,7 @@ class PlayState extends MusicBeatState
 
 	override function beatHit()
 	{
-	    if (loadingStep != 1) {
-	
+	    if (loadingStep != 1) {	
     		return;
 	    }
 	    
@@ -3843,6 +3854,10 @@ class PlayState extends MusicBeatState
 
 	override function sectionHit()
 	{
+	    if (loadingStep != 1) {	
+    		return;
+	    }
+	    
 		if (SONG.notes[curSection] != null)
 		{
 			if (generatedMusic && !endingSong && !isCameraOnForcedPos)
