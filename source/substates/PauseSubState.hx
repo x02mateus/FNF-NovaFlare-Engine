@@ -522,6 +522,8 @@ class PauseSubState extends MusicBeatSubstate
 		
 	    if (accept)
     		doEvent();
+    		
+    	alphaCheck();
     }
 
     function changeOptions(num:Int) {
@@ -815,6 +817,17 @@ class PauseSubState extends MusicBeatSubstate
     		FlxTween.tween(backButton, {x: 1080}, 0.5, {ease: FlxEase.quartIn});
 	    }
     }
+    
+    function alphaCheck(){/*
+        for (i in 0...Std.int(optionsBars.length/2))
+		    if (optionsBars[i*2].alpha > 0.7) optionsBars[i*2].alpha = 0.7;
+	    for (i in 0...Std.int(debugBars.length/2))
+		    if (debugBars[i*2].alpha > 0.7) debugBars[i*2].alpha = 0.7;
+        for (i in 0...Std.int(difficultyBars.length/2))
+		    if (difficultyBars[i*2].alpha > 0.7) difficultyBars[i*2].alpha = 0.7;
+	    for (i in 0...Std.int(optionsOptionsBars.length/2))
+		    if (optionsOptionsBars[i*2].alpha > 0.7) optionsOptionsBars[i*2].alpha = 0.7;*/
+    }
 
     override function destroy()
     {
@@ -870,7 +883,8 @@ class PauseSubState extends MusicBeatSubstate
 			FlxTransitionableState.skipNextTransIn = true;
 			FlxTransitionableState.skipNextTransOut = true;
 		}
-		MusicBeatState.resetState();
+		LoadingState.loadAndSwitchState(new PlayState());
+		//MusicBeatState.resetState();
 	}
 
     function updateSkipTimeText()
