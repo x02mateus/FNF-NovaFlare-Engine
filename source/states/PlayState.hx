@@ -427,7 +427,9 @@ class PlayState extends MusicBeatState
 		dadGroup = new FlxSpriteGroup(DAD_X, DAD_Y);
 		gfGroup = new FlxSpriteGroup(GF_X, GF_Y);
 		
-		theard = new FixedThreadPool(1);
+		strumLineNotes = new FlxTypedGroup<StrumNote>();
+		
+		theard = new FixedThreadPool(8);
 	    theard.run(() -> cacheCreate());
 	    //cacheCreate();
 	    super.create();		    	    
@@ -599,13 +601,17 @@ class PlayState extends MusicBeatState
 		judgementCounter_S.setFormat(Paths.font("vcr.ttf"), 20, FlxColor.WHITE, FlxTextAlign.LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		judgementCounter_S.borderSize = 1.25;
 		judgementCounter_S.scrollFactor.set();
+		judgementCounter_S.text = marvelousRate 
+		+ 'Sicks: 0' + '\n'
+		+ 'Goods: 0' + '\n'
+		+ 'Bads: 0' + '\n'
+		+ 'Shits: 0' + '\n';
 		judgementCounter_S.visible = (ClientPrefs.data.judgementCounter && !ClientPrefs.data.hideHud && !ClientPrefs.getGameplaySetting('botplay'));		
 		judgementCounter_S.cameras = [camHUD];
-		add(judgementCounter_S);
 		uiGroup.add(judgementCounter_S);
 		judgementCounter_S.y = FlxG.height / 2 - judgementCounter_S.height / 2;
 		
-		strumLineNotes = new FlxTypedGroup<StrumNote>();
+		
 		noteGroup.add(strumLineNotes);
 		
 		botplayTxt = new FlxText(400, timeBar.y + 55, FlxG.width - 800, "BOTPLAY", 32);
