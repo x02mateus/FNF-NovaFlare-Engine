@@ -753,7 +753,7 @@ class PlayState extends MusicBeatState
         
         
         		
-		//Paths.clearUnusedMemory();
+		Paths.clearUnusedMemory();
 		        
 		if(eventNotes.length < 1) checkEventNote();
 		
