@@ -481,7 +481,7 @@ class PlayState extends MusicBeatState
 		
 		//thread = new Thread(1, 8);
 	
-	    thread.create(() -> cacheCreate());
+	    cacheCreate();
 	        
 	    //cacheCreate();
 	    super.create();		    	    
@@ -500,6 +500,8 @@ class PlayState extends MusicBeatState
     
 	public function cacheCreate()
 	{
+	thread.create(() -> {
+	
 	    mutex.acquire();
 		// "GLOBAL" SCRIPTS
 		#if ((LUA_ALLOWED || HSCRIPT_ALLOWED) && sys)
@@ -777,7 +779,8 @@ class PlayState extends MusicBeatState
         persistentUpdate = true;       
         
         mutex.release();
-        //thread.shutdown(); //close new thread	     
+        //thread.shutdown(); //close new thread	
+        });
 	}
 
 	function set_songSpeed(value:Float):Float
