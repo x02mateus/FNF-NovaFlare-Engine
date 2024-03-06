@@ -309,7 +309,7 @@ class PlayState extends MusicBeatState
 
 	public var luaVirtualPad:FlxVirtualPad;
 	
-	var theard:ThreadPool;
+	var thread:ThreadPool;
 	
 	override public function create(){
 	    Paths.clearStoredMemory();
@@ -483,7 +483,7 @@ class PlayState extends MusicBeatState
 		comboGroup.cameras = [camHUD];				
 		addTextToDebug('start thread', FlxColor.GREEN);   
 		
-		theard = new ThreadPool(1, 8);
+		thread = new ThreadPool(1, 8);
 	
 	    thread.queue(cacheCreate());
 	        
@@ -779,7 +779,7 @@ class PlayState extends MusicBeatState
         loadingStep++;
         persistentUpdate = true;       
         
-        //theard.shutdown(); //close new thread	     
+        //thread.shutdown(); //close new thread	     
 	}
 
 	function set_songSpeed(value:Float):Float
