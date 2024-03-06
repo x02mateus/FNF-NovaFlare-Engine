@@ -166,7 +166,7 @@ class FPS extends TextField
 			    memType = ' GB';
 			}    
 			
-			text += "\nMEM: " + memoryMegas + memType;            
+			text += "\nMEM: " + memoryMegas + memType + ' - ' + Gc.memUsage();            
 		}
             
             if (ClientPrefs.data.showMS) text += '\n' + "Delay: " + Math.floor(1 / DisplayFPS * 10000 + 0.5) / 10 + " MS";
