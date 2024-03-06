@@ -470,17 +470,13 @@ class PlayState extends MusicBeatState
 		add(noteGroup);		
 		uiGroup.cameras = [camHUD];
 		noteGroup.cameras = [camHUD];
-		comboGroup.cameras = [camHUD];
-		
-		FlxG.stage.addEventListener(KeyboardEvent.KEY_DOWN, onKeyPress);
-		FlxG.stage.addEventListener(KeyboardEvent.KEY_UP, onKeyRelease);
+		comboGroup.cameras = [camHUD];				
+		addTextToDebug('start thread', FlxColor.GREEN);   
 		
 		theard = new FixedThreadPool(1);
-		try{
-	        theard.run(() -> cacheCreate());
-	    } catch(e:Dynamic) {
-	        addTextToDebug(e, FlxColor.RED);           
-        }
+	
+	    theard.run(() -> cacheCreate());
+	        
 	    //cacheCreate();
 	    super.create();		    	    
 	}
@@ -523,6 +519,8 @@ class PlayState extends MusicBeatState
 		#if HSCRIPT_ALLOWED
 		startHScriptsNamed('stages/' + curStage + '.hx');
 		#end
+		
+		addTextToDebug('lua finish', FlxColor.GREEN);   
         
         var stageData:StageFile = StageData.getStageFile(curStage);
 		if(stageData == null) { //Stage couldn't be found, create a dummy stage for preventing a crash
@@ -562,6 +560,8 @@ class PlayState extends MusicBeatState
 		}
 		stagesFunc(function(stage:BaseStage) stage.createPost());
 		
+		addTextToDebug('Character finish', FlxColor.GREEN);
+		
 		camFollow = new FlxObject(0, 0, 1, 1);
 		camFollow.setPosition(camPos.x, camPos.y);
 		camPos.put();
@@ -579,6 +579,7 @@ class PlayState extends MusicBeatState
             
 		FlxG.worldBounds.set(0, 0, FlxG.width, FlxG.height);
 		moveCameraSection();
+		addTextToDebug('camera finish', FlxColor.GREEN);
 		
 		cachePopUpScore();				
 
@@ -679,8 +680,12 @@ class PlayState extends MusicBeatState
 		splash.alpha = 0.000001; //cant make it invisible or it won't allow precaching
         noteGroup.add(grpNoteSplashes);        		
 			
+		addTextToDebug('UI finish', FlxColor.GREEN);
+		
 		generateSong(SONG.song);        		        		
-
+        
+        addTextToDebug('song finish', FlxColor.GREEN);
+        
 		startingSong = true;
 
 		#if LUA_ALLOWED
@@ -721,7 +726,9 @@ class PlayState extends MusicBeatState
 				#end
 			}
 		#end
-
+		
+        addTextToDebug('lua finish', FlxColor.GREEN);
+        
 		addMobileControls(false);
 		
 		RecalculateRating();
@@ -747,14 +754,20 @@ class PlayState extends MusicBeatState
 		#end				
         
         pauseButton_menu.cameras = [camPause];
+        
+        FlxG.stage.addEventListener(KeyboardEvent.KEY_DOWN, onKeyPress);
+		FlxG.stage.addEventListener(KeyboardEvent.KEY_UP, onKeyRelease);
                         		
 		Paths.clearUnusedMemory();
 		        
 		if(eventNotes.length < 1) checkEventNote();		
-	           
+	    
+	    addTextToDebug('ready start', FlxColor.GREEN);
+	    
         startCallback();
-        persistentUpdate = true;        
+         
         loadingStep++;
+        persistentUpdate = true;       
         
         theard.shutdown(); //close new thread	     
 	}
