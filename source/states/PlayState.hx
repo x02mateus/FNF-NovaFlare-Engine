@@ -309,7 +309,7 @@ class PlayState extends MusicBeatState
 
 	public var luaVirtualPad:FlxVirtualPad;
 	
-	var thread:ThreadPool;
+	var thread:Thread;
 	
 	override public function create(){
 	    Paths.clearStoredMemory();
@@ -483,9 +483,9 @@ class PlayState extends MusicBeatState
 		comboGroup.cameras = [camHUD];				
 		addTextToDebug('start thread', FlxColor.GREEN);   
 		
-		thread = new ThreadPool(1, 8);
+		//thread = new Thread(1, 8);
 	
-	    thread.queue(cacheCreate());
+	    thread.create(() -> cacheCreate());
 	        
 	    //cacheCreate();
 	    super.create();		    	    
@@ -502,7 +502,7 @@ class PlayState extends MusicBeatState
     public var hscriptNum:Int = 0;
     public var hscriptLoadArray:Array<String> = [];
     
-	public function cacheCreate():Dynamic
+	public function cacheCreate()
 	{
 		// "GLOBAL" SCRIPTS
 		#if ((LUA_ALLOWED || HSCRIPT_ALLOWED) && sys)
