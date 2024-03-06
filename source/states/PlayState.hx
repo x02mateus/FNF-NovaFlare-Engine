@@ -500,7 +500,7 @@ class PlayState extends MusicBeatState
     
 	public function cacheCreate()
 	{
-	thread.create(() -> {
+	Thread.create(() -> {
 	
 	    mutex.acquire();
 		// "GLOBAL" SCRIPTS
