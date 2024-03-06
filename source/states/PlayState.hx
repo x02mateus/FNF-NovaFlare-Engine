@@ -478,8 +478,8 @@ class PlayState extends MusicBeatState
 		theard = new FixedThreadPool(1);
 		try{
 	        theard.run(() -> cacheCreate());
-	    } catch(e:ThreadPoolException) {
-	        addTextToDebug(e, CoolUtil.colorFromString(0xFFFFFFFF);           
+	    } catch(e:Dynamic) {
+	        addTextToDebug(e, FlxColor.RED);           
         }
 	    //cacheCreate();
 	    super.create();		    	    
