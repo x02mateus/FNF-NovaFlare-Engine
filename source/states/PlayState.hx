@@ -44,10 +44,6 @@ import shaders.CustomShaders;
 
 import sys.thread.Thread;
 import sys.thread.Mutex;
-import sys.thread.FixedThreadPool;
-import sys.thread.ThreadPoolException;
-
-import lime.system.ThreadPool;
 
 import objects.Note.EventNote;
 import objects.*;
@@ -504,6 +500,7 @@ class PlayState extends MusicBeatState
     
 	public function cacheCreate()
 	{
+	    mutex.acquire();
 		// "GLOBAL" SCRIPTS
 		#if ((LUA_ALLOWED || HSCRIPT_ALLOWED) && sys)
 		for (folder in Mods.directoriesWithFile(Paths.getSharedPath(), 'scripts/'))
@@ -779,6 +776,7 @@ class PlayState extends MusicBeatState
         loadingStep++;
         persistentUpdate = true;       
         
+        mutex.release();
         //thread.shutdown(); //close new thread	     
 	}
 
