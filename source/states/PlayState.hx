@@ -437,25 +437,6 @@ class PlayState extends MusicBeatState
 		opponentStrums = new FlxTypedGroup<StrumNote>();
 		playerStrums = new FlxTypedGroup<StrumNote>();
 		
-		theard = new FixedThreadPool(8);
-	    theard.run(() -> cacheCreate());
-	    //cacheCreate();
-	    super.create();		    	    
-	}
-	
-	public var mutex:Mutex = new Mutex();
-    
-    public var loadingStep:Int = 0;
-    public var reload:Bool = false;
-    
-    public var luaNum:Int = 0;
-    public var luaLoadArray:Array<String> = [];
-    
-    public var hscriptNum:Int = 0;
-    public var hscriptLoadArray:Array<String> = [];
-    
-	public dynamic function cacheCreate()
-	{
 		switch (curStage)
 		{
 			case 'stage': new states.stages.StageWeek1(); //Week 1
@@ -476,13 +457,42 @@ class PlayState extends MusicBeatState
 		add(gfGroup);
 		add(dadGroup);
 		add(boyfriendGroup);
-
+		
 		#if (LUA_ALLOWED || HSCRIPT_ALLOWED)
 		luaDebugGroup = new FlxTypedGroup<psychlua.DebugLuaText>();
 		luaDebugGroup.cameras = [camOther];
 		add(luaDebugGroup);
 		#end
-
+		
+		add(comboGroup);		
+		add(uiGroup);
+		add(noteGroup);		
+		uiGroup.cameras = [camHUD];
+		noteGroup.cameras = [camHUD];
+		comboGroup.cameras = [camHUD];
+		
+		FlxG.stage.addEventListener(KeyboardEvent.KEY_DOWN, onKeyPress);
+		FlxG.stage.addEventListener(KeyboardEvent.KEY_UP, onKeyRelease);
+		
+		theard = new FixedThreadPool(1);
+	    theard.run(() -> cacheCreate());
+	    //cacheCreate();
+	    super.create();		    	    
+	}
+	
+	public var mutex:Mutex = new Mutex();
+    
+    public var loadingStep:Int = 0;
+    public var reload:Bool = false;
+    
+    public var luaNum:Int = 0;
+    public var luaLoadArray:Array<String> = [];
+    
+    public var hscriptNum:Int = 0;
+    public var hscriptLoadArray:Array<String> = [];
+    
+	public dynamic function cacheCreate()
+	{				
 		// "GLOBAL" SCRIPTS
 		#if ((LUA_ALLOWED || HSCRIPT_ALLOWED) && sys)
 		for (folder in Mods.directoriesWithFile(Paths.getSharedPath(), 'scripts/'))
@@ -547,10 +557,25 @@ class PlayState extends MusicBeatState
 		}
 		stagesFunc(function(stage:BaseStage) stage.createPost());
 		
-		add(comboGroup);
+		camFollow = new FlxObject(0, 0, 1, 1);
+		camFollow.setPosition(camPos.x, camPos.y);
+		camPos.put();
+				
+		if (prevCamFollow != null)
+		{
+			camFollow = prevCamFollow;
+			prevCamFollow = null;
+		}
+		add(camFollow);
+
+		FlxG.camera.follow(camFollow, LOCKON, 0);
+		FlxG.camera.zoom = defaultCamZoom;
+		FlxG.camera.snapToTarget();
+            
+		FlxG.worldBounds.set(0, 0, FlxG.width, FlxG.height);
+		moveCameraSection();
+		
 		cachePopUpScore();				
-		add(uiGroup);
-		add(noteGroup);		
 
 		Conductor.songPosition = -5000 / Conductor.songPosition;
 		var showTime:Bool = (ClientPrefs.data.timeBarType != 'Disabled');
@@ -613,8 +638,7 @@ class PlayState extends MusicBeatState
 		judgementCounter_S.cameras = [camHUD];
 		uiGroup.add(judgementCounter_S);
 		judgementCounter_S.y = FlxG.height / 2 - judgementCounter_S.height / 2;
-		
-		
+				
 		noteGroup.add(strumLineNotes);
 		
 		botplayTxt = new FlxText(400, timeBar.y + 55, FlxG.width - 800, "BOTPLAY", 32);
@@ -649,33 +673,9 @@ class PlayState extends MusicBeatState
 		splash.setupNoteSplash(100, 100);
 		grpNoteSplashes.add(splash);
 		splash.alpha = 0.000001; //cant make it invisible or it won't allow precaching
-        noteGroup.add(grpNoteSplashes);
-        
-		
+        noteGroup.add(grpNoteSplashes);        		
 			
-		generateSong(SONG.song);
-        
-		camFollow = new FlxObject(0, 0, 1, 1);
-		camFollow.setPosition(camPos.x, camPos.y);
-		camPos.put();
-				
-		if (prevCamFollow != null)
-		{
-			camFollow = prevCamFollow;
-			prevCamFollow = null;
-		}
-		add(camFollow);
-
-		FlxG.camera.follow(camFollow, LOCKON, 0);
-		FlxG.camera.zoom = defaultCamZoom;
-		FlxG.camera.snapToTarget();
-            
-		FlxG.worldBounds.set(0, 0, FlxG.width, FlxG.height);
-		moveCameraSection();
-        
-		uiGroup.cameras = [camHUD];
-		noteGroup.cameras = [camHUD];
-		comboGroup.cameras = [camHUD];
+		generateSong(SONG.song);        		        		
 
 		startingSong = true;
 
@@ -721,14 +721,10 @@ class PlayState extends MusicBeatState
 		addMobileControls(false);
 		
 		RecalculateRating();
-
-		FlxG.stage.addEventListener(KeyboardEvent.KEY_DOWN, onKeyPress);
-		FlxG.stage.addEventListener(KeyboardEvent.KEY_UP, onKeyRelease);
-
+		
 		//PRECACHING THINGS THAT GET USED FREQUENTLY TO AVOID LAGSPIKES
 		if(ClientPrefs.data.hitsoundVolume > 0) Paths.sound('hitsound');
-		for (i in 1...4) Paths.sound('missnote$i');
-		Paths.image('alphabet');
+		for (i in 1...4) Paths.sound('missnote$i');		
 
 		if (PauseSubState.songName != null)
 			Paths.music(PauseSubState.songName);
@@ -744,19 +740,13 @@ class PlayState extends MusicBeatState
 		#if (!android)
 		addVirtualPad(NONE, P);
     	addVirtualPadCamera(false);
-		#end
-		
-		
-        FlxG.cameras.remove(camPause, false);
-        FlxG.cameras.add(camPause, false);
+		#end				
+        
         pauseButton_menu.cameras = [camPause];
-        
-        
-        		
+                        		
 		Paths.clearUnusedMemory();
 		        
-		if(eventNotes.length < 1) checkEventNote();
-		
+		if(eventNotes.length < 1) checkEventNote();		
 	           
         startCallback();
         persistentUpdate = true;        
