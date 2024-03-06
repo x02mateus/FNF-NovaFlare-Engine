@@ -428,7 +428,10 @@ class PlayState extends MusicBeatState
 		dadGroup = new FlxSpriteGroup(DAD_X, DAD_Y);
 		gfGroup = new FlxSpriteGroup(GF_X, GF_Y);
 		
-		comboGroup = new FlxSpriteGroup();			
+		
+		
+		comboGroup = new FlxSpriteGroup();		
+		numItems = new FlxTypedGroup<FlxSprite>();	
 		uiGroup = new FlxSpriteGroup();				
 		noteGroup = new FlxTypedGroup<FlxBasic>();		
 		
@@ -437,6 +440,8 @@ class PlayState extends MusicBeatState
 		
 		opponentStrums = new FlxTypedGroup<StrumNote>();
 		playerStrums = new FlxTypedGroup<StrumNote>();
+		
+		notes = new FlxTypedGroup<Note>();
 		
 		switch (curStage)
 		{
@@ -466,9 +471,12 @@ class PlayState extends MusicBeatState
 		#end
 		
 		add(comboGroup);		
+		add(numItems);		
 		add(uiGroup);
 		add(noteGroup);		
+		
 		uiGroup.cameras = [camHUD];
+		numItems.cameras = [camHUD];
 		noteGroup.cameras = [camHUD];
 		comboGroup.cameras = [camHUD];				
 		addTextToDebug('start thread', FlxColor.GREEN);   
@@ -1434,8 +1442,7 @@ class PlayState extends MusicBeatState
 		}
 		catch(e:Dynamic) {}
 		FlxG.sound.list.add(inst);
-
-		notes = new FlxTypedGroup<Note>();
+		
 		noteGroup.add(notes);
 
 		var noteData:Array<SwagSection>;
@@ -2965,11 +2972,8 @@ class PlayState extends MusicBeatState
 		
 		
 		var xThing:Float = 0;
-		
-		numItems = new FlxTypedGroup<FlxSprite>();
-		numItems.visible = showComboNum;
-		add(numItems);
-		numItems.cameras = [camHUD];
+				
+		numItems.visible = showComboNum;		
 		
 		for (comboNum in 0...4) //9999 //why last get null?
 		{
