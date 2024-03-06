@@ -502,7 +502,7 @@ class PlayState extends MusicBeatState
     public var hscriptNum:Int = 0;
     public var hscriptLoadArray:Array<String> = [];
     
-	public dynamic function cacheCreate()
+	public function cacheCreate():Dynamic
 	{
 		// "GLOBAL" SCRIPTS
 		#if ((LUA_ALLOWED || HSCRIPT_ALLOWED) && sys)
