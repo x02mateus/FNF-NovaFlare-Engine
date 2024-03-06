@@ -47,6 +47,8 @@ import sys.thread.Mutex;
 import sys.thread.FixedThreadPool;
 import sys.thread.ThreadPoolException;
 
+import lime.system.ThreadPool;
+
 import objects.Note.EventNote;
 import objects.*;
 import states.stages.objects.*;
@@ -307,7 +309,7 @@ class PlayState extends MusicBeatState
 
 	public var luaVirtualPad:FlxVirtualPad;
 	
-	var theard:FixedThreadPool;
+	var theard:ThreadPool;
 	
 	override public function create(){
 	    Paths.clearStoredMemory();
@@ -481,9 +483,9 @@ class PlayState extends MusicBeatState
 		comboGroup.cameras = [camHUD];				
 		addTextToDebug('start thread', FlxColor.GREEN);   
 		
-		theard = new FixedThreadPool(1);
+		theard = new ThreadPool(1, 8);
 	
-	    theard.run(() -> cacheCreate());
+	    thread.queue(cacheCreate());
 	        
 	    //cacheCreate();
 	    super.create();		    	    
@@ -501,7 +503,7 @@ class PlayState extends MusicBeatState
     public var hscriptLoadArray:Array<String> = [];
     
 	public dynamic function cacheCreate()
-	{				
+	{
 		// "GLOBAL" SCRIPTS
 		#if ((LUA_ALLOWED || HSCRIPT_ALLOWED) && sys)
 		for (folder in Mods.directoriesWithFile(Paths.getSharedPath(), 'scripts/'))
@@ -777,7 +779,7 @@ class PlayState extends MusicBeatState
         loadingStep++;
         persistentUpdate = true;       
         
-        theard.shutdown(); //close new thread	     
+        //theard.shutdown(); //close new thread	     
 	}
 
 	function set_songSpeed(value:Float):Float
