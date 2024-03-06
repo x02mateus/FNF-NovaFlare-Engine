@@ -45,6 +45,7 @@ import shaders.CustomShaders;
 import sys.thread.Thread;
 import sys.thread.Mutex;
 import sys.thread.FixedThreadPool;
+import sys.thread.ThreadPoolException;
 
 import objects.Note.EventNote;
 import objects.*;
@@ -475,7 +476,11 @@ class PlayState extends MusicBeatState
 		FlxG.stage.addEventListener(KeyboardEvent.KEY_UP, onKeyRelease);
 		
 		theard = new FixedThreadPool(1);
-	    theard.run(() -> cacheCreate());
+		try{
+	        theard.run(() -> cacheCreate());
+	    } catch(e:ThreadPoolException) {
+	        addTextToDebug(e, CoolUtil.colorFromString(0xFFFFFFFF);           
+        }
 	    //cacheCreate();
 	    super.create();		    	    
 	}
@@ -666,8 +671,7 @@ class PlayState extends MusicBeatState
     		pauseButton_menu.scrollFactor.set();
     		pauseButton_menu.updateHitbox();
     		add(pauseButton_menu);
-		}
-		
+		}		
 		
 		var splash:NoteSplash = new NoteSplash(100, 100);
 		splash.setupNoteSplash(100, 100);
