@@ -594,7 +594,7 @@ class FreeplayState extends MusicBeatState {
         super.update(elapsed);
     }
     
-    function overlapButton(tag)
+    function overlapButton(tag:FlxSprite)
     	return FlxG.mouse.x > tag.x && FlxG.mouse.x < tag.x + 500 && FlxG.mouse.y > tag.y && FlxG.mouse.y < tag.y + 50;
     	
     function changeInfoMenu(elapsed:Float) {
@@ -619,7 +619,7 @@ class FreeplayState extends MusicBeatState {
     	}
     }
     
-    function setAlpha(obj, multiple:Int) {
+    function setAlpha(obj:FlxCamera, multiple:Int) {
     	if (obj.alpha > 0 && multiple <= 0)
     		obj.alpha += FlxG.elapsed*multiple;
     	else if (obj.alpha < 1.0 && multiple > 0)
@@ -642,7 +642,7 @@ class FreeplayState extends MusicBeatState {
 		addSimpleText('Change song by using mouse wheel, \n(put mouse at right part of the screen) \ntouching screen, pressing UI down and up keys\n\ntouch or press number keys(1-6) to choose song', [0, 250], 30, [0.9, 1], camUIInfo_Search, 'center');
 	}
 	
-	function addSimpleText(string:String, pos:Dynamic, size:Int;, scale:Dynamic, cam:FlxCamera, alignment:Dynamic) {
+	function addSimpleText(string:String, pos:Dynamic, size:Int, scale:Dynamic, cam:FlxCamera, alignment:Dynamic) {
 		var text = new FlxText(pos[0], pos[1], Std.int(FlxG.width/2), string);
     	text.setFormat(font, size, FlxColor.WHITE, alignment == 'center' ? CENTER : (alignment == 'left' ? LEFT : RIGHT));
     	text.camera = cam;
