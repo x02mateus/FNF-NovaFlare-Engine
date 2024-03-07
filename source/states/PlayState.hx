@@ -309,29 +309,8 @@ class PlayState extends MusicBeatState
 	public var loadingStep:Int = 0;
 	
 	override public function create(){
-	    camGame = initPsychCamera();
-		camHUD = new FlxCamera();
-		camOther = new FlxCamera();
-		luaVpadCam = new FlxCamera();
-		camPause = new FlxCamera();
+	    
 		
-		camHUD.bgColor.alpha = 0;
-		camOther.bgColor.alpha = 0;
-		luaVpadCam.bgColor.alpha = 0;
-		camPause.bgColor.alpha = 0;
-		
-		FlxG.cameras.add(camHUD, false);
-		FlxG.cameras.add(camOther, false);
-		FlxG.cameras.add(luaVpadCam, false);
-		FlxG.cameras.add(camPause, false);
-	
-	    super.create();	
-	    thread = new FixedThreadPool(1);
-	    thread.run(() -> cacheCreate());
-	}
-
-	public dynamic function cacheCreate()
-	{
 		//trace('Playback Rate: ' + playbackRate);
 		Paths.clearStoredMemory();
 
@@ -365,10 +344,33 @@ class PlayState extends MusicBeatState
         if (ClientPrefs.data.playOpponent) cpuControlled = ClientPrefs.data.botOpponentFix;
 
 		// var gameCam:FlxCamera = FlxG.camera;
+		camGame = initPsychCamera();
+		camHUD = new FlxCamera();
+		camOther = new FlxCamera();
+		luaVpadCam = new FlxCamera();
+		camPause = new FlxCamera();
 		
+		camHUD.bgColor.alpha = 0;
+		camOther.bgColor.alpha = 0;
+		luaVpadCam.bgColor.alpha = 0;
+		camPause.bgColor.alpha = 0;
+		
+		FlxG.cameras.add(camHUD, false);
+		FlxG.cameras.add(camOther, false);
+		FlxG.cameras.add(luaVpadCam, false);
+		FlxG.cameras.add(camPause, false);
 		grpNoteSplashes = new FlxTypedGroup<NoteSplash>();
 
 		persistentUpdate = persistentDraw = true;
+	
+	    super.create();	
+	    thread = new FixedThreadPool(1);
+	    thread.run(() -> cacheCreate());
+	}
+
+	public dynamic function cacheCreate()
+	{
+		
 
 		if (SONG == null)
 			SONG = Song.loadFromJson('tutorial');
