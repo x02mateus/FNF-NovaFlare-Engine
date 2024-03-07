@@ -640,7 +640,7 @@ class FreeplayState extends MusicBeatState {
 		addSimpleText('Change song by using mouse wheel, \n(put mouse at right part of the screen) \ntouching screen, pressing UI down and up keys\n\ntouch or press number keys(1-6) to choose song', [0, 250], 30, [0.9, 1], camUIInfo_Search, 'center');
 	}
 	
-	function addSimpleText(string:String, pos:Array, size:Float, scale:Array, cam:FlxCamera, alignment:Dynamic) {
+	function addSimpleText(string:String, pos:Dynamic, size:Float, scale:Dynamic, cam:FlxCamera, alignment:Dynamic) {
 		var text = new FlxText(pos[0], pos[1], FlxG.width/2, string);
     	text.setFormat(font, size, FlxColor.WHITE, alignment == 'center' ? CENTER : (alignment == 'left' ? LEFT : RIGHT));
     	text.camera = cam;
@@ -648,7 +648,7 @@ class FreeplayState extends MusicBeatState {
     	add(text);
 	}
 	
-	function addSimpleBox(pos:Array, size:Array, cam:FlxCamera) {
+	function addSimpleBox(pos:Dynamic, size:Dynamic, cam:FlxCamera) {
 		var sprite = new FlxSprite(pos[0], pos[1]).makeGraphic(size[0], size[1], FlxColor.WHITE);
     	sprite.camera = cam;
     	sprite.alpha = 0.3;
