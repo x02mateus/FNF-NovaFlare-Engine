@@ -111,6 +111,10 @@ class FreeplayState extends MusicBeatState {
     var camListen:FlxCamera;
     var camBG:FlxCamera;
     var camMove:FlxCamera;
+    var camUIInfo_Info:FlxCamera;
+    var camUIInfo_Song:FlxCamera;
+    var camUIInfo_Listen:FlxCamera;
+    var camUIInfo_Search:FlxCamera;
     
 	override function create()
 	{
@@ -143,6 +147,18 @@ class FreeplayState extends MusicBeatState {
 		camMove = new FlxCamera();
 		camMove.bgColor = 0x00;
 		
+		camUIInfo_Info = new FlxCamera();
+		camUIInfo_Info.bgColor = 0x00;
+		
+		camUIInfo_Song = new FlxCamera();
+		camUIInfo_Song.bgColor = 0x00;
+		
+		camUIInfo_Listen = new FlxCamera();
+		camUIInfo_Listen.bgColor = 0x00;
+		
+		camUIInfo_Search = new FlxCamera();
+		camUIInfo_Search.bgColor = 0x00;
+		
 		FlxG.cameras.add(camSong, false);
 		FlxG.cameras.add(camInfo, false);
 		//FlxG.cameras.add(camUI, false);
@@ -150,6 +166,17 @@ class FreeplayState extends MusicBeatState {
 		FlxG.cameras.add(camListen, false);
 		FlxG.cameras.add(camUI, false);
 		FlxG.cameras.add(camBG, false);
+		
+		var list = [camUIInfo_Info, camUIInfo_Song, camUIInfo_Listen, camUIInfo_Search];
+		for (i in list) {
+			FlxG.cameras.add(i, false);
+			i.alpha = 0;
+			var cambg = new FlxSprite((i == camUIInfo_Song ? FlxG.width/2 : 0), 0).makeGraphic(FlxG.width/2, FlxG.height, FlxColor.BLACK);
+    		cambg.camera = i;
+    		cambg.alpha = 0.5;
+    		add(cambg);
+    	}
+    	
 		FlxG.cameras.add(camMove, false);
 		    	
     	songsbg = new FlxSprite(700, -75).makeGraphic(550, 900, FlxColor.WHITE);
@@ -194,7 +221,7 @@ class FreeplayState extends MusicBeatState {
     	songIcon.updateHitbox();
     	
     	songNameText = new FlxText(0, 0, 0, "", 32);
-    	songNameText.setFormat(font, 40, FlxColor.BLACK, LEFT/*, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK*/);
+    	songNameText.setFormat(font, 40, FlxColor.BLACK, LEFT/*FlxTextBorderStyle.OUTLINE, FlxColor.TRANSPARENT*/);
     	songNameText.camera = camUI;
     	songNameText.antialiasing = ClientPrefs.data.antialiasing;
     	songNameText.x = 660;
@@ -234,7 +261,7 @@ class FreeplayState extends MusicBeatState {
     	}
     	
     	var RateBarText = new FlxText(0, 0, 0, "RATE:", 32);
-    	RateBarText.setFormat(font, 21, FlxColor.BLACK, LEFT/*, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK*/);
+    	RateBarText.setFormat(font, 21, FlxColor.BLACK, LEFT/*FlxTextBorderStyle.OUTLINE, FlxColor.TRANSPARENT*/);
     	RateBarText.camera = camInfo;
     	RateBarText.antialiasing = ClientPrefs.data.antialiasing;
     	RateBarText.x = 0;
@@ -242,37 +269,55 @@ class FreeplayState extends MusicBeatState {
     	add(RateBarText);
     	
     	var diffText:FlxText = new FlxText(360, 355, 0, "DIFFICULTY", 15);
-    	diffText.setFormat(font, 15, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+    	diffText.setFormat(font, 15, FlxColor.WHITE, LEFTFlxTextBorderStyle.OUTLINE, FlxColor.TRANSPARENT);
     	diffText.camera = camInfo;
     	diffText.antialiasing = ClientPrefs.data.antialiasing;
     	add(diffText);
     	
     	difficultyText = new FlxText(300, 360, 0, "difficulty", 55);
-    	difficultyText.setFormat(font, 55, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+    	difficultyText.setFormat(font, 55, FlxColor.WHITE, LEFTFlxTextBorderStyle.OUTLINE, FlxColor.TRANSPARENT);
     	difficultyText.camera = camInfo;
     	difficultyText.antialiasing = ClientPrefs.data.antialiasing;
     	add(difficultyText);
     	
-    	rateText = new FlxText(60, 270, 0, "rate", 30);
-    	rateText.setFormat(font, 30, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+    	var ateText = new FlxText(60, 273, 0, "Rate: ", 30);
+    	ateText.setFormat(font, 25, FlxColor.WHITE, 'left', FlxTextBorderStyle.OUTLINE, FlxColor.TRANSPARENT);
+    	ateText.camera = camInfo;
+    	ateText.antialiasing = ClientPrefs.data.antialiasing;
+    	add(ateText);
+    	
+    	rateText = new FlxText(130, 273, 0, "rate", 30);
+    	rateText.setFormat(font, 25, FlxColor.WHITE, 'left', FlxTextBorderStyle.OUTLINE, FlxColor.TRANSPARENT);
     	rateText.camera = camInfo;
     	rateText.antialiasing = ClientPrefs.data.antialiasing;
     	add(rateText);
     	
-    	accText = new FlxText(75+115, 270, 0, "acc", 30);
-    	accText.setFormat(font, 30, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+    	var ccText = new FlxText(75+115, 273, 0, "Acc: ", 30);
+    	ccText.setFormat(font, 25, FlxColor.WHITE, 'left', FlxTextBorderStyle.OUTLINE, FlxColor.TRANSPARENT);
+    	ccText.camera = camInfo;
+    	ccText.antialiasing = ClientPrefs.data.antialiasing;
+    	add(ccText);
+    	
+    	accText = new FlxText(75+175, 273, 0, "acc", 30);
+    	accText.setFormat(font, 25, FlxColor.WHITE, 'left', FlxTextBorderStyle.OUTLINE, FlxColor.TRANSPARENT);
     	accText.camera = camInfo;
     	accText.antialiasing = ClientPrefs.data.antialiasing;
     	add(accText);
     	
-    	scoreText = new FlxText(75+270, 270, 0, "score", 30);
-    	scoreText.setFormat(font, 30, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+    	var coreText = new FlxText(75+270, 273, 0, "Score: ", 30);
+    	coreText.setFormat(font, 25, FlxColor.WHITE, 'left', FlxTextBorderStyle.OUTLINE, FlxColor.TRANSPARENT);
+    	coreText.camera = camInfo;
+    	coreText.antialiasing = ClientPrefs.data.antialiasing;
+    	add(coreText);
+    	
+    	scoreText = new FlxText(75+355, 273, 0, "score", 30);
+    	scoreText.setFormat(font, 25, FlxColor.WHITE, 'left', FlxTextBorderStyle.OUTLINE, FlxColor.TRANSPARENT);
     	scoreText.camera = camInfo;
     	scoreText.antialiasing = ClientPrefs.data.antialiasing;
     	add(scoreText);
     	
     	timeText = new FlxText(50, 240, 0, "time", 28);
-    	timeText.setFormat(font, 28, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+    	timeText.setFormat(font, 28, FlxColor.WHITE, LEFTFlxTextBorderStyle.OUTLINE, FlxColor.TRANSPARENT);
     	timeText.camera = camInfo;
     	timeText.antialiasing = ClientPrefs.data.antialiasing;
     	add(timeText);
@@ -312,19 +357,19 @@ class FreeplayState extends MusicBeatState {
     	bars4Option.setPosition(170+6, 457.5);
 			
     	var options = new FlxText(140, 457, 0, "Options", 28);
-    	options.setFormat(font, 28, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+    	options.setFormat(font, 28, FlxColor.WHITE, LEFTFlxTextBorderStyle.OUTLINE, FlxColor.TRANSPARENT);
     	options.camera = camInfo;
     	options.antialiasing = ClientPrefs.data.antialiasing;
     	add(options);
     	
     	var options = new FlxText(380, 445, 0, "Gameplay\nChanger", 28);
-    	options.setFormat(font, 25, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+    	options.setFormat(font, 25, FlxColor.WHITE, LEFTFlxTextBorderStyle.OUTLINE, FlxColor.TRANSPARENT);
     	options.camera = camInfo;
     	options.antialiasing = ClientPrefs.data.antialiasing;
     	add(options);
     	
     	var options = new FlxText(80, 520, 0, "Reset Score", 28);
-    	options.setFormat(font, 28, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+    	options.setFormat(font, 28, FlxColor.WHITE, LEFTFlxTextBorderStyle.OUTLINE, FlxColor.TRANSPARENT);
     	options.camera = camInfo;
     	options.antialiasing = ClientPrefs.data.antialiasing;
     	add(options);
@@ -356,13 +401,13 @@ class FreeplayState extends MusicBeatState {
     	add(backButton);
     	
     	startText = new FlxText(1140, 640, 0, "PLAY", 28);
-    	startText.setFormat(font, 35, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+    	startText.setFormat(font, 35, FlxColor.WHITE, LEFTFlxTextBorderStyle.OUTLINE, FlxColor.TRANSPARENT);
     	startText.camera = camUI;
     	startText.antialiasing = ClientPrefs.data.antialiasing;
     	add(startText);
     	
     	backText = new FlxText(30, 30, 0, "EXIT", 28);
-    	backText.setFormat(font, 35, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+    	backText.setFormat(font, 35, FlxColor.WHITE, LEFTFlxTextBorderStyle.OUTLINE, FlxColor.TRANSPARENT);
     	backText.camera = camUI;
     	backText.antialiasing = ClientPrefs.data.antialiasing;
     	add(backText);
@@ -393,13 +438,18 @@ class FreeplayState extends MusicBeatState {
     	searchButton.camera = camUI;
     	add(searchButton);
     	
-    	for (i in [randomButton, musicButton, searchButton]) {
+    	infoButton = new FlxSprite().loadGraphic(Paths.image(filePath + 'info'));
+    	infoButton.camera = camUI;
+    	add(infoButton);
+    	
+    	for (i in [randomButton, musicButton, searchButton, infoButton]) {
     		i.scale.set(60/1500, 60/1500);
     		i.updateHitbox();
     	}
     	searchButton.setPosition(800, 0);
     	musicButton.setPosition(20, 665);
     	randomButton.setPosition(500, 665);
+    	infoButton.setPosition(200, 0);
     	
     	var optionsText = new FlxText(850, 8, 0, 'E to Search Song');
     	optionsText.setFormat(font, 25, FlxColor.WHITE, LEFT);
@@ -425,6 +475,7 @@ class FreeplayState extends MusicBeatState {
     	add(optionsText);
     	optionsText.scale.x = 0.9;
     	
+    	makeInfoMenu();
     	makeSearchUI();
     	makeListenMenu();
     	
@@ -456,84 +507,154 @@ class FreeplayState extends MusicBeatState {
 			FlxG.sound.music.volume += 0.5 * FlxG.elapsed;
 		}
 		
-		if (FlxG.mouse.x > FlxG.width/2 || (!searching && ! listening)) {
-    		if(FlxG.mouse.wheel != 0)
-    		{
-    			FlxG.sound.play(Paths.sound('scrollMenu'), 0.2);
-    			changeSong(-2 * FlxG.mouse.wheel);
-    		}
+		if (!lookingTheTutorial) {
+    		if (FlxG.mouse.x > FlxG.width/2 || (!searching && ! listening)) {
+        		if(FlxG.mouse.wheel != 0)
+        		{
+        			FlxG.sound.play(Paths.sound('scrollMenu'), 0.2);
+        			changeSong(-2 * FlxG.mouse.wheel);
+        		}
+        		
+            	if (controls.UI_DOWN_P)
+            		changeSong(1);
+            	if (controls.UI_UP_P)
+            		changeSong(-1);
+            }
+        		
+        	mousechecker.setPosition(FlxG.mouse.getScreenPosition(camUI).x, FlxG.mouse.getScreenPosition(camUI).y);
+        	
+        	if (!searching && !listening) {
+            	if ((FlxG.mouse.justPressed && FlxG.pixelPerfectOverlap(difficultyLeft, mousechecker, 25)) || controls.UI_LEFT_P) {
+            		changeDiff(-1);
+            		difficultyLeft.color = FlxColor.fromRGB(0, 255, 0);
+            		if (leftcolor != null) leftcolor.cancel();
+            		leftcolor = FlxTween.color(difficultyLeft, 1, difficultyLeft.color, 0xFFFFFFFF, {
+            			onComplete: function(twn:FlxTween) {
+        					leftcolor = null;
+           				}
+           			});
+            	}
+            	if ((FlxG.mouse.justPressed && FlxG.pixelPerfectOverlap(difficultyRight, mousechecker, 25)) || controls.UI_RIGHT_P) {
+            		changeDiff(1);
+            		difficultyRight.color = FlxColor.fromRGB(255, 0, 0);
+            		if (rightcolor != null) rightcolor.cancel();
+            		rightcolor = FlxTween.color(difficultyRight, 1, difficultyRight.color, 0xFFFFFFFF, {
+            			onComplete: function(twn:FlxTween) {
+        					rightcolor = null;
+           				}
+           			});
+            	}
+        	}
+        		
+        	if ((overlapButton(searchButton) && !searching && FlxG.mouse.justPressed) || FlxG.keys.justPressed.E) {
+        		searching = true;
+        		listening = false;
+    			backText.text = 'BACK';
+        	}
+        	
+        	if ((overlapButton(musicButton) && !listening && FlxG.mouse.justPressed) || FlxG.keys.justPressed.SPACE) {
+        		listening = true;
+        		searching = false;
+    			backText.text = 'BACK';
+        	}
+        	
+        	if ((overlapButton(randomButton) && FlxG.mouse.justPressed) || FlxG.keys.justPressed.O) {
+        		curSelected = FlxG.random.int(0, songs.length-1);
+        		changeSong(0);
+        	}
+        	
+        	if (searching) searchUpdate(elapsed);
+        	if (listening) listenUpdate(elapsed);
+        	checkButton(elapsed);
+        	mouseControl(elapsed);
     		
-        	if (controls.UI_DOWN_P)
-        		changeSong(1);
-        	if (controls.UI_UP_P)
-        		changeSong(-1);
+    		if (controls.RESET) {
+    			openSubState(new ResetScoreSubState(songs[curSelected].songName, curDifficulty, songs[curSelected].songCharacter));
+    		} else if (FlxG.keys.justPressed.CONTROL)
+    			openSubState(new GameplayChangersSubstate());
+    		else if (FlxG.keys.justPressed.P)
+    			LoadingState.loadAndSwitchState(new OptionsState());
+    			
+        	camSearch.x = FlxMath.lerp(searching ? 0 : -1280, camSearch.x, FlxMath.bound(1 - (elapsed * 6), 0, 1));
+        	camListen.x = FlxMath.lerp(listening ? 0 : -1280, camListen.x, FlxMath.bound(1 - (elapsed * 6), 0, 1));
+        	camInfo.x = FlxMath.lerp((!listening && !searching) ? 0 : -1280, camInfo.x, FlxMath.bound(1 - (elapsed * 6), 0, 1));
+        	
+        	camSong.scroll.x = FlxMath.lerp(-(curSelectedFloat) * 20 * 0.75, camSong.scroll.x, FlxMath.bound(1 - (elapsed * 9), 0, 1));
+            camSong.scroll.y = FlxMath.lerp((curSelectedFloat) * 75 * 0.75, camSong.scroll.y, FlxMath.bound(1 - (elapsed * 9), 0, 1));
         }
-    		
-    	mousechecker.setPosition(FlxG.mouse.getScreenPosition(camUI).x, FlxG.mouse.getScreenPosition(camUI).y);
-    	
-    	if (!searching && !listening) {
-        	if ((FlxG.mouse.justPressed && FlxG.pixelPerfectOverlap(difficultyLeft, mousechecker, 25)) || controls.UI_LEFT_P) {
-        		changeDiff(-1);
-        		difficultyLeft.color = FlxColor.fromRGB(0, 255, 0);
-        		if (leftcolor != null) leftcolor.cancel();
-        		leftcolor = FlxTween.color(difficultyLeft, 1, difficultyLeft.color, 0xFFFFFFFF, {
-        			onComplete: function(twn:FlxTween) {
-    					leftcolor = null;
-       				}
-       			});
-        	}
-        	if ((FlxG.mouse.justPressed && FlxG.pixelPerfectOverlap(difficultyRight, mousechecker, 25)) || controls.UI_RIGHT_P) {
-        		changeDiff(1);
-        		difficultyRight.color = FlxColor.fromRGB(255, 0, 0);
-        		if (rightcolor != null) rightcolor.cancel();
-        		rightcolor = FlxTween.color(difficultyRight, 1, difficultyRight.color, 0xFFFFFFFF, {
-        			onComplete: function(twn:FlxTween) {
-    					rightcolor = null;
-       				}
-       			});
-        	}
-    	}
-    		
-    	if ((FlxG.mouse.overlaps(searchButton) && !searching && FlxG.mouse.justPressed) || FlxG.keys.justPressed.E) {
-    		searching = true;
-    		listening = false;
-			backText.text = 'BACK';
-    	}
-    	
-    	if ((FlxG.mouse.overlaps(musicButton) && !listening && FlxG.mouse.justPressed) || FlxG.keys.justPressed.SPACE) {
-    		listening = true;
-    		searching = false;
-			backText.text = 'BACK';
-    	}
-    	
-    	if ((FlxG.mouse.overlaps(randomButton) && FlxG.mouse.justPressed) || FlxG.keys.justPressed.O) {
-    		curSelected = FlxG.random.int(0, songs.length-1);
-    		changeSong(0);
-    	}
-    	
-    	if (searching) searchUpdate(elapsed);
-    	if (listening) listenUpdate(elapsed);
-    	checkButton(elapsed);
-    	mouseControl(elapsed);
-		
-		if (controls.RESET) {
-			openSubState(new ResetScoreSubState(songs[curSelected].songName, curDifficulty, songs[curSelected].songCharacter));
-		} else if (FlxG.keys.justPressed.CONTROL)
-			openSubState(new GameplayChangersSubstate());
-		else if (FlxG.keys.justPressed.P)
-			LoadingState.loadAndSwitchState(new OptionsState());
-			
-    	camSearch.x = FlxMath.lerp(searching ? 0 : -1280, camSearch.x, FlxMath.bound(1 - (elapsed * 6), 0, 1));
-    	camListen.x = FlxMath.lerp(listening ? 0 : -1280, camListen.x, FlxMath.bound(1 - (elapsed * 6), 0, 1));
-    	camInfo.x = FlxMath.lerp((!listening && !searching) ? 0 : -1280, camInfo.x, FlxMath.bound(1 - (elapsed * 6), 0, 1));
-    	
-    	camSong.scroll.x = FlxMath.lerp(-(curSelectedFloat) * 20 * 0.75, camSong.scroll.x, FlxMath.bound(1 - (elapsed * 9), 0, 1));
-        camSong.scroll.y = FlxMath.lerp((curSelectedFloat) * 75 * 0.75, camSong.scroll.y, FlxMath.bound(1 - (elapsed * 9), 0, 1));
         
+        changeInfoMenu(elapsed);
+        
+        if ((controls.ACCEPT_R || FlxG.mouse.justReleased) && camUIInfo_Song.alpha > 0.99 && lookingTheTutorial) {
+        	lookingTheTutorial = false;
+        	curSelectedFloat = curSelected;
+        }
         super.update(elapsed);
     }
     
+    function overlapButton(tag)
+    	return FlxG.mouse.x > tag.x && FlxG.mouse.x < tag.x + 500 && FlxG.mouse.y > tag.y && FlxG.mouse.y < tag.y + 50;
+    	
+    function changeInfoMenu(elapsed:Float) {
+    	var list = [camUIInfo_Info, camUIInfo_Song, camUIInfo_Listen, camUIInfo_Search];
+    	if (!lookingTheTutorial) {
+    		for (i in list) setAlpha(i, -2);
+    	} else {
+    		if (listening) {
+    			setAlpha(camUIInfo_Listen, 2);
+    			setAlpha(camUIInfo_Info, -2);
+    			setAlpha(camUIInfo_Search, -2);
+    		} else if (searching) {
+    			setAlpha(camUIInfo_Listen, -2);
+    			setAlpha(camUIInfo_Info, -2);
+    			setAlpha(camUIInfo_Search, 2);
+    		} else {
+    			setAlpha(camUIInfo_Listen, -2);
+    			setAlpha(camUIInfo_Info, 2);
+    			setAlpha(camUIInfo_Search, -2);
+    		}
+    		setAlpha(camUIInfo_Song, 2);
+    	}
+    }
     
+    function setAlpha(obj, multiple) {
+    	if (obj.alpha > 0 && multiple <= 0)
+    		obj.alpha += FlxG.elapsed*multiple;
+    	else if (obj.alpha < 1 && multiple > 0)
+    		obj.alpha += FlxG.elapsed*multiple;
+	}
+	
+	function makeInfoMenu() {
+		addSimpleText('Choose song by using mouse wheel, \n(put mouse at right part of the screen) \ntouching screen, pressing UI down and up keys', [640, 150], 30, [0.9, 1], camUIInfo_Song, 'center');
+		addSimpleBox([FlxG.width - 220, FlxG.height - 120], [220, 120], camUIInfo_Song);
+		addSimpleText('Press Accept key or touch it to start (↓)', [640, 550], 30, [0.9, 1], camUIInfo_Song, 'center');
+		
+		addSimpleText('Your best result (↓)', [0, 185], 30, [0.9, 1], camUIInfo_Info, 'center');
+		addSimpleText('Holding to use (↑)', [0, 600], 30, [0.9, 1], camUIInfo_Info, 'center');
+		addSimpleBox([0, 0], [220, 120], camUIInfo_Info);
+		addSimpleText('(↑) Press Back key or touch it to exit', [0, 115], 30, [0.9, 1], camUIInfo_Info, 'center');
+		
+		addSimpleText('UI left and right key or touch bar to change time', [-50, 460], 30, [0.75, 0.75], camUIInfo_Listen, 'left');
+		addSimpleText('Press L and R keys or touch it to change playback rate', [-50, 580], 30, [0.75, 0.75], camUIInfo_Listen, 'left');
+		
+		addSimpleText('Change song by using mouse wheel, \n(put mouse at right part of the screen) \ntouching screen, pressing UI down and up keys\n\ntouch or press number keys(1-6) to choose song', [0, 250], 30, [0.9, 1], camUIInfo_Search, 'center');
+	}
+	
+	function addSimpleText(string:String, pos:Array, size:Float, scale:Array, cam:FlxCamera, alignment:Dynamic) {
+		var text = new FlxText(pos[0], pos[1], FlxG.width/2, string);
+    	text.setFormat(font, size, FlxColor.WHITE, alignment == 'center' ? CENTER : (alignment == 'left' ? LEFT : RIGHT));
+    	text.camera = cam;
+    	text.scale.set(scale[0], scale[1]);
+    	add(text);
+	}
+	
+	function addSimpleBox(pos:Array, size:Array, cam:FlxCamera) {
+		var sprite = new FlxSprite(pos[0], pos[1]).makeGraphic(size[0], size[1], FlxColor.WHITE);
+    	sprite.camera = cam;
+    	sprite.alpha = 0.3;
+    	add(sprite);
+    }
+    	
     var listeningSongName:FlxText;
     var playingSongName:FlxText;
     var listeningSongTime:FlxText;
@@ -568,8 +689,8 @@ class FreeplayState extends MusicBeatState {
     	playingSongName.camera = camListen;
     	add(playingSongName);
     	
-    	listeningSongTime = new FlxText(300, 350, 0, '-:-/-:-');
-    	listeningSongTime.setFormat(font, 30, FlxColor.WHITE, LEFT);
+    	listeningSongTime = new FlxText(120, 350, 500, '-:-/-:-');
+    	listeningSongTime.setFormat(font, 30, FlxColor.WHITE, CENTER);
     	listeningSongTime.camera = camListen;
     	add(listeningSongTime);
     	
@@ -617,8 +738,8 @@ class FreeplayState extends MusicBeatState {
     	rateRight.alpha = 0.25;
     	add(rateRight);
     	
-    	songPlaybackRateText = new FlxText(350, 540, 100, '1.0');
-    	songPlaybackRateText.setFormat(font, 30, FlxColor.WHITE, LEFT);
+    	songPlaybackRateText = new FlxText(290, 540, 150, '1.0');
+    	songPlaybackRateText.setFormat(font, 30, FlxColor.WHITE, CENTER);
     	songPlaybackRateText.camera = camListen;
     	add(songPlaybackRateText);
     	
@@ -631,6 +752,7 @@ class FreeplayState extends MusicBeatState {
     	resetButton.camera = camListen;
     	resetButton.alpha = 0;
     	add(resetButton);
+    	setplaybackrate();
     }
     
     function startMusic(play:Bool)
@@ -791,7 +913,10 @@ class FreeplayState extends MusicBeatState {
     		if (changingTime && FlxG.mouse.justReleased) {
     			changingTime = false;
     			FlxG.sound.music.play();
-    			if (vocals != null) vocals.play();
+    			if (vocals != null)
+    				vocals.play();
+    				vocals.time = FlxG.sound.music.time;
+    			}
     			timeLeft.alpha = 0;
     			timeRight.alpha = 0;
     		}
@@ -877,6 +1002,13 @@ class FreeplayState extends MusicBeatState {
     		
     		add(searchobj);
 		}
+		
+		searchtextno = new FlxText(100, 380, 0, 'NO SONG');
+    	searchtextno.setFormat(font, 35, FlxColor.RED, 'left');
+    	searchtextno.camera = camSearch;
+    	add(searchtextno);
+    	searchtextno.alpha = 0.9;
+    	searchtextno.visible = false;
     }
     
     function closeSearchMenu() {
@@ -900,7 +1032,11 @@ class FreeplayState extends MusicBeatState {
     				songsSearched.push(songs[i]);
     			}
     		}
-    		if (songsSearched.length < 1) songsSearched.push(new SongMetadata('', 0, 'no', 0x00FFFFFF));
+    		if (songsSearched.length < 1) {
+    			songsSearched.push(new SongMetadata('', 0, 'no', 0x00FFFFFF));
+    			searchtextno.visible = true;
+    		} else
+    			searchtextno.visible = false;
     		searchChangeSong(0);
     	}
     	
@@ -1205,24 +1341,25 @@ class FreeplayState extends MusicBeatState {
     	difficultyText.x = (820 - difficultyText.width) / 2;
     		
     	var score = Highscore.getScore(songs[curSelected].songName, curDifficulty);
-    	scoreText.text = 'Score: ' + score;
+    	scoreText.text = score;
     	//debugPrint(scoreText.width);
 
     	scoreText.scale.x = 1;
 		scoreText.updateHitbox();
 		
-		if (scoreText.width > 230)
-			scoreText.scale.x = 215 / scoreText.width;
+		if (scoreText.width > 120) {
+			scoreText.scale.x = 120 / scoreText.width;
 			scoreText.updateHitbox();
+		}
     	
 		var rating = Math.floor(Highscore.getRating(songs[curSelected].songName, curDifficulty)*10000)/100;
-		accText.text = 'ACC: ' + rating + '%';
-		accText.scale.x = 1;
+		accText.text = rating + '%';
+		accText.scale.x = 0.9;
 		accText.updateHitbox();
-		
-		if (accText.width > 145)
-			accText.scale.x = 120 / accText.width;
+		if (accText.width > 90) {
+			accText.scale.x = 90 / accText.width *0.9;
 			accText.updateHitbox();
+		}
 			
 		timeText.text = 'N/A';
 		} catch(e:Dynamic) {
@@ -1376,6 +1513,9 @@ class FreeplayState extends MusicBeatState {
 	function rateCheck(Rate:Float = 0)
 	{
 		rateText.text = 'Lv. ' + (Math.floor(Rate*100)/100);
+		if (rateText.width*0.9 > 65) rateText.scale.x = 65/ rateText.width*0.9;
+		else rateText.scale.x = 0.9;
+		rateText.updateHitbox();
 		
 		if (Rate == -1) {rateText.text = 'RATE ERROR'; return;}
 	    if (Rate > 20) Rate = 20;
