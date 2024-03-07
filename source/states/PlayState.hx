@@ -735,7 +735,7 @@ class PlayState extends MusicBeatState
         FlxG.cameras.add(camPause, false);
         pauseButton_menu.cameras = [camPause];
         
-		super.create();
+		//super.create();
 		Paths.clearUnusedMemory();
 
 		if(eventNotes.length < 1) checkEventNote();
@@ -1881,7 +1881,7 @@ class PlayState extends MusicBeatState
 	var freezeCamera:Bool = false;
 	var allowDebugKeys:Bool = true;
 	
-	FlxTouch.justPressedPosition//修改
+	//FlxTouch.justPressedPosition//修改
 
 	override public function update(elapsed:Float)
 	{
