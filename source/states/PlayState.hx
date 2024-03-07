@@ -306,6 +306,7 @@ class PlayState extends MusicBeatState
 	public var luaVirtualPad:FlxVirtualPad;
 	
 	public var thread:FixedThreadPool;
+	public var loadingStep:Int = 0;
 	
 	override public function create(){
 	
@@ -737,6 +738,8 @@ class PlayState extends MusicBeatState
         
 		//super.create();
 		Paths.clearUnusedMemory();
+		
+		loadingStep++;
 
 		if(eventNotes.length < 1) checkEventNote();
 	}
@@ -1810,6 +1813,9 @@ class PlayState extends MusicBeatState
 
 	override public function onFocus():Void
 	{
+	    if (loadingStep != 1) {	
+    		return;
+	    }
 		callOnScripts('onFocus');
 		if (health > 0 && !paused) resetRPC(Conductor.songPosition > 0.0);
 		super.onFocus();
@@ -1818,6 +1824,9 @@ class PlayState extends MusicBeatState
 
 	override public function onFocusLost():Void
 	{
+	    if (loadingStep != 1) {	
+    		return;
+	    }
 		callOnScripts('onFocusLost');
 		#if DISCORD_ALLOWED
 		if (health > 0 && !paused && autoUpdateRPC) DiscordClient.changePresence(detailsPausedText, SONG.song + " (" + storyDifficultyText + ")", iconP2.getCharacter());
@@ -1885,6 +1894,9 @@ class PlayState extends MusicBeatState
 
 	override public function update(elapsed:Float)
 	{
+	    if (loadingStep != 1) {	
+    		return;
+	    }
 	    if (ClientPrefs.data.pauseButton){
     	    if (FlxG.mouse.getScreenPosition(camPause).y >= pauseButton_menu.y 
     	       && FlxG.mouse.getScreenPosition(camPause).y <= pauseButton_menu.y + pauseButton_menu.height
@@ -3748,6 +3760,9 @@ class PlayState extends MusicBeatState
 	var lastStepHit:Int = -1;
 	override function stepHit()
 	{
+	    if (loadingStep != 1) {	
+    		return;
+	    }
 		if (SONG.needsVoices && FlxG.sound.music.time >= -ClientPrefs.data.noteOffset)
 			checkIfDesynced = true;
 
@@ -3766,6 +3781,9 @@ class PlayState extends MusicBeatState
 
 	override function beatHit()
 	{
+	    if (loadingStep != 1) {	
+    		return;
+	    }
 		if(lastBeatHit >= curBeat) {
 			//trace('BEAT HIT: ' + curBeat + ', LAST HIT: ' + lastBeatHit);
 			return;
@@ -3811,6 +3829,9 @@ class PlayState extends MusicBeatState
 
 	override function sectionHit()
 	{
+	    if (loadingStep != 1) {	
+    		return;
+	    }
 		if (SONG.notes[curSection] != null)
 		{
 			if (generatedMusic && !endingSong && !isCameraOnForcedPos)
