@@ -90,6 +90,7 @@ class FreeplayState extends MusicBeatState {
     var searchButton:FlxSprite;
     var musicButton:FlxSprite;
     var randomButton:FlxSprite;
+    var infoButton:FlxSprite;
     
     var intendedColor:Int;
     var colorTween:FlxTween;
@@ -116,6 +117,7 @@ class FreeplayState extends MusicBeatState {
     var camUIInfo_Listen:FlxCamera;
     var camUIInfo_Search:FlxCamera;
     
+    var lookingTheTutorial:Bool = false;
 	override function create()
 	{
 	    persistentUpdate = persistentDraw = true;
@@ -171,7 +173,7 @@ class FreeplayState extends MusicBeatState {
 		for (i in list) {
 			FlxG.cameras.add(i, false);
 			i.alpha = 0;
-			var cambg = new FlxSprite((i == camUIInfo_Song ? FlxG.width/2 : 0), 0).makeGraphic(FlxG.width/2, FlxG.height, FlxColor.BLACK);
+			var cambg = new FlxSprite((i == camUIInfo_Song ? Std.int(FlxG.width/2) : 0), 0).makeGraphic(Std.int(FlxG.width/2), FlxG.height, FlxColor.BLACK);
     		cambg.camera = i;
     		cambg.alpha = 0.5;
     		add(cambg);
@@ -269,13 +271,13 @@ class FreeplayState extends MusicBeatState {
     	add(RateBarText);
     	
     	var diffText:FlxText = new FlxText(360, 355, 0, "DIFFICULTY", 15);
-    	diffText.setFormat(font, 15, FlxColor.WHITE, LEFTFlxTextBorderStyle.OUTLINE, FlxColor.TRANSPARENT);
+    	diffText.setFormat(font, 15, FlxColor.WHITE, FlxTextBorderStyle.OUTLINE, FlxColor.TRANSPARENT);
     	diffText.camera = camInfo;
     	diffText.antialiasing = ClientPrefs.data.antialiasing;
     	add(diffText);
     	
     	difficultyText = new FlxText(300, 360, 0, "difficulty", 55);
-    	difficultyText.setFormat(font, 55, FlxColor.WHITE, LEFTFlxTextBorderStyle.OUTLINE, FlxColor.TRANSPARENT);
+    	difficultyText.setFormat(font, 55, FlxColor.WHITE, FlxTextBorderStyle.OUTLINE, FlxColor.TRANSPARENT);
     	difficultyText.camera = camInfo;
     	difficultyText.antialiasing = ClientPrefs.data.antialiasing;
     	add(difficultyText);
@@ -317,7 +319,7 @@ class FreeplayState extends MusicBeatState {
     	add(scoreText);
     	
     	timeText = new FlxText(50, 240, 0, "time", 28);
-    	timeText.setFormat(font, 28, FlxColor.WHITE, LEFTFlxTextBorderStyle.OUTLINE, FlxColor.TRANSPARENT);
+    	timeText.setFormat(font, 28, FlxColor.WHITE, FlxTextBorderStyle.OUTLINE, FlxColor.TRANSPARENT);
     	timeText.camera = camInfo;
     	timeText.antialiasing = ClientPrefs.data.antialiasing;
     	add(timeText);
@@ -357,19 +359,19 @@ class FreeplayState extends MusicBeatState {
     	bars4Option.setPosition(170+6, 457.5);
 			
     	var options = new FlxText(140, 457, 0, "Options", 28);
-    	options.setFormat(font, 28, FlxColor.WHITE, LEFTFlxTextBorderStyle.OUTLINE, FlxColor.TRANSPARENT);
+    	options.setFormat(font, 28, FlxColor.WHITE, FlxTextBorderStyle.OUTLINE, FlxColor.TRANSPARENT);
     	options.camera = camInfo;
     	options.antialiasing = ClientPrefs.data.antialiasing;
     	add(options);
     	
     	var options = new FlxText(380, 445, 0, "Gameplay\nChanger", 28);
-    	options.setFormat(font, 25, FlxColor.WHITE, LEFTFlxTextBorderStyle.OUTLINE, FlxColor.TRANSPARENT);
+    	options.setFormat(font, 25, FlxColor.WHITE, FlxTextBorderStyle.OUTLINE, FlxColor.TRANSPARENT);
     	options.camera = camInfo;
     	options.antialiasing = ClientPrefs.data.antialiasing;
     	add(options);
     	
     	var options = new FlxText(80, 520, 0, "Reset Score", 28);
-    	options.setFormat(font, 28, FlxColor.WHITE, LEFTFlxTextBorderStyle.OUTLINE, FlxColor.TRANSPARENT);
+    	options.setFormat(font, 28, FlxColor.WHITE, FlxTextBorderStyle.OUTLINE, FlxColor.TRANSPARENT);
     	options.camera = camInfo;
     	options.antialiasing = ClientPrefs.data.antialiasing;
     	add(options);
@@ -401,13 +403,13 @@ class FreeplayState extends MusicBeatState {
     	add(backButton);
     	
     	startText = new FlxText(1140, 640, 0, "PLAY", 28);
-    	startText.setFormat(font, 35, FlxColor.WHITE, LEFTFlxTextBorderStyle.OUTLINE, FlxColor.TRANSPARENT);
+    	startText.setFormat(font, 35, FlxColor.WHITE, FlxTextBorderStyle.OUTLINE, FlxColor.TRANSPARENT);
     	startText.camera = camUI;
     	startText.antialiasing = ClientPrefs.data.antialiasing;
     	add(startText);
     	
     	backText = new FlxText(30, 30, 0, "EXIT", 28);
-    	backText.setFormat(font, 35, FlxColor.WHITE, LEFTFlxTextBorderStyle.OUTLINE, FlxColor.TRANSPARENT);
+    	backText.setFormat(font, 35, FlxColor.WHITE, FlxTextBorderStyle.OUTLINE, FlxColor.TRANSPARENT);
     	backText.camera = camUI;
     	backText.antialiasing = ClientPrefs.data.antialiasing;
     	add(backText);
@@ -617,10 +619,10 @@ class FreeplayState extends MusicBeatState {
     	}
     }
     
-    function setAlpha(obj, multiple) {
+    function setAlpha(obj, multiple:Int) {
     	if (obj.alpha > 0 && multiple <= 0)
     		obj.alpha += FlxG.elapsed*multiple;
-    	else if (obj.alpha < 1 && multiple > 0)
+    	else if (obj.alpha < 1.0 && multiple > 0)
     		obj.alpha += FlxG.elapsed*multiple;
 	}
 	
@@ -641,7 +643,7 @@ class FreeplayState extends MusicBeatState {
 	}
 	
 	function addSimpleText(string:String, pos:Dynamic, size:Float, scale:Dynamic, cam:FlxCamera, alignment:Dynamic) {
-		var text = new FlxText(pos[0], pos[1], FlxG.width/2, string);
+		var text = new FlxText(pos[0], pos[1], Std.int(FlxG.width/2), string);
     	text.setFormat(font, size, FlxColor.WHITE, alignment == 'center' ? CENTER : (alignment == 'left' ? LEFT : RIGHT));
     	text.camera = cam;
     	text.scale.set(scale[0], scale[1]);
@@ -966,6 +968,7 @@ class FreeplayState extends MusicBeatState {
     var searchTextGroup:Array<FlxText> = [];
     var searchCheckGroup:Array<FlxSprite> = [];
     var oldText:String = '';
+    var searchtextno:FlxText;
     function makeSearchUI() {
     	searchtext = new FlxText(60, 150, 0, 'Type Song Name...');
     	searchtext.setFormat(font, 28, FlxColor.WHITE, LEFT);
@@ -1341,7 +1344,7 @@ class FreeplayState extends MusicBeatState {
     	difficultyText.x = (820 - difficultyText.width) / 2;
     		
     	var score = Highscore.getScore(songs[curSelected].songName, curDifficulty);
-    	scoreText.text = score;
+    	scoreText.text = Std.string(score);
     	//debugPrint(scoreText.width);
 
     	scoreText.scale.x = 1;
@@ -1353,7 +1356,7 @@ class FreeplayState extends MusicBeatState {
 		}
     	
 		var rating = Math.floor(Highscore.getRating(songs[curSelected].songName, curDifficulty)*10000)/100;
-		accText.text = rating + '%';
+		accText.text = Std.int(rating) + '%';
 		accText.scale.x = 0.9;
 		accText.updateHitbox();
 		if (accText.width > 90) {
