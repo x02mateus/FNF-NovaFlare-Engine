@@ -31,7 +31,6 @@ import states.editors.CharacterEditorState;
 import substates.PauseSubState;
 import substates.GameOverSubstate;
 import substates.ResultsScreen;
-import substates.LoadingSubstate;
 
 #if !flash
 import flixel.addons.display.FlxRuntimeShader;
@@ -41,9 +40,6 @@ import shaders.openfl.filters.ShaderFilter as CustomShaderFilter;
 import openfl.filters.BitmapFilter;
 import shaders.CustomShaders;
 #end
-
-import sys.thread.Thread;
-import sys.thread.Mutex;
 
 import objects.Note.EventNote;
 import objects.*;
@@ -59,6 +55,8 @@ import psychlua.HScript;
 #if SScript
 import tea.SScript;
 #end
+
+import sys.thread.FixedThreadPool;
 
 /**
  * This is where all the Gameplay stuff happens and is managed
@@ -186,7 +184,9 @@ class PlayState extends MusicBeatState
 	public var highestCombo:Int = 0;
 	
 	public var NoteMs:Array<Float> = [];
-    public var NoteTime:Array<Float> = [];           
+    public var NoteTime:Array<Float> = [];    
+    
+    var rsCheck:Bool = false;
     
     var numItems:FlxTypedGroup<FlxSprite>;
     
@@ -259,7 +259,7 @@ class PlayState extends MusicBeatState
 	public static var deathCounter:Int = 0;
 
 	public var defaultCamZoom:Float = 1.05;
-		
+
 	// how big to stretch the pixel art assets
 	public static var daPixelZoom:Float = 6;
 	private var singAnimations:Array<String> = ['singLEFT', 'singDOWN', 'singUP', 'singRIGHT'];
@@ -305,10 +305,19 @@ class PlayState extends MusicBeatState
 
 	public var luaVirtualPad:FlxVirtualPad;
 	
-	var thread:Thread;
+	public var thread:FixedThreadPool;
 	
 	override public function create(){
-	    Paths.clearStoredMemory();
+	
+	    super.create();	
+	    thread = new FixedThreadPool(1);
+	    thread.run(() -> cacheCreate());
+	}
+
+	public dynamic function cacheCreate()
+	{
+		//trace('Playback Rate: ' + playbackRate);
+		Paths.clearStoredMemory();
 
 		startCallback = startCountdown;
 		endCallback = endSong;
@@ -355,10 +364,11 @@ class PlayState extends MusicBeatState
 		FlxG.cameras.add(camOther, false);
 		FlxG.cameras.add(luaVpadCam, false);
 		FlxG.cameras.add(camPause, false);
-		
-	    //persistentUpdate = false;
-	    
-	    if (SONG == null)
+		grpNoteSplashes = new FlxTypedGroup<NoteSplash>();
+
+		persistentUpdate = persistentDraw = true;
+
+		if (SONG == null)
 			SONG = Song.loadFromJson('tutorial');
 
 		Conductor.mapBPMChanges(SONG);
@@ -425,22 +435,7 @@ class PlayState extends MusicBeatState
 		boyfriendGroup = new FlxSpriteGroup(BF_X, BF_Y);
 		dadGroup = new FlxSpriteGroup(DAD_X, DAD_Y);
 		gfGroup = new FlxSpriteGroup(GF_X, GF_Y);
-		
-		
-		
-		comboGroup = new FlxSpriteGroup();		
-		numItems = new FlxTypedGroup<FlxSprite>();	
-		uiGroup = new FlxSpriteGroup();				
-		noteGroup = new FlxTypedGroup<FlxBasic>();		
-		
-		strumLineNotes = new FlxTypedGroup<StrumNote>();
-		grpNoteSplashes = new FlxTypedGroup<NoteSplash>();
-		
-		opponentStrums = new FlxTypedGroup<StrumNote>();
-		playerStrums = new FlxTypedGroup<StrumNote>();
-		
-		notes = new FlxTypedGroup<Note>();
-		
+
 		switch (curStage)
 		{
 			case 'stage': new states.stages.StageWeek1(); //Week 1
@@ -461,48 +456,13 @@ class PlayState extends MusicBeatState
 		add(gfGroup);
 		add(dadGroup);
 		add(boyfriendGroup);
-		
+
 		#if (LUA_ALLOWED || HSCRIPT_ALLOWED)
 		luaDebugGroup = new FlxTypedGroup<psychlua.DebugLuaText>();
 		luaDebugGroup.cameras = [camOther];
 		add(luaDebugGroup);
 		#end
-		
-		add(comboGroup);		
-		add(numItems);		
-		add(uiGroup);
-		add(noteGroup);		
-		
-		uiGroup.cameras = [camHUD];
-		numItems.cameras = [camHUD];
-		noteGroup.cameras = [camHUD];
-		comboGroup.cameras = [camHUD];				
-		addTextToDebug('start thread', FlxColor.GREEN);   
-		
-		//thread = new Thread(1, 8);
-	
-	    cacheCreate();
-	        
-	    //cacheCreate();
-	    super.create();		    	    
-	}
-	
-	public var mutex:Mutex = new Mutex();
-    
-    public var loadingStep:Int = 0;
-    public var reload:Bool = false;
-    
-    public var luaNum:Int = 0;
-    public var luaLoadArray:Array<String> = [];
-    
-    public var hscriptNum:Int = 0;
-    public var hscriptLoadArray:Array<String> = [];
-    
-	public function cacheCreate()
-	{
-	Thread.create(() -> {
-	
-	    mutex.acquire();
+
 		// "GLOBAL" SCRIPTS
 		#if ((LUA_ALLOWED || HSCRIPT_ALLOWED) && sys)
 		for (folder in Mods.directoriesWithFile(Paths.getSharedPath(), 'scripts/'))
@@ -528,13 +488,7 @@ class PlayState extends MusicBeatState
 		#if HSCRIPT_ALLOWED
 		startHScriptsNamed('stages/' + curStage + '.hx');
 		#end
-		
-		addTextToDebug('lua finish', FlxColor.GREEN);   
-        
-        var stageData:StageFile = StageData.getStageFile(curStage);
-		if(stageData == null) { //Stage couldn't be found, create a dummy stage for preventing a crash
-			stageData = StageData.dummy();
-		}
+
 		if (!stageData.hide_girlfriend)
 		{
 			if(SONG.gfVersion == null || SONG.gfVersion.length < 1) SONG.gfVersion = 'gf'; //Fix for the Chart Editor
@@ -568,29 +522,16 @@ class PlayState extends MusicBeatState
 				gf.visible = false;
 		}
 		stagesFunc(function(stage:BaseStage) stage.createPost());
-		
-		addTextToDebug('Character finish', FlxColor.GREEN);
-		
-		camFollow = new FlxObject(0, 0, 1, 1);
-		camFollow.setPosition(camPos.x, camPos.y);
-		camPos.put();
-				
-		if (prevCamFollow != null)
-		{
-			camFollow = prevCamFollow;
-			prevCamFollow = null;
-		}
-		add(camFollow);
 
-		FlxG.camera.follow(camFollow, LOCKON, 0);
-		FlxG.camera.zoom = defaultCamZoom;
-		FlxG.camera.snapToTarget();
-            
-		FlxG.worldBounds.set(0, 0, FlxG.width, FlxG.height);
-		moveCameraSection();
-		addTextToDebug('camera finish', FlxColor.GREEN);
+		comboGroup = new FlxSpriteGroup();
+		add(comboGroup);
+		cachePopUpScore();
 		
-		cachePopUpScore();				
+		uiGroup = new FlxSpriteGroup();
+		add(uiGroup);
+		
+		noteGroup = new FlxTypedGroup<FlxBasic>();
+		add(noteGroup);		
 
 		Conductor.songPosition = -5000 / Conductor.songPosition;
 		var showTime:Bool = (ClientPrefs.data.timeBarType != 'Disabled');
@@ -638,12 +579,14 @@ class PlayState extends MusicBeatState
 		scoreTxt.borderSize = 1.25;
 		scoreTxt.visible = !ClientPrefs.data.hideHud;
 		uiGroup.add(scoreTxt);
-						
+		
 		var marvelousRate:String = ClientPrefs.data.marvelousRating ? 'Marvelous: 0\n' : '';
 		judgementCounter_S = new FlxText(10, 0, 0, "", 20);
 		judgementCounter_S.setFormat(Paths.font("vcr.ttf"), 20, FlxColor.WHITE, FlxTextAlign.LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
-		judgementCounter_S.borderSize = 1.25;
+		judgementCounter_S.borderSize = 1.5;
+		judgementCounter_S.borderQuality = 2;
 		judgementCounter_S.scrollFactor.set();
+		judgementCounter_S.cameras = [camHUD];
 		judgementCounter_S.text = marvelousRate 
 		+ 'Sicks: 0' + '\n'
 		+ 'Goods: 0' + '\n'
@@ -651,9 +594,10 @@ class PlayState extends MusicBeatState
 		+ 'Shits: 0' + '\n';
 		judgementCounter_S.visible = (ClientPrefs.data.judgementCounter && !ClientPrefs.data.hideHud && !ClientPrefs.getGameplaySetting('botplay'));		
 		judgementCounter_S.cameras = [camHUD];
-		uiGroup.add(judgementCounter_S);
+		add(judgementCounter_S);
 		judgementCounter_S.y = FlxG.height / 2 - judgementCounter_S.height / 2;
-				
+		
+		strumLineNotes = new FlxTypedGroup<StrumNote>();
 		noteGroup.add(strumLineNotes);
 		
 		botplayTxt = new FlxText(400, timeBar.y + 55, FlxG.width - 800, "BOTPLAY", 32);
@@ -666,7 +610,7 @@ class PlayState extends MusicBeatState
 		uiGroup.add(botplayTxt);
 		if(ClientPrefs.data.downScroll)
 			botplayTxt.y = timeBar.y - 78;
-		
+			
 		if(ClientPrefs.data.timeBarType == 'Song Name')
 		{
 			timeTxt.size = 24;
@@ -681,20 +625,41 @@ class PlayState extends MusicBeatState
     		pauseButton_menu.scrollFactor.set();
     		pauseButton_menu.updateHitbox();
     		add(pauseButton_menu);
-		}		
+		}
 		
 		var splash:NoteSplash = new NoteSplash(100, 100);
 		splash.setupNoteSplash(100, 100);
 		grpNoteSplashes.add(splash);
 		splash.alpha = 0.000001; //cant make it invisible or it won't allow precaching
-        noteGroup.add(grpNoteSplashes);        		
-			
-		addTextToDebug('UI finish', FlxColor.GREEN);
-		
-		generateSong(SONG.song);        		        		
+        noteGroup.add(grpNoteSplashes);
         
-        addTextToDebug('song finish', FlxColor.GREEN);
-        
+		opponentStrums = new FlxTypedGroup<StrumNote>();
+		playerStrums = new FlxTypedGroup<StrumNote>();
+
+		generateSong(SONG.song);
+
+		camFollow = new FlxObject(0, 0, 1, 1);
+		camFollow.setPosition(camPos.x, camPos.y);
+		camPos.put();
+				
+		if (prevCamFollow != null)
+		{
+			camFollow = prevCamFollow;
+			prevCamFollow = null;
+		}
+		add(camFollow);
+
+		FlxG.camera.follow(camFollow, LOCKON, 0);
+		FlxG.camera.zoom = defaultCamZoom;
+		FlxG.camera.snapToTarget();
+
+		FlxG.worldBounds.set(0, 0, FlxG.width, FlxG.height);
+		moveCameraSection();
+
+		uiGroup.cameras = [camHUD];
+		noteGroup.cameras = [camHUD];
+		comboGroup.cameras = [camHUD];
+
 		startingSong = true;
 
 		#if LUA_ALLOWED
@@ -735,16 +700,19 @@ class PlayState extends MusicBeatState
 				#end
 			}
 		#end
-		
-        addTextToDebug('lua finish', FlxColor.GREEN);
-        
+
 		addMobileControls(false);
-		
+
+		startCallback();
 		RecalculateRating();
-		
+
+		FlxG.stage.addEventListener(KeyboardEvent.KEY_DOWN, onKeyPress);
+		FlxG.stage.addEventListener(KeyboardEvent.KEY_UP, onKeyRelease);
+
 		//PRECACHING THINGS THAT GET USED FREQUENTLY TO AVOID LAGSPIKES
 		if(ClientPrefs.data.hitsoundVolume > 0) Paths.sound('hitsound');
-		for (i in 1...4) Paths.sound('missnote$i');		
+		for (i in 1...4) Paths.sound('missnote$i');
+		Paths.image('alphabet');
 
 		if (PauseSubState.songName != null)
 			Paths.music(PauseSubState.songName);
@@ -760,27 +728,17 @@ class PlayState extends MusicBeatState
 		#if (!android)
 		addVirtualPad(NONE, P);
     	addVirtualPadCamera(false);
-		#end				
-        
+		#end
+		
+		
+        FlxG.cameras.remove(camPause, false);
+        FlxG.cameras.add(camPause, false);
         pauseButton_menu.cameras = [camPause];
         
-        FlxG.stage.addEventListener(KeyboardEvent.KEY_DOWN, onKeyPress);
-		FlxG.stage.addEventListener(KeyboardEvent.KEY_UP, onKeyRelease);
-                        		
+		super.create();
 		Paths.clearUnusedMemory();
-		        
-		if(eventNotes.length < 1) checkEventNote();		
-	    
-	    addTextToDebug('ready start', FlxColor.GREEN);
-	    
-        startCallback();
-         
-        loadingStep++;
-        persistentUpdate = true;       
-        
-        mutex.release();
-        //thread.shutdown(); //close new thread	
-        });
+
+		if(eventNotes.length < 1) checkEventNote();
 	}
 
 	function set_songSpeed(value:Float):Float
@@ -1445,7 +1403,8 @@ class PlayState extends MusicBeatState
 		}
 		catch(e:Dynamic) {}
 		FlxG.sound.list.add(inst);
-		
+
+		notes = new FlxTypedGroup<Note>();
 		noteGroup.add(notes);
 
 		var noteData:Array<SwagSection>;
@@ -1851,10 +1810,6 @@ class PlayState extends MusicBeatState
 
 	override public function onFocus():Void
 	{
-	    if (loadingStep != 1) {	
-    		return;
-	    }
-	    
 		callOnScripts('onFocus');
 		if (health > 0 && !paused) resetRPC(Conductor.songPosition > 0.0);
 		super.onFocus();
@@ -1863,10 +1818,6 @@ class PlayState extends MusicBeatState
 
 	override public function onFocusLost():Void
 	{
-	    if (loadingStep != 1) {	
-    		return;
-	    }
-	    
 		callOnScripts('onFocusLost');
 		#if DISCORD_ALLOWED
 		if (health > 0 && !paused && autoUpdateRPC) DiscordClient.changePresence(detailsPausedText, SONG.song + " (" + storyDifficultyText + ")", iconP2.getCharacter());
@@ -1930,14 +1881,10 @@ class PlayState extends MusicBeatState
 	var freezeCamera:Bool = false;
 	var allowDebugKeys:Bool = true;
 	
-	//FlxTouch.justPressedPosition//修改
+	FlxTouch.justPressedPosition//修改
 
 	override public function update(elapsed:Float)
 	{
-	    if (loadingStep != 1) {
-	        super.update(elapsed);
-    		return;
-	    }
 	    if (ClientPrefs.data.pauseButton){
     	    if (FlxG.mouse.getScreenPosition(camPause).y >= pauseButton_menu.y 
     	       && FlxG.mouse.getScreenPosition(camPause).y <= pauseButton_menu.y + pauseButton_menu.height
@@ -2840,7 +2787,8 @@ class PlayState extends MusicBeatState
 				Mods.loadTopMod();
 				#if DISCORD_ALLOWED DiscordClient.resetClientID(); #end
 
-				if(ClientPrefs.data.resultsScreen){								                                                                         
+				if(ClientPrefs.data.resultsScreen){								    
+                    rsCheck = true;                                                            
 				    openSubState(new ResultsScreen(boyfriend.getScreenPosition().x, boyfriend.getScreenPosition().y));
 				    FlxG.sound.playMusic(Paths.music('freakyMenu'),0.7);
 				}
@@ -2975,8 +2923,11 @@ class PlayState extends MusicBeatState
 		
 		
 		var xThing:Float = 0;
-				
-		numItems.visible = showComboNum;		
+		
+		numItems = new FlxTypedGroup<FlxSprite>();
+		numItems.visible = showComboNum;
+		add(numItems);
+		numItems.cameras = [camHUD];
 		
 		for (comboNum in 0...4) //9999 //why last get null?
 		{
@@ -3797,10 +3748,6 @@ class PlayState extends MusicBeatState
 	var lastStepHit:Int = -1;
 	override function stepHit()
 	{
-	    if (loadingStep != 1) {	
-    		return;
-	    }
-	    
 		if (SONG.needsVoices && FlxG.sound.music.time >= -ClientPrefs.data.noteOffset)
 			checkIfDesynced = true;
 
@@ -3819,10 +3766,6 @@ class PlayState extends MusicBeatState
 
 	override function beatHit()
 	{
-	    if (loadingStep != 1) {	
-    		return;
-	    }
-	    
 		if(lastBeatHit >= curBeat) {
 			//trace('BEAT HIT: ' + curBeat + ', LAST HIT: ' + lastBeatHit);
 			return;
@@ -3868,10 +3811,6 @@ class PlayState extends MusicBeatState
 
 	override function sectionHit()
 	{
-	    if (loadingStep != 1) {	
-    		return;
-	    }
-	    
 		if (SONG.notes[curSection] != null)
 		{
 			if (generatedMusic && !endingSong && !isCameraOnForcedPos)
