@@ -694,7 +694,7 @@ class FreeplayState extends MusicBeatState {
     	listeningSongTime.camera = camListen;
     	add(listeningSongTime);
     	
-    	playText = new FlxText(50, 350, 0, 'PLAY');
+    	playText = new FlxText(50, 350, 0, 'PLAY(1)');
     	playText.setFormat(font, 30, FlxColor.WHITE, LEFT);
     	playText.camera = camListen;
     	add(playText);
@@ -704,7 +704,7 @@ class FreeplayState extends MusicBeatState {
     	playButton.alpha = 0;
     	add(playButton);
     	
-    	pauseText = new FlxText(50, 440, 0, 'PAUSE');
+    	pauseText = new FlxText(50, 440, 0, 'PAUSE(2)');
     	pauseText.setFormat(font, 30, FlxColor.WHITE, LEFT);
     	pauseText.camera = camListen;
     	add(pauseText);
@@ -743,7 +743,7 @@ class FreeplayState extends MusicBeatState {
     	songPlaybackRateText.camera = camListen;
     	add(songPlaybackRateText);
     	
-    	var rateResetText = new FlxText(50, 540, 0, 'RESET');
+    	var rateResetText = new FlxText(50, 540, 0, 'RESET(3)');
     	rateResetText.setFormat(font, 30, FlxColor.WHITE, LEFT);
     	rateResetText.camera = camListen;
     	add(rateResetText);
@@ -800,9 +800,9 @@ class FreeplayState extends MusicBeatState {
     		playButton.alpha -= elapsed;
     	
     	if (playingSong == curSelected)
-    		playText.text = 'STOP';
+    		playText.text = 'STOP(1)';
     	else
-    		playText.text = 'PLAY';
+    		playText.text = 'PLAY(1)';
     		
     	if (FlxG.mouse.overlaps(playButton) && FlxG.mouse.justPressed) {
     		playButton.alpha = 0.75;
@@ -913,7 +913,7 @@ class FreeplayState extends MusicBeatState {
     		if (changingTime && FlxG.mouse.justReleased) {
     			changingTime = false;
     			FlxG.sound.music.play();
-    			if (vocals != null)
+    			if (vocals != null) {
     				vocals.play();
     				vocals.time = FlxG.sound.music.time;
     			}
