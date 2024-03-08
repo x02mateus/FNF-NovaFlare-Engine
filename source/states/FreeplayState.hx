@@ -1526,7 +1526,7 @@ class FreeplayState extends MusicBeatState {
 	var saveVar:Float = 0;
 	function rateCheck(Rate:Float = 0)
 	{
-		rateText.text = (Math.floor(Rate*100)/100);
+		rateText.text = Std.string(Math.floor(Rate*100)/100);
 		if (rateText.width*0.9 > 65) rateText.scale.x = 65/rateText.width*0.9;
 		else rateText.scale.x = 0.9;
 		rateText.updateHitbox();
