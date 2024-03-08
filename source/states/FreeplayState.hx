@@ -134,10 +134,10 @@ class FreeplayState extends MusicBeatState {
 		camInfo = new FlxCamera();
 		camInfo.bgColor = 0x00;
 		
-		camSearch = new FlxCamera(-FlxG.width);
+		camSearch = new FlxCamera(searching ? 0 : -FlxG.width);
 		camSearch.bgColor = 0x00;
 		
-		camListen = new FlxCamera(-FlxG.width);
+		camListen = new FlxCamera(listening ? 0 : -FlxG.width);
 		camListen.bgColor = 0x00;
 		
 		camUI = new FlxCamera();
@@ -471,11 +471,12 @@ class FreeplayState extends MusicBeatState {
     	add(optionsText);
     	optionsText.scale.x = 0.9;
     	
-    	var optionsText = new FlxText(200, 8, 0, 'shitfuckmdcnmfnf');
-    	optionsText.setFormat(font, 25, FlxColor.WHITE, LEFT);
+    	var optionsText = new FlxText(250, 8, 0, 'I to see the tutorial');
+    	optionsText.setFormat(font, 25, FlxColor.WHITE, 'left', FlxTextBorderStyle.OUTLINE, FlxColor.TRANSPARENT);
     	optionsText.camera = camUI;
     	add(optionsText);
     	optionsText.scale.x = 0.9;
+    	
     	
     	makeInfoMenu();
     	makeSearchUI();
@@ -515,12 +516,15 @@ class FreeplayState extends MusicBeatState {
         		{
         			FlxG.sound.play(Paths.sound('scrollMenu'), 0.2);
         			changeSong(-2 * FlxG.mouse.wheel);
+        			curSelectedFloat = curSelected;
         		}
         		
             	if (controls.UI_DOWN_P)
             		changeSong(1);
+            		curSelectedFloat = curSelected;
             	if (controls.UI_UP_P)
             		changeSong(-1);
+            		curSelectedFloat = curSelected;
             }
         		
         	mousechecker.setPosition(FlxG.mouse.getScreenPosition(camUI).x, FlxG.mouse.getScreenPosition(camUI).y);
@@ -563,6 +567,11 @@ class FreeplayState extends MusicBeatState {
         	if ((overlapButton(randomButton) && FlxG.mouse.justPressed) || FlxG.keys.justPressed.O) {
         		curSelected = FlxG.random.int(0, songs.length-1);
         		changeSong(0);
+        		curSelectedFloat = curSelected;
+        	}
+        	
+        	if ((overlapButton(infoButton) && FlxG.mouse.justPressed) || FlxG.keys.justPressed.I) {
+        		lookingTheTutorial = true;
         	}
         	
         	if (searching) searchUpdate(elapsed);
@@ -637,7 +646,7 @@ class FreeplayState extends MusicBeatState {
 		addSimpleText('(↑) Press Back key or touch it to exit', [0, 115], 30, [0.9, 1], camUIInfo_Info, 'center');
 		
 		addSimpleText('UI left and right key or touch bar to change time', [-50, 460], 30, [0.75, 0.75], camUIInfo_Listen, 'left');
-		addSimpleText('Press L and R keys or touch it to change playback rate', [-50, 580], 30, [0.75, 0.75], camUIInfo_Listen, 'left');
+		addSimpleText('Press Q and E keys or touch it to change playback rate', [-50, 580], 30, [0.75, 0.75], camUIInfo_Listen, 'left');
 		
 		addSimpleText('Change song by using mouse wheel, \n(put mouse at right part of the screen) \ntouching screen, pressing UI down and up keys\n\ntouch or press number keys(1-6) to choose song', [0, 250], 30, [0.9, 1], camUIInfo_Search, 'center');
 	}
@@ -701,7 +710,7 @@ class FreeplayState extends MusicBeatState {
     	playText.camera = camListen;
     	add(playText);
     	
-    	playButton = new FlxSprite(40, 340).makeGraphic(105, 60, FlxColor.WHITE);
+    	playButton = new FlxSprite(40, 340).makeGraphic(145, 60, FlxColor.WHITE);
     	playButton.camera = camListen;
     	playButton.alpha = 0;
     	add(playButton);
@@ -711,7 +720,7 @@ class FreeplayState extends MusicBeatState {
     	pauseText.camera = camListen;
     	add(pauseText);
     	
-    	pauseButton = new FlxSprite(40, 430).makeGraphic(135, 60, FlxColor.WHITE);
+    	pauseButton = new FlxSprite(40, 430).makeGraphic(165, 60, FlxColor.WHITE);
     	pauseButton.camera = camListen;
     	pauseButton.alpha = 0;
     	add(pauseButton);
@@ -750,7 +759,7 @@ class FreeplayState extends MusicBeatState {
     	rateResetText.camera = camListen;
     	add(rateResetText);
     	
-    	resetButton = new FlxSprite(40, 530).makeGraphic(135, 60, FlxColor.WHITE);
+    	resetButton = new FlxSprite(40, 530).makeGraphic(165, 60, FlxColor.WHITE);
     	resetButton.camera = camListen;
     	resetButton.alpha = 0;
     	add(resetButton);
@@ -809,7 +818,7 @@ class FreeplayState extends MusicBeatState {
     	if (FlxG.mouse.overlaps(playButton) && FlxG.mouse.justPressed) {
     		playButton.alpha = 0.75;
     		
-    		if (playText.text == 'STOP') {
+    		if (playText.text.indexOf('STOP') != -1) {
     			destroyFreeplayVocals();
     			FlxG.sound.music.stop();
     			playingSong = -1;
@@ -840,14 +849,14 @@ class FreeplayState extends MusicBeatState {
     	if (rateRight.alpha > 0)
     		rateRight.alpha -= elapsed;
     		
-    	if (FlxG.mouse.justPressed && FlxG.mouse.overlaps(rateLeft)) {
+    	if ((FlxG.mouse.justPressed && FlxG.mouse.overlaps(rateLeft)) || FlxG.keys.justPressed.Q) {
     		rateLeft.alpha = 0.75;
     		if (songPlaybackRate > 0.25)
     			songPlaybackRate -= 0.25;
     		setplaybackrate();
     	}
     		
-    	if (FlxG.mouse.justPressed && FlxG.mouse.overlaps(rateRight)) {
+    	if ((FlxG.mouse.justPressed && FlxG.mouse.overlaps(rateRight)) || FlxG.keys.justPressed.E) {
     		rateRight.alpha = 0.75;
     		if (songPlaybackRate < 5)
     			songPlaybackRate += 0.25;
@@ -1021,7 +1030,6 @@ class FreeplayState extends MusicBeatState {
     public static var songsSearched:Array<SongMetadata> = [];
     var startMouseYsearch:Float = 0;
     var fakecurSelected = 0;
-    var numkeys = [FlxG.keys.justPressed.ONE, FlxG.keys.justPressed.TWO, FlxG.keys.justPressed.THREE, FlxG.keys.justPressed.FOUR, FlxG.keys.justPressed.FIVE, FlxG.keys.justPressed.SIX];
     function searchUpdate(elapsed:Float) {
     	searchtext.visible = searchInput.text == '';
     	
@@ -1059,13 +1067,16 @@ class FreeplayState extends MusicBeatState {
     	for (i in 0...searchTextGroup.length) {
     		if (FlxG.mouse.overlaps(searchCheckGroup[i]) && FlxG.mouse.justPressed && searchTextGroup[i].text != '') {
     			curSelected = songsSearched[searchSelected + i].searchnum;
+    			curSelectedFloat = curSelected;
     			changeSong(0);
     		}
     	}
     	
+    	var numkeys = [FlxG.keys.justPressed.ONE, FlxG.keys.justPressed.TWO, FlxG.keys.justPressed.THREE, FlxG.keys.justPressed.FOUR, FlxG.keys.justPressed.FIVE, FlxG.keys.justPressed.SIX];
     	for (i in 0...numkeys.length) {
     		if (numkeys[i] == true) {
     			curSelected = songsSearched[searchSelected + i].searchnum;
+    			curSelectedFloat = curSelected;
     			changeSong(0);
     		}
     	}
@@ -1280,7 +1291,7 @@ class FreeplayState extends MusicBeatState {
     		curSelected = 0;
     	else if (curSelected < 0)
     		curSelected = songs.length-1;
-    	
+
     	Mods.currentModDirectory = songs[curSelected].folder;
     	PlayState.storyWeek = songs[curSelected].week;
 		Difficulty.loadFromWeek();
@@ -1515,8 +1526,8 @@ class FreeplayState extends MusicBeatState {
 	var saveVar:Float = 0;
 	function rateCheck(Rate:Float = 0)
 	{
-		rateText.text = 'Lv. ' + (Math.floor(Rate*100)/100);
-		if (rateText.width*0.9 > 65) rateText.scale.x = 65/ rateText.width*0.9;
+		rateText.text = (Math.floor(Rate*100)/100);
+		if (rateText.width*0.9 > 65) rateText.scale.x = 65/rateText.width*0.9;
 		else rateText.scale.x = 0.9;
 		rateText.updateHitbox();
 		
