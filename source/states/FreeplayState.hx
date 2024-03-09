@@ -472,7 +472,7 @@ class FreeplayState extends MusicBeatState {
     	optionsText.scale.x = 0.9;
     	
     	var optionsText = new FlxText(250, 8, 0, 'I to see the tutorial');
-    	optionsText.setFormat(font, 25, FlxColor.WHITE, 'left', FlxTextBorderStyle.OUTLINE, FlxColor.TRANSPARENT);
+    	optionsText.setFormat(font, 25, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.TRANSPARENT);
     	optionsText.camera = camUI;
     	add(optionsText);
     	optionsText.scale.x = 0.9;
@@ -697,7 +697,7 @@ class FreeplayState extends MusicBeatState {
     var resetButton:FlxSprite;
     function makeListenMenu() {
     	//startMusic(false);
-    	listeningSongName = new FlxText(50, 190, 500, songs[curSelected].songName);
+    	listeningSongName = new FlxText(50, 190, 0, songs[curSelected].songName);
     	listeningSongName.setFormat(font, 50, FlxColor.WHITE, CENTER);
     	listeningSongName.camera = camListen;
     	add(listeningSongName);
@@ -858,15 +858,15 @@ class FreeplayState extends MusicBeatState {
     		
     	if ((FlxG.mouse.justPressed && FlxG.mouse.overlaps(rateLeft)) || FlxG.keys.justPressed.Q) {
     		rateLeft.alpha = 0.75;
-    		if (songPlaybackRate > 0.25)
-    			songPlaybackRate -= 0.25;
+    		if (songPlaybackRate > 0.1)
+    			songPlaybackRate -= 0.1;
     		setplaybackrate();
     	}
     		
     	if ((FlxG.mouse.justPressed && FlxG.mouse.overlaps(rateRight)) || FlxG.keys.justPressed.E) {
     		rateRight.alpha = 0.75;
-    		if (songPlaybackRate < 5)
-    			songPlaybackRate += 0.25;
+    		if (songPlaybackRate < 4)
+    			songPlaybackRate += 0.1;
     		setplaybackrate();
     	}
     	
@@ -1036,6 +1036,7 @@ class FreeplayState extends MusicBeatState {
     public static var songsSearched:Array<SongMetadata> = [];
     var startMouseYsearch:Float = 0;
     var fakecurSelected = 0;
+    var lastSelectedSearch = 0;
     function searchUpdate(elapsed:Float) {
     	searchtext.visible = searchInput.text == '';
     	
@@ -1061,13 +1062,17 @@ class FreeplayState extends MusicBeatState {
     	{
     		startMouseYsearch = FlxG.mouse.y;
     		fakecurSelected = searchSelected;
+    		lastSelectedSearch = searchSelected;
     	}
     	
     	if (FlxG.mouse.pressed && FlxG.pixelPerfectOverlap(searchbg, mousechecker, 0))
     	{
     		searchSelected = Math.floor(fakecurSelected - (FlxG.mouse.y - startMouseYsearch) / (75*0.75));
     		
-    		searchChangeSong(0);
+    		if (lastSelectedSearch != searchSelected) {
+    			lastSelectedSearch = searchSelected;
+    			searchChangeSong(0);
+    		}
     	}
     	
     	for (i in 0...searchTextGroup.length) {
@@ -1225,9 +1230,9 @@ class FreeplayState extends MusicBeatState {
     		{
     			curSelected = Math.floor(curSelectedFloat+0.5);
     		} else {
-    			if (curSelectedFloat >= (songs.length - 1))
+    			if (curSelectedFloat >= (songs.length - 1) && curSelectedFloat <= songs.length +2)
     				curSelected = songs.length - 1;
-    			else if (curSelectedFloat <= 0)
+    			else if (curSelectedFloat <= 0 && curSelectedFloat >= -3)
     				curSelected = 0;
     		}
     		if (checkCurSelected != curSelected) changeSong(0);
