@@ -56,8 +56,6 @@ import psychlua.HScript;
 import tea.SScript;
 #end
 
-import sys.thread.FixedThreadPool;
-
 /**
  * This is where all the Gameplay stuff happens and is managed
  *
@@ -305,12 +303,8 @@ class PlayState extends MusicBeatState
 
 	public var luaVirtualPad:FlxVirtualPad;
 	
-	public var thread:FixedThreadPool;
-	public var loadingStep:Int = 0;
-	
 	override public function create(){
-	    
-		
+		   
 		//trace('Playback Rate: ' + playbackRate);
 		Paths.clearStoredMemory();
 
@@ -362,15 +356,6 @@ class PlayState extends MusicBeatState
 		grpNoteSplashes = new FlxTypedGroup<NoteSplash>();
 
 		persistentUpdate = persistentDraw = true;
-	
-	    super.create();	
-	    thread = new FixedThreadPool(1);
-	    thread.run(() -> cacheCreate());
-	}
-
-	public dynamic function cacheCreate()
-	{
-		
 
 		if (SONG == null)
 			SONG = Song.loadFromJson('tutorial');
@@ -732,17 +717,10 @@ class PlayState extends MusicBeatState
 		#if (!android)
 		addVirtualPad(NONE, P);
     	addVirtualPadCamera(false);
-		#end
-		
-		
-        FlxG.cameras.remove(camPause, false);
-        FlxG.cameras.add(camPause, false);
-        pauseButton_menu.cameras = [camPause];
+		#end				         
         
-		//super.create();
+		super.create();
 		Paths.clearUnusedMemory();
-		
-		loadingStep++;
 
 		if(eventNotes.length < 1) checkEventNote();
 	}
@@ -1816,9 +1794,6 @@ class PlayState extends MusicBeatState
 
 	override public function onFocus():Void
 	{
-	    if (loadingStep != 1) {	
-    		return;
-	    }
 		callOnScripts('onFocus');
 		if (health > 0 && !paused) resetRPC(Conductor.songPosition > 0.0);
 		super.onFocus();
@@ -1827,9 +1802,6 @@ class PlayState extends MusicBeatState
 
 	override public function onFocusLost():Void
 	{
-	    if (loadingStep != 1) {	
-    		return;
-	    }
 		callOnScripts('onFocusLost');
 		#if DISCORD_ALLOWED
 		if (health > 0 && !paused && autoUpdateRPC) DiscordClient.changePresence(detailsPausedText, SONG.song + " (" + storyDifficultyText + ")", iconP2.getCharacter());
@@ -1893,13 +1865,9 @@ class PlayState extends MusicBeatState
 	var freezeCamera:Bool = false;
 	var allowDebugKeys:Bool = true;
 	
-	//FlxTouch.justPressedPosition//修改
 
 	override public function update(elapsed:Float)
 	{
-	    if (loadingStep != 1) {	
-    		return;
-	    }
 	    if (ClientPrefs.data.pauseButton){
     	    if (FlxG.mouse.getScreenPosition(camPause).y >= pauseButton_menu.y 
     	       && FlxG.mouse.getScreenPosition(camPause).y <= pauseButton_menu.y + pauseButton_menu.height
@@ -2799,7 +2767,7 @@ class PlayState extends MusicBeatState
 			else
 			{
 				trace('WENT BACK TO FREEPLAY??');
-				
+				Mods.loadTopMod();
 				#if DISCORD_ALLOWED DiscordClient.resetClientID(); #end
 
 				if(ClientPrefs.data.resultsScreen){								    
@@ -2808,7 +2776,6 @@ class PlayState extends MusicBeatState
 				    FlxG.sound.playMusic(Paths.music('freakyMenu'),0.7);
 				}
 				else{
-				    Mods.loadTopMod();
 				    MusicBeatState.switchState(new FreeplayState());
 				    FlxG.sound.playMusic(Paths.music('freakyMenu'),0);
 				    FlxG.sound.music.fadeIn(4, 0, 0.7);
@@ -3764,9 +3731,6 @@ class PlayState extends MusicBeatState
 	var lastStepHit:Int = -1;
 	override function stepHit()
 	{
-	    if (loadingStep != 1) {	
-    		return;
-	    }
 		if (SONG.needsVoices && FlxG.sound.music.time >= -ClientPrefs.data.noteOffset)
 			checkIfDesynced = true;
 
@@ -3785,9 +3749,6 @@ class PlayState extends MusicBeatState
 
 	override function beatHit()
 	{
-	    if (loadingStep != 1) {	
-    		return;
-	    }
 		if(lastBeatHit >= curBeat) {
 			//trace('BEAT HIT: ' + curBeat + ', LAST HIT: ' + lastBeatHit);
 			return;
@@ -3833,9 +3794,6 @@ class PlayState extends MusicBeatState
 
 	override function sectionHit()
 	{
-	    if (loadingStep != 1) {	
-    		return;
-	    }
 		if (SONG.notes[curSection] != null)
 		{
 			if (generatedMusic && !endingSong && !isCameraOnForcedPos)
