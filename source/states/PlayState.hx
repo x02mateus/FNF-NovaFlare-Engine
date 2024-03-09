@@ -2766,8 +2766,7 @@ class PlayState extends MusicBeatState
 			}
 			else
 			{
-				trace('WENT BACK TO FREEPLAY??');
-				Mods.loadTopMod();
+				trace('WENT BACK TO FREEPLAY??');				
 				#if DISCORD_ALLOWED DiscordClient.resetClientID(); #end
 
 				if(ClientPrefs.data.resultsScreen){								    
@@ -2775,7 +2774,8 @@ class PlayState extends MusicBeatState
 				    openSubState(new ResultsScreen(boyfriend.getScreenPosition().x, boyfriend.getScreenPosition().y));
 				    FlxG.sound.playMusic(Paths.music('freakyMenu'),0.7);
 				}
-				else{
+				else{   
+				    Mods.loadTopMod();
 				    MusicBeatState.switchState(new FreeplayState());
 				    FlxG.sound.playMusic(Paths.music('freakyMenu'),0);
 				    FlxG.sound.music.fadeIn(4, 0, 0.7);
