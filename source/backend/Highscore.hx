@@ -122,9 +122,8 @@ class Highscore
 	public static function getTime(song:String, diff:Int):String
 	{
 		var daSong:String = formatSong(song, diff);
-		if (!songScores.exists(daSong)){
-			setTime(daSong, 'N/A');
-			return 'N/A';
+		if (!songScores.exists(daSong) || songTimes.get(daSong) == '' || songTimes.get(daSong) == null){
+			setTime(daSong, 'N/A');			
         }
 		return songTimes.get(daSong);
 	}
