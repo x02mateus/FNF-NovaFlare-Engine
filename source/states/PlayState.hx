@@ -613,6 +613,8 @@ class PlayState extends MusicBeatState
     		pauseButton_menu.visible = false;
     		pauseButton_menu.scrollFactor.set();    		
     		add(pauseButton_menu);
+    		pauseButton_menu.updateHitbox();
+    		pauseButton_menu.camera = camPause;
 		}
 		
 		var splash:NoteSplash = new NoteSplash(100, 100);
@@ -1014,7 +1016,7 @@ class PlayState extends MusicBeatState
 	{
 		mobileControls.visible = true;
 		pauseButton_menu.visible = true;
-		pauseButton_menu.updateHitbox();
+				
 		if(startedCountdown) {
 			callOnScripts('onStartCountdown');
 			return false;
