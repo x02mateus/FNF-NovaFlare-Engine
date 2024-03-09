@@ -1,6 +1,7 @@
 package options;
 
 import states.MainMenuState;
+import states.FreeplayState;
 import substates.PauseSubState;
 
 import options.Option;
@@ -129,6 +130,7 @@ class OptionsState extends MusicBeatState
 	public var options:Array<OptionCata>;
 
 	public static var onPlayState = false;	
+	public static var onFreePlay = false;	
 	public static var isReset = false;
 
 	public var shownStuff:FlxTypedGroup<FlxText>;
@@ -601,18 +603,15 @@ class OptionsState extends MusicBeatState
 
 				if (back)
 				{
-					if (!onPlayState) {
+				    if (onFreePlay){
+				        ClientPrefs.saveSettings();
+						MusicBeatState.switchState(new FreeplayState());
+						persistentUpdate = false;                        			    
+				    } else {
 					    ClientPrefs.saveSettings();
 						MusicBeatState.switchState(new MainMenuState());
-						persistentUpdate = false;
-                        //FlxG.sound.music.stop();
-					    }
-					else
-					{
-						PauseSubState.goBack = true;
-						ClientPrefs.saveSettings();
-						//close();
-					}
+						persistentUpdate = false;                        
+					}					
 				}
 			}
 			else
