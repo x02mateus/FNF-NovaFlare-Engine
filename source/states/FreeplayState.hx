@@ -510,6 +510,8 @@ class FreeplayState extends MusicBeatState {
 			FlxG.sound.music.volume += 0.5 * FlxG.elapsed;
 		}
 		
+		mousechecker.setPosition(FlxG.mouse.getScreenPosition(camUI).x, FlxG.mouse.getScreenPosition(camUI).y);
+		
 		if (!lookingTheTutorial) {
     		if (FlxG.mouse.x > FlxG.width/2 || (!searching && ! listening)) {
         		if(FlxG.mouse.wheel != 0)
@@ -526,8 +528,6 @@ class FreeplayState extends MusicBeatState {
             		changeSong(-1);
             		curSelectedFloat = curSelected;
             }
-        		
-        	mousechecker.setPosition(FlxG.mouse.getScreenPosition(camUI).x, FlxG.mouse.getScreenPosition(camUI).y);
         	
         	if (!searching && !listening) {
             	if ((FlxG.mouse.justPressed && FlxG.pixelPerfectOverlap(difficultyLeft, mousechecker, 25)) || controls.UI_LEFT_P) {
