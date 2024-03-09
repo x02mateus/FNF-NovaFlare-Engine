@@ -489,8 +489,8 @@ class FreeplayState extends MusicBeatState {
     	curSelectedFloat = curSelected;
     	changeSong(0);
     	
-    	camSong.scroll.x = FlxMath.lerp(-(curSelected) * 20 * 0.75, camSong.scroll.x, 0, 0, 1);
-        camSong.scroll.y = FlxMath.lerp((curSelected) * 75 * 0.75, camSong.scroll.y, 0, 0, 1);
+    	camSong.scroll.x = FlxMath.lerp(-(curSelected) * 20 * 0.75, camSong.scroll.x, 0);
+        camSong.scroll.y = FlxMath.lerp((curSelected) * 75 * 0.75, camSong.scroll.y, 0);
     	    	
 		super.create();
     	
@@ -603,6 +603,12 @@ class FreeplayState extends MusicBeatState {
         }
         super.update(elapsed);
     }
+    
+    override function closeSubState()
+	{				
+		super.closeSubState();
+		persistentUpdate = true;
+	}
     
     function overlapButton(tag:FlxSprite)
     	return FlxG.mouse.x > tag.x && FlxG.mouse.x < tag.x + 500 && FlxG.mouse.y > tag.y && FlxG.mouse.y < tag.y + 50;
@@ -964,7 +970,6 @@ class FreeplayState extends MusicBeatState {
     override function destroy() {
         super.destroy();
     	destroyFreeplayVocals();
-    	//FlxG.sound.music.stop();
     }
    
     function timeConverter(time:Float) {
@@ -1244,8 +1249,7 @@ class FreeplayState extends MusicBeatState {
     	for (i in 0...holdOptionsChecker.length) {
     		if (FlxG.mouse.justPressed && FlxG.pixelPerfectOverlap(holdOptionsChecker[i], mousechecker, 25) && !searching && !listening) {
     			holdOptions = true;
-    			curHoldOptions = i;
-    		//	debugPrint('ttttt');
+    			curHoldOptions = i;    
     		}
 
     		if (curHoldOptions != i || !holdOptions) {
@@ -1276,10 +1280,11 @@ class FreeplayState extends MusicBeatState {
 		
 		if (optionsGroup[curHoldOptions].alpha >= 0.99) {
 			holdOptions = false;
+			persistentUpdate = false;
 			switch(curHoldOptions) {
-				case 0: //Options
+				case 0: //Options				    
 					LoadingState.loadAndSwitchState(new OptionsState());
-				case 1: // Gameplay Changer
+				case 1: // Gameplay Changer				    
 					openSubState(new GameplayChangersSubstate());
 				case 2: // Reset Score
 					openSubState(new ResetScoreSubState(songs[curSelected].songName, curDifficulty, songs[curSelected].songCharacter));
