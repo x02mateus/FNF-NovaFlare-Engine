@@ -650,8 +650,8 @@ class PauseSubState extends MusicBeatSubstate
     			    }
     			    
     			    blackbackTween = FlxTween.tween(blackback, {alpha: 0}, 0.75, {ease: FlxEase.quartOut});
-        			backShadowTween = FlxTween.tween(backShadow, {x: -800}, 1, {ease: FlxEase.quartIn});
-        			backTween = FlxTween.tween(back, {x: -800}, 0.75, {ease: FlxEase.quartIn});
+        			backShadowTween = FlxTween.tween(backShadow, {x: -800}, 0.85, {ease: FlxEase.quartIn});
+        			backTween = FlxTween.tween(back, {x: -800}, 0.85, {ease: FlxEase.quartIn});
         			frontTween = FlxTween.tween(front, {x: -800}, 0.75, {ease: FlxEase.quartIn});    			    
         			
         			
