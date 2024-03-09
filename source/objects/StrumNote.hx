@@ -30,7 +30,7 @@ class StrumNote extends FlxSprite
 
 		rgbShader = new RGBShaderReference(this, Note.initializeGlobalRGBShader(leData));
 		rgbShader.enabled = false;
-		if(PlayState.SONG != null && (PlayState.SONG.disableNoteRGB || !ClientPrefs.data.noteRGB)) useRGBShader = false;
+		if(PlayState.SONG != null && PlayState.SONG.disableNoteRGB) useRGBShader = false;
 		
 		var arr:Array<FlxColor> = ClientPrefs.data.arrowRGB[leData];
 		if(PlayState.isPixelStage) arr = ClientPrefs.data.arrowRGBPixel[leData];
@@ -52,15 +52,10 @@ class StrumNote extends FlxSprite
 
 		var skin:String = null;
 		if(PlayState.SONG != null && PlayState.SONG.arrowSkin != null && PlayState.SONG.arrowSkin.length > 1) skin = PlayState.SONG.arrowSkin;
-		else{
-    		skin = Note.defaultNoteSkin;
-    
-    		var customSkin:String = skin + Note.getNoteSkinPostfix();
-    		if(Paths.fileExists('images/$customSkin.png', IMAGE)) skin = customSkin;
-    		
-    		if (Paths.fileExists('images/NOTE_assets.png', IMAGE) && ClientPrefs.data.noteSkin == ClientPrefs.defaultData.noteSkin) //fix for load old mods note assets
-    		skin = 'NOTE_assets'; 
-		}
+		else skin = Note.defaultNoteSkin;
+
+		var customSkin:String = skin + Note.getNoteSkinPostfix();
+		if(Paths.fileExists('images/$customSkin.png', IMAGE)) skin = customSkin;
 
 		texture = skin; //Load texture and anims
 		scrollFactor.set();
