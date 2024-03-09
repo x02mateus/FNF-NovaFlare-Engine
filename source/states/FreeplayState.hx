@@ -810,6 +810,7 @@ class FreeplayState extends MusicBeatState {
 			playingSongName.text = 'Playing: ' + (playingSong == -1 ? 'Freaky Menu' : songs[playingSong].songName);
 			setplaybackrate();
 		}
+		if (waitTimer != null) waitTimer.cancel();
 	}
     
     var waitTimer:FlxTimer;
@@ -1186,7 +1187,7 @@ class FreeplayState extends MusicBeatState {
     			if(bgColorChange != null) {
     				bgColorChange.cancel();
     			}
-    			if (playingSong != -1 || playmusiconexit) {
+    			if (playingSong == -1 || playmusiconexit) {
     				destroyFreeplayVocals();
     				FlxG.sound.playMusic(Paths.music('freakyMenu'), 0);
     				FlxG.sound.music.volume = 0.1;
