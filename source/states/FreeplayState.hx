@@ -711,7 +711,7 @@ class FreeplayState extends MusicBeatState {
     var resetButton:FlxSprite;
     function makeListenMenu() {
     	//startMusic(false);
-    	listeningSongName = new FlxText(50, 190, 0, songs[curSelected].songName);
+    	listeningSongName = new FlxText(300, 190, 0, songs[curSelected].songName);
     	listeningSongName.setFormat(font, 50, FlxColor.WHITE, CENTER);
     	listeningSongName.camera = camListen;
     	add(listeningSongName);
@@ -1073,14 +1073,14 @@ class FreeplayState extends MusicBeatState {
     		searchChangeSong(0);
     	}
     	
-    	if (FlxG.mouse.justPressed && FlxG.pixelPerfectOverlap(searchbg, mousechecker, 0))
+    	if (FlxG.mouse.justPressed && FlxG.pixelPerfectOverlap(searchbg, mousechecker, 25))
     	{
     		startMouseYsearch = FlxG.mouse.y;
     		fakecurSelected = searchSelected;
     		lastSelectedSearch = searchSelected;
     	}
     	
-    	if (FlxG.mouse.pressed && FlxG.pixelPerfectOverlap(searchbg, mousechecker, 0))
+    	if (FlxG.mouse.pressed && FlxG.pixelPerfectOverlap(searchbg, mousechecker, 25))
     	{
     		searchSelected = Math.floor(fakecurSelected - (FlxG.mouse.y - startMouseYsearch) / (75*0.75));
     		
@@ -1226,15 +1226,24 @@ class FreeplayState extends MusicBeatState {
     		lastCurSelected = curSelected;
     		startMouseY = FlxG.mouse.y;
     		
-    		if (FlxG.pixelPerfectOverlap(songsbg, mousechecker, 0) && FlxG.mouse.y > 50 && FlxG.mouse.y < FlxG.height - 50)
+    		if (FlxG.pixelPerfectOverlap(songsbg, mousechecker, 25) && FlxG.mouse.y > 50 && FlxG.mouse.y < FlxG.height - 50)
     			canMove = true;
     		else
-    			canMove = false;
+    			{
+    			    canMove = false;
+    			    if (curSelectedFloat < -3)
+            			curSelected = songs.length - 1;
+            		else if (curSelectedFloat > songs.length + 2)
+            			curSelected = 0;
+            			
+            		curSelectedFloat = curSelected;
+            		changeSong(0);
+            	}
     	}
     	
     	if (FlxG.mouse.pressed && canMove)
     	{
-    	    if (!(FlxG.pixelPerfectOverlap(songsbg, mousechecker, 0) && FlxG.mouse.y > 50 && FlxG.mouse.y < FlxG.height - 50)){
+    	    if (!(FlxG.pixelPerfectOverlap(songsbg, mousechecker, 25) && FlxG.mouse.y > 50 && FlxG.mouse.y < FlxG.height - 50)){
                 canMove = false;
     	        return;
     	    }
@@ -1334,22 +1343,13 @@ class FreeplayState extends MusicBeatState {
 		
     	songNameText.text = songs[curSelected].songName;
     	songNameText.scale.x = 1;
-    	var length = 450;
-    	if (songNameText.width > length) songNameText.scale.x =  length / songNameText.width;
+    	var length = 400;
+    	if (songNameText.width > length) songNameText.scale.x = length / songNameText.width;
     	songNameText.offset.x = songNameText.width * (1 -songNameText.scale.x) / 2;
     	
     	listeningSongName.text = songs[curSelected].songName;
     	if (listeningSongName.width > 500) listeningSongName.scale.x = listeningSongName.width / 500;
     	else listeningSongName.scale.x = 1;
-    	
-    /*	destroyFreeplayVocals();
-    	PlayState.SONG = Song.loadFromJson(poop, songs[curSelected].songName.toLowerCase());
-		if (PlayState.SONG.needsVoices)
-			vocals = new FlxSound().loadEmbedded(Paths.voices(PlayState.SONG.song));
-		else
-			vocals = new FlxSound();
-
-		FlxG.sound.list.add(vocals);*/
 		
     	songIcon.changeIcon(songs[curSelected].songCharacter);
     	songIcon.updateHitbox();
