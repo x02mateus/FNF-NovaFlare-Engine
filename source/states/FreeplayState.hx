@@ -214,6 +214,7 @@ class FreeplayState extends MusicBeatState {
     	add(songBarSelected);
     	songBarSelected.screenCenter();
     	
+    	Mods.currentModDirectory = songs[curSelected].folder;
     	songIcon = new HealthIcon(songs[curSelected].songCharacter);
     	add(songIcon);
     	songIcon.scale.set(0.5, 0.5);
