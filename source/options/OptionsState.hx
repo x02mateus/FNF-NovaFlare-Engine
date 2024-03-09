@@ -605,6 +605,7 @@ class OptionsState extends MusicBeatState
 				{
 				    if (onFreePlay){
 				        ClientPrefs.saveSettings();
+				        onFreePlay = false;
 						MusicBeatState.switchState(new FreeplayState());
 						persistentUpdate = false;                        			    
 				    } else {
