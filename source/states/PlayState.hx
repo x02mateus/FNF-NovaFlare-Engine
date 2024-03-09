@@ -1873,12 +1873,16 @@ class PlayState extends MusicBeatState
 	override public function update(elapsed:Float)
 	{
 	    if (ClientPrefs.data.pauseButton){
-    	    if (FlxTouch.justPressedPosition.y >= pauseButton_menu.y 
-    	       && FlxTouch.justPressedPosition.y <= pauseButton_menu.y + pauseButton_menu.height
-    	       && FlxTouch.justPressedPosition.x >= pauseButton_menu.x 
-    	       && FlxTouch.justPressedPosition.x <= pauseButton_menu.x + pauseButton_menu.width
-    	       && FlxG.mouse.justPressed 
-    	       && (startedCountdown && canPause))
+	        var Pressed:Bool = false;
+	        for (touch in FlxG.touches.list){
+    	       if (touch.justPressedPosition.y >= pauseButton_menu.y 
+    	       && touch.justPressedPosition.y <= pauseButton_menu.y + pauseButton_menu.height
+    	       && touch.justPressedPosition.x >= pauseButton_menu.x 
+    	       && touch.justPressedPosition.x <= pauseButton_menu.x + pauseButton_menu.width
+    	       ) Pressed = true;
+    	    }
+    	       
+    	    if (Pressed && (startedCountdown && canPause))
     		{
     			var ret:Dynamic = callOnScripts('onPause', null, true);
     			if(ret != LuaUtils.Function_Stop) {
