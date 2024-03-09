@@ -39,15 +39,6 @@ import states.LoadingState;
 import states.MainMenuState;
 import options.OptionsState;
 
-
-/*
-    create by TieGuo
-    artists, bug fix by Beihu
-    
-    比暂停界面更屎的state出现了XD
-    这个玩意铁锅拖了3个月
-*/
-
 class FreeplayState extends MusicBeatState {
 
 	var bg:FlxSprite;
@@ -532,15 +523,13 @@ class FreeplayState extends MusicBeatState {
         			curSelectedFloat = curSelected;
         		}
         		
-            	if (controls.UI_DOWN_P){
+            	if (controls.UI_DOWN_P) {
             		changeSong(1);
             		curSelectedFloat = curSelected;
-            	}
-            	
-            	if (controls.UI_UP_P){
+            	} else if (controls.UI_UP_P) {
             		changeSong(-1);
             		curSelectedFloat = curSelected;
-                }
+            	}
             }
         	
         	if (!searching && !listening) {
@@ -597,10 +586,9 @@ class FreeplayState extends MusicBeatState {
     			openSubState(new ResetScoreSubState(songs[curSelected].songName, curDifficulty, songs[curSelected].songCharacter));
     		} else if (FlxG.keys.justPressed.CONTROL)
     			openSubState(new GameplayChangersSubstate());
-    		else if (FlxG.keys.justPressed.P){
-    		    OptionsState.onFreePlay = true;
+    		else if (FlxG.keys.justPressed.P)
     			LoadingState.loadAndSwitchState(new OptionsState());
-    		}	
+    			
         	camSearch.x = FlxMath.lerp(searching ? 0 : -1280, camSearch.x, FlxMath.bound(1 - (elapsed * 6), 0, 1));
         	camListen.x = FlxMath.lerp(listening ? 0 : -1280, camListen.x, FlxMath.bound(1 - (elapsed * 6), 0, 1));
         	camInfo.x = FlxMath.lerp((!listening && !searching) ? 0 : -1280, camInfo.x, FlxMath.bound(1 - (elapsed * 6), 0, 1));
@@ -1303,7 +1291,6 @@ class FreeplayState extends MusicBeatState {
 			persistentUpdate = false;
 			switch(curHoldOptions) {
 				case 0: //Options				    
-				    OptionsState.onFreePlay = true;
 					LoadingState.loadAndSwitchState(new OptionsState());
 				case 1: // Gameplay Changer				    
 					openSubState(new GameplayChangersSubstate());
