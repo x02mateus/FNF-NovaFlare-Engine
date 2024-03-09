@@ -613,7 +613,6 @@ class PlayState extends MusicBeatState
     		pauseButton_menu.visible = false;
     		pauseButton_menu.scrollFactor.set();    		
     		add(pauseButton_menu);
-    		pauseButton_menu.updateHitbox();
 		}
 		
 		var splash:NoteSplash = new NoteSplash(100, 100);
@@ -1015,6 +1014,7 @@ class PlayState extends MusicBeatState
 	{
 		mobileControls.visible = true;
 		pauseButton_menu.visible = true;
+		pauseButton_menu.updateHitbox();
 		if(startedCountdown) {
 			callOnScripts('onStartCountdown');
 			return false;
@@ -3312,14 +3312,16 @@ class PlayState extends MusicBeatState
 				return;
 
 			var parentNote:Note = note.parent;
-			if (parentNote.wasGoodHit && parentNote.tail.length > 0) {
+			if (parentNote.tail.length > 0) {
 				for (child in parentNote.tail) if (child != note) {
-					child.missed = true;
-					child.canBeHit = false;
-					child.ignoreNote = true;
-					child.tooLate = true;
-					child.multAlpha = 0.3;
-					child.alpha = 0.3;
+				    if (child != null){
+    					child.missed = true;
+    					child.canBeHit = false;
+    					child.ignoreNote = true;
+    					child.tooLate = true;
+    					child.multAlpha = 0.3;
+    					child.alpha = 0.3;
+					}
 				}
 			}
 			
