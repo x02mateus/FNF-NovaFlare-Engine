@@ -489,8 +489,8 @@ class FreeplayState extends MusicBeatState {
     	curSelectedFloat = curSelected;
     	changeSong(0);
     	
-    	camSong.scroll.x = FlxMath.lerp(-(curSelected) * 20 * 0.75, camSong.scroll.x, 0, 0, 1));
-        camSong.scroll.y = FlxMath.lerp((curSelected) * 75 * 0.75, camSong.scroll.y, 0, 0, 1));
+    	camSong.scroll.x = FlxMath.lerp(-(curSelected) * 20 * 0.75, camSong.scroll.x, 0, 0, 1);
+        camSong.scroll.y = FlxMath.lerp((curSelected) * 75 * 0.75, camSong.scroll.y, 0, 0, 1);
     	    	
 		super.create();
     	
@@ -1209,7 +1209,7 @@ class FreeplayState extends MusicBeatState {
     	
     	if (FlxG.mouse.pressed && canMove)
     	{
-    	    if (!FlxG.pixelPerfectOverlap(songsbg, mousechecker, 0) && FlxG.mouse.y > 50 && FlxG.mouse.y < FlxG.height - 50){
+    	    if (!(FlxG.pixelPerfectOverlap(songsbg, mousechecker, 0) && FlxG.mouse.y > 50 && FlxG.mouse.y < FlxG.height - 50)){
                 canMove = false;
     	        return;
     	    }
@@ -1354,19 +1354,13 @@ class FreeplayState extends MusicBeatState {
     }
     
     function updateInfoText()
-    {
-    	/*if (Difficulty.list.length > 1)
-    		
-    	else
-    		difficultyText.text = Difficulty.list[curDifficulty];*/
-    	
+    {    	
     	try {
     	difficultyText.text = Difficulty.list[curDifficulty];
     	difficultyText.x = (820 - difficultyText.width) / 2;
     		
-    	var score = Highscore.getScore(songs[curSelected].songName, curDifficulty);
-    	scoreText.text = Std.string(score);
-    	//debugPrint(scoreText.width);
+    	var score:Int = Highscore.getScore(songs[curSelected].songName, curDifficulty);
+    	scoreText.text = Std.string(score);    
 
     	scoreText.scale.x = 1;
 		scoreText.updateHitbox();
@@ -1376,16 +1370,16 @@ class FreeplayState extends MusicBeatState {
 			scoreText.updateHitbox();
 		}
     	
-		var rating = Math.floor(Highscore.getRating(songs[curSelected].songName, curDifficulty)*10000)/100;
-		accText.text = Std.int(rating) + '%';
+		var rating:Float = Math.floor(Highscore.getRating(songs[curSelected].songName, curDifficulty)*10000)/100;
+		accText.text = rating + '%';
 		accText.scale.x = 0.9;
 		accText.updateHitbox();
 		if (accText.width > 90) {
-			accText.scale.x = 90 / accText.width *0.9;
+			accText.scale.x = 90 / accText.width * 0.9;
 			accText.updateHitbox();
 		}
 			
-		timeText.text = 'N/A';
+		timeText.text = Highscore.getTime(songs[curSelected].songName, curDifficulty);
 		} catch(e:Dynamic) {
 			songNameText.text = 'ERROR';
 		}
