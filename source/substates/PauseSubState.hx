@@ -651,7 +651,7 @@ class PauseSubState extends MusicBeatSubstate
     			    
     			    blackbackTween = FlxTween.tween(blackback, {alpha: 0}, 0.75, {ease: FlxEase.quartOut});
         			backShadowTween = FlxTween.tween(backShadow, {x: -800}, 1, {ease: FlxEase.quartIn});
-        			backTween = FlxTween.tween(back, {x: -800}, 1, {ease: FlxEase.quartIn});
+        			backTween = FlxTween.tween(back, {x: -800}, 0.75, {ease: FlxEase.quartIn});
         			frontTween = FlxTween.tween(front, {x: -800}, 0.75, {ease: FlxEase.quartIn});    			    
         			
         			
@@ -856,13 +856,13 @@ class PauseSubState extends MusicBeatSubstate
 	    }
 	
 	    for (i in 0...Std.int(optionsBars.length/2))
-		    colorTweenShadow = FlxTween.color(optionsBars[i*2], 2, optionsBars[i*2].color, menuColor[curColor]);
+		    colorTweenShadow = FlxTween.color(optionsBars[i*2], 2, optionsBars[i*2].color, menuShadowColor[curColor]);
 	    for (i in 0...Std.int(debugBars.length/2))
-		    colorTweenShadow = FlxTween.color(debugBars[i*2], 2, debugBars[i*2].color, menuColor[curColor]);
+		    colorTweenShadow = FlxTween.color(debugBars[i*2], 2, debugBars[i*2].color, menuShadowColor[curColor]);
 	    for (i in 0...Std.int(difficultyBars.length/2))
-    		colorTweenShadow = FlxTween.color(difficultyBars[i*2], 2, difficultyBars[i*2].color, menuColor[curColor]);
+    		colorTweenShadow = FlxTween.color(difficultyBars[i*2], 2, difficultyBars[i*2].color, menuShadowColor[curColor]);
     	for (i in 0...Std.int(optionsOptionsBars.length/2))
-        	colorTweenShadow = FlxTween.color(optionsOptionsBars[i*2], 2, optionsOptionsBars[i*2].color, menuColor[curColor]);
+        	colorTweenShadow = FlxTween.color(optionsOptionsBars[i*2], 2, optionsOptionsBars[i*2].color, menuShadowColor[curColor]);
     	
     	colorTween = FlxTween.color(back, 2, menuColor[curColorAgain], menuColor[curColor]);
     	colorTweenShadow = FlxTween.color(backShadow, 2, menuShadowColor[curColorAgain], menuShadowColor[curColor]);
