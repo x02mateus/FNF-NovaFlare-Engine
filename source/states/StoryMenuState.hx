@@ -74,7 +74,7 @@ class StoryMenuState extends MusicBeatState
 
 		var ui_tex = Paths.getSparrowAtlas('campaign_menu_UI_assets');
 		var bgYellow:FlxSprite = new FlxSprite(0, 56).makeGraphic(FlxG.width, 386, 0xFFF9CF51);
-		var bgGray:FlxSprite = new FlxSprite(0, 45).makeGraphic(FlxG.width, 40, 0xFF2B2B2B);
+		var bgGray:FlxSprite = new FlxSprite(0, 56).makeGraphic(FlxG.width, 40, 0xFF2B2B2B);
 		bgSprite = new FlxSprite(0, 56);
 
 		grpWeekText = new FlxTypedGroup<MenuItem>();
