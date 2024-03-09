@@ -3285,6 +3285,8 @@ class PlayState extends MusicBeatState
 
 		// GUITAR HERO SUSTAIN CHECK LOL!!!!
 		if (note != null && guitarHeroSustains && note.parent == null) {
+		    if (note.missed)
+				return;
 			if(note.tail.length > 0) {
 				
 				for(childNote in note.tail) {
@@ -3303,10 +3305,7 @@ class PlayState extends MusicBeatState
 				// i mean its fair :p -Crow
 				//subtract *= note.tail.length + 1;
 				// i think it would be fair if damage multiplied based on how long the sustain is -Tahir
-			}
-
-			if (note.missed)
-				return;
+			}			
 		}
 		if (note != null && guitarHeroSustains && note.parent != null && note.isSustainNote) {
 			if (note.missed)
@@ -3325,7 +3324,7 @@ class PlayState extends MusicBeatState
 			}
 			
 			NoteMs.push(167);
-		    NoteTime.push(note.strumTime); //it will work better
+		    NoteTime.push(note.strumTime); //it will work better for ResultsScreen
 		}
 
 		if(instakillOnMiss)
@@ -3435,26 +3434,7 @@ class PlayState extends MusicBeatState
 
 		if (ClientPrefs.data.hitsoundVolume > 0 && !note.hitsoundDisabled)
 			FlxG.sound.play(Paths.sound(note.hitsound), ClientPrefs.data.hitsoundVolume);
-
-        /*
-		if(note.hitCausesMiss) {
-			if(!note.noMissAnimation) {
-				switch(note.noteType) {
-					case 'Hurt Note': //Hurt note
-						if(boyfriend.animOffsets.exists('hurt')) {
-							boyfriend.playAnim('hurt', true);
-							boyfriend.specialAnim = true;
-						}
-				}
-			}
-
-			noteMiss(note);
-			if(!note.noteSplashData.disabled && !note.isSustainNote) spawnNoteSplashOnNote(note);
-			if(!note.isSustainNote) invalidateNote(note);
-			return;
-		}
-        */ // opponent dont need 
-        
+               
 		if(!note.noAnimation) {
 		    var altAnim:String = note.animSuffix;
 		    
