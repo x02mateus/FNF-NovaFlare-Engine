@@ -611,9 +611,9 @@ class PlayState extends MusicBeatState
     		pauseButton_menu.setGraphicSize(100, 100);
     		pauseButton_menu.alpha = 0.5;
     		pauseButton_menu.visible = false;
-    		pauseButton_menu.scrollFactor.set();
-    		pauseButton_menu.updateHitbox();
+    		pauseButton_menu.scrollFactor.set();    		
     		add(pauseButton_menu);
+    		pauseButton_menu.updateHitbox();
 		}
 		
 		var splash:NoteSplash = new NoteSplash(100, 100);
