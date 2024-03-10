@@ -105,8 +105,17 @@ class MobileControlSelectSubState extends MusicBeatSubstate
     				virtualPadd.buttonRight.y = FlxG.height - 309;
     				virtualPadd.buttonLeft.x = FlxG.width - 384;
     				virtualPadd.buttonLeft.y = FlxG.height - 309;
+    				
+    				virtualPadd.buttonExtra1.x = FlxG.width * 0.5 - 86 * 3;
+    			    virtualPadd.buttonExtra1.y = FlxG.height * 0.5 - 127 * 0.5;
+    			    virtualPadd.buttonExtra2.x = FlxG.width * 0.5 - 44 * 3;
+    			    virtualPadd.buttonExtra2.y = FlxG.height * 0.5 - 127 * 0.5;
+    			    virtualPadd.buttonExtra3.x = FlxG.width * 0.5;
+    			    virtualPadd.buttonExtra3.y = FlxG.height * 0.5 - 127 * 0.5;
+    			    virtualPadd.buttonExtra4.x = FlxG.width * 0.5 + 44 * 3;
+    			    virtualPadd.buttonExtra4.y = FlxG.height * 0.5 - 127 * 0.5;
     			}else{
-    			    virtualPadd.buttonExtra1.x = FlxG.width * 0.5 - 84 * 3;
+    			    virtualPadd.buttonExtra1.x = FlxG.width * 0.5 - 86 * 3;
     			    virtualPadd.buttonExtra1.y = FlxG.height * 0.5 - 127 * 0.5;
     			    virtualPadd.buttonExtra2.x = FlxG.width * 0.5 - 44 * 3;
     			    virtualPadd.buttonExtra2.y = FlxG.height * 0.5 - 127 * 0.5;
@@ -124,7 +133,6 @@ class MobileControlSelectSubState extends MusicBeatSubstate
 		resetButton.label.fieldWidth = resetButton.width;
 		resetButton.label.x = ((resetButton.width - resetButton.label.width) / 2) + resetButton.x;
 		resetButton.label.offset.y = -10;
-		//resetButton.cameras = [ui];
 		add(resetButton);
 
 		virtualPadd = new FlxVirtualPad(NONE, NONE);
