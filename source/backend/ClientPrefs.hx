@@ -57,7 +57,7 @@ import states.TitleState;
 	public var comboStacking:Bool = true;
 	public var showComboNum:Bool = true;
 	public var comboColor:Bool = true;	
-	public var comboOffsetFix:Bool = false;
+	public var comboOffsetFix:Bool = true;
 	public var showRating:Bool = true;	
 	
 	public var lowQuality:Bool = false;
