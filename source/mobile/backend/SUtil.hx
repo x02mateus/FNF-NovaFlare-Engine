@@ -16,6 +16,11 @@ import android.Permissions as AndroidPermissions;
 import android.Settings as AndroidSettings;
 #end
 
+#if sys
+import sys.io.File;
+import sys.FileSystem;
+#end
+
 using StringTools;
 
 enum StorageType
