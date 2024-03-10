@@ -2,6 +2,7 @@ package lime.utils;
 
 import openfl.Lib;
 #if android
+import mobile.backend.SUtil;
 import android.widget.Toast;
 #end
 import haxe.PosInfos;
@@ -74,7 +75,7 @@ class Log
         				#end
         
         				#if (windows || android || js || wasm)
-        				Lib.application.window.alert(message, 'Error!');
+        				SUtil.showPopUp(message, 'Error!');
         				#else
         				println('Error! - $message');
         				#end
