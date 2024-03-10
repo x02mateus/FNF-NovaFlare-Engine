@@ -1240,15 +1240,16 @@ class PlayState extends MusicBeatState
 		var goods:Int = ratingsData[1].hits;
 		var bads:Int = ratingsData[2].hits;
 		var shits:Int = ratingsData[3].hits;
-
+        var marvelous:Int = ClientPrefs.data.marvelousRating ? ratingsData[4].hits : 0;    
+        
 		ratingFC = "";
 		if(songMisses == 0)
 		{
 			if (bads > 0 || shits > 0) ratingFC = 'FC';
 			else if (goods > 0) ratingFC = 'GFC';
 			else if (sicks > 0) ratingFC = 'SFC';
-		}
-		else {
+			else if (marvelous > 0) ratingFC = 'MFC';
+		} else {
 			if (songMisses < 10) ratingFC = 'SDCB';
 			else ratingFC = 'Clear';
 		}
@@ -1875,10 +1876,11 @@ class PlayState extends MusicBeatState
 	    if (ClientPrefs.data.pauseButton){
 	        var Pressed:Bool = false;
 	        for (touch in FlxG.touches.list){
-    	       if (touch.justPressedPosition.y >= pauseButton_menu.y 
-    	       && touch.justPressedPosition.y <= pauseButton_menu.y + pauseButton_menu.height
-    	       && touch.justPressedPosition.x >= pauseButton_menu.x 
-    	       && touch.justPressedPosition.x <= pauseButton_menu.x + pauseButton_menu.width
+	           var realTouch = touch.getScreenPosition(camPause);
+    	       if (realTouch.y >= pauseButton_menu.y 
+    	       && realTouch.y <= pauseButton_menu.y + pauseButton_menu.height
+    	       && realTouch.x >= pauseButton_menu.x 
+    	       && realTouch.x <= pauseButton_menu.x + pauseButton_menu.width
     	       ) Pressed = true;
     	    }
     	       
