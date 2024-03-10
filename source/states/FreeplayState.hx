@@ -711,13 +711,15 @@ class FreeplayState extends MusicBeatState {
     var resetButton:FlxSprite;
     function makeListenMenu() {
     	//startMusic(false);
-    	listeningSongName = new FlxText(300, 190, 0, songs[curSelected].songName);
+    	listeningSongName = new FlxText(50, 190, 500, songs[curSelected].songName);
     	listeningSongName.setFormat(font, 50, FlxColor.WHITE, CENTER);
+    	listeningSongName.wordWrap = false;
     	listeningSongName.camera = camListen;
     	add(listeningSongName);
     	
     	playingSongName = new FlxText(50, 235, 500, 'Playing: ' + (playingSong == -1 ? 'Freaky Menu' : songs[playingSong].songName));
     	playingSongName.setFormat(font, 30, FlxColor.WHITE, CENTER);
+    	playingSongName.wordWrap = false;
     	playingSongName.camera = camListen;
     	add(playingSongName);
     	
@@ -1036,7 +1038,7 @@ class FreeplayState extends MusicBeatState {
     		add(searchobj);
 		}
 		
-		searchtextno = new FlxText(100, 380, 0, 'NO SONG');
+		searchtextno = new FlxText(100, 380, 0, 'NOT FOUND SONG');
     	searchtextno.setFormat(font, 35, FlxColor.RED, 'left');
     	searchtextno.camera = camSearch;
     	add(searchtextno);
@@ -1228,23 +1230,19 @@ class FreeplayState extends MusicBeatState {
     		
     		if (FlxG.pixelPerfectOverlap(songsbg, mousechecker, 25) && FlxG.mouse.y > 50 && FlxG.mouse.y < FlxG.height - 50)
     			canMove = true;
-    		else
-    			{
-    			    canMove = false;
-    			    if (curSelectedFloat < -3)
-            			curSelected = songs.length - 1;
-            		else if (curSelectedFloat > songs.length + 2)
-            			curSelected = 0;
-            			
-            		curSelectedFloat = curSelected;
-            		changeSong(0);
-            	}
     	}
     	
     	if (FlxG.mouse.pressed && canMove)
     	{
     	    if (!(FlxG.pixelPerfectOverlap(songsbg, mousechecker, 25) && FlxG.mouse.y > 50 && FlxG.mouse.y < FlxG.height - 50)){
                 canMove = false;
+                if (curSelectedFloat < -3)
+        			curSelected = songs.length - 1;
+        		else if (curSelectedFloat > songs.length + 2)
+        			curSelected = 0;
+        			
+        		curSelectedFloat = curSelected;
+        		changeSong(0);
     	        return;
     	    }
     		
@@ -1343,12 +1341,12 @@ class FreeplayState extends MusicBeatState {
 		
     	songNameText.text = songs[curSelected].songName;
     	songNameText.scale.x = 1;
-    	var length = 400;
+    	var length = 450;
     	if (songNameText.width > length) songNameText.scale.x = length / songNameText.width;
     	songNameText.offset.x = songNameText.width * (1 -songNameText.scale.x) / 2;
     	
     	listeningSongName.text = songs[curSelected].songName;
-    	if (listeningSongName.width > 500) listeningSongName.scale.x = listeningSongName.width / 500;
+    	if (listeningSongName.width > 500) listeningSongName.scale.x = 500 / listeningSongName.width;
     	else listeningSongName.scale.x = 1;
 		
     	songIcon.changeIcon(songs[curSelected].songCharacter);
