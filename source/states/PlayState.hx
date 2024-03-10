@@ -2195,7 +2195,7 @@ class PlayState extends MusicBeatState
 
 		// update health bar
 		health = value;
-		var newPercent:Null<Float> = FlxMath.remapToRange(FlxMath.bound(healthBar.valueFunction(), healthBar.bounds.min, healthBar.bounds.max), healthBar.bounds.min, healthBar.bounds.max, 0, 100);
+		var newPercent:Null<Float> = health / 2 * 100;
 		healthBar.percent = (newPercent != null ? newPercent : 0);
 
 		if (healthBar.percent < 20) // losing
@@ -3416,7 +3416,7 @@ class PlayState extends MusicBeatState
 		
 		if (ClientPrefs.data.HealthDrainOPPO) {
 		    if (health > 0.2){
-		        health -= note.missHealth * healthLoss * ClientPrefs.data.HealthDrainOPPOMult;
+		        health -= note.hitHealth * healthLoss * ClientPrefs.data.HealthDrainOPPOMult;
 		        if (health <= 0.2) health = 0.2; 
 		    }
 		}
@@ -3631,7 +3631,7 @@ class PlayState extends MusicBeatState
 		
 		if (ClientPrefs.data.HealthDrainOPPO) {
 		    if (health > 0.2){
-		        health -= note.missHealth * healthLoss * ClientPrefs.data.HealthDrainOPPOMult;
+		        health -= note.hitHealth * healthLoss * ClientPrefs.data.HealthDrainOPPOMult;
 		        if (health <= 0.2) health = 0.2; 
 		    }
 		}
