@@ -1,12 +1,8 @@
 package lime.utils;
 
-import openfl.Lib;
-#if android
 import mobile.backend.SUtil;
-import android.widget.Toast;
-#end
+import haxe.Exception;
 import haxe.PosInfos;
-import lime.system.System;
 #if sys
 import sys.io.File;
 import sys.FileSystem;
@@ -40,65 +36,40 @@ class Log
 		if (level >= LogLevel.ERROR)
 		{
 			var message:String = "[" + info.className + "] ERROR: " + Std.string(message);
-			
-			//var checkCrash:Bool = true;
-    		if (message != '[openfl.display.Shader] ERROR: Unable to initialize the shader program\nLink failed because of invalid fragment shader.'){
-                // if you delete this shader crash will have two log
-    
-    			if (info.className == 'openfl.display.Shader'){
-        			var textfix:Array<String> = message.trim().split('#ifdef GL_ES');
-        			
-        			message = textfix[0].trim();
-        
-        			if (throwErrors)
-        			{
-        				#if sys
-        				try
-        				{
-        					if (!FileSystem.exists('logs'))
-        						FileSystem.createDirectory('logs');
-        
-        					File.saveContent('logs/'
-        						+ Date.now().toString().replace(' ', '-').replace(':', "'")
-        						+ '.txt',
-        						message
-        						+ '\n');
-        				}
-        				catch (e:Dynamic)
-        				{
-        					#if (android && debug)
-        					Toast.makeText("Error!\nCouldn't save the crash log because:\n" + e, Toast.LENGTH_LONG);
-        					#else
-        					println("Error!\nCouldn't save the crash log because:\n" + e);
-        					#end
-        				}
-        				#end
-        
-        				#if (windows || android || js || wasm)
-        				SUtil.showPopUp(message, 'Error!');
-        				#else
-        				println('Error! - $message');
-        				#end
-        
-        				#if js
-        				if (FlxG.sound.music != null)
-        					FlxG.sound.music.stop();
-        				
-        				js.Browser.window.location.reload(true);
-        				#else
-        				System.exit(1);
-        				#end
-        			}
-        			else
-        			{
-        				#if js
-        				untyped #if haxe4 js.Syntax.code #else __js__ #end ("console").error(message);
-        				#else
-        				println(message);
-        				#end
-        			}
-    			}
-    		}
+
+			if (throwErrors)
+			{
+				#if sys
+				try
+				{
+					if (!FileSystem.exists('logs'))
+						FileSystem.createDirectory('logs');
+
+					File.saveContent('logs/' + Date.now().toString().replace(' ', '-').replace(':', "'") + '.txt', message + '\n');
+				}
+				catch (e:Exception)
+					trace('Couldn\'t save error message. (${e.message})', null);
+				#end
+
+				SUtil.showPopUp(message, 'Error!');
+
+				#if js
+				if (FlxG.sound.music != null)
+					FlxG.sound.music.stop();
+
+				js.Browser.window.location.reload(true);
+				#else
+				lime.system.System.exit(1);
+				#end
+			}
+			else
+			{
+				#if js
+				untyped #if haxe4 js.Syntax.code #else __js__ #end ("console").error(message);
+				#else
+				println(message);
+				#end
+			}
 		}
 	}
 
@@ -187,7 +158,9 @@ class Log
 		}
 		if (untyped #if haxe4 js.Syntax.code #else __js__ #end ("console").log == null)
 		{
-			untyped #if haxe4 js.Syntax.code #else __js__ #end ("console").log = function() {};
+			untyped #if haxe4 js.Syntax.code #else __js__ #end ("console").log = function()
+			{
+			};
 		}
 		#end
 	}
