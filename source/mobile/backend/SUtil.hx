@@ -1,12 +1,5 @@
 package mobile.backend;
 
-#if android
-import android.content.Context;
-import android.widget.Toast;
-import android.os.Environment;
-import android.Permissions;
-import lime.app.Application;
-#end
 import haxe.io.Path;
 import haxe.CallStack;
 import lime.system.System as LimeSystem;
@@ -56,14 +49,6 @@ class SUtil
 		#end
 
 		return daPath;
-	}
-
-	/**
-	 * Uncaught error handler, original made by: Sqirra-RNG and YoshiCrafter29
-	 */
-	public static function uncaughtErrorHandler():Void
-	{
-		Lib.current.loaderInfo.uncaughtErrorEvents.addEventListener(UncaughtErrorEvent.UNCAUGHT_ERROR, onError);
 	}
 
 	private static function onError(error:UncaughtErrorEvent):Void
@@ -187,8 +172,8 @@ class SUtil
 
 	public static function showPopUp(message:String, title:String):Void
 	{
-		#if (windows || android || js || wasm)
-		Lib.application.window.alert(message, title);
+		#if (windows || web || android)
+		openfl.Lib.application.window.alert(message, title);
 		#else
 		LimeLogger.println('$title - $message');
 		#end
