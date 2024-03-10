@@ -66,7 +66,7 @@ class Main extends Sprite
 		#if (android && EXTERNAL || MEDIA)
 		SUtil.doPermissionsShit();
 		#end
-		SUtil.uncaughtErrorHandler();
+		mobile.backend.CrashHandler.init();
 
 		#if windows
 		@:functionCode("
