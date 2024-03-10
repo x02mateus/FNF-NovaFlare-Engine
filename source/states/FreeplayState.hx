@@ -245,8 +245,7 @@ class FreeplayState extends MusicBeatState {
     	rate.camera = camInfo;
     	rate.updateHitbox();
     	rate.x = 61;
-    	rate.y = 304;
-    	add(rate);
+    	rate.y = 304;  	
     	
     	difficultyRight = new FlxSprite().loadGraphic(Paths.image(filePath + 'difficultyRight'));
     	difficultyRight.antialiasing = ClientPrefs.data.antialiasing;
@@ -267,6 +266,8 @@ class FreeplayState extends MusicBeatState {
     		back.camera = camInfo;
     		back.updateHitbox();
     		add(back);
+    		
+    		if (i == 3) add(rate);
     		
     		if (i >= 4 && i <= 7)
     			holdOptionsChecker.push(back);
