@@ -8,6 +8,14 @@ import lime.utils.Log as LimeLogger;
 import openfl.events.UncaughtErrorEvent;
 import openfl.Lib;
 
+#if android
+import lime.app.Application;
+import android.content.Context as AndroidContext;
+import android.os.Environment as AndroidEnvironment;
+import android.Permissions as AndroidPermissions;
+import android.Settings as AndroidSettings;
+#end
+
 using StringTools;
 
 enum StorageType
@@ -36,13 +44,13 @@ class SUtil
 		switch (type)
 		{
 			case EXTERNAL_DATA:
-				daPath = Context.getExternalFilesDir(null);
+				daPath = AndroidContext.getExternalFilesDir(null);
 			case EXTERNAL_OBB:
-				daPath = Context.getObbDir();
+				daPath = AndroidContext.getObbDir();
 			case EXTERNAL:
-				daPath = Environment.getExternalStorageDirectory() + '/.' + Application.current.meta.get('file');
+				daPath = AndroidEnvironment.getExternalStorageDirectory() + '/.' + Application.current.meta.get('file');
 			case MEDIA:
-				daPath = Environment.getExternalStorageDirectory() + '/Android/media/' + Application.current.meta.get('packageName');
+				daPath = AndroidEnvironment.getExternalStorageDirectory() + '/Android/media/' + Application.current.meta.get('packageName');
 		}
 		#elseif ios
 		daPath = LimeSystem.documentsDirectory;
@@ -161,10 +169,10 @@ class SUtil
 	#if android
 	public static function doPermissionsShit():Void
 	{
-		if (!Permissions.getGrantedPermissions().contains(Permissions.READ_EXTERNAL_STORAGE) || !Permissions.getGrantedPermissions().contains(Permissions.WRITE_EXTERNAL_STORAGE))
+		if (!AndroidPermissions.getGrantedPermissions().contains(AndroidPermissions.READ_EXTERNAL_STORAGE) || !AndroidPermissions.getGrantedPermissions().contains(AndroidPermissions.WRITE_EXTERNAL_STORAGE))
 		{
-			if (!Permissions.getGrantedPermissions().contains(Permissions.READ_EXTERNAL_STORAGE)) Permissions.requestPermission(Permissions.READ_EXTERNAL_STORAGE);
-			if (!Permissions.getGrantedPermissions().contains(Permissions.WRITE_EXTERNAL_STORAGE)) Permissions.requestPermission(Permissions.WRITE_EXTERNAL_STORAGE);
+			if (!AndroidPermissions.getGrantedPermissions().contains(AndroidPermissions.READ_EXTERNAL_STORAGE)) AndroidPermissions.requestPermission(AndroidPermissions.READ_EXTERNAL_STORAGE);
+			if (!AndroidPermissions.getGrantedPermissions().contains(AndroidPermissions.WRITE_EXTERNAL_STORAGE)) AndroidPermissions.requestPermission(AndroidPermissions.WRITE_EXTERNAL_STORAGE);
 			showPopUp('Please Make Sure You Accepted The Permissions To Be Able To Run The Game', 'Notice!');
 		}
 	}
