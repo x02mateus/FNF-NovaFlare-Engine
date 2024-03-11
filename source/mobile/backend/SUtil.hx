@@ -21,6 +21,10 @@ import sys.io.File;
 import sys.FileSystem;
 #end
 
+#if DISCORD_ALLOWED
+import backend.DiscordClient;
+#end
+
 using StringTools;
 
 enum StorageType
