@@ -39,15 +39,6 @@ import states.LoadingState;
 import states.MainMenuState;
 import options.OptionsState;
 
-
-/*
-    create by TieGuo
-    artists, bug fix by Beihu
-    
-    比暂停界面更屎的state出现了XD
-    这个玩意铁锅拖了3个月
-*/
-
 class FreeplayState extends MusicBeatState {
 
 	var bg:FlxSprite;
@@ -245,7 +236,8 @@ class FreeplayState extends MusicBeatState {
     	rate.camera = camInfo;
     	rate.updateHitbox();
     	rate.x = 61;
-    	rate.y = 304;  	
+    	rate.y = 304;
+    	add(rate);
     	
     	difficultyRight = new FlxSprite().loadGraphic(Paths.image(filePath + 'difficultyRight'));
     	difficultyRight.antialiasing = ClientPrefs.data.antialiasing;
@@ -266,8 +258,6 @@ class FreeplayState extends MusicBeatState {
     		back.camera = camInfo;
     		back.updateHitbox();
     		add(back);
-    		
-    		if (i == 3) add(rate);
     		
     		if (i >= 4 && i <= 7)
     			holdOptionsChecker.push(back);
@@ -533,15 +523,13 @@ class FreeplayState extends MusicBeatState {
         			curSelectedFloat = curSelected;
         		}
         		
-            	if (controls.UI_DOWN_P){
+            	if (controls.UI_DOWN_P) {
             		changeSong(1);
             		curSelectedFloat = curSelected;
-            	}
-            	
-            	if (controls.UI_UP_P){
+            	} else if (controls.UI_UP_P) {
             		changeSong(-1);
             		curSelectedFloat = curSelected;
-                }
+            	}
             }
         	
         	if (!searching && !listening) {
@@ -598,10 +586,9 @@ class FreeplayState extends MusicBeatState {
     			openSubState(new ResetScoreSubState(songs[curSelected].songName, curDifficulty, songs[curSelected].songCharacter));
     		} else if (FlxG.keys.justPressed.CONTROL)
     			openSubState(new GameplayChangersSubstate());
-    		else if (FlxG.keys.justPressed.P){
-    		    OptionsState.onFreePlay = true;
+    		else if (FlxG.keys.justPressed.P)
     			LoadingState.loadAndSwitchState(new OptionsState());
-    		}	
+    			
         	camSearch.x = FlxMath.lerp(searching ? 0 : -1280, camSearch.x, FlxMath.bound(1 - (elapsed * 6), 0, 1));
         	camListen.x = FlxMath.lerp(listening ? 0 : -1280, camListen.x, FlxMath.bound(1 - (elapsed * 6), 0, 1));
         	camInfo.x = FlxMath.lerp((!listening && !searching) ? 0 : -1280, camInfo.x, FlxMath.bound(1 - (elapsed * 6), 0, 1));
@@ -712,17 +699,16 @@ class FreeplayState extends MusicBeatState {
     var resetButton:FlxSprite;
     function makeListenMenu() {
     	//startMusic(false);
-    	listeningSongName = new FlxText(50, 190, 500, songs[curSelected].songName);
-    	listeningSongName.setFormat(font, 50, FlxColor.WHITE, CENTER);
-    	listeningSongName.wordWrap = false;
+    	listeningSongName = new FlxText(40, 190, 0, songs[curSelected].songName);
+    	listeningSongName.setFormat(font, 50, FlxColor.WHITE, 'center');
     	listeningSongName.camera = camListen;
     	add(listeningSongName);
     	
-    	playingSongName = new FlxText(50, 235, 500, 'Playing: ' + (playingSong == -1 ? 'Freaky Menu' : songs[playingSong].songName));
+    	playingSongName = new FlxText(50, 235, 0, 'Playing: ' + (playingSong == -1 ? 'Freaky Menu' : songs[playingSong].songName));
     	playingSongName.setFormat(font, 30, FlxColor.WHITE, CENTER);
-    	playingSongName.wordWrap = false;
     	playingSongName.camera = camListen;
     	add(playingSongName);
+    	playingSongName.x = 60 + (450-playingSongName.width)/2;
     	
     	listeningSongTime = new FlxText(120, 350, 500, '-:-/-:-');
     	listeningSongTime.setFormat(font, 30, FlxColor.WHITE, CENTER);
@@ -763,14 +749,14 @@ class FreeplayState extends MusicBeatState {
     	progressBar.camera = camListen;
     	add(progressBar);
     	
-    	rateLeft = new FlxSprite(320, 530).makeGraphic(50, 60, FlxColor.WHITE);
+    	rateLeft = new FlxSprite(320-50, 530).makeGraphic(100, 60, FlxColor.WHITE);
     	rateLeft.camera = camListen;
-    	rateLeft.alpha = 0;
+    	rateLeft.alpha = 0.25;
     	add(rateLeft);
     	
-    	rateRight = new FlxSprite(370, 530).makeGraphic(50, 60, FlxColor.WHITE);
+    	rateRight = new FlxSprite(370, 530).makeGraphic(100, 60, FlxColor.WHITE);
     	rateRight.camera = camListen;
-    	rateRight.alpha = 0;
+    	rateRight.alpha = 0.25;
     	add(rateRight);
     	
     	songPlaybackRateText = new FlxText(290, 540, 150, '1.0');
@@ -823,7 +809,15 @@ class FreeplayState extends MusicBeatState {
 			listeningSongTime.text = timeConverter(0) + '/' + timeConverter(maxTime);
 			
 			playingSong = curSelected;
+			
+    		playingSongName.offset.y = 0;
 			playingSongName.text = 'Playing: ' + (playingSong == -1 ? 'Freaky Menu' : songs[playingSong].songName);
+    		playingSongName.x = 60 + (450-playingSongName.width)/2;
+    		if (playingSongName.width > 450) {
+    			playingSongName.scale.set(450/playingSongName.width, 450/playingSongName.width);
+    			playingSongName.offset.y -= playingSongName.height/2;
+    		}
+    		
 			setplaybackrate();
 		}
 		if (waitTimer != null) waitTimer.cancel();
@@ -877,14 +871,14 @@ class FreeplayState extends MusicBeatState {
     	if ((FlxG.mouse.justPressed && FlxG.mouse.overlaps(rateLeft)) || FlxG.keys.justPressed.Q) {
     		rateLeft.alpha = 0.75;
     		if (songPlaybackRate > 0.1)
-    			songPlaybackRate -= 0.1;
+    			songPlaybackRate -= 0.05;
     		setplaybackrate();
     	}
     		
     	if ((FlxG.mouse.justPressed && FlxG.mouse.overlaps(rateRight)) || FlxG.keys.justPressed.E) {
     		rateRight.alpha = 0.75;
     		if (songPlaybackRate < 4)
-    			songPlaybackRate += 0.1;
+    			songPlaybackRate += 0.05;
     		setplaybackrate();
     	}
     	
@@ -1039,7 +1033,7 @@ class FreeplayState extends MusicBeatState {
     		add(searchobj);
 		}
 		
-		searchtextno = new FlxText(100, 380, 0, 'NOT FOUND SONG');
+		searchtextno = new FlxText(100, 380, 0, 'NO SONG');
     	searchtextno.setFormat(font, 35, FlxColor.RED, 'left');
     	searchtextno.camera = camSearch;
     	add(searchtextno);
@@ -1076,14 +1070,14 @@ class FreeplayState extends MusicBeatState {
     		searchChangeSong(0);
     	}
     	
-    	if (FlxG.mouse.justPressed && FlxG.pixelPerfectOverlap(searchbg, mousechecker, 25))
+    	if (FlxG.mouse.justPressed && FlxG.pixelPerfectOverlap(searchbg, mousechecker, 0))
     	{
     		startMouseYsearch = FlxG.mouse.y;
     		fakecurSelected = searchSelected;
     		lastSelectedSearch = searchSelected;
     	}
     	
-    	if (FlxG.mouse.pressed && FlxG.pixelPerfectOverlap(searchbg, mousechecker, 25))
+    	if (FlxG.mouse.pressed && FlxG.mouse.x < FlxG.width-50)
     	{
     		searchSelected = Math.floor(fakecurSelected - (FlxG.mouse.y - startMouseYsearch) / (75*0.75));
     		
@@ -1196,6 +1190,7 @@ class FreeplayState extends MusicBeatState {
     		} else if ((selectedThing == 'back' && FlxG.pixelPerfectOverlap(backButton, mousechecker, 25)) || controls.BACK) {
     			if (searching) {closeSearchMenu(); backText.text = 'EXIT'; return;}
     			if (listening) {closeListenMenu(); backText.text = 'EXIT'; return;}
+    			Mods.loadTopMod();
     			FlxG.mouse.visible = false;
     			if(colorTween != null) {
     				colorTween.cancel();
@@ -1206,13 +1201,14 @@ class FreeplayState extends MusicBeatState {
     			if (playingSong == -1 || playmusiconexit) {
     				destroyFreeplayVocals();
     				FlxG.sound.playMusic(Paths.music('freakyMenu'), 0);
-    				FlxG.sound.music.volume = 0.1;
+    				if (waitTimer != null) waitTimer.cancel();
+    				//FlxG.sound.music.volume = 0.1;
     			}
     			FlxG.sound.play(Paths.sound('cancelMenu'));
     			MusicBeatState.switchState(new MainMenuState());
     			buttonControl = false;
-    		} else
-    			selectedThing = 'Nothing';
+    		}
+    		selectedThing = 'Nothing';
     	}
     	
     	startButton.x = FlxMath.lerp(selectedThing == 'start' ? 15 : 0, startButton.x, FlxMath.bound(1 - (elapsed * 12), 0, 1));
@@ -1229,21 +1225,16 @@ class FreeplayState extends MusicBeatState {
     		lastCurSelected = curSelected;
     		startMouseY = FlxG.mouse.y;
     		
-    		if (FlxG.pixelPerfectOverlap(songsbg, mousechecker, 25) && FlxG.mouse.y > 50 && FlxG.mouse.y < FlxG.height - 50)
+    		if (FlxG.pixelPerfectOverlap(songsbg, mousechecker, 0) && FlxG.mouse.y > 50 && FlxG.mouse.y < FlxG.height - 50)
     			canMove = true;
+    		else
+    			canMove = false;
     	}
     	
     	if (FlxG.mouse.pressed && canMove)
     	{
-    	    if (!(FlxG.pixelPerfectOverlap(songsbg, mousechecker, 25) && FlxG.mouse.y > 50 && FlxG.mouse.y < FlxG.height - 50)){
+    	    if (!(FlxG.pixelPerfectOverlap(songsbg, mousechecker, 0) && FlxG.mouse.y > 50 && FlxG.mouse.y < FlxG.height - 50)){
                 canMove = false;
-                if (curSelectedFloat < -3)
-        			curSelected = songs.length - 1;
-        		else if (curSelectedFloat > songs.length + 2)
-        			curSelected = 0;
-        			
-        		curSelectedFloat = curSelected;
-        		changeSong(0);
     	        return;
     	    }
     		
@@ -1311,7 +1302,6 @@ class FreeplayState extends MusicBeatState {
 			persistentUpdate = false;
 			switch(curHoldOptions) {
 				case 0: //Options				    
-				    OptionsState.onFreePlay = true;
 					LoadingState.loadAndSwitchState(new OptionsState());
 				case 1: // Gameplay Changer				    
 					openSubState(new GameplayChangersSubstate());
@@ -1343,12 +1333,25 @@ class FreeplayState extends MusicBeatState {
     	songNameText.text = songs[curSelected].songName;
     	songNameText.scale.x = 1;
     	var length = 450;
-    	if (songNameText.width > length) songNameText.scale.x = length / songNameText.width;
+    	if (songNameText.width > length) songNameText.scale.x =  length / songNameText.width;
     	songNameText.offset.x = songNameText.width * (1 -songNameText.scale.x) / 2;
     	
+    	listeningSongName.offset.y = 0;
     	listeningSongName.text = songs[curSelected].songName;
-    	if (listeningSongName.width > 500) listeningSongName.scale.x = 500 / listeningSongName.width;
-    	else listeningSongName.scale.x = 1;
+    	listeningSongName.x = 70 + (450-listeningSongName.width)/2;
+    	if (listeningSongName.width > 450) {
+    		listeningSongName.scale.set(450/listeningSongName.width, 450/listeningSongName.width);
+    		listeningSongName.offset.y += listeningSongName.height*listeningSongName.scale.y + 10;
+    	}
+    	
+    /*	destroyFreeplayVocals();
+    	PlayState.SONG = Song.loadFromJson(poop, songs[curSelected].songName.toLowerCase());
+		if (PlayState.SONG.needsVoices)
+			vocals = new FlxSound().loadEmbedded(Paths.voices(PlayState.SONG.song));
+		else
+			vocals = new FlxSound();
+
+		FlxG.sound.list.add(vocals);*/
 		
     	songIcon.changeIcon(songs[curSelected].songCharacter);
     	songIcon.updateHitbox();
@@ -1383,6 +1386,8 @@ class FreeplayState extends MusicBeatState {
     	try {
     	difficultyText.text = Difficulty.list[curDifficulty];
     	difficultyText.x = (820 - difficultyText.width) / 2;
+    	if (difficultyText.width > 300)
+    		difficultyText.scale.set(300/difficultyText.width, 300/difficultyText.width);
     		
     	var score:Int = Highscore.getScore(songs[curSelected].songName, curDifficulty);
     	scoreText.text = Std.string(score);    
