@@ -22,7 +22,7 @@ import sys.FileSystem;
 #end
 
 #if DISCORD_ALLOWED
-import backend.DiscordClient;
+import backend.Discord;
 #end
 
 using StringTools;
