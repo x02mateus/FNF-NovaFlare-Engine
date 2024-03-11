@@ -39,6 +39,14 @@ import states.LoadingState;
 import states.MainMenuState;
 import options.OptionsState;
 
+/*
+    create by TieGuo
+    artists, bug fix by Beihu & 487
+    
+    比暂停界面更屎的state出现了XD
+    这个玩意铁锅拖了3个月
+*/
+
 class FreeplayState extends MusicBeatState {
 
 	var bg:FlxSprite;
@@ -1233,8 +1241,15 @@ class FreeplayState extends MusicBeatState {
     	
     	if (FlxG.mouse.pressed && canMove)
     	{
-    	    if (!(FlxG.pixelPerfectOverlap(songsbg, mousechecker, 0) && FlxG.mouse.y > 50 && FlxG.mouse.y < FlxG.height - 50)){
+    	    if (!(FlxG.pixelPerfectOverlap(songsbg, mousechecker, 25) && FlxG.mouse.y > 50 && FlxG.mouse.y < FlxG.height - 50)){
                 canMove = false;
+                if (curSelectedFloat < -3)
+        			curSelected = songs.length - 1;
+        		else if (curSelectedFloat > songs.length + 2)
+        			curSelected = 0;
+        			
+        		curSelectedFloat = curSelected;
+        		changeSong(0);
     	        return;
     	    }
     		
@@ -1308,6 +1323,14 @@ class FreeplayState extends MusicBeatState {
 				case 2: // Reset Score
 					openSubState(new ResetScoreSubState(songs[curSelected].songName, curDifficulty, songs[curSelected].songCharacter));
 				case 3: // idk
+					var songLowercase:String = Paths.formatToSongPath(songs[curSelected].songName);
+					var poop:String = Highscore.formatSong(songLowercase, curDifficulty);
+					PlayState.SONG = Song.loadFromJson(poop, songLowercase);
+					PlayState.isStoryMode = false;
+					PlayState.storyDifficulty = curDifficulty;
+					if(colorTween != null) colorTween.cancel();
+					if (rightcolor != null) rightcolor.cancel();
+					if (leftcolor != null) rightcolor.cancel();
 					LoadingState.loadAndSwitchState(new ChartingState());
 			}
     	}
