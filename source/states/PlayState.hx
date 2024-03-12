@@ -2065,19 +2065,16 @@ class PlayState extends MusicBeatState
 							if(daNote.isSustainNote && strum.sustainReduce) daNote.clipToStrumNote(strum);
 
 							// Kill extremely late notes and cause misses
-							if (Conductor.songPosition - daNote.strumTime > noteKillOffset)
+							if (Conductor.songPosition - daNote.strumTime > noteKillOffset * 1.25)
 							{
 								if (((!daNote.mustPress && !cpuControlled_opponent && ClientPrefs.data.playOpponent) || (daNote.mustPress && !cpuControlled && !ClientPrefs.data.playOpponent))
 								 && !daNote.ignoreNote && !endingSong
 								 && (daNote.tooLate == true || daNote.wasGoodHit == false)
 								 ){
 									noteMiss(daNote);
-                                 }
-                                 
-                                if (Conductor.songPosition - daNote.strumTime > noteKillOffset * 1.25){
-								    daNote.active = daNote.visible = false;
+									daNote.active = daNote.visible = false;
 								    invalidateNote(daNote);
-								}
+                                 }                                                                
 							}
 						});
 					}
@@ -3415,9 +3412,9 @@ class PlayState extends MusicBeatState
 		}
 		
 		if (ClientPrefs.data.HealthDrainOPPO) {
-		    if (health > 0.2){
+		    if (health > 0.4){
 		        health -= note.hitHealth * healthLoss * ClientPrefs.data.HealthDrainOPPOMult;
-		        if (health <= 0.2) health = 0.2; 
+		        if (health <= 0.4) health = 0.4; 
 		    }
 		}
 
@@ -3446,7 +3443,7 @@ class PlayState extends MusicBeatState
 		var result:Dynamic = callOnLuas(functionReturn, [notes.members.indexOf(note), leData, leType, isSus]);
 		if(result != LuaUtils.Function_Stop && result != LuaUtils.Function_StopHScript && result != LuaUtils.Function_StopAll) callOnHScript(functionReturn, [note]);
         
-        if (Paths.formatToSongPath(SONG.song) != 'tutorial')
+        if (songName != 'tutorial')
 			camZooming = true;
 			
 		note.wasGoodHit = true;
@@ -3608,9 +3605,7 @@ class PlayState extends MusicBeatState
 	        var functionReturn:String = ClientPrefs.data.opponentCodeFix ? 'opponentNoteHitPre' : 'goodNoteHitPre';	    
     		var result:Dynamic = callOnLuas(functionReturn, [notes.members.indexOf(note), Math.abs(note.noteData), note.noteType, note.isSustainNote]);				
     		if(result != LuaUtils.Function_Stop && result != LuaUtils.Function_StopHScript && result != LuaUtils.Function_StopAll) callOnHScript(functionReturn, [note]);
-        }
-		if (songName != 'tutorial')
-			camZooming = true;
+        }		
 
 		if(note.noteType == 'Hey!' && boyfriend.animOffsets.exists('hey')) {
 			boyfriend.playAnim('hey', true);
@@ -3630,9 +3625,9 @@ class PlayState extends MusicBeatState
 		}
 		
 		if (ClientPrefs.data.HealthDrainOPPO) {
-		    if (health > 0.2){
+		    if (health > 0.4){
 		        health -= note.hitHealth * healthLoss * ClientPrefs.data.HealthDrainOPPOMult;
-		        if (health <= 0.2) health = 0.2; 
+		        if (health <= 0.4) health = 0.4; 
 		    }
 		}
 
