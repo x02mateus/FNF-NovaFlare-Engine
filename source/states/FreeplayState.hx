@@ -196,6 +196,7 @@ class FreeplayState extends MusicBeatState {
     	songsbg.alpha = 1;
     	add(songsbg);
     	
+    	Mods.currentModDirectory = songs[curSelected].folder;
 		bg = new FlxSprite().loadGraphic(Paths.image('menuDesat'));
     	bg.antialiasing = ClientPrefs.data.antialiasing;
     	bg.camera = camGame;
@@ -222,7 +223,6 @@ class FreeplayState extends MusicBeatState {
     	add(songBarSelected);
     	songBarSelected.screenCenter();
     	
-    	Mods.currentModDirectory = songs[curSelected].folder;
     	songIcon = new HealthIcon(songs[curSelected].songCharacter);
     	add(songIcon);
     	songIcon.scale.set(0.5, 0.5);
@@ -1208,7 +1208,7 @@ class FreeplayState extends MusicBeatState {
     			if(bgColorChange != null) {
     				bgColorChange.cancel();
     			}
-    			if (playingSong == -1 || playmusiconexit) {
+    			if (playingSong != -1 || playmusiconexit) {
     				destroyFreeplayVocals();
     				FlxG.sound.playMusic(Paths.music('freakyMenu'), 0);
     				if (waitTimer != null) waitTimer.cancel();
@@ -1361,12 +1361,10 @@ class FreeplayState extends MusicBeatState {
     	if (songNameText.width > length) songNameText.scale.x =  length / songNameText.width;
     	songNameText.offset.x = songNameText.width * (1 -songNameText.scale.x) / 2;
     	
-    	listeningSongName.offset.y = 0;
     	listeningSongName.text = songs[curSelected].songName;
     	listeningSongName.x = 70 + (450-listeningSongName.width)/2;
     	if (listeningSongName.width > 450) {
     		listeningSongName.scale.set(450/listeningSongName.width, 450/listeningSongName.width);
-    		listeningSongName.offset.y += listeningSongName.height*listeningSongName.scale.y + 10;
     	}
     	
     /*	destroyFreeplayVocals();
