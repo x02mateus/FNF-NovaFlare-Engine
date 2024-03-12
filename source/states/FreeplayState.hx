@@ -245,7 +245,7 @@ class FreeplayState extends MusicBeatState {
     	rate.updateHitbox();
     	rate.x = 61;
     	rate.y = 304;
-    	add(rate);
+    	//add(rate);
     	
     	difficultyRight = new FlxSprite().loadGraphic(Paths.image(filePath + 'difficultyRight'));
     	difficultyRight.antialiasing = ClientPrefs.data.antialiasing;
@@ -266,6 +266,8 @@ class FreeplayState extends MusicBeatState {
     		back.camera = camInfo;
     		back.updateHitbox();
     		add(back);
+    		
+    		if (i == 3) add(rate);
     		
     		if (i >= 4 && i <= 7)
     			holdOptionsChecker.push(back);
@@ -1088,11 +1090,11 @@ class FreeplayState extends MusicBeatState {
     	if (FlxG.mouse.pressed && FlxG.mouse.x < FlxG.width-50)
     	{
     		searchSelected = Math.floor(fakecurSelected - (FlxG.mouse.y - startMouseYsearch) / (75*0.75));
-    		
-    		if (lastSelectedSearch != searchSelected) {
-    			lastSelectedSearch = searchSelected;
-    			searchChangeSong(0);
-    		}
+    	}
+    	
+    	if (lastSelectedSearch != searchSelected) {
+    		lastSelectedSearch = searchSelected;
+    		searchChangeSong(0);
     	}
     	
     	for (i in 0...searchTextGroup.length) {
