@@ -2070,11 +2070,12 @@ class PlayState extends MusicBeatState
 								if (((!daNote.mustPress && !cpuControlled_opponent && ClientPrefs.data.playOpponent) || (daNote.mustPress && !cpuControlled && !ClientPrefs.data.playOpponent))
 								 && !daNote.ignoreNote && !endingSong
 								 && (daNote.tooLate == true || daNote.wasGoodHit == false)
-								 ){
+								 )
 									noteMiss(daNote);
+									
 									daNote.active = daNote.visible = false;
 								    invalidateNote(daNote);
-                                 }
+                                 
 							}
 						});
 					}
