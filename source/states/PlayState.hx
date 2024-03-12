@@ -2065,7 +2065,7 @@ class PlayState extends MusicBeatState
 							if(daNote.isSustainNote && strum.sustainReduce) daNote.clipToStrumNote(strum);
 
 							// Kill extremely late notes and cause misses
-							if (Conductor.songPosition - daNote.strumTime > noteKillOffset * 1.25)
+							if (Conductor.songPosition - daNote.strumTime > noteKillOffset)
 							{
 								if (((!daNote.mustPress && !cpuControlled_opponent && ClientPrefs.data.playOpponent) || (daNote.mustPress && !cpuControlled && !ClientPrefs.data.playOpponent))
 								 && !daNote.ignoreNote && !endingSong
@@ -2074,7 +2074,7 @@ class PlayState extends MusicBeatState
 									noteMiss(daNote);
 									daNote.active = daNote.visible = false;
 								    invalidateNote(daNote);
-                                 }                                                                
+                                 }
 							}
 						});
 					}
