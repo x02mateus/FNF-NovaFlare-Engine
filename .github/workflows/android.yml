@@ -100,7 +100,8 @@ jobs:
         with:
           name: androidBuild
           path: export/release/android/bin/app/build/outputs/apk/release/*.apk
- Windows:
+          
+  Windows:
     runs-on: windows-latest
     steps:
       - name: Checkout
