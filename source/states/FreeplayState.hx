@@ -496,16 +496,14 @@ class FreeplayState extends MusicBeatState {
     	blackBG.antialiasing = ClientPrefs.data.antialiasing;
     	blackBG.camera = camBG;
     	add(blackBG);
+    	    	    	    	
+		super.create();
     	
     	curSelectedFloat = curSelected;
-    	Mods.currentModDirectory = songs[curSelected].folder;
     	changeSong(0);
     	
     	camSong.scroll.x = FlxMath.lerp(-(curSelected) * 20 * 0.75, camSong.scroll.x, 0);
         camSong.scroll.y = FlxMath.lerp((curSelected) * 75 * 0.75, camSong.scroll.y, 0);
-    	    	
-		super.create();
-    	
     }
     
     var startMouseY:Float;
@@ -1125,7 +1123,7 @@ class FreeplayState extends MusicBeatState {
     		}
     	}
     	
-    	if (FlxG.mouse.x <= FlxG.width/2) {
+    	if (FlxG.mouse.x <= FlxG.width/2.5) {
         	if(FlxG.mouse.wheel != 0)
         	{
     			FlxG.sound.play(Paths.sound('scrollMenu'), 0.2);
@@ -1246,7 +1244,7 @@ class FreeplayState extends MusicBeatState {
     		lastCurSelected = curSelected;
     		startMouseY = FlxG.mouse.y;
     		
-    		if (FlxG.pixelPerfectOverlap(songsbg, mousechecker, 0) && FlxG.mouse.y > 50 && FlxG.mouse.y < FlxG.height - 50)
+    		if (FlxG.mouse.x >= 700 && FlxG.mouse.y > 50 && FlxG.mouse.y < FlxG.height - 50)
     			canMove = true;
     		else
     			canMove = false;
@@ -1254,7 +1252,7 @@ class FreeplayState extends MusicBeatState {
     	
     	if (FlxG.mouse.pressed && canMove)
     	{
-    	    if (!(FlxG.pixelPerfectOverlap(songsbg, mousechecker, 25) && FlxG.mouse.y > 50 && FlxG.mouse.y < FlxG.height - 50)){
+    	    if (!(FlxG.mouse.x >= 700 && FlxG.mouse.y > 50 && FlxG.mouse.y < FlxG.height - 50)){
                 canMove = false;
                 if (curSelectedFloat < -3)
         			curSelected = songs.length - 1;
@@ -1363,7 +1361,7 @@ class FreeplayState extends MusicBeatState {
     	PlayState.storyWeek = songs[curSelected].week;
 		Difficulty.loadFromWeek();
 		
-    	bgCheck(curSelected == 0 ? true : false);
+    	bgCheck();
     	changeDiff(0);
 		
     	songNameText.text = songs[curSelected].songName;
@@ -1377,15 +1375,6 @@ class FreeplayState extends MusicBeatState {
     	if (listeningSongName.width > 450) {
     		listeningSongName.scale.set(450/listeningSongName.width, 450/listeningSongName.width);
     	}
-    	
-    /*	destroyFreeplayVocals();
-    	PlayState.SONG = Song.loadFromJson(poop, songs[curSelected].songName.toLowerCase());
-		if (PlayState.SONG.needsVoices)
-			vocals = new FlxSound().loadEmbedded(Paths.voices(PlayState.SONG.song));
-		else
-			vocals = new FlxSound();
-
-		FlxG.sound.list.add(vocals);*/
 		
     	songIcon.changeIcon(songs[curSelected].songCharacter);
     	songIcon.updateHitbox();
@@ -1551,7 +1540,7 @@ class FreeplayState extends MusicBeatState {
 		songs.push(new SongMetadata(songName, weekNum, songCharacter, color));
 	}
 	
-	function bgCheck(okokok:Bool)
+	function bgCheck()
 	{
 		if (bg.color == songs[curSelected].color)
 			return;
