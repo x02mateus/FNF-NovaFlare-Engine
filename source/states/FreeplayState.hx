@@ -1205,7 +1205,7 @@ class FreeplayState extends MusicBeatState {
     				
     			destroyFreeplayVocals();
     			buttonControl = false;
-    			#if desktop
+    			#if DISCORD_ALLOWED
     			DiscordClient.loadModRPC();
     			#end
     		} else if ((selectedThing == 'back' && FlxG.pixelPerfectOverlap(backButton, mousechecker, 25)) || controls.BACK) {
