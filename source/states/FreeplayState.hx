@@ -498,6 +498,7 @@ class FreeplayState extends MusicBeatState {
     	add(blackBG);
     	
     	curSelectedFloat = curSelected;
+    	Mods.currentModDirectory = songs[curSelected].folder;
     	changeSong(0);
     	
     	camSong.scroll.x = FlxMath.lerp(-(curSelected) * 20 * 0.75, camSong.scroll.x, 0);
@@ -1006,6 +1007,7 @@ class FreeplayState extends MusicBeatState {
     var searchCheckGroup:Array<FlxSprite> = [];
     var oldText:String = '';
     var searchtextno:FlxText;
+    var playSine:Float = 0;
     function makeSearchUI() {
     	searchtext = new FlxText(60, 150, 0, 'Type Song Name...');
     	searchtext.setFormat(font, 28, FlxColor.WHITE, LEFT);
@@ -1080,6 +1082,9 @@ class FreeplayState extends MusicBeatState {
     		searchChangeSong(0);
     	}
     	
+    	playSine += 180 * elapsed;
+    	searchtextno.alpha = 1 - Math.sin((Math.PI * playSine) / 180);
+    	
     	if (FlxG.mouse.justPressed && FlxG.pixelPerfectOverlap(searchbg, mousechecker, 0))
     	{
     		startMouseYsearch = FlxG.mouse.y;
@@ -1089,7 +1094,13 @@ class FreeplayState extends MusicBeatState {
     	
     	if (FlxG.mouse.pressed && FlxG.mouse.x < FlxG.width-50)
     	{
-    		searchSelected = Math.floor(fakecurSelected - (FlxG.mouse.y - startMouseYsearch) / (75*0.75));
+    		searchSelected = Math.floor(fakecurSelected - (FlxG.mouse.y - startMouseYsearch) / (75*0.75))
+    		
+    		if (searchSelected > songsSearched.length-6)
+    		    searchSelected = songsSearched.length-6;
+    	
+        	if (searchSelected < 0)
+        		searchSelected = 0;
     	}
     	
     	if (lastSelectedSearch != searchSelected) {
