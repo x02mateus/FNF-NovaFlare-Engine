@@ -142,7 +142,7 @@ class FPS extends TextField
 
 class DampInterpolation {
     static public function damp(current:Float, target:Float, maxSpeed:Float, deltaTime:Float):Float {
-        var velocity = (target - current) / deltaTime;
+        var velocity:Float = (target - current) / deltaTime;
         var dampedVelocity = velocity * (1 - Math.exp(-deltaTime * 0.002));
         var dampedPosition = current + dampedVelocity * deltaTime;
 
