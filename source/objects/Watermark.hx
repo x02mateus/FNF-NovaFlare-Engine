@@ -37,6 +37,7 @@ class Watermark extends Bitmap
 class FPS extends TextField
 {
 	public var currentFPS(default, null):Float;
+	public var displayedFrameTime(default, null):Float;
     public var logicFPStime(default, null):Float;
     public var timeSave(default, null):Float;
 	
@@ -50,6 +51,7 @@ class FPS extends TextField
 		this.y = y;
 
 		currentFPS = 0;
+		displayedFrameTime = 0;
 		timeSave = 0;
 		selectable = false;
 		mouseEnabled = false;
@@ -82,7 +84,9 @@ class FPS extends TextField
 	{			
 		deltaTime = haxe.Timer.stamp() - timeSave;
 		
-		currentFPS = DampInterpolation.damp(currentFPS, 1000 / deltaTime, 100, deltaTime);
+		displayedFrameTime = DampInterpolation.damp(displayedFrameTime, deltaTime, 100, deltaTime);
+		
+		currentFPS = Math.floor(1000 / displayedFrameTime  * 10) / 10;
         
         if (currentFPS > ClientPrefs.data.framerate) currentFPS = ClientPrefs.data.framerate;             
         
@@ -93,7 +97,8 @@ class FPS extends TextField
 	        if (skippedFrames >= 1000 / changeNum)
 		    {
 		    	if (currentColor >= ColorArray.length)
-    				currentColor = 0;
+    			    currentColor = 0;
+    			    
     			textColor = ColorArray[currentColor];
     			currentColor++;
     			skippedFrames = 0;
@@ -131,7 +136,7 @@ class FPS extends TextField
 			text += "\nMEM: " + memoryMegas + memType;          
 		}
             
-        if (ClientPrefs.data.showMS) text += '\n' + "Delay: " + Math.floor(1 / currentFPS * 10000 + 0.5) / 10 + " MS";
+        if (ClientPrefs.data.showMS) text += '\n' + "Delay: " + displayedFrameTime + " MS";
         
         text += "\nNovaFlare V1.1.0";            
 		text += "\n";	
@@ -147,7 +152,10 @@ class DampInterpolation {
         var dampedPosition = current + dampedVelocity * deltaTime;
 
         if (Math.abs(velocity) > maxSpeed) {
-            dampedVelocity = Math.sign(velocity) * maxSpeed;
+            if (velocity > 0) 
+                dampedVelocity = 1 * maxSpeed;
+            else 
+                dampedVelocity = -1 * maxSpeed;
         }
 
         return dampedPosition;
