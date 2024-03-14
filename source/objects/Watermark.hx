@@ -82,7 +82,7 @@ class FPS extends TextField
 	{			
 		deltaTime = haxe.Timer.stamp() - timeSave;
 		
-		currentFPS = DampInterpolation.damp(currentFPS, deltaTime, 100, deltaTime);
+		currentFPS = DampInterpolation.damp(currentFPS, 1000 / deltaTime, 100, deltaTime);
         
         if (currentFPS > ClientPrefs.data.framerate) currentFPS = ClientPrefs.data.framerate;             
         
@@ -136,7 +136,7 @@ class FPS extends TextField
         text += "\nNovaFlare V1.1.0";            
 		text += "\n";	
 			
-		timeSave = haxe.Timer.stamp() 
+		timeSave = haxe.Timer.stamp();
 	}
 }
 
