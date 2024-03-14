@@ -147,7 +147,7 @@ class DampInterpolation {
         var dampedPosition = current + dampedVelocity * deltaTime;
 
         if (Math.abs(velocity) > maxSpeed) {
-            dampedVelocity = velocity.sign() * maxSpeed;
+            dampedVelocity = Math.sign(velocity) * maxSpeed;
         }
 
         return dampedPosition;
