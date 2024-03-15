@@ -41,7 +41,7 @@ import options.OptionsState;
 
 /*
     create by TieGuo
-    artists, bug fix by Beihu & 487
+    artists, bug fix by Beihu & C_S_487
     
     比暂停界面更屎的state出现了XD
     这个玩意铁锅拖了3个月
@@ -470,7 +470,7 @@ class FreeplayState extends MusicBeatState {
     	add(optionsText);
     	optionsText.scale.x = 0.9;
     	
-    	var optionsText = new FlxText(70, 675, 0, 'SPACE to Listen Song');
+    	var optionsText = new FlxText(70, 675, 0, 'M to Listen Song');
     	optionsText.setFormat(font, 25, FlxColor.WHITE, LEFT);
     	optionsText.camera = camUI;
     	add(optionsText);
@@ -496,14 +496,15 @@ class FreeplayState extends MusicBeatState {
     	blackBG.antialiasing = ClientPrefs.data.antialiasing;
     	blackBG.camera = camBG;
     	add(blackBG);
-    	    	    	    	
-		super.create();
     	
     	curSelectedFloat = curSelected;
     	changeSong(0);
     	
     	camSong.scroll.x = FlxMath.lerp(-(curSelected) * 20 * 0.75, camSong.scroll.x, 0);
         camSong.scroll.y = FlxMath.lerp((curSelected) * 75 * 0.75, camSong.scroll.y, 0);
+    	    	
+		super.create();
+    	
     }
     
     var startMouseY:Float;
@@ -570,7 +571,7 @@ class FreeplayState extends MusicBeatState {
     			backText.text = 'BACK';
         	}
         	
-        	if ((overlapButton(musicButton) && !listening && FlxG.mouse.justPressed) || FlxG.keys.justPressed.SPACE) {
+        	if ((overlapButton(musicButton) && !listening && FlxG.mouse.justPressed) || FlxG.keys.justPressed.M) {
         		listening = true;
         		searching = false;
     			backText.text = 'BACK';
@@ -616,7 +617,7 @@ class FreeplayState extends MusicBeatState {
     }
     
     override function closeSubState()
-	{				
+	{
 		super.closeSubState();
 		persistentUpdate = true;
 	}
@@ -707,7 +708,6 @@ class FreeplayState extends MusicBeatState {
     var rateRight:FlxSprite;
     var resetButton:FlxSprite;
     function makeListenMenu() {
-    	//startMusic(false);
     	listeningSongName = new FlxText(40, 190, 0, songs[curSelected].songName);
     	listeningSongName.setFormat(font, 50, FlxColor.WHITE, 'center');
     	listeningSongName.camera = camListen;
@@ -819,12 +819,10 @@ class FreeplayState extends MusicBeatState {
 			
 			playingSong = curSelected;
 			
-    		playingSongName.offset.y = 0;
 			playingSongName.text = 'Playing: ' + (playingSong == -1 ? 'Freaky Menu' : songs[playingSong].songName);
     		playingSongName.x = 60 + (450-playingSongName.width)/2;
     		if (playingSongName.width > 450) {
     			playingSongName.scale.set(450/playingSongName.width, 450/playingSongName.width);
-    			playingSongName.offset.y -= playingSongName.height/2;
     		}
     		
 			setplaybackrate();
@@ -859,6 +857,10 @@ class FreeplayState extends MusicBeatState {
     					FlxG.sound.music.volume = 0.1;
     					playmusiconexit = false;
     					playingSongName.text = 'Playing: ' + (playingSong == -1 ? 'Freaky Menu' : songs[playingSong].songName);
+    					playingSongName.x = 60 + (450-playingSongName.width)/2;
+    						if (playingSongName.width > 450) {
+    						playingSongName.scale.set(450/playingSongName.width, 450/playingSongName.width);
+    					}
     				}
     			});
     			return;
@@ -1005,7 +1007,6 @@ class FreeplayState extends MusicBeatState {
     var searchCheckGroup:Array<FlxSprite> = [];
     var oldText:String = '';
     var searchtextno:FlxText;
-    var playSine:Float = 0;
     function makeSearchUI() {
     	searchtext = new FlxText(60, 150, 0, 'Type Song Name...');
     	searchtext.setFormat(font, 28, FlxColor.WHITE, LEFT);
@@ -1080,9 +1081,6 @@ class FreeplayState extends MusicBeatState {
     		searchChangeSong(0);
     	}
     	
-    	playSine += 180 * elapsed;
-    	searchtextno.alpha = 1 - Math.sin((Math.PI * playSine) / 180);
-    	
     	if (FlxG.mouse.justPressed && FlxG.pixelPerfectOverlap(searchbg, mousechecker, 0))
     	{
     		startMouseYsearch = FlxG.mouse.y;
@@ -1093,12 +1091,6 @@ class FreeplayState extends MusicBeatState {
     	if (FlxG.mouse.pressed && FlxG.mouse.x < FlxG.width-50)
     	{
     		searchSelected = Math.floor(fakecurSelected - (FlxG.mouse.y - startMouseYsearch) / (75*0.75));
-    		
-    		if (searchSelected > songsSearched.length-6)
-    		    searchSelected = songsSearched.length-6;
-    	
-        	if (searchSelected < 0)
-        		searchSelected = 0;
     	}
     	
     	if (lastSelectedSearch != searchSelected) {
@@ -1123,7 +1115,7 @@ class FreeplayState extends MusicBeatState {
     		}
     	}
     	
-    	if (FlxG.mouse.x <= FlxG.width/2.5) {
+    	if (FlxG.mouse.x <= FlxG.width/2) {
         	if(FlxG.mouse.wheel != 0)
         	{
     			FlxG.sound.play(Paths.sound('scrollMenu'), 0.2);
@@ -1147,7 +1139,7 @@ class FreeplayState extends MusicBeatState {
     	
     	for (i in 0...searchTextGroup.length) {
     		var id:Int = 0;
-    			id = i+searchSelected;
+    		id = i+searchSelected;
     		if (songsSearched[id] != null)
     			searchTextGroup[i].text = songsSearched[id].songName;
     		else
@@ -1170,7 +1162,7 @@ class FreeplayState extends MusicBeatState {
     	}
     	
     	if (FlxG.mouse.justReleased || controls.ACCEPT || controls.BACK) {
-    		if ((selectedThing == 'start' && FlxG.pixelPerfectOverlap(startButton, mousechecker, 25)) || controls.ACCEPT) {
+    		if ((selectedThing == 'start' && FlxG.pixelPerfectOverlap(startButton, mousechecker, 25)) || (controls.ACCEPT && !FlxG.keys.justPressed.SPACE)) {
     			var songLowercase:String = Paths.formatToSongPath(songs[curSelected].songName);
         		var poop:String = Highscore.formatSong(songLowercase, curDifficulty);
         		try
@@ -1203,7 +1195,7 @@ class FreeplayState extends MusicBeatState {
     				
     			destroyFreeplayVocals();
     			buttonControl = false;
-    			#if DISCORD_ALLOWED
+    			#if desktop
     			DiscordClient.loadModRPC();
     			#end
     		} else if ((selectedThing == 'back' && FlxG.pixelPerfectOverlap(backButton, mousechecker, 25)) || controls.BACK) {
@@ -1244,7 +1236,7 @@ class FreeplayState extends MusicBeatState {
     		lastCurSelected = curSelected;
     		startMouseY = FlxG.mouse.y;
     		
-    		if (FlxG.mouse.x >= 700 && FlxG.mouse.y > 50 && FlxG.mouse.y < FlxG.height - 50)
+    		if (FlxG.pixelPerfectOverlap(songsbg, mousechecker, 0) && FlxG.mouse.y > 50 && FlxG.mouse.y < FlxG.height - 50)
     			canMove = true;
     		else
     			canMove = false;
@@ -1252,7 +1244,7 @@ class FreeplayState extends MusicBeatState {
     	
     	if (FlxG.mouse.pressed && canMove)
     	{
-    	    if (!(FlxG.mouse.x >= 700 && FlxG.mouse.y > 50 && FlxG.mouse.y < FlxG.height - 50)){
+    	    if (!(FlxG.pixelPerfectOverlap(songsbg, mousechecker, 25) && FlxG.mouse.y > 50 && FlxG.mouse.y < FlxG.height - 50)){
                 canMove = false;
                 if (curSelectedFloat < -3)
         			curSelected = songs.length - 1;
@@ -1361,7 +1353,7 @@ class FreeplayState extends MusicBeatState {
     	PlayState.storyWeek = songs[curSelected].week;
 		Difficulty.loadFromWeek();
 		
-    	bgCheck();
+    	bgCheck(curSelected == 0 ? true : false);
     	changeDiff(0);
 		
     	songNameText.text = songs[curSelected].songName;
@@ -1375,7 +1367,7 @@ class FreeplayState extends MusicBeatState {
     	if (listeningSongName.width > 450) {
     		listeningSongName.scale.set(450/listeningSongName.width, 450/listeningSongName.width);
     	}
-		
+
     	songIcon.changeIcon(songs[curSelected].songCharacter);
     	songIcon.updateHitbox();
     }
@@ -1437,17 +1429,7 @@ class FreeplayState extends MusicBeatState {
 			songNameText.text = 'ERROR';
 		}
     }
-	
-	function returnSearchSong(string:String) {
-		var coolSongs:Array<SongMetadata> = [];
-		for (i in songs) {
-			if (i.songName.indexOf(string) != -1)
-				coolSongs.push(i);
-		}
-		
-		return coolSongs;
-	}
-	
+
 	function loadSong()
 	{
 		songs = [];
@@ -1540,7 +1522,7 @@ class FreeplayState extends MusicBeatState {
 		songs.push(new SongMetadata(songName, weekNum, songCharacter, color));
 	}
 	
-	function bgCheck()
+	function bgCheck(okokok:Bool)
 	{
 		if (bg.color == songs[curSelected].color)
 			return;
