@@ -3731,7 +3731,7 @@ class PlayState extends MusicBeatState
 	var lastStepHit:Int = -1;
 	override function stepHit()
 	{
-		if (SONG.needsVoices && FlxG.sound.music.time >= -ClientPrefs.data.noteOffset)
+		if (FlxG.sound.music.time >= -ClientPrefs.data.noteOffset)
 			checkIfDesynced = true;
 
 		super.stepHit();
