@@ -88,10 +88,10 @@ class MSCounter extends TextField
 
 
 class DataGet {
-    public var currentFPS(default, null):Float;
-	public var displayedFrameTime(default, null):Float;
+    static public  var currentFPS(default, null):Float;
+	static public  var displayedFrameTime(default, null):Float;
 
-    public function update(){
+    static public  function update(){
         displayedFrameTime = displayedFrameTime * 0.75 + FlxG.elapsed * 1000 * 0.25;
 		
 		currentFPS = Math.floor(1000 / displayedFrameTime * 10) / 10;   
