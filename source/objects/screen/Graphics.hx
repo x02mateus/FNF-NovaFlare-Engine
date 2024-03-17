@@ -4,8 +4,6 @@ import openfl.display.Bitmap;
 import openfl.display.BitmapData;
 import openfl.display.Sprite;
 
-import openfl.utils.Assets;
-
 class Watermark extends Bitmap
 {
     public function new(x:Float = 10, y:Float = 10, Alpha:Float = 0.5){
@@ -31,7 +29,7 @@ class FPSBG extends Sprite
 
 		this.x = x;
 		this.y = y;
-		graphics.alpha = Alpha;
+		this.alpha = Alpha;
 		graphics.drawRoundRect(0, 0, 80, 30, 10, 10);      	      
     }
 } 

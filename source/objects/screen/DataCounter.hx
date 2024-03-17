@@ -2,8 +2,10 @@ package objects.screen;
 
 import cpp.vm.Gc;
 import haxe.Timer;
+
 import openfl.text.TextField;
 import openfl.text.TextFormat;
+import openfl.utils.Assets;
 
 class FPSCounter extends TextField
 {
@@ -56,6 +58,7 @@ class FPSCounter extends TextField
 
 class MSCounter extends TextField
 {
+    public var currentFPS(default, null):Float;
 	public var displayedFrameTime(default, null):Float;
 
 	public function new(x:Float = 10, y:Float = 10, color:Int = 0x000000)
@@ -110,9 +113,9 @@ class ColorReturn {
         
         if (data < maxData) {
             red = 255;
-            green = Std.Int(255 * data / maxData);
+            green = Std.int(255 * data / maxData);
         } else {
-            red = Std.Int(255 * (maxData - data) / maxData);
+            red = Std.int(255 * (maxData - data) / maxData);
             green = 255;        
         }      
         
