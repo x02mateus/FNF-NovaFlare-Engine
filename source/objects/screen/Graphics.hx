@@ -21,7 +21,7 @@ class Watermark extends Bitmap
 } 
 
 
-class FPSBG extends BitmapData
+class FPSBG extends Bitmap
 {    
     public function new(x:Float = 0, y:Float = 0, Alpha:Float = 0.5){
 
@@ -35,6 +35,9 @@ class FPSBG extends BitmapData
         graphics.drawRoundRect(0, 0, 80, 30, 10, 10);     
         graphics.endFill();
         
-        draw(graphics);   
+        var BitmapData:BitmapData = new BitmapData();
+        BitmapData.draw(graphics);   
+        
+        this.bitmapData = BitmapData;
     }
 } 
