@@ -687,7 +687,7 @@ class FreeplayState extends MusicBeatState {
 	var listeningSongName:FlxText;
 	var playingSongName:FlxText;
 	var listeningSongTime:FlxText;
-	public static var playingSong:Int = -1;
+	var playingSong:Int = -1;
 	var maxTime:Float = 0;
 	
 	var playText:FlxText;
