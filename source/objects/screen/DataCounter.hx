@@ -22,24 +22,16 @@ class FPSCounter extends TextField
 		displayedFrameTime = 0;
 		selectable = false;
 		mouseEnabled = false;
-		defaultTextFormat = new TextFormat(Assets.getFont("assets/fonts/montserrat.ttf").fontName, 18, color, false, null, null, LEFT, 0, 0);
+		defaultTextFormat = new TextFormat(Assets.getFont("assets/fonts/FPS.ttf").fontName, 18, color, false, null, null, LEFT, 0, 0);
 		autoSize = LEFT;
 		
 		multiline = true; //多行文本
 		wordWrap = false; //禁用自动换行
 		
-		#if flash
-		addEventListener(Event.ENTER_FRAME, function(e)
-		{
-			var time = Lib.getTimer();
-			__enterFrame(time - currentTime);
-		});
-		#end
-		
 		text = "FPS: ";		
 	}
 
-	private override function __enterFrame(deltaTime:Float):Void
+    static public function update():Void
 	{		
 		displayedFrameTime = DampInterpolation.damp(displayedFrameTime, FlxG.elapsed * 1000, 1, FlxG.elapsed * 1000);
 		
@@ -60,7 +52,7 @@ class FPSCounter extends TextField
 		    textColor = 0xFFFF0000;
 		}								       
 		
-		text = "FPS: " currentFPS;
+		text = "FPS: " + currentFPS;
 	}
 }
 
@@ -79,24 +71,16 @@ class MSCounter extends TextField
 		displayedFrameTime = 0;
 		selectable = false;
 		mouseEnabled = false;
-		defaultTextFormat = new TextFormat(Assets.getFont("assets/fonts/montserrat.ttf").fontName, 12, color, false, null, null, LEFT, 0, 0);
+		defaultTextFormat = new TextFormat(Assets.getFont("assets/fonts/FPS.ttf").fontName, 12, color, false, null, null, LEFT, 0, 0);
 		autoSize = LEFT;
 		
 		multiline = true; //多行文本
 		wordWrap = false; //禁用自动换行
 		
-		#if flash
-		addEventListener(Event.ENTER_FRAME, function(e)
-		{
-			var time = Lib.getTimer();
-			__enterFrame(time - currentTime);
-		});
-		#end
-		
 		text = "FPS: ";		
 	}
 
-	private override function __enterFrame(deltaTime:Float):Void
+	static public function update():Void
 	{			
 		displayedFrameTime = DampInterpolation.damp(displayedFrameTime, FlxG.elapsed * 1000, 1, FlxG.elapsed * 1000);				
         

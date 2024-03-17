@@ -42,5 +42,8 @@ class FPS extends Sprite
 	    
 	    msShow.x = blackBG.x;
 	    msShow.y = blackBG.y + fpsShow.height;
-    }	
+	    
+	    fpsShow.update();
+	    msShow.update();
+    }
 }
