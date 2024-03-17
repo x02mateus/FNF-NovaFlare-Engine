@@ -9,8 +9,8 @@ import openfl.utils.Assets;
 
 class FPSCounter extends TextField
 {
-    public var currentFPS(default, null):Float;
-	public var displayedFrameTime(default, null):Float;
+    static public var currentFPS(default, null):Float;
+	static public var displayedFrameTime(default, null):Float;
 
 	public function new(x:Float = 10, y:Float = 10, color:Int = 0x000000)
 	{
@@ -58,8 +58,8 @@ class FPSCounter extends TextField
 
 class MSCounter extends TextField
 {
-    public var currentFPS(default, null):Float;
-	public var displayedFrameTime(default, null):Float;
+    static public var currentFPS(default, null):Float;
+	static public var displayedFrameTime(default, null):Float;
 
 	public function new(x:Float = 10, y:Float = 10, color:Int = 0x000000)
 	{

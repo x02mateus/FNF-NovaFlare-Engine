@@ -36,7 +36,7 @@ class FPS extends Sprite
     }
     
     private override function __enterFrame(deltaTime:Float):Void
-	{	
+	{
 	    fpsShow.x = blackBG.x;
 	    fpsShow.y = blackBG.y;
 	    
