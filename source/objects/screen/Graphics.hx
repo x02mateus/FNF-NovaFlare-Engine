@@ -21,10 +21,9 @@ class Watermark extends Bitmap
     }
 } 
 
-
 class FPSBG extends Bitmap
 {
-    public function new(x:Float = 0, y:Float = 0, Alpha:Float = 0.5){
+    public function new(x:Float = 0, y:Float = 0, Alpha:Float = 0.8){
 
         super();              
 
@@ -35,13 +34,14 @@ class FPSBG extends Bitmap
 		var bgHeight = 30;
 		
 		var shape:Shape = new Shape();
-        shape.graphics.beginFill(FlxColor.fromRGB(124, 118, 146, 205));
+        shape.graphics.beginFill(FlxColor.fromRGB(124, 118, 146, 255));
         shape.graphics.drawRoundRect(0, 0, bgWidth, bgHeight, 10, 10);     
         shape.graphics.endFill();
         
-        var BitmapData:BitmapData = new BitmapData(bgWidth, bgHeight);
+        var BitmapData:BitmapData = new BitmapData(bgWidth, bgHeight, 0x00FFFFFF);
         BitmapData.draw(shape);   
-        
+                
         this.bitmapData = BitmapData;
+        this.alpha = Alpha;
     }
 }

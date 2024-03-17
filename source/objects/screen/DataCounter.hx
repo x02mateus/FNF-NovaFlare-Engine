@@ -82,7 +82,7 @@ class MSCounter extends TextField
 		}
 		
 		var showTime = Math.floor(DataGet.displayedFrameTime + 0.5);
-		this.text = "Delay: " + DataGet.displayedFrameTime + "MS";
+		this.text = "Delay: " + showTime + "MS";
 	}
 }
 
@@ -96,7 +96,7 @@ class DataGet {
     static public function update(){
         
         wait += FlxG.elapsed * 1000;
-        if (wait > 50) wait = 0;
+        if (wait > 100) wait = 0;
         else return;
         
         displayedFrameTime = displayedFrameTime * 0.75 + FlxG.elapsed * 1000 * 0.25;
