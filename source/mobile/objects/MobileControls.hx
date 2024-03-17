@@ -48,13 +48,11 @@ class MobileControls extends FlxTypedSpriteGroup<FlxMobileInputManager>
 		{
 			case 0:
 				virtualPad = new FlxVirtualPad(RIGHT_FULL, controlExtend);	
-				add(virtualPad);						
-				virtualPad = getCustomMode(virtualPad);
+				add(virtualPad);										
 				virtualPad = getExtraCustomMode(virtualPad);
 			case 1:
 				virtualPad = new FlxVirtualPad(LEFT_FULL, controlExtend);
-				add(virtualPad);			
-				virtualPad = getCustomMode(virtualPad);
+				add(virtualPad);							
 				virtualPad = getExtraCustomMode(virtualPad);
 			case 2:
 				virtualPad = new FlxVirtualPad(RIGHT_FULL, controlExtend);				
@@ -63,8 +61,7 @@ class MobileControls extends FlxTypedSpriteGroup<FlxMobileInputManager>
 				add(virtualPad);	
 			case 3:
 				virtualPad = new FlxVirtualPad(BOTH, controlExtend);
-				add(virtualPad);		
-				virtualPad = getCustomMode(virtualPad);
+				add(virtualPad);						
 				virtualPad = getExtraCustomMode(virtualPad);
 			case 4:
 			  hitbox = new FlxHitbox();
