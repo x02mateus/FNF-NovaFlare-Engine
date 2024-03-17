@@ -8,18 +8,14 @@ import openfl.text.TextFormat;
 import openfl.utils.Assets;
 
 class FPSCounter extends TextField
-{
-    public var currentFPS(default, null):Float;
-	public var displayedFrameTime(default, null):Float;
-
+{  
 	public function new(x:Float = 10, y:Float = 10, color:Int = 0x000000)
 	{
 		super();
 
 		this.x = x;
 		this.y = y;
-
-		displayedFrameTime = 0;
+		
 		selectable = false;
 		mouseEnabled = false;
 		defaultTextFormat = new TextFormat(Assets.getFont("assets/fonts/FPS.ttf").fontName, 18, color, false, null, null, LEFT, 0, 0);
@@ -32,43 +28,33 @@ class FPSCounter extends TextField
 	}
 
     public function update():Void
-	{		
-		displayedFrameTime = displayedFrameTime * 0.75 + FlxG.elapsed * 1000 * 0.25;
-		
-		currentFPS = Math.floor(1000 / displayedFrameTime * 10) / 10;
-        
-        if (currentFPS > ClientPrefs.data.framerate) currentFPS = ClientPrefs.data.framerate;             
-        
+	{				                          
 		if (ClientPrefs.data.rainbowFPS)
 	    {
-	        this.textColor = ColorReturn.transfer(currentFPS, ClientPrefs.data.framerate);
+	        this.textColor = ColorReturn.transfer(DataGet.currentFPS, ClientPrefs.data.framerate);
 		}
 		else
 		{
 		this.textColor = 0xFFFFFFFF;		
 		}                      
         
-        if (!ClientPrefs.data.rainbowFPS && currentFPS <= ClientPrefs.data.framerate / 2){
+        if (!ClientPrefs.data.rainbowFPS && DataGet.currentFPS <= ClientPrefs.data.framerate / 2){
 		    this.textColor = 0xFFFF0000;
 		}								       
 		
-		this.text = "FPS: " + currentFPS;
+		this.text = "FPS: " + DataGet.currentFPS;
 	}
 }
 
 class MSCounter extends TextField
-{
-    public var currentFPS(default, null):Float;
-	public var displayedFrameTime(default, null):Float;
-
+{    
 	public function new(x:Float = 10, y:Float = 10, color:Int = 0x000000)
 	{
 		super();
 
 		this.x = x;
 		this.y = y;
-
-		displayedFrameTime = 0;
+	
 		selectable = false;
 		mouseEnabled = false;
 		defaultTextFormat = new TextFormat(Assets.getFont("assets/fonts/FPS.ttf").fontName, 12, color, false, null, null, LEFT, 0, 0);
@@ -81,36 +67,37 @@ class MSCounter extends TextField
 	}
 
 	public function update():Void
-	{			
-		displayedFrameTime = displayedFrameTime * 0.75 + FlxG.elapsed * 1000 * 0.25;
-		
-		currentFPS = Math.floor(1000 / displayedFrameTime * 10) / 10;
-        
-        if (currentFPS > ClientPrefs.data.framerate) currentFPS = ClientPrefs.data.framerate;             
-        
+	{					                        
 		if (ClientPrefs.data.rainbowFPS)
 	    {
-	        this.textColor = ColorReturn.transfer(currentFPS, ClientPrefs.data.framerate);
+	        this.textColor = ColorReturn.transfer(DataGet.currentFPS, ClientPrefs.data.framerate);
 		}
 		else
 		{
 		this.textColor = 0xFFFFFFFF;		
 		}                      
         
-        if (!ClientPrefs.data.rainbowFPS && currentFPS <= ClientPrefs.data.framerate / 2){
+        if (!ClientPrefs.data.rainbowFPS && DataGet.currentFPS <= ClientPrefs.data.framerate / 2){
 		    this.textColor = 0xFFFF0000;
 		}
 		
-		var showTime = Math.floor(displayedFrameTime  * 10) / 10;
-		this.text = "Delay: " + displayedFrameTime + "MS";
+		var showTime = Math.floor(DataGet.displayedFrameTime  * 100) / 100;
+		this.text = "Delay: " + DataGet.displayedFrameTime + "MS";
 	}
 }
 
 
 class DataGet {
+    public var currentFPS(default, null):Float;
+	public var displayedFrameTime(default, null):Float;
 
-
-
+    public function update(){
+        displayedFrameTime = displayedFrameTime * 0.75 + FlxG.elapsed * 1000 * 0.25;
+		
+		currentFPS = Math.floor(1000 / displayedFrameTime * 10) / 10;   
+		
+		if (currentFPS > ClientPrefs.data.framerate) currentFPS = ClientPrefs.data.framerate;                
+    }
 }
 
 class ColorReturn {

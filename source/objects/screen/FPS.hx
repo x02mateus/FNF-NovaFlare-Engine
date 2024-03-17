@@ -1,7 +1,5 @@
 package objects.screen;
 
-import openfl.text.TextField;
-import openfl.text.TextFormat;
 import openfl.display.Sprite;
 
 import objects.screen.DataCounter;
@@ -42,6 +40,8 @@ class FPS extends Sprite
 	    
 	    msShow.x = blackBG.x;
 	    msShow.y = blackBG.y + fpsShow.height - 3 * ClientPrefs.data.FPSScale;
+	    
+	    DataGet.update();
 	    
 	    fpsShow.update();
 	    msShow.update();

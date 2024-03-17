@@ -3,7 +3,7 @@ package objects.screen;
 import openfl.display.Bitmap;
 import openfl.display.BitmapData;
 import openfl.display.Sprite;
-import openfl.display.Graphics;
+import openfl.display.Shape;
 
 class Watermark extends Bitmap
 {
@@ -23,7 +23,7 @@ class Watermark extends Bitmap
 
 
 class FPSBG extends Bitmap
-{    
+{
     public function new(x:Float = 0, y:Float = 0, Alpha:Float = 0.5){
 
         super();              
