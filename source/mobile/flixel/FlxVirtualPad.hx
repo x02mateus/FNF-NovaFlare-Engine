@@ -184,8 +184,8 @@ class FlxVirtualPad extends FlxMobileInputManager
 				add(buttonA = createButton(FlxG.width - 132, FlxG.height - 135, 132, 127, 'a', 0xFF0000));
 			case controlExtend:
 			    if (Type.getClass(FlxG.state) != PlayState || (Type.getClass(FlxG.state) == PlayState && ClientPrefs.data.extraKey > 0)) add(buttonExtra1 = createButton(FlxG.width * 0.5 - 86 * 3, FlxG.height * 0.5 - 127 * 0.5, 44 * 3, 127, "a", 0xFFFF00));
-				if (Type.getClass(FlxG.state) != PlayState || (Type.getClass(FlxG.state) == PlayState && ClientPrefs.data.extraKey > 1)) add(buttonExtra2 = createButton(FlxG.width * 0.5, FlxG.height * 0.5 - 127 * 0.5, 44 * 3, 127, "b", 0xFFFF00));
-				if (Type.getClass(FlxG.state) != PlayState || (Type.getClass(FlxG.state) == PlayState && ClientPrefs.data.extraKey > 2)) add(buttonExtra3 = createButton(FlxG.width * 0.5 - 44 * 3, FlxG.height * 0.5 - 127 * 0.5, 44 * 3, 127, "c", 0xFFFF00));
+				if (Type.getClass(FlxG.state) != PlayState || (Type.getClass(FlxG.state) == PlayState && ClientPrefs.data.extraKey > 1)) add(buttonExtra2 = createButton(FlxG.width * 0.5 - 44 * 3, FlxG.height * 0.5 - 127 * 0.5, 44 * 3, 127, "b", 0xFFFF00));
+				if (Type.getClass(FlxG.state) != PlayState || (Type.getClass(FlxG.state) == PlayState && ClientPrefs.data.extraKey > 2)) add(buttonExtra3 = createButton(FlxG.width * 0.5 , FlxG.height * 0.5 - 127 * 0.5, 44 * 3, 127, "c", 0xFFFF00));
 				if (Type.getClass(FlxG.state) != PlayState || (Type.getClass(FlxG.state) == PlayState && ClientPrefs.data.extraKey > 3)) add(buttonExtra4 = createButton(FlxG.width * 0.5 + 44 * 3, FlxG.height * 0.5 - 127 * 0.5, 44 * 3, 127, "d", 0xFFFF00));
 			case OptionStateC:
 			    add(buttonLeft = createButton(FlxG.width - 258, FlxG.height - 85 * 3, 44 * 3, 127, "left", 0xFF00FF));
