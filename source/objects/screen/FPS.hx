@@ -4,6 +4,7 @@ import openfl.text.TextField;
 import openfl.text.TextFormat;
 
 import objects.screen.DataCounter;
+import objects.screen.Graphics;
 
 class FPS extends Sprite
 {

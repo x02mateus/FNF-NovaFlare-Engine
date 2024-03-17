@@ -30,7 +30,7 @@ class FPSBG extends Sprite
 
 		this.x = x;
 		this.y = y;
-		this.alpha = Alpha;
+		graphics.alpha = Alpha;
 		graphics.drawRoundRect(0, 0, 80, 30, 10, 10);      	      
     }
 } 
