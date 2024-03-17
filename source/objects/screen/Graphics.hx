@@ -23,15 +23,15 @@ class Watermark extends Bitmap
 
 class FPSBG extends Bitmap
 {
-    public function new(x:Float = 0, y:Float = 0, Alpha:Float = 0.8){
+    public function new(x:Float = 0, y:Float = 0, Alpha:Float = 0.3){
 
         super();              
 
 		this.x = x;
 		this.y = y;
 		
-		var bgWidth = 80;
-		var bgHeight = 30;
+		var bgWidth = 140;
+		var bgHeight = 50;
 		
 		var shape:Shape = new Shape();
         shape.graphics.beginFill(FlxColor.fromRGB(124, 118, 146, 255));

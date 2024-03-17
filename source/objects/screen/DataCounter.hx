@@ -18,7 +18,7 @@ class FPSCounter extends TextField
 		
 		selectable = false;
 		mouseEnabled = false;
-		defaultTextFormat = new TextFormat(Assets.getFont("assets/fonts/FPS.ttf").fontName, 18, color, false, null, null, LEFT, 0, 0);
+		defaultTextFormat = new TextFormat(Assets.getFont("assets/fonts/FPS.ttf").fontName, 30, color, false, null, null, LEFT, 0, 0);
 		autoSize = LEFT;
 		
 		multiline = true; //多行文本
@@ -57,7 +57,7 @@ class MSCounter extends TextField
 	
 		selectable = false;
 		mouseEnabled = false;
-		defaultTextFormat = new TextFormat(Assets.getFont("assets/fonts/FPS.ttf").fontName, 12, color, false, null, null, LEFT, 0, 0);
+		defaultTextFormat = new TextFormat(Assets.getFont("assets/fonts/FPS.ttf").fontName, 15, color, false, null, null, LEFT, 0, 0);
 		autoSize = LEFT;
 		
 		multiline = true; //多行文本
@@ -96,10 +96,10 @@ class DataGet {
     static public function update(){
         
         wait += FlxG.elapsed * 1000;
-        if (wait > 100) wait = 0;
+        if (wait > 50) wait = 0;
         else return;
         
-        displayedFrameTime = displayedFrameTime * 0.75 + FlxG.elapsed * 1000 * 0.25;
+        displayedFrameTime = displayedFrameTime * 0.9 + FlxG.elapsed * 1000 * 0.1;
 		
 		currentFPS = Math.floor(1000 / displayedFrameTime + 0.5);   
 		
