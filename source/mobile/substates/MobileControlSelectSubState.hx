@@ -58,14 +58,7 @@ class MobileControlSelectSubState extends MusicBeatSubstate
 		add(bg);
 		
 		var exit = new UIButton(FlxG.width - 300 , 50, "Exit & Save", () ->
-		{
-			if (curSelected == 6)
-				if (daFunny.alpha == 0 ){
-				daFunny.alpha = 1;
-				FlxTween.tween(daFunny, {alpha: 0}, 2.5, {ease: FlxEase.circInOut});
-			}
-
-			
+		{			
 			MobileControls.set_mode(curSelected);
 
 			if (controlsItems[Math.floor(curSelected)] == 'Pad-Custom')
@@ -87,7 +80,6 @@ class MobileControlSelectSubState extends MusicBeatSubstate
 		exit.label.fieldWidth = exit.width;
 		exit.label.x = ((exit.width - exit.label.width) / 2) + exit.x;
 		exit.label.offset.y = -10; // WHY THE FUCK I CAN'T CHANGE THE LABEL Y
-		//exit.cameras = [ui];
 		add(exit);
 
 		resetButton = new UIButton(exit.x, exit.height + exit.y + 20, "Reset", () ->
