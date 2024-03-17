@@ -39,7 +39,7 @@ class FPS extends Sprite
 	    fpsShow.y = blackBG.y;
 	    
 	    msShow.x = blackBG.x;
-	    msShow.y = blackBG.y + fpsShow.height - 3 * ClientPrefs.data.FPSScale;
+	    msShow.y = blackBG.y + fpsShow.height * 0.95;
 	    
 	    DataGet.update();
 	    
