@@ -81,7 +81,7 @@ class MSCounter extends TextField
 		    this.textColor = 0xFFFF0000;
 		}
 		
-		var showTime = Math.floor(DataGet.displayedFrameTime  * 100) / 100;
+		var showTime = Math.floor(DataGet.displayedFrameTime + 0.5);
 		this.text = "Delay: " + DataGet.displayedFrameTime + "MS";
 	}
 }
@@ -90,11 +90,18 @@ class MSCounter extends TextField
 class DataGet {
     static public  var currentFPS(default, null):Float;
 	static public  var displayedFrameTime(default, null):Float;
-
+    
+    var wait:Float = 0;
+    
     static public  function update(){
+        
+        wait += FlxG.elapsed * 1000;
+        if (wait > 50) wait = 0;
+        else return;
+        
         displayedFrameTime = displayedFrameTime * 0.75 + FlxG.elapsed * 1000 * 0.25;
 		
-		currentFPS = Math.floor(1000 / displayedFrameTime * 10) / 10;   
+		currentFPS = Math.floor(1000 / displayedFrameTime + 0.5);   
 		
 		if (currentFPS > ClientPrefs.data.framerate) currentFPS = ClientPrefs.data.framerate;                
     }
@@ -109,9 +116,9 @@ class ColorReturn {
         
         if (data < maxData / 2) {
             red = 255;
-            green = Std.int(255 * data / maxData);
+            green = Std.int(255 * data / maxData * 2);
         } else {
-            red = Std.int(255 * (maxData - data) / maxData);
+            red = Std.int(255 * (maxData - data) / maxData * 2);
             green = 255;        
         }      
         
