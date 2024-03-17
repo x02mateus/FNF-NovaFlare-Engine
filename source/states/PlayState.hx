@@ -1881,7 +1881,7 @@ class PlayState extends MusicBeatState
     	       && realTouch.y <= pauseButton_menu.y + pauseButton_menu.height
     	       && realTouch.x >= pauseButton_menu.x 
     	       && realTouch.x <= pauseButton_menu.x + pauseButton_menu.width
-    	       && FlxG.mouse.justPressed
+    	       && touch.justPressed
     	       ) Pressed = true;
     	    }
     	       
