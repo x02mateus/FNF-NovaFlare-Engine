@@ -35,7 +35,7 @@ class FPSCounter extends TextField
 	{		
 		displayedFrameTime = DampInterpolation.damp(displayedFrameTime, FlxG.elapsed * 1000, 1, FlxG.elapsed * 1000);
 		
-		currentFPS = Math.floor(1000 / displayedFrameTime  * 10) / 10;
+		currentFPS = Math.floor(1000 / displayedFrameTime * 10) / 10;
         
         if (currentFPS > ClientPrefs.data.framerate) currentFPS = ClientPrefs.data.framerate;             
         
@@ -82,7 +82,7 @@ class MSCounter extends TextField
 
 	public function update():Void
 	{			
-		displayedFrameTime = DampInterpolation.damp(displayedFrameTime, FlxG.elapsed * 1000, 1, FlxG.elapsed * 1000);				
+		displayedFrameTime = displayedFrameTime * 0.75 + FlxG.elapsed * 1000 * 0.25;
         
         if (currentFPS > ClientPrefs.data.framerate) currentFPS = ClientPrefs.data.framerate;             
         
@@ -97,8 +97,9 @@ class MSCounter extends TextField
         
         if (!ClientPrefs.data.rainbowFPS && currentFPS <= ClientPrefs.data.framerate / 2){
 		    this.textColor = 0xFFFF0000;
-		}								       
+		}
 		
+		var showTime = Math.floor(displayedFrameTime  * 10) / 10;
 		this.text = "Delay: " + displayedFrameTime + "MS";
 	}
 }
@@ -111,7 +112,7 @@ class ColorReturn {
         var green = 0;
         var blue = 126;
         
-        if (data < maxData) {
+        if (data < maxData / 2) {
             red = 255;
             green = Std.int(255 * data / maxData);
         } else {
@@ -121,12 +122,4 @@ class ColorReturn {
         
         return FlxColor.fromRGB(red, green, blue, 255);
    }
-}
-
-class DampInterpolation {
-    static public function damp(a:Float, b:Float, k:Float, dt:Float):Float {
-        var damping = Math.exp(-k * dt);
-        return (1.0 - damping) * a + damping * b;
-    }
-
 }
