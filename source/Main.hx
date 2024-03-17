@@ -1,6 +1,7 @@
 package;
 
-import objects.Watermark;
+import objects.screen.Watermark;
+import objects.screen.FPS;
 
 import flixel.graphics.FlxGraphic;
 import flixel.FlxGame;
