@@ -33,15 +33,14 @@ class FPS extends Sprite
     
         msShow = new MSCounter();
         addChild(msShow);
-    
     }
     
     private override function __enterFrame(deltaTime:Float):Void
 	{	
-	    fpsShow.x = blackBG.x + blackBG.width - fpsShow.width - 2;
+	    fpsShow.x = blackBG.x;
 	    fpsShow.y = blackBG.y;
 	    
-	    msShow.x = blackBG.x + blackBG.width - msShow.width - 2;
+	    msShow.x = blackBG.x;
 	    msShow.y = blackBG.y + fpsShow.height;
     }	
 }
