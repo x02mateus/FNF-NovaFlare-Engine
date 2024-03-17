@@ -92,14 +92,17 @@ class DataGet {
 	static public var displayedFrameTime(default, null):Float;
     
     static public var wait:Float = 0;
+    static public var number:Float = 0;
     
     static public function update(){
         
         wait += FlxG.elapsed * 1000;
-        if (wait > 50) wait = 0;
-        else return;
+        number++;
+        if (wait < 50) return;
         
-        displayedFrameTime = displayedFrameTime * 0.9 + FlxG.elapsed * 1000 * 0.1;
+        displayedFrameTime = displayedFrameTime * 0.9 + wait / number * 0.1;
+        
+		wait = number = 0;
 		
 		currentFPS = Math.floor(1000 / displayedFrameTime + 0.5);   
 		
