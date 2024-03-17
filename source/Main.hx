@@ -143,7 +143,7 @@ class Main extends Sprite
 
 		Achievements.load();
 
-		fpsVar = new FPS(5, 5, 0xFFFFFF);
+		fpsVar = new FPS(5, 5);
 		addChild(fpsVar);
 		if(fpsVar != null) {
 		    fpsVar.scaleX = fpsVar.scaleY = ClientPrefs.data.FPSScale;		  
