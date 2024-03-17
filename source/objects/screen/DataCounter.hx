@@ -9,8 +9,8 @@ import openfl.utils.Assets;
 
 class FPSCounter extends TextField
 {
-    static public var currentFPS(default, null):Float;
-	static public var displayedFrameTime(default, null):Float;
+    public var currentFPS(default, null):Float;
+	public var displayedFrameTime(default, null):Float;
 
 	public function new(x:Float = 10, y:Float = 10, color:Int = 0x000000)
 	{
@@ -31,7 +31,7 @@ class FPSCounter extends TextField
 		text = "FPS: ";		
 	}
 
-    static public function update():Void
+    public function update():Void
 	{		
 		displayedFrameTime = DampInterpolation.damp(displayedFrameTime, FlxG.elapsed * 1000, 1, FlxG.elapsed * 1000);
 		
@@ -41,25 +41,25 @@ class FPSCounter extends TextField
         
 		if (ClientPrefs.data.rainbowFPS)
 	    {
-	        textColor = ColorReturn.transfer(currentFPS, ClientPrefs.data.framerate);
+	        this.textColor = ColorReturn.transfer(currentFPS, ClientPrefs.data.framerate);
 		}
 		else
 		{
-		textColor = 0xFFFFFFFF;		
+		this.textColor = 0xFFFFFFFF;		
 		}                      
         
         if (!ClientPrefs.data.rainbowFPS && currentFPS <= ClientPrefs.data.framerate / 2){
-		    textColor = 0xFFFF0000;
+		    this.textColor = 0xFFFF0000;
 		}								       
 		
-		text = "FPS: " + currentFPS;
+		this.text = "FPS: " + currentFPS;
 	}
 }
 
 class MSCounter extends TextField
 {
-    static public var currentFPS(default, null):Float;
-	static public var displayedFrameTime(default, null):Float;
+    public var currentFPS(default, null):Float;
+	public var displayedFrameTime(default, null):Float;
 
 	public function new(x:Float = 10, y:Float = 10, color:Int = 0x000000)
 	{
@@ -80,7 +80,7 @@ class MSCounter extends TextField
 		text = "FPS: ";		
 	}
 
-	static public function update():Void
+	public function update():Void
 	{			
 		displayedFrameTime = DampInterpolation.damp(displayedFrameTime, FlxG.elapsed * 1000, 1, FlxG.elapsed * 1000);				
         
@@ -88,18 +88,18 @@ class MSCounter extends TextField
         
 		if (ClientPrefs.data.rainbowFPS)
 	    {
-	        textColor = ColorReturn.transfer(currentFPS, ClientPrefs.data.framerate);
+	        this.textColor = ColorReturn.transfer(currentFPS, ClientPrefs.data.framerate);
 		}
 		else
 		{
-		textColor = 0xFFFFFFFF;		
+		this.textColor = 0xFFFFFFFF;		
 		}                      
         
         if (!ClientPrefs.data.rainbowFPS && currentFPS <= ClientPrefs.data.framerate / 2){
-		    textColor = 0xFFFF0000;
+		    this.textColor = 0xFFFF0000;
 		}								       
 		
-		text = "Delay: " + displayedFrameTime + "MS";
+		this.text = "Delay: " + displayedFrameTime + "MS";
 	}
 }
 
