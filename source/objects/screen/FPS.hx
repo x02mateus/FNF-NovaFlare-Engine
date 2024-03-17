@@ -1,0 +1,45 @@
+package objects.screen;
+
+import openfl.text.TextField;
+import openfl.text.TextFormat;
+
+import objects.screen.DataCounter;
+
+class FPS extends Sprite
+{
+	public function new(x:Float = 10, y:Float = 10)
+	{
+		super();
+
+		this.x = x;
+		this.y = y;
+		
+		create();
+	}
+    
+    public static var blackBG:FPSBG;    
+    public static var fpsShow:FPSCounter;
+    public static var msShow:MSCounter;    
+    
+    function create()
+    {
+        blackBG = new FPSBG(10, 10);
+        addChild(blackBG);
+        
+        fpsShow = new FPSCounter();
+        addChild(fpsShow);
+    
+        msShow = new MSCounter();
+        addChild(msShow);
+    
+    }
+    
+    private override function __enterFrame(deltaTime:Float):Void
+	{	
+	    fpsShow.x = blackBG.x + blackBG.width - fpsShow.width - 2;
+	    fpsShow.y = blackBG.y;
+	    
+	    msShow.x = blackBG.x + blackBG.width - msShow.width - 2;
+	    msShow.y = blackBG.y + fpsShow.height;
+    }	
+}
