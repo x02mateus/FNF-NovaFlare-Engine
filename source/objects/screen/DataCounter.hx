@@ -33,7 +33,7 @@ class FPSCounter extends TextField
 
     public function update():Void
 	{		
-		displayedFrameTime = DampInterpolation.damp(displayedFrameTime, FlxG.elapsed * 1000, 1, FlxG.elapsed * 1000);
+		displayedFrameTime = displayedFrameTime * 0.75 + FlxG.elapsed * 1000 * 0.25;
 		
 		currentFPS = Math.floor(1000 / displayedFrameTime * 10) / 10;
         
