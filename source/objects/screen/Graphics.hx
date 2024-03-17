@@ -34,13 +34,13 @@ class FPSBG extends Bitmap
 		var bgWidth = 80;
 		var bgHeight = 30;
 		
-		var graphics:Graphics = new Graphics();
-        graphics.beginFill(FlxColor.fromRGB(124, 118, 146, 205));
-        graphics.drawRoundRect(0, 0, bgWidth, bgHeight, 10, 10);     
-        graphics.endFill();
+		var shape:Shape = new Shape();
+        shape.graphics.beginFill(FlxColor.fromRGB(124, 118, 146, 205));
+        shape.graphics.drawRoundRect(0, 0, bgWidth, bgHeight, 10, 10);     
+        shape.graphics.endFill();
         
         var BitmapData:BitmapData = new BitmapData(bgWidth, bgHeight);
-        BitmapData.draw(graphics);   
+        BitmapData.draw(shape);   
         
         this.bitmapData = BitmapData;
     }
