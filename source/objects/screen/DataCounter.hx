@@ -83,6 +83,8 @@ class MSCounter extends TextField
 	public function update():Void
 	{			
 		displayedFrameTime = displayedFrameTime * 0.75 + FlxG.elapsed * 1000 * 0.25;
+		
+		currentFPS = Math.floor(1000 / displayedFrameTime * 10) / 10;
         
         if (currentFPS > ClientPrefs.data.framerate) currentFPS = ClientPrefs.data.framerate;             
         
@@ -104,6 +106,12 @@ class MSCounter extends TextField
 	}
 }
 
+
+class DataGet {
+
+
+
+}
 
 class ColorReturn {
     static public function transfer(data:Float, maxData:Float):FlxColor
