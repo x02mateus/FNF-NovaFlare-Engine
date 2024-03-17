@@ -21,7 +21,7 @@ class Watermark extends Bitmap
 } 
 
 
-class FPSBG extends Graphics
+class FPSBG extends Sprite
 {    
     public function new(x:Float = 0, y:Float = 0, Alpha:Float = 0.5){
 
