@@ -124,7 +124,7 @@ class ColorReturn {
 }
 
 class DampInterpolation {
-    static public function dampContinuously(a:Float, b:Float, k:Float, dt:Float):Float {
+    static public function damp(a:Float, b:Float, k:Float, dt:Float):Float {
         var damping = Math.exp(-k * dt);
         return (1.0 - damping) * a + damping * b;
     }
