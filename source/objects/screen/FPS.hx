@@ -2,6 +2,7 @@ package objects.screen;
 
 import openfl.text.TextField;
 import openfl.text.TextFormat;
+import openfl.display.Sprite;
 
 import objects.screen.DataCounter;
 import objects.screen.Graphics;
