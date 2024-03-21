@@ -31,7 +31,7 @@ class FPSCounter extends Sprite
 		for(label in [this.data, this.title]) {
 			label.x = 0;
 			label.y = 0;
-			label.defaultTextFormat = new TextFormat(Assets.getFont("assets/fonts/FPS.ttf").fontName, label == this.data ? 25 : 13, color, false, null, null, label == this.data ? CENTER : RIGHT, 0, 0);			
+			label.defaultTextFormat = new TextFormat(Assets.getFont("assets/fonts/FPS.ttf").fontName, label == this.data ? 25 : 13, 0xFFFFFFFF, false, null, null, label == this.data ? CENTER : RIGHT, 0, 0);			
 			label.multiline = label.wordWrap = false;
 			addChild(label);
 		}				
@@ -59,7 +59,7 @@ class FPSCounter extends Sprite
     		}								       
     	}
     	
-    	this.data.text = DataGet.currentFPS;
+    	this.data.text = Std.string(DataGet.currentFPS);
     	this.title.text = "/${ClientPrefs.data.framerate}FPS";
 	}
 }
@@ -92,7 +92,7 @@ class ExtraCounter extends Sprite
 		for(label in [this.delay, this.delayData, this.mem, this.memData]) {	
 			label.x = 0;
 			label.y = 0;
-			label.defaultTextFormat = new TextFormat(Assets.getFont("assets/fonts/FPS.ttf").fontName, 15, color, false, null, null, LEFT, 0, 0);			
+			label.defaultTextFormat = new TextFormat(Assets.getFont("assets/fonts/FPS.ttf").fontName, 15, 0xFFFFFFFF, false, null, null, LEFT, 0, 0);			
 			label.multiline = label.wordWrap = false;
 			addChild(label);
 		}
@@ -125,8 +125,8 @@ class ExtraCounter extends Sprite
 		this.mem.text = "Memory          ${DataGet.memType}";
     	
         var showTime:Float = Math.floor((DataGet.displayedFrameTime + 0.5) * 10) / 10;
-        this.delayData.text = showTime;
-        this.memData.text = DataGet.memory;
+        this.delayData.text = Std.string(showTime);
+        this.memData.text = Std.string(DataGet.memory);
 	}
 }
 	
