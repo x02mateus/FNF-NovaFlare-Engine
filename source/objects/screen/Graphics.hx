@@ -23,16 +23,16 @@ class Watermark extends Bitmap
 
 class FPSBG extends Bitmap
 {
-    public function new(width:Float = 140, height:Float = 50, Alpha:Float = 0.3, color:FlxColor = FlxColor.fromRGB(124, 118, 146, 255)){
+    public function new(Width:Int = 140, Height:Int = 50, Alpha:Float = 0.3, Color:FlxColor = FlxColor.fromRGB(124, 118, 146, 255)){
 
         super();             				
 		
 		var shape:Shape = new Shape();
         shape.graphics.beginFill();
-        shape.graphics.drawRoundRect(0, 0, width, height, 10, 10);     
+        shape.graphics.drawRoundRect(0, 0, Width, Height, 10, 10);     
         shape.graphics.endFill();
         
-        var BitmapData:BitmapData = new BitmapData(width, height, 0x00FFFFFF);
+        var BitmapData:BitmapData = new BitmapData(Width, Height, 0x00FFFFFF);
         BitmapData.draw(shape);   
                 
         this.bitmapData = BitmapData;

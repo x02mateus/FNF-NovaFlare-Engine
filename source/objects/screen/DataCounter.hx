@@ -11,7 +11,7 @@ import objects.screen.Graphics;
 class FPSCounter extends Sprite
 {  
     public var data:TextField;
-	public var text:TextField;
+	public var title:TextField;
 
 	public var bgSprite:FPSBG;
 	
@@ -92,7 +92,7 @@ class ExtraCounter extends Sprite
 		for(label in [this.delay, this.delayData, this.mem, this.memData]) {	
 			label.x = 0;
 			label.y = 0;
-			label.defaultTextFormat = new TextFormat(Assets.getFont("assets/fonts/FPS.ttf").fontName, label == 15, color, false, null, null, LEFT, 0, 0);			
+			label.defaultTextFormat = new TextFormat(Assets.getFont("assets/fonts/FPS.ttf").fontName, 15, color, false, null, null, LEFT, 0, 0);			
 			label.multiline = label.wordWrap = false;
 			addChild(label);
 		}
@@ -124,7 +124,7 @@ class ExtraCounter extends Sprite
     	this.delay.text = "Delay:           MS";
 		this.mem.text = "Memory          ${DataGet.memType}";
     	
-        var showTime = Math.floor(DataGet.displayedFrameTime + 0.5);
+        var showTime:Float = Math.floor((DataGet.displayedFrameTime + 0.5) * 10) / 10;
         this.delayData.text = showTime;
         this.memData.text = DataGet.memory;
 	}
