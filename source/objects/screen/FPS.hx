@@ -34,6 +34,6 @@ class FPS extends Sprite
 	    DataGet.update();
 	    
 	    fpsShow.update();
-	    msShow.update();
+	    extraShow.update();
     }
 }
