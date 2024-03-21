@@ -17,30 +17,20 @@ class FPS extends Sprite
 		create();
 	}
     
-    public static var blackBG:FPSBG;    
     public static var fpsShow:FPSCounter;
-    public static var msShow:MSCounter;    
+    public static var extraShow:ExtraCounter;    
     
     function create()
-    {
-        blackBG = new FPSBG(10, 10);
-        addChild(blackBG);
-        
+    {        
         fpsShow = new FPSCounter();
         addChild(fpsShow);
     
-        msShow = new MSCounter();
+        msShow = new ExtraCounter();
         addChild(msShow);
     }
     
     private override function __enterFrame(deltaTime:Float):Void
-	{
-	    fpsShow.x = blackBG.x;
-	    fpsShow.y = blackBG.y;
-	    
-	    msShow.x = blackBG.x;
-	    msShow.y = blackBG.y + fpsShow.height * 0.8;
-	    
+	{	    	    	    
 	    DataGet.update();
 	    
 	    fpsShow.update();

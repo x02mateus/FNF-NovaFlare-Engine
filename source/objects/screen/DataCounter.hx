@@ -1,95 +1,143 @@
 package objects.screen;
 
 import cpp.vm.Gc;
-import haxe.Timer;
 
 import openfl.text.TextField;
 import openfl.text.TextFormat;
 import openfl.utils.Assets;
 
-class FPSCounter extends TextField
+import objects.screen.Graphics;
+
+class FPSCounter extends Sprite
 {  
-	public function new(x:Float = 10, y:Float = 10, color:Int = 0x000000)
+    public var data:TextField;
+	public var text:TextField;
+
+	public var bgSprite:FPSBG;
+	
+	public function new(x:Float = 10, y:Float = 10)
 	{
 		super();
 
 		this.x = x;
-		this.y = y;
+		this.y = y;		
 		
-		selectable = false;
-		mouseEnabled = false;
-		defaultTextFormat = new TextFormat(Assets.getFont("assets/fonts/FPS.ttf").fontName, 30, color, false, null, null, LEFT, 0, 0);
-		autoSize = LEFT;
+		bgSprite = new FPSBG();
+		addChild(bgSprite);
 		
-		multiline = true; //多行文本
-		wordWrap = false; //禁用自动换行
+		this.data = new TextField();
+		this.title = new TextField();
+
+		for(label in [this.data, this.title]) {
+			label.x = 0;
+			label.y = 0;
+			label.defaultTextFormat = new TextFormat(Assets.getFont("assets/fonts/FPS.ttf").fontName, label == this.data ? 25 : 13, color, false, null, null, label == this.data ? CENTER : RIGHT, 0, 0);			
+			label.multiline = label.wordWrap = false;
+			addChild(label);
+		}				
 		
-		text = "FPS: ";		
+		this.title.y = bgSprite.height - this.title.height;
+		 								
+		this.data.text = "0";
+		this.title.text = "/${ClientPrefs.data.framerate}FPS";  		
 	}
 
     public function update():Void
-	{				                          
-		if (ClientPrefs.data.rainbowFPS)
-	    {
-	        this.textColor = ColorReturn.transfer(DataGet.currentFPS, ClientPrefs.data.framerate);
-		}
-		else
-		{
-		this.textColor = 0xFFFFFFFF;		
-		}                      
-        
-        if (!ClientPrefs.data.rainbowFPS && DataGet.currentFPS <= ClientPrefs.data.framerate / 2){
-		    this.textColor = 0xFFFF0000;
-		}								       
-		
-		this.text = "FPS: " + DataGet.currentFPS;
+	{
+	    for(label in [this.data, this.title]) {		                          
+    		if (ClientPrefs.data.rainbowFPS)
+    	    {
+    	        label.textColor = ColorReturn.transfer(DataGet.currentFPS, ClientPrefs.data.framerate);
+    		}
+    		else
+    		{
+    		    label.textColor = 0xFFFFFFFF;		
+    		}                      
+            
+            if (!ClientPrefs.data.rainbowFPS && DataGet.currentFPS <= ClientPrefs.data.framerate / 2){
+    		    label.textColor = 0xFFFF0000;
+    		}								       
+    	}
+    	
+    	this.data.text = DataGet.currentFPS;
+    	this.title.text = "/${ClientPrefs.data.framerate}FPS";
 	}
 }
 
-class MSCounter extends TextField
-{    
-	public function new(x:Float = 10, y:Float = 10, color:Int = 0x000000)
+class ExtraCounter extends Sprite
+{
+	public var delay:TextField;
+	public var mem:TextField;
+	
+	public var delayData:TextField;
+	public var memData:TextField;
+
+	public var bgSprite:FPSBG;
+	
+	public function new(x:Float = 10, y:Float = 60)
 	{
 		super();
 
 		this.x = x;
-		this.y = y;
-	
-		selectable = false;
-		mouseEnabled = false;
-		defaultTextFormat = new TextFormat(Assets.getFont("assets/fonts/FPS.ttf").fontName, 15, color, false, null, null, LEFT, 0, 0);
-		autoSize = LEFT;
+		this.y = y;		
 		
-		multiline = true; //多行文本
-		wordWrap = false; //禁用自动换行
+		bgSprite = new FPSBG();
+		addChild(bgSprite);
 		
-		text = "FPS: ";		
-	}
+		this.delay = new TextField();
+		this.delayData = new TextField();
+		this.mem = new TextField();		
+		this.memData = new TextField();
 
-	public function update():Void
-	{					                        
-		if (ClientPrefs.data.rainbowFPS)
-	    {
-	        this.textColor = ColorReturn.transfer(DataGet.currentFPS, ClientPrefs.data.framerate);
-		}
-		else
-		{
-		this.textColor = 0xFFFFFFFF;		
-		}                      
-        
-        if (!ClientPrefs.data.rainbowFPS && DataGet.currentFPS <= ClientPrefs.data.framerate / 2){
-		    this.textColor = 0xFFFF0000;
+		for(label in [this.delay, this.delayData, this.mem, this.memData]) {	
+			label.x = 0;
+			label.y = 0;
+			label.defaultTextFormat = new TextFormat(Assets.getFont("assets/fonts/FPS.ttf").fontName, label == 15, color, false, null, null, LEFT, 0, 0);			
+			label.multiline = label.wordWrap = false;
+			addChild(label);
 		}
 		
-		var showTime = Math.floor(DataGet.displayedFrameTime + 0.5);
-		this.text = "Delay: " + showTime + "MS";
+		this.delayData.autoSize = this.memData.autoSize = CENTER;
+		this.mem.y = this.memData.y = 20;
+		
+		this.delay.text = "Delay:           MS";
+		this.mem.text = "Memory         MB";
+    }
+    
+    public function update():Void
+	{
+	    for(label in [this.delay, this.delayData, this.mem, this.memData]) {                          
+    		if (ClientPrefs.data.rainbowFPS)
+    	    {
+    	        label.textColor = ColorReturn.transfer(DataGet.currentFPS, ClientPrefs.data.framerate);
+    		}
+    		else
+    		{
+    		    label.textColor = 0xFFFFFFFF;		
+    		}                      
+            
+            if (!ClientPrefs.data.rainbowFPS && DataGet.currentFPS <= ClientPrefs.data.framerate / 2){
+    		    label.textColor = 0xFFFF0000;
+    		}								       
+    	}
+    	
+    	this.delay.text = "Delay:           MS";
+		this.mem.text = "Memory          ${DataGet.memType}";
+    	
+        var showTime = Math.floor(DataGet.displayedFrameTime + 0.5);
+        this.delayData.text = showTime;
+        this.memData.text = DataGet.memory;
 	}
 }
-
+	
+//////////////////////////////////////  ↓数据计算↓  //////////////////////////////////////
 
 class DataGet {
-    static public var currentFPS(default, null):Float;
-	static public var displayedFrameTime(default, null):Float;
+    static public var currentFPS:Float = 0;
+	static public var displayedFrameTime:Float;
+	
+	static public var memory:Float = 0;
+	static public var memType:String = "MB";
     
     static public var wait:Float = 0;
     static public var number:Float = 0;
@@ -100,13 +148,26 @@ class DataGet {
         number++;
         if (wait < 50) return;
         
-        displayedFrameTime = displayedFrameTime * 0.9 + wait / number * 0.1;
+        /////////////////// →更新
         
+        displayedFrameTime = displayedFrameTime * 0.9 + wait / number * 0.1;        				
+		currentFPS = Math.floor(1000 / displayedFrameTime + 0.5);   		
+		if (currentFPS > ClientPrefs.data.framerate) currentFPS = ClientPrefs.data.framerate;  
+		
+		/////////////////// →fps计算
+		
+		var mem = FlxMath.roundDecimal(Gc.memInfo64(ClientPrefs.data.memoryType) / 1000000, 1); //转化为MB
+		if (Math.abs(mem) < 1000) {
+		    memory = Math.abs(mem);
+		    memType = "MB";
+		} else {
+		    memory = Math.ceil(Math.abs(mem / 1024) * 100) / 100;
+		    memType = "GB";		
+		}
+		
+		/////////////////// →memory计算
+				
 		wait = number = 0;
-		
-		currentFPS = Math.floor(1000 / displayedFrameTime + 0.5);   
-		
-		if (currentFPS > ClientPrefs.data.framerate) currentFPS = ClientPrefs.data.framerate;                
     }
 }
 
