@@ -26,7 +26,7 @@ class FPS extends Sprite
         addChild(fpsShow);
     
         extraShow = new ExtraCounter();
-        addChild(exteaShow);
+        addChild(extraShow);
     }
     
     private override function __enterFrame(deltaTime:Float):Void
