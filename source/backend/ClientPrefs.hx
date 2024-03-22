@@ -7,7 +7,6 @@ import states.TitleState;
 
 // Add a variable here and it will get automatically saved
 @:structInit class SaveVariables {
-
 	public var downScroll:Bool = false;
 	public var middleScroll:Bool = false;
 	public var filpChart:Bool = false;
@@ -47,7 +46,7 @@ import states.TitleState;
 	public var oldHealthBarVersion:Bool = false;
 	public var opponentStrums:Bool = true;
 	public var camZooms:Bool = true;
-	public var judgementCounter:Bool = true;
+	public var judgementCounter:Bool = false;
 	public var hideHud:Bool = false;	
 	public var timeBarType:String = 'Time Left';
 	public var scoreZoom:Bool = true;
@@ -77,7 +76,7 @@ import states.TitleState;
 	public var discordRPC:Bool = true;
 	public var checkForUpdates:Bool = false;
 	public var oldHscriptVersion:Bool = false;
-	public var pauseButton:Bool = true;
+	public var pauseButton:Bool = #if mobile true #else false #end;;
 	
 	public var marvelousRating:Bool = true;	
 	public var marvelousSprite:Bool = true;	
