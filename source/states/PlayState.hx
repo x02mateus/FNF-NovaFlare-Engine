@@ -3135,11 +3135,35 @@ class PlayState extends MusicBeatState
 				}
 			}
             
-            holdNoteCheck(funnyNote, key);
+            if (funnyNote.parent != null) {
+    			if(funnyNote.tail.length > 0) {
+    				for(childNote in funnyNote.tail) {
+                        childNote.canHold = true;
+    				}
+    			}
+    		}
 			
 			if (!ClientPrefs.data.playOpponent) goodNoteHit(funnyNote);
 			else opponentNoteHitForOpponent(funnyNote);
 		} else {		    		    
+		    var plrInputNotes:Array<Note> = notes.members.filter(function(n:Note):Bool {
+    		var canHit:Bool = !strumsBlocked[n.noteData] && n.canBeHit && ((n.mustPress && !ClientPrefs.data.playOpponent) || (!n.mustPress && ClientPrefs.data.playOpponent)) && !n.tooLate && !n.wasGoodHit && !n.blockHit;
+    		return n != null && canHit && n.isSustainNote && n.noteData == key;
+    	    });
+    	    
+    	    var holdNote:Note = plrInputNotes[0]; 
+    	    
+    	    if (holdNote.parent != null) {
+    			var parentNote:Note = holdNote.parent;
+    			if (parentNote.tail.length > 0) {
+    				for (child in parentNote.tail) if (child != holdNote) {
+    				    if (child != null){
+        					child.canHold = true;
+    					}
+    				}
+    			}					
+    		}
+    		
 			if (shouldMiss && !char.stunned) {
 				callOnScripts('onGhostTap', [key]);
 				noteMissPress(key);
@@ -3167,35 +3191,6 @@ class PlayState extends MusicBeatState
 			return -1;
 
 		return FlxSort.byValues(FlxSort.ASCENDING, a.strumTime, b.strumTime);
-	}
-	
-	private function holdNoteCheck(funnyNote:Note, key:Int):Void
-	{
-	    if (funnyNote.parent != null) {
-			if(funnyNote.tail.length > 0) {
-				for(childNote in funnyNote.tail) {
-                    childNote.canHold = true;
-				}
-			}
-		}
-		
-		var plrInputNotes:Array<Note> = notes.members.filter(function(n:Note):Bool {
-		var canHit:Bool = !strumsBlocked[n.noteData] && n.canBeHit && ((n.mustPress && !ClientPrefs.data.playOpponent) || (!n.mustPress && ClientPrefs.data.playOpponent)) && !n.tooLate && !n.wasGoodHit && !n.blockHit;
-		return n != null && canHit && n.isSustainNote && n.noteData == key;
-	    });
-	    
-	    var holdNote:Note = plrInputNotes[0]; // front note
-	    
-	    if (holdNote.parent != null) {
-			var parentNote:Note = holdNote.parent;
-			if (parentNote.tail.length > 0) {
-				for (child in parentNote.tail) if (child != holdNote) {
-				    if (child != null){
-    					child.canHold = true;
-					}
-				}
-			}					
-		}
 	}
 
 	private function onKeyRelease(event:KeyboardEvent):Void
