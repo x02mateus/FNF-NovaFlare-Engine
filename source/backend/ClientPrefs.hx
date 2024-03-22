@@ -76,11 +76,11 @@ import states.TitleState;
 	public var discordRPC:Bool = true;
 	public var checkForUpdates:Bool = false;
 	public var oldHscriptVersion:Bool = false;
-	public var pauseButton:Bool = #if mobile true #else false #end;;
+	public var pauseButton:Bool = #if mobile true #else false #end;
 	
 	public var marvelousRating:Bool = true;	
 	public var marvelousSprite:Bool = true;	
-    public var marvelousWindow:Int = 15;
+        public var marvelousWindow:Int = 15;
     
 	public var comboOffset:Array<Int> = [0, 0, 0, 0];
 	public var ratingOffset:Int = 0;	
