@@ -1,10 +1,5 @@
 package objects.screen;
 
-import openfl.display.Sprite;
-
-import objects.screen.DataCounter;
-import objects.screen.Graphics;
-
 class FPS extends Sprite
 {
 	public function new(x:Float = 10, y:Float = 10)
