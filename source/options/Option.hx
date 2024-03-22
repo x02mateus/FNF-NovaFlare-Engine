@@ -569,7 +569,7 @@ class ScoreZoom extends Option
 
 	private override function updateDisplay():String
 	{
-		return "Score zomming in beats: " + (ClientPrefs.data.scoreZoom ? enable_O : disable_O);
+		return "Score Beat: " + (ClientPrefs.data.scoreZoom ? enable_O : disable_O);
 	}
 }
 
@@ -961,6 +961,26 @@ class PauseMusic extends Option
 	private override function updateDisplay():String
 	{
 		return "Pause Music: < " + ClientPrefs.data.pauseMusic + " >";
+	}
+}
+
+class PauseButton extends Option
+{
+    public static var chooseNum:Int;
+	public function new(desc:String)
+	{
+		super();
+		description = desc;
+	}
+
+	override function press()
+	{
+		ClientPrefs.data.pauseButton = !ClientPrefs.data.pauseButton;
+		display = updateDisplay();
+
+	private override function updateDisplay():String
+	{
+		return "Pause Music: < " + (ClientPrefs.data.pauseButton ? enable_O : disable_O) + " >";
 	}
 }
 
