@@ -977,7 +977,8 @@ class PauseButton extends Option
 	{
 		ClientPrefs.data.pauseButton = !ClientPrefs.data.pauseButton;
 		display = updateDisplay();
-
+    }
+    
 	private override function updateDisplay():String
 	{
 		return "Pause Music: < " + (ClientPrefs.data.pauseButton ? enable_O : disable_O) + " >";
