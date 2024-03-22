@@ -64,6 +64,7 @@ class Note extends FlxSprite
 	public var blockHit:Bool = false; // only works for player
 
 	public var sustainLength:Float = 0;
+	public var canHold:Bool = false;
 	public var isSustainNote:Bool = false;
 	public var noteType(default, set):String = null;
 
@@ -255,7 +256,7 @@ class Note extends FlxSprite
 			alpha = 0.6;
 			multAlpha = 0.6;
 			hitsoundDisabled = true;
-			if(ClientPrefs.data.downScroll) flipY = true;			
+			if(ClientPrefs.data.downScroll) flipY = true;								
 			
 			noAnimation = true; //better work for play anim
             isEndNote = true;
