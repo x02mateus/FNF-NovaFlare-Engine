@@ -3145,7 +3145,7 @@ class PlayState extends MusicBeatState
 			
 			if (!ClientPrefs.data.playOpponent) goodNoteHit(funnyNote);
 			else opponentNoteHitForOpponent(funnyNote);
-		} else {		    		    
+		} else {
 		    var plrInputNotes:Array<Note> = notes.members.filter(function(n:Note):Bool {
     		var canHit:Bool = !strumsBlocked[n.noteData] && n.canBeHit && ((n.mustPress && !ClientPrefs.data.playOpponent) || (!n.mustPress && ClientPrefs.data.playOpponent)) && !n.tooLate && !n.wasGoodHit && !n.blockHit;
     		return n != null && canHit && n.isSustainNote && n.noteData == key;
@@ -3153,7 +3153,7 @@ class PlayState extends MusicBeatState
     	    
     	    var holdNote:Note = plrInputNotes[0]; 
     	    
-    	    if (holdNote.parent != null) {
+    	    if (holdNote != null && holdNote.parent != null) {
     			var parentNote:Note = holdNote.parent;
     			if (parentNote.tail.length > 0) {
     				for (child in parentNote.tail) {
