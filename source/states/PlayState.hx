@@ -2075,8 +2075,7 @@ class PlayState extends MusicBeatState
 									noteMiss(daNote);
 									
 									daNote.active = daNote.visible = false;
-								    invalidateNote(daNote);
-                                 
+								    invalidateNote(daNote);                                 
 							}
 						});
 					}
@@ -3135,11 +3134,12 @@ class PlayState extends MusicBeatState
 					}
 				}
 			}
-
+            
+            holdNoteCheck(funnyNote, key);
+			
 			if (!ClientPrefs.data.playOpponent) goodNoteHit(funnyNote);
 			else opponentNoteHitForOpponent(funnyNote);
-		}
-		else {
+		} else {		    		    
 			if (shouldMiss && !char.stunned) {
 				callOnScripts('onGhostTap', [key]);
 				noteMissPress(key);
@@ -3167,6 +3167,32 @@ class PlayState extends MusicBeatState
 			return -1;
 
 		return FlxSort.byValues(FlxSort.ASCENDING, a.strumTime, b.strumTime);
+	}
+	
+	private function holdNoteCheck(funnyNote:Note, key:Int):Void
+	{
+	    if (funnyNote.parent != null) {
+			if(funnyNote.tail.length > 0) {
+				for(childNote in funnyNote.tail) {
+                    childNote.canHold = true;
+				}
+			}
+		}
+		
+		var plrInputNotes:Array<Note> = notes.members.filter(function(n:Note):Bool {
+		var canHit:Bool = !strumsBlocked[n.noteData] && n.canBeHit && ((n.mustPress && !ClientPrefs.data.playOpponent) || (!n.mustPress && ClientPrefs.data.playOpponent)) && !n.tooLate && !n.wasGoodHit && !n.blockHit;
+		return n != null && canHit && n.isSustainNote && n.noteData == key;
+	    });
+	    
+	    var holdNote:Note = plrInputNotes[0]; // front note
+	    
+	    if (holdNote.parent != null) {
+			if(holdNote.tail.length > 0) {
+				for(childNote in holdNote.tail) {
+                    holdNote.canHold = true;
+				}
+			}
+		}		
 	}
 
 	private function onKeyRelease(event:KeyboardEvent):Void
@@ -3224,6 +3250,7 @@ class PlayState extends MusicBeatState
 			for (i in 0...pressArray.length)
 				if(pressArray[i] && strumsBlocked[i] != true)
 					keyPressed(i);
+					
         var char:Character = ClientPrefs.data.playOpponent ? dad : boyfriend;
 		if (startedCountdown && !char.stunned && generatedMusic)
 		{
@@ -3240,6 +3267,7 @@ class PlayState extends MusicBeatState
 					&& !daNote.tooLate 
 					&& !daNote.wasGoodHit
 					&& !daNote.blockHit
+					&& daNote.canHold
 					) 
 					{
 						if (daNote.mustPress && !ClientPrefs.data.playOpponent){
