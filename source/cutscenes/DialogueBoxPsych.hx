@@ -547,7 +547,7 @@ class DialogueBoxPsych extends FlxSpriteGroup
 		daText.setFormat(font, size);
 		daText.delay = 0.05;
 		daText.showCursor = false;
-		daText.setShadow(3, 2, "#818181");
+		//daText.setShadow(3, 2, "#818181");
 		daText.skipKeys = null;
 		daText.sounds = [textSounds];
 		daText.color = FlxColor.BLACK;
