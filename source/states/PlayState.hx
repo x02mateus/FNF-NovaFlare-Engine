@@ -3135,7 +3135,7 @@ class PlayState extends MusicBeatState
 				}
 			}
             
-            //holdNoteCheck(funnyNote, key);
+            holdNoteCheck(funnyNote, key);
 			
 			if (!ClientPrefs.data.playOpponent) goodNoteHit(funnyNote);
 			else opponentNoteHitForOpponent(funnyNote);
@@ -3187,12 +3187,15 @@ class PlayState extends MusicBeatState
 	    var holdNote:Note = plrInputNotes[0]; // front note
 	    
 	    if (holdNote.parent != null) {
-			if(holdNote.tail.length > 0) {
-				for(childNote in holdNote.tail) {
-                    childNote.canHold = true;
+			var parentNote:Note = holdNote.parent;
+			if (parentNote.tail.length > 0) {
+				for (child in parentNote.tail) if (child != holdNote) {
+				    if (child != null){
+    					childNote.canHold = true;
+					}
 				}
-			}
-		}		
+			}					
+		}
 	}
 
 	private function onKeyRelease(event:KeyboardEvent):Void
