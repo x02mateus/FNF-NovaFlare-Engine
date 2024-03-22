@@ -35,7 +35,7 @@ typedef DialogueLine = {
     /*
         这些源码初版由弗雷泽(fraze)所写
         他的b站链接: https://b23.tv/y40j1RC
-        我把它从0.63h搬到了0.71h并进行了一些扩展，但是有一说一加了个shadow被我整的很乱了
+        我把它从0.63h搬到了0.73h并进行了一些扩展
         实际上可以进行些更多的扩展比如说每段都能换颜色和font文件，但是为了兼容模组我就没有整了
         --北狐丶逐梦
     */
@@ -108,10 +108,7 @@ class DialogueBoxPsych extends FlxSpriteGroup
 		add(box);
 
 		daText = initializeText(DEFAULT_TEXT_X , DEFAULT_TEXT_Y, DEFAULT_TEXT_WIDTH, DEFAULT_TEXT_SIZE, '');
-		add(daText);
-		
-		daText_shadow = initializeText_shadow(DEFAULT_TEXT_X + 3, DEFAULT_TEXT_Y + 2, DEFAULT_TEXT_WIDTH, DEFAULT_TEXT_SIZE, '');
-		add(daText_shadow);
+		add(daText);		
 
 		startNextDialog();
 	}
@@ -179,7 +176,6 @@ class DialogueBoxPsych extends FlxSpriteGroup
 
 	var scrollSpeed = 4000;
 	var daText:FlxTypeText = null;
-	var daText_shadow:FlxTypeText = null;
 	var ignoreThisFrame:Bool = true; // First frame is reserved for loading dialogue images
 
 	public var finishedText:Bool = false;
@@ -220,7 +216,7 @@ class DialogueBoxPsych extends FlxSpriteGroup
 				{
 					// Complete the dialog
 					daText.skip();
-					daText_shadow.skip();
+					
 					// Do the callback
 					if (skipDialogueThing != null)
 					{
@@ -252,13 +248,7 @@ class DialogueBoxPsych extends FlxSpriteGroup
 						remove(daText);
 						daText.destroy();
 					}
-					if (daText_shadow != null)
-					{
-						daText_shadow.kill();
-						remove(daText_shadow);
-						daText_shadow.destroy();
-					}
-					updateBoxOffsets(box);
+					i
 					FlxG.sound.music.fadeOut(1, 0);
 				}
 				else
@@ -485,7 +475,7 @@ class DialogueBoxPsych extends FlxSpriteGroup
 		lastBoxType = boxType;
 
 		startFlxText(daText, curDialogue);
-        startFlxText(daText_shadow, curDialogue);
+       
 		// daText.y = DEFAULT_TEXT_Y;
 
 		var char:DialogueCharacter = arrayCharacters[character];
@@ -543,7 +533,7 @@ class DialogueBoxPsych extends FlxSpriteGroup
 	}
 	
     var fontName:String;
-	var textSounds = FlxG.sound.load(Paths.sound('dialogueSound'));
+	var textSounds = FlxG.sound.load(Paths.sound('dialogue'));
 
 	function initializeText(x:Float, y:Float, width:Int, size:Int, content:String):FlxTypeText
 	{
@@ -557,6 +547,7 @@ class DialogueBoxPsych extends FlxSpriteGroup
 		daText.setFormat(font, size);
 		daText.delay = 0.05;
 		daText.showCursor = false;
+		text.setShadow(3, 2, "#818181");
 		daText.skipKeys = null;
 		daText.sounds = [textSounds];
 		daText.color = FlxColor.BLACK;
@@ -564,42 +555,14 @@ class DialogueBoxPsych extends FlxSpriteGroup
 		daText.prefix = "";
 
 		return daText;
-	}
-	
-	function initializeText_shadow(x:Float, y:Float, width:Int, size:Int, content:String):FlxTypeText
-	{
-		// trace('initialize text');
-		var daText_shadow = new FlxTypeText(x, y, width, content, size);
-		// trace('text content: ' + content);
-
-		daText_shadow.autoErase = false;
-		fontName = 'dialogueFont.ttf';
-	    var font = Paths.font(fontName);
-		daText_shadow.setFormat(font, size);
-		daText_shadow.delay = 0.05;
-		daText_shadow.showCursor = false;
-		daText_shadow.skipKeys = null;
-		daText_shadow.sounds = [textSounds];
-		daText_shadow.color = FlxColor.BLACK;
-		daText_shadow.alpha = 0.5;
-		daText_shadow.prefix = "";
-
-		return daText_shadow;
-	}
+	}		
 
 	function resetText(daText:FlxTypeText, content:String)
 	{
 		// trace('reset text');
 		daText.resetText(content);
 		finishedText = false;
-	}
-	
-	function resetText_shadow(daText_shadow:FlxTypeText, content:String)
-	{
-		// trace('reset text');
-		daText_shadow.resetText(content);
-		finishedText = false;
-	}
+	}	
 
 	function startFlxText(daText:FlxTypeText, currentDialogue:DialogueLine)
 	{
@@ -615,21 +578,5 @@ class DialogueBoxPsych extends FlxSpriteGroup
 			// trace('finish playing text: ' + currentDialogue.text);
 		});
 		// trace('start playing text: ' + currentDialogue.text);
-	}
-	
-	function startFlxText_shadow(daText_shadow:FlxTypeText, currentDialogue:DialogueLine)
-	{
-		if (daText_shadow == null)
-		{
-			// trace('text is null');
-		}
-		resetText(daText_shadow, currentDialogue.text);
-		// daText_shadow = initializeText(DEFAULT_TEXT_X, DEFAULT_TEXT_Y, 500, 8, currentDialogue.text);
-		daText_shadow.start(.05, true, false, [], function()
-		{
-			finishedText = true;
-			// trace('finish playing text: ' + currentDialogue.text);
-		});
-		// trace('start playing text: ' + currentDialogue.text);
-	}
+	}	
 }
