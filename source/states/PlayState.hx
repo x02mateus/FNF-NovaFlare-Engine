@@ -3156,7 +3156,7 @@ class PlayState extends MusicBeatState
     	    if (holdNote.parent != null) {
     			var parentNote:Note = holdNote.parent;
     			if (parentNote.tail.length > 0) {
-    				for (child in parentNote.tail) if (child != holdNote) {
+    				for (child in parentNote.tail) {
     				    if (child != null){
         					child.canHold = true;
     					}
