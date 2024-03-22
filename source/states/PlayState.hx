@@ -3135,7 +3135,7 @@ class PlayState extends MusicBeatState
 				}
 			}
             
-            holdNoteCheck(funnyNote, key);
+            //holdNoteCheck(funnyNote, key);
 			
 			if (!ClientPrefs.data.playOpponent) goodNoteHit(funnyNote);
 			else opponentNoteHitForOpponent(funnyNote);
