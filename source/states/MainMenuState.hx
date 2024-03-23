@@ -288,15 +288,14 @@ class MainMenuState extends MusicBeatState
 			
 			    
 			if (controls.ACCEPT) {
-			    usingMouse = false;	
-			    
-			    checkChoose();
+			    usingMouse = false;				    			    
 			    
 			    menuItems.forEach(function(spr:FlxSprite)
 		        {
 		            if (curSelected == spr.ID){
         				if (spr.animation.curAnim.name == 'selected') {
         				    canClick = false;
+        				    checkChoose();
         				    selectSomething();
             			} else {
             			    FlxG.sound.play(Paths.sound('scrollMenu'));	
