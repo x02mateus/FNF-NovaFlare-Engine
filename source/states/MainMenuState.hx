@@ -302,7 +302,7 @@ class MainMenuState extends MusicBeatState
             			    spr.animation.play('idle');
             			}
         			}
-    			}
+    			});
 		    }
 		    
 		menuItems.forEach(function(spr:FlxSprite)
