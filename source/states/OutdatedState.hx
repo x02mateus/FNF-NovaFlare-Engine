@@ -1,8 +1,6 @@
 package states;
 
 import states.MainMenuState;
-import openfl.Lib;
-
 
 class OutdatedState extends MusicBeatState
 {
@@ -13,9 +11,6 @@ class OutdatedState extends MusicBeatState
 	{
 		super.create();
 
-		Lib.application.window.title = "NovaFlare Engine - OutdatedState";
-
-
 		var bg:FlxSprite = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
 		add(bg);
 
@@ -23,14 +18,14 @@ class OutdatedState extends MusicBeatState
 
 		if (controls.mobileC) {
 			guh = "Sup kiddo, looks like you're running an   \n
-			outdated version of Psych Engine (" + MainMenuState.psychEngineVersion + "),\n
+			outdated version of NovaFlare Engine (" + MainMenuState.novaFlareEngineVersion + "),\n
 			please update to " + TitleState.updateVersion + "!\n
 			Press B to proceed anyway.\n
 			\n
 			Thank you for using the Port!";
 		} else {
 			guh = "Sup bro, looks like you're running an   \n
-			outdated version of Psych Engine (" + MainMenuState.psychEngineVersion + "),\n
+			outdated version of NovaFlare Engine (" + MainMenuState.novaFlareEngineVersion + "),\n
 			please update to " + TitleState.updateVersion + "!\n
 			Press ESCAPE to proceed anyway.\n
 			\n
