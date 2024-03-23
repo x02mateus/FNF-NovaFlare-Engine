@@ -134,7 +134,7 @@ jobs:
           cd export/release/ios/build/*-iphoneos
           mkdir Payload
           mv *.app Payload
-          zip -r NovaFlare-Engine.ipa Payload
+          zip -r NovaFlare Engine.ipa Payload
 
       - name: Upload Artifact
         if: ${{ success() }}
