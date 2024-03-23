@@ -35,7 +35,7 @@ class FPSCounter extends Sprite
 		this.data.y -= 2;
 		 								
 		this.data.text = "0";
-		this.title.text = "/" + ClientPrefs.data.framerate + "FPS ";  
+		this.title.text = "/ " + ClientPrefs.data.framerate + "FPS ";  
 		
 		this.data.x -= 24;
 		this.title.x += 12;
@@ -58,7 +58,7 @@ class FPSCounter extends Sprite
     		}								       
     	}
     	
-    	this.title.text = "/" + ClientPrefs.data.framerate + "FPS "; 
+    	this.title.text = "/ " + ClientPrefs.data.framerate + "FPS "; 
     	
     	this.data.text = Std.string(DataGet.currentFPS) + " ";
 	}
