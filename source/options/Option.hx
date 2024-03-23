@@ -1983,7 +1983,7 @@ class FPSScale extends Option
 
 	override function left()
 	{
-		ClientPrefs.data.FPSScale -= 0.1;
+		ClientPrefs.data.FPSScale -= 0.05;
 		if (ClientPrefs.data.FPSScale < 0.3)
 			ClientPrefs.data.FPSScale = 0.3;
 		ClientPrefs.data.FPSScale = FlxMath.roundDecimal(ClientPrefs.data.FPSScale, 1);
@@ -1992,7 +1992,7 @@ class FPSScale extends Option
 
 	override function right()
 	{
-		ClientPrefs.data.FPSScale += 0.1;
+		ClientPrefs.data.FPSScale += 0.05;
 		if (ClientPrefs.data.FPSScale > 3)
 			ClientPrefs.data.FPSScale = 3;
 		ClientPrefs.data.FPSScale = FlxMath.roundDecimal(ClientPrefs.data.FPSScale, 1);
@@ -2107,7 +2107,7 @@ class WaterMarkScale extends Option
 
 	override function left()
 	{
-		ClientPrefs.data.WatermarkScale -= 0.1;
+		ClientPrefs.data.WatermarkScale -= 0.05;
 		if (ClientPrefs.data.WatermarkScale < 0.3)
 			ClientPrefs.data.WatermarkScale = 0.3;
 		ClientPrefs.data.WatermarkScale = FlxMath.roundDecimal(ClientPrefs.data.WatermarkScale, 1);
@@ -2116,7 +2116,7 @@ class WaterMarkScale extends Option
 
 	override function right()
 	{
-		ClientPrefs.data.WatermarkScale += 0.1;
+		ClientPrefs.data.WatermarkScale += 0.05;
 		if (ClientPrefs.data.WatermarkScale > 3)
 			ClientPrefs.data.WatermarkScale = 3;
 		ClientPrefs.data.WatermarkScale = FlxMath.roundDecimal(ClientPrefs.data.WatermarkScale, 1);
