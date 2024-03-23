@@ -10,6 +10,8 @@ import options.OptionsHelpers;
 
 import shaders.ColorblindFilter;
 
+import objects.screen.FPS;
+
 class Option
 {
 	public function new()
@@ -173,6 +175,7 @@ class GuitarHeroSustains extends Option
 	public function new(desc:String)
 	{
 		super();
+		description = desc;
 	}
 
 	override function left()
@@ -1293,6 +1296,7 @@ class SkipTitleVideo extends Option
 	public function new(desc:String)
 	{
 		super();
+		description = desc;
 	}
 
 	override function press()
@@ -2009,7 +2013,7 @@ class FPSScale extends Option
 	}
 }
 
-class MEMOption extends Option
+class ExtraOption extends Option
 {
 	public function new(desc:String)
 	{
@@ -2019,14 +2023,20 @@ class MEMOption extends Option
 
 	override function press()
 	{
-	    ClientPrefs.data.showMEM = !ClientPrefs.data.showMEM;
+	    ClientPrefs.data.showExtra = !ClientPrefs.data.showExtra;
 		display = updateDisplay();
     }
 
 	private override function updateDisplay():String
 	{
-		return "Memory Counter: " + (ClientPrefs.data.showMEM ? enable_O : disable_O);
+		return "Extra Counter: " + (ClientPrefs.data.showExtra ? enable_O : disable_O);
 	} 
+	
+	override function change()
+	{	
+	    if(Main.fpsVar != null)
+		FPS.change();
+	}
 }
 
 class MEMType extends Option
@@ -2054,26 +2064,6 @@ class MEMType extends Option
 	private override function updateDisplay():String
 	{
 		return "Memory Data: < " + OptionsHelpers.memoryTypeArray[ClientPrefs.data.memoryType] + " >";
-	} 
-}
-
-class DelayOption extends Option
-{
-	public function new(desc:String)
-	{
-		super();
-		description = desc;
-	}
-
-	override function press()
-	{
-	    ClientPrefs.data.showMS = !ClientPrefs.data.showMS;
-		display = updateDisplay();
-    }
-
-	private override function updateDisplay():String
-	{
-		return "Update time Counter: " + (ClientPrefs.data.showMS ? enable_O : disable_O);
 	} 
 }
 
@@ -2396,10 +2386,15 @@ class MarvelousSprite extends Option
 		description = desc;
 	}
 
-	override function press()
+	override function left()
 	{
 		ClientPrefs.data.marvelousSprite = !ClientPrefs.data.marvelousSprite;
 		display = updateDisplay();
+    }
+    
+    override function right()
+	{
+		left();
     }
 
 	private override function updateDisplay():String
