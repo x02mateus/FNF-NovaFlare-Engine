@@ -845,10 +845,9 @@ class OptionsState extends MusicBeatState
             case 7:                
                 ClientPrefs.data.showFPS = ClientPrefs.defaultData.showFPS;                
                 ClientPrefs.data.rainbowFPS = ClientPrefs.defaultData.rainbowFPS;
-                ClientPrefs.data.FPSScale = ClientPrefs.defaultData.FPSScale;
-                ClientPrefs.data.showMEM = ClientPrefs.defaultData.showMEM;
-                ClientPrefs.data.memoryType = ClientPrefs.defaultData.memoryType;
-                ClientPrefs.data.showMS = ClientPrefs.defaultData.showMS;
+                ClientPrefs.data.FPSScale = ClientPrefs.defaultData.FPSScale;      
+                ClientPrefs.data.showExtra = ClientPrefs.defaultData.showExtra;          
+                ClientPrefs.data.memoryType = ClientPrefs.defaultData.memoryType;                
                 ClientPrefs.data.showWatermark = ClientPrefs.defaultData.showWatermark;
                 ClientPrefs.data.WatermarkScale = ClientPrefs.defaultData.WatermarkScale;
             case 8:
