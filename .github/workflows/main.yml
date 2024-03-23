@@ -27,37 +27,7 @@ jobs:
         with:
           name: windowsBuild
           path: export\release\windows\bin\*
-          if-no-files-found: error
-  Linux:
-    runs-on: ubuntu-20.04
-    steps:
-      - name: Checkout
-        uses: actions/checkout@main
-
-      - name: Setup Haxe
-        uses: krdlab/setup-haxe@master
-        with:
-          haxe-version: 4.3.4
-
-      - name: Install Libraries
-        run: |
-          DEBIAN_FRONTEND=noninteractive sudo apt-get -qq install -o Dpkg::Progress-Fancy="0" -o APT::Color="0" -o Dpkg::Use-Pty="0" libvlc-dev libvlccore-dev < /dev/null > /dev/null
-          haxelib setup ~/haxelib
-          haxelib install hmm --quiet
-          haxelib run hmm install --quiet
-          haxelib remove hxCodec
-          haxelib --never install hxCodec --quiet
-
-      - name: Compile
-        run: haxelib run lime build linux
-
-      - name: Upload Artifact
-        if: ${{ success() }}
-        uses: actions/upload-artifact@main
-        with:
-          name: linuxBuild
-          path: export/release/linux/bin/*
-          if-no-files-found: error
+          if-no-files-found: error      
   macOS:
     runs-on: macos-${{matrix.version}}
     strategy:
