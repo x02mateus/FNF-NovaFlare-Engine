@@ -9,7 +9,6 @@ import flixel.graphics.frames.FlxAtlasFrames;
 import flixel.graphics.frames.FlxFrame;
 import flixel.group.FlxGroup;
 import flixel.input.gamepad.FlxGamepad;
-import flixel.system.frontEnds.SoundFrontEnd;
 import haxe.Json;
 
 import openfl.Assets;
@@ -106,8 +105,6 @@ class TitleState extends MusicBeatState
 		#if mobile
 		if(!CopyState.checkExistingFiles() && !ignoreCopy)
 			FlxG.switchState(new CopyState());
-		
-		SoundFrontEnd.muteKeys = null;
 		#end
 
 		#if LUA_ALLOWED
