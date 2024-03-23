@@ -144,7 +144,7 @@ jobs:
           path: export/release/ios/build/Release-iphoneos/*.ipa
           if-no-files-found: error
   Releaser:
-    needs: [Android, iOS]
+    needs: [Android, iOS, macOS, Windows]
     runs-on: ubuntu-latest
     permissions: write-all
     steps:
@@ -188,6 +188,40 @@ jobs:
         uses: actions/download-artifact@main
         with:
            name: iOSBuild
+           path: /home/runner
+      
+      - name: Download macOS11 Build
+        uses: actions/download-artifact@main
+        with:
+           name: macOSBuild-11
+           path: /home/runner
+
+      - name: Move macOS11 File
+        run: mv /home/runner/NovaFlareEngine-release.zip /home/runner/NovaFlareEngine-macOS-11.zip
+      
+      - name: Download macOS12 Build
+        uses: actions/download-artifact@main
+        with:
+           name: macOSBuild-12
+           path: /home/runner
+
+      - name: Move macOS12 File
+        run: mv /home/runner/NovaFlareEngine-release.zip /home/runner/NovaFlareEngine-macOS-12.zip
+        
+      - name: Download macOS13 Build
+        uses: actions/download-artifact@main
+        with:
+           name: macOSBuild-13
+           path: /home/runner
+
+      - name: Move macOS13 File
+        run: mv /home/runner/NovaFlareEngine-release.zip /home/runner/NovaFlareEngine-macOS-13.zip
+        
+        
+      - name: Download Windows Build
+        uses: actions/download-artifact@main
+        with:
+           name: WindowsBuild
            path: /home/runner
 
       - name: Publish The Release
