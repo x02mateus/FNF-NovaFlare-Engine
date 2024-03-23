@@ -204,6 +204,7 @@ class NotesSubState extends MusicBeatSubstate
         addVirtualPad(NONE, B_C);
 		virtualPad.buttonC.x = 0;
 		virtualPad.buttonC.y = FlxG.height - 135;
+		virtualPad.buttonB.x = FlxG.width - virtualPad.buttonB.width;
 	}
 
 	function updateTip()
