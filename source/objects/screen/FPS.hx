@@ -39,6 +39,8 @@ class FPS extends Sprite
 	{	    	    	    
 	    DataGet.update();
 	    
+	    if (DataGet.number != 0) return;
+	    
 	    fpsShow.update();
 	    extraShow.update();
     }
