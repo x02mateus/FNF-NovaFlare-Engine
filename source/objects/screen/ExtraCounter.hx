@@ -30,6 +30,8 @@ class ExtraCounter extends Sprite
 			label.y = 0;
 			label.defaultTextFormat = new TextFormat(Assets.getFont("assets/fonts/FPS.ttf").fontName, 15, 0xFFFFFFFF, false, null, null, LEFT, 0, 0);			
 			label.multiline = label.wordWrap = false;
+			label.selectable = false; 
+			label.mouseEnabled = false;
 			addChild(label);
 		}		
 		
@@ -72,8 +74,8 @@ class ExtraCounter extends Sprite
     		}								       
     	}
     	
-    	this.delay.text = "Delay:         MS ";
-		this.mem.text = "Mem:          " + DataGet.memType + " ";
+    	this.delay.text = "Delay           MS ";
+		this.mem.text = "Mem          " + DataGet.memType + " ";
     	
         var showTime:Float = Math.floor((DataGet.displayedFrameTime) * 10) / 10;
         this.delayData.text = Std.string(showTime) + " ";
