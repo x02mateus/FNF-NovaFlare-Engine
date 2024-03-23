@@ -299,7 +299,8 @@ class MainMenuState extends MusicBeatState
         				    canClick = false;
         				    selectSomething();
             			} else {
-            			    spr.animation.play('idle');
+            			    FlxG.sound.play(Paths.sound('scrollMenu'));	
+            			    spr.animation.play('selected');
             			}
         			}
     			});
