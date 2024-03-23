@@ -220,18 +220,6 @@ class OptionsState extends MusicBeatState
 		descBack.scrollFactor.set();
 		menu.add(descBack);
         
-		if (onPlayState)
-		{
-			var bg:FlxSprite = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
-			bg.alpha = 0;
-			bg.scrollFactor.set();
-			menu.add(bg);
-
-			background.alpha = 0.3;
-			bg.alpha = 0.4;
-
-			cameras = [FlxG.cameras.list[FlxG.cameras.list.length - 1]];
-		}else{
 		    var bg:FlxSprite = new FlxSprite(-80).loadGraphic(Paths.image('menuBG'));
     		bg.scrollFactor.set(0,0);
     		bg.setGraphicSize(Std.int(bg.width));
@@ -239,7 +227,7 @@ class OptionsState extends MusicBeatState
     		bg.screenCenter();
     		bg.antialiasing = ClientPrefs.data.antialiasing;
     		add(bg);		
-		}
+		
 
 		add(menu);
 
@@ -531,7 +519,14 @@ class OptionsState extends MusicBeatState
 				        ClientPrefs.saveSettings();
 				        onFreePlay = false;
 						MusicBeatState.switchState(new FreeplayState());
-						persistentUpdate = false;                        			    
+						persistentUpdate = false;         
+					}else if (onPlayState){
+						ClientPrefs.saveSettings();	
+						onPlayState = false;						
+        				StageData.loadDirectory(PlayState.SONG);
+        				LoadingState.loadAndSwitchState(new PlayState());
+        				FlxG.sound.music.volume = 0;
+						persistentUpdate = false;          
 				    } else {
 					    ClientPrefs.saveSettings();
 						MusicBeatState.switchState(new MainMenuState());
@@ -684,24 +679,15 @@ class OptionsState extends MusicBeatState
 					}
 
 					if(reset)
-					{
-						if (!onPlayState)
-						{
-							resetOptions();
-							
-							FlxG.sound.play(Paths.sound('scrollMenu'), 0.6);
-							
-						}
-						else
-						{
-							
-						}
+					{					
+						resetOptions();
+						
+						FlxG.sound.play(Paths.sound('scrollMenu'), 0.6);													
 					}
 
 					if (back)
 					{
-						FlxG.sound.play(Paths.sound('scrollMenu'), 0.6);
-						
+						FlxG.sound.play(Paths.sound('scrollMenu'), 0.6);						
                         
 						if (selectedCatIndex >= 9)  //这是干啥用的,但是目前来看没用
 							selectedCatIndex = 0;                        
