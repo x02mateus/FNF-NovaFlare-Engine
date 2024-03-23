@@ -31,21 +31,16 @@ class ExtraCounter extends Sprite
 			label.defaultTextFormat = new TextFormat(Assets.getFont("assets/fonts/FPS.ttf").fontName, 15, 0xFFFFFFFF, false, null, null, LEFT, 0, 0);			
 			label.multiline = label.wordWrap = false;
 			addChild(label);
-		}
+		}		
 		
-		this.delayData.autoSize = this.memData.autoSize = LEFT;
-		this.memData.autoSize = this.memData.autoSize = LEFT;
 		this.delay.y = this.delayData.y = 20;
-
-		this.delayData.y += 0.5;
-		this.memData.y += 0.5;
 
 		this.delay.y += 2;
 		this.mem.y += 2;
 		this.delayData.y += 2;
 		this.memData.y += 2;
 
-		this.memData.x = this.memData.x + 35 * 2;
+		this.memData.x = this.memData.x + 35;
 		this.delayData.x = this.delayData.x + 28 * 2;
 		
     	this.delay.text = "Delay:MS";
@@ -80,7 +75,7 @@ class ExtraCounter extends Sprite
     	this.delay.text = "Delay:         MS ";
 		this.mem.text = "Memory:       " + DataGet.memType + " ";
     	
-        var showTime:Float = Math.floor((DataGet.displayedFrameTime + 0.5) * 10) / 10;
+        var showTime:Float = Math.floor((DataGet.displayedFrameTime) * 10) / 10;
         this.delayData.text = Std.string(showTime) + " ";
         this.memData.text = Std.string(DataGet.memory) + " ";
 	}
