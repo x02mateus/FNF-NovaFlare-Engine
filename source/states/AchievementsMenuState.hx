@@ -133,6 +133,7 @@ class AchievementsMenuState extends MusicBeatState
 	override function closeSubState() {
 		super.closeSubState();
 		persistentUpdate = true;
+		removeVirtualPad();
 		addVirtualPad(LEFT_FULL, B_C);
 	}
 
