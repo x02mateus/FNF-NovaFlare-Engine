@@ -289,9 +289,20 @@ class MainMenuState extends MusicBeatState
 			    
 			if (controls.ACCEPT) {
 			    usingMouse = false;	
-			    canClick = false;
+			    
 			    checkChoose();
-				selectSomething();
+			    
+			    menuItems.forEach(function(spr:FlxSprite)
+		        {
+		            if (curSelected = spr.ID){
+        				if (spr.animation.curAnim.name == 'selected') {
+        				    canClick = false;
+        				    selectSomething();
+            			} else {
+            			    spr.animation.play('idle');
+            			}
+        			}
+    			}
 		    }
 		    
 		menuItems.forEach(function(spr:FlxSprite)
@@ -497,29 +508,7 @@ class MainMenuState extends MusicBeatState
 		    }
 		    
 		    spr.updateHitbox();
-        });
-        /*
-        for (i in 0...optionShit.length)
-		{
-			var option:FlxSprite = menuItems.members[i];
-			
-			if (optionShit.length % 2 == 0){
-			    if (selectedTween[i] != null) selectedTween[i].cancel();
-			    selectedTween[i] = FlxTween.tween(option, {y: 360 + (i - optionShit.length / 2) * 135 + ((optionShit.length - 1) / 2 - curSelected) / (optionShit.length - 1) / 2 * 150}, 0.3, {
-					ease: FlxEase.sineInOut
-			    });
-			}else{
-			    if (selectedTween[i] != null) selectedTween[i].cancel();
-			    selectedTween[i] = FlxTween.tween(option, {y: 360 + (i - (optionShit.length / 2 + 0.5)) * 135 - ((optionShit.length / 2 + 0.5) - curSelected) / (optionShit.length / 2 + 0.5) * 150}, 0.3, {
-					ease: FlxEase.sineInOut
-			    }); 
-			    //option.y = 360 + (i - (optionShit.length / 2 + 0.5) * 135;
-			}
-			
-		}*/
-        
-        //camFollow.setPosition(menuItems.members[curSelected].getGraphicMidpoint().x,
-		//	menuItems.members[curSelected].getGraphicMidpoint().y - (menuItems.length > 4 ? menuItems.length * 8 : 0));
+        });        
 	}
 	
 	

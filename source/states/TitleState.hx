@@ -26,7 +26,9 @@ import states.PirateState;
 import mobile.states.CopyState;
 #end
 
+#if VIDEOS_ALLOWED
 import backend.VideoHandler_Title;
+#end
 
 import lime.system.JNI;
 import lime.app.Application;
@@ -238,7 +240,11 @@ class TitleState extends MusicBeatState
 			return;
 		}
 		if (!ClientPrefs.data.skipTitleVideo)
-			startVideo('menuExtend/titleIntro');
+			#if VIDEOS_ALLOWED 
+			    startVideo('menuExtend/titleIntro');
+			#else
+			    startCutscenesOut();
+			#end
 		else
 			startCutscenesOut();
 	}
@@ -747,6 +753,8 @@ class TitleState extends MusicBeatState
 			skippedIntro = true;
 		}
 	}
+	
+	#if VIDEOS_ALLOWED
 	var video:VideoSprite;
 	function startVideo(name:String)
 	{
@@ -804,4 +812,5 @@ class TitleState extends MusicBeatState
 		FlxTween.tween(skipVideo, {alpha: 0}, 1, {ease: FlxEase.quadIn, startDelay: 4});
 	
 	}
+	#end
 }
