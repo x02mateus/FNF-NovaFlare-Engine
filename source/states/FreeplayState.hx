@@ -592,12 +592,17 @@ class FreeplayState extends MusicBeatState {
 			mouseControl(elapsed);
 			
 			if (controls.RESET) {
+			    persistentUpdate = false;
 				openSubState(new ResetScoreSubState(songs[curSelected].songName, curDifficulty, songs[curSelected].songCharacter));
-			} else if (FlxG.keys.justPressed.CONTROL)
+			} else if (FlxG.keys.justPressed.CONTROL) {
+			    persistentUpdate = false;
 				openSubState(new GameplayChangersSubstate());
-			else if (FlxG.keys.justPressed.P)
+			} else if (FlxG.keys.justPressed.P) {
+			    persistentUpdate = false;
+			    OptionsState.onFreePlay = true;
 				LoadingState.loadAndSwitchState(new OptionsState());
-				
+			}
+			
 			camSearch.x = FlxMath.lerp(searching ? 0 : -1280, camSearch.x, FlxMath.bound(1 - (elapsed * 6), 0, 1));
 			camListen.x = FlxMath.lerp(listening ? 0 : -1280, camListen.x, FlxMath.bound(1 - (elapsed * 6), 0, 1));
 			camInfo.x = FlxMath.lerp((!listening && !searching) ? 0 : -1280, camInfo.x, FlxMath.bound(1 - (elapsed * 6), 0, 1));
@@ -1344,6 +1349,7 @@ class FreeplayState extends MusicBeatState {
 			persistentUpdate = false;
 			switch(curHoldOptions) {
 				case 0: //Options					
+				    OptionsState.onFreePlay = true;
 					LoadingState.loadAndSwitchState(new OptionsState());
 				case 1: // Gameplay Changer					
 					openSubState(new GameplayChangersSubstate());
