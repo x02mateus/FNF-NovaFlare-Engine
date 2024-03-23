@@ -3134,14 +3134,12 @@ class PlayState extends MusicBeatState
 					}
 				}
 			}
-            
-            if (funnyNote.parent != null) {
-    			if(funnyNote.tail.length > 0) {
-    				for(childNote in funnyNote.tail) {
-                        childNote.canHold = true;
-    				}
-    			}
-    		}
+               
+			if(funnyNote.tail.length > 0) {
+				for(childNote in funnyNote.tail) {
+                    childNote.canHold = true;
+				}
+			}    		
 			
 			if (!ClientPrefs.data.playOpponent) goodNoteHit(funnyNote);
 			else opponentNoteHitForOpponent(funnyNote);
@@ -3342,7 +3340,7 @@ class PlayState extends MusicBeatState
 				// i mean its fair :p -Crow
 				//subtract *= note.tail.length + 1;
 				// i think it would be fair if damage multiplied based on how long the sustain is -Tahir
-			}			
+			}
 		}
 		if (note != null && guitarHeroSustains && note.parent != null && note.isSustainNote) {
 			if (note.missed)
