@@ -1,5 +1,16 @@
 package objects.screen;
 
+/*
+    author: beihu235
+    bilibili: https://b23.tv/SnqG443
+    github: https://github.com/beihu235
+    youtube: https://youtube.com/@beihu235?si=NHnWxcUWPS46EqUt
+    discord: @beihu235
+
+    thanks Chiny help me adjust data
+    github: https://github.com/dmmchh
+*/
+
 class FPS extends Sprite
 {
 	public function new(x:Float = 10, y:Float = 10)
@@ -17,10 +28,10 @@ class FPS extends Sprite
     
     function create()
     {        
-        fpsShow = new FPSCounter();
+        fpsShow = new FPSCounter(10, 10);
         addChild(fpsShow);
     
-        extraShow = new ExtraCounter();
+        extraShow = new ExtraCounter(10, 70);
         addChild(extraShow);
     }
     
@@ -30,5 +41,10 @@ class FPS extends Sprite
 	    
 	    fpsShow.update();
 	    extraShow.update();
+    }
+    
+    public static function change()
+    {       
+        extraShow.visible = ClientPrefs.data.showExtra;
     }
 }

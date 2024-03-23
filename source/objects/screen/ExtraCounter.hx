@@ -10,7 +10,7 @@ class ExtraCounter extends Sprite
 
 	public var bgSprite:FPSBG;
 	
-	public function new(x:Float = 10, y:Float = 60)
+	public function new(x:Float = 10, y:Float = 10)
 	{
 		super();
 
@@ -33,11 +33,31 @@ class ExtraCounter extends Sprite
 			addChild(label);
 		}
 		
-		this.delayData.autoSize = this.memData.autoSize = CENTER;
-		this.mem.y = this.memData.y = 20;
+		this.delayData.autoSize = this.memData.autoSize = LEFT;
+		this.memData.autoSize = this.memData.autoSize = LEFT;
+		this.delay.y = this.delayData.y = 20;
+
+		this.delayData.y += 0.5;
+		this.memData.y += 0.5;
+
+		this.delay.y += 2;
+		this.mem.y += 2;
+		this.delayData.y += 2;
+		this.memData.y += 2;
+
+		this.memData.x = this.memData.x + 35 * 2;
+		this.delayData.x = this.delayData.x + 28 * 2;
 		
-		this.delay.text = "Delay:           MS";
-		this.mem.text = "Memory         MB";
+    	this.delay.text = "Delay:MS";
+		this.mem.text = "Memory:MB";
+
+		this.delay.width = 300;
+		this.mem.width = 300;
+
+		this.delay.x += 4;
+		this.mem.x += 4;
+		this.delayData.x += 4;
+		this.memData.x += 4;
     }
     
     public function update():Void

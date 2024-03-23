@@ -28,10 +28,17 @@ class FPSCounter extends Sprite
 			addChild(label);
 		}				
 		
-		this.title.y = bgSprite.height - this.title.height;
+		title.defaultTextFormat = new TextFormat(Assets.getFont("assets/fonts/FPS.ttf").fontName, 16, 0xFFFFFFFF, false, null, null, LEFT, 0, 0);	
+		this.title.x = this.title.x + this.data.width / 2 - 2;
+		this.title.y = this.title.y + this.data.height - this.title.height / 1.35;
+
+		this.data.y -= 2;
 		 								
 		this.data.text = "0";
-		this.title.text = "/${ClientPrefs.data.framerate}FPS";  		
+		this.title.text = "/" + ClientPrefs.data.framerate + "FPS ";  
+		
+		this.data.x += 12;
+		this.title.x += 12;
 	}
 
     public function update():Void
@@ -52,6 +59,6 @@ class FPSCounter extends Sprite
     	}
     	
     	this.data.text = Std.string(DataGet.currentFPS);
-    	this.title.text = "/${ClientPrefs.data.framerate}FPS";
+    	this.title.text = "/" + ClientPrefs.data.framerate + "FPS ";  
 	}
 }
