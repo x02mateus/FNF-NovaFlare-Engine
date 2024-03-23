@@ -349,7 +349,7 @@ class TitleState extends MusicBeatState
 		else {
 			newTitle = false;
 			
-			titleText.animation.addByPrefix('idle', "Press SPACE to Begin", 24);
+			titleText.animation.addByPrefix('idle', "Press ENTER to Begin", 24);
 			titleText.animation.addByPrefix('press', "ENTER PRESSED", 24);
 		}
 		
