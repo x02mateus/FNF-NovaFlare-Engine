@@ -19,9 +19,11 @@ class MobileControls extends FlxTypedSpriteGroup<FlxMobileInputManager>
 	public function new(?forceType:Int, ?extra:Bool = true)
 	{
 		super();
-		forcedControl = mode;
+		
 		if (forceType != null)
 			forcedControl = forceType;
+		else forcedControl = get_mode();
+		
 		switch (forcedControl)
 		{
 			case 0: // RIGHT_FULL
@@ -180,9 +182,6 @@ class MobileControls extends FlxTypedSpriteGroup<FlxMobileInputManager>
 
 	public static function get_mode():Int
 	{
-		if (forcedControl != null)
-			return forcedControl;
-
 		if (FlxG.save.data.mobileControlsMode == null)
 		{
 			FlxG.save.data.mobileControlsMode = 0;
