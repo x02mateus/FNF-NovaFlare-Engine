@@ -8,11 +8,10 @@ import sys.FileSystem;
 import flixel.FlxSprite;
 import flixel.util.FlxColor;
 
-/**
- * Handles video playback.
- * Use bitmap to connect to a graphic or use `VideoSprite`.
- */
- #if VIDEOS_ALLOWED
+#if VIDEOS_ALLOWED
+
+import vlc.VLCBitmap;
+
 class VideoHandler_Title extends VLCBitmap
 {
 	public var canSkip:Bool = true;
