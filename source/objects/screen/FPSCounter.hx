@@ -58,7 +58,8 @@ class FPSCounter extends Sprite
     		}								       
     	}
     	
-    	this.data.text = Std.string(DataGet.currentFPS);
-    	this.title.text = "/" + ClientPrefs.data.framerate + "FPS ";  
+    	this.title.text = "/" + ClientPrefs.data.framerate + "FPS "; 
+    	
+    	this.data.text = Std.string(DataGet.currentFPS) + " ";
 	}
 }

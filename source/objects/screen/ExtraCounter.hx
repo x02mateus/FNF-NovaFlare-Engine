@@ -77,11 +77,11 @@ class ExtraCounter extends Sprite
     		}								       
     	}
     	
-    	this.delay.text = "Delay:           MS";
-		this.mem.text = "Memory          ${DataGet.memType}";
+    	this.delay.text = "Delay:         MS ";
+		this.mem.text = "Memory:       MB ";
     	
         var showTime:Float = Math.floor((DataGet.displayedFrameTime) * 10) / 10;
-        this.delayData.text = Std.string(showTime);
-        this.memData.text = Std.string(DataGet.memory);
+        this.delayData.text = Std.string(showTime) + " ";
+        this.memData.text = Std.string(Math.abs(FlxMath.roundDecimal(System.totalMemory / 1000000, 0))) + " ";
 	}
 }
