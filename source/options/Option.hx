@@ -1986,7 +1986,7 @@ class FPSScale extends Option
 		ClientPrefs.data.FPSScale -= 0.05;
 		if (ClientPrefs.data.FPSScale < 0.3)
 			ClientPrefs.data.FPSScale = 0.3;
-		ClientPrefs.data.FPSScale = FlxMath.roundDecimal(ClientPrefs.data.FPSScale, 1);
+		ClientPrefs.data.FPSScale = FlxMath.roundDecimal(ClientPrefs.data.FPSScale, 2);
 		display = updateDisplay();
     }
 
@@ -1995,7 +1995,7 @@ class FPSScale extends Option
 		ClientPrefs.data.FPSScale += 0.05;
 		if (ClientPrefs.data.FPSScale > 3)
 			ClientPrefs.data.FPSScale = 3;
-		ClientPrefs.data.FPSScale = FlxMath.roundDecimal(ClientPrefs.data.FPSScale, 1);
+		ClientPrefs.data.FPSScale = FlxMath.roundDecimal(ClientPrefs.data.FPSScale, 2);
 		display = updateDisplay();
     }
 
@@ -2110,7 +2110,7 @@ class WaterMarkScale extends Option
 		ClientPrefs.data.WatermarkScale -= 0.05;
 		if (ClientPrefs.data.WatermarkScale < 0.3)
 			ClientPrefs.data.WatermarkScale = 0.3;
-		ClientPrefs.data.WatermarkScale = FlxMath.roundDecimal(ClientPrefs.data.WatermarkScale, 1);
+		ClientPrefs.data.WatermarkScale = FlxMath.roundDecimal(ClientPrefs.data.WatermarkScale, 2);
 		display = updateDisplay();
     }
 
@@ -2119,7 +2119,7 @@ class WaterMarkScale extends Option
 		ClientPrefs.data.WatermarkScale += 0.05;
 		if (ClientPrefs.data.WatermarkScale > 3)
 			ClientPrefs.data.WatermarkScale = 3;
-		ClientPrefs.data.WatermarkScale = FlxMath.roundDecimal(ClientPrefs.data.WatermarkScale, 1);
+		ClientPrefs.data.WatermarkScale = FlxMath.roundDecimal(ClientPrefs.data.WatermarkScale, 2);
 		display = updateDisplay();
     }
 
