@@ -23,8 +23,7 @@ import states.TitleState;
 	public var HealthDrainOPPO:Bool = false;	
 	
 	public var showFPS:Bool = true;
-	public var showMS:Bool = true;
-	public var showMEM:Bool = true;
+	public var showExtra:Bool = true;
 	public var rainbowFPS:Bool = false;
 	public var memoryType:Int = 3;	
 	public var FPSScale:Float = 1;
@@ -80,7 +79,7 @@ import states.TitleState;
 	
 	public var marvelousRating:Bool = true;	
 	public var marvelousSprite:Bool = true;	
-        public var marvelousWindow:Int = 15;
+    public var marvelousWindow:Int = 15;
     
 	public var comboOffset:Array<Int> = [0, 0, 0, 0];
 	public var ratingOffset:Int = 0;	
