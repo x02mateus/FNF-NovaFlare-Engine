@@ -984,7 +984,7 @@ class PauseButton extends Option
     
 	private override function updateDisplay():String
 	{
-		return "Pause Music: < " + (ClientPrefs.data.pauseButton ? enable_O : disable_O) + " >";
+		return "Pause Button: < " + (ClientPrefs.data.pauseButton ? enable_O : disable_O) + " >";
 	}
 }
 
