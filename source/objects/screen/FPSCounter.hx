@@ -32,14 +32,14 @@ class FPSCounter extends Sprite
 				
 		this.title.x += this.data.width / 2 - 2;		
 
-		this.data.y -= 2;
-		this.title.y += 5;
+		this.data.y -= 3;
+		this.title.y += 4;
 		 								
 		this.data.text = "0";
 		this.title.text = "FPS \n " + "/ " + ClientPrefs.data.framerate + ' \n'; 
 		
-		
-		this.title.x -= 5;
+		this.data.x += 5;
+		this.title.x -= 10;
 	}
 
     public function update():Void
