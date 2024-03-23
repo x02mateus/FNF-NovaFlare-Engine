@@ -23,7 +23,7 @@ class FPSCounter extends Sprite
 		for(label in [this.data, this.title]) {
 			label.x = 0;
 			label.y = 0;
-			label.defaultTextFormat = new TextFormat(Assets.getFont("assets/fonts/FPS.ttf").fontName, label == this.data ? 25 : 13, 0xFFFFFFFF, false, null, null, label == this.data ? CENTER : RIGHT, 0, 0);			
+			label.defaultTextFormat = new TextFormat(Assets.getFont("assets/fonts/FPS.ttf").fontName, 36, 0xFFFFFFFF, false, null, null, RIGHT, 0, 0);			
 			label.multiline = label.wordWrap = false;
 			addChild(label);
 		}				
@@ -37,7 +37,7 @@ class FPSCounter extends Sprite
 		this.data.text = "0";
 		this.title.text = "/" + ClientPrefs.data.framerate + "FPS ";  
 		
-		this.data.x += 12;
+		this.data.x -= 24;
 		this.title.x += 12;
 	}
 
