@@ -40,7 +40,7 @@ class ExtraCounter extends Sprite
 		this.delayData.y += 2;
 		this.memData.y += 2;
 
-		this.memData.x = this.memData.x + 35;
+		this.memData.x = this.memData.x + 45;
 		this.delayData.x = this.delayData.x + 28 * 2;
 		
     	this.delay.text = "Delay:MS";
@@ -73,7 +73,7 @@ class ExtraCounter extends Sprite
     	}
     	
     	this.delay.text = "Delay:         MS ";
-		this.mem.text = "Memory:       " + DataGet.memType + " ";
+		this.mem.text = "Mem:       " + DataGet.memType + " ";
     	
         var showTime:Float = Math.floor((DataGet.displayedFrameTime) * 10) / 10;
         this.delayData.text = Std.string(showTime) + " ";
