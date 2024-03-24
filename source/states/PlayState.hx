@@ -3367,7 +3367,8 @@ class PlayState extends MusicBeatState
     					child.alpha = 0.3;
 					}
 				}
-			}
+				if (note == parentNote.tail[0]) return; //if you want get 2 miss then detele it
+			}			
 			
 			NoteMs.push(167);
 		    NoteTime.push(note.strumTime); //it will work better for ResultsScreen
