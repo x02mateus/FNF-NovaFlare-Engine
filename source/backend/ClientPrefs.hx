@@ -92,8 +92,8 @@ import states.TitleState;
 	public var dynamicColors:Bool = true;
 	public var hitboxLocation:String = 'Bottom';
 	public var hitboxSkin:String = 'Classic';
-	public var controlsAlpha:Float = 0.6;
-	public var playControlsAlpha:Float = 0.2;
+	public var controlsAlpha:Float = #if mobile 0.6 #else 0 #end;
+	public var playControlsAlpha:Float = #if mobile 0.2 #else 0 #end;
 	public var hideHitboxHints:Bool = false;
 	
 	public var extraKey:Int = 4;
