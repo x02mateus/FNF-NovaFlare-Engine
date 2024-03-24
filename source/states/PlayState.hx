@@ -2084,8 +2084,7 @@ class PlayState extends MusicBeatState
 							{
 								if (((!daNote.mustPress && !cpuControlled_opponent && ClientPrefs.data.playOpponent) || (daNote.mustPress && !cpuControlled && !ClientPrefs.data.playOpponent))
 								 && !daNote.ignoreNote && !endingSong
-								 && (daNote.tooLate == true || daNote.wasGoodHit == false)
-								 && (!(daNote.isSustainNote && daNote.parent != null)) //normal note real dead XD 这用来修复长条先miss的问题
+								 && (daNote.tooLate == true || daNote.wasGoodHit == false)								
 								 )
 									noteMiss(daNote);
 									
