@@ -100,16 +100,12 @@ class Downscroll extends Option
 	public function new(desc:String)
 	{
 		super();
-		if (OptionsState.onPlayState)
-			description = "This option cannot be toggled in the pause menu.";
-		else
-			description = desc;
+		description = desc;
 	}
 
 	override function press()
 	{
-		if (OptionsState.onPlayState)
-			return;
+		
 		ClientPrefs.data.downScroll = !ClientPrefs.data.downScroll;
 		display = updateDisplay();
     }
@@ -125,16 +121,12 @@ class MiddleScroll extends Option
 	public function new(desc:String)
 	{
 		super();
-		if (OptionsState.onPlayState)
-			description = "This option cannot be toggled in the pause menu.";
-		else
-			description = desc;
+		description = desc;
 	}
 
 	override function press()
 	{
-		if (OptionsState.onPlayState)
-			return;
+		
 		ClientPrefs.data.middleScroll = !ClientPrefs.data.middleScroll;
 		display = updateDisplay();
     }
@@ -150,16 +142,12 @@ class FilpChart extends Option
 	public function new(desc:String)
 	{
 		super();
-		if (OptionsState.onPlayState)
-			description = "This option cannot be toggled in the pause menu.";
-		else
-			description = desc;
+		description = desc;
 	}
 
 	override function press()
 	{
-		if (OptionsState.onPlayState)
-			return;
+		
 		ClientPrefs.data.filpChart = !ClientPrefs.data.filpChart;
 		display = updateDisplay();
     }
@@ -185,8 +173,7 @@ class GuitarHeroSustains extends Option
     }
     
     override function right()
-    {
-        left();
+    {left();
     }
     
 	private override function updateDisplay():String
@@ -271,16 +258,12 @@ class ResultsScreen extends Option
 	public function new(desc:String)
 	{
 		super();
-		if (OptionsState.onPlayState)
-			description = "This option cannot be toggled in the pause menu.";
-		else
-			description = desc;
+		description = desc;
 	}
 
 	override function press()
 	{
-		if (OptionsState.onPlayState)
-			return;
+		
 		ClientPrefs.data.resultsScreen = !ClientPrefs.data.resultsScreen;
 		display = updateDisplay();
     }
@@ -316,17 +299,13 @@ class Judgement extends Option
 	public function new(desc:String)
 	{
 		super();
-		if (OptionsState.onPlayState)
-			description = "This option cannot be toggled in the pause menu.";
-		else
-			description = desc;
+		description = desc;
 		acceptValues = true;
 	}
 
 	override function press()
 	{
-		if (OptionsState.onPlayState)
-			return;
+		
 							
 		var num:Int = 8;	
 		OptionsState.instance.selectedCatIndex = num;
@@ -371,17 +350,12 @@ class NoteSkin extends Option
 	{
 		super();
 		chooseNum = 0;
-		OptionsHelpers.setNoteSkin();
-		if (OptionsState.onPlayState)
-			description = "This option cannot be toggled in the pause menu.";
-		else
+		OptionsHelpers.setNoteSkin();		
 			description = desc;
 	}
 
 	override function left()
 	{
-		if (OptionsState.onPlayState)
-			return;
 		chooseNum--;
 		
      	OptionsHelpers.changeNoteSkin();
@@ -390,8 +364,6 @@ class NoteSkin extends Option
 
 	override function right()
 	{
-		if (OptionsState.onPlayState)
-			return;
 		chooseNum++;
 		
         OptionsHelpers.changeNoteSkin();
@@ -399,8 +371,7 @@ class NoteSkin extends Option
     }
     
     override function change()
-	{
-        OptionsState.instance.changeNoteSkin();        
+	{OptionsState.instance.changeNoteSkin();        
     }
     
 	override function getValue():String
@@ -413,17 +384,12 @@ class NoteRGB extends Option
 {
 	public function new(desc:String)
 	{
-		super();
-		if (OptionsState.onPlayState)
-			description = "This option cannot be toggled in the pause menu.";
-		else
-			description = desc;
+		super();	
+		description = desc;
 	}
 
 	override function press()
 	{
-		if (OptionsState.onPlayState)
-			return;
 		ClientPrefs.data.noteRGB = !ClientPrefs.data.noteRGB;
 		display = updateDisplay();
     }
@@ -443,16 +409,11 @@ class SplashSkin extends Option
 		super();
 		chooseNum = 0;
 		OptionsHelpers.setSplashSkin();
-		if (OptionsState.onPlayState)
-			description = "This option cannot be toggled in the pause menu.";
-		else
-			description = desc;
+		description = desc;
 	}
 
 	override function left()
-	{
-		if (OptionsState.onPlayState)
-			return;
+	{		
 		chooseNum--;
 		
      	OptionsHelpers.changeSplashSkin();
@@ -460,9 +421,7 @@ class SplashSkin extends Option
     }
 
 	override function right()
-	{
-		if (OptionsState.onPlayState)
-			return;
+	{		
 		chooseNum++;
 		
         OptionsHelpers.changeSplashSkin();
@@ -480,16 +439,11 @@ class SplashRGB extends Option
 	public function new(desc:String)
 	{
 		super();
-		if (OptionsState.onPlayState)
-			description = "This option cannot be toggled in the pause menu.";
-		else
-			description = desc;
+		description = desc;
 	}
 
 	override function press()
-	{
-		if (OptionsState.onPlayState)
-			return;
+	{	
 		ClientPrefs.data.splashRGB = !ClientPrefs.data.splashRGB;
 		display = updateDisplay();
     }
@@ -606,8 +560,7 @@ class HideHud extends Option
 	}
 
 	override function press()
-	{
-        //if (OptionsState.onPlayState)
+	{//if (OptionsState.onPlayState)
 		//	return;
 		ClientPrefs.data.hideHud = !ClientPrefs.data.hideHud;
 
@@ -707,16 +660,12 @@ class ComboOffset extends Option
 	public function new(desc:String)
 	{
 		super();
-		if (OptionsState.onPlayState)
-			description = "This option cannot be toggled in the pause menu.";
-		else
-			description = desc;
+        description = desc;
 	}
 
 	override function press()
 	{
-		if (OptionsState.onPlayState)
-			return;
+		
 		ClientPrefs.data.comboOffsetFix = !ClientPrefs.data.comboOffsetFix;
 		display = updateDisplay();
     }
@@ -756,8 +705,7 @@ class ShowSplashes extends Option
 	}
 
 	override function press()
-	{
-        ClientPrefs.data.showSplash = !ClientPrefs.data.showSplash;
+	{ClientPrefs.data.showSplash = !ClientPrefs.data.showSplash;
 		display = updateDisplay();
     }
 
@@ -863,14 +811,12 @@ class HealthBarVersion extends Option
 	}
 
 	override function left()
-	{
-        ClientPrefs.data.oldHealthBarVersion = !ClientPrefs.data.oldHealthBarVersion;
+	{ClientPrefs.data.oldHealthBarVersion = !ClientPrefs.data.oldHealthBarVersion;
 		display = updateDisplay();
     }
     
     override function right()
-	{
-        left();
+	{left();
     }
 
 	private override function updateDisplay():String
@@ -898,8 +844,7 @@ class TimeBarType extends Option
     }
 
 	override function right()
-	{
-        chooseNum++;
+	{chooseNum++;
         OptionsHelpers.changeTimeBarType();
 		display = updateDisplay();				
     }
@@ -923,14 +868,12 @@ class HscriptVersion extends Option
 	}
 
 	override function left()
-	{
-        ClientPrefs.data.oldHscriptVersion = !ClientPrefs.data.oldHscriptVersion;
+	{ClientPrefs.data.oldHscriptVersion = !ClientPrefs.data.oldHscriptVersion;
 		display = updateDisplay();
     }
     
     override function right()
-	{
-        left();
+	{left();
     }
 
 	private override function updateDisplay():String
@@ -1019,8 +962,7 @@ class DiscordRPC extends Option
 
 	override function press()
 	{
-		if (OptionsState.onPlayState)
-			return;
+		
 		ClientPrefs.data.discordRPC = !ClientPrefs.data.discordRPC;
 		display = updateDisplay();
     }
@@ -1086,16 +1028,12 @@ class PlayOpponent extends Option
 	public function new(desc:String)
 	{
 		super();
-		if (OptionsState.onPlayState)
-			description = "This option cannot be toggled in the pause menu.";
-		else
-			description = desc;
+		description = desc;
 	}
 
 	override function press()
 	{
-		if (OptionsState.onPlayState)
-			return;
+		
 		ClientPrefs.data.playOpponent = !ClientPrefs.data.playOpponent;
 		display = updateDisplay();
     }
@@ -1111,16 +1049,12 @@ class OpponentCodeFix extends Option
 	public function new(desc:String)
 	{
 		super();
-		if (OptionsState.onPlayState)
-			description = "This option cannot be toggled in the pause menu.";
-		else
-			description = desc;
+		description = desc;
 	}
 
 	override function press()
 	{
-		if (OptionsState.onPlayState)
-			return;
+		
 		ClientPrefs.data.opponentCodeFix = !ClientPrefs.data.opponentCodeFix;
 		display = updateDisplay();
     }
@@ -1451,8 +1385,7 @@ class ControlsAlpha extends Option
 		display = updateDisplay();	
     }
      
-    override function change(){
-        OptionsState.instance.changeControlAlpha();
+    override function change(){OptionsState.instance.changeControlAlpha();
     }
 
 	private override function updateDisplay():String
@@ -1709,16 +1642,12 @@ class Shaders extends Option
 	public function new(desc:String)
 	{
 		super();
-		if (OptionsState.onPlayState)
-			description = "This option cannot be toggled in the pause menu.";
-		else
-			description = desc;
+		description = desc;
 	}
 
 	override function press()
 	{
-		if (OptionsState.onPlayState)
-			return;
+		
 		ClientPrefs.data.shaders = !ClientPrefs.data.shaders;
 		display = updateDisplay();
     }
@@ -1734,16 +1663,12 @@ class GPUcache extends Option
 	public function new(desc:String)
 	{
 		super();
-		if (OptionsState.onPlayState)
-			description = "This option cannot be toggled in the pause menu.";
-		else
-			description = desc;
+		description = desc;
 	}
 
 	override function press()
 	{
-		if (OptionsState.onPlayState)
-			return;
+		
 		ClientPrefs.data.cacheOnGPU = !ClientPrefs.data.cacheOnGPU;
 		display = updateDisplay();
     }
@@ -1766,9 +1691,7 @@ class LoadingScreen extends Option
 	override function press()
 	{
 		ClientPrefs.data.loadingScreen = !ClientPrefs.data.loadingScreen;
-		display = updateDisplay();
-		
-
+		display = updateDisplay();		
 	}
 	
 	private override function updateDisplay():String
@@ -1802,16 +1725,11 @@ class QualityLow extends Option
 	public function new(desc:String)
 	{
 		super();
-              if (OptionsState.onPlayState)
-			description = "This option cannot be toggled in the pause menu.";
-		else
-			description = desc;
+		description = desc;
 	}
 
 	override function press()
-	{
-             		if (OptionsState.onPlayState)
-			return;
+	{     		
         ClientPrefs.data.lowQuality = !ClientPrefs.data.lowQuality;
 		display = updateDisplay();
     }
@@ -1827,15 +1745,11 @@ class GameQuality extends Option
 	public function new(desc:String)
 	{
 		super();
-              if (OptionsState.onPlayState)
-			description = "This option cannot be toggled in the pause menu.";
-		else
-			description = desc;
+		description = desc;
 	}
 
 	override function left()
 	{
-        
         ClientPrefs.data.gameQuality -= 1;
         if (ClientPrefs.data.gameQuality < 0) ClientPrefs.data.gameQuality = 0;
 		display = updateDisplay();
@@ -1843,7 +1757,6 @@ class GameQuality extends Option
     
     override function right()
 	{
-        
         ClientPrefs.data.gameQuality += 1;
         if (ClientPrefs.data.gameQuality > 3) ClientPrefs.data.gameQuality = 3;
 		display = updateDisplay();
@@ -1875,16 +1788,12 @@ class Antialiasing extends Option
 	public function new(desc:String)
 	{
 		super();
-		if (OptionsState.onPlayState)
-			description = "This option cannot be toggled in the pause menu.";
-		else
-			description = desc;
+		description = desc;
 	}
 
 	override function press()
 	{
-		if (OptionsState.onPlayState)
-			return;
+		
 		ClientPrefs.data.antialiasing = !ClientPrefs.data.antialiasing;
             
 		display = updateDisplay();
@@ -1952,16 +1861,11 @@ class FPSRainbowOption extends Option
 	public function new(desc:String)
 	{
 		super();
-              if (OptionsState.onPlayState)
-			description = "This option cannot be toggled in the pause menu.";
-		else
-			description = desc;
+		description = desc;
 	}
 
 	override function press()
 	{
-        if (OptionsState.onPlayState)
-			return;
         ClientPrefs.data.rainbowFPS = !ClientPrefs.data.rainbowFPS;
 		display = updateDisplay();
     }
