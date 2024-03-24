@@ -39,6 +39,17 @@ class CreditsState extends MusicBeatState
 		#end
 
 		var defaultList:Array<Array<String>> = [ //Name - Icon name - Description - Link - BG Color
+		    ['NovaFlare Engine Team'],
+		    ['Beihu',		'beihu',		'Main Programmer and Head of NovaFlare Engine',						'https://b23.tv/Etk6gY9',	'FFC0CB'],
+		    ['TieGuo',		'tieguo',		'Ex-Programmer',				'https://b23.tv/7OVWzAO',	'FF6600'],
+		    [''],
+		    ['Special Thanks'],
+		    [''],
+		    ['mengqi',       'mengqi',       'Artist',                               'https://space.bilibili.com/2130239542',    '9b5a67'],
+		    ['als',            'als',           'Open screen animation support',     'https://b23.tv/mNNX8R8',                'ff0000'],
+		    ['ddd',           'ddd',          'Sounds support',                     'https://space.bilibili.com/401733211',      '5123A0'],
+		    [''],
+		    #if mobile
 			['Mobile Porting Team'],
 			['mcagabe19',		                'lily',		                'Head Porter of Psych Engine Mobile',							'https://www.youtube.com/@mcagabe19',           'FFE7C0'],
 			['Karim Akra',				'karim',			'Assistant Porter/Helper #1 of Psych Engine Mobile',						'https://youtube.com/@Karim0690',		'FFB4F0'],
@@ -48,6 +59,7 @@ class CreditsState extends MusicBeatState
 			['MAJigsaw77',				'jigsaw',			'Author of Mobile Controls, New FlxRuntimeShader and Storage Stuff',							'https://github.com/MAJigsaw77',               '898989'],
 			['FutureDorito',				'dorito',			'iOS Helper/Implement',							'https://www.youtube.com/@Futuredorito',               'E69138'],
 			[''],
+			#end
 			['Psych Engine Team'],
 			['Shadow Mario',		'shadowmario',		'Main Programmer and Head of Psych Engine',					 'https://ko-fi.com/shadowmario',		'444444'],
 			['Riveren',				'riveren',			'Main Artist/Animator of Psych Engine',						 'https://twitter.com/riverennn',		'14967B'],
