@@ -74,10 +74,8 @@ class WeekData {
 		weeksList = [];
 		weeksLoaded.clear();
 		#if MODS_ALLOWED
-		var directories:Array<String> = [Paths.mods()];
+		var directories:Array<String> = [Paths.mods(), Paths.getSharedPath()];
 		var originalLength:Int = directories.length;
-		
-		var loadOriginal:Bool = true;
 
 		for (mod in Mods.parseList().enabled)
 			directories.push(Paths.mods(mod + '/'));
@@ -85,59 +83,31 @@ class WeekData {
 		var directories:Array<String> = [Paths.getSharedPath()];
 		var originalLength:Int = directories.length;
 		#end
-        
-        #if MODS_ALLOWED
-		for (i in 0...directories.length) {
-			var directory:String = directories[i] + 'weeks/';
-			if(FileSystem.exists(directory)) {
-				var listOfWeeks:Array<String> = CoolUtil.coolTextFile(directory + 'weekList.txt');
-				for (daWeek in listOfWeeks)
-				{
-					var path:String = directory + daWeek + '.json';
-					if(FileSystem.exists(path))
-					{
-						loadOriginal = false;
-					}
-				}
 
-				for (file in FileSystem.readDirectory(directory))
-				{
-					var path = haxe.io.Path.join([directory, file]);
-					if (!FileSystem.isDirectory(path) && file.endsWith('.json'))
-					{
-						loadOriginal = false;
+		var sexList:Array<String> = CoolUtil.coolTextFile(Paths.getSharedPath('weeks/weekList.txt'));
+		for (i in 0...sexList.length) {
+			for (j in 0...directories.length) {
+				var fileToCheck:String = directories[j] + 'weeks/' + sexList[i] + '.json';
+				if(!weeksLoaded.exists(sexList[i])) {
+					var week:WeekFile = getWeekFile(fileToCheck);
+					if(week != null) {
+						var weekFile:WeekData = new WeekData(week, sexList[i]);
+
+						#if MODS_ALLOWED
+						if(j >= originalLength) {
+							weekFile.folder = directories[j].substring(Paths.mods().length, directories[j].length-1);
+						}
+						#end
+
+						if(weekFile != null && (isStoryMode == null || (isStoryMode && !weekFile.hideStoryMode) || (!isStoryMode && !weekFile.hideFreeplay))) {
+							weeksLoaded.set(sexList[i], weekFile);
+							weeksList.push(sexList[i]);
+						}
 					}
 				}
 			}
 		}
-		#end
-		
-		if (loadOriginal){
-    		var sexList:Array<String> = CoolUtil.coolTextFile(Paths.getSharedPath('weeks/weekList.txt'));
-    		for (i in 0...sexList.length) {
-    			for (j in 0...directories.length) {
-    				var fileToCheck:String = directories[j] + 'weeks/' + sexList[i] + '.json';
-    				if(!weeksLoaded.exists(sexList[i])) {
-    					var week:WeekFile = getWeekFile(fileToCheck);
-    					if(week != null) {
-    						var weekFile:WeekData = new WeekData(week, sexList[i]);
-    
-    						#if MODS_ALLOWED
-    						if(j >= originalLength) {
-    							weekFile.folder = directories[j].substring(Paths.mods().length, directories[j].length-1);
-    						}
-    						#end
-    
-    						if(weekFile != null && (isStoryMode == null || (isStoryMode && !weekFile.hideStoryMode) || (!isStoryMode && !weekFile.hideFreeplay))) {
-    							weeksLoaded.set(sexList[i], weekFile);
-    							weeksList.push(sexList[i]);
-    						}
-    					}
-    				}
-    			}
-    		}
-        }
-        
+
 		#if MODS_ALLOWED
 		for (i in 0...directories.length) {
 			var directory:String = directories[i] + 'weeks/';
