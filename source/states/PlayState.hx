@@ -209,6 +209,8 @@ class PlayState extends MusicBeatState
 
 	public var healthBar:Bar;
 	public var timeBar:Bar;
+	public var healthBarBG:FlxSprite;
+	public var timeBarBG:FlxSprite;  //修复那傻逼lua
 	var songPercent:Float = 0;
 
 	public var ratingsData:Array<Rating> = Rating.loadDefault();
@@ -550,6 +552,18 @@ class PlayState extends MusicBeatState
 		healthBar.alpha = ClientPrefs.data.healthBarAlpha;
 		reloadHealthBarColors();
 		uiGroup.add(healthBar);
+		
+		timeBarBG = new FlxSprite(0, 0).makeGraphic(0, 0, 0x00ffffff);    				
+		timeBarBG.visible = timeBarBG.action = false;
+		timeBarBG.scrollFactor.set();    		
+		add(timeBarBG);	
+		timeBarBG.camera = camHUD;
+		
+		healthBarBG = new FlxSprite(0, 0).makeGraphic(0, 0, 0x00ffffff);    				
+		healthBarBG.visible = healthBarBG.action = false;
+		healthBarBG.scrollFactor.set();    		
+		add(healthBarBG);	
+		healthBarBG.camera = camHUD;
 
 		iconP1 = new HealthIcon(boyfriend.healthIcon, true);
 		iconP1.y = healthBar.y - 75;
