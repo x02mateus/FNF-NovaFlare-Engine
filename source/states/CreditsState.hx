@@ -44,7 +44,7 @@ class CreditsState extends MusicBeatState
 		    ['TieGuo',		'tieguo',		'Ex-Programmer',				'https://b23.tv/7OVWzAO',	'FF6600'],
 		    [''],
 		    ['Special Thanks'],
-		    [''],
+		    ['Careful_Scarf_487', 'Careful_Scarf_487', 'Main Artist', 'https://b23.tv/DQ1a0jO',  '990000'],
 		    ['mengqi',       'mengqi',       'Artist',                               'https://space.bilibili.com/2130239542',    '9b5a67'],
 		    ['als',            'als',           'Open screen animation support',     'https://b23.tv/mNNX8R8',                'ff0000'],
 		    ['ddd',           'ddd',          'Sounds support',                     'https://space.bilibili.com/401733211',      '5123A0'],
