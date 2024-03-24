@@ -1113,7 +1113,7 @@ class FreeplayState extends MusicBeatState {
 			lastSelectedSearch = searchSelected;
 		}
 		
-		if (FlxG.mouse.pressed && FlxG.mouse.x < FlxG.width-50)
+		if (FlxG.mouse.pressed && FlxG.pixelPerfectOverlap(searchbg, mousechecker, 0))
 		{
 			searchSelected = Math.floor(fakecurSelected - (FlxG.mouse.y - startMouseYsearch) / (75*0.75));
 			
@@ -1130,6 +1130,7 @@ class FreeplayState extends MusicBeatState {
 				//别删这里否则搜索会炸
 			
 				写这个给谁看。
+				
 				如果有人优化的话
 			*/
 		}
@@ -1259,12 +1260,13 @@ class FreeplayState extends MusicBeatState {
 			}
 			selectedThing = 'Nothing';
 		}
+		if (FlxG.mouse.pressed){
+			startButton.x = FlxMath.lerp(selectedThing == 'start' ? 15 : 0, startButton.x, FlxMath.bound(1 - (elapsed * 12), 0, 1));
+			backButton.x = FlxMath.lerp(selectedThing == 'back' ? -15 : 0, backButton.x, FlxMath.bound(1 - (elapsed * 12), 0, 1));
 		
-		startButton.x = FlxMath.lerp(selectedThing == 'start' ? 15 : 0, startButton.x, FlxMath.bound(1 - (elapsed * 12), 0, 1));
-		backButton.x = FlxMath.lerp(selectedThing == 'back' ? -15 : 0, backButton.x, FlxMath.bound(1 - (elapsed * 12), 0, 1));
-		
-		startText.x = FlxMath.lerp(selectedThing == 'start' ? 1155 : 1140, startText.x, FlxMath.bound(1 - (elapsed * 12), 0, 1));
-		backText.x = FlxMath.lerp(selectedThing == 'back' ? 15 : 30, backText.x, FlxMath.bound(1 - (elapsed * 12), 0, 1));
+			startText.x = FlxMath.lerp(selectedThing == 'start' ? 1155 : 1140, startText.x, FlxMath.bound(1 - (elapsed * 12), 0, 1));
+			backText.x = FlxMath.lerp(selectedThing == 'back' ? 15 : 30, backText.x, FlxMath.bound(1 - (elapsed * 12), 0, 1));
+		}
 	}
 	
 	function mouseControl(elapsed:Float){
