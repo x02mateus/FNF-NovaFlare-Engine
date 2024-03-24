@@ -196,6 +196,8 @@ class FreeplayState extends MusicBeatState {
 		songsbg.alpha = 1;
 		add(songsbg);
 		
+		if(curSelected >= songs.length) curSelected = 0;
+		
 		Mods.currentModDirectory = songs[curSelected].folder;
 		bg = new FlxSprite().loadGraphic(Paths.image('menuDesat'));
 		bg.antialiasing = ClientPrefs.data.antialiasing;
@@ -210,9 +212,8 @@ class FreeplayState extends MusicBeatState {
 		add(mousechecker);
 		mousechecker.camera = camUI;
 				
-		addSongTxt();
+		addSongTxt();	
 		
-		if(curSelected >= songs.length) curSelected = 0;
 		bg.color = songs[curSelected].color;
 		curDifficulty = Math.round(Math.max(0, Difficulty.defaultList.indexOf(lastDifficultyName)));
 		camSong.scroll.x = -curSelected * 20 * 0.75;
