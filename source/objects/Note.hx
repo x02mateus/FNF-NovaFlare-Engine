@@ -556,10 +556,10 @@ class Note extends FlxSprite
 	        earlyHitMult = 0;
 			lateHitMult = 1;	   //写1而不是0.5是用于修复长条先miss问题
 	    }else if (number == maxNumber){
-	        earlyHitMult = 0.75;
+	        earlyHitMult = 0.5;
 			lateHitMult = 0;	  	    
 	    }else{
-	        earlyHitMult = 0.75;
+	        earlyHitMult = 0.5;
 			lateHitMult = 0.75;	
 	    }
 	} //this shit can make hold note work better
