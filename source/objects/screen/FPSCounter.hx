@@ -38,7 +38,7 @@ class FPSCounter extends Sprite
 		this.data.text = "0";
 		this.title.text = "FPS \n " + "/ " + ClientPrefs.data.framerate + ' \n'; 
 		
-		this.data.x += 15;
+		this.data.x += 10;
 		this.title.x -= 10;
 	}
 
