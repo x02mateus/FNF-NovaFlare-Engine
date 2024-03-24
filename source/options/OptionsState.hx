@@ -935,7 +935,7 @@ class OptionsState extends MusicBeatState
 		add(noteBG);
 		noteBG.cameras = [camNote];
 		
-		PlayState.isPixelStage = false;
+		PlayState.stageUI = "normal";
 		
 		strumNote = new FlxTypedGroup<StrumNote>();
 		for (i in 0...Note.colArray.length)
