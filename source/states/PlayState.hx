@@ -554,13 +554,13 @@ class PlayState extends MusicBeatState
 		uiGroup.add(healthBar);
 		
 		timeBarBG = new FlxSprite(0, 0).makeGraphic(0, 0, 0x00ffffff);    				
-		timeBarBG.visible = timeBarBG.action = false;
+		timeBarBG.visible = timeBarBG.active = false;
 		timeBarBG.scrollFactor.set();    		
 		add(timeBarBG);	
 		timeBarBG.camera = camHUD;
 		
 		healthBarBG = new FlxSprite(0, 0).makeGraphic(0, 0, 0x00ffffff);    				
-		healthBarBG.visible = healthBarBG.action = false;
+		healthBarBG.visible = healthBarBG.active = false;
 		healthBarBG.scrollFactor.set();    		
 		add(healthBarBG);	
 		healthBarBG.camera = camHUD;
