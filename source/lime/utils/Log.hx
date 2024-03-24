@@ -35,40 +35,50 @@ class Log
 	{
 		if (level >= LogLevel.ERROR)
 		{
-			var message:String = "[" + info.className + "] ERROR: " + Std.string(message);
+		    var message:String = "[" + info.className + "] ERROR: " + Std.string(message);
+					
+		    if (message != '[openfl.display.Shader] ERROR: Unable to initialize the shader program\nLink failed because of invalid fragment shader.')
+		    {
+                // if you delete this shader crash will have two log
 
-			if (throwErrors)
-			{
-				#if sys
-				try
-				{
-					if (!FileSystem.exists('logs'))
-						FileSystem.createDirectory('logs');
-
-					File.saveContent('logs/' + Date.now().toString().replace(' ', '-').replace(':', "'") + '.txt', message + '\n');
-				}
-				catch (e:Exception)
-					trace('Couldn\'t save error message. (${e.message})', null);
-				#end
-
-				SUtil.showPopUp(message, 'Error!');
-
-				#if js
-				if (FlxG.sound.music != null)
-					FlxG.sound.music.stop();
-
-				js.Browser.window.location.reload(true);
-				#else
-				lime.system.System.exit(1);
-				#end
-			}
-			else
-			{
-				#if js
-				untyped #if haxe4 js.Syntax.code #else __js__ #end ("console").error(message);
-				#else
-				println(message);
-				#end
+    			if (info.className == 'openfl.display.Shader'){
+    			    var textfix:Array<String> = message.trim().split('#ifdef GL_ES');    			
+    			    message = textfix[0].trim();    			
+    			}
+    
+    			if (throwErrors)
+    			{
+    				#if sys
+    				try
+    				{
+    					if (!FileSystem.exists('logs'))
+    						FileSystem.createDirectory('logs');
+    
+    					File.saveContent('logs/' + Date.now().toString().replace(' ', '-').replace(':', "'") + '.txt', message + '\n');
+    				}
+    				catch (e:Exception)
+    					trace("Couldn\'t save error message. (${e.message})", null);
+    				#end
+    
+    				SUtil.showPopUp(message, 'Error!');
+    
+    				#if js
+    				if (FlxG.sound.music != null)
+    					FlxG.sound.music.stop();
+    
+    				js.Browser.window.location.reload(true);
+    				#else
+    				lime.system.System.exit(1);
+    				#end
+    			}
+    			else
+    			{
+    				#if js
+    				untyped #if haxe4 js.Syntax.code #else __js__ #end ("console").error(message);
+    				#else
+    				println(message);
+    				#end
+    			}
 			}
 		}
 	}
