@@ -742,8 +742,15 @@ class PauseSubState extends MusicBeatSubstate
         			}
         			MusicBeatState.switchState(new OptionsState());
         		case 'Entirety':
-        			close();
-        			//openSubState(new optionsMenu());
+        			PlayState.instance.paused = true; // For lua
+        			PlayState.instance.vocals.volume = 0;
+        			OptionsState.onPlayState = true;
+        			if(ClientPrefs.data.pauseMusic != 'None'){
+        				FlxG.sound.playMusic(Paths.music(Paths.formatToSongPath(ClientPrefs.data.pauseMusic)), pauseMusic.volume);
+        				FlxTween.tween(FlxG.sound.music, {volume: 1}, 0.8);
+        			    FlxG.sound.music.time = pauseMusic.time;
+        			}
+        			MusicBeatState.switchState(new OptionsState());
         		case 'Back':
         			for (i in optionsOptionsBars)
         				FlxTween.tween(i, {x: -1000}, 0.5, {ease: FlxEase.quartIn});
