@@ -601,6 +601,12 @@ class FreeplayState extends MusicBeatState {
 			} else if (FlxG.keys.justPressed.P) {
 			    persistentUpdate = false;
 			    OptionsState.onFreePlay = true;
+			    if (playingSong != -1 || playmusiconexit) {
+					destroyFreeplayVocals();
+					FlxG.sound.playMusic(Paths.music('freakyMenu'), 0);
+					if (waitTimer != null) waitTimer.cancel();
+					//FlxG.sound.music.volume = 0.1;
+				}				
 				LoadingState.loadAndSwitchState(new OptionsState());
 			}
 			
@@ -896,6 +902,7 @@ class FreeplayState extends MusicBeatState {
 			rateLeft.alpha = 0.75;
 			if (songPlaybackRate > 0.1)
 				songPlaybackRate -= 0.05;
+			songPlaybackRate = FlxMath.roundDecimal(songPlaybackRate, 2);
 			setplaybackrate();
 		}
 			
@@ -903,6 +910,7 @@ class FreeplayState extends MusicBeatState {
 			rateRight.alpha = 0.75;
 			if (songPlaybackRate < 4)
 				songPlaybackRate += 0.05;
+			songPlaybackRate = FlxMath.roundDecimal(songPlaybackRate, 2);
 			setplaybackrate();
 		}
 		
@@ -1351,6 +1359,12 @@ class FreeplayState extends MusicBeatState {
 			switch(curHoldOptions) {
 				case 0: //Options					
 				    OptionsState.onFreePlay = true;
+				    if (playingSong != -1 || playmusiconexit) {
+    					destroyFreeplayVocals();
+    					FlxG.sound.playMusic(Paths.music('freakyMenu'), 0);
+    					if (waitTimer != null) waitTimer.cancel();
+    					//FlxG.sound.music.volume = 0.1;
+    				}    				
 					LoadingState.loadAndSwitchState(new OptionsState());
 				case 1: // Gameplay Changer					
 					openSubState(new GameplayChangersSubstate());
