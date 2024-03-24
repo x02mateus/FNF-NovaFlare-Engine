@@ -3334,12 +3334,7 @@ class PlayState extends MusicBeatState
 					childNote.alpha = 0.3;
 				}
 				note.missed = true;
-				note.canBeHit = false;
-
-				//subtract += 0.385; // you take more damage if playing with this gameplay changer enabled.
-				// i mean its fair :p -Crow
-				//subtract *= note.tail.length + 1;
-				// i think it would be fair if damage multiplied based on how long the sustain is -Tahir
+				note.canBeHit = false;			
 			}
 		}
 		if (note != null && guitarHeroSustains && note.parent != null && note.isSustainNote) {
@@ -3439,7 +3434,7 @@ class PlayState extends MusicBeatState
 		
 		if (ClientPrefs.data.HealthDrainOPPO) {
 		    if (health > 0.4){
-		        health -= note.hitHealth * healthLoss * ClientPrefs.data.HealthDrainOPPOMult;
+		        if (!(guitarHeroSustains && note.isSustainNote)) health -= note.hitHealth * healthLoss * ClientPrefs.data.HealthDrainOPPOMult;
 		        if (health <= 0.4) health = 0.4; 
 		    }
 		}
@@ -3652,7 +3647,7 @@ class PlayState extends MusicBeatState
 		
 		if (ClientPrefs.data.HealthDrainOPPO) {
 		    if (health > 0.4){
-		        health -= note.hitHealth * healthLoss * ClientPrefs.data.HealthDrainOPPOMult;
+		        if (!(guitarHeroSustains && note.isSustainNote)) health -= note.hitHealth * healthLoss * ClientPrefs.data.HealthDrainOPPOMult;
 		        if (health <= 0.4) health = 0.4; 
 		    }
 		}
