@@ -99,8 +99,8 @@ import states.TitleState;
 	public var extraKey:Int = 4;
 	public var extraKeyReturn1:String = 'SPACE';
 	public var extraKeyReturn2:String = 'SPACE';
-	public var extraKeyReturn3:String = 'SPACE';
-	public var extraKeyReturn4:String = 'SPACE';
+	public var extraKeyReturn3:String = 'SHIFT';
+	public var extraKeyReturn4:String = 'SHIFT';
 	
 	public var language:Int = 0; //for english at begin
 	
