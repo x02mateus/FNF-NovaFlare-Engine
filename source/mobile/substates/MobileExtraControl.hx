@@ -90,6 +90,7 @@ class MobileExtraControl extends MusicBeatSubstate
 			MusicBeatState.switchState(new options.OptionsState());
         }
 	}	        
+}
 
 class ChooseButton extends FlxSpriteGroup
 {    
