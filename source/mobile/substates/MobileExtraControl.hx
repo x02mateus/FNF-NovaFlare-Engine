@@ -17,7 +17,7 @@ class MobileExtraControl extends MusicBeatSubstate
         ['N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'],
         ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'],
         ['F1', 'F2', 'F3', 'F4', 'F5', 'F6', 'F7', 'F8', 'F9', 'F10', 'F11', 'F12'],
-        ['SPACE', 'BACKSPACE', 'ENTER', 'SHIFT', 'TAB', 'ESCAPE'],
+        ['SPACE', 'BACK\nSPACE', 'ENTER', 'SHIFT', 'TAB', 'ESCAPE'],
     ];
     
     var titleTeam:FlxTypedGroup<ChooseButton>;           
@@ -49,7 +49,7 @@ class MobileExtraControl extends MusicBeatSubstate
 		
 		for (i in 1...5){    
 			var data:String = Reflect.field(ClientPrefs.data, "extraKeyReturn" + i);    	
-			var _x = FlxG.width / 2 - titleWidth / 2 + titleWidth * ((i-1) - 4 / 2);
+			var _x = FlxG.width / 2 + titleWidth * ((i-1) - 4 / 2);
 	        var titleObject = new ChooseButton(_x, 100, titleWidth, titleHeight, data, "Key " + Std.string(i));    		    			 			
     		titleTeam.add(titleObject);	    		
 	    }
@@ -60,8 +60,8 @@ class MobileExtraControl extends MusicBeatSubstate
 	    for (type in 0...returnArray.length){
 	        var _length:Int = returnArray[type].length;
 	        for (number in 0..._length){
-	            var _x = FlxG.width / 2 - optionWidth / 2 + optionWidth * (number - _length / 2);
-	            var titleObject = new ChooseButton(_x, 400 + (optionHeight + 20) * type, optionWidth, optionHeight, displayArray[type][number]);    		    			 			
+	            var _x = FlxG.width / 2 + optionWidth * (number - _length / 2);
+	            var titleObject = new ChooseButton(_x, 300 + (optionHeight + 20) * type, optionWidth, optionHeight, displayArray[type][number]);    		    			 			
     		    optionTeam.add(titleObject);	   	                
 	        }	    	    	    
 	    }        
@@ -102,7 +102,7 @@ class ChooseButton extends FlxSpriteGroup
 	{
 	    super(x, y);
 	    
-	    bg = new FlxSprite(0, 0).makeGraphic(width, height, FlxColor.WHITE);
+	    bg = new FlxSprite(0, 0).makeGraphic(width, height, FlxColor.BLACK);
 	    bg.color = FlxColor.WHITE;
 	    bg.alpha = 0.4;
 		bg.scrollFactor.set();
