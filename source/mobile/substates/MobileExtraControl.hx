@@ -106,7 +106,6 @@ class ChooseButton extends FlxSpriteGroup
 	    bg.color = FlxColor.WHITE;
 	    bg.alpha = 0.4;
 		bg.scrollFactor.set();
-		bg.alpha = 0;
 		add(bg);
 	
 	    titleObject = new FlxText(0, 0, width, title);
