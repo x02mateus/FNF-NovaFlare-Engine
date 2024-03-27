@@ -7,16 +7,16 @@ class MobileExtraControl extends MusicBeatSubstate
     var returnArray:Array<Array<String>> = [
         ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'G', 'K', 'L', 'M'],
         ['N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'],
-        ['ZERO', 'ONE', 'TWO', 'THREE', 'FOUR', 'FIVE', 'SIX', 'SEVEN', 'EIGHT', 'NINE'],
         ['F1', 'F2', 'F3', 'F4', 'F5', 'F6', 'F7', 'F8', 'F9', 'F10', 'F11', 'F12'],
+        ['ZERO', 'ONE', 'TWO', 'THREE', 'FOUR', 'FIVE', 'SIX', 'SEVEN', 'EIGHT', 'NINE'],        
         ['SPACE', 'BACKSPACE', 'ENTER', 'SHIFT', 'TAB', 'ESCAPE'],
     ];
     
     var displayArray:Array<Array<String>> = [
         ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'G', 'K', 'L', 'M'],
         ['N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'],
-        ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'],
         ['F1', 'F2', 'F3', 'F4', 'F5', 'F6', 'F7', 'F8', 'F9', 'F10', 'F11', 'F12'],
+        ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'],        
         ['SPACE', 'BACK\nSPACE', 'ENTER', 'SHIFT', 'TAB', 'ESCAPE'],
     ];
     
@@ -119,7 +119,7 @@ class ChooseButton extends FlxSpriteGroup
 		
 		if (extendTitle != null){ 
     		extendTitleObject = new FlxText(0, 0, width, extendTitle);
-    		extendTitleObject.setFormat(Paths.font('vcr.ttf'), 20, FlxColor.WHITE, FlxTextAlign.CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+    		extendTitleObject.setFormat(Paths.font('vcr.ttf'), 30, FlxColor.WHITE, FlxTextAlign.CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
     		extendTitleObject.antialiasing = ClientPrefs.data.antialiasing;
     		extendTitleObject.borderSize = 2;
     		extendTitleObject.x = bg.width / 2 - extendTitleObject.width / 2;
