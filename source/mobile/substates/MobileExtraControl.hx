@@ -50,7 +50,7 @@ class MobileExtraControl extends MusicBeatSubstate
 		for (i in 1...5){    
 			var data:String = Reflect.field(ClientPrefs.data, "extraKeyReturn" + i);    	
 			var _x = FlxG.width / 2 - titleWidth / 2 + titleWidth * ((i-1) - 4 / 2);
-	        var titleObject = new ChooseButton(data, "Extra Key " + Std.string(i));    		    			 			
+	        var titleObject = new ChooseButton(data, "Key " + Std.string(i));    		    			 			
     		titleTeam.add(titleObject);	    		
 	    }
 	    
@@ -119,12 +119,14 @@ class ChooseButton extends FlxSpriteGroup
 		
 		if (extendTitle != null){ 
     		extendTitleObject = new FlxText(0, 0, width, extendTitle);
-    		extendTitleObject.setFormat(Paths.font('vcr.ttf'), , FlxColor.WHITE, FlxTextAlign.CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+    		extendTitleObject.setFormat(Paths.font('vcr.ttf'), 20, FlxColor.WHITE, FlxTextAlign.CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
     		extendTitleObject.antialiasing = ClientPrefs.data.antialiasing;
     		extendTitleObject.borderSize = 2;
     		extendTitleObject.x = bg.width / 2 - extendTitleObject.width / 2;
 		    extendTitleObject.y = 10;
     		add(extendTitleObject);
+    		
+    		titleObject.y = extendTitleObject.y + 30;
 		}
 	}
 	
