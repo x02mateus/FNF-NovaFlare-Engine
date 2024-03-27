@@ -185,7 +185,7 @@ class MobileExtraControl extends MusicBeatSubstate
 	}
 	
 	function displayReturn(){
-	    for (i in 0...4)
+	    for (i in 0...5)
 		{
 			var text:FlxText = typeNumber.members[i];
 			if (i != 0){
@@ -229,7 +229,7 @@ class MobileExtraControl extends MusicBeatSubstate
 	
 	function changeMain(){		    
 		    	    
-	    for (i in 0...4){	    	    	   
+	    for (i in 0...5){	    	    	   
     	        var obj = typeNumber.members[i];        		
         	    if (typeTween[i] != null) typeTween[i].cancel();
         		typeTween[i] = FlxTween.tween(obj, {y: 250 + 50 * i + 600}, 0.7 - i * 0.05, {ease: FlxEase.quadInOut});            		    		
@@ -249,7 +249,7 @@ class MobileExtraControl extends MusicBeatSubstate
         		chooseTween[i] = FlxTween.tween(button, {y: 250 + 50 * i}, 0.5 + i * 0.05, {ease: FlxEase.quadInOut});
 	    }	
 	    
-	    for (i in 0...4)
+	    for (i in 0...5)
 		{
 			var obj = typeNumber.members[i];        		
         	    if (typeTween[i] != null) typeTween[i].cancel();
@@ -324,8 +324,7 @@ class MobileExtraControl extends MusicBeatSubstate
 }
 
 class ChooseButton extends FlxSprite
-{
-    
+{    
     public var titleObject:FlxText;
     public var extendTitleObject:FlxText;
     
@@ -347,6 +346,7 @@ class ChooseButton extends FlxSprite
 		titleObject.borderSize = 2;
 		titleObject.x -= titleObject.width / 2;
 		titleObject.y -= titleObject.height / 2;
+		addChild(titleObject);
 		
 		if (extendTitle != null){
 		    titleObject.y = y;
@@ -357,7 +357,7 @@ class ChooseButton extends FlxSprite
     		extendTitleObject.borderSize = 2;
     		extendTitleObject.x -= extendTitleObject.width / 2;
     		extendTitleObject.y += height - extendTitleObject.height;
-    			
+    		addChild(extendTitleObject);
 		}
 	}
 	
