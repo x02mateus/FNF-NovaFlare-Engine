@@ -85,25 +85,25 @@ class MobileExtraControl extends MusicBeatSubstate
 		var back = controls.BACK;
 		
 		if (left || right){		   
-		    if (isMain){		        		    
+		    if (isMain){		        		
+		        titleNum += left ? -1 : 1;
+    		    if (titleNum > displayArray.length - 1)
+    		        titleNum = 0;
+    		    if (titleNum < 0)
+    		        titleNum = displayArray.length - 1;
+    		    updateTitle(titleNum + 1, true);   
+    		} else {
     		    chooseNum += left ? -1 : 1;
     		    if (chooseNum > displayArray[typeNum].length - 1)
     		        chooseNum = 0;
     		    if (chooseNum < 0)
     		        chooseNum = displayArray[typeNum].length - 1;
-    		    updateChoose(0);
-    		} else {
-    		    titleNum += left ? -1 : 1;
-    		    if (titleNum > displayArray.length - 1)
-    		        titleNum = 0;
-    		    if (titleNum < 0)
-    		        titleNum = displayArray.length - 1;
-    		    updateTitle(titleNum + 1, true);
+    		    updateChoose(0);    		    		    
     		}
 		}
 		
-		if (up || right){
-		    if (isMain){		
+		if (up || down){
+		    if (!isMain){		
     		    percent = chooseNum / displayArray[typeNum].length - 1;
     		    typeNum += up ? -1 : 1;
     		    if (typeNum > displayArray.length - 1)
@@ -170,7 +170,7 @@ class MobileExtraControl extends MusicBeatSubstate
 		{
 			var option:ChooseButton = optionTeam.members[i];
 			
-			if (option == optionTeam.members[chooseNum] && !isMain)
+			if (i == titleNum && !isMain)
 			    option.changeColor(FlxColor.WHITE);
 			else
 			    option.changeColor(FlxColor.BLACK);
@@ -184,7 +184,7 @@ class MobileExtraControl extends MusicBeatSubstate
 		{
 			var title:ChooseButton = titleTeam.members[i];
 			
-			if (title == titleTeam.members[chooseNum]){
+			if (i == chooseNum){
 			    title.changeExtraText(Reflect.field(ClientPrefs.data, "extraKeyReturn" + number));
 			    if (changeBG) title.changeColor(FlxColor.WHITE);
 			} else {
@@ -233,11 +233,10 @@ class ChooseButton extends FlxSpriteGroup
 	
 	public function changeColor(color:FlxColor){
 	    bg.color = color;
-		alpha = 0.4;
-	    updateHitbox();	
+		alpha = 0.4;	    
 	}
 	
 	public function changeExtraText(text:String){
-	    extendTitleObject.text = text;
+	    titleObject.text = text;
 	}
 }
