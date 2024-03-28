@@ -93,7 +93,12 @@ class MobileExtraControl extends MusicBeatSubstate
     		        chooseNum = displayArray[typeNum].length - 1;
     		    updateChoose(0);
     		} else {
-    		
+    		    titleNum += left ? -1 : 1;
+    		    if (titleNum > displayArray.length - 1)
+    		        titleNum = 0;
+    		    if (titleNum < 0)
+    		        titleNum = displayArray.length - 1;
+    		    updateTitle(titleNum + 1, true);
     		}
 		}
 		
@@ -105,10 +110,8 @@ class MobileExtraControl extends MusicBeatSubstate
     		        typeNum = 0;
     		    if (typeNum < 0)
     		        typeNum = displayArray.length - 1;    
-    		    chooseNum = percent * (displayArray.length - 1);
+    		    chooseNum = Std.Int(percent * (displayArray.length - 1));
     		    updateChoose(0);
-    		} else {
-    		
     		}
 		}
 		
@@ -160,7 +163,7 @@ class MobileExtraControl extends MusicBeatSubstate
 	    var chooseNum = 0;
 	    
 	    for (type in 0...displayArray.length){
-	        if (type < typeNum) chooseNum += displayArray[i].length;	      
+	        if (type < typeNum) chooseNum += displayArray[type].length;	      
 	    }
 	    
 	    for (i in 0...optionTeam.length)
@@ -174,15 +177,19 @@ class MobileExtraControl extends MusicBeatSubstate
 		}	
 	}
 	
-	function updateTitle(number:Int = 0){
+	function updateTitle(number:Int = 0, changeBG:Bool = false){
 	    FlxG.sound.play(Paths.sound('confirmMenu'));
 	    
 	    for (i in 0...titleTeam.length)
 		{
 			var title:ChooseButton = titleTeam.members[i];
 			
-			if (title == titleTeam.members[chooseNum])
+			if (title == titleTeam.members[chooseNum]){
 			    title.changeExtraText(Reflect.field(ClientPrefs.data, "extraKeyReturn" + number));
+			    if (changeBG) title.changeColor(FlxColor.WHITE);
+			} else {
+			    if (changeBG) title.changeColor(FlxColor.BLACK);
+			}
 		}
 	}
 }
