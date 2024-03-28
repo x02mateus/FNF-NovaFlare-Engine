@@ -26,6 +26,7 @@ class MobileExtraControl extends MusicBeatSubstate
     var isMain:Bool = true;
     
     var titleNum:Int = 0;
+    var percent:Float = 0;
     var typeNum:Int = 0;
     var chooseNum:Int = 0;
     
@@ -83,13 +84,107 @@ class MobileExtraControl extends MusicBeatSubstate
 		var down = controls.UI_DOWN_P;
 		var back = controls.BACK;
 		
+		if (left || right){		   
+		    if (isMain){		        		    
+    		    chooseNum += left ? -1 : 1;
+    		    if (chooseNum > displayArray[typeNum].length - 1)
+    		        chooseNum = 0;
+    		    if (chooseNum < 0)
+    		        chooseNum = displayArray[typeNum].length - 1;
+    		    updateChoose(0);
+    		} else {
+    		
+    		}
+		}
+		
+		if (up || right){
+		    if (isMain){		
+    		    percent = chooseNum / displayArray[typeNum].length - 1;
+    		    typeNum += up ? -1 : 1;
+    		    if (typeNum > displayArray.length - 1)
+    		        typeNum = 0;
+    		    if (typeNum < 0)
+    		        typeNum = displayArray.length - 1;    
+    		    chooseNum = percent * (displayArray.length - 1);
+    		    updateChoose(0);
+    		} else {
+    		
+    		}
+		}
+		
+		if (accept){
+		    if (isMain){
+		        isMain = false;		        
+		        updateChoose(1);
+		    } else {
+		        switch(titleNum + 1){
+		            case 1:
+		                ClientPrefs.data.extraKeyReturn1 = returnArray[typeNum][chooseNum];
+		            case 2:
+		                ClientPrefs.data.extraKeyReturn2 = returnArray[typeNum][chooseNum];
+		            case 3:
+		                ClientPrefs.data.extraKeyReturn3 = returnArray[typeNum][chooseNum];
+		            case 4:
+		                ClientPrefs.data.extraKeyReturn4 = returnArray[typeNum][chooseNum];
+		        }
+		        ClientPrefs.saveSettings();
+		        updateTitle(titleNum + 1);
+		    }					
+		}
+		
 		if (back){
-            ClientPrefs.saveSettings();
-            FlxTransitionableState.skipNextTransIn = true;
-			FlxTransitionableState.skipNextTransOut = true;
-			MusicBeatState.switchState(new options.OptionsState());
+		    if (isMain){
+		        ClientPrefs.saveSettings();
+		        FlxG.sound.play(Paths.sound('cancelMenu'));
+                FlxTransitionableState.skipNextTransIn = true;
+    			FlxTransitionableState.skipNextTransOut = true;
+    			MusicBeatState.switchState(new options.OptionsState());		    
+		    } else {
+		        isMain = true;
+		        percent = chooseNum = typeNum = 0;
+		        updateChoose(2);		    		        
+		    }					          
         }
 	}	        
+	
+	function updateChoose(soundsType:Int = 0){
+	    switch(soundsType){
+	        case 0:
+	            FlxG.sound.play(Paths.sound('scrollMenu'));
+	        case 1:
+	            FlxG.sound.play(Paths.sound('confirmMenu'));
+	        case 2:
+	            FlxG.sound.play(Paths.sound('cancelMenu'));	        
+	    }
+	    
+	    var chooseNum = 0;
+	    
+	    for (type in 0...displayArray.length){
+	        if (type < typeNum) chooseNum += displayArray[i].length;	      
+	    }
+	    
+	    for (i in 0...optionTeam.length)
+		{
+			var option:ChooseButton = optionTeam.members[i];
+			
+			if (option == optionTeam.members[chooseNum] && !isMain)
+			    option.changeColor(FlxColor.WHITE);
+			else
+			    option.changeColor(FlxColor.BLACK);
+		}	
+	}
+	
+	function updateTitle(number:Int = 0){
+	    FlxG.sound.play(Paths.sound('confirmMenu'));
+	    
+	    for (i in 0...titleTeam.length)
+		{
+			var title:ChooseButton = titleTeam.members[i];
+			
+			if (title == titleTeam.members[chooseNum])
+			    title.changeExtraText(Reflect.field(ClientPrefs.data, "extraKeyReturn" + number));
+		}
+	}
 }
 
 class ChooseButton extends FlxSpriteGroup
