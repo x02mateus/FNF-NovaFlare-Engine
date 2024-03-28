@@ -110,7 +110,7 @@ class MobileExtraControl extends MusicBeatSubstate
     		        typeNum = 0;
     		    if (typeNum < 0)
     		        typeNum = displayArray.length - 1;    
-    		    chooseNum = Std.Int(percent * (displayArray.length - 1));
+    		    chooseNum = Std.int(percent * (displayArray.length - 1));
     		    updateChoose(0);
     		}
 		}
