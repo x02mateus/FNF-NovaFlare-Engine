@@ -110,7 +110,7 @@ class MobileExtraControl extends MusicBeatSubstate
     		        typeNum = 0;
     		    if (typeNum < 0)
     		        typeNum = displayArray.length - 1;    
-    		    chooseNum = Std.int(percent * (displayArray.length - 1));
+    		    chooseNum = Std.int(percent * (displayArray[typeNum].length - 1));
     		    updateChoose(0);
     		}
 		}
@@ -204,8 +204,8 @@ class ChooseButton extends FlxSpriteGroup
 	{
 	    super(x, y);
 	    
-	    bg = new FlxSprite(0, 0).makeGraphic(width, height, FlxColor.BLACK);
-	    bg.color = FlxColor.WHITE;
+	    bg = new FlxSprite(0, 0).makeGraphic(width, height, FlxColor.WHITE);
+	    bg.color = FlxColor.BLACK;
 	    bg.alpha = 0.4;
 		bg.scrollFactor.set();
 		add(bg);
