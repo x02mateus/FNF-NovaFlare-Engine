@@ -170,7 +170,7 @@ class MobileExtraControl extends MusicBeatSubstate
 		{
 			var option:ChooseButton = optionTeam.members[i];
 			
-			if (i == titleNum && !isMain)
+			if (i == chooseNum && !isMain)
 			    option.changeColor(FlxColor.WHITE);
 			else
 			    option.changeColor(FlxColor.BLACK);
@@ -184,7 +184,7 @@ class MobileExtraControl extends MusicBeatSubstate
 		{
 			var title:ChooseButton = titleTeam.members[i];
 			
-			if (i == chooseNum){
+			if (i == titleNum){
 			    title.changeExtraText(Reflect.field(ClientPrefs.data, "extraKeyReturn" + number));
 			    if (changeBG) title.changeColor(FlxColor.WHITE);
 			} else {
