@@ -1065,11 +1065,13 @@ class PlayState extends MusicBeatState
 			if (startOnTime > 0) {
 				clearNotesBefore(startOnTime);
 				setSongTime(startOnTime - 350);
+				resyncVocals(true);
 				return true;
 			}
 			else if (skipCountdown)
 			{
 				setSongTime(0);
+				resyncVocals(true);
 				return true;
 			}
 			moveCameraSection();
