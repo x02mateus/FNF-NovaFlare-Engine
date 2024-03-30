@@ -67,6 +67,8 @@ class MobileExtraControl extends MusicBeatSubstate
 	        }	    	    	    
 	    }        
 	    
+	    updateTitle(titleNum + 1, false, false);   
+	    
 	    addVirtualPad(OptionStateC, OptionStateC);
 		addVirtualPadCamera(false);
 		
@@ -87,18 +89,18 @@ class MobileExtraControl extends MusicBeatSubstate
 		if (left || right){		   
 		    if (isMain){		        		
 		        titleNum += left ? -1 : 1;
-    		    if (titleNum > displayArray.length - 1)
+    		    if (titleNum > 3)
     		        titleNum = 0;
     		    if (titleNum < 0)
-    		        titleNum = displayArray.length - 1;
-    		    updateTitle(titleNum + 1, true);   
+    		        titleNum = 3;
+    		    updateTitle(titleNum + 1, true, true);   
     		} else {
     		    chooseNum += left ? -1 : 1;
     		    if (chooseNum > displayArray[typeNum].length - 1)
     		        chooseNum = 0;
     		    if (chooseNum < 0)
     		        chooseNum = displayArray[typeNum].length - 1;
-    		    updateChoose(0);    		    		    
+    		    updateChoose();    		    		    
     		}
 		}
 		
@@ -111,14 +113,14 @@ class MobileExtraControl extends MusicBeatSubstate
     		    if (typeNum < 0)
     		        typeNum = displayArray.length - 1;    
     		    chooseNum = Std.int(percent * (displayArray[typeNum].length - 1));
-    		    updateChoose(0);
+    		    updateChoose();
     		}
 		}
 		
 		if (accept){
 		    if (isMain){
 		        isMain = false;		        
-		        updateChoose(1);
+		        updateChoose();
 		    } else {
 		        switch(titleNum + 1){
 		            case 1:
@@ -131,7 +133,7 @@ class MobileExtraControl extends MusicBeatSubstate
 		                ClientPrefs.data.extraKeyReturn4 = returnArray[typeNum][chooseNum];
 		        }
 		        ClientPrefs.saveSettings();
-		        updateTitle(titleNum + 1);
+		        updateTitle(titleNum + 1, false, true, true);
 		    }					
 		}
 		
@@ -145,40 +147,34 @@ class MobileExtraControl extends MusicBeatSubstate
 		    } else {
 		        isMain = true;
 		        percent = chooseNum = typeNum = 0;
-		        updateChoose(2);		    		        
+		        updateChoose();		    		        
 		    }					          
         }
 	}	        
 	
-	function updateChoose(soundsType:Int = 0){
-	    switch(soundsType){
-	        case 0:
-	            FlxG.sound.play(Paths.sound('scrollMenu'));
-	        case 1:
-	            FlxG.sound.play(Paths.sound('confirmMenu'));
-	        case 2:
-	            FlxG.sound.play(Paths.sound('cancelMenu'));	        
-	    }
-	    
-	    var chooseNum = 0;
+	function updateChoose(soundsType:Int = 0){	   
+	    FlxG.sound.play(Paths.sound('scrollMenu'));	 
+	            	    
+	    var realNum = 0;
 	    
 	    for (type in 0...displayArray.length){
-	        if (type < typeNum) chooseNum += displayArray[type].length;	      
+	        if (type < typeNum) realNum += displayArray[type].length;	      
 	    }
+	    realNum += chooseNum;
 	    
 	    for (i in 0...optionTeam.length)
 		{
 			var option:ChooseButton = optionTeam.members[i];
 			
-			if (i == chooseNum && !isMain)
+			if (i == realNum && !isMain)
 			    option.changeColor(FlxColor.WHITE);
 			else
 			    option.changeColor(FlxColor.BLACK);
 		}	
 	}
 	
-	function updateTitle(number:Int = 0, changeBG:Bool = false){
-	    FlxG.sound.play(Paths.sound('confirmMenu'));
+	function updateTitle(number:Int = 0, changeBG:Bool = false, needSounds:Bool = true, needFlicker:Bool = false){
+	    FlxG.sound.play(Paths.sound('scrollMenu'));
 	    
 	    for (i in 0...titleTeam.length)
 		{
@@ -186,6 +182,7 @@ class MobileExtraControl extends MusicBeatSubstate
 			
 			if (i == titleNum){
 			    title.changeExtraText(Reflect.field(ClientPrefs.data, "extraKeyReturn" + number));
+			    if (needFlicker) FlxFlicker.flicker(title, 1, 0.15, false);
 			    if (changeBG) title.changeColor(FlxColor.WHITE);
 			} else {
 			    if (changeBG) title.changeColor(FlxColor.BLACK);
@@ -233,7 +230,7 @@ class ChooseButton extends FlxSpriteGroup
 	
 	public function changeColor(color:FlxColor){
 	    bg.color = color;
-		alpha = 0.4;	    
+		bg.alpha = 0.4;	    
 	}
 	
 	public function changeExtraText(text:String){
