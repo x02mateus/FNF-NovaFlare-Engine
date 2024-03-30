@@ -1,6 +1,7 @@
 package mobile.substates;
 
 import flixel.addons.transition.FlxTransitionableState;
+import flixel.effects.FlxFlicker;
 
 class MobileExtraControl extends MusicBeatSubstate
 {
