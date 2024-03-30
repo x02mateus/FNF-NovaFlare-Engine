@@ -25,7 +25,7 @@ import states.TitleState;
 	public var showFPS:Bool = true;
 	public var showExtra:Bool = true;
 	public var rainbowFPS:Bool = false;
-	public var memoryType:Int = 3;	
+	public var memoryType:Int = 0;	
 	public var FPSScale:Float = 1;
 	public var WatermarkScale:Float = 1;
 	public var showWatermark:Bool = true;
@@ -76,6 +76,7 @@ import states.TitleState;
 	public var checkForUpdates:Bool = false;
 	public var oldHscriptVersion:Bool = false;
 	public var pauseButton:Bool = #if mobile true #else false #end;
+	public var fileLoad:String = 'NovaFlare Engine';
 	
 	public var marvelousRating:Bool = true;	
 	public var marvelousSprite:Bool = true;	
