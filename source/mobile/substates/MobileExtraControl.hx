@@ -190,7 +190,7 @@ class MobileExtraControl extends MusicBeatSubstate
 			
 			if (i == titleNum){
 			    title.changeExtraText(Reflect.field(ClientPrefs.data, "extraKeyReturn" + number));
-			    if (needFlicker) FlxFlicker.flicker(title, 1, 0.15, true, true);
+			    if (needFlicker) FlxFlicker.flicker(title, 0.6, 0.075, true, true);
 			    if (changeBG) title.changeColor(FlxColor.WHITE);
 			} else {
 			    if (changeBG) title.changeColor(FlxColor.BLACK);
