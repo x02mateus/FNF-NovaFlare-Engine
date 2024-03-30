@@ -68,7 +68,7 @@ class MobileExtraControl extends MusicBeatSubstate
 	        }	    	    	    
 	    }        
 	    
-	    updateTitle(titleNum + 1, false, false);   
+	    updateTitle(titleNum + 1, true, false);   
 	    
 	    addVirtualPad(OptionStateC, OptionStateC);
 		addVirtualPadCamera(false);
@@ -107,7 +107,7 @@ class MobileExtraControl extends MusicBeatSubstate
 		
 		if (up || down){
 		    if (!isMain){		
-    		    percent = chooseNum / displayArray[typeNum].length - 1;
+    		    percent = chooseNum / (displayArray[typeNum].length - 1);
     		    typeNum += up ? -1 : 1;
     		    if (typeNum > displayArray.length - 1)
     		        typeNum = 0;
@@ -183,7 +183,7 @@ class MobileExtraControl extends MusicBeatSubstate
 			
 			if (i == titleNum){
 			    title.changeExtraText(Reflect.field(ClientPrefs.data, "extraKeyReturn" + number));
-			    if (needFlicker) FlxFlicker.flicker(title, 1, 0.15, false);
+			    if (needFlicker) FlxFlicker.flicker(title, 1, 0.15, true, true);
 			    if (changeBG) title.changeColor(FlxColor.WHITE);
 			} else {
 			    if (changeBG) title.changeColor(FlxColor.BLACK);
