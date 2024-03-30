@@ -68,7 +68,7 @@ class MobileExtraControl extends MusicBeatSubstate
 	        }	    	    	    
 	    }        
 	    
-	    updateTitle(titleNum + 1, true, false);   
+	    updateTitle(titleNum + 1, false, 0);   
 	    
 	    addVirtualPad(OptionStateC, OptionStateC);
 		addVirtualPadCamera(false);
@@ -94,7 +94,7 @@ class MobileExtraControl extends MusicBeatSubstate
     		        titleNum = 0;
     		    if (titleNum < 0)
     		        titleNum = 3;
-    		    updateTitle(titleNum + 1, true, true);   
+    		    updateTitle(titleNum + 1, true, 1);   
     		} else {
     		    chooseNum += left ? -1 : 1;
     		    if (chooseNum > displayArray[typeNum].length - 1)
@@ -134,7 +134,7 @@ class MobileExtraControl extends MusicBeatSubstate
 		                ClientPrefs.data.extraKeyReturn4 = returnArray[typeNum][chooseNum];
 		        }
 		        ClientPrefs.saveSettings();
-		        updateTitle(titleNum + 1, false, true, true);
+		        updateTitle(titleNum + 1, false, 2, true);
 		    }					
 		}
 		
@@ -174,8 +174,15 @@ class MobileExtraControl extends MusicBeatSubstate
 		}	
 	}
 	
-	function updateTitle(number:Int = 0, changeBG:Bool = false, needSounds:Bool = true, needFlicker:Bool = false){
-	    FlxG.sound.play(Paths.sound('scrollMenu'));
+	function updateTitle(number:Int = 0, changeBG:Bool = false, soundsType:Int = 0, needFlicker:Bool = false){
+	    switch(soundsType)
+	    {
+	        case 0: //nothing happened
+	        case 1:
+	            FlxG.sound.play(Paths.sound('scrollMenu'));
+	        case 2:
+	            FlxG.sound.play(Paths.sound('confirmMenu'));
+	    }
 	    
 	    for (i in 0...titleTeam.length)
 		{
