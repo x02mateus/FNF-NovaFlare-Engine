@@ -1064,14 +1064,12 @@ class PlayState extends MusicBeatState
 			var swagCounter:Int = 0;
 			if (startOnTime > 0) {
 				clearNotesBefore(startOnTime);
-				setSongTime(startOnTime - 350);
-				resyncVocals(true);
+				setSongTime(startOnTime - 350);				
 				return true;
 			}
 			else if (skipCountdown)
 			{
-				setSongTime(0);
-				resyncVocals(true);
+				setSongTime(0);			
 				return true;
 			}
 			moveCameraSection();
@@ -1969,7 +1967,10 @@ class PlayState extends MusicBeatState
 					|| (vocals.length > 0 && Math.abs(vocals.time - timeSub) > diff)
 					|| (opponentVocals.length > 0 && Math.abs(opponentVocals.time - timeSub) > diff))
 				{
-					resyncVocals();
+				    if ((vocals.length > 0 && Math.abs(FlxG.sound.music.time - vocals.time) > diff) || (opponentVocals.length > 0 && Math.abs(FlxG.sound.music.time - opponentVocals.time) > diff))
+					    resyncVocals(true);
+					else 
+					    resyncVocals();
 				}
 				checkIfDesynced = false;
 			}
