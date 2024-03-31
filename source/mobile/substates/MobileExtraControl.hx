@@ -68,7 +68,7 @@ class MobileExtraControl extends MusicBeatSubstate
 	        }	    	    	    
 	    }        
 	    
-	    updateTitle(titleNum + 1, false, 0);   
+	    updateTitle(titleNum + 1, true, 0);   
 	    
 	    addVirtualPad(OptionStateC, OptionStateC);
 		addVirtualPadCamera(false);
