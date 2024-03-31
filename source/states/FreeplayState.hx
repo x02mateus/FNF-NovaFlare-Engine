@@ -311,7 +311,7 @@ class FreeplayState extends MusicBeatState {
 		var sprite = new FlxSprite(pos[0], pos[1]).makeGraphic(size[0], size[1], FlxColor.WHITE); sprite.camera = cam; sprite.alpha = 0.3; add(sprite);
 	}
 		
-	var listeningSongName:FlxText; var playingSongName:FlxText; var listeningSongTime:FlxText; var playingSong:Int = -1 var maxTime:Float = 0;
+	var listeningSongName:FlxText; var playingSongName:FlxText; var listeningSongTime:FlxText; var playingSong:Int = -1; var maxTime:Float = 0;
 	var playText:FlxText; var playButton:FlxSprite; var pauseText:FlxText; var pauseButton:FlxSprite; var pausedsong:Bool = false;
 	var progressBar:FlxSprite; var timeLeft:FlxSprite; var timeRight:FlxSprite; var changingTime:Bool = false;
 	var songPlaybackRate:Float = 1; var songPlaybackRateText:FlxText; var rateLeft:FlxSprite; var rateRight:FlxSprite; var resetButton:FlxSprite;
