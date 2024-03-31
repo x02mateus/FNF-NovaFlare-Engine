@@ -420,9 +420,9 @@ class FreeplayState extends MusicBeatState {
 		if (rateRight.alpha > 0) rateRight.alpha -= elapsed;
 		if (resetButton.alpha > 0) resetButton.alpha -= elapsed;
 		
-		if (FlxG.keys.justPressed.ONE) playButtonFunc();
-		if (FlxG.keys.justPressed.Q) playbackButtonLeftFunc();
-		else if (FlxG.keys.justPressed.E) playbackButtonRightFunc();
+		if (FlxG.keys.justPressed.ONE) playButtonFunc(new FlxSprite());
+		if (FlxG.keys.justPressed.Q) playbackButtonLeftFunc(new FlxSprite());
+		else if (FlxG.keys.justPressed.E) playbackButtonRightFunc(new FlxSprite());
 			
 		if (playingSong != -1) {
 			if ((FlxG.mouse.overlaps(pauseButton) && FlxG.mouse.justPressed) || FlxG.keys.justPressed.TWO) {
