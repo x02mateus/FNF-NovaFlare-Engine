@@ -74,8 +74,9 @@ class FreeplayState extends MusicBeatState {
 	{
 		/*  nf: 优化一下
 			tg: 好*/
-		persistentUpdate = persistentDraw = true; PlayState.isStoryMode = false; WeekData.reloadWeekFiles(false); Mods.currentModDirectory = songs[curSelected].folder;
+		persistentUpdate = persistentDraw = true; PlayState.isStoryMode = false; WeekData.reloadWeekFiles(false);
 		loadSong();
+		Mods.currentModDirectory = songs[curSelected].folder;
 
 		camGame = initPsychCamera();
 		camSong = new FlxCamera(); camSong.bgColor = 0x00;
