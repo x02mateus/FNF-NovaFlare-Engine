@@ -336,10 +336,10 @@ class FreeplayState extends MusicBeatState {
 		resetButton = new FlxSprite(40, 530).makeGraphic(165, 60, FlxColor.WHITE); resetButton.camera = camListen; resetButton.alpha = 0; add(resetButton);
 		setplaybackrate();
 		
-		FlxMouseEvent.add(playButton, playButtonFunc)
-		FlxMouseEvent.add(rateLeft, playbackButtonLeftFunc)
-		FlxMouseEvent.add(rateRight, playbackButtonRightFunc)
-		FlxMouseEvent.add(resetButton, playbackResetButtonFunc)
+		FlxMouseEvent.add(playButton, playButtonFunc);
+		FlxMouseEvent.add(rateLeft, playbackButtonLeftFunc);
+		FlxMouseEvent.add(rateRight, playbackButtonRightFunc);
+		FlxMouseEvent.add(resetButton, playbackResetButtonFunc);
 	}
 	
 	function playbackResetButtonFunc{
