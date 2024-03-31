@@ -25,6 +25,9 @@ import sys.FileSystem;
 import flixel.math.FlxRect;
 import states.MainMenuState;
 import options.OptionsState;
+import backend.WeekData;
+import backend.Highscore;
+import backend.Song;
 
 /*
 	create by TieGuo
