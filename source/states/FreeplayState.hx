@@ -349,12 +349,12 @@ class FreeplayState extends MusicBeatState {
 	function playbackButtonLeftFunc() {
 		rateLeft.alpha = 0.75; if (songPlaybackRate > 0.1) songPlaybackRate -= 0.05;
 		songPlaybackRate = FlxMath.roundDecimal(songPlaybackRate, 2); setplaybackrate();
-	})
+	}
 	
 	function playbackButtonRightFunc() {
 		rateLeft.alpha = 0.75; if (songPlaybackRate < 4) songPlaybackRate += 0.05;
 		songPlaybackRate = FlxMath.roundDecimal(songPlaybackRate, 2); setplaybackrate();
-	})
+	}
 	
 	function playButtonFunc() {
 		playButton.alpha = 0.75;
