@@ -342,7 +342,7 @@ class FreeplayState extends MusicBeatState {
 		FlxMouseEvent.add(resetButton, playbackResetButtonFunc);
 	}
 	
-	function playbackResetButtonFunc{
+	function playbackResetButtonFunc() {
 		resetButton.alpha = 0.75; songPlaybackRate = 1; setplaybackrate();
 	}
 	
