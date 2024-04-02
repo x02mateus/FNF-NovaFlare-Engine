@@ -87,8 +87,8 @@
       "name": "extension-androidtools",
       "type": "git",
       "dir": null,
-      "ref": "main",
-      "url": "hhttps://github.com/beihu235/androidtools"
+      "ref": "a17116c7d65a731c6343628044b15da5532d5a48",
+      "url": "https://github.com/MAJigsaw77/extension-androidtoo
     },
     {
       "name": "androiddialogs",
