@@ -174,7 +174,7 @@ class PauseSubState extends MusicBeatSubstate
     	add(backButton);
     	backButton.scale.set(0.45, 0.45);
     	backButton.updateHitbox();
-    	backButton.alpha = 0;
+    	backButton.visible = false;
     	#if mobile backButton.y -= 127; #end
 	
     	if (Difficulty.list.length < 2) options.remove('Difficulty');
