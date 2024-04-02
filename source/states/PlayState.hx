@@ -1967,7 +1967,7 @@ class PlayState extends MusicBeatState
 					|| (vocals.length > 0 && Math.abs(vocals.time - timeSub) > diff)
 					|| (opponentVocals.length > 0 && Math.abs(opponentVocals.time - timeSub) > diff))
 				{
-				    if ((vocals.length > 0 && Math.abs(FlxG.sound.music.time - vocals.time) > diff) || (opponentVocals.length > 0 && Math.abs(FlxG.sound.music.time - opponentVocals.time) > diff))
+				    if ((vocals.length > 0 && Math.abs(FlxG.sound.music.time - vocals.time) > 1) || (opponentVocals.length > 0 && Math.abs(FlxG.sound.music.time - opponentVocals.time) > 1))
 					    resyncVocals(true);
 					else 
 					    resyncVocals();
