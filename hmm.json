@@ -89,13 +89,13 @@
       "dir": null,
       "ref": "main",
       "url": "hhttps://github.com/beihu235/androidtools"
-    }
+    },
     {
       "name": "androiddialogs",
       "type": "git",
       "dir": null,
       "ref": "master",
       "url": "https://github.com/beihu235/AndroidDialogs"
-    },
+    }
   ]
 }
