@@ -23,7 +23,7 @@
 	<define name="HSCRIPT_ALLOWED" if="desktop || mobile || web" />
 	<define name="LUA_ALLOWED" if="desktop || mobile" unless="hl"/>
 	<define name="ACHIEVEMENTS_ALLOWED" />
-	<!--define name="DISCORD_ALLOWED" if="desktop" unless="hl"--/>
+	<define name="DISCORD_ALLOWED" if="desktop" unless="hl"/>
 	<define name="PSYCH_WATERMARKS"/> <!-- DELETE THIS TO REMOVE WATERMARKS/DEV NAMES ON TITLE SCREEN -->
 	<define name="VIDEOS_ALLOWED" if="desktop || mobile" unless="32bits || hl || NOVIDEO || rpi"/> <!-- i'll keep this cuz it makes vscode think i don't use videos -->
         <define name="CUSTOM_SHADERS_ALLOWED" if="LUA_ALLOWED"/>
@@ -110,6 +110,7 @@
 	<haxelib name="hxvlc" if="VIDEOS_ALLOWED ios"/>
 	<haxelib name="hxdiscord_rpc" if="DISCORD_ALLOWED"/>
 	<haxelib name="flxanimate" unless="html5"/>
+	<haxelib name="androiddialogs" if="android"/>
 	<haxelib name="tjson"/>
 
 	<!-- Mobile Specific-->
@@ -170,10 +171,7 @@
 	
 		<section if="android">
 			<!-- Do whatever you want I'm tired uninstall and install everytime -->
-			<certificate path="key.keystore" password="nullfunni" alias="null" alias-password="nullfunni" unless="debug" />
-
-			<!--Target SDK-->
-			<!--android target-sdk-version="29" if="EXTERNAL || MEDIA"/> <!-- blame android 11+!!! -->
+			<certificate path="key.keystore" password="nullfunni" alias="null" alias-password="nullfunni" unless="debug" />			
 		</section>
 
 		<section if="ios">
