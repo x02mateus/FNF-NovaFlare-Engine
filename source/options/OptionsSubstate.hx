@@ -3,11 +3,13 @@ package options;
 import substates.PauseSubState;
 
 import options.Option;
+import options.OptionsSubstate;
 import options.OptionsHelpers;
 import options.base.ControlsSubState;
 import options.base.NoteOffsetState;
 import options.base.NotesSubState;
 import options.base.ControlsSubState;
+
 import mobile.substates.MobileControlSelectSubState;
 import mobile.substates.MobileExtraControl;
 
@@ -1004,80 +1006,5 @@ class OptionsSubstate extends MusicBeatState
 	
 	public function changeControlAlpha(){
 	    virtualPad.alpha = ClientPrefs.data.controlsAlpha;
-	}
-}
-
-class OptionCata extends FlxSprite
-{
-	public var title:String;
-	public var options:Array<Option>;
-
-	public var optionObjects:FlxTypedGroup<FlxText>;
-
-	public var titleObject:FlxText;
-	
-	public var positionFix:Int;
-	
-	public var length:Int;
-
-	public var middle:Bool = false;
-
-	public function new(x:Float, y:Float, _title:String, _options:Array<Option>, middleType:Bool = false)
-	{
-		super(x, y);
-		title = _title;
-		middle = middleType;
-		if (!middleType)
-			makeGraphic(295, 64, FlxColor.BLACK);
-		alpha = 0.4;
-
-		options = _options;
-
-		optionObjects = new FlxTypedGroup();
-		
-		length = _options.length;
-		
-		var langTTF:String = '';		
-	    langTTF = OptionsName.setTTF();
-		langTTF = langTTF + '.ttf'; //fix
-
-		titleObject = new FlxText((middleType ? 1180 / 2 : x), y + (middleType ? 16 + 64 : 16), 1180, title);
-		titleObject.setFormat(Paths.font(langTTF), 30, FlxColor.WHITE, FlxTextAlign.CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
-		titleObject.antialiasing = ClientPrefs.data.antialiasing;
-		titleObject.borderSize = 2;
-        
-		if (middleType)
-		{
-			titleObject.x = 50 + ((1180 / 2) - (titleObject.fieldWidth / 2));
-		}
-		else
-			titleObject.x += (width / 2) - (titleObject.fieldWidth / 2);
-
-		titleObject.scrollFactor.set();
-
-		scrollFactor.set();
-		
-		positionFix = 40 + 64 + (middleType ? 16 + 64 + 16: 16); // work like titleObject.y but set line is two.
-        //midd的40是16＋24
-		for (i in 0...options.length)
-		{
-			var opt = options[i];
-			var text:FlxText = new FlxText((middleType ? 1180 / 2 : 72), positionFix + 54 + (46 * i), 0, opt.getValue());
-			if (middleType)
-			{
-				text.screenCenter(X);
-			}
-			text.setFormat(Paths.font(langTTF), 35, FlxColor.WHITE, FlxTextAlign.CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
-			text.antialiasing = ClientPrefs.data.antialiasing;
-			text.borderSize = 2;
-			text.borderQuality = 1;
-			text.scrollFactor.set();
-			optionObjects.add(text);
-		}
-	}
-
-	public function changeColor(color:FlxColor)
-	{
-		makeGraphic(295, 64, color);
 	}
 }
