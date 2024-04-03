@@ -233,12 +233,8 @@ class OptionsSubstate extends MusicBeatSubstate
 		cameras = [FlxG.cameras.list[FlxG.cameras.list.length - 1]];		
 		
 		super.create();					
-	}
-	
-	var firstClose:Bool = false;
-	override function closeSubState() {
-    	super.closeSubState();
-        ClientPrefs.saveSettings();
+		
+		controls.isInSubstate = true;
 	}
 
 	public function switchCat(cat:OptionCata, checkForOutOfBounds:Bool = true)
@@ -473,6 +469,7 @@ class OptionsSubstate extends MusicBeatSubstate
 				if (back)
 				{
 				    ClientPrefs.saveSettings();
+				    controls.isInSubstate = true;
 				    close();
 				}
 			}

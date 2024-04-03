@@ -878,7 +878,7 @@ class HscriptVersion extends Option
 
 	private override function updateDisplay():String
 	{
-		return "Runhaxecode Version: < " + (ClientPrefs.data.oldHscriptVersion ? '0.6.X' : '0.7.X') + ' >';
+		return "Runhaxecode Version: < " + (ClientPrefs.data.oldHscriptVersion ? 'HScript' : 'Sscript') + ' >';
 	} 
 }
 
@@ -1300,7 +1300,7 @@ class AndroidControls extends Option
     
     private override function updateDisplay():String
 	{
-		return "Android Controls";
+		return "Mobile Controls";
 	}
 }
 
@@ -1351,7 +1351,7 @@ class ExtraControlsNum extends Option
 
 	private override function updateDisplay():String
 	{
-		return "Android Extra Controls: < " + ClientPrefs.data.extraKey + " key >";
+		return "Mobile Extra Controls: < " + ClientPrefs.data.extraKey + " key >";
 	}	
 }
 
@@ -1385,13 +1385,17 @@ class ControlsAlpha extends Option
 		display = updateDisplay();	
     }
      
-    override function change(){OptionsState.instance.changeControlAlpha();
+    override function change(){
+        if (Type.getClass(FlxG.state) != OptionsState)
+            OptionsState.instance.changeControlAlpha();
+        else 
+            OptionsSubstate.instance.changeControlAlpha();
     }
 
 	private override function updateDisplay():String
 	{	   
 	    var data:Float = ClientPrefs.data.controlsAlpha * 100;
-		return "Android Controls Alpha: < " + data + "% >";
+		return "Mobile Controls Alpha: < " + data + "% >";
 	}
 }
 
@@ -1427,7 +1431,7 @@ class PlayControlsAlpha extends Option
 	private override function updateDisplay():String
 	{
 	    var data:Float = ClientPrefs.data.playControlsAlpha * 100;
-		return "Android Play Controls Alpha: < " + data + "% >";
+		return "Mobile Play Controls Alpha: < " + data + "% >";
 	}
 }
 
@@ -2303,6 +2307,6 @@ class MarvelousSprite extends Option
 
 	private override function updateDisplay():String
 	{
-		return "Marvelous Sprite: <" + (ClientPrefs.data.marvelousSprite ? 'marvelous' : 'sick') + '>';
+		return "Marvelous Sprite: < " + (ClientPrefs.data.marvelousSprite ? 'marvelous' : 'sick') + ' >';
 	}
 }
