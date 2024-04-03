@@ -1796,9 +1796,9 @@ class PlayState extends MusicBeatState
 		        openSubState(new OptionsSubstate());
 		        return;
 		    }
-		    else if (PauseSubState.moveType == 2){
-		        PauseSubState.moveType = 0; //really to close pause
+		    else if (PauseSubState.moveType == 2){		        
 		        openSubState(new PauseSubState());
+		        PauseSubState.moveType = 0; //really to close pause
 		        return;
 		    }
 		    
@@ -2094,7 +2094,7 @@ class PlayState extends MusicBeatState
                                 }
                             }   
 
-							if(daNote.isSustainNote && strum.sustainReduce) daNote.clipToStrumNote(strum);
+							//if(daNote.isSustainNote && strum.sustainReduce) daNote.clipToStrumNote(strum);
 
 							// Kill extremely late notes and cause misses
 							if (Conductor.songPosition - daNote.strumTime > noteKillOffset)
