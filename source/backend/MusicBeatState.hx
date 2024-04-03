@@ -30,6 +30,9 @@ class MusicBeatState extends FlxUIState
 
 	public function addVirtualPad(DPad:FlxDPadMode, Action:FlxActionMode)
 	{
+	    #if desktop 
+	        if (!ClientPrefs.data.needMobileControl) return;
+	    #end
 		virtualPad = new FlxVirtualPad(DPad, Action);
 		virtualPad.alpha = ClientPrefs.data.controlsAlpha;
 		add(virtualPad);
@@ -43,6 +46,9 @@ class MusicBeatState extends FlxUIState
 
 	public function addMobileControls(DefaultDrawTarget:Bool = true):Void
 	{
+	    #if desktop 
+	        if (!ClientPrefs.data.needMobileControl) return;
+	    #end
 		mobileControls = new MobileControls();
 
 		camControls = new FlxCamera();
