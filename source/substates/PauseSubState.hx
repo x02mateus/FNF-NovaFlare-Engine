@@ -1,6 +1,5 @@
 package substates;
 
-
 import backend.Difficulty;
 import backend.MusicBeatState;
 import backend.WeekData;
@@ -11,7 +10,7 @@ import states.editors.ChartingState;
 import states.FreeplayState;
 import states.StoryMenuState;
 
-//import options.OptionsMenu;
+import options.OptionsSubstate;
 import options.OptionsState;
 
 import flixel.util.FlxStringUtil;
@@ -64,10 +63,7 @@ class PauseSubState extends MusicBeatSubstate
     var skipTimeText:FlxText;
     var curTime:Float = Math.max(0, Conductor.songPosition);
     
-    public static var goToOptions:Bool = false; //work for open option 
-	public static var goToGameplayChangers:Bool = false; // work for open GameplayChangers 
-	public static var goBack:Bool = false; //work for close option or GameplayChangers then open pause state
-    public static var reOpen:Bool = false; // change bg alpha fix    //修改，换成(变量)
+    public static var goToOptions:Bool = false; //work for open option
     
     public static var curOptions:Bool = false; // curSelected fix
 	public static var curGameplayChangers:Bool = false; // curSelected fix
@@ -174,7 +170,7 @@ class PauseSubState extends MusicBeatSubstate
     	add(backButton);
     	backButton.scale.set(0.45, 0.45);
     	backButton.updateHitbox();
-    	backButton.visible = false;
+    	backButton.alpha = 0;
     	#if mobile backButton.y -= 127; #end
 	
     	if (Difficulty.list.length < 2) options.remove('Difficulty');
@@ -734,13 +730,8 @@ class PauseSubState extends MusicBeatSubstate
     			case 'Instant':
         			PlayState.instance.paused = true; // For lua
         			PlayState.instance.vocals.volume = 0;
-        			OptionsState.onPlayState = true;
-        			if(ClientPrefs.data.pauseMusic != 'None'){
-        				FlxG.sound.playMusic(Paths.music(Paths.formatToSongPath(ClientPrefs.data.pauseMusic)), pauseMusic.volume);
-        				FlxTween.tween(FlxG.sound.music, {volume: 1}, 0.8);
-        			    FlxG.sound.music.time = pauseMusic.time;
-        			}
-        			MusicBeatState.switchState(new OptionsState());
+        			goToOptions = true;
+        			close();
         		case 'Entirety':
         			PlayState.instance.paused = true; // For lua
         			PlayState.instance.vocals.volume = 0;
