@@ -177,7 +177,12 @@ class OptionsSubstate extends MusicBeatSubstate
 		shownStuff = new FlxTypedGroup<FlxText>();
 		
 		CatTeam = new FlxTypedGroup<FlxSprite>();
-        
+		
+        var bg:FlxSprite = new FlxSprite(0, 0).makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
+		bg.alpha = 0.3;
+		bg.scrollFactor.set();
+		add(bg);
+		
 		background = new FlxSprite(50, 40).makeGraphic(1180, 670, FlxColor.BLACK);
 		background.alpha = 0.5;
 		background.scrollFactor.set();
