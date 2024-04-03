@@ -25,7 +25,6 @@ import openfl.utils.Assets;
 
 class PauseSubState extends MusicBeatSubstate
 {
-
 	var filePath:String = 'menuExtend/PauseState/';
 	var font:String = Assets.getFont("assets/fonts/montserrat.ttf").fontName;
 
@@ -122,9 +121,6 @@ class PauseSubState extends MusicBeatSubstate
 
 	override function create()
 	{
-		
-		
-		
 		FlxG.sound.play(Paths.sound('scrollMenu'), 0.4);
 		pauseMusic = new FlxSound();
 		try
@@ -391,6 +387,8 @@ class PauseSubState extends MusicBeatSubstate
 		cameras = [FlxG.cameras.list[FlxG.cameras.list.length - 1]];
 		
 		super.create();
+		
+		controls.isInSubstate = true;
 	}
 
 	override function update(elapsed:Float) {
