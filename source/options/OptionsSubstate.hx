@@ -86,7 +86,7 @@ class OptionsSubstate extends MusicBeatSubstate
 	public var descBack:FlxSprite;
     
 	override function create()
-	{     
+	{
 	    #if DISCORD_ALLOWED
 		DiscordClient.changePresence("Options Menu", null);
 		#end
@@ -217,24 +217,24 @@ class OptionsSubstate extends MusicBeatSubstate
 		
 		addNote();
         
-		isInMain = isReset ? false : true;		
+		isInMain = true;		
 		
-		selectedCat = isReset ? options[saveSelectedCatIndex] : options[0];
+		selectedCat = options[0];
 		switchCat(selectedCat);
-		selectedCatIndex = isReset ? saveSelectedCatIndex : 0;
+		selectedCatIndex = saveSelectedCatIndex : 0;
 		
-		selectedOption = isReset ? selectedCat.options[saveSelectedOptionIndex] : selectedCat.options[0];
-		selectedOptionIndex = isReset ? saveSelectedOptionIndex : 0;       
-		
-		isReset = false;                  
-        
+		selectedOption = selectedCat.options[0];
+		selectedOptionIndex = 0;       		              
 		
         addVirtualPad(OptionStateC, OptionStateC);        
         addVirtualPadCamera(false);
         
 		virtualPad.y -= 75;
 		
-		super.create();
+		
+		cameras = [FlxG.cameras.list[FlxG.cameras.list.length - 1]];		
+		
+		super.create();					
 	}
 	
 	var firstClose:Bool = false;
@@ -250,9 +250,7 @@ class OptionsSubstate extends MusicBeatSubstate
 			visibleRange = [Std.int(cat.positionFix + 64), 640]; /*
 			/*变量乱七八糟的我都服了，显示你得加64px去修复到开始第2个格下面
 			  因为text在positionFix那里还加了偏移
-			*/
-			
-			if (cat.middle) isReset = true;				
+			*/									
 			
 			startFix = false;
 				
@@ -803,7 +801,6 @@ class OptionsSubstate extends MusicBeatSubstate
 	
 	public function resetOptionChoose()  //用于返回原来选择
 	{
-        isReset = false;
         isInMain = false;  
         
         selectedCatIndex = saveSelectedCatIndex;
@@ -845,8 +842,7 @@ class OptionsSubstate extends MusicBeatSubstate
         }
 	}	
 		
-	public function openSub(state:String){
-	    isReset = true;			    
+	public function openSub(state:String){   
         persistentUpdate = false;
         removeVirtualPad();
 	    
