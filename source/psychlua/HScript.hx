@@ -166,7 +166,7 @@ class HScript extends SScript
 		// Keyboard & Gamepads
 		set('keyboardJustPressed', function(name:String){
 		    name = name.toUpperCase();
-		    if (MusicBeatState.instance.mobileControls != null){		    
+		    if (MusicBeatState.instance.mobileControls != null){   
 				var extraControl = MusicBeatState.instance.mobileControls.current;
 				if (name == ClientPrefs.data.extraKeyReturn1.toUpperCase() && extraControl.buttonExtra1 != null && extraControl.buttonExtra1.justPressed) return true;
 				        
@@ -176,8 +176,8 @@ class HScript extends SScript
                         
 				if (name == ClientPrefs.data.extraKeyReturn4.toUpperCase() && extraControl.buttonExtra4 != null && extraControl.buttonExtra4.justPressed) return true;                       					
 		    }
-		    return Reflect.getProperty(FlxG.keys.justPressed, name));
-		}
+		    return Reflect.getProperty(FlxG.keys.justPressed, name);
+		});
 		set('keyboardPressed', function(name:String){
 		    name = name.toUpperCase();
 		    if (MusicBeatState.instance.mobileControls != null){		    
@@ -190,8 +190,8 @@ class HScript extends SScript
                         
 				if (name == ClientPrefs.data.extraKeyReturn4.toUpperCase() && extraControl.buttonExtra4 != null && extraControl.buttonExtra4.pressed) return true;                       					
 		    }
-		    return Reflect.getProperty(FlxG.keys.pressed, name));
-	    }
+		    return Reflect.getProperty(FlxG.keys.pressed, name);
+	    });
 		set('keyboardReleased', function(name:String){
 		    name = name.toUpperCase();
 		    if (MusicBeatState.instance.mobileControls != null){		    
@@ -204,8 +204,8 @@ class HScript extends SScript
                         
 				if (name == ClientPrefs.data.extraKeyReturn4.toUpperCase() && extraControl.buttonExtra4 != null && extraControl.buttonExtra4.justReleased) return true;                       					
 		    }
-		    return Reflect.getProperty(FlxG.keys.justReleased, name));
-        }
+		    return Reflect.getProperty(FlxG.keys.justReleased, name);
+        });
 		set('anyGamepadJustPressed', function(name:String) return FlxG.gamepads.anyJustPressed(name));
 		set('anyGamepadPressed', function(name:String) FlxG.gamepads.anyPressed(name));
 		set('anyGamepadReleased', function(name:String) return FlxG.gamepads.anyJustReleased(name));
