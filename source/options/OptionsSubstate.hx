@@ -31,7 +31,7 @@ import flixel.util.FlxSave;
 
 class OptionsSubstate extends MusicBeatSubstate
 {
-	public static var instance:OptionsState;
+	public static var instance:OptionsSubstate;
 
 	public var background:FlxSprite;
 
@@ -171,8 +171,6 @@ class OptionsSubstate extends MusicBeatSubstate
 		persistentUpdate = persistentDraw = true;
 
 		instance = this;
-		
-		camGame = initPsychCamera();
 
 		menu = new FlxTypedGroup<FlxSprite>();
 
