@@ -593,39 +593,39 @@ class HScriptBase
 	{
 		interp = new Interp();
 		parentLua = parent;
-		set('FlxG', flixel.FlxG);
-		set('FlxMath', flixel.math.FlxMath);
-		set('FlxSprite', flixel.FlxSprite);
-		set('FlxCamera', flixel.FlxCamera);
-		set('PsychCamera', backend.PsychCamera);
-		set('FlxTimer', flixel.util.FlxTimer);
-		set('FlxTween', flixel.tweens.FlxTween);
-		set('FlxEase', flixel.tweens.FlxEase);
-		set('FlxColor', CustomFlxColor);
-		set('Countdown', backend.BaseStage.Countdown);
-		set('PlayState', PlayState);
-		set('Paths', Paths);
-		set('SUtil', SUtil);
-		set('Conductor', Conductor);
-		set('ClientPrefs', ClientPrefs);
+		interp.variables.set('FlxG', flixel.FlxG);
+		interp.variables.set('FlxMath', flixel.math.FlxMath);
+		interp.variables.set('FlxSprite', flixel.FlxSprite);
+		interp.variables.set('FlxCamera', flixel.FlxCamera);
+		interp.variables.set('PsychCamera', backend.PsychCamera);
+		interp.variables.set('FlxTimer', flixel.util.FlxTimer);
+		interp.variables.set('FlxTween', flixel.tweens.FlxTween);
+		interp.variables.set('FlxEase', flixel.tweens.FlxEase);
+		interp.variables.set('FlxColor', CustomFlxColor);
+		interp.variables.set('Countdown', backend.BaseStage.Countdown);
+		interp.variables.set('PlayState', PlayState);
+		interp.variables.set('Paths', Paths);
+		interp.variables.set('SUtil', SUtil);
+		interp.variables.set('Conductor', Conductor);
+		interp.variables.set('ClientPrefs', ClientPrefs);
 		#if ACHIEVEMENTS_ALLOWED
-		set('Achievements', Achievements);
+		interp.variables.set('Achievements', Achievements);
 		#end
-		set('Character', Character);
-		set('Alphabet', Alphabet);
-		set('Note', objects.Note);
-		set('CustomSubstate', CustomSubstate);
+		interp.variables.set('Character', Character);
+		interp.variables.set('Alphabet', Alphabet);
+		interp.variables.set('Note', objects.Note);
+		interp.variables.set('CustomSubstate', CustomSubstate);
 		#if (!flash && sys)
-		set('FlxRuntimeShader', flixel.addons.display.FlxRuntimeShader);
+		interp.variables.set('FlxRuntimeShader', flixel.addons.display.FlxRuntimeShader);
 		#end
-		set('ShaderFilter', openfl.filters.ShaderFilter);
-		set('StringTools', StringTools);
+		interp.variables.set('ShaderFilter', openfl.filters.ShaderFilter);
+		interp.variables.set('StringTools', StringTools);
 		#if VIDEOS_ALLOWED
-		set('VideoSpriteManager', backend.VideoSpriteManager);
-		set('VideoManager', backend.VideoManager);
+		interp.variables.set('VideoSpriteManager', backend.VideoSpriteManager);
+		interp.variables.set('VideoManager', backend.VideoManager);
 		#end
 		#if flxanimate
-		set('FlxAnimate', FlxAnimate);
+		interp.variables.set('FlxAnimate', FlxAnimate);
 		#end
 
 		interp.variables.set('setVar', function(name:String, value:Dynamic)
