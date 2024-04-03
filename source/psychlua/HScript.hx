@@ -164,10 +164,48 @@ class HScript extends SScript
 		});
 
 		// Keyboard & Gamepads
-		set('keyboardJustPressed', function(name:String) return Reflect.getProperty(FlxG.keys.justPressed, name));
-		set('keyboardPressed', function(name:String) return Reflect.getProperty(FlxG.keys.pressed, name));
-		set('keyboardReleased', function(name:String) return Reflect.getProperty(FlxG.keys.justReleased, name));
-
+		set('keyboardJustPressed', function(name:String){
+		    name = name.toUpperCase();
+		    if (MusicBeatState.instance.mobileControls != null){		    
+				var extraControl = MusicBeatState.instance.mobileControls.current;
+				if (name == ClientPrefs.data.extraKeyReturn1.toUpperCase() && extraControl.buttonExtra1 != null && extraControl.buttonExtra1.justPressed) return true;
+				        
+				if (name == ClientPrefs.data.extraKeyReturn2.toUpperCase() && extraControl.buttonExtra2 != null && extraControl.buttonExtra2.justPressed) return true;
+                        
+				if (name == ClientPrefs.data.extraKeyReturn3.toUpperCase() && extraControl.buttonExtra3 != null && extraControl.buttonExtra3.justPressed) return true;
+                        
+				if (name == ClientPrefs.data.extraKeyReturn4.toUpperCase() && extraControl.buttonExtra4 != null && extraControl.buttonExtra4.justPressed) return true;                       					
+		    }
+		    return Reflect.getProperty(FlxG.keys.justPressed, name));
+		}
+		set('keyboardPressed', function(name:String){
+		    name = name.toUpperCase();
+		    if (MusicBeatState.instance.mobileControls != null){		    
+				var extraControl = MusicBeatState.instance.mobileControls.current;
+				if (name == ClientPrefs.data.extraKeyReturn1.toUpperCase() && extraControl.buttonExtra1 != null && extraControl.buttonExtra1.pressed) return true;
+				        
+				if (name == ClientPrefs.data.extraKeyReturn2.toUpperCase() && extraControl.buttonExtra2 != null && extraControl.buttonExtra2.pressed) return true;
+                        
+				if (name == ClientPrefs.data.extraKeyReturn3.toUpperCase() && extraControl.buttonExtra3 != null && extraControl.buttonExtra3.pressed) return true;
+                        
+				if (name == ClientPrefs.data.extraKeyReturn4.toUpperCase() && extraControl.buttonExtra4 != null && extraControl.buttonExtra4.pressed) return true;                       					
+		    }
+		    return Reflect.getProperty(FlxG.keys.pressed, name));
+	    }
+		set('keyboardReleased', function(name:String){
+		    name = name.toUpperCase();
+		    if (MusicBeatState.instance.mobileControls != null){		    
+				var extraControl = MusicBeatState.instance.mobileControls.current;
+				if (name == ClientPrefs.data.extraKeyReturn1.toUpperCase() && extraControl.buttonExtra1 != null && extraControl.buttonExtra1.justReleased) return true;
+				        
+				if (name == ClientPrefs.data.extraKeyReturn2.toUpperCase() && extraControl.buttonExtra2 != null && extraControl.buttonExtra2.justReleased) return true;
+                        
+				if (name == ClientPrefs.data.extraKeyReturn3.toUpperCase() && extraControl.buttonExtra3 != null && extraControl.buttonExtra3.justReleased) return true;
+                        
+				if (name == ClientPrefs.data.extraKeyReturn4.toUpperCase() && extraControl.buttonExtra4 != null && extraControl.buttonExtra4.justReleased) return true;                       					
+		    }
+		    return Reflect.getProperty(FlxG.keys.justReleased, name));
+        }
 		set('anyGamepadJustPressed', function(name:String) return FlxG.gamepads.anyJustPressed(name));
 		set('anyGamepadPressed', function(name:String) FlxG.gamepads.anyPressed(name));
 		set('anyGamepadReleased', function(name:String) return FlxG.gamepads.anyJustReleased(name));
@@ -215,7 +253,18 @@ class HScript extends SScript
 				case 'down': return Controls.instance.NOTE_DOWN_P;
 				case 'up': return Controls.instance.NOTE_UP_P;
 				case 'right': return Controls.instance.NOTE_RIGHT_P;
-				default: return Controls.instance.justPressed(name);
+				default:
+				    if (MusicBeatState.instance.mobileControls != null){    
+					    var extraControl = MusicBeatState.instance.mobileControls.current;
+					    if (name == ClientPrefs.data.extraKeyReturn1.toLowerCase() && extraControl.buttonExtra1 != null && extraControl.buttonExtra1.justPressed) return true;
+					        
+					    if (name == ClientPrefs.data.extraKeyReturn2.toLowerCase() && extraControl.buttonExtra2 != null && extraControl.buttonExtra2.justPressed) return true;
+                            
+					    if (name == ClientPrefs.data.extraKeyReturn3.toLowerCase() && extraControl.buttonExtra3 != null && extraControl.buttonExtra3.justPressed) return true;
+                            
+					    if (name == ClientPrefs.data.extraKeyReturn4.toLowerCase() && extraControl.buttonExtra4 != null && extraControl.buttonExtra4.justPressed) return true;                       					
+			        }
+				return Controls.instance.justPressed(name);
 			}
 			return false;
 		});
@@ -226,7 +275,18 @@ class HScript extends SScript
 				case 'down': return Controls.instance.NOTE_DOWN;
 				case 'up': return Controls.instance.NOTE_UP;
 				case 'right': return Controls.instance.NOTE_RIGHT;
-				default: return Controls.instance.pressed(name);
+				default:
+				    if (MusicBeatState.instance.mobileControls != null){    
+					    var extraControl = MusicBeatState.instance.mobileControls.current;
+					    if (name == ClientPrefs.data.extraKeyReturn1.toLowerCase() && extraControl.buttonExtra1 != null && extraControl.buttonExtra1.pressed) return true;
+					        
+					    if (name == ClientPrefs.data.extraKeyReturn2.toLowerCase() && extraControl.buttonExtra2 != null && extraControl.buttonExtra2.pressed) return true;
+                            
+					    if (name == ClientPrefs.data.extraKeyReturn3.toLowerCase() && extraControl.buttonExtra3 != null && extraControl.buttonExtra3.pressed) return true;
+                            
+					    if (name == ClientPrefs.data.extraKeyReturn4.toLowerCase() && extraControl.buttonExtra4 != null && extraControl.buttonExtra4.pressed) return true;                       					
+			        }
+				return Controls.instance.pressed(name);
 			}
 			return false;
 		});
@@ -237,7 +297,18 @@ class HScript extends SScript
 				case 'down': return Controls.instance.NOTE_DOWN_R;
 				case 'up': return Controls.instance.NOTE_UP_R;
 				case 'right': return Controls.instance.NOTE_RIGHT_R;
-				default: return Controls.instance.justReleased(name);
+				default:
+				    if (MusicBeatState.instance.mobileControls != null){    
+					    var extraControl = MusicBeatState.instance.mobileControls.current;
+					    if (name == ClientPrefs.data.extraKeyReturn1.toLowerCase() && extraControl.buttonExtra1 != null && extraControl.buttonExtra1.justReleased) return true;
+					        
+					    if (name == ClientPrefs.data.extraKeyReturn2.toLowerCase() && extraControl.buttonExtra2 != null && extraControl.buttonExtra2.justReleased) return true;
+                            
+					    if (name == ClientPrefs.data.extraKeyReturn3.toLowerCase() && extraControl.buttonExtra3 != null && extraControl.buttonExtra3.justReleased) return true;
+                            
+					    if (name == ClientPrefs.data.extraKeyReturn4.toLowerCase() && extraControl.buttonExtra4 != null && extraControl.buttonExtra4.justReleased) return true;                       					
+			        }
+				return Controls.instance.justReleased(name);
 			}
 			return false;
 		});
@@ -522,25 +593,40 @@ class HScriptBase
 	{
 		interp = new Interp();
 		parentLua = parent;
-		interp.variables.set('FlxG', flixel.FlxG);
-		interp.variables.set('FlxSprite', flixel.FlxSprite);
-		interp.variables.set('FlxCamera', flixel.FlxCamera);
-		interp.variables.set('FlxTimer', flixel.util.FlxTimer);
-		interp.variables.set('FlxTween', flixel.tweens.FlxTween);
-		interp.variables.set('FlxEase', flixel.tweens.FlxEase);
-		interp.variables.set('PlayState', PlayState);
-		interp.variables.set('game', PlayState.instance);
-		interp.variables.set('Paths', Paths);
-		interp.variables.set('Conductor', Conductor);
-		interp.variables.set('ClientPrefs', ClientPrefs);
-		interp.variables.set('Character', Character);
-		interp.variables.set('Alphabet', Alphabet);
-		interp.variables.set('CustomSubstate', psychlua.CustomSubstate);
-		#if (!flash && sys)
-		interp.variables.set('FlxRuntimeShader', flixel.addons.display.FlxRuntimeShader);
+		set('FlxG', flixel.FlxG);
+		set('FlxMath', flixel.math.FlxMath);
+		set('FlxSprite', flixel.FlxSprite);
+		set('FlxCamera', flixel.FlxCamera);
+		set('PsychCamera', backend.PsychCamera);
+		set('FlxTimer', flixel.util.FlxTimer);
+		set('FlxTween', flixel.tweens.FlxTween);
+		set('FlxEase', flixel.tweens.FlxEase);
+		set('FlxColor', CustomFlxColor);
+		set('Countdown', backend.BaseStage.Countdown);
+		set('PlayState', PlayState);
+		set('Paths', Paths);
+		set('SUtil', SUtil);
+		set('Conductor', Conductor);
+		set('ClientPrefs', ClientPrefs);
+		#if ACHIEVEMENTS_ALLOWED
+		set('Achievements', Achievements);
 		#end
-		interp.variables.set('ShaderFilter', openfl.filters.ShaderFilter);
-		interp.variables.set('StringTools', StringTools);
+		set('Character', Character);
+		set('Alphabet', Alphabet);
+		set('Note', objects.Note);
+		set('CustomSubstate', CustomSubstate);
+		#if (!flash && sys)
+		set('FlxRuntimeShader', flixel.addons.display.FlxRuntimeShader);
+		#end
+		set('ShaderFilter', openfl.filters.ShaderFilter);
+		set('StringTools', StringTools);
+		#if VIDEOS_ALLOWED
+		set('VideoSpriteManager', backend.VideoSpriteManager);
+		set('VideoManager', backend.VideoManager);
+		#end
+		#if flxanimate
+		set('FlxAnimate', FlxAnimate);
+		#end
 
 		interp.variables.set('setVar', function(name:String, value:Dynamic)
 		{
