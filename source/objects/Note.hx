@@ -337,13 +337,12 @@ class Note extends FlxSprite
 			skin = PlayState.SONG != null ? PlayState.SONG.arrowSkin : null;
 			if(skin == null || skin.length < 1){
 				skin = defaultNoteSkin + postfix;
-			    if (_modChecked == Mods.currentModDirectory 
-			       ||  Paths.fileExists('images/NOTE_assets.png', IMAGE) 
-			       && Paths.fileExists('images/NOTE_assets.xml', TEXT) 
-			       && ClientPrefs.data.noteSkin == ClientPrefs.defaultData.noteSkin
-			       ){ //fix for load old mods note assets
-                    _modChecked = Mods.currentModDirectory;
-		            skin = 'NOTE_assets';
+			    if(ClientPrefs.data.noteSkin == ClientPrefs.defaultData.noteSkin){ 
+    			    if (_modChecked == Mods.currentModDirectory || (Paths.fileExists('images/NOTE_assets.png', IMAGE) && Paths.fileExists('images/NOTE_assets.xml', TEXT)))
+    			    { //fix for load old mods note assets
+                        _modChecked = Mods.currentModDirectory;
+    		            skin = 'NOTE_assets';
+    		        }
 		        }
 		    }
 		}
@@ -502,15 +501,33 @@ class Note extends FlxSprite
 		var strumDirection:Float = myStrum.direction;
 
 		distance = (0.45 * (Conductor.songPosition - strumTime) * songSpeed * multSpeed);
-		if (!myStrum.downScroll) distance *= -1;
 
 		var angleDir = strumDirection * Math.PI / 180;
 		if (copyAngle) angle = strumDirection - 90 + strumAngle + offsetAngle;
 		else angle = strumDirection - 90 + offsetAngle;
-            
 
 		if(copyAlpha)
 			alpha = strumAlpha * multAlpha;
+
+		if(copyX)
+			x = strumX + offsetX + Math.cos(angleDir1) * distance;
+
+		if(copyY)
+		{
+			y = strumY + offsetY + correctionOffset + Math.sin(angleDir1) * distance;
+			if(myStrum.downScroll && isSustainNote)
+			{
+				if(PlayState.isPixelStage)
+				{
+					y -= PlayState.daPixelZoom * 9.5;
+				}
+				y -= (frameHeight * scale.y) - (Note.swagWidth / 2);
+			}
+		}
+
+		if (isSustainNote && myStrum.sustainReduce) clipToStrumNote(myStrum);
+
+		if (!myStrum.downScroll) distance *= -1;
 
 		if(copyX)
 			x = strumX + offsetX + Math.cos(angleDir) * distance;
@@ -527,6 +544,7 @@ class Note extends FlxSprite
 				y -= (frameHeight * scale.y) - (Note.swagWidth / 2);
 			}
 		}
+
 	}
 
 	public function clipToStrumNote(myStrum:StrumNote)
