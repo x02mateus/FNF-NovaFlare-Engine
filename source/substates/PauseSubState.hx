@@ -621,6 +621,7 @@ class PauseSubState extends MusicBeatSubstate
         			closeMenu(restartSong);
         		case 'Exit':
         			closeMenu(
+        			function() {
         			PlayState.deathCounter = 0;
         			PlayState.seenCutscene = false;
     
@@ -635,7 +636,7 @@ class PauseSubState extends MusicBeatSubstate
         			PlayState.changedDifficulty = false;
         			PlayState.chartingMode = false;
         			FlxG.camera.followLerp = 0;
-        			);
+        			});
         		case 'Editor':
         			MusicBeatState.switchState(new ChartingState());
         			PlayState.chartingMode = true;
@@ -670,7 +671,7 @@ class PauseSubState extends MusicBeatSubstate
         				close();
         			}
         		case 'Leave':
-        			restartSong();
+        			closeMenu(restartSong);
     				PlayState.chartingMode = false;
         		case 'Back':
         			for (i in debugBars)
@@ -746,6 +747,7 @@ class PauseSubState extends MusicBeatSubstate
     		}
     		
     		closeMenu(
+    		function() {
 	        try{
         		var name:String = PlayState.SONG.song;
         		var poop = Highscore.formatSong(name, difficultyCurSelected);
@@ -770,7 +772,7 @@ class PauseSubState extends MusicBeatSubstate
     	        		missingTextTween = null;
                 	}, 1);
                 }
-    	    });
+    	    }});
         }
     }
     
