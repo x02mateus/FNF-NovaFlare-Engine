@@ -1863,7 +1863,8 @@ class PlayState extends MusicBeatState
 			DiscordClient.changePresence(detailsText, SONG.song + " (" + storyDifficultyText + ")", iconP2.getCharacter());
 		#end
 	}
-
+    
+    public var haveFixed:Bool = false; //仅仅用作第一次检测到音乐不同步进行修复，后续不需要再次同步
 	function resyncVocals(?fixVocals:Bool = false):Void
 	{
 		if(finishTimer != null) return;
@@ -1979,10 +1980,11 @@ class PlayState extends MusicBeatState
 					|| (vocals.length > 0 && Math.abs(vocals.time - timeSub) > diff)
 					|| (opponentVocals.length > 0 && Math.abs(opponentVocals.time - timeSub) > diff))
 				{
-				    if ((vocals.length > 0 && Math.abs(FlxG.sound.music.time - vocals.time) > 1) || (opponentVocals.length > 0 && Math.abs(FlxG.sound.music.time - opponentVocals.time) > 1))
+				    if (haveFixed && ((vocals.length > 0 && Math.abs(FlxG.sound.music.time - vocals.time) > 5) || (opponentVocals.length > 0 && Math.abs(FlxG.sound.music.time - opponentVocals.time) > 5))){
 					    resyncVocals(true);
-					else 
+					} else {
 					    resyncVocals();
+					}
 				}
 				checkIfDesynced = false;
 			}
