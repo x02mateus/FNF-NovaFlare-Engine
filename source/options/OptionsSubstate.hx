@@ -3,7 +3,7 @@ package options;
 import substates.PauseSubState;
 
 import options.Option;
-import options.OptionsSubstate;
+import options.OptionsState;
 import options.OptionsHelpers;
 import options.base.ControlsSubState;
 import options.base.NoteOffsetState;
