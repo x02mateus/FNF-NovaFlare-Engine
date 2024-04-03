@@ -616,26 +616,28 @@ class PauseSubState extends MusicBeatSubstate
         				changeOptions(0);
         			});
         		case 'Continue':
-        			closeMenu(close);
+        			closeMenu(
+        				function(trm:FlxTimer) close()
+        			);
         		case 'Restart':
         			closeMenu(restartSong);
         		case 'Exit':
         			closeMenu(
-        			function() {
-        			PlayState.deathCounter = 0;
-        			PlayState.seenCutscene = false;
-    
-        			Mods.loadTopMod();
-        			if(PlayState.isStoryMode) {
-        				MusicBeatState.switchState(new StoryMenuState());
-        			} else {
-        				MusicBeatState.switchState(new FreeplayState());
-        			}
-        			//PlayState.cancelMusicFadeTween();
-        			FlxG.sound.playMusic(Paths.music('freakyMenu'));
-        			PlayState.changedDifficulty = false;
-        			PlayState.chartingMode = false;
-        			FlxG.camera.followLerp = 0;
+        			function(trm:FlxTimer) {
+            			PlayState.deathCounter = 0;
+            			PlayState.seenCutscene = false;
+        
+            			Mods.loadTopMod();
+            			if(PlayState.isStoryMode) {
+            				MusicBeatState.switchState(new StoryMenuState());
+            			} else {
+            				MusicBeatState.switchState(new FreeplayState());
+            			}
+            			//PlayState.cancelMusicFadeTween();
+            			FlxG.sound.playMusic(Paths.music('freakyMenu'));
+            			PlayState.changedDifficulty = false;
+            			PlayState.chartingMode = false;
+            			FlxG.camera.followLerp = 0;
         			});
         		case 'Editor':
         			MusicBeatState.switchState(new ChartingState());
@@ -747,32 +749,33 @@ class PauseSubState extends MusicBeatSubstate
     		}
     		
     		closeMenu(
-    		function() {
-	        try{
-        		var name:String = PlayState.SONG.song;
-        		var poop = Highscore.formatSong(name, difficultyCurSelected);
-        		PlayState.SONG = Song.loadFromJson(poop, name);
-           		PlayState.storyDifficulty = difficultyCurSelected;
-        		MusicBeatState.resetState();
-        		FlxG.sound.music.volume = 0;
-        		PlayState.changedDifficulty = true;
-        		PlayState.chartingMode = false;
-        	} catch(e:Dynamic) {
-        		missingText.text = 'ERROR WHILE LOADING CHART: ' + PlayState.SONG.song + '-' + difficultyChoices[difficultyCurSelected];
-        		missingText.screenCenter(X);
-        		FlxG.sound.play(Paths.sound('cancelMenu'));
-
-        	    
-        		
-        		if (missingTextTimer == null && missingTextTween != null) {
-        			missingTextTween = FlxTween.tween(missingText, {y: 680}, 0.5, {ease: FlxEase.quartOut});
-        	    	missingTextTimer = new FlxTimer().start(2, function(tmr:FlxTimer) {
-    		    	missingTextTween = FlxTween.tween(missingText, {y: 720}, 0.5, {ease: FlxEase.quartIn});
-    	        		missingTextTimer = null;
-    	        		missingTextTween = null;
-                	}, 1);
+    		function(trm:FlxTimer) {
+	        	try{
+            		var name:String = PlayState.SONG.song;
+            		var poop = Highscore.formatSong(name, difficultyCurSelected);
+            		PlayState.SONG = Song.loadFromJson(poop, name);
+               		PlayState.storyDifficulty = difficultyCurSelected;
+            		MusicBeatState.resetState();
+            		FlxG.sound.music.volume = 0;
+            		PlayState.changedDifficulty = true;
+            		PlayState.chartingMode = false;
+            	} catch(e:Dynamic) {
+            		missingText.text = 'ERROR WHILE LOADING CHART: ' + PlayState.SONG.song + '-' + difficultyChoices[difficultyCurSelected];
+            		missingText.screenCenter(X);
+            		FlxG.sound.play(Paths.sound('cancelMenu'));
+    
+            	    
+            		
+            		if (missingTextTimer == null && missingTextTween != null) {
+            			missingTextTween = FlxTween.tween(missingText, {y: 680}, 0.5, {ease: FlxEase.quartOut});
+            	    	missingTextTimer = new FlxTimer().start(2, function(tmr:FlxTimer) {
+        		    	missingTextTween = FlxTween.tween(missingText, {y: 720}, 0.5, {ease: FlxEase.quartIn});
+        	        		missingTextTimer = null;
+        	        		missingTextTween = null;
+                    	}, 1);
+                    }
                 }
-    	    }});
+            });
         }
     }
     
@@ -810,7 +813,6 @@ class PauseSubState extends MusicBeatSubstate
 		backShadowTween = FlxTween.tween(backShadow, {x: -800}, 0.85, {ease: FlxEase.quartIn});
 		backTween = FlxTween.tween(back, {x: -800}, 0.85, {ease: FlxEase.quartIn});
 		frontTween = FlxTween.tween(front, {x: -800}, 0.75, {ease: FlxEase.quartIn});    			    
-		
 		
 		new FlxTimer().start(1, endEvent);
     }
