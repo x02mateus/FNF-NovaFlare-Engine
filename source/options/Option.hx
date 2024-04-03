@@ -1386,7 +1386,7 @@ class ControlsAlpha extends Option
     }
      
     override function change(){
-        if (Type.getClass(FlxG.state) != OptionsState)
+        if (Type.getClass(FlxG.state) == OptionsState)
             OptionsState.instance.changeControlAlpha();
         else 
             OptionsSubstate.instance.changeControlAlpha();
