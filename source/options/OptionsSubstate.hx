@@ -29,7 +29,7 @@ import flixel.util.FlxColor;
 import flixel.util.FlxTimer;
 import flixel.util.FlxSave;
 
-class OptionsSubstate extends MusicBeatState
+class OptionsSubstate extends MusicBeatSubstate
 {
 	public static var instance:OptionsState;
 
