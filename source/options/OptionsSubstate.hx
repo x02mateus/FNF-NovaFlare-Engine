@@ -189,15 +189,6 @@ class OptionsSubstate extends MusicBeatSubstate
 		descBack.alpha = 0.3;
 		descBack.scrollFactor.set();
 		menu.add(descBack);
-        
-		    var bg:FlxSprite = new FlxSprite(-80).loadGraphic(Paths.image('menuBG'));
-    		bg.scrollFactor.set(0,0);
-    		bg.setGraphicSize(Std.int(bg.width));
-    		bg.updateHitbox();
-    		bg.screenCenter();
-    		bg.antialiasing = ClientPrefs.data.antialiasing;
-    		add(bg);		
-		
 
 		add(menu);
 
