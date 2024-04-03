@@ -616,47 +616,11 @@ class PauseSubState extends MusicBeatSubstate
         				changeOptions(0);
         			});
         		case 'Continue':
-        			for (i in optionsBars)
-        				FlxTween.tween(i, {x: -1000}, 0.5, {ease: FlxEase.quartIn});
-    				
-        			for (i in optionsAlphabet)
-        				FlxTween.tween(i, {x: -1000}, 0.5, {ease: FlxEase.quartIn});
-        				
-        			var curText = 0;
-        			
-        			if (menuTextStart != null) menuTextStart.cancel();
-    				new FlxTimer().start(0.1, function(tmr:FlxTimer) {
-    				    if (menuTextTween[curText] != null) menuTextTween[curText].cancel();
-    				    //if (menuTextTween[curText * 2 + 1] != null) menuTextTween[curText * 2 + 1].cancel();				        				        	    
-    				    
-        				//menuTextTween[curText * 2] = FlxTween.tween(menuText[menuText.length-curText-1], {x: 1280 + menuText[curText].width}, 0.2, {ease: FlxEase.quartIn});
-        				menuTextTween[curText] = FlxTween.tween(menuText[menuText.length-curText-1], {alpha: 0}, 0.2, {ease: FlxEase.quartIn});
-        				curText++;
-        			}, menuText.length);
-    			    
-        			stayinMenu = 'isChanging';
-    			    
-    			    FlxG.sound.play(Paths.sound('confirmMenu'), 0.4);			   
-    			    
-    			    if (blackbackTween != null && backShadowTween != null && backTween != null && frontTween != null){
-                        blackbackTween.cancel();
-    			        backShadowTween.cancel();
-                        backTween.cancel();
-    			        frontTween.cancel();
-    			    }
-    			    
-    			    blackbackTween = FlxTween.tween(blackback, {alpha: 0}, 0.75, {ease: FlxEase.quartOut});
-        			backShadowTween = FlxTween.tween(backShadow, {x: -800}, 0.85, {ease: FlxEase.quartIn});
-        			backTween = FlxTween.tween(back, {x: -800}, 0.85, {ease: FlxEase.quartIn});
-        			frontTween = FlxTween.tween(front, {x: -800}, 0.75, {ease: FlxEase.quartIn});    			    
-        			
-        			
-        			new FlxTimer().start(1, function(tmr:FlxTimer) {
-        				close();
-        			});
+        			closeMenu(close);
         		case 'Restart':
-        			restartSong();
+        			closeMenu(restartSong);
         		case 'Exit':
+        			closeMenu(
         			PlayState.deathCounter = 0;
         			PlayState.seenCutscene = false;
     
@@ -671,6 +635,7 @@ class PauseSubState extends MusicBeatSubstate
         			PlayState.changedDifficulty = false;
         			PlayState.chartingMode = false;
         			FlxG.camera.followLerp = 0;
+        			);
         		case 'Editor':
         			MusicBeatState.switchState(new ChartingState());
         			PlayState.chartingMode = true;
@@ -779,6 +744,8 @@ class PauseSubState extends MusicBeatSubstate
     			FlxG.sound.play(Paths.sound('cancelMenu'), 0.4);
     			return;
     		}
+    		
+    		closeMenu(
 	        try{
         		var name:String = PlayState.SONG.song;
         		var poop = Highscore.formatSong(name, difficultyCurSelected);
@@ -803,8 +770,47 @@ class PauseSubState extends MusicBeatSubstate
     	        		missingTextTween = null;
                 	}, 1);
                 }
-    	    }
+    	    });
         }
+    }
+    
+    function closeMenu(endEvent) {
+    	for (i in optionsBars)
+			FlxTween.tween(i, {x: -1000}, 0.5, {ease: FlxEase.quartIn});
+		
+		for (i in optionsAlphabet)
+			FlxTween.tween(i, {x: -1000}, 0.5, {ease: FlxEase.quartIn});
+			
+		var curText = 0;
+		
+		if (menuTextStart != null) menuTextStart.cancel();
+		new FlxTimer().start(0.1, function(tmr:FlxTimer) {
+		    if (menuTextTween[curText] != null) menuTextTween[curText].cancel();
+		    //if (menuTextTween[curText * 2 + 1] != null) menuTextTween[curText * 2 + 1].cancel();				        				        	    
+		    
+			//menuTextTween[curText * 2] = FlxTween.tween(menuText[menuText.length-curText-1], {x: 1280 + menuText[curText].width}, 0.2, {ease: FlxEase.quartIn});
+			menuTextTween[curText] = FlxTween.tween(menuText[menuText.length-curText-1], {alpha: 0}, 0.2, {ease: FlxEase.quartIn});
+			curText++;
+		}, menuText.length);
+	    
+		stayinMenu = 'isChanging';
+	    
+	    FlxG.sound.play(Paths.sound('confirmMenu'), 0.4);			   
+	    
+	    if (blackbackTween != null && backShadowTween != null && backTween != null && frontTween != null){
+            blackbackTween.cancel();
+	        backShadowTween.cancel();
+            backTween.cancel();
+	        frontTween.cancel();
+	    }
+	    
+	    blackbackTween = FlxTween.tween(blackback, {alpha: 0}, 0.75, {ease: FlxEase.quartOut});
+		backShadowTween = FlxTween.tween(backShadow, {x: -800}, 0.85, {ease: FlxEase.quartIn});
+		backTween = FlxTween.tween(back, {x: -800}, 0.85, {ease: FlxEase.quartIn});
+		frontTween = FlxTween.tween(front, {x: -800}, 0.75, {ease: FlxEase.quartIn});    			    
+		
+		
+		new FlxTimer().start(1, endEvent);
     }
     
     function setBackButton(hide:Bool) {
