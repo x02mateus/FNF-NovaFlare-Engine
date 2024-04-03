@@ -491,8 +491,8 @@ class Note extends FlxSprite
 		super.destroy();
 		_lastValidChecked = '';
 	}
-	
-    var angleDir1:Float = 90 * Math.PI / 180;
+
+	var angleDir1:Float = 90 * Math.PI / 180;
 	public function followStrumNote(myStrum:StrumNote, fakeCrochet:Float, songSpeed:Float = 1)
 	{
 		var strumX:Float = myStrum.x;
@@ -533,16 +533,17 @@ class Note extends FlxSprite
 		if(copyX)
 			x = strumX + offsetX + Math.cos(angleDir) * distance;
 
+		var noteOffsetY:Float=Math.sin(angleDir);
 		if(copyY)
 		{
-			y = strumY + offsetY + correctionOffset + Math.sin(angleDir) * distance;
+			y = strumY + offsetY + correctionOffset + noteOffsetY * distance;
 			if(myStrum.downScroll && isSustainNote)
 			{
 				if(PlayState.isPixelStage)
 				{
-					y -= PlayState.daPixelZoom * 9.5;
+					y -= PlayState.daPixelZoom * 9.5 * noteOffsetY;
 				}
-				y -= (frameHeight * scale.y) - (Note.swagWidth / 2);
+				y -= ((frameHeight * scale.y) - (Note.swagWidth / 2) * noteOffsetY);
 			}
 		}
 
