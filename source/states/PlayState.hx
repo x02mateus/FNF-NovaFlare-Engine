@@ -32,6 +32,7 @@ import states.editors.CharacterEditorState;
 import substates.PauseSubState;
 import substates.GameOverSubstate;
 import substates.ResultsScreen;
+import options.OptionsSubstate;
 
 #if !flash
 import flixel.addons.display.FlxRuntimeShader;
