@@ -10,7 +10,6 @@ import states.editors.ChartingState;
 import states.FreeplayState;
 import states.StoryMenuState;
 
-import options.OptionsSubstate;
 import options.OptionsState;
 
 import flixel.util.FlxStringUtil;
@@ -63,7 +62,8 @@ class PauseSubState extends MusicBeatSubstate
     var skipTimeText:FlxText;
     var curTime:Float = Math.max(0, Conductor.songPosition);
     
-    public static var goToOptions:Bool = false; //work for open option
+    public static var moveType:Int = 0; 
+    //0 is close pause, 1 is open option, 2 is back to pause
     
     public static var curOptions:Bool = false; // curSelected fix
 	public static var curGameplayChangers:Bool = false; // curSelected fix
@@ -730,7 +730,7 @@ class PauseSubState extends MusicBeatSubstate
     			case 'Instant':
         			PlayState.instance.paused = true; // For lua
         			PlayState.instance.vocals.volume = 0;
-        			goToOptions = true;
+        			moveType = 1;
         			close();
         		case 'Entirety':
         			PlayState.instance.paused = true; // For lua
