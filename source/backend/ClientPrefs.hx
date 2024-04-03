@@ -73,7 +73,7 @@ import states.TitleState;
 	
 	public var gameOverVibration:Bool = false;	
 	public var discordRPC:Bool = true;
-	public var checkForUpdates:Bool = false;
+	public var checkForUpdates:Bool = true;
 	public var oldHscriptVersion:Bool = false;
 	public var pauseButton:Bool = #if mobile true #else false #end;
 	public var fileLoad:String = 'NovaFlare Engine';
@@ -91,10 +91,11 @@ import states.TitleState;
 	public var safeFrames:Float = 10;			
 	
 	public var dynamicColors:Bool = true;
+	public var needMobileControl:Bool = true; //work for desktop
 	public var hitboxLocation:String = 'Bottom';
 	public var hitboxSkin:String = 'Classic';
-	public var controlsAlpha:Float = #if mobile 0.6 #else 0 #end;
-	public var playControlsAlpha:Float = #if mobile 0.2 #else 0 #end;
+	public var controlsAlpha:Float = 0.6;
+	public var playControlsAlpha:Float = 0.2;
 	public var hideHitboxHints:Bool = false;
 	
 	public var extraKey:Int = 4;
