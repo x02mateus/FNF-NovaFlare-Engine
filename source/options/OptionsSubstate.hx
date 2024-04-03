@@ -221,7 +221,7 @@ class OptionsSubstate extends MusicBeatSubstate
 		
 		selectedCat = options[0];
 		switchCat(selectedCat);
-		selectedCatIndex = saveSelectedCatIndex : 0;
+		selectedCatIndex = 0;
 		
 		selectedOption = selectedCat.options[0];
 		selectedOptionIndex = 0;       		              
