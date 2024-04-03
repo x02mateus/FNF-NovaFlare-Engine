@@ -491,7 +491,8 @@ class Note extends FlxSprite
 		super.destroy();
 		_lastValidChecked = '';
 	}
-
+	
+    var angleDir1:Float = 90 * Math.PI / 180;
 	public function followStrumNote(myStrum:StrumNote, fakeCrochet:Float, songSpeed:Float = 1)
 	{
 		var strumX:Float = myStrum.x;
