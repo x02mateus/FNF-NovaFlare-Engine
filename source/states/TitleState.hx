@@ -205,7 +205,9 @@ class TitleState extends MusicBeatState
 		#elseif CHARTING
 		MusicBeatState.switchState(new ChartingState());
 		#else
-		if(#if mobile CopyState.checkExistingFiles() && #end FlxG.save.data.flashing == null && !FlashingState.leftState) {
+		if(!ClientPrefs.data.openedFlash) {
+		    ClientPrefs.data.openedFlash = true;
+		    ClientPrefs.saveSettings();
 			controls.isInSubstate = false; //idfk what's wrong
 			FlxTransitionableState.skipNextTransIn = true;
 			FlxTransitionableState.skipNextTransOut = true;
