@@ -355,7 +355,12 @@ class OptionsSubstate extends MusicBeatSubstate
 		}
 				
 		for (numP in 0...options.length - 1) {
-			if (FlxG.mouse.justPressed && FlxG.mouse.overlaps(CatTeam.members[numP])){
+			if (FlxG.mouse.justPressed 
+			   && FlxG.mouse.screenY >= CatTeam.members[numP].y 
+    	       && FlxG.mouse.screenY <= CatTeam.members[numP].y + CatTeam.members[numP].height
+    	       && FlxG.mouse.screenX >= CatTeam.members[numP].x 
+    	       && FlxG.mouse.screenX <= CatTeam.members[numP].x + CatTeam.members[numP].width
+    	       ){
 			    isInMain = false;		
 		        
         		switchCat(options[numP]);
