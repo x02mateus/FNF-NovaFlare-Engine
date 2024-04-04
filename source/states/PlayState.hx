@@ -3026,7 +3026,7 @@ class PlayState extends MusicBeatState
 			antialias = !isPixelStage;
 		}
 		
-		rateSpr_S.visible = ClientPrefs.data.showRating && showRating
+		rateSpr_S.visible = ClientPrefs.data.showRating && showRating;
 		rateSpr_S.loadGraphic(Paths.image(uiPrefix + daRating.image + uiSuffix));
 		rateSpr_S.antialiasing = antialias;		
         
