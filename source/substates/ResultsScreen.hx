@@ -115,7 +115,7 @@ class ResultsScreen extends MusicBeatSubstate
 		add(modsBG);		
 		
 		var filesLoad:String = null;
-		for (folder in Mods.directoriesWithFile(Paths.getSharedPath(), 'data/$game.songName/')){
+		for (folder in Mods.directoriesWithFile(Paths.getSharedPath(), 'data/' + game.songName + '/')){
 		    if (FileSystem.exists(folder + 'resultBG.png')){
 		        filesLoad = folder + 'resultBG';
 		        break;
