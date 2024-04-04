@@ -84,15 +84,15 @@ class OptionsSubstate extends MusicBeatSubstate
 		pauseMusic = new FlxSound();
 		try
 		{
-			if (songName == null || songName.toLowerCase() != 'none')
+			if (PauseSubState.songName == null || PauseSubState.songName.toLowerCase() != 'none')
 			{
-				if(songName == null)
+				if(PauseSubState.songName == null)
 				{
 					var path:String = Paths.formatToSongPath(ClientPrefs.data.pauseMusic);
 					if(path.toLowerCase() != 'none')
 						pauseMusic.loadEmbedded(Paths.music(Paths.formatToSongPath(ClientPrefs.data.pauseMusic)), true, true);
 				}
-				else pauseMusic.loadEmbedded(Paths.music(songName), true, true);
+				else pauseMusic.loadEmbedded(Paths.music(PauseSubState.songName), true, true);
 			}
 		} catch(e:Dynamic) {}
 		pauseMusic.volume = PauseSubState.pauseMusic.volume;
