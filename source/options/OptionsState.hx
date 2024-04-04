@@ -131,6 +131,7 @@ class OptionsState extends MusicBeatState
 				#if CHECK_FOR_UPDATES new CheckForUpdates('On Release builds, turn this on to check for updates when you start the game.'), #end
 				#if DISCORD_ALLOWED new DiscordRPC('Uncheck this to prevent accidental leaks, it will hide the Application from your \"Playing\" box on Discord'), #end				
 				#if mobile new GameOverVibration('If checked, your device will vibrate at game over.'),    	
+				new FilesCheck('game will setup files at intro if miss something'),
 				new ScreenSaver('If checked, the phone will sleep after going inactive for few seconds.'), #end
         		]),
 			new OptionCata(935, 40, OptionsName.setOpponentMode(), [

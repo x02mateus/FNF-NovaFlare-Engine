@@ -935,6 +935,7 @@ class CheckForUpdates extends Option
 	public function new(desc:String)
 	{
 		super();
+		description = desc;
 	}
 
 	override function press()
@@ -989,6 +990,26 @@ class GameOverVibration extends Option
 	private override function updateDisplay():String
 	{
 		return "Game Over Vibration: " + (ClientPrefs.data.gameOverVibration ? enable_O : disable_O);
+	}
+}
+
+class FilesCheck extends Option
+{
+	public function new(desc:String)
+	{
+		super();
+		description = desc;
+	}
+
+	override function press()
+	{
+		ClientPrefs.data.filesCheck = !ClientPrefs.data.filesCheck;
+		display = updateDisplay();
+    }
+
+	private override function updateDisplay():String
+	{
+		return "Files setup: " + (ClientPrefs.data.filesCheck ? enable_O : disable_O);
 	}
 }
 
