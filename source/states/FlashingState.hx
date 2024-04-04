@@ -45,8 +45,8 @@ class FlashingState extends MusicBeatState
 			FlxTransitionableState.skipNextTransIn = true;
 			FlxTransitionableState.skipNextTransOut = true;
 			if(!back) {
-			    if (virtualPad.buttonA.justPressed) ClientPrefs.data.needMobileControl = false;
-				ClientPrefs.data.flashing = false;
+			    if (!virtualPad.buttonA.justPressed) ClientPrefs.data.needMobileControl = false;
+				ClientPrefs.data.flashing = true;
 				ClientPrefs.saveSettings();
 				FlxG.sound.play(Paths.sound('confirmMenu'));
 				FlxFlicker.flicker(warnText, 1, 0.1, false, true, function(flk:FlxFlicker) {
@@ -55,7 +55,8 @@ class FlashingState extends MusicBeatState
 					});
 				});
 			} else {
-			    if (virtualPad.buttonB.justPressed) ClientPrefs.data.needMobileControl = false;
+			    if (!virtualPad.buttonB.justPressed) ClientPrefs.data.needMobileControl = false;
+			    ClientPrefs.data.flashing = false;
 			    ClientPrefs.saveSettings();
 				FlxG.sound.play(Paths.sound('cancelMenu'));
 				FlxTween.tween(warnText, {alpha: 0}, 1, {
