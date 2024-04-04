@@ -77,6 +77,7 @@ import states.TitleState;
 	public var oldHscriptVersion:Bool = false;
 	public var pauseButton:Bool = #if mobile true #else false #end;
 	public var fileLoad:String = 'NovaFlare Engine';
+	public var openedFlash:Bool = false;
 	
 	public var marvelousRating:Bool = true;	
 	public var marvelousSprite:Bool = true;	
