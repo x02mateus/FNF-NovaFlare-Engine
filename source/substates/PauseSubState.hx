@@ -668,7 +668,7 @@ class PauseSubState extends MusicBeatSubstate
 						close();
 					}
 				case 'Leave':
-					restartSong()
+					restartSong();
 					PlayState.chartingMode = false;
 				case 'Back':
 					for (i in debugBars)
