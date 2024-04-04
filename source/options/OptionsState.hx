@@ -758,6 +758,13 @@ class OptionsState extends MusicBeatState
         switch(selectedCatIndex){
         
             case 0:
+                ClientPrefs.data.downScroll = ClientPrefs.defaultData.downScroll;
+                ClientPrefs.data.middleScroll = ClientPrefs.defaultData.middleScroll;
+                ClientPrefs.data.filpChart = ClientPrefs.defaultData.filpChart;
+                ClientPrefs.data.guitarHeroSustains = ClientPrefs.defaultData.guitarHeroSustains;
+                ClientPrefs.data.fixLNL = ClientPrefs.defaultData.fixLNL;
+                ClientPrefs.data.ghostTapping = ClientPrefs.defaultData.ghostTapping;
+                ClientPrefs.data.noReset = ClientPrefs.defaultData.noReset;
                 ClientPrefs.data.resultsScreen = ClientPrefs.defaultData.resultsScreen;
             case 1:
                 ClientPrefs.data.noteSkin = ClientPrefs.defaultData.noteSkin;
