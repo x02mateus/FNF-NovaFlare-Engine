@@ -2,9 +2,6 @@ package options;
 
 import substates.PauseSubState;
 
-import mobile.substates.MobileControlSelectSubState;
-import mobile.substates.MobileExtraControl;
-
 import backend.ClientPrefs;
 import backend.StageData;
 

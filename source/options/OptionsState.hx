@@ -7,6 +7,9 @@ import substates.PauseSubState;
 import backend.ClientPrefs;
 import backend.StageData;
 
+import mobile.substates.MobileControlSelectSubState;
+import mobile.substates.MobileExtraControl;
+
 import objects.Note;
 import objects.StrumNote;
 
