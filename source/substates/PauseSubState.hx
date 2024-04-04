@@ -25,6 +25,7 @@ import openfl.utils.Assets;
 
 class PauseSubState extends MusicBeatSubstate
 {
+
 	var filePath:String = 'menuExtend/PauseState/';
 	var font:String = Assets.getFont("assets/fonts/montserrat.ttf").fontName;
 
@@ -121,6 +122,9 @@ class PauseSubState extends MusicBeatSubstate
 
 	override function create()
 	{
+		
+		
+		
 		FlxG.sound.play(Paths.sound('scrollMenu'), 0.4);
 		pauseMusic = new FlxSound();
 		try
@@ -163,7 +167,7 @@ class PauseSubState extends MusicBeatSubstate
 		frontTween = FlxTween.tween(front, {x: 0}, 1.3, {ease: FlxEase.quartOut});
 	
 		backButton = new FlxSprite(1080, 600).loadGraphic(Paths.image(filePath + 'backButton'));
-		//add(backButton);
+		add(backButton);
 		backButton.scale.set(0.45, 0.45);
 		backButton.updateHitbox();
 		backButton.visible = false;
@@ -387,8 +391,6 @@ class PauseSubState extends MusicBeatSubstate
 		cameras = [FlxG.cameras.list[FlxG.cameras.list.length - 1]];
 		
 		super.create();
-		
-		controls.isInSubstate = true;
 	}
 
 	override function update(elapsed:Float) {
@@ -614,31 +616,24 @@ class PauseSubState extends MusicBeatSubstate
 						changeOptions(0);
 					});
 				case 'Continue':
-					closeMenu(
-						function(trm:FlxTimer) close()
-					);
+					close();
 				case 'Restart':
-					closeMenu(
-						function(trm:FlxTimer) restartSong()
-					);
+					restartSong();
 				case 'Exit':
-					closeMenu(
-					function(trm:FlxTimer) {
-						PlayState.deathCounter = 0;
-						PlayState.seenCutscene = false;
-		
-						Mods.loadTopMod();
-						if(PlayState.isStoryMode) {
-							MusicBeatState.switchState(new StoryMenuState());
-						} else {
-							MusicBeatState.switchState(new FreeplayState());
-						}
-						//PlayState.cancelMusicFadeTween();
-						FlxG.sound.playMusic(Paths.music('freakyMenu'));
-						PlayState.changedDifficulty = false;
-						PlayState.chartingMode = false;
-						FlxG.camera.followLerp = 0;
-					});
+					PlayState.deathCounter = 0;
+					PlayState.seenCutscene = false;
+	
+					Mods.loadTopMod();
+					if(PlayState.isStoryMode) {
+						MusicBeatState.switchState(new StoryMenuState());
+					} else {
+						MusicBeatState.switchState(new FreeplayState());
+					}
+					//PlayState.cancelMusicFadeTween();
+					FlxG.sound.playMusic(Paths.music('freakyMenu'));
+					PlayState.changedDifficulty = false;
+					PlayState.chartingMode = false;
+					FlxG.camera.followLerp = 0;
 				case 'Editor':
 					MusicBeatState.switchState(new ChartingState());
 					PlayState.chartingMode = true;
@@ -673,9 +668,7 @@ class PauseSubState extends MusicBeatSubstate
 						close();
 					}
 				case 'Leave':
-					closeMenu(
-						function(trm:FlxTimer) restartSong()
-					);
+					restartSong()
 					PlayState.chartingMode = false;
 				case 'Back':
 					for (i in debugBars)
@@ -698,12 +691,13 @@ class PauseSubState extends MusicBeatSubstate
 		} else if (stayinMenu == 'options') {
 			switch (optionsType[optionsCurSelected]) {
 				case 'Instant':
+					closeMenu(
+					function() {
 					PlayState.instance.paused = true; // For lua
 					PlayState.instance.vocals.volume = 0;
 					moveType = 1;
-					closeMenu(
-						function() close()
-					);
+					close();
+					});
 				case 'Entirety':
 					PlayState.instance.paused = true; // For lua
 					PlayState.instance.vocals.volume = 0;
@@ -752,34 +746,31 @@ class PauseSubState extends MusicBeatSubstate
 				return;
 			}
 			
-			closeMenu(
-			function(trm:FlxTimer) {
-				try{
-					var name:String = PlayState.SONG.song;
-					var poop = Highscore.formatSong(name, difficultyCurSelected);
-					PlayState.SONG = Song.loadFromJson(poop, name);
-			   		PlayState.storyDifficulty = difficultyCurSelected;
-					MusicBeatState.resetState();
-					FlxG.sound.music.volume = 0;
-					PlayState.changedDifficulty = true;
-					PlayState.chartingMode = false;
-				} catch(e:Dynamic) {
-					missingText.text = 'ERROR WHILE LOADING CHART: ' + PlayState.SONG.song + '-' + difficultyChoices[difficultyCurSelected];
-					missingText.screenCenter(X);
-					FlxG.sound.play(Paths.sound('cancelMenu'));
-	
-					
-					
-					if (missingTextTimer == null && missingTextTween != null) {
-						missingTextTween = FlxTween.tween(missingText, {y: 680}, 0.5, {ease: FlxEase.quartOut});
-						missingTextTimer = new FlxTimer().start(2, function(tmr:FlxTimer) {
-						missingTextTween = FlxTween.tween(missingText, {y: 720}, 0.5, {ease: FlxEase.quartIn});
-							missingTextTimer = null;
-							missingTextTween = null;
-						}, 1);
-					}
+			try{
+				var name:String = PlayState.SONG.song;
+				var poop = Highscore.formatSong(name, difficultyCurSelected);
+				PlayState.SONG = Song.loadFromJson(poop, name);
+		   		PlayState.storyDifficulty = difficultyCurSelected;
+				MusicBeatState.resetState();
+				FlxG.sound.music.volume = 0;
+				PlayState.changedDifficulty = true;
+				PlayState.chartingMode = false;
+			} catch(e:Dynamic) {
+				missingText.text = 'ERROR WHILE LOADING CHART: ' + PlayState.SONG.song + '-' + difficultyChoices[difficultyCurSelected];
+				missingText.screenCenter(X);
+				FlxG.sound.play(Paths.sound('cancelMenu'));
+
+				
+				
+				if (missingTextTimer == null && missingTextTween != null) {
+					missingTextTween = FlxTween.tween(missingText, {y: 680}, 0.5, {ease: FlxEase.quartOut});
+					missingTextTimer = new FlxTimer().start(2, function(tmr:FlxTimer) {
+					missingTextTween = FlxTween.tween(missingText, {y: 720}, 0.5, {ease: FlxEase.quartIn});
+						missingTextTimer = null;
+						missingTextTween = null;
+					}, 1);
 				}
-			});
+			}
 		}
 	}
 	
