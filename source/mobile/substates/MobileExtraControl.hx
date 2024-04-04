@@ -51,7 +51,7 @@ class MobileExtraControl extends MusicBeatSubstate
 		
 		for (i in 1...5){    
 			var data:String = Reflect.field(ClientPrefs.data, "extraKeyReturn" + i);    	
-			var _x = FlxG.width / 2 + (titleWidth + 50) * ((i-1) - 4 / 2);
+			var _x = FlxG.width / 2 + 25 + (titleWidth + 50) * ((i-1) - 4 / 2);
 	        var titleObject = new ChooseButton(_x, 150, titleWidth, titleHeight, data, "Key " + Std.string(i));    		    			 			
     		titleTeam.add(titleObject);	    		
 	    }
