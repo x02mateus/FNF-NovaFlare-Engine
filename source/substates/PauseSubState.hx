@@ -144,9 +144,9 @@ class PauseSubState extends MusicBeatSubstate
 	
 		blackback = new FlxSprite(0, 0).makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
 		add(blackback);
-		blackback.alpha = 0;
-		if (moveType == 0) blackbackTween = FlxTween.tween(blackback, {alpha: 0.5}, 0.75, {ease: FlxEase.quartOut});
-	
+		blackback.alpha = moveType == 0 ? 0.5 : 0;
+		blackbackTween = FlxTween.tween(blackback, {alpha: 0.5}, 0.75, {ease: FlxEase.quartOut});	
+	    
 		backShadow = new FlxSprite(-800).loadGraphic(Paths.image(filePath + 'backShadow'));
 		add(backShadow);
 		backShadow.updateHitbox();
@@ -159,6 +159,7 @@ class PauseSubState extends MusicBeatSubstate
 	
 		front = new FlxSprite(-800).loadGraphic(Paths.image(filePath + 'front'));
 		add(front);
+		front.antialiasing = ClientPrefs.data.antialiasing;
 		front.updateHitbox();
 		frontTween = FlxTween.tween(front, {x: 0}, 1.3, {ease: FlxEase.quartOut});
 	
