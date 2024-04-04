@@ -803,7 +803,7 @@ class PauseSubState extends MusicBeatSubstate
 		}
 	}
 	
-	function closeMenu(endEvent, backTween:Bool = true) {
+	function closeMenu(endEvent, back_Tween:Bool = true) {
 		for (i in optionsBars)
 			FlxTween.tween(i, {x: -1000}, 0.5, {ease: FlxEase.quartIn});
 		
@@ -836,7 +836,7 @@ class PauseSubState extends MusicBeatSubstate
 		
 		stayinMenu = 'isChanging';
 		
-		FlxG.sound.play(Paths.sound('confirmMenu'), 0.4);			   
+		FlxG.sound.play(Paths.sound('confirmMenu'), 0.4);
 		
 		if (blackbackTween != null && backShadowTween != null && backTween != null && frontTween != null){
 			blackbackTween.cancel();
@@ -845,7 +845,7 @@ class PauseSubState extends MusicBeatSubstate
 			frontTween.cancel();
 		}
 		
-		if (backTween) blackbackTween = FlxTween.tween(blackback, {alpha: 0}, 0.75, {ease: FlxEase.quartOut});
+		if (back_Tween) blackbackTween = FlxTween.tween(blackback, {alpha: 0}, 0.75, {ease: FlxEase.quartOut});
 		backShadowTween = FlxTween.tween(backShadow, {x: -800}, 0.85, {ease: FlxEase.quartIn});
 		backTween = FlxTween.tween(back, {x: -800}, 0.85, {ease: FlxEase.quartIn});
 		frontTween = FlxTween.tween(front, {x: -800}, 0.75, {ease: FlxEase.quartIn});		
