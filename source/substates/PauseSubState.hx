@@ -136,11 +136,10 @@ class PauseSubState extends MusicBeatSubstate
 				}
 				else pauseMusic.loadEmbedded(Paths.music(songName), true, true);
 			}
-		} catch(e:Dynamic) {}				
-		FlxTween.tween(FlxG.sound.music, {volume: 1}, 0.8);
+		} catch(e:Dynamic) {}		
 		pauseMusic.play(false, FlxG.random.int(0, Std.int(pauseMusic.length / 2)));
         pauseMusic.volume = moveType != 0 ? OptionsSubstate.pauseMusic.volume : 0;
-		pauseMusic.time = moveType != 0 ? OptionsSubstate.pauseMusic.time : 0;
+		pauseMusic.time = moveType != 0 ? OptionsSubstate.pauseMusic.time : FlxG.random.int(0, Std.int(pauseMusic.length / 2);
 		
 		FlxG.sound.list.add(pauseMusic);
 	
@@ -412,6 +411,8 @@ class PauseSubState extends MusicBeatSubstate
 		#end
 		
 		cameras = [FlxG.cameras.list[FlxG.cameras.list.length - 1]];
+		
+		moveType = 0;
 		
 		super.create();
 		
