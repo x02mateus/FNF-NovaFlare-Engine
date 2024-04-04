@@ -38,7 +38,7 @@ class CopyState extends MusicBeatState
 		if (maxLoopTimes > 0)
 		{
 			shouldCopy = true;
-			SUtil.showPopUp("Seems like you have some missing files that are necessary to run the game\nPress OK to begin the copy process", "Notice!");
+			SUtil.showPopUp("Seems like you have some missing files that are necessary to run the game\nPress OK to begin the copy process\nyou can close it at option\n", "Notice!");
 
 			add(new FlxSprite(0, 0).makeGraphic(FlxG.width, FlxG.height, 0xffcaff4d));
 
