@@ -11,6 +11,7 @@ import states.FreeplayState;
 import states.StoryMenuState;
 
 import options.OptionsState;
+import options.OptionsSubstate;
 
 import flixel.util.FlxStringUtil;
 import flixel.addons.transition.FlxTransitionableState;
@@ -135,11 +136,12 @@ class PauseSubState extends MusicBeatSubstate
 				}
 				else pauseMusic.loadEmbedded(Paths.music(songName), true, true);
 			}
-		} catch(e:Dynamic) {}
-		pauseMusic.volume = 0;
+		} catch(e:Dynamic) {}				
 		FlxTween.tween(FlxG.sound.music, {volume: 1}, 0.8);
 		pauseMusic.play(false, FlxG.random.int(0, Std.int(pauseMusic.length / 2)));
-
+        pauseMusic.volume = moveType == 0 ? OptionsSubstatepauseMusic.volume : 0;
+		pauseMusic.time = moveType == 0 ? OptionsSubstate.pauseMusic.time : 0;
+		
 		FlxG.sound.list.add(pauseMusic);
 	
 		blackback = new FlxSprite(0, 0).makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
