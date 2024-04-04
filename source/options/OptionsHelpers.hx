@@ -3,8 +3,6 @@ package options;
 import sys.FileSystem;
 import sys.io.File;
 
-import options.Option;
-
 class OptionsHelpers
 {
     public static var languageArray = ["English", "简体中文", "繁體中文"];
@@ -13,7 +11,7 @@ class OptionsHelpers
     public static var memoryTypeArray = ["Usage", "Reserved", "Current", "Large"];
     public static var TimeBarArray = ['Time Left', 'Time Elapsed', 'Song Name', 'Disabled'];
     public static var PauseMusicArray = ['None', 'Breakfast', 'Tea Time'];
-    public static var fileLoadArray = ["NovaFlare Engine", "NF Engine", "PsychEngine", "OS Engine", "TG Engine", "SB Engine", "JS Engine"];
+    public static var fileLoadArray = ["NovaFlare Engine", "NF Engine", "PsychEngine", "OS Engine", "TG Engine", "SB Engine"];
     static public function setNoteSkin()
     {
         var noteSkins:Array<String> = [];

@@ -2,14 +2,6 @@ package options;
 
 import substates.PauseSubState;
 
-import options.Option;
-import options.OptionsState;
-import options.OptionsHelpers;
-import options.base.ControlsSubState;
-import options.base.NoteOffsetState;
-import options.base.NotesSubState;
-import options.base.ControlsSubState;
-
 import mobile.substates.MobileControlSelectSubState;
 import mobile.substates.MobileExtraControl;
 
@@ -21,7 +13,6 @@ import objects.StrumNote;
 
 import flixel.addons.transition.FlxTransitionableState;
 import flixel.input.gamepad.FlxGamepad;
-import flixel.addons.display.FlxGridOverlay;
 import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.math.FlxMath;
 import flixel.text.FlxText;
@@ -92,9 +83,9 @@ class OptionsSubstate extends MusicBeatSubstate
 		#end
 		
 		if(ClientPrefs.data.pauseMusic != 'None'){
-			FlxG.sound.playMusic(Paths.music(Paths.formatToSongPath(ClientPrefs.data.pauseMusic)), pauseMusic.volume);
+			FlxG.sound.playMusic(Paths.music(Paths.formatToSongPath(ClientPrefs.data.pauseMusic)), PauseSubState.pauseMusic.volume);
 			FlxTween.tween(FlxG.sound.music, {volume: 1}, 0.8);
-			FlxG.sound.music.time = pauseMusic.time;
+			FlxG.sound.music.time = PauseSubState.pauseMusic.time;
 		}
 		
 		options = [

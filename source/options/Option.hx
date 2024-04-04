@@ -6,8 +6,6 @@ import backend.MusicBeatState;
 
 import flixel.addons.transition.FlxTransitionableState;
 
-import options.OptionsHelpers;
-
 import shaders.ColorblindFilter;
 
 import objects.screen.FPS;
@@ -2052,8 +2050,7 @@ class WaterMarkScale extends Option
 	override function change()
 	{
 	    if(Main.watermark != null) {
-		    Main.watermark.scaleX = Main.watermark.scaleY = ClientPrefs.data.WatermarkScale;
-		    Main.watermark.y = Lib.current.stage.stageHeight - 5 - ClientPrefs.data.WatermarkScale * Main.watermark.bitmapData.height;
+		    Main.watermark.scaleX = Main.watermark.scaleY = ClientPrefs.data.WatermarkScale;		    
 		}
 	}
 }
