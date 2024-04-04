@@ -72,6 +72,8 @@ class OptionsSubstate extends MusicBeatSubstate
 
 	public var descText:FlxText;
 	public var descBack:FlxSprite;
+	
+	public static var pauseMusic:FlxSound;
     
 	override function create()
 	{
@@ -79,11 +81,22 @@ class OptionsSubstate extends MusicBeatSubstate
 		DiscordClient.changePresence("Options Menu", null);
 		#end
 		
-		if(ClientPrefs.data.pauseMusic != 'None'){
-			FlxG.sound.playMusic(Paths.music(Paths.formatToSongPath(ClientPrefs.data.pauseMusic)), PauseSubState.pauseMusic.volume);
-			FlxTween.tween(FlxG.sound.music, {volume: 1}, 0.8);
-			FlxG.sound.music.time = PauseSubState.pauseMusic.time;
-		}
+		pauseMusic = new FlxSound();
+		try
+		{
+			if (songName == null || songName.toLowerCase() != 'none')
+			{
+				if(songName == null)
+				{
+					var path:String = Paths.formatToSongPath(ClientPrefs.data.pauseMusic);
+					if(path.toLowerCase() != 'none')
+						pauseMusic.loadEmbedded(Paths.music(Paths.formatToSongPath(ClientPrefs.data.pauseMusic)), true, true);
+				}
+				else pauseMusic.loadEmbedded(Paths.music(songName), true, true);
+			}
+		} catch(e:Dynamic) {}
+		pauseMusic.volume = PauseSubState.pauseMusic.volume;
+		pauseMusic.time = PauseSubState.pauseMusic.time;
 		
 		options = [
 			new OptionCata(50, 40, OptionsName.setGameplay(), [								
@@ -344,7 +357,8 @@ class OptionsSubstate extends MusicBeatSubstate
 	 
 	override function update(elapsed:Float)
 	{	    
-	    
+	    if (pauseMusic.volume < 0.5)
+			pauseMusic.volume += 0.01 * elapsed;
 		super.update(elapsed);
 
 		for (c in options) {
@@ -369,9 +383,7 @@ class OptionsSubstate extends MusicBeatSubstate
         		selectedOption = selectedCat.options[0];
         		selectedOptionIndex = 0;
         		
-        		selectedOption.change();
-        		
-        		
+        		selectedOption.change();       		
         		
         		FlxG.sound.play(Paths.sound('scrollMenu'), 0.6);
 			}
