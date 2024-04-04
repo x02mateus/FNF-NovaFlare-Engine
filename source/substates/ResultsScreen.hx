@@ -114,7 +114,16 @@ class ResultsScreen extends MusicBeatSubstate
 		modsBG.alpha = 0;
 		add(modsBG);		
 		
-		modsMenu = new FlxSprite(20, 20).loadGraphic(Paths.image('menuBG'));		
+		var filesLoad:String = null;
+		for (folder in Mods.directoriesWithFile(Paths.getSharedPath(), 'data/$songName/')){
+		    if (FileSystem.exists(folder + 'resultBG.png')){
+		        filesLoad = folder + 'resultBG.png';
+		        break;
+		    }
+		}
+		if (filesLoad == null) filesLoad = Paths.image('menuBG');		
+			
+		modsMenu = new FlxSprite(20, 20).loadGraphic(filesLoad);		
 		modsMenu.scale.x = 600 / modsMenu.width;
 		modsMenu.scale.y = 338 / modsMenu.height;
 		modsMenu.offset.x = 0;
@@ -624,7 +633,7 @@ class ResultsScreen extends MusicBeatSubstate
     		loadLeft.setGraphicSize(FlxG.width, FlxG.height);
     		loadLeft.updateHitbox();
 		
-    		WaterMark = new FlxText(isTransIn ? 50 : -1230, 720 - 50 - 50 * 2, 0, 'NF ENGINE V1.1.0', 50);
+    		WaterMark = new FlxText(isTransIn ? 50 : -1230, 720 - 50 - 50 * 2, 0, 'NF ENGINE V1.1.1', 50);
     		WaterMark.scrollFactor.set();
     		WaterMark.setFormat(Assets.getFont("assets/fonts/loadText.ttf").fontName, 50, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
     		WaterMark.antialiasing = ClientPrefs.data.antialiasing;
@@ -683,7 +692,7 @@ class ResultsScreen extends MusicBeatSubstate
     		loadAlpha.setGraphicSize(FlxG.width, FlxG.height);
     		loadAlpha.updateHitbox();
 		
-    		WaterMark = new FlxText( 50, 720 - 50 - 50 * 2, 0, 'NF ENGINE V1.1.0', 50);
+    		WaterMark = new FlxText( 50, 720 - 50 - 50 * 2, 0, 'NF ENGINE V1.1.1', 50);
     		WaterMark.scrollFactor.set();
     		WaterMark.setFormat(Assets.getFont("assets/fonts/loadText.ttf").fontName, 50, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
     		WaterMark.antialiasing = ClientPrefs.data.antialiasing;
