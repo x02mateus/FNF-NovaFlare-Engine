@@ -14,6 +14,11 @@ class Watermark extends Bitmap
 		this.y = y;
         this.alpha = Alpha;        
     }
+    
+    private override function __enterFrame(deltaTime:Float):Void
+	{	    	    	    
+	 this.y = Lib.current.stage.stageHeight - 5 - ClientPrefs.data.WatermarkScale * .bitmapData.height;
+    }
 } 
 
 class FPSBG extends Bitmap
