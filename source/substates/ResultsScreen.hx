@@ -115,15 +115,15 @@ class ResultsScreen extends MusicBeatSubstate
 		add(modsBG);		
 		
 		var filesLoad:String = null;
-		for (folder in Mods.directoriesWithFile(Paths.getSharedPath(), 'data/$songName/')){
+		for (folder in Mods.directoriesWithFile(Paths.getSharedPath(), 'data/$game.songName/')){
 		    if (FileSystem.exists(folder + 'resultBG.png')){
-		        filesLoad = folder + 'resultBG.png';
+		        filesLoad = folder + 'resultBG';
 		        break;
 		    }
 		}
-		if (filesLoad == null) filesLoad = Paths.image('menuBG');		
+		if (filesLoad == null) filesLoad = 'menuBG';		
 			
-		modsMenu = new FlxSprite(20, 20).loadGraphic(filesLoad);		
+		modsMenu = new FlxSprite(20, 20).loadGraphic(Paths.image(filesLoad));		
 		modsMenu.scale.x = 600 / modsMenu.width;
 		modsMenu.scale.y = 338 / modsMenu.height;
 		modsMenu.offset.x = 0;
