@@ -142,7 +142,6 @@ class MobileExtraControl extends MusicBeatSubstate
 		if (back){
 		    if (isMain){
 		        ClientPrefs.saveSettings();
-		        FlxG.sound.play(Paths.sound('cancelMenu'));
                 FlxTransitionableState.skipNextTransIn = true;
     			FlxTransitionableState.skipNextTransOut = true;
     			MusicBeatState.switchState(new options.OptionsState());		    
@@ -158,7 +157,7 @@ class MobileExtraControl extends MusicBeatSubstate
             ClientPrefs.data.extraKeyReturn2 = ClientPrefs.defaultData.extraKeyReturn2;
             ClientPrefs.data.extraKeyReturn3 = ClientPrefs.defaultData.extraKeyReturn3;
             ClientPrefs.data.extraKeyReturn4 = ClientPrefs.defaultData.extraKeyReturn4;
-            for (mem in 1...5) updateTitle(mem, false, 0, false);
+            resetTitle();
         }
 	}	        
 	
@@ -205,6 +204,15 @@ class MobileExtraControl extends MusicBeatSubstate
 			    if (changeBG) title.changeColor(FlxColor.BLACK);
 			}
 		}
+	}
+	
+	function resetTitle(){	    
+	    for (i in 0...titleTeam.length)
+		{
+			var title:ChooseButton = titleTeam.members[i];
+			var number = i + 1;
+			title.changeExtraText(Reflect.field(ClientPrefs.data, "extraKeyReturn" + number));
+	    }
 	}
 }
 
