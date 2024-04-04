@@ -615,7 +615,7 @@ class PauseSubState extends MusicBeatSubstate
 					});
 				case 'Continue':
 					closeMenu(
-						function(tmr:FlxTimer) close()
+						function() close()
 					);
 				case 'Restart':
 					restartSong();
@@ -668,7 +668,9 @@ class PauseSubState extends MusicBeatSubstate
 						close();
 					}
 				case 'Leave':
-					restartSong();
+					closeMenu(
+						function(trm:FlxTimer) restartSong()
+					);
 					PlayState.chartingMode = false;
 				case 'Back':
 					for (i in debugBars)
@@ -695,7 +697,7 @@ class PauseSubState extends MusicBeatSubstate
 					PlayState.instance.vocals.volume = 0;
 					moveType = 1;
 					closeMenu(
-						function(tmr:FlxTimer) close()
+						function() close()
 					);
 				case 'Entirety':
 					PlayState.instance.paused = true; // For lua
@@ -744,31 +746,35 @@ class PauseSubState extends MusicBeatSubstate
 				FlxG.sound.play(Paths.sound('cancelMenu'), 0.4);
 				return;
 			}
-			try{
-				var name:String = PlayState.SONG.song;
-				var poop = Highscore.formatSong(name, difficultyCurSelected);
-				PlayState.SONG = Song.loadFromJson(poop, name);
-		   		PlayState.storyDifficulty = difficultyCurSelected;
-				MusicBeatState.resetState();
-				FlxG.sound.music.volume = 0;
-				PlayState.changedDifficulty = true;
-				PlayState.chartingMode = false;
-			} catch(e:Dynamic) {
-				missingText.text = 'ERROR WHILE LOADING CHART: ' + PlayState.SONG.song + '-' + difficultyChoices[difficultyCurSelected];
-				missingText.screenCenter(X);
-				FlxG.sound.play(Paths.sound('cancelMenu'));
-
-				
-				
-				if (missingTextTimer == null && missingTextTween != null) {
-					missingTextTween = FlxTween.tween(missingText, {y: 680}, 0.5, {ease: FlxEase.quartOut});
-					missingTextTimer = new FlxTimer().start(2, function(tmr:FlxTimer) {
-					missingTextTween = FlxTween.tween(missingText, {y: 720}, 0.5, {ease: FlxEase.quartIn});
-						missingTextTimer = null;
-						missingTextTween = null;
-					}, 1);
+			
+			closeMenu(
+			function(trm:FlxTimer) {
+				try{
+					var name:String = PlayState.SONG.song;
+					var poop = Highscore.formatSong(name, difficultyCurSelected);
+					PlayState.SONG = Song.loadFromJson(poop, name);
+			   		PlayState.storyDifficulty = difficultyCurSelected;
+					MusicBeatState.resetState();
+					FlxG.sound.music.volume = 0;
+					PlayState.changedDifficulty = true;
+					PlayState.chartingMode = false;
+				} catch(e:Dynamic) {
+					missingText.text = 'ERROR WHILE LOADING CHART: ' + PlayState.SONG.song + '-' + difficultyChoices[difficultyCurSelected];
+					missingText.screenCenter(X);
+					FlxG.sound.play(Paths.sound('cancelMenu'));
+	
+					
+					
+					if (missingTextTimer == null && missingTextTween != null) {
+						missingTextTween = FlxTween.tween(missingText, {y: 680}, 0.5, {ease: FlxEase.quartOut});
+						missingTextTimer = new FlxTimer().start(2, function(tmr:FlxTimer) {
+						missingTextTween = FlxTween.tween(missingText, {y: 720}, 0.5, {ease: FlxEase.quartIn});
+							missingTextTimer = null;
+							missingTextTween = null;
+						}, 1);
+					}
 				}
-			}
+			});
 		}
 	}
 	
@@ -779,6 +785,18 @@ class PauseSubState extends MusicBeatSubstate
 		for (i in optionsAlphabet)
 			FlxTween.tween(i, {x: -1000}, 0.5, {ease: FlxEase.quartIn});
 			
+		for (i in difficultyBars)
+			FlxTween.tween(i, {x: -1000}, 0.5, {ease: FlxEase.quartIn});
+				
+		for (i in difficultyAlphabet)
+			FlxTween.tween(i, {x: -1000}, 0.5, {ease: FlxEase.quartIn});
+		
+		for (i in optionsOptionsBars)
+			FlxTween.tween(i, {x: -1000}, 0.5, {ease: FlxEase.quartIn});
+						
+		for (i in optionsOptionsAlphabet)
+			FlxTween.tween(i, {x: -1000}, 0.5, {ease: FlxEase.quartIn});
+						
 		var curText = 0;
 		
 		if (menuTextStart != null) menuTextStart.cancel();
