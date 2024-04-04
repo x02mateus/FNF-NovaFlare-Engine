@@ -91,6 +91,12 @@ class OptionsSubstate extends MusicBeatSubstate
 		DiscordClient.changePresence("Options Menu", null);
 		#end
 		
+		if(ClientPrefs.data.pauseMusic != 'None'){
+			FlxG.sound.playMusic(Paths.music(Paths.formatToSongPath(ClientPrefs.data.pauseMusic)), pauseMusic.volume);
+			FlxTween.tween(FlxG.sound.music, {volume: 1}, 0.8);
+			FlxG.sound.music.time = pauseMusic.time;
+		}
+		
 		options = [
 			new OptionCata(50, 40, OptionsName.setGameplay(), [								
                 new ResultsScreen('If checked, Open Results Screen at end song.'),                          
