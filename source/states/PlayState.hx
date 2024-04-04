@@ -3009,6 +3009,11 @@ class PlayState extends MusicBeatState
 				RecalculateRating(false);
 			}
 		}
+		
+		//---------------------------------
+		
+		if (!ClientPrefs.data.showComboNum && !ClientPrefs.data.showRating)
+		return;
 
 		var uiPrefix:String = "";
 		var uiSuffix:String = '';
@@ -3021,10 +3026,12 @@ class PlayState extends MusicBeatState
 			antialias = !isPixelStage;
 		}
 		
+		rateSpr_S.visible = ClientPrefs.data.showRating && showRating
 		rateSpr_S.loadGraphic(Paths.image(uiPrefix + daRating.image + uiSuffix));
 		rateSpr_S.antialiasing = antialias;		
         
-        //comboSpr_S.loadGraphic(Paths.image(uiPrefix + 'combo' + uiSuffix));
+        comboSpr_S.visible = showCombo;
+        comboSpr_S.loadGraphic(Paths.image(uiPrefix + 'combo' + uiSuffix));
 		comboSpr_S.antialiasing = antialias;		
 		
 		var scale:Float = 0;
@@ -3052,7 +3059,10 @@ class PlayState extends MusicBeatState
 		if(combo >= 1000) {
 			seperatedScore.push(Math.floor(combo / 1000) % 10);
 			startShow = 0;
+		}else{
+		    numItems.members[0].alpha = 0.00001;
 		}
+		
 		seperatedScore.push(Math.floor(combo / 100) % 10);
 		seperatedScore.push(Math.floor(combo / 10) % 10);
 		seperatedScore.push(combo % 10);
@@ -3060,6 +3070,7 @@ class PlayState extends MusicBeatState
 		for (comboNum in 0...seperatedScore.length)
 		{
 		    var numScore:FlxSprite = numItems.members[comboNum + startShow];
+		    numScore.visible = ClientPrefs.data.showComboNum && showComboNum;
 			numScore.loadGraphic(Paths.image(uiPrefix + 'num' + seperatedScore[comboNum] + uiSuffix));
 			if (ClientPrefs.data.comboColor) numScore.color = daRating.color;
 			
