@@ -158,6 +158,7 @@ class OptionsState extends MusicBeatState
 			    new AndroidControls('Change your android control.'),
 			    new ExtraControls('Change android extra key return'),
 			    new ExtraControlsNum('How many extra key need'),
+			    #if desktop new MoblieControl('For computers that support touch screens'), #end
 			    new ControlsAlpha('Virtual pad alpha at state.'),
             	new PlayControlsAlpha('android control alpha for play.'),
 			    new HitboxLocation('Hitbox extra key location.'),
@@ -1049,6 +1050,14 @@ class OptionsState extends MusicBeatState
 	
 	public function changeControlAlpha(){
 	    virtualPad.alpha = ClientPrefs.data.controlsAlpha;
+	}
+	
+	public function controlCheck(){
+	    removeVirtualPad();
+	    if (ClientPrefs.data.needMobileControl){
+	        addVirtualPad(OptionStateC, OptionStateC);        
+            addVirtualPadCamera(false);
+        }
 	}
 }
 

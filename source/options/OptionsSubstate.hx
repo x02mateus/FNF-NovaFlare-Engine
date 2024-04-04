@@ -705,11 +705,7 @@ class OptionsSubstate extends MusicBeatSubstate
         
             case 0:
                 ClientPrefs.data.resultsScreen = ClientPrefs.defaultData.resultsScreen;
-            case 1:
-                ClientPrefs.data.noteSkin = ClientPrefs.defaultData.noteSkin;
-                ClientPrefs.data.noteRGB = ClientPrefs.defaultData.noteRGB;
-                ClientPrefs.data.splashSkin = ClientPrefs.defaultData.splashSkin;
-                ClientPrefs.data.splashRGB = ClientPrefs.defaultData.splashRGB;
+            case 1:                
                 ClientPrefs.data.hitsoundVolume = ClientPrefs.defaultData.hitsoundVolume;
                 ClientPrefs.data.camZooms = ClientPrefs.defaultData.camZooms;
                 ClientPrefs.data.scoreZoom = ClientPrefs.defaultData.scoreZoom;
@@ -722,13 +718,9 @@ class OptionsSubstate extends MusicBeatSubstate
                 ClientPrefs.data.showRating = ClientPrefs.defaultData.showRating;
                 ClientPrefs.data.showSplash = ClientPrefs.defaultData.showSplash;
                 ClientPrefs.data.splashAlpha = ClientPrefs.defaultData.splashAlpha;
-                ClientPrefs.data.healthBarAlpha = ClientPrefs.defaultData.healthBarAlpha;
-                ClientPrefs.data.oldHealthBarVersion = ClientPrefs.defaultData.oldHealthBarVersion;
-                ClientPrefs.data.timeBarType = ClientPrefs.defaultData.timeBarType;
-            case 2:
-                ClientPrefs.data.oldHscriptVersion = ClientPrefs.defaultData.oldHscriptVersion;
-                ClientPrefs.data.pauseMusic = ClientPrefs.defaultData.pauseMusic;
-                ClientPrefs.data.pauseButton = ClientPrefs.defaultData.pauseButton;
+                ClientPrefs.data.healthBarAlpha = ClientPrefs.defaultData.healthBarAlpha;                
+            case 2:                
+                ClientPrefs.data.pauseMusic = ClientPrefs.defaultData.pauseMusic;               
                 ClientPrefs.data.checkForUpdates = ClientPrefs.defaultData.checkForUpdates;
                 ClientPrefs.data.discordRPC = ClientPrefs.defaultData.discordRPC;
                 ClientPrefs.data.gameOverVibration = ClientPrefs.defaultData.gameOverVibration;
@@ -764,16 +756,7 @@ class OptionsSubstate extends MusicBeatSubstate
                 ClientPrefs.data.showExtra = ClientPrefs.defaultData.showExtra;          
                 ClientPrefs.data.memoryType = ClientPrefs.defaultData.memoryType;                
                 ClientPrefs.data.showWatermark = ClientPrefs.defaultData.showWatermark;
-                ClientPrefs.data.WatermarkScale = ClientPrefs.defaultData.WatermarkScale;
-            case 8:
-                ClientPrefs.data.safeFrames = ClientPrefs.defaultData.safeFrames;
-                ClientPrefs.data.ratingOffset = ClientPrefs.defaultData.ratingOffset;
-                ClientPrefs.data.marvelousWindow = ClientPrefs.defaultData.marvelousWindow;
-                ClientPrefs.data.sickWindow = ClientPrefs.defaultData.sickWindow;
-                ClientPrefs.data.goodWindow = ClientPrefs.defaultData.goodWindow;
-                ClientPrefs.data.badWindow = ClientPrefs.defaultData.badWindow;     
-                ClientPrefs.data.marvelousRating = ClientPrefs.defaultData.marvelousRating;          
-                ClientPrefs.data.marvelousSprite = ClientPrefs.defaultData.marvelousSprite; 
+                ClientPrefs.data.WatermarkScale = ClientPrefs.defaultData.WatermarkScale;            
         }
         
         ClientPrefs.saveSettings();

@@ -1201,7 +1201,7 @@ class CustomFadeSound extends Option
 	private override function updateDisplay():String
 	{		    
 	    var data:Float = ClientPrefs.data.CustomFadeSound * 100;
-		return "CustomFadeSound: < " + data + "% >";
+		return "Custom Fade Sound: < " + data + "% >";
 	}
 }
 
@@ -1250,20 +1250,6 @@ class SkipTitleVideo extends Option
 //----------------------------------------------------------------
 //----------------------------------------------------------------
 //大类6
-/*
-class ControllerMode extends Option
-{
-	public function new(desc:String)
-	{
-		super();
-	}
-
-	override function press()
-	{		
-		OptionsState.openSub(options.base.ControlsSubState());		
-    }
-}
-*/
 
 class KeyboardControls extends Option
 {
@@ -1353,6 +1339,32 @@ class ExtraControlsNum extends Option
 	{
 		return "Mobile Extra Controls: < " + ClientPrefs.data.extraKey + " key >";
 	}	
+}
+
+class MoblieControl extends Option
+{
+	public function new(desc:String)
+	{
+		super();
+
+		description = desc;
+		acceptValues = true;
+	}
+
+	override function press()
+	{
+		ClientPrefs.data.needMobileControl = !ClientPrefs.data.needMobileControl;
+		display = updateDisplay();
+    }
+    
+    override function change(){
+        OptionsState.instance.controlCheck();        
+    }
+    
+	private override function updateDisplay():String
+	{
+		return "Mobile Control: " + (ClientPrefs.data.needMobileControl ? enable_O : disable_O);
+	}
 }
 
 class ControlsAlpha extends Option
@@ -2294,16 +2306,11 @@ class MarvelousSprite extends Option
 		description = desc;
 	}
 
-	override function left()
+	override function press()
 	{
 		ClientPrefs.data.marvelousSprite = !ClientPrefs.data.marvelousSprite;
 		display = updateDisplay();
-    }
-    
-    override function right()
-	{
-		left();
-    }
+    }    
 
 	private override function updateDisplay():String
 	{
