@@ -216,9 +216,7 @@ class OptionsSubstate extends MusicBeatSubstate
 		descText.borderSize = 2;
 
 		add(descBack);
-		add(descText);
-		
-		addNote();
+		add(descText);		
         
 		isInMain = true;		
 		
@@ -232,8 +230,7 @@ class OptionsSubstate extends MusicBeatSubstate
         addVirtualPad(OptionStateC, OptionStateC);        
         addVirtualPadCamera(false);
         
-		virtualPad.y -= 75;
-		
+		virtualPad.y -= 75;		
 		
 		cameras = [FlxG.cameras.list[FlxG.cameras.list.length - 1]];		
 		
@@ -375,7 +372,7 @@ class OptionsSubstate extends MusicBeatSubstate
         		
         		selectedOption.change();
         		
-        		specialCheck();
+        		
         		
         		FlxG.sound.play(Paths.sound('scrollMenu'), 0.6);
 			}
@@ -550,7 +547,7 @@ class OptionsSubstate extends MusicBeatSubstate
 							}							
 						}
 						
-						specialCheck();
+						
 						
 						moveCheak();
 
@@ -594,7 +591,7 @@ class OptionsSubstate extends MusicBeatSubstate
 								}
 						}
 						
-                        specialCheck();
+                        
                         
                         moveCheak();
                         
@@ -649,7 +646,7 @@ class OptionsSubstate extends MusicBeatSubstate
 						    isInMain = true;
 						}
 						
-						specialCheck();
+						
 						
 						if (selectedCat.optionObjects != null){ //别删这个if包含的代码，会出问题
 							for (i in selectedCat.optionObjects.members)
@@ -707,13 +704,6 @@ class OptionsSubstate extends MusicBeatSubstate
         switch(selectedCatIndex){
         
             case 0:
-                ClientPrefs.data.downScroll = ClientPrefs.defaultData.downScroll;
-                ClientPrefs.data.middleScroll = ClientPrefs.defaultData.middleScroll;
-                ClientPrefs.data.filpChart = ClientPrefs.defaultData.filpChart;
-                ClientPrefs.data.guitarHeroSustains = ClientPrefs.defaultData.guitarHeroSustains;
-                ClientPrefs.data.fixLNL = ClientPrefs.defaultData.fixLNL;
-                ClientPrefs.data.ghostTapping = ClientPrefs.defaultData.ghostTapping;
-                ClientPrefs.data.noReset = ClientPrefs.defaultData.noReset;
                 ClientPrefs.data.resultsScreen = ClientPrefs.defaultData.resultsScreen;
             case 1:
                 ClientPrefs.data.noteSkin = ClientPrefs.defaultData.noteSkin;
@@ -743,8 +733,7 @@ class OptionsSubstate extends MusicBeatSubstate
                 ClientPrefs.data.discordRPC = ClientPrefs.defaultData.discordRPC;
                 ClientPrefs.data.gameOverVibration = ClientPrefs.defaultData.gameOverVibration;
                 ClientPrefs.data.screensaver = ClientPrefs.defaultData.screensaver;                                
-            case 3:
-                ClientPrefs.data.playOpponent = ClientPrefs.defaultData.playOpponent;
+            case 3:                
                 ClientPrefs.data.opponentCodeFix = ClientPrefs.defaultData.opponentCodeFix;
                 ClientPrefs.data.botOpponentFix = ClientPrefs.defaultData.botOpponentFix;
                 ClientPrefs.data.HealthDrainOPPO = ClientPrefs.defaultData.HealthDrainOPPO;
@@ -754,13 +743,9 @@ class OptionsSubstate extends MusicBeatSubstate
                 ClientPrefs.data.CustomFadeSound = ClientPrefs.defaultData.CustomFadeSound;
                 ClientPrefs.data.CustomFadeText = ClientPrefs.defaultData.CustomFadeText;
                 ClientPrefs.data.skipTitleVideo = ClientPrefs.defaultData.skipTitleVideo;                
-            case 5:
-                ClientPrefs.data.extraKey = ClientPrefs.defaultData.extraKey;
+            case 5:                
                 ClientPrefs.data.controlsAlpha = ClientPrefs.defaultData.controlsAlpha;
-                ClientPrefs.data.playControlsAlpha = ClientPrefs.defaultData.playControlsAlpha;
-                ClientPrefs.data.hitboxLocation = ClientPrefs.defaultData.hitboxLocation;     
-                ClientPrefs.data.hitboxSkin = ClientPrefs.defaultData.hitboxSkin;
-                ClientPrefs.data.dynamicColors = ClientPrefs.defaultData.dynamicColors;
+                ClientPrefs.data.playControlsAlpha = ClientPrefs.defaultData.playControlsAlpha;                                
             case 6:
                 ClientPrefs.data.framerate = ClientPrefs.defaultData.framerate;
                 ClientPrefs.data.colorblindMode = ClientPrefs.defaultData.colorblindMode;
@@ -841,155 +826,6 @@ class OptionsSubstate extends MusicBeatSubstate
             }
         }
 	}	
-		
-	public function openSub(state:String){   
-        persistentUpdate = false;
-        removeVirtualPad();
-	    
-	    switch(state){
-	        case 'ControlsSubState':
-	            FlxG.state.openSubState(new ControlsSubState());	
-	        case 'MobileControl':
-	            FlxG.state.openSubState(new MobileControlSelectSubState());		
-	        case 'NotesSubState':
-	            FlxG.state.openSubState(new NotesSubState());		
-	        case 'NoteOffsetState':
-	            MusicBeatState.switchState(new NoteOffsetState());	
-	        case 'MobileExtraControl':
-	            FlxG.state.openSubState(new MobileExtraControl());	
-	    }
-	}
-	
-	function addNote(){
-	
-	    camNote = new FlxCamera();
-		camNote.bgColor.alpha = 0;
-		FlxG.cameras.add(camNote, false);
-		
-		camNote.width = 300;
-		camNote.height = 160;		
-		camNote.x = background.x + background.width - 300;
-		camNote.y = background.y + 64 * 2;
-		
-		noteBG = new FlxSprite(300, 0).makeGraphic(300, 160, FlxColor.BLACK);
-		noteBG.alpha = 0.4;
-		noteBG.scrollFactor.set();
-		add(noteBG);
-		noteBG.cameras = [camNote];
-		
-		PlayState.stageUI = "normal";
-		
-		strumNote = new FlxTypedGroup<StrumNote>();
-		for (i in 0...Note.colArray.length)
-		{
-			var note:StrumNote = new StrumNote(300 + (300 / Note.colArray.length) * i, 0, i, 0);
-			note.scale.x = note.scale.y = 0.5;
-    		note.centerOffsets();
-			note.centerOrigin();
-			note.updateHitbox();
-			note.playAnim('static');
-			strumNote.add(note);
-		}
-		add(strumNote);
-		strumNote.cameras = [camNote];
-		
-		normalNote = new FlxTypedGroup<Note>();
-		for (i in 0...Note.colArray.length)
-		{
-			var note:Note = new Note(0, i);
-			note.x = 300 + (300 / Note.colArray.length) * i;
-			note.y = 75;
-			note.scale.x = note.scale.y = 0.5;
-			note.centerOffsets();
-			note.centerOrigin();
-			note.updateHitbox();
-			note.rgbShader.enabled = ClientPrefs.data.noteRGB;
-			note.animation.play(Note.colArray[i] + 'Scroll');
-			normalNote.add(note);
-		}
-		add(normalNote);
-		normalNote.cameras = [camNote];				        	
-	}
-	
-	public function changeNoteSkin()
-	{
-		var skin:String = Note.defaultNoteSkin;
-		var customSkin:String = skin + Note.getNoteSkinPostfix();
-		if (Paths.fileExists('images/NOTE_assets.png', IMAGE) && ClientPrefs.data.noteSkin == ClientPrefs.defaultData.noteSkin) skin = "NOTE_assets";
-		else if (Paths.fileExists('images/$customSkin.png', IMAGE)) skin = customSkin;
-
-		for (i in 0...Note.colArray.length)
-        {
-            var note = normalNote.members[i];
-    		note.texture = skin;
-    		note.reloadNote();
-    		note.animation.play(Note.colArray[i] + 'Scroll');
-    		note.rgbShader.enabled = ClientPrefs.data.noteRGB;
-    		note.scale.x = note.scale.y = 0.5;
-    		note.alpha = 1;
-    		note.centerOffsets();
-			note.centerOrigin();
-    		note.updateHitbox();
-    	}
-		
-        for (i in 0...Note.colArray.length)
-        {
-            var note = strumNote.members[i];
-    		note.texture = skin; //Load texture and anims
-    		note.reloadNote();
-    		note.playAnim('static');    		
-    		note.scale.x = note.scale.y = 0.5;
-    		note.alpha = 1;
-    		note.centerOffsets();
-			note.centerOrigin();
-    		note.updateHitbox();
-    	}
-	}
-	
-	var typeCheck:Bool = false;
-	function specialCheck(){	    
-	    if (!isInMain && selectedCatIndex == 1 && selectedOptionIndex == 1){    	
-            typeCheck = true;        	    
-			for (i in 0...Note.colArray.length)
-    		{
-    			var note:StrumNote = strumNote.members[i];
-    			  		
-    			if(notesTween[i] != null) notesTween[i].cancel();        			
-    				notesTween[i] = FlxTween.tween(note, {x: 0 + (300 / Note.colArray.length) * i}, 0.3, {ease: FlxEase.quadInOut});             			 			
-    		}   		
-    		
-    		for (i in 0...Note.colArray.length)
-    		{
-    			var note:Note = normalNote.members[i];
-    			note.rgbShader.enabled = ClientPrefs.data.noteRGB;  
-    			if(notesTween[i + 4] != null) notesTween[i + 4].cancel();        			
-    				notesTween[i + 4] = FlxTween.tween(note, {x: 0 + (300 / Note.colArray.length) * i}, 0.3, {ease: FlxEase.quadInOut});        			
-    		}   		
-    		
-    		if(notesTween[10] != null) notesTween[10].cancel();        			
-    		notesTween[10] = FlxTween.tween(noteBG, {x: 0}, 0.3, {ease: FlxEase.quadInOut});        			
-	    }else{	       	        	        
-	        if (typeCheck){
-        		for (i in 0...Note.colArray.length)
-        		{
-        			var note:StrumNote = strumNote.members[i];
-        			if(notesTween[i] != null) notesTween[i].cancel();        			
-        				notesTween[i] = FlxTween.tween(note, {x: 310 + (300 / Note.colArray.length) * i}, 0.3, {ease: FlxEase.quadInOut});        			
-        		}   		
-        		
-        		for (i in 0...Note.colArray.length)
-        		{
-        			var note:Note = normalNote.members[i];
-        			if(notesTween[i + 4] != null) notesTween[i + 4].cancel();        			
-        				notesTween[i + 4] = FlxTween.tween(note, {x: 310 + (300 / Note.colArray.length) * i}, 0.3, {ease: FlxEase.quadInOut});        			
-        		}   		
-        		
-        		if(notesTween[10] != null) notesTween[10].cancel();        			
-        		notesTween[10] = FlxTween.tween(noteBG, {x: 310}, 0.3, {ease: FlxEase.quadInOut});        
-    		}    		
-    		typeCheck = false;			
-	    }
-	}
 	
 	public function changeControlAlpha(){
 	    virtualPad.alpha = ClientPrefs.data.controlsAlpha;
