@@ -763,13 +763,6 @@ class OptionsState extends MusicBeatState
         switch(selectedCatIndex){
         
             case 0:
-                ClientPrefs.data.downScroll = ClientPrefs.defaultData.downScroll;
-                ClientPrefs.data.middleScroll = ClientPrefs.defaultData.middleScroll;
-                ClientPrefs.data.filpChart = ClientPrefs.defaultData.filpChart;
-                ClientPrefs.data.guitarHeroSustains = ClientPrefs.defaultData.guitarHeroSustains;
-                ClientPrefs.data.fixLNL = ClientPrefs.defaultData.fixLNL;
-                ClientPrefs.data.ghostTapping = ClientPrefs.defaultData.ghostTapping;
-                ClientPrefs.data.noReset = ClientPrefs.defaultData.noReset;
                 ClientPrefs.data.resultsScreen = ClientPrefs.defaultData.resultsScreen;
             case 1:
                 ClientPrefs.data.noteSkin = ClientPrefs.defaultData.noteSkin;
@@ -941,7 +934,8 @@ class OptionsState extends MusicBeatState
 		for (i in 0...Note.colArray.length)
 		{
 			var note:StrumNote = new StrumNote(300 + (300 / Note.colArray.length) * i, 0, i, 0);
-			note.scale.x = note.scale.y = 0.5;
+			note.scale.x = 150 / note.frameWidth;
+			note.scale.y = 150 / note.frameHeight;
     		note.centerOffsets();
 			note.centerOrigin();
 			note.updateHitbox();
@@ -957,9 +951,11 @@ class OptionsState extends MusicBeatState
 			var note:Note = new Note(0, i);
 			note.x = 300 + (300 / Note.colArray.length) * i;
 			note.y = 75;
-			note.scale.x = note.scale.y = 0.5;
+			note.scale.x = 150 / note.frameWidth;
+			note.scale.y = 150 / note.frameHeight;
 			note.centerOffsets();
 			note.centerOrigin();
+			note.inEditor = true;
 			note.updateHitbox();
 			note.rgbShader.enabled = ClientPrefs.data.noteRGB;
 			note.animation.play(Note.colArray[i] + 'Scroll');
@@ -983,7 +979,8 @@ class OptionsState extends MusicBeatState
     		note.reloadNote();
     		note.animation.play(Note.colArray[i] + 'Scroll');
     		note.rgbShader.enabled = ClientPrefs.data.noteRGB;
-    		note.scale.x = note.scale.y = 0.5;
+    		note.scale.x = 150 / note.frameWidth;
+			note.scale.y = 150 / note.frameHeight;
     		note.alpha = 1;
     		note.centerOffsets();
 			note.centerOrigin();
@@ -996,7 +993,8 @@ class OptionsState extends MusicBeatState
     		note.texture = skin; //Load texture and anims
     		note.reloadNote();
     		note.playAnim('static');    		
-    		note.scale.x = note.scale.y = 0.5;
+    		note.scale.x = 150 / note.frameWidth;
+			note.scale.y = 150 / note.frameHeight;
     		note.alpha = 1;
     		note.centerOffsets();
 			note.centerOrigin();
