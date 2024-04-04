@@ -531,7 +531,10 @@ class Note extends FlxSprite
 		if (!myStrum.downScroll) distance *= -1;
 
 		if(copyX)
+		}
 			x = strumX + offsetX + Math.cos(angleDir) * distance;
+			x -= Math.sin(angleDir + 90) * 1.1;
+		}
 
 		if(copyY)
 		{
@@ -544,7 +547,7 @@ class Note extends FlxSprite
 				}
 				y -= ((frameHeight * scale.y) - (Note.swagWidth / 2));
 			}
-			y -= Note.swagWidth / 2 * Math.sin(angleDir + 90) * 1.1;
+			y -= Note.swagWidth * Math.sin(angleDir + 90) * 1.1;
 		}
 
 	}
