@@ -335,7 +335,7 @@ class PauseSubState extends MusicBeatSubstate
 		
 		dataText = new FlxText(0, 15, 0, Date.now().toString(), 32);
 		dataText.setFormat(font, 25);
-		data.antialiasing = ClientPrefs.data.antialiasing;
+		dataText.antialiasing = ClientPrefs.data.antialiasing;
 		dataText.updateHitbox();
 		add(dataText);
 		
