@@ -54,7 +54,7 @@ class PauseSubState extends MusicBeatSubstate
 	var menuTextStart:FlxTimer;
 	var menuTextTween:Array<FlxTween> = [];
 	
-	var pauseMusic:FlxSound;
+	public static var pauseMusic:FlxSound;
 	public static var songName:String = null;
 	
 	var holdTime:Float = 0;
