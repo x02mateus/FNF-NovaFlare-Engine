@@ -458,7 +458,7 @@ class OptionsState extends MusicBeatState
 
 		anyKey = FlxG.keys.justPressed.ANY || (gamepad != null ? gamepad.justPressed.ANY : false);
 		back = controls.BACK;
-		reset = controls.RESET #if android || virtualPad.buttonC.justPressed #end;
+		reset = controls.RESET || (virtualPad != null && virtualPad.buttonC.justPressed);
 		
 			if (isInMain)
 			{
