@@ -95,7 +95,8 @@ class OptionsSubstate extends MusicBeatSubstate
 				else pauseMusic.loadEmbedded(Paths.music(PauseSubState.songName), true, true);
 			}
 		} catch(e:Dynamic) {}
-		pauseMusic.volume = PauseSubState.pauseMusic.volume;
+		pauseMusic.volume = PauseSubState.pauseMusic.volume;		
+		pauseMusic.play(false, 0);
 		pauseMusic.time = PauseSubState.pauseMusic.time;
 		
 		options = [
@@ -358,7 +359,7 @@ class OptionsSubstate extends MusicBeatSubstate
 	override function update(elapsed:Float)
 	{	    
 	    if (pauseMusic.volume < 0.5)
-			pauseMusic.volume += 0.01 * elapsed;
+		pauseMusic.volume += 0.01 * elapsed;
 		super.update(elapsed);
 
 		for (c in options) {
