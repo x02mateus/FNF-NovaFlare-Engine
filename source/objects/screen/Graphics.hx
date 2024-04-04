@@ -16,8 +16,9 @@ class Watermark extends Bitmap
     }
     
     private override function __enterFrame(deltaTime:Float):Void
-	{	    	    	    
-	 this.y = Lib.current.stage.stageHeight - 5 - ClientPrefs.data.WatermarkScale * .bitmapData.height;
+	{	    	    	
+	    this.x = 5
+	    this.y = Lib.current.stage.stageHeight - 5 - ClientPrefs.data.WatermarkScale * .bitmapData.height;
     }
 } 
 
