@@ -145,7 +145,7 @@ class PauseSubState extends MusicBeatSubstate
 		blackback = new FlxSprite(0, 0).makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
 		add(blackback);
 		blackback.alpha = 0;
-		blackbackTween = FlxTween.tween(blackback, {alpha: 0.5}, 0.75, {ease: FlxEase.quartOut});
+		if (moveType != 0) blackbackTween = FlxTween.tween(blackback, {alpha: 0.5}, 0.75, {ease: FlxEase.quartOut});
 	
 		backShadow = new FlxSprite(-800).loadGraphic(Paths.image(filePath + 'backShadow'));
 		add(backShadow);
@@ -703,12 +703,12 @@ class PauseSubState extends MusicBeatSubstate
 					PlayState.instance.paused = true; // For lua
 					PlayState.instance.vocals.volume = 0;
 					OptionsState.onPlayState = true;
+					MusicBeatState.switchState(new OptionsState());
 					if(ClientPrefs.data.pauseMusic != 'None'){
 						FlxG.sound.playMusic(Paths.music(Paths.formatToSongPath(ClientPrefs.data.pauseMusic)), pauseMusic.volume);
 						FlxTween.tween(FlxG.sound.music, {volume: 1}, 0.8);
 						FlxG.sound.music.time = pauseMusic.time;
-					}
-					MusicBeatState.switchState(new OptionsState());
+					}					
 				case 'Back':
 					for (i in optionsOptionsBars)
 						FlxTween.tween(i, {x: -1000}, 0.5, {ease: FlxEase.quartIn});
