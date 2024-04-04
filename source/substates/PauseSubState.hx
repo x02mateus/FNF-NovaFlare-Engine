@@ -25,7 +25,6 @@ import openfl.utils.Assets;
 
 class PauseSubState extends MusicBeatSubstate
 {
-
 	var filePath:String = 'menuExtend/PauseState/';
 	var font:String = Assets.getFont("assets/fonts/montserrat.ttf").fontName;
 
@@ -122,9 +121,6 @@ class PauseSubState extends MusicBeatSubstate
 
 	override function create()
 	{
-		
-		
-		
 		FlxG.sound.play(Paths.sound('scrollMenu'), 0.4);
 		pauseMusic = new FlxSound();
 		try
@@ -167,7 +163,7 @@ class PauseSubState extends MusicBeatSubstate
 		frontTween = FlxTween.tween(front, {x: 0}, 1.3, {ease: FlxEase.quartOut});
 	
 		backButton = new FlxSprite(1080, 600).loadGraphic(Paths.image(filePath + 'backButton'));
-		add(backButton);
+		//add(backButton);
 		backButton.scale.set(0.45, 0.45);
 		backButton.updateHitbox();
 		backButton.visible = false;
@@ -391,6 +387,8 @@ class PauseSubState extends MusicBeatSubstate
 		cameras = [FlxG.cameras.list[FlxG.cameras.list.length - 1]];
 		
 		super.create();
+		
+		controls.isInSubstate = true;
 	}
 
 	override function update(elapsed:Float) {
@@ -616,7 +614,9 @@ class PauseSubState extends MusicBeatSubstate
 						changeOptions(0);
 					});
 				case 'Continue':
-					close();
+					closeMenu(
+						function(tmr:FlxTimer) close()
+					);
 				case 'Restart':
 					restartSong();
 				case 'Exit':
@@ -691,13 +691,12 @@ class PauseSubState extends MusicBeatSubstate
 		} else if (stayinMenu == 'options') {
 			switch (optionsType[optionsCurSelected]) {
 				case 'Instant':
-					closeMenu(
-					function() {
 					PlayState.instance.paused = true; // For lua
 					PlayState.instance.vocals.volume = 0;
 					moveType = 1;
-					close();
-					});
+					closeMenu(
+						function(tmr:FlxTimer) close()
+					);
 				case 'Entirety':
 					PlayState.instance.paused = true; // For lua
 					PlayState.instance.vocals.volume = 0;
@@ -745,7 +744,6 @@ class PauseSubState extends MusicBeatSubstate
 				FlxG.sound.play(Paths.sound('cancelMenu'), 0.4);
 				return;
 			}
-			
 			try{
 				var name:String = PlayState.SONG.song;
 				var poop = Highscore.formatSong(name, difficultyCurSelected);
