@@ -918,7 +918,7 @@ class OptionsState extends MusicBeatState
 		FlxG.cameras.add(camNote, false);
 		
 		camNote.width = 300;
-		camNote.height = 160;		
+		camNote.height = 150;		
 		camNote.x = background.x + background.width - 300;
 		camNote.y = background.y + 64 * 2;
 		
