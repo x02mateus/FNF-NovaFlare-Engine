@@ -615,7 +615,7 @@ class PauseSubState extends MusicBeatSubstate
 					});
 				case 'Continue':
 					closeMenu(
-						function() close()
+						function(tmr:FlxTimer) close()
 					);
 				case 'Restart':
 					restartSong();
@@ -697,7 +697,7 @@ class PauseSubState extends MusicBeatSubstate
 					PlayState.instance.vocals.volume = 0;
 					moveType = 1;
 					closeMenu(
-						function() close()
+						function(tmr:FlxTimer) close()
 					);
 				case 'Entirety':
 					PlayState.instance.paused = true; // For lua
