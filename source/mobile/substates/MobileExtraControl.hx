@@ -86,6 +86,7 @@ class MobileExtraControl extends MusicBeatSubstate
 		var up = controls.UI_UP_P;
 		var down = controls.UI_DOWN_P;
 		var back = controls.BACK;
+		var reset = reset = controls.RESET || (virtualPad != null && virtualPad.buttonC.justPressed);
 		
 		if (left || right){		   
 		    if (isMain){		        		
@@ -150,6 +151,14 @@ class MobileExtraControl extends MusicBeatSubstate
 		        percent = chooseNum = typeNum = 0;
 		        updateChoose();		    		        
 		    }					          
+        }
+        if (reset){
+            FlxG.sound.play(Paths.sound('cancelMenu'));
+            ClientPrefs.data.extraKeyReturn1 = ClientPrefs.defaultData.extraKeyReturn1;
+            ClientPrefs.data.extraKeyReturn2 = ClientPrefs.defaultData.extraKeyReturn2;
+            ClientPrefs.data.extraKeyReturn3 = ClientPrefs.defaultData.extraKeyReturn3;
+            ClientPrefs.data.extraKeyReturn4 = ClientPrefs.defaultData.extraKeyReturn4;
+            for (mem in 1...5) updateTitle(mem, false, 0, false);
         }
 	}	        
 	
