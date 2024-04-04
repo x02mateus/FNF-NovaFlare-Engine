@@ -544,7 +544,7 @@ class Note extends FlxSprite
 				}
 				y -= ((frameHeight * scale.y) - (Note.swagWidth / 2));
 			}
-			y -= Note.swagWidth / 2 * Math.sin(angleDir - 90);
+			y -= Note.swagWidth / 2 * Math.sin(angleDir + 90) * 1.1;
 		}
 
 	}
