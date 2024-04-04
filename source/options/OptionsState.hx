@@ -934,8 +934,8 @@ class OptionsState extends MusicBeatState
 		for (i in 0...Note.colArray.length)
 		{
 			var note:StrumNote = new StrumNote(300 + (300 / Note.colArray.length) * i, 0, i, 0);
-			note.scale.x = 150 / note.frameWidth;
-			note.scale.y = 150 / note.frameHeight;
+			note.scale.x = 75 / note.frameWidth;
+			note.scale.y = 75 / note.frameHeight;
     		note.centerOffsets();
 			note.centerOrigin();
 			note.updateHitbox();
@@ -951,8 +951,8 @@ class OptionsState extends MusicBeatState
 			var note:Note = new Note(0, i);
 			note.x = 300 + (300 / Note.colArray.length) * i;
 			note.y = 75;
-			note.scale.x = 150 / note.frameWidth;
-			note.scale.y = 150 / note.frameHeight;
+			note.scale.x = 75 / note.frameWidth;
+			note.scale.y = 75 / note.frameHeight;
 			note.centerOffsets();
 			note.centerOrigin();
 			note.inEditor = true;
@@ -979,8 +979,8 @@ class OptionsState extends MusicBeatState
     		note.reloadNote();
     		note.animation.play(Note.colArray[i] + 'Scroll');
     		note.rgbShader.enabled = ClientPrefs.data.noteRGB;
-    		note.scale.x = 150 / note.frameWidth;
-			note.scale.y = 150 / note.frameHeight;
+    		note.scale.x = 75 / note.frameWidth;
+			note.scale.y = 75 / note.frameHeight;
     		note.alpha = 1;
     		note.centerOffsets();
 			note.centerOrigin();
@@ -993,8 +993,8 @@ class OptionsState extends MusicBeatState
     		note.texture = skin; //Load texture and anims
     		note.reloadNote();
     		note.playAnim('static');    		
-    		note.scale.x = 150 / note.frameWidth;
-			note.scale.y = 150 / note.frameHeight;
+    		note.scale.x = 75 / note.frameWidth;
+			note.scale.y = 75 / note.frameHeight;
     		note.alpha = 1;
     		note.centerOffsets();
 			note.centerOrigin();
