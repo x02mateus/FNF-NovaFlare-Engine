@@ -187,25 +187,20 @@ class VideoSprite extends FlxSprite
 		super.update(elapsed);
 
 		if (bitmap.isPlaying && bitmap.isDisplaying && bitmap.bitmapData != null && !oneTime)
-		{
-			
-			
+		{						
 			if (graphic.imageFrame.frame == null)
 			{
 				trace('the frame of the image is null?');
 				return;
 			}
                         
-                        graphic.bitmap = bitmap.bitmapData;
+            graphic.bitmap = bitmap.bitmapData;
 			loadGraphic(graphic);
-			if (canvasWidth != null && canvasHeight != null)
-			{
-				setGraphicSize(canvasWidth, canvasHeight);
-				updateHitbox();
+		
 
-				var size:Float = Math.min(newWidth / bitmap.bitmapData.width, newHeight / bitmap.bitmapData.height);
-				scale.set(size, size); // lol
-			}
+			var size:Float = Math.min(newWidth / bitmap.bitmapData.width, newHeight / bitmap.bitmapData.height);
+			scale.set(size, size); // lol
+			
 			oneTime = true;
 		}
 	}
@@ -217,9 +212,7 @@ class VideoSprite extends FlxSprite
 	 * @param PauseMusic Pause music until the video ends.
 	 */
 	public function playVideo(Path:String, Loop:Bool = false, PauseMusic:Bool = false):Void{
-		bitmap.playVideo(Path, Loop, PauseMusic, newWidth, newHeight);
-		
-		
+		bitmap.playVideo(Path, Loop, PauseMusic, newWidth, newHeight);				
 	}
 }
 #end
