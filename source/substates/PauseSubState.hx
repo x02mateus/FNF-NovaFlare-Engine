@@ -723,7 +723,7 @@ class PauseSubState extends MusicBeatSubstate
 					moveType = 1;
 					closeMenu(
 						function(tmr:FlxTimer) close()
-					);
+					, false);
 				case 'Entirety':
 					PlayState.instance.paused = true; // For lua
 					PlayState.instance.vocals.volume = 0;
@@ -733,7 +733,7 @@ class PauseSubState extends MusicBeatSubstate
 						FlxG.sound.playMusic(Paths.music(Paths.formatToSongPath(ClientPrefs.data.pauseMusic)), pauseMusic.volume);
 						FlxTween.tween(FlxG.sound.music, {volume: 1}, 0.8);
 						FlxG.sound.music.time = pauseMusic.time;
-					}					
+					}
 				case 'Back':
 					for (i in optionsOptionsBars)
 						FlxTween.tween(i, {x: -1000}, 0.5, {ease: FlxEase.quartIn});
@@ -803,7 +803,7 @@ class PauseSubState extends MusicBeatSubstate
 		}
 	}
 	
-	function closeMenu(endEvent) {
+	function closeMenu(endEvent, backTween:Bool = true) {
 		for (i in optionsBars)
 			FlxTween.tween(i, {x: -1000}, 0.5, {ease: FlxEase.quartIn});
 		
@@ -845,10 +845,10 @@ class PauseSubState extends MusicBeatSubstate
 			frontTween.cancel();
 		}
 		
-		blackbackTween = FlxTween.tween(blackback, {alpha: 0}, 0.75, {ease: FlxEase.quartOut});
+		if (backTween) blackbackTween = FlxTween.tween(blackback, {alpha: 0}, 0.75, {ease: FlxEase.quartOut});
 		backShadowTween = FlxTween.tween(backShadow, {x: -800}, 0.85, {ease: FlxEase.quartIn});
 		backTween = FlxTween.tween(back, {x: -800}, 0.85, {ease: FlxEase.quartIn});
-		frontTween = FlxTween.tween(front, {x: -800}, 0.75, {ease: FlxEase.quartIn});					
+		frontTween = FlxTween.tween(front, {x: -800}, 0.75, {ease: FlxEase.quartIn});		
 		
 		new FlxTimer().start(1, endEvent);
 	}
