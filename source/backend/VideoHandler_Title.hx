@@ -9,8 +9,11 @@ import flixel.FlxSprite;
 import flixel.util.FlxColor;
 
 #if VIDEOS_ALLOWED
-
-import vlc.VLCBitmap;
+#if hxCodec
+    #if (hxCodec >= "3.0.0") import hxcodec.
+    #else import vlc.VLCBitmap;
+    #end
+#end
 
 class VideoHandler_Title extends VLCBitmap
 {
@@ -177,18 +180,34 @@ class VideoSprite extends FlxSprite
 			kill();
 		}
 	}
-
+	
+	private var oneTime:Bool = false;
 	override function update(elapsed:Float)
 	{
 		super.update(elapsed);
 
-		if (bitmap.isPlaying && bitmap.isDisplaying && bitmap.bitmapData != null){
-			pixels = bitmap.bitmapData;
-		
-		var size:Float = Math.min(newWidth / bitmap.bitmapData.width, newHeight / bitmap.bitmapData.height);
-		scale.set(size, size); // lol	
-		updateHitbox();
-		}	
+		if (bitmap.isPlaying && bitmap.isDisplaying && bitmap.bitmapData != null && !oneTime)
+		{
+			
+			
+			if (graphic.imageFrame.frame == null)
+			{
+				trace('the frame of the image is null?');
+				return;
+			}
+                        
+                        graphic.bitmap = bitmap.bitmapData;
+			loadGraphic(graphic);
+			if (canvasWidth != null && canvasHeight != null)
+			{
+				setGraphicSize(canvasWidth, canvasHeight);
+				updateHitbox();
+
+				var size:Float = Math.min(newWidth / bitmap.bitmapData.width, newHeight / bitmap.bitmapData.height);
+				scale.set(size, size); // lol
+			}
+			oneTime = true;
+		}
 	}
 
 	/**
