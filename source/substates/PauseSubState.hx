@@ -139,7 +139,7 @@ class PauseSubState extends MusicBeatSubstate
 		} catch(e:Dynamic) {}		
 		pauseMusic.play(false, FlxG.random.int(0, Std.int(pauseMusic.length / 2)));
         pauseMusic.volume = moveType != 0 ? OptionsSubstate.pauseMusic.volume : 0;
-		pauseMusic.time = moveType != 0 ? OptionsSubstate.pauseMusic.time : FlxG.random.int(0, Std.int(pauseMusic.length / 2);
+		pauseMusic.time = moveType != 0 ? OptionsSubstate.pauseMusic.time : FlxG.random.int(0, Std.int(pauseMusic.length / 2));
 		
 		FlxG.sound.list.add(pauseMusic);
 	
