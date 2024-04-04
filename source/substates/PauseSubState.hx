@@ -163,10 +163,10 @@ class PauseSubState extends MusicBeatSubstate
 		frontTween = FlxTween.tween(front, {x: 0}, 1.3, {ease: FlxEase.quartOut});
 	
 		backButton = new FlxSprite(1080, 600).loadGraphic(Paths.image(filePath + 'backButton'));
-		add(backButton);
+		//add(backButton);
 		backButton.scale.set(0.45, 0.45);
 		backButton.updateHitbox();
-		backButton.alpha = 0;
+		backButton.visible = false;
 		#if mobile backButton.y -= 127; #end
 	
 		if (Difficulty.list.length < 2) options.remove('Difficulty');
@@ -701,7 +701,9 @@ class PauseSubState extends MusicBeatSubstate
 					PlayState.instance.paused = true; // For lua
 					PlayState.instance.vocals.volume = 0;
 					moveType = 1;
-					close();
+					closeMenu(
+						function() close()
+					);
 				case 'Entirety':
 					PlayState.instance.paused = true; // For lua
 					PlayState.instance.vocals.volume = 0;
