@@ -259,7 +259,7 @@ class Note extends FlxSprite
 			if(ClientPrefs.data.downScroll) flipY = true;								
 			
 			noAnimation = true; //better work for play anim
-            isEndNote = true;
+			isEndNote = true;
 
 			offsetX += width / 2;
 			copyAngle = false;
@@ -337,14 +337,14 @@ class Note extends FlxSprite
 			skin = PlayState.SONG != null ? PlayState.SONG.arrowSkin : null;
 			if(skin == null || skin.length < 1){
 				skin = defaultNoteSkin + postfix;
-			    if(ClientPrefs.data.noteSkin == ClientPrefs.defaultData.noteSkin){ 
-    			    if (_modChecked == Mods.currentModDirectory || (Paths.fileExists('images/NOTE_assets.png', IMAGE) && Paths.fileExists('images/NOTE_assets.xml', TEXT)))
-    			    { //fix for load old mods note assets
-                        _modChecked = Mods.currentModDirectory;
-    		            skin = 'NOTE_assets';
-    		        }
-		        }
-		    }
+				if(ClientPrefs.data.noteSkin == ClientPrefs.defaultData.noteSkin){ 
+					if (_modChecked == Mods.currentModDirectory || (Paths.fileExists('images/NOTE_assets.png', IMAGE) && Paths.fileExists('images/NOTE_assets.xml', TEXT)))
+					{ //fix for load old mods note assets
+						_modChecked = Mods.currentModDirectory;
+						skin = 'NOTE_assets';
+					}
+				}
+			}
 		}
 
 		var animName:String = null;
@@ -447,35 +447,35 @@ class Note extends FlxSprite
 		if (mustPress)
 		{
 			if (!ClientPrefs.data.playOpponent) {
-        		canBeHit = (strumTime > Conductor.songPosition - (Conductor.safeZoneOffset * lateHitMult) &&
-        					strumTime < Conductor.songPosition + (Conductor.safeZoneOffset * earlyHitMult));
-        
-        		if (strumTime < Conductor.songPosition - Conductor.safeZoneOffset && !wasGoodHit)
-        			tooLate = true;
+				canBeHit = (strumTime > Conductor.songPosition - (Conductor.safeZoneOffset * lateHitMult) &&
+							strumTime < Conductor.songPosition + (Conductor.safeZoneOffset * earlyHitMult));
+		
+				if (strumTime < Conductor.songPosition - Conductor.safeZoneOffset && !wasGoodHit)
+					tooLate = true;
 			}else{
 				canBeHit = false;
 
-    			if (strumTime < Conductor.songPosition + (Conductor.safeZoneOffset * earlyHitMult))
-    			{
-    				if((isSustainNote && prevNote.wasGoodHit) || strumTime <= Conductor.songPosition)
-    					wasGoodHit = true;
-    			}		
+				if (strumTime < Conductor.songPosition + (Conductor.safeZoneOffset * earlyHitMult))
+				{
+					if((isSustainNote && prevNote.wasGoodHit) || strumTime <= Conductor.songPosition)
+						wasGoodHit = true;
+				}		
 			}
 		}else{
 			if (ClientPrefs.data.playOpponent) {
-        		canBeHit = (strumTime > Conductor.songPosition - (Conductor.safeZoneOffset * lateHitMult) &&
-        					strumTime < Conductor.songPosition + (Conductor.safeZoneOffset * earlyHitMult));
-        
-        		if (strumTime < Conductor.songPosition - Conductor.safeZoneOffset && !wasGoodHit)
-        			tooLate = true;
+				canBeHit = (strumTime > Conductor.songPosition - (Conductor.safeZoneOffset * lateHitMult) &&
+							strumTime < Conductor.songPosition + (Conductor.safeZoneOffset * earlyHitMult));
+		
+				if (strumTime < Conductor.songPosition - Conductor.safeZoneOffset && !wasGoodHit)
+					tooLate = true;
 			}else{
 				canBeHit = false;
 
-    			if (strumTime < Conductor.songPosition + (Conductor.safeZoneOffset * earlyHitMult))
-    			{
-    				if((isSustainNote && prevNote.wasGoodHit) || strumTime <= Conductor.songPosition)
-    					wasGoodHit = true;
-    			}		
+				if (strumTime < Conductor.songPosition + (Conductor.safeZoneOffset * earlyHitMult))
+				{
+					if((isSustainNote && prevNote.wasGoodHit) || strumTime <= Conductor.songPosition)
+						wasGoodHit = true;
+				}		
 			}			
 		}
 
@@ -495,6 +495,8 @@ class Note extends FlxSprite
 	var angleDir1:Float = 90 * Math.PI / 180;
 	public function followStrumNote(myStrum:StrumNote, fakeCrochet:Float, songSpeed:Float = 1)
 	{
+		var distances:Float = 1;
+
 		var strumX:Float = myStrum.x;
 		var strumY:Float = myStrum.y;
 		var strumAngle:Float = myStrum.angle;
@@ -528,12 +530,16 @@ class Note extends FlxSprite
 
 		if (isSustainNote && myStrum.sustainReduce) clipToStrumNote(myStrum);
 
-		if (!myStrum.downScroll) distance *= -1;
+		if (!myStrum.downScroll)
+		{
+		    distance *= -1;
+		    distances = -1;
+		}
 
 		if(copyX)
 		{
 			x = strumX + offsetX + Math.cos(angleDir) * distance;
-			x -= Math.sin(angleDir + 90) * 1.1;
+			x -= Note.swagWidth / 2 * Math.sin(angleDir + 90) * 1.0526315789473;
 		}
 
 		if(copyY)
@@ -547,7 +553,7 @@ class Note extends FlxSprite
 				}
 				y -= ((frameHeight * scale.y) - (Note.swagWidth / 2));
 			}
-			y -= Note.swagWidth * Math.sin(angleDir + 90) * 1.1;
+			y -= Note.swagWidth / 2 * Math.sin(angleDir + 90) * 1.0526315789473 * distances + Note.swagWidth / 2;
 		}
 
 	}
@@ -559,39 +565,39 @@ class Note extends FlxSprite
 			(!mustPress || (wasGoodHit || (prevNote.wasGoodHit && !canBeHit)))
 			&& !ClientPrefs.data.playOpponent)
 			|| 
-		    (isSustainNote && (!mustPress || !ignoreNote) &&
+			(isSustainNote && (!mustPress || !ignoreNote) &&
 			(mustPress || (wasGoodHit || (prevNote.wasGoodHit && !canBeHit)))
 			&& ClientPrefs.data.playOpponent)
-	        )
+			)
 		{
-		    if (!wasGoodHit) return;
-		    
-		    updateHitbox();
+			if (!wasGoodHit) return;
+			
+			updateHitbox();
 			var swagRect:FlxRect = clipRect;
 			if(swagRect == null) swagRect = new FlxRect(0, 0, frameWidth, frameHeight);
-            
-		    var time:Float = FlxMath.bound((Conductor.songPosition - strumTime) / (height / (0.45 * FlxMath.roundDecimal(PlayState.instance.songSpeed, 2))), 0, 1);
-		    
-		    swagRect.x = 0;
-		    swagRect.y = time * frameHeight;
-		    swagRect.width = frameWidth;
-		    swagRect.height = frameHeight;
+			
+			var time:Float = FlxMath.bound((Conductor.songPosition - strumTime) / (height / (0.45 * FlxMath.roundDecimal(PlayState.instance.songSpeed, 2))), 0, 1);
+			
+			swagRect.x = 0;
+			swagRect.y = time * frameHeight;
+			swagRect.width = frameWidth;
+			swagRect.height = frameHeight;
 
-		    clipRect = swagRect;
+			clipRect = swagRect;
 		}
 	}
 
 	public function hitMultUpdate(number:Int = 0, maxNumber:Int = 0){
-	    if (number == 0){
-	        earlyHitMult = 0;
+		if (number == 0){
+			earlyHitMult = 0;
 			lateHitMult = 1;	   //写1而不是0.5是用于修复长条先miss问题
-	    }else if (number == maxNumber){
-	        earlyHitMult = 0.5;
-			lateHitMult = 0;	  	    
-	    }else{
-	        earlyHitMult = 0.5;
+		}else if (number == maxNumber){
+			earlyHitMult = 0.5;
+			lateHitMult = 0;	  		
+		}else{
+			earlyHitMult = 0.5;
 			lateHitMult = 0.75;	
-	    }
+		}
 	} //this shit can make hold note work better
 	
 
