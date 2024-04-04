@@ -15,6 +15,7 @@ import states.TitleState;
 	public var noteDetectionFix:Bool = true;
 	public var ghostTapping:Bool = true;
 	public var guitarHeroSustains:Bool = true;
+	public var resultsScreen:Bool = true;
 	
 	public var playOpponent:Bool = false;
 	public var opponentCodeFix:Bool = false;
@@ -28,13 +29,7 @@ import states.TitleState;
 	public var memoryType:Int = 0;	
 	public var FPSScale:Float = 1;
 	public var WatermarkScale:Float = 1;
-	public var showWatermark:Bool = true;
-	public var skipTitleVideo:Bool = false;		
-	
-	public var resultsScreen:Bool = true;
-	public var autoPause:Bool = true;
-	public var antialiasing:Bool = true;
-	public var screensaver:Bool = false;
+	public var showWatermark:Bool = true;					
 	
 	public var noteSkin:String = 'Default';
 	public var splashSkin:String = 'Psych';
@@ -65,11 +60,14 @@ import states.TitleState;
 	public var colorblindMode:Int = 0;
 	public var cacheOnGPU:Bool = #if !switch false #else true #end; //From Stilic	
 	public var loadingScreen:Bool = true;
+	public var antialiasing:Bool = true;
 	public var framerate:Int = 60;
+	public var autoPause:Bool = true;	
 	
 	public var CustomFade:String = 'Move';
 	public var CustomFadeSound:Float = 0.5;
 	public var CustomFadeText:Bool = true;
+	public var skipTitleVideo:Bool = false;		
 	
 	public var gameOverVibration:Bool = false;	
 	public var discordRPC:Bool = true;
@@ -78,10 +76,8 @@ import states.TitleState;
 	public var pauseButton:Bool = #if mobile true #else false #end;
 	public var fileLoad:String = 'NovaFlare Engine';
 	public var openedFlash:Bool = false;
-	
-	public var marvelousRating:Bool = true;	
-	public var marvelousSprite:Bool = true;	
-    public var marvelousWindow:Int = 15;
+	public var screensaver:Bool = false;
+	public var filesCheck:Bool = true;		
     
 	public var comboOffset:Array<Int> = [0, 0, 0, 0];
 	public var ratingOffset:Int = 0;	
@@ -90,7 +86,10 @@ import states.TitleState;
 	public var goodWindow:Int = 90;
 	public var badWindow:Int = 135;
 	public var safeFrames:Float = 10;			
-	
+	public var marvelousRating:Bool = true;	
+	public var marvelousSprite:Bool = true;	
+    public var marvelousWindow:Int = 15;
+    
 	public var dynamicColors:Bool = true;
 	public var needMobileControl:Bool = true; //work for desktop
 	public var hitboxLocation:String = 'Bottom';
