@@ -492,8 +492,12 @@ class Note extends FlxSprite
 		_lastValidChecked = '';
 	}
 
+	
+	var angleDir1:Float = 90 * Math.PI / 180;
 	public function followStrumNote(myStrum:StrumNote, fakeCrochet:Float, songSpeed:Float = 1)
 	{
+		var distances:Float = 1;
+
 		var strumX:Float = myStrum.x;
 		var strumY:Float = myStrum.y;
 		var strumAngle:Float = myStrum.angle;
@@ -501,7 +505,6 @@ class Note extends FlxSprite
 		var strumDirection:Float = myStrum.direction;
 
 		distance = (0.45 * (Conductor.songPosition - strumTime) * songSpeed * multSpeed);
-		if (!myStrum.downScroll) distance *= -1;
 
 		var angleDir = strumDirection * Math.PI / 180;
 		if (copyAngle) angle = strumDirection - 90 + strumAngle + offsetAngle;
@@ -511,7 +514,34 @@ class Note extends FlxSprite
 			alpha = strumAlpha * multAlpha;
 
 		if(copyX)
+			x = strumX + offsetX + Math.cos(angleDir1) * distance;
+
+		if(copyY)
+		{
+			y = strumY + offsetY + correctionOffset + Math.sin(angleDir1) * distance;
+			if(myStrum.downScroll && isSustainNote)
+			{
+				if(PlayState.isPixelStage)
+				{
+					y -= PlayState.daPixelZoom * 9.5;
+				}
+				y -= (frameHeight * scale.y) - (Note.swagWidth / 2);
+			}
+		}
+
+		if (isSustainNote && myStrum.sustainReduce) clipToStrumNote(myStrum);
+
+		if (!myStrum.downScroll)
+		{
+			distance *= -1;
+			distances = -1;
+		}
+
+		if(copyX)
+		{
 			x = strumX + offsetX + Math.cos(angleDir) * distance;
+			x += Note.swagWidth / 2 * Math.sin(angleDir + 90) * 1.0526315789473;
+		}
 
 		if(copyY)
 		{
@@ -522,9 +552,11 @@ class Note extends FlxSprite
 				{
 					y -= PlayState.daPixelZoom * 9.5;
 				}
-				y -= (frameHeight * scale.y) - (Note.swagWidth / 2);
+				y -= ((frameHeight * scale.y) - (Note.swagWidth / 2));
 			}
+			y += Note.swagWidth / 2 * Math.sin(angleDir + 90) * 1.0526315789473 * distances + Note.swagWidth / 2;
 		}
+
 	}
 
 	public function clipToStrumNote(myStrum:StrumNote)
