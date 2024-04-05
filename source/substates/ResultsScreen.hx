@@ -647,7 +647,7 @@ class ResultsScreen extends MusicBeatSubstate
     		add(EventText);
     		EventText.cameras = [camOther];
 		
-			FlxG.sound.play(Paths.sound('loading_close'),ClientPrefs.data.CustomFadeSound);
+			FlxG.sound.play(Paths.sound('loading_close_move'),ClientPrefs.data.CustomFadeSound);
 			if (!ClientPrefs.data.CustomFadeText) {
 			    EventText.text = '';
 			    WaterMark.text = '';
@@ -706,7 +706,7 @@ class ResultsScreen extends MusicBeatSubstate
         	add(EventText);
 		    EventText.cameras = [camOther];
 		
-			FlxG.sound.play(Paths.sound('loading_close'),ClientPrefs.data.CustomFadeSound);
+			FlxG.sound.play(Paths.sound('loading_close_alpha'),ClientPrefs.data.CustomFadeSound);
 			if (!ClientPrefs.data.CustomFadeText) {
 			    EventText.text = '';
 			    WaterMark.text = '';
