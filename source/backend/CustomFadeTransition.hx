@@ -71,7 +71,7 @@ class CustomFadeTransition extends FlxSubState {
 		
 		if(!isTransIn) {
 		    try{
-			FlxG.sound.play(Paths.sound('loading_close'),ClientPrefs.data.CustomFadeSound);
+			FlxG.sound.play(Paths.sound('loading_close_move'),ClientPrefs.data.CustomFadeSound);
 			}
 			if (!ClientPrefs.data.CustomFadeText) {
 			    EventText.text = '';
@@ -111,7 +111,7 @@ class CustomFadeTransition extends FlxSubState {
 			
 		} else {
 		    try{
-			    FlxG.sound.play(Paths.sound('loading_open'),ClientPrefs.data.CustomFadeSound);
+			    FlxG.sound.play(Paths.sound('loading_open_move'),ClientPrefs.data.CustomFadeSound);
 			}
 			EventText.text = 'COMPLETED !';
 			if (!ClientPrefs.data.CustomFadeText) {
@@ -167,7 +167,7 @@ class CustomFadeTransition extends FlxSubState {
 		
 		if(!isTransIn) {
 		    try{
-			    FlxG.sound.play(Paths.sound('loading_close'),ClientPrefs.data.CustomFadeSound);
+			    FlxG.sound.play(Paths.sound('loading_close_alpha'),ClientPrefs.data.CustomFadeSound);
 			}
 			if (!ClientPrefs.data.CustomFadeText) {
 			    EventText.text = '';
@@ -202,7 +202,7 @@ class CustomFadeTransition extends FlxSubState {
 			
 		} else {
 		    try{
-			    FlxG.sound.play(Paths.sound('loading_open'),ClientPrefs.data.CustomFadeSound);
+			    FlxG.sound.play(Paths.sound('loading_open_alpha'),ClientPrefs.data.CustomFadeSound);
             }
 			EventText.text = 'COMPLETED !';
 			if (!ClientPrefs.data.CustomFadeText) {
