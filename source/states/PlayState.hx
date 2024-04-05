@@ -1204,7 +1204,7 @@ class PlayState extends MusicBeatState
 	// `updateScore = function(miss:Bool = false) { ... }
 	// its like if it was a variable but its just a function!
 	// cool right? -Crow
-	public dynamic function updateScore(miss:Bool = false)
+	public dynamic inline function updateScore(miss:Bool = false)
 	{
 		var ret:Dynamic = callOnScripts('preUpdateScore', [miss], true);
 		if (ret == LuaUtils.Function_Stop)
@@ -2974,7 +2974,7 @@ class PlayState extends MusicBeatState
 		
 	}
 
-	private function popUpScore(note:Note = null):Void
+	private inline function popUpScore(note:Note = null):Void
 	{
 		var noteDiff:Float = note.strumTime - Conductor.songPosition + ClientPrefs.data.ratingOffset;
 		
@@ -3133,7 +3133,7 @@ class PlayState extends MusicBeatState
 	}
 
 	public var strumsBlocked:Array<Bool> = [];
-	private function onKeyPress(event:KeyboardEvent):Void
+	private inline function onKeyPress(event:KeyboardEvent):Void
 	{
 		var eventKey:FlxKey = event.keyCode;
 		var key:Int = getKeyFromEvent(keysArray, eventKey);
@@ -3149,7 +3149,7 @@ class PlayState extends MusicBeatState
 		}
 	}
 	
-	private function keyPressed(key:Int)
+	private inline function keyPressed(key:Int)
 	{
 		if(ClientPrefs.data.playOpponent ? cpuControlled_opponent : cpuControlled || paused || key < 0) return;
 		var char:Character = ClientPrefs.data.playOpponent ? dad : boyfriend;
@@ -3241,14 +3241,14 @@ class PlayState extends MusicBeatState
 		return FlxSort.byValues(FlxSort.ASCENDING, a.strumTime, b.strumTime);
 	}
 
-	private function onKeyRelease(event:KeyboardEvent):Void
+	private inline function onKeyRelease(event:KeyboardEvent):Void
 	{
 		var eventKey:FlxKey = event.keyCode;
 		var key:Int = getKeyFromEvent(keysArray, eventKey);
 		if(!controls.controllerMode && key > -1) keyReleased(key);
 	}
 
-	private function keyReleased(key:Int)
+	private inline function keyReleased(key:Int)
 	{
 		if(ClientPrefs.data.playOpponent ? !cpuControlled_opponent : !cpuControlled && startedCountdown && !paused)
 		{
@@ -3278,7 +3278,7 @@ class PlayState extends MusicBeatState
 	}
 
 	// Hold notes
-	private function keysCheck():Void
+	private inline function keysCheck():Void
 	{
 		// HOLDING
 		var holdArray:Array<Bool> = [];
@@ -3341,7 +3341,7 @@ class PlayState extends MusicBeatState
 					keyReleased(i);
 	}
 
-	function noteMiss(daNote:Note):Void { //You didn't hit the key and let it go offscreen, also used by Hurt Notes
+	public inline function noteMiss(daNote:Note):Void { //You didn't hit the key and let it go offscreen, also used by Hurt Notes
 		//Dupe note remove
 		notes.forEachAlive(function(note:Note) {
 			if (daNote != note && (!daNote.mustPress && ClientPrefs.data.playOpponent || daNote.mustPress && !ClientPrefs.data.playOpponent) && daNote.noteData == note.noteData && daNote.isSustainNote == note.isSustainNote && Math.abs(daNote.strumTime - note.strumTime) < 1)
@@ -3353,7 +3353,7 @@ class PlayState extends MusicBeatState
 		if(result != LuaUtils.Function_Stop && result != LuaUtils.Function_StopHScript && result != LuaUtils.Function_StopAll) callOnHScript('noteMiss', [daNote]);
 	}
 
-	function noteMissPress(direction:Int = 1):Void //You pressed a key when there was no notes to press for this key
+	public inline function noteMissPress(direction:Int = 1):Void //You pressed a key when there was no notes to press for this key
 	{
 		if(ClientPrefs.data.ghostTapping) return; //fuck it
 
@@ -3362,7 +3362,7 @@ class PlayState extends MusicBeatState
 		callOnScripts('noteMissPress', [direction]);
 	}
 
-	function noteMissCommon(direction:Int, note:Note = null)
+	public inline function noteMissCommon(direction:Int, note:Note = null)
 	{
 		// score and data
 		var subtract:Float = 0.05;
@@ -3452,7 +3452,7 @@ class PlayState extends MusicBeatState
 		vocals.volume = 0;
 	}
 
-	function opponentNoteHit(note:Note):Void
+	public inline function opponentNoteHit(note:Note):Void
 	{
 	    if (!(guitarHeroSustains && note.isSustainNote)){
 		    var result:Dynamic = callOnLuas('opponentNoteHitPre', [notes.members.indexOf(note), Math.abs(note.noteData), note.noteType, note.isSustainNote]);
@@ -3502,7 +3502,7 @@ class PlayState extends MusicBeatState
 		if (!note.isSustainNote) invalidateNote(note);
 	}
 	
-	public function opponentNoteHitForOpponent(note:Note):Void
+	public inline function opponentNoteHitForOpponent(note:Note):Void
 	{
 		if(note.wasGoodHit) return;
 		if(cpuControlled_opponent && note.ignoreNote) return;
@@ -3585,7 +3585,7 @@ class PlayState extends MusicBeatState
 		if(!note.isSustainNote) invalidateNote(note);
 	}
 
-	public function goodNoteHit(note:Note):Void
+	public inline function goodNoteHit(note:Note):Void
 	{
 		if(note.wasGoodHit) return;
 		if(cpuControlled && note.ignoreNote) return;
@@ -3671,7 +3671,7 @@ class PlayState extends MusicBeatState
 		if(!note.isSustainNote) invalidateNote(note);
 	}
 	
-	function goodNoteHitForOpponent(note:Note):Void
+	public inline function goodNoteHitForOpponent(note:Note):Void
 	{
 	    if (!(guitarHeroSustains && note.isSustainNote)){
 	        var functionReturn:String = ClientPrefs.data.opponentCodeFix ? 'opponentNoteHitPre' : 'goodNoteHitPre';	    
@@ -3715,11 +3715,11 @@ class PlayState extends MusicBeatState
 		if (!note.isSustainNote) invalidateNote(note);
 	}
 
-	public function invalidateNote(note:Note):Void {	    
+	public inline function invalidateNote(note:Note):Void {	    
 	    killNotes.push(note); //I want detele this function but make sure not have bug so retain it
 	}
 	
-	public function destroyNotes():Void {	    
+	public inline function destroyNotes():Void {	    
 
         var iterator:Iterator<Note> = killNotes.iterator();
     
@@ -3747,7 +3747,7 @@ class PlayState extends MusicBeatState
 	}
 	#end
 
-	public function spawnNoteSplashOnNote(note:Note) {
+	public inline function spawnNoteSplashOnNote(note:Note) {
 		if(note != null) {
 			var strum:StrumNote = ClientPrefs.data.playOpponent ? opponentStrums.members[note.noteData] : playerStrums.members[note.noteData];
 			if(strum != null)
@@ -3800,7 +3800,7 @@ class PlayState extends MusicBeatState
 
 	var checkIfDesynced:Bool = false;
 	var lastStepHit:Int = -1;
-	override function stepHit()
+	override inline function stepHit()
 	{
 		if (FlxG.sound.music.time >= -ClientPrefs.data.noteOffset)
 			checkIfDesynced = true;
@@ -3818,7 +3818,7 @@ class PlayState extends MusicBeatState
 
 	var lastBeatHit:Int = -1;
 
-	override function beatHit()
+	override inline function beatHit()
 	{
 		if(lastBeatHit >= curBeat) {
 			//trace('BEAT HIT: ' + curBeat + ', LAST HIT: ' + lastBeatHit);
@@ -3863,7 +3863,7 @@ class PlayState extends MusicBeatState
 			dad.dance();
 	}
 
-	override function sectionHit()
+	override inline function sectionHit()
 	{
 		if (SONG.notes[curSection] != null)
 		{
