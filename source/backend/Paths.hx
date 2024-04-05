@@ -215,7 +215,11 @@ class Paths
 		var file:String = null;
 
 		#if MODS_ALLOWED
-		file = modsImages(key);
+		if (extraLoad)
+		    file = modsImages(key);
+		else 
+		    file = modFolders(key + '.png');
+		    
 		if (currentTrackedAssets.exists(file))
 		{
 			localTrackedAssets.push(file);
@@ -223,28 +227,20 @@ class Paths
 		}
 		else if (FileSystem.exists(file))
 			bitmap = BitmapData.fromFile(file);
-		if (extraLoad){
-    		file = getPath('$key.png', IMAGE, library);
-    		if (FileSystem.exists(file))
-    			bitmap = BitmapData.fromFile(file);			
-		}	
+		else
 		#end
-		
-		file = getPath('images/$key.png', IMAGE, library);
-		if (currentTrackedAssets.exists(file))
 		{
-			localTrackedAssets.push(file);
-			return currentTrackedAssets.get(file);
+			file = getPath('images/$key.png', IMAGE, library);
+			if (currentTrackedAssets.exists(file))
+			{
+				localTrackedAssets.push(file);
+				return currentTrackedAssets.get(file);
+			}
+			else if (Assets.exists(file, IMAGE))
+				bitmap = Assets.getBitmapData(file);
 		}
-		else if (Assets.exists(file, IMAGE))
-			bitmap = Assets.getBitmapData(file);
-		
 
-		if (bitmap != null)
-		{
-			var retVal = cacheBitmap(file, bitmap, allowGPU);
-			if(retVal != null) return retVal;
-		}
+		if (bitmap != null) return cacheBitmap(file, bitmap, allowGPU);
 
 		trace('oh no its returning null NOOOO ($file)');
 		return null;
