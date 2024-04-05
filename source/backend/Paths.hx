@@ -223,18 +223,21 @@ class Paths
 		}
 		else if (FileSystem.exists(file))
 			bitmap = BitmapData.fromFile(file);
-		else
+		
+		file = getPath('$key.png', IMAGE, library);
+		if (FileSystem.exists(file))
+			bitmap = BitmapData.fromFile(file);				
 		#end
+		
+		file = getPath('images/$key.png', IMAGE, library);
+		if (currentTrackedAssets.exists(file))
 		{
-			file = getPath('images/$key.png', IMAGE, library);
-			if (currentTrackedAssets.exists(file))
-			{
-				localTrackedAssets.push(file);
-				return currentTrackedAssets.get(file);
-			}
-			else if (Assets.exists(file, IMAGE))
-				bitmap = Assets.getBitmapData(file);
+			localTrackedAssets.push(file);
+			return currentTrackedAssets.get(file);
 		}
+		else if (Assets.exists(file, IMAGE))
+			bitmap = Assets.getBitmapData(file);
+		
 
 		if (bitmap != null)
 		{
