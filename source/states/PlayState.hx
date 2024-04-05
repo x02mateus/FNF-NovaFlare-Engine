@@ -2974,7 +2974,7 @@ class PlayState extends MusicBeatState
 		
 	}
 
-	private function popUpScore(note:Note = null):Void
+	private inline function popUpScore(note:Note = null)
 	{
 		var noteDiff:Float = note.strumTime - Conductor.songPosition + ClientPrefs.data.ratingOffset;
 		
@@ -3012,9 +3012,11 @@ class PlayState extends MusicBeatState
 		
 		//---------------------------------
 		
+		/*
 		if (!ClientPrefs.data.showComboNum && !ClientPrefs.data.showRating)
 		return;
-
+        */
+        
 		var uiPrefix:String = "";
 		var uiSuffix:String = '';
 		var antialias:Bool = ClientPrefs.data.antialiasing;
