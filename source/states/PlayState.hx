@@ -3371,7 +3371,7 @@ class PlayState extends MusicBeatState
 		// GUITAR HERO SUSTAIN CHECK LOL!!!!
 		if (note != null && guitarHeroSustains && note.parent == null) {
 		    if (note.missed)
-				return;
+				return false;
 			if(note.tail.length > 0) {
 				
 				for(childNote in note.tail) {
@@ -3389,7 +3389,7 @@ class PlayState extends MusicBeatState
 		}
 		if (note != null && guitarHeroSustains && note.parent != null && note.isSustainNote) {
 			if (note.missed)
-				return;
+				return false;
 
 			var parentNote:Note = note.parent;
 			if (parentNote.tail.length > 0) {
