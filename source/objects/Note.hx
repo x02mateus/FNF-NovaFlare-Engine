@@ -409,7 +409,7 @@ class Note extends FlxSprite
 		return skin;
 	}
 
-	function inline loadNoteAnims() {
+	inline function loadNoteAnims() {
 		if (isSustainNote)
 		{
 			attemptToAddAnimationByPrefix('purpleholdend', 'pruple end hold', 24, true); // this fixes some retarded typo from the original note .FLA
@@ -422,7 +422,7 @@ class Note extends FlxSprite
 		updateHitbox();
 	}
 
-	function inline loadPixelNoteAnims() {
+	inline function loadPixelNoteAnims() {
 		if(isSustainNote)
 		{
 			animation.add(colArray[noteData] + 'holdend', [noteData + 4], 24, true);
@@ -430,7 +430,7 @@ class Note extends FlxSprite
 		} else animation.add(colArray[noteData] + 'Scroll', [noteData + 4], 24, true);
 	}
 
-	function inline attemptToAddAnimationByPrefix(name:String, prefix:String, framerate:Float = 24, doLoop:Bool = true)
+	inline function attemptToAddAnimationByPrefix(name:String, prefix:String, framerate:Float = 24, doLoop:Bool = true)
 	{
 		var animFrames = [];
 		@:privateAccess
