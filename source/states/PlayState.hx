@@ -1204,7 +1204,7 @@ class PlayState extends MusicBeatState
 	// `updateScore = function(miss:Bool = false) { ... }
 	// its like if it was a variable but its just a function!
 	// cool right? -Crow
-	public dynamic inline function updateScore(miss:Bool = false)
+	public dynamic function updateScore(miss:Bool = false)
 	{
 		var ret:Dynamic = callOnScripts('preUpdateScore', [miss], true);
 		if (ret == LuaUtils.Function_Stop)
@@ -2974,7 +2974,7 @@ class PlayState extends MusicBeatState
 		
 	}
 
-	private inline function popUpScore(note:Note = null):Void
+	private function popUpScore(note:Note = null):Void
 	{
 		var noteDiff:Float = note.strumTime - Conductor.songPosition + ClientPrefs.data.ratingOffset;
 		
@@ -3133,7 +3133,7 @@ class PlayState extends MusicBeatState
 	}
 
 	public var strumsBlocked:Array<Bool> = [];
-	private inline function onKeyPress(event:KeyboardEvent):Void
+	private function onKeyPress(event:KeyboardEvent):Void
 	{
 		var eventKey:FlxKey = event.keyCode;
 		var key:Int = getKeyFromEvent(keysArray, eventKey);
@@ -3149,7 +3149,7 @@ class PlayState extends MusicBeatState
 		}
 	}
 	
-	private inline function keyPressed(key:Int)
+	private function keyPressed(key:Int)
 	{
 		if(ClientPrefs.data.playOpponent ? cpuControlled_opponent : cpuControlled || paused || key < 0) return;
 		var char:Character = ClientPrefs.data.playOpponent ? dad : boyfriend;
@@ -3241,14 +3241,14 @@ class PlayState extends MusicBeatState
 		return FlxSort.byValues(FlxSort.ASCENDING, a.strumTime, b.strumTime);
 	}
 
-	private inline function onKeyRelease(event:KeyboardEvent):Void
+	private function onKeyRelease(event:KeyboardEvent):Void
 	{
 		var eventKey:FlxKey = event.keyCode;
 		var key:Int = getKeyFromEvent(keysArray, eventKey);
 		if(!controls.controllerMode && key > -1) keyReleased(key);
 	}
 
-	private inline function keyReleased(key:Int)
+	private function keyReleased(key:Int)
 	{
 		if(ClientPrefs.data.playOpponent ? !cpuControlled_opponent : !cpuControlled && startedCountdown && !paused)
 		{
@@ -3278,7 +3278,7 @@ class PlayState extends MusicBeatState
 	}
 
 	// Hold notes
-	private inline function keysCheck():Void
+	private function keysCheck():Void
 	{
 		// HOLDING
 		var holdArray:Array<Bool> = [];
@@ -3341,7 +3341,7 @@ class PlayState extends MusicBeatState
 					keyReleased(i);
 	}
 
-	public inline function noteMiss(daNote:Note):Void { //You didn't hit the key and let it go offscreen, also used by Hurt Notes
+	public function noteMiss(daNote:Note):Void { //You didn't hit the key and let it go offscreen, also used by Hurt Notes
 		//Dupe note remove
 		notes.forEachAlive(function(note:Note) {
 			if (daNote != note && (!daNote.mustPress && ClientPrefs.data.playOpponent || daNote.mustPress && !ClientPrefs.data.playOpponent) && daNote.noteData == note.noteData && daNote.isSustainNote == note.isSustainNote && Math.abs(daNote.strumTime - note.strumTime) < 1)
@@ -3353,7 +3353,7 @@ class PlayState extends MusicBeatState
 		if(result != LuaUtils.Function_Stop && result != LuaUtils.Function_StopHScript && result != LuaUtils.Function_StopAll) callOnHScript('noteMiss', [daNote]);
 	}
 
-	public inline function noteMissPress(direction:Int = 1):Void //You pressed a key when there was no notes to press for this key
+	public function noteMissPress(direction:Int = 1):Void //You pressed a key when there was no notes to press for this key
 	{
 		if(ClientPrefs.data.ghostTapping) return; //fuck it
 
@@ -3362,7 +3362,7 @@ class PlayState extends MusicBeatState
 		callOnScripts('noteMissPress', [direction]);
 	}
 
-	public inline function noteMissCommon(direction:Int, note:Note = null)
+	public function noteMissCommon(direction:Int, note:Note = null)
 	{
 		// score and data
 		var subtract:Float = 0.05;
@@ -3715,11 +3715,11 @@ class PlayState extends MusicBeatState
 		if (!note.isSustainNote) invalidateNote(note);
 	}
 
-	public inline function invalidateNote(note:Note):Void {	    
+	public function invalidateNote(note:Note):Void {	    
 	    killNotes.push(note); //I want detele this function but make sure not have bug so retain it
 	}
 	
-	public inline function destroyNotes():Void {	    
+	public function destroyNotes():Void {	    
 
         var iterator:Iterator<Note> = killNotes.iterator();
     
