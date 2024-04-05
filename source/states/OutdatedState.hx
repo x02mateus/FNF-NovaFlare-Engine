@@ -37,7 +37,7 @@ class OutdatedState extends MusicBeatState
 		warnText.screenCenter(Y);
 		add(warnText);
 		
-		Controls.isInSubstate = false;
+		controls.isInSubstate = false;
 
 		addVirtualPad(NONE, A_B);
 	}
