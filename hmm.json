@@ -87,15 +87,8 @@
       "name": "extension-androidtools",
       "type": "git",
       "dir": null,
-      "ref": "a17116c7d65a731c6343628044b15da5532d5a48",
-      "url": "https://github.com/MAJigsaw77/extension-androidtools"
-    },
-    {
-      "name": "androiddialogs",
-      "type": "git",
-      "dir": null,
-      "ref": "master",
-      "url": "https://github.com/beihu235/AndroidDialogs"
+      "ref": "main",
+      "url": "https://github.com/beihu235/androidtools"
     }
   ]
 }
