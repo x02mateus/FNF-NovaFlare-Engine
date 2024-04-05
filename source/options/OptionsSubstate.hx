@@ -710,6 +710,13 @@ class OptionsSubstate extends MusicBeatSubstate
 			}
 		}
 	}
+	
+	override function destroy()
+	{
+		pauseMusic.destroy();
+		
+		super.destroy();
+	}
 
 	function resetOptions() //stupid code but work well
 	{
