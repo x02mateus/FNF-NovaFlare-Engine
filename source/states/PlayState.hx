@@ -1444,7 +1444,7 @@ class PlayState extends MusicBeatState
 		generatedMusic = true;
 	}
 	
-	inline function addNotes(section:SwagSection, songNotes:Array)
+	inline function addNotes(section:SwagSection, songNotes)
 	{
 	    var daStrumTime:Float = songNotes[0];
 		var daNoteData:Int = Std.int(songNotes[1] % 4);
