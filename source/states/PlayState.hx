@@ -3403,7 +3403,7 @@ class PlayState extends MusicBeatState
     					child.alpha = 0.3;
 					}
 				}
-				if (note == parentNote.tail[0]) return; //if you want get 2 miss then detele it
+				if (note == parentNote.tail[0]) return false; //if you want get 2 miss then detele it
 			}			
 			
 			NoteMs.push(167);
@@ -3450,6 +3450,7 @@ class PlayState extends MusicBeatState
 			}
 		}
 		vocals.volume = 0;
+		return true;
 	}
 
 	public inline function opponentNoteHit(note:Note):Void
