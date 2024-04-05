@@ -215,7 +215,7 @@ class Paths
 		var file:String = null;
 
 		#if MODS_ALLOWED
-		if (extraLoad)
+		if (!extraLoad)
 		    file = modsImages(key);
 		else 
 		    file = modFolders(key + '.png');
