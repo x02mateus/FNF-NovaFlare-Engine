@@ -725,7 +725,10 @@ class PauseSubState extends MusicBeatSubstate
 					PlayState.instance.vocals.volume = 0;
 					moveType = 1;
 					closeMenu(
-						function(tmr:FlxTimer) close()
+						function(tmr:FlxTimer) {
+						    pauseMusic.pause();
+						    close();
+						}
 					, false);
 				case 'Entirety':
 					PlayState.instance.paused = true; // For lua
