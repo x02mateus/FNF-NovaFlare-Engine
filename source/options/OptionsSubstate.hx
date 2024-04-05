@@ -484,6 +484,7 @@ class OptionsSubstate extends MusicBeatSubstate
 				{
 				    ClientPrefs.saveSettings();
 				    controls.isInSubstate = true;
+				    pauseMusic.pause();
 				    close();
 				}
 			}
