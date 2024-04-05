@@ -123,7 +123,7 @@ class ResultsScreen extends MusicBeatSubstate
 		}
 		if (filesLoad == null) filesLoad = 'menuBG';		
 			
-		modsMenu = new FlxSprite(20, 20).loadGraphic(Paths.image(filesLoad));		
+		modsMenu = new FlxSprite(20, 20).loadGraphic(Paths.image(filesLoad, null, true, true));		
 		modsMenu.scale.x = 600 / modsMenu.width;
 		modsMenu.scale.y = 338 / modsMenu.height;
 		modsMenu.offset.x = 0;
