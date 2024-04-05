@@ -209,7 +209,7 @@ class Paths
 	}
 
 	public static var currentTrackedAssets:Map<String, FlxGraphic> = [];
-	static public function image(key:String, ?library:String = null, ?allowGPU:Bool = true):FlxGraphic
+	static public function image(key:String, ?library:String = null, ?allowGPU:Bool = true, ?extraLoad:Bool = false):FlxGraphic
 	{
 		var bitmap:BitmapData = null;
 		var file:String = null;
@@ -223,10 +223,11 @@ class Paths
 		}
 		else if (FileSystem.exists(file))
 			bitmap = BitmapData.fromFile(file);
-		
-		file = getPath('$key.png', IMAGE, library);
-		if (FileSystem.exists(file))
-			bitmap = BitmapData.fromFile(file);				
+		if (extraLoad){
+    		file = getPath('$key.png', IMAGE, library);
+    		if (FileSystem.exists(file))
+    			bitmap = BitmapData.fromFile(file);			
+		}	
 		#end
 		
 		file = getPath('images/$key.png', IMAGE, library);
