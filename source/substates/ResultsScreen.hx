@@ -115,8 +115,8 @@ class ResultsScreen extends MusicBeatSubstate
 		add(modsBG);		
 		
 		var extraLoad:Bool = false;
-		var filesLoad = 'data/' + game.songName + '/resultBG.png';
-        if (FileSystem.exists(Paths.modFolders(filesLoad))){
+		var filesLoad = 'data/' + game.songName + '/resultBG';
+        if (FileSystem.exists(Paths.modFolders(filesLoad + '.png'))){
             extraLoad = true;
         } else {
             filesLoad = 'menuBG';
