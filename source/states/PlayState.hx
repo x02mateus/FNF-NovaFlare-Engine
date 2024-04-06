@@ -1030,7 +1030,7 @@ class PlayState extends MusicBeatState
 
 	public function startCountdown()
 	{
-		if (mobileControls != null) mobileControls.visible = true;
+		mobileControls.visible = true;
 		if (ClientPrefs.data.pauseButton)
 		pauseButton_menu.visible = true;
 				
@@ -1815,8 +1815,7 @@ class PlayState extends MusicBeatState
 			#end
 
 			paused = false;
-			if (mobileControls != null) mobileControls.visible = false;
-			#if !android virtualPad.visible = #end true;
+			mobileControls.visible = #if !android virtualPad.visible = #end true;
 			callOnScripts('onResume');
 			resetRPC(startTimer != null && startTimer.finished);
 		}
@@ -2260,8 +2259,7 @@ class PlayState extends MusicBeatState
 		FlxG.camera.followLerp = 0;
 		persistentUpdate = false;
 		persistentDraw = true;
-		if (mobileControls != null) mobileControls.visible = false;
-		#if !android virtualPad.visible = #end false;
+		mobileControls.visible = #if !android virtualPad.visible = #end false;
 		paused = true;
 
 		#if VIDEOS_ALLOWED
@@ -2711,8 +2709,7 @@ class PlayState extends MusicBeatState
 	public var transitioning = false;
 	public function endSong()
 	{
-		if (mobileControls != null) mobileControls.visible = false;
-		#if !android virtualPad.visible = #end false;
+		mobileControls.visible = #if !android virtualPad.visible = #end false;
 		//Should kill you if you tried to cheat
 		if(!startingSong) {
 			notes.forEach(function(daNote:Note) {
