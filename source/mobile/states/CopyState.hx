@@ -1,11 +1,12 @@
 package mobile.states;
 
-import states.TitleState;
 import flixel.addons.transition.FlxTransitionableState;
 import lime.utils.Assets as LimeAssets;
 import openfl.utils.Assets as OpenflAssets;
 import flixel.addons.util.FlxAsyncLoop;
 import openfl.utils.ByteArray;
+import openfl.system.System;
+import states.TitleState;
 import haxe.io.Path;
 #if (target.threaded)
 import sys.thread.Thread;
@@ -27,7 +28,7 @@ class CopyState extends MusicBeatState
 	var canUpdate:Bool = true;
 	var shouldCopy:Bool = false;
 
-	static final textFilesExtensions:Array<String> = ['txt', 'xml', 'hx', 'lua', 'json', 'frag', 'vert'];
+	static final textFilesExtensions:Array<String> = ['txt', 'xml', 'lua', 'hx', 'json', 'frag', 'vert'];
 
 	override function create()
 	{
@@ -37,7 +38,7 @@ class CopyState extends MusicBeatState
 		if (maxLoopTimes > 0)
 		{
 			shouldCopy = true;
-			#if !ios openfl.Lib.application.window.alert#else SUtil.showPopUp#end("Seems like you have some missing files that are necessary to run the game\nPress OK to begin the copy process\nyou can disable it at option", "Notice!");
+			SUtil.showPopUp("Seems like you have some missing files that are necessary to run the game\nPress OK to begin the copy process\nyou can close it at option\n", "Notice!");
 
 			add(new FlxSprite(0, 0).makeGraphic(FlxG.width, FlxG.height, 0xffcaff4d));
 
@@ -56,7 +57,7 @@ class CopyState extends MusicBeatState
 			add(loadedText);
 
 			#if (target.threaded)
-			Thread.createWithEventLoop(() -> {
+			Thread.create(() -> {
 			#end
 				var ticks:Int = 15;
 				if (maxLoopTimes <= 15)
@@ -70,6 +71,8 @@ class CopyState extends MusicBeatState
 		}
 		else
 		{
+			TitleState.ignoreCopy = true;
+			FlxTransitionableState.skipNextTransIn = FlxTransitionableState.skipNextTransOut = true;
 			MusicBeatState.switchState(new TitleState());
 		}
 
@@ -89,10 +92,28 @@ class CopyState extends MusicBeatState
 						FileSystem.createDirectory('logs');
 					File.saveContent('logs/' + Date.now().toString().replace(' ', '-').replace(':', "'") + '-CopyState' + '.txt', failedFiles.join('\n'));
 				}
+				if (!checkExistingFiles())
+				{
+					trace('reloaded CopyState...');
+					FlxG.resetState();
+					return;
+				}
 				canUpdate = false;
-				FlxG.sound.play(Paths.sound('confirmMenu')).onComplete = () -> {
-					MusicBeatState.switchState(new TitleState());
-				};
+				FlxG.sound.play(Paths.sound('confirmMenu'));
+				var black = new FlxSprite(0, 0).makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
+				black.alpha = 0;
+				add(black);
+				FlxTween.tween(black, {alpha: 1}, 0.9, {
+					onComplete: function(twn:FlxTween)
+					{
+						System.gc();
+						TitleState.ignoreCopy = true;
+						FlxTransitionableState.skipNextTransIn = FlxTransitionableState.skipNextTransOut = true;
+						MusicBeatState.switchState(new TitleState());
+					},
+					ease: FlxEase.linear,
+					startDelay: 0.4
+				});
 			}
 			if (maxLoopTimes == 0)
 				loadedText.text = "Completed!";
