@@ -32,10 +32,7 @@ class MusicBeatSubstate extends FlxSubState
 	public var mobileControls:MobileControls;
 
 	public function addMobileControls(DefaultDrawTarget:Bool = true):Void
-	{
-	    #if desktop 
-            if (!ClientPrefs.data.needMobileControl) return;
-        #end
+	{	    
 		mobileControls = new MobileControls();
 
 		var camControls = new flixel.FlxCamera();
@@ -46,6 +43,9 @@ class MusicBeatSubstate extends FlxSubState
 		mobileControls.visible = false;
 		mobileControls.alpha = ClientPrefs.data.playControlsAlpha;
 		add(mobileControls);
+		#if desktop 
+	        if (!ClientPrefs.data.needMobileControl) mobileControls.active = false;
+	    #end		
 	}
 
 	public function removeMobileControls()
@@ -56,12 +56,12 @@ class MusicBeatSubstate extends FlxSubState
 
 	public function addVirtualPad(DPad:FlxDPadMode, Action:FlxActionMode)
 	{
-	    #if desktop 
-	        if (!ClientPrefs.data.needMobileControl) return;
-	    #end
 		virtualPad = new FlxVirtualPad(DPad, Action);
 		virtualPad.alpha = ClientPrefs.data.controlsAlpha;
 		add(virtualPad);
+		#if desktop 
+	        if (!ClientPrefs.data.needMobileControl) virtualPad.active = false;
+	    #end		
 	}
 
 	public function removeVirtualPad()
