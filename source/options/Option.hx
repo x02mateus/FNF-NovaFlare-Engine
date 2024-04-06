@@ -1152,7 +1152,7 @@ class HealthDrainOPPOMult extends Option
 	private override function updateDisplay():String
 	{
 	    var data:Float = ClientPrefs.data.HealthDrainOPPOMult * 100;
-		return "Health Drain multipler: < " + data + " >";
+		return "Health Drain multipler: < " + data + "% >";
 	}
 }
 
