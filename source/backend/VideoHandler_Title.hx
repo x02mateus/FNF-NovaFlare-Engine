@@ -107,13 +107,8 @@ class VideoHandler_Title extends VLCBitmap
 
 	private function update(?E:Event):Void
 	{
-		#if FLX_KEYBOARD
 		if (canSkip && (FlxG.keys.justPressed.ENTER #if android || FlxG.android.justReleased.BACK #end) && (isPlaying && isDisplaying))
 			onVLCEndReached();
-		#elseif android
-		if (canSkip && FlxG.android.justReleased.BACK && (isPlaying && isDisplaying))
-			onVLCEndReached();
-		#end
 
 		if (canUseAutoResize && (videoWidth > 0 && videoHeight > 0))
 		{
