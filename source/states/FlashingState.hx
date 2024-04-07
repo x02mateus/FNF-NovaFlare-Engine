@@ -25,7 +25,7 @@ class FlashingState extends MusicBeatState
 		You've been warned!";
 		
 		#if desktop
-		guh += "\npress Keyboard will Disable mobile control\n";
+		guh += "\n\npress Keyboard will Disable touch control\n";
 		#end
 		
 
