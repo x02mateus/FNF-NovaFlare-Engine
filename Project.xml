@@ -171,7 +171,16 @@
 	
 		<section if="android">
 			<!-- Do whatever you want I'm tired uninstall and install everytime -->
-			<certificate path="key.keystore" password="nullfunni" alias="null" alias-password="nullfunni" unless="debug" />			
+			<certificate path="key.keystore" password="nullfunni" alias="null" alias-password="nullfunni" unless="debug" />
+
+			<!--Target SDK-->
+			<android target-sdk-version="29" if="EXTERNAL || MEDIA"/>
+			
+			<config:android permission="android.permission.MANAGE_EXTERNAL_STORAGE" if="EXTERNAL || MEDIA"/>
+
+			<!-- Fix Networking -->
+			<config:android permission="android.permission.INTERNET" />
+			<config:android permission="android.permission.ACCESS_NETWORK_STATE" />		
 		</section>
 
 		<section if="ios">
