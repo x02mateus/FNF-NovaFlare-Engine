@@ -44,7 +44,10 @@ class MusicBeatSubstate extends FlxSubState
 		mobileControls.alpha = ClientPrefs.data.playControlsAlpha;
 		add(mobileControls);
 		#if desktop 
-	        if (!ClientPrefs.data.needMobileControl) mobileControls.active = false;
+	        if (!ClientPrefs.data.needMobileControl){
+	            mobileControls.alpha = 0;
+	            mobileControls.active = mobileControls.visible = false;	            
+	        }
 	    #end		
 	}
 
@@ -60,7 +63,10 @@ class MusicBeatSubstate extends FlxSubState
 		virtualPad.alpha = ClientPrefs.data.controlsAlpha;
 		add(virtualPad);
 		#if desktop 
-	        if (!ClientPrefs.data.needMobileControl) virtualPad.active = false;
+	        if (!ClientPrefs.data.needMobileControl){ 
+	            virtualPad.alpha = 0;
+    	        virtualPad.active = virtualPad.visible = false;
+	        }
 	    #end		
 	}
 
