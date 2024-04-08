@@ -594,39 +594,24 @@ class HScriptBase
 		interp = new Interp();
 		parentLua = parent;
 		interp.variables.set('FlxG', flixel.FlxG);
-		interp.variables.set('FlxMath', flixel.math.FlxMath);
 		interp.variables.set('FlxSprite', flixel.FlxSprite);
 		interp.variables.set('FlxCamera', flixel.FlxCamera);
-		interp.variables.set('PsychCamera', backend.PsychCamera);
 		interp.variables.set('FlxTimer', flixel.util.FlxTimer);
 		interp.variables.set('FlxTween', flixel.tweens.FlxTween);
 		interp.variables.set('FlxEase', flixel.tweens.FlxEase);
-		interp.variables.set('FlxColor', CustomFlxColor);
-		interp.variables.set('Countdown', backend.BaseStage.Countdown);
 		interp.variables.set('PlayState', PlayState);
+		interp.variables.set('game', PlayState.instance);
 		interp.variables.set('Paths', Paths);
-		interp.variables.set('SUtil', SUtil);
 		interp.variables.set('Conductor', Conductor);
 		interp.variables.set('ClientPrefs', ClientPrefs);
-		#if ACHIEVEMENTS_ALLOWED
-		interp.variables.set('Achievements', Achievements);
-		#end
 		interp.variables.set('Character', Character);
 		interp.variables.set('Alphabet', Alphabet);
-		interp.variables.set('Note', objects.Note);
-		interp.variables.set('CustomSubstate', CustomSubstate);
+		interp.variables.set('CustomSubstate', psychlua.CustomSubstate);
 		#if (!flash && sys)
 		interp.variables.set('FlxRuntimeShader', flixel.addons.display.FlxRuntimeShader);
 		#end
 		interp.variables.set('ShaderFilter', openfl.filters.ShaderFilter);
 		interp.variables.set('StringTools', StringTools);
-		#if VIDEOS_ALLOWED
-		interp.variables.set('VideoSpriteManager', backend.VideoSpriteManager);
-		interp.variables.set('VideoManager', backend.VideoManager);
-		#end
-		#if flxanimate
-		interp.variables.set('FlxAnimate', FlxAnimate);
-		#end
 
 		interp.variables.set('setVar', function(name:String, value:Dynamic)
 		{
@@ -653,11 +638,25 @@ class HScriptBase
 		});
 
 		// For adding your own callbacks
+
+		// not very tested but should work
+		interp.variables.set('createGlobalCallback', function(name:String, func:Dynamic)
+		{
+			#if LUA_ALLOWED
+			for (script in PlayState.instance.luaArray)
+				if(script != null && script.lua != null && !script.closed)
+					Lua_helper.add_callback(script.lua, name, func);
+			#end
+			FunkinLua.customFunctions.set(name, func);
+		});
+
+		// tested
 		interp.variables.set('createCallback', function(name:String, func:Dynamic, ?funk:FunkinLua = null)
 		{
 			if(funk == null) funk = parentLua;
-			Lua_helper.add_callback(funk.lua, name, func);
+			funk.addLocalCallback(name, func);
 		});
+
 		interp.variables.set('addHaxeLibrary', function(libName:String, ?libPackage:String = '') {
 			try {
 				var str:String = '';
@@ -667,6 +666,7 @@ class HScriptBase
 				interp.variables.set(libName, Type.resolveClass(str + libName));
 			}
 			catch (e:Dynamic) {
+				FunkinLua.lastCalledScript = parent;
 				FunkinLua.luaTrace(parentLua.scriptName + ":" + parentLua.lastCalledFunction + " - " + e, false, false, FlxColor.RED);
 			}
 		});
