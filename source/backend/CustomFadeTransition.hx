@@ -9,7 +9,7 @@ import flixel.FlxSprite;
 import openfl.utils.Assets;
 import flixel.FlxObject;
 
-
+import states.MainMenuState;
  
 class CustomFadeTransition extends FlxSubState {
 	public static var finishCallback:Void->Void;
