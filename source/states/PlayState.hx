@@ -1982,7 +1982,8 @@ class PlayState extends MusicBeatState
 			    if (musicCheck(vocals, FlxG.sound.music.time, 2)
 			    || (musicCheck(opponentVocals, FlxG.sound.music.time, 2)))
 			        fixDesyncedStep++;
-			        
+			    else fixDesyncedStep = 0;
+			    
 				var diff:Float = 20 * playbackRate;
 				var timeSub:Float = Conductor.songPosition - Conductor.offset;
 				
