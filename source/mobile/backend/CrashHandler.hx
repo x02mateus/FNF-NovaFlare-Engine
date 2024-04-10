@@ -1,135 +1,96 @@
 package mobile.backend;
 
-import haxe.CallStack;
-import haxe.Exception;
-import openfl.errors.Error;
-import openfl.events.ErrorEvent;
-import lime.utils.Log as LimeLogger;
 import openfl.events.UncaughtErrorEvent;
-import lime.system.System as LimeSystem;
-import lime.utils.Log as LimeLogger;
+import openfl.events.ErrorEvent;
+import openfl.errors.Error;
+#if sys
+import sys.FileSystem;
+import sys.io.File;
+#end
+
+using StringTools;
+using backend.CoolUtil;
+
+/**
+ * Crash Handler.
+ * @author YoshiCrafter29, Ne_Eo and MAJigsaw77
+ */
 
 class CrashHandler
 {
 	public static function init():Void
 	{
-		openfl.Lib.current.loaderInfo.uncaughtErrorEvents.addEventListener(UncaughtErrorEvent.UNCAUGHT_ERROR, onError);
+		openfl.Lib.current.loaderInfo.uncaughtErrorEvents.addEventListener(UncaughtErrorEvent.UNCAUGHT_ERROR, onUncaughtError);
 		#if cpp
-		untyped __global__.__hxcpp_set_critical_error_handler(onCriticalError);
+		untyped __global__.__hxcpp_set_critical_error_handler(onError);
 		#elseif hl
-		hl.Api.setErrorHandler(onCriticalError);
+		hl.Api.setErrorHandler(onError);
 		#end
 	}
 
-	private static function onError(event:UncaughtErrorEvent):Void
+	private static function onUncaughtError(e:UncaughtErrorEvent):Void
 	{
-		event.preventDefault();
-		event.stopImmediatePropagation();
+		e.preventDefault();
+		e.stopPropagation();
+		e.stopImmediatePropagation();
 
-		final log:Array<String> = [];
-
-		if (Std.isOfType(event.error, Error))
-			log.push(cast(event.error, Error).message);
-		else if (Std.isOfType(event.error, ErrorEvent))
-			log.push(cast(event.error, ErrorEvent).text);
-		else
-			log.push(Std.string(event.error));
-
-		for (item in CallStack.exceptionStack(true))
-		{
-			switch (item)
-			{
-				case CFunction:
-					log.push('C Function');
-				case Module(m):
-					log.push('Module [$m]');
-				case FilePos(s, file, line, column):
-					log.push('$file [line $line]');
-				case Method(classname, method):
-					log.push('$classname [method $method]');
-				case LocalFunction(name):
-					log.push('Local Function [$name]');
+		var m:String = e.error;
+		if (Std.isOfType(e.error, Error)) {
+			var err = cast(e.error, Error);
+			m = '${err.message}';
+		} else if (Std.isOfType(e.error, ErrorEvent)) {
+			var err = cast(e.error, ErrorEvent);
+			m = '${err.text}';
+		}
+		var stack = haxe.CallStack.exceptionStack();
+		var stackLabelArr:Array<String> = [];
+		var stackLabel:String = "";
+		for(e in stack) {
+			switch(e) {
+				case CFunction: stackLabelArr.push("Non-Haxe (C) Function");
+				case Module(c): stackLabelArr.push('Module ${c}');
+				case FilePos(parent, file, line, col):
+					switch(parent) {
+						case Method(cla, func):
+							stackLabelArr.push('${file.replace('.hx', '')}.$func() [line $line]');
+						case _:
+							stackLabelArr.push('${file.replace('.hx', '')} [line $line]');
+					}
+				case LocalFunction(v):
+					stackLabelArr.push('Local Function ${v}');
+				case Method(cl, m):
+					stackLabelArr.push('${cl} - ${m}');
 			}
 		}
-
-		final msg:String = log.join('\n');
-
-		#if sys
-		try
-		{
-			if (!FileSystem.exists('logs'))
-				FileSystem.createDirectory('logs');
-
-			File.saveContent('logs/' + Date.now().toString().replace(' ', '-').replace(':', "'") + '.txt', msg);
-		}
-		catch (e:Exception)
-			LimeLogger.println('Couldn\'t save error message. (${e.message})');
-		#end
-
-		SUtil.showPopUp(msg, "Error!");
-
-		#if DISCORD_ALLOWED
-		DiscordClient.shutdown();
-		#end
-
-		#if js
-		if (FlxG.sound.music != null)
-			FlxG.sound.music.stop();
-
-		js.Browser.window.location.reload(true);
-		#else
-		LimeSystem.exit(1);
-		#end
-	}
-
-	private static inline function onCriticalError(error:Dynamic):Void
-	{
-		final log:Array<String> = [Std.isOfType(error, String) ? error : Std.string(error)];
-
-		for (item in CallStack.exceptionStack(true))
-		{
-			switch (item)
-			{
-				case CFunction:
-					log.push('C Function');
-				case Module(m):
-					log.push('Module [$m]');
-				case FilePos(s, file, line, column):
-					log.push('$file [line $line]');
-				case Method(classname, method):
-					log.push('$classname [method $method]');
-				case LocalFunction(name):
-					log.push('Local Function [$name]');
-			}
-		}
-
-		final msg:String = log.join('\n');
-
+		stackLabel = stackLabelArr.join('\r\n');
 		#if sys
 		try
 		{
 			if (!FileSystem.exists('crash'))
 				FileSystem.createDirectory('crash');
 
-			File.saveContent('crash/' + Date.now().toString().replace(' ', '-').replace(':', "'") + '-critical' + '.txt', msg);
+			File.saveContent('crash/' + Date.now().toString().replace(' ', '-').replace(':', "'") + '.txt', '$m\n$stackLabel');
 		}
-		catch (e:Exception)
-			LimeLogger.println('Couldn\'t save error message. (${e.message})');
+		catch (e:haxe.Exception)
+			trace('Couldn\'t save error message. (${e.message})');
 		#end
 
-		SUtil.showPopUp(msg, "Critical Error!");
-
-		#if DISCORD_ALLOWED
-		DiscordClient.shutdown();
-		#end
+		mobile.backend.SUtil.showPopUp('$m\n$stackLabel', "Error!");
 
 		#if js
-		if (FlxG.sound.music != null)
-			FlxG.sound.music.stop();
+		if (flixel.FlxG.sound.music != null)
+			flixel.FlxG.sound.music.stop();
 
 		js.Browser.window.location.reload(true);
 		#else
-		LimeSystem.exit(1);
+		lime.system.System.exit(1);
 		#end
 	}
+
+	#if (cpp || hl)
+	private static function onError(message:Dynamic):Void
+	{
+		throw Std.string(message);
+	}
+	#end
 }
