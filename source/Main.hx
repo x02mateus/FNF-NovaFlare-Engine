@@ -66,7 +66,7 @@ class Main extends Sprite
 		super();
 		#if (android && EXTERNAL || MEDIA)
 		SUtil.doPermissionsShit();
-		#end
+		#end			
 		mobile.backend.CrashHandler.init();
 
 		#if windows
@@ -77,15 +77,7 @@ class Main extends Sprite
 		DisableProcessWindowsGhosting() // lets you move the window and such if it's not responding
 		")
 		#end
-
-		#if cpp
-		@:privateAccess
-		untyped __global__.__hxcpp_set_critical_error_handler(SUtil.onError);
-		#elseif hl
-		@:privateAccess
-		Api.setErrorHandler(SUtil.onError);
-		#end
-
+		
 		if (stage != null)
 		{
 			init();
@@ -128,9 +120,8 @@ class Main extends Sprite
     		#elseif MEDIA
     		if (!FileSystem.exists(Environment.getExternalStorageDirectory() + '/Android/media/' + Application.current.meta.get('packageName')))
     		    FileSystem.createDirectory(Environment.getExternalStorageDirectory() + '/Android/media/' + Application.current.meta.get('packageName'));
-    		#end    
-    		
-    		Sys.setCwd(#if (android)Path.addTrailingSlash(#end SUtil.getStorageDirectory()#if (android))#end);
+    		#end       		    		
+    		Sys.setCwd(SUtil.getStorageDirectory());
 		#end
 	
 		#if LUA_ALLOWED llua.Lua.set_callbacks_function(cpp.Callable.fromStaticFunction(psychlua.CallbackHandler.call)); #end
@@ -190,9 +181,11 @@ class Main extends Sprite
 		Lib.current.stage.window.setIcon(icon);
 		#end
 
-		#if desktop
-		FlxG.stage.addEventListener(KeyboardEvent.KEY_UP, toggleFullScreen);
-		#end
+		#if desktop FlxG.stage.addEventListener(KeyboardEvent.KEY_UP, toggleFullScreen); #end
+
+		#if android FlxG.android.preventDefaultKeys = [BACK]; #end
+
+		#if mobile LimeSystem.allowScreenTimeout = ClientPrefs.data.screensaver; #end
 
 		#if html5
 		FlxG.autoPause = false;
