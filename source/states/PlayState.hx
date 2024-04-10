@@ -1862,8 +1862,7 @@ class PlayState extends MusicBeatState
 			DiscordClient.changePresence(detailsText, SONG.song + " (" + storyDifficultyText + ")", iconP2.getCharacter());
 		#end
 	}
-    
-    public var haveFixed:Bool = false; //仅仅用作第一次检测到音乐不同步进行修复，后续不需要再次同步
+      
 	function resyncVocals(?fixVocals:Bool = false):Void
 	{
 		if(finishTimer != null) return;
@@ -1888,14 +1887,21 @@ class PlayState extends MusicBeatState
 		vocals.play();
 		opponentVocals.play();
 	}
+	
+	public fixDesyncedStep:Int = 0;
+	function musicCheck(music:FlxSound, getTime:Float, deviation:Int):Bool
+	{
+	    if (music.length > 0 && Math.abs(music.time - getTime) > deviation)
+	        return true;
+        return false;		
+	}
 
 	public var paused:Bool = false;
 	public var canReset:Bool = true;
 	var startedCountdown:Bool = false;
 	var canPause:Bool = true;
 	var freezeCamera:Bool = false;
-	var allowDebugKeys:Bool = true;
-	
+	var allowDebugKeys:Bool = true;	
 
 	override public function update(elapsed:Float)
 	{
@@ -1972,14 +1978,20 @@ class PlayState extends MusicBeatState
 		{
 			Conductor.songPosition += elapsed * 1000 * playbackRate;
 			if(checkIfDesynced)
-			{
+			{			    
+			    if (musicCheck(vocals, FlxG.sound.music.time, 2)
+			    || (musicCheck(opponentVocals, FlxG.sound.music.time, 2))
+			        fixDesyncedStep++;
+			        
 				var diff:Float = 20 * playbackRate;
 				var timeSub:Float = Conductor.songPosition - Conductor.offset;
+				
 				if (Math.abs(FlxG.sound.music.time - timeSub) > diff
-					|| (vocals.length > 0 && Math.abs(vocals.time - timeSub) > diff)
-					|| (opponentVocals.length > 0 && Math.abs(opponentVocals.time - timeSub) > diff))
+			    || (musicCheck(vocals, timeSub, diff)
+				|| (musicCheck(opponentVocals, timeSub, diff)
 				{
-				    if (haveFixed && ((vocals.length > 0 && Math.abs(FlxG.sound.music.time - vocals.time) > 5) || (opponentVocals.length > 0 && Math.abs(FlxG.sound.music.time - opponentVocals.time) > 5))){
+				    if (fixDesyncedStep >= 10){
+				        fixDesyncedStep = 0;
 					    resyncVocals(true);
 					} else {
 					    resyncVocals();

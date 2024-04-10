@@ -20,7 +20,7 @@ import openfl.Lib;
 class MainMenuState extends MusicBeatState
 {
 	public static var psychEngineVersion:String = '0.7.3'; //This is also used for Discord RPC
-	public static var novaFlareEngineVersion:String = '1.1.1';
+	public static var novaFlareEngineVersion:String = '1.1.2';
 	public static var curSelected:Int = 0;
     public static var saveCurSelected:Int = 0;
     
@@ -74,7 +74,7 @@ class MainMenuState extends MusicBeatState
 		Paths.clearStoredMemory();
 		Paths.clearUnusedMemory();
 
-		Lib.application.window.title = "NF Engine - MainMenuState";
+		//Lib.application.window.title = "NF Engine - MainMenuState";
 		
         Mainbpm = TitleState.bpm;
         bpm = TitleState.bpm;
