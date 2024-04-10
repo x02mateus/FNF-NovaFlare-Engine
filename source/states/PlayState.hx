@@ -1888,7 +1888,7 @@ class PlayState extends MusicBeatState
 		opponentVocals.play();
 	}
 	
-	public fixDesyncedStep:Int = 0;
+	public var fixDesyncedStep:Int = 0;
 	function musicCheck(music:FlxSound, getTime:Float, deviation:Int):Bool
 	{
 	    if (music.length > 0 && Math.abs(music.time - getTime) > deviation)
