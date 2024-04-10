@@ -1889,7 +1889,7 @@ class PlayState extends MusicBeatState
 	}
 	
 	public var fixDesyncedStep:Int = 0;
-	function musicCheck(music:FlxSound, getTime:Float, deviation:Int):Bool
+	function musicCheck(music:FlxSound, getTime:Float, deviation:Float):Bool
 	{
 	    if (music.length > 0 && Math.abs(music.time - getTime) > deviation)
 	        return true;
