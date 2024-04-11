@@ -1902,7 +1902,6 @@ class PlayState extends MusicBeatState
 	var canPause:Bool = true;
 	var freezeCamera:Bool = false;
 	var allowDebugKeys:Bool = true;	
-	var timeSave:Float = 0;
 
 	override public function update(elapsed:Float)
 	{
@@ -1976,12 +1975,8 @@ class PlayState extends MusicBeatState
 		updateIconsPosition();
 
 		if (startedCountdown && !paused)
-		{		    
-		    var data = haxe.Timer.stamp() - timeSave;  
-		    if (timeSave == 0) data = elapsed;
-			Conductor.songPosition += data * 1000 * playbackRate;
-			timeSave = haxe.Timer.stamp();
-			
+		{
+			Conductor.songPosition += elapsed * 1000 * playbackRate;
 			if(checkIfDesynced)
 			{			    
 			    if (musicCheck(vocals, FlxG.sound.music.time, 2)
