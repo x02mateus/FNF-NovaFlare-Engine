@@ -3088,6 +3088,7 @@ class PlayState extends MusicBeatState
 		    numScore.visible = ClientPrefs.data.showComboNum && showComboNum;
 			numScore.loadGraphic(Paths.image(uiPrefix + 'num' + seperatedScore[comboNum] + uiSuffix));
 			if (ClientPrefs.data.comboColor) numScore.color = daRating.color;
+			else numScore.color = FlxColor.WHITE;
 			
 			if (!PlayState.isPixelStage) numScore.setGraphicSize(Std.int(numScore.width * 0.5));
 			else numScore.setGraphicSize(Std.int(numScore.width * daPixelZoom));
