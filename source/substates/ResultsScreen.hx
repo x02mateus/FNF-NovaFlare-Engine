@@ -35,6 +35,8 @@ import openfl.display.Shape;
 import openfl.display.Bitmap;
 import openfl.utils.Assets;
 
+import shaders.Gaussian_blur;
+
 class ResultsScreen extends MusicBeatSubstate
 {
 	var background:FlxSprite;	
@@ -103,10 +105,26 @@ class ResultsScreen extends MusicBeatSubstate
 	    
 	    camOther = new FlxCamera();
 	    camOther.bgColor.alpha = 0;
-	    FlxG.cameras.add(camOther, false);				
+	    FlxG.cameras.add(camOther, false);		
 	    
-		background = new FlxSprite(0, 0).makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);		
+	    var extraLoad:Bool = false;
+		var filesLoad = 'data/' + game.songName + '/resultBG';
+        if (FileSystem.exists(Paths.modFolders(filesLoad + '.png'))){
+            extraLoad = true;
+        } else {
+            filesLoad = 'menuBG';
+            extraLoad = false;
+        }			
+	    
+		background = new FlxSprite(0, 0).loadGraphic(Paths.image(filesLoad, null, true, extraLoad));		
+		background.scale.x = FlxG.width / background.width;
+		background.scale.y = FlxG.Height / background.height;
+		background.offset.x = 0;
+		background.offset.y = 0;
+		background.updateHitbox();		
+		background.antialiasing = ClientPrefs.data.antialiasing;
 		background.alpha = 0;
+		background.shader = new Gaussian_blur();
 		add(background);		
 		
 		//--------------------------
@@ -114,16 +132,7 @@ class ResultsScreen extends MusicBeatSubstate
 		modsBG = new FlxSprite(20, 20).makeGraphic(600, 340 + 20, FlxColor.BLACK);		
 		modsBG.alpha = 0;
 		add(modsBG);		
-		
-		var extraLoad:Bool = false;
-		var filesLoad = 'data/' + game.songName + '/resultBG';
-        if (FileSystem.exists(Paths.modFolders(filesLoad + '.png'))){
-            extraLoad = true;
-        } else {
-            filesLoad = 'menuBG';
-            extraLoad = false;
-        }	
-			
+					
 		modsMenu = new FlxSprite(20, 20).loadGraphic(Paths.image(filesLoad, null, true, extraLoad));		
 		modsMenu.scale.x = 600 / modsMenu.width;
 		modsMenu.scale.y = 338 / modsMenu.height;
