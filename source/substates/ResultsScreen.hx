@@ -118,7 +118,7 @@ class ResultsScreen extends MusicBeatSubstate
 	    
 		background = new FlxSprite(0, 0).loadGraphic(Paths.image(filesLoad, null, true, extraLoad));		
 		background.scale.x = FlxG.width / background.width;
-		background.scale.y = FlxG.Height / background.height;
+		background.scale.y = FlxG.height / background.height;
 		background.offset.x = 0;
 		background.offset.y = 0;
 		background.updateHitbox();		
