@@ -137,7 +137,7 @@ class OptionsState extends MusicBeatState
 			new OptionCata(935, 40, OptionsName.setOpponentMode(), [
 			    new PlayOpponent('If checked, playing as opponent(your score will not be recorded)\nmay have bug in some mods.'),			    
 				new OpponentCodeFix('If checked, goodNoteHit and opponentNoteHit not follow playOpponent setting to change.\nif you playing it will return goodNoteHit function.'),
-				new BotOpponentFix('Bot Opponent Fix'),				
+				new BotOpponentFix('If checked, Hscript and lua will thought you open the bot\nIt use for better support modules need require special key pressing'),				
 				new HealthDrainOPPO('Health Drain on opponent mode'),
 				new HealthDrainOPPOMult('Health Drain multiplier on opponent mode'),			 
 			]),			
