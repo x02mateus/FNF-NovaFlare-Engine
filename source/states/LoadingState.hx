@@ -227,8 +227,6 @@ class LoadingState extends MusicBeatState
 		musicToPrepare = [];
 		songsToPrepare = [];
 
-		FlxG.camera.visible = false;
-		FlxTransitionableState.skipNextTransIn = true;
 		MusicBeatState.switchState(target);
 		transitioning = true;
 		finishedLoading = true;
