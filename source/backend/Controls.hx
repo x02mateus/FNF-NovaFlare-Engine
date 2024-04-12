@@ -329,7 +329,7 @@ class Controls
 	@:noCompletion
 	private function get_mobileC():Bool
 	{
-		if (ClientPrefs.data.controlsAlpha >= 0.1)
+		if (ClientPrefs.data.controlsAlpha >= 0.1 #if desktop && ClientPrefs.data.needMobileControl #end)
 			return true;
 		else
 			return false;
