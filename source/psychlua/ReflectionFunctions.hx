@@ -217,7 +217,7 @@ class ReflectionFunctions
 	    return Type.resolveClass(className);
 	}
 	
-	public static specialKeyCheck(keyName:String):Dynamic
+	public static function specialKeyCheck(keyName:String):Dynamic
 	{
 	    var textfix:Array<String> = keyName.trim().split('.');
 	    var type:String = textfix[1].trim();
