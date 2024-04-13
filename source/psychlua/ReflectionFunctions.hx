@@ -222,15 +222,16 @@ class ReflectionFunctions
 	    var textfix:Array<String> = keyName.trim().split('.');
 	    var type:String = textfix[1].trim();
 	    var key:String = textfix[2].trim();    			
-	    var extraControl:Dynamic;
+	    var extraControl:Dynamic = null;
 	    
 	    for (num in 1...5){
-	        if (ClientPrefs.data.extraKey >= num && key == Reflect.field(ClientPrefs.data, 'extraKeyReturn' + num))
-	        extraControl = Reflect.getProperty(MusicBeatState.instance.mobileControls.current, 'extraKeyReturn' + num);
+	        if (ClientPrefs.data.extraKey >= num && key == Reflect.field(ClientPrefs.data, 'extraKeyReturn' + num)){
+	            extraControl = Reflect.getProperty(MusicBeatState.instance.mobileControls.current, 'extraKeyReturn' + num);
+	            break;
+	        }
 	    }
 	    if (Reflect.getProperty(extraControl, type)){
-	        var yep = true;
-	        return yep;
+	        return true;
 	    }
 	    return null;
 	}
