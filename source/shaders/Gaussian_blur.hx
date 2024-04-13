@@ -8,7 +8,7 @@ class Gaussian_blur extends FlxShader
 		#pragma header
         precision lowp float;
         
-        #define SIZE 20
+        #define SIZE 20.0
         
         #define pi 6.28318530718
         
