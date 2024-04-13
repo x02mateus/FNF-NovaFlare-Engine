@@ -9,7 +9,7 @@ class JudgementCounter extends FlxSpriteGroup
     var game = PlayState.instance;
     var isExtend:Bool = ClientPrefs.data.marvelousRating;
 	public var mainText:FlxText;
-    public var judgeTeam:Array<FlxText>;
+    public var judgeTeam:FlxTypedGroup<FlxText>
     
 	public function new(x:Float, y:Float)
 	{
@@ -34,13 +34,15 @@ class JudgementCounter extends FlxSpriteGroup
 		fixText.scrollFactor.set();		
 		add(fixText); //it will remove soon
 		
+		judgeTeam = new FlxTypedGroup<FlxText>();
+		add(judgeTeam);
+		
 		var runTime:Int = isExtend ? 5 : 4;		
 		for (num in 0...runTime + 1){		 		   
     		var numText = new FlxText(0, 0, 0, "0", 20);
     		numText.setFormat(Paths.font("vcr.ttf"), 20, FlxColor.WHITE, FlxTextAlign.LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
-    		numText.scrollFactor.set();    		
-    		add(numText);		
-    		judgeTeam.push(numText);
+    		numText.scrollFactor.set();    		    		
+    		judgeTeam.add(numText);
     		
     		fixText.text = judgeName[num] + ': ';
     		numText.x = fixText.width;
@@ -56,15 +58,15 @@ class JudgementCounter extends FlxSpriteGroup
 	    switch (name)
 	    {
 	        case 'marvelous' :
-	            judgeTeam[0].text = Std.string(game.ratingsData[4].hits);
+	            judgeTeam.members[0].text = Std.string(game.ratingsData[4].hits);
 	        case 'sick' :
-	            judgeTeam[0 + dataFix].text = Std.string(game.ratingsData[0].hits);
+	            judgeTeam.members[0 + dataFix].text = Std.string(game.ratingsData[0].hits);
 	        case 'good' :
-	            judgeTeam[1 + dataFix].text = Std.string(game.ratingsData[1].hits);
+	            judgeTeam.members[1 + dataFix].text = Std.string(game.ratingsData[1].hits);
 	        case 'bad' :
-	            judgeTeam[2 + dataFix].text = Std.string(game.ratingsData[2].hits);
+	            judgeTeam.members[2 + dataFix].text = Std.string(game.ratingsData[2].hits);
 	        case 'shit' :
-	            judgeTeam[3 + dataFix].text = Std.string(game.ratingsData[3].hits);
+	            judgeTeam.members[3 + dataFix].text = Std.string(game.ratingsData[3].hits);
 	    }			
 	}
 }
