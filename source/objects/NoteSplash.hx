@@ -51,7 +51,7 @@ class NoteSplash extends FlxSprite
 	}
 
 	var maxAnims:Int = 2;
-	public function setupNoteSplash(x:Float, y:Float, direction:Int = 0, ?note:Note = null) {
+	public function setupNoteSplash(x:Float, y:Float, direction:Int = 0, ?note:Note = null, ?alpha = 0.6) {
 		setPosition(x - Note.swagWidth * 0.95, y - Note.swagWidth);
 		aliveTime = 0;
 
