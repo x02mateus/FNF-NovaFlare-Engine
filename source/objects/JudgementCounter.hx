@@ -40,7 +40,7 @@ class JudgementCounter extends FlxSpriteGroup
     		numText.setFormat(Paths.font("vcr.ttf"), 20, FlxColor.WHITE, FlxTextAlign.LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
     		numText.scrollFactor.set();    		
     		add(numText);		
-    		judgeTeam.add(numText);
+    		judgeTeam.push(numText);
     		
     		fixText.text = judgeName[num] + ': ';
     		numText.x = fixText.width;
@@ -56,15 +56,15 @@ class JudgementCounter extends FlxSpriteGroup
 	    switch (name)
 	    {
 	        case 'marvelous' :
-	            judgeTeam[0].text = game.ratingsData[4].hits;
+	            judgeTeam[0].text = Std.String(game.ratingsData[4].hits);
 	        case 'sick' :
-	            judgeTeam[0 + dataFix].text = game.ratingsData[0].hits;
+	            judgeTeam[0 + dataFix].text = Std.String(game.ratingsData[0].hits);
 	        case 'good' :
-	            judgeTeam[1 + dataFix].text = game.ratingsData[1].hits;
+	            judgeTeam[1 + dataFix].text = Std.String(game.ratingsData[1].hits);
 	        case 'bad' :
-	            judgeTeam[2 + dataFix].text = game.ratingsData[2].hits;
+	            judgeTeam[2 + dataFix].text = Std.String(game.ratingsData[2].hits);
 	        case 'shit' :
-	            judgeTeam[3 + dataFix].text = game.ratingsData[3].hits;
+	            judgeTeam[3 + dataFix].text = Std.String(game.ratingsData[3].hits);
 	    }			
 	}
 }
