@@ -19,6 +19,7 @@ import flixel.addons.transition.FlxTransitionableState;
 
 import states.PlayState;
 import states.FreeplayState;
+import states.FreeplayStatePsych
 import states.MainMenuState;
 
 import backend.Conductor;
@@ -674,7 +675,8 @@ class ResultsScreen extends MusicBeatSubstate
 				onComplete: function(twn:FlxTween) {
 				    FlxTransitionableState.skipNextTransIn = true;
 				    Mods.loadTopMod();
-					MusicBeatState.switchState(new FreeplayState());
+					if (!ClientPrefs.data.freeplayOld) MusicBeatState.switchState(new FreeplayState());
+					else MusicBeatState.switchState(new FreeplayStatePsych());
 				},
 			ease: FlxEase.expoInOut});
 			

@@ -8,6 +8,7 @@ import backend.Song;
 
 import states.editors.ChartingState;
 import states.FreeplayState;
+import states.FreeplayStatePsych
 import states.StoryMenuState;
 
 import options.OptionsState;
@@ -655,7 +656,8 @@ class PauseSubState extends MusicBeatSubstate
 					if(PlayState.isStoryMode) {
 						MusicBeatState.switchState(new StoryMenuState());
 					} else {
-						MusicBeatState.switchState(new FreeplayState());
+						if (!ClientPrefs.data.freeplayOld) MusicBeatState.switchState(new FreeplayState());
+						else MusicBeatState.switchState(new FreeplayStatePsych());
 					}
 					//PlayState.cancelMusicFadeTween();
 					FlxG.sound.playMusic(Paths.music('freakyMenu'));
