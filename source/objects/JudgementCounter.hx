@@ -15,15 +15,15 @@ class JudgementCounter extends FlxSpriteGroup
 	{
 		super(x, y);
 		
-		var marvelousRate:String = isExtend ? 'Marvelous: 0\n' : '';
+		var marvelousRate:String = isExtend ? 'Marvelous:\n' : '';
 		mainText = new FlxText(0, 0, 0, "", 20);
 		mainText.setFormat(Paths.font("vcr.ttf"), 20, FlxColor.WHITE, FlxTextAlign.LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		mainText.scrollFactor.set();
 		mainText.text = marvelousRate 
-		+ 'Sicks: 0' + '\n'
-		+ 'Goods: 0' + '\n'
-		+ 'Bads: 0' + '\n'
-		+ 'Shits: 0' + '\n';
+		+ 'Sicks:' + '\n'
+		+ 'Goods:' + '\n'
+		+ 'Bads:' + '\n'
+		+ 'Shits:' + '\n';
 		add(mainText);
 		
 		var judgeName:Array<String> = ['Sicks', 'Goods', 'Bads', 'Shits'];
@@ -43,7 +43,7 @@ class JudgementCounter extends FlxSpriteGroup
     		judgeTeam.push(numText);
     		fixText.text = judgeName[num] + ': ';
     		numText.x = fixText.width;
-    		numText.y = fixText.height * num;
+    		numText.y = 20 * num;
 		}
 		
 		fixText.destroy();
