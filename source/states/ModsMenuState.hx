@@ -127,9 +127,7 @@ class ModsMenuState extends MusicBeatState
 				}
 			}
 			updateModDisplayData();
-			checkToggleButtons();
-			buttonEnableAll.visible = buttonEnableAll.active = false;
-			buttonDisableAll.visible = buttonDisableAll.active = true;
+			checkToggleButtons();						
 			FlxG.sound.play(Paths.sound('scrollMenu'), 0.6);
 		});
 		buttonEnableAll.bg.color = FlxColor.GREEN;
@@ -149,9 +147,7 @@ class ModsMenuState extends MusicBeatState
 				}
 			}
 			updateModDisplayData();
-			checkToggleButtons();
-			buttonEnableAll.visible = buttonEnableAll.active = true;
-			buttonDisableAll.visible = buttonDisableAll.active = false;
+			checkToggleButtons();			
 			FlxG.sound.play(Paths.sound('scrollMenu'), 0.6);
 		});
 		buttonDisableAll.bg.color = 0xFFFF6666;
@@ -770,8 +766,10 @@ class ModsMenuState extends MusicBeatState
 
 	function checkToggleButtons()
 	{
-		buttonEnableAll.visible = buttonEnableAll.enabled = modsList.disabled.length > 0;
-		buttonDisableAll.visible = buttonDisableAll.enabled = !buttonEnableAll.visible;
+	    new FlxTimer().start(0.01, function(tmr:FlxTimer){		
+		    buttonEnableAll.visible = buttonEnableAll.enabled = modsList.disabled.length > 0;
+		    buttonDisableAll.visible = buttonDisableAll.enabled = !buttonEnableAll.visible;
+		} //I don't understand why, but is it better to have it updated in the next frame
 	}
 
 	function reload()
