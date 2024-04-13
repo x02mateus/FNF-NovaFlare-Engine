@@ -225,7 +225,7 @@ class ReflectionFunctions
 	    var extraControl:Dynamic;
 	    
 	    for (num in 1...5){
-	        if (ClientPrefs.data.extraKey >= num && key == Reflect.field(ClientPrefs.data, 'extraKeyReturn' + mum))
+	        if (ClientPrefs.data.extraKey >= num && key == Reflect.field(ClientPrefs.data, 'extraKeyReturn' + num))
 	        extraControl = Reflect.getProperty(MusicBeatState.instance.mobileControls.current, 'extraKeyReturn' + num);
 	    }
 	    if (Reflect.getProperty(extraControl, type)){
