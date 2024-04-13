@@ -1262,7 +1262,31 @@ class SkipTitleVideo extends Option
 	{
 		return "Skip Intro Video: " + (ClientPrefs.data.skipTitleVideo ? enable_O : disable_O);
 	}
+}
 
+class FreeplayStateVersion extends Option
+{
+	public function new(desc:String)
+	{
+		super();
+		description = desc;
+	}
+
+	override function left()
+	{	    
+		ClientPrefs.data.freeplayOld = !ClientPrefs.data.freeplayOld;
+		display = updateDisplay();
+    }
+
+	override function right()
+	{
+	    left();
+	}
+
+	private override function updateDisplay():String
+	{
+		return "FreePlay Base: < " + (ClientPrefs.data.freeplayOld ? 'Psych' : 'NovaFlare') + " >";
+	}
 }
 
 //----------------------------------------------------------------
