@@ -337,7 +337,7 @@ class Note extends FlxSprite
 			skin = PlayState.SONG != null ? PlayState.SONG.arrowSkin : null;
 			if(skin == null || skin.length < 1){
 				skin = defaultNoteSkin + postfix;
-				if(ClientPrefs.data.noteSkin == ClientPrefs.defaultData.noteSkin){ 
+				if(ClientPrefs.data.noteSkin == ClientPrefs.defaultData.noteSkin){
 					if (_modChecked == Mods.currentModDirectory || (Paths.fileExists('images/NOTE_assets.png', IMAGE) && Paths.fileExists('images/NOTE_assets.xml', TEXT)))
 					{ //fix for load old mods note assets
 						_modChecked = Mods.currentModDirectory;
