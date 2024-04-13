@@ -8,7 +8,7 @@ import backend.Song;
 
 import states.editors.ChartingState;
 import states.FreeplayState;
-import states.FreeplayStatePsych
+import states.FreeplayStatePsych;
 import states.StoryMenuState;
 
 import options.OptionsState;

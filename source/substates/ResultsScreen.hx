@@ -19,7 +19,7 @@ import flixel.addons.transition.FlxTransitionableState;
 
 import states.PlayState;
 import states.FreeplayState;
-import states.FreeplayStatePsych
+import states.FreeplayStatePsych;
 import states.MainMenuState;
 
 import backend.Conductor;
