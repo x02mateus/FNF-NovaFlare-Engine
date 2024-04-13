@@ -164,9 +164,10 @@ class StoryMenuState extends MusicBeatState
 		rightArrow.animation.play('idle');
 		difficultySelectors.add(rightArrow);
 
-		add(bgYellow);
+		add(bgYellow);		
 		add(bgGray);
 		add(bgSprite);
+		
 		add(grpWeekCharacters);
 
 		var tracksSprite:FlxSprite = new FlxSprite(FlxG.width * 0.07, bgSprite.y + 425).loadGraphic(Paths.image('Menu_Tracks'));
@@ -334,7 +335,8 @@ class StoryMenuState extends MusicBeatState
 				}
 				stopspamming = true;
 			}
-
+            
+            LoadingState.prepareToSong();
 			new FlxTimer().start(1, function(tmr:FlxTimer)
 			{
 				LoadingState.loadAndSwitchState(new PlayState(), true);
