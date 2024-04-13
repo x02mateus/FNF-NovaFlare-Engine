@@ -183,7 +183,7 @@ class FreeplayStatePsych extends MusicBeatState
 		changeSelection();
 		updateTexts();
 
-		addVirtualPad('LEFT_FULL', 'A_B_C_X_Y_Z');
+		addVirtualPad(LEFT_FULL, A_B_C_X_Y_Z);
 		super.create();
 	}
 
@@ -340,7 +340,7 @@ class FreeplayStatePsych extends MusicBeatState
 					try
 					{
 						var playerVocals:String = getVocalFromCharacter(PlayState.SONG.player1);
-						var loadedVocals = Paths.voices(PlayState.SONG.song, (playerVocals != null && playerVocals.length > 0) ? playerVocals : 'Player');
+						var loadedVocals:FlxSound = Paths.voices(PlayState.SONG.song, (playerVocals != null && playerVocals.length > 0) ? playerVocals : 'Player');
 						if(loadedVocals == null) loadedVocals = Paths.voices(PlayState.SONG.song);
 						
 						if(loadedVocals != null && loadedVocals.length > 0)
@@ -364,7 +364,7 @@ class FreeplayStatePsych extends MusicBeatState
 					{
 						//trace('please work...');
 						var oppVocals:String = getVocalFromCharacter(PlayState.SONG.player2);
-						var loadedVocals = Paths.voices(PlayState.SONG.song, (oppVocals != null && oppVocals.length > 0) ? oppVocals : 'Opponent');
+						var loadedVocals:FlxSound = Paths.voices(PlayState.SONG.song, (oppVocals != null && oppVocals.length > 0) ? oppVocals : 'Opponent');
 						
 						if(loadedVocals != null && loadedVocals.length > 0)
 						{
@@ -487,7 +487,7 @@ class FreeplayStatePsych extends MusicBeatState
 		intendedRating = Highscore.getRating(songs[curSelected].songName, curDifficulty);
 		#end
 
-		lastDifficultyName = Difficulty.getString(curDifficulty, false);
+		lastDifficultyName = Difficulty.getString(curDifficulty);
 		var displayDiff:String = Difficulty.getString(curDifficulty);
 		if (Difficulty.list.length > 1)
 			diffText.text = '< ' + displayDiff.toUpperCase() + ' >';
@@ -548,7 +548,7 @@ class FreeplayStatePsych extends MusicBeatState
 	}
 
 	inline private function _updateSongLastDifficulty()
-		songs[curSelected].lastDifficulty = Difficulty.getString(curDifficulty, false);
+		songs[curSelected].lastDifficulty = Difficulty.getString(curDifficulty);
 
 	private function positionHighscore()
 	{
