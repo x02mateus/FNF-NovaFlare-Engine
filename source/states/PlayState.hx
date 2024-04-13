@@ -26,6 +26,7 @@ import cutscenes.DialogueBoxPsych;
 
 import states.StoryMenuState;
 import states.FreeplayState;
+import states.FreeplayStatePsych;
 import states.editors.ChartingState;
 import states.editors.CharacterEditorState;
 
@@ -2811,7 +2812,8 @@ class PlayState extends MusicBeatState
 				}
 				else{   
 				    Mods.loadTopMod();
-				    MusicBeatState.switchState(new FreeplayState());
+				    if (!ClientPrefs.data.freeplayOld) MusicBeatState.switchState(new FreeplayState());
+				    else MusicBeatState.switchState(new FreeplayStatePsych());
 				    FlxG.sound.playMusic(Paths.music('freakyMenu'),0);
 				    FlxG.sound.music.fadeIn(4, 0, 0.7);
 				    
