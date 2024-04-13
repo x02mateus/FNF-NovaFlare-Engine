@@ -38,6 +38,14 @@ class ReflectionFunctions
 				FunkinLua.luaTrace('getPropertyFromClass: Class $classVar not found', false, false, FlxColor.RED);
 				return null;
 			}
+			
+			if (MusicBeatState.instance.mobileControls != null 
+			&& myClass == 'flixel.FlxG' 
+			&& variable.indexOf('key') != -1){
+			    var check:Dynamic;
+			    check = specialKeyCheck(variable); //fuck you old lua 🙃
+			    if (check != null) return check;
+			}
 
 			var split:Array<String> = variable.split('.');
 			if(split.length > 1) {
@@ -207,6 +215,24 @@ class ReflectionFunctions
 	    }
 	    
 	    return Type.resolveClass(className);
+	}
+	
+	public static specialKeyCheck(keyName:String):Dynamic
+	{
+	    var textfix:Array<String> = keyName.trim().split('.');
+	    var type:String = textfix[1].trim();
+	    var key:String = textfix[2].trim();    			
+	    var extraControl:Dynamic;
+	    
+	    for (num in 1...5){
+	        if (ClientPrefs.data.extraKey >= num && key == Reflect.field(ClientPrefs.data, 'extraKeyReturn' + mum))
+	        extraControl = Reflect.getProperty(MusicBeatState.instance.mobileControls.current, 'extraKeyReturn' + num);
+	    }
+	    if (Reflect.getProperty(extraControl, type)){
+	        var yep = true;
+	        return yep;
+	    }
+	    return null;
 	}
 
 	static function parseInstances(args:Array<Dynamic>)
