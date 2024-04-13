@@ -15,7 +15,7 @@ class JudgementCounter extends FlxSpriteGroup
 	{
 		super(x, y);
 		
-		var marvelousRate:String = isExtend ？'Marvelous: 0\n' : '';
+		var marvelousRate:String = isExtend ? 'Marvelous: 0\n' : '';
 		mainText = new FlxText(0, 0, 0, "", 20);
 		mainText.setFormat(Paths.font("vcr.ttf"), 20, FlxColor.WHITE, FlxTextAlign.LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		mainText.scrollFactor.set();
