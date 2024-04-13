@@ -44,9 +44,7 @@ class OptionsSubstate extends MusicBeatSubstate
 	public var shownStuff:FlxTypedGroup<FlxText>;
 
 	public var visibleRange = [114, 640];
-	
-	public var camGame:FlxCamera;
-	public var camNote:FlxCamera;
+	public var camMouseCheck:FlxCamera;
 	
 	public var strumNote:FlxTypedGroup<StrumNote>;
 	public var normalNote:FlxTypedGroup<Note>;
@@ -137,6 +135,7 @@ class OptionsSubstate extends MusicBeatSubstate
 				new CustomFadeSound('Change Custom Fade Sound Volume.'),	
 				new CustomFadeText('Check for showcase engine version and loading condition.'),								
 				new SkipTitleVideo('Check for skip intro video'),
+				new FreeplayStateVersion('Choose which engine freeplay you need.');
 			]),
 			new OptionCata(345, 40 + 64, OptionsName.setControls(), [                
 			    new ControlsAlpha('Virtual pad alpha at state.'),
@@ -240,7 +239,11 @@ class OptionsSubstate extends MusicBeatSubstate
         
 		virtualPad.y -= 75;		
 		
-		cameras = [FlxG.cameras.list[FlxG.cameras.list.length - 1]];		
+		cameras = [FlxG.cameras.list[FlxG.cameras.list.length - 1]];	
+		
+		camMouseCheck = new FlxCamera();
+		camMouseCheck.bgColor.alpha = 0;
+		FlxG.cameras.add(camMouseCheck, false);	
 		
 		super.create();					
 		
@@ -371,10 +374,10 @@ class OptionsSubstate extends MusicBeatSubstate
 				
 		for (numP in 0...options.length - 1) {
 			if (FlxG.mouse.justPressed 
-			   && FlxG.mouse.screenY >= CatTeam.members[numP].y 
-    	       && FlxG.mouse.screenY <= CatTeam.members[numP].y + CatTeam.members[numP].height
-    	       && FlxG.mouse.screenX >= CatTeam.members[numP].x 
-    	       && FlxG.mouse.screenX <= CatTeam.members[numP].x + CatTeam.members[numP].width
+			   && FlxG.mouse.getScreenPosition(camMouseCheck).y >= CatTeam.members[numP].y 
+    	       && FlxG.mouse.getScreenPosition(camMouseCheck).y <= CatTeam.members[numP].y + CatTeam.members[numP].height
+    	       && FlxG.mouse.getScreenPosition(camMouseCheck).x >= CatTeam.members[numP].x 
+    	       && FlxG.mouse.getScreenPosition(camMouseCheck).x <= CatTeam.members[numP].x + CatTeam.members[numP].width
     	       ){
 			    isInMain = false;		
 		        
@@ -754,7 +757,8 @@ class OptionsSubstate extends MusicBeatSubstate
                 ClientPrefs.data.CustomFade = ClientPrefs.defaultData.CustomFade;
                 ClientPrefs.data.CustomFadeSound = ClientPrefs.defaultData.CustomFadeSound;
                 ClientPrefs.data.CustomFadeText = ClientPrefs.defaultData.CustomFadeText;
-                ClientPrefs.data.skipTitleVideo = ClientPrefs.defaultData.skipTitleVideo;                
+                ClientPrefs.data.skipTitleVideo = ClientPrefs.defaultData.skipTitleVideo;       
+                ClientPrefs.data.freeplayOld = ClientPrefs.defaultData.freeplayOld;                       
             case 5:                
                 ClientPrefs.data.controlsAlpha = ClientPrefs.defaultData.controlsAlpha;
                 ClientPrefs.data.playControlsAlpha = ClientPrefs.defaultData.playControlsAlpha;                                

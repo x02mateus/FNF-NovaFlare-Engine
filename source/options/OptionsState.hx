@@ -806,7 +806,8 @@ class OptionsState extends MusicBeatState
                 ClientPrefs.data.CustomFade = ClientPrefs.defaultData.CustomFade;
                 ClientPrefs.data.CustomFadeSound = ClientPrefs.defaultData.CustomFadeSound;
                 ClientPrefs.data.CustomFadeText = ClientPrefs.defaultData.CustomFadeText;
-                ClientPrefs.data.skipTitleVideo = ClientPrefs.defaultData.skipTitleVideo;                
+                ClientPrefs.data.skipTitleVideo = ClientPrefs.defaultData.skipTitleVideo; 
+                ClientPrefs.data.freeplayOld = ClientPrefs.defaultData.freeplayOld;              
             case 5:
                 ClientPrefs.data.extraKey = ClientPrefs.defaultData.extraKey;
                 ClientPrefs.data.controlsAlpha = ClientPrefs.defaultData.controlsAlpha;
