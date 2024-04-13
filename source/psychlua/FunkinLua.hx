@@ -24,7 +24,7 @@ import objects.Character;
 import states.MainMenuState;
 import states.StoryMenuState;
 import states.FreeplayState;
-import states.FreeplayStatePsych
+import states.FreeplayStatePsych;
 
 import substates.PauseSubState;
 import substates.GameOverSubstate;
