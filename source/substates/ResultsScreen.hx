@@ -124,8 +124,9 @@ class ResultsScreen extends MusicBeatSubstate
 		background.updateHitbox();		
 		background.antialiasing = ClientPrefs.data.antialiasing;		
 		background.shader = new Gaussian_blur();
-		add(background);		
 		background.alpha = 0;
+		add(background);		
+		
 		
 		//--------------------------
 		
@@ -494,10 +495,10 @@ class ResultsScreen extends MusicBeatSubstate
 	
 	function startTween(){
 	
-	    FlxTween.tween(background, {alpha: 0.5}, 0.5);	
+	    FlxTween.tween(background, {alpha: 1}, 1);	
 	    
 	    
-	    new FlxTimer().start(0.5, function(tmr:FlxTimer){				    
+	    new FlxTimer().start(1, function(tmr:FlxTimer){				    
 								
     		FlxTween.tween(modsBG, {alpha: 0.5}, 0.5);		
     		FlxTween.tween(mesBG, {alpha: 0.5}, 0.5);		
@@ -509,14 +510,14 @@ class ResultsScreen extends MusicBeatSubstate
 		});			
 		
 		
-		new FlxTimer().start(1, function(tmr:FlxTimer){
+		new FlxTimer().start(1.5, function(tmr:FlxTimer){
 		  
 		    FlxTween.tween(modsMenu, {alpha: 1}, 0.5);	           
             FlxTween.tween(modsText, {alpha: 1}, 0.5);	
 		
 		});						
 		
-		new FlxTimer().start(1.5, function(tmr:FlxTimer){
+		new FlxTimer().start(2, function(tmr:FlxTimer){
 			for (i in 0...mesTextNumber.length){
 			    var tweenTimer:FlxTimer = new FlxTimer();
                 tweenTimer.start((0.5 - 0.1) / mesTextNumber.length * i, function(tmr:FlxTimer){
@@ -539,7 +540,7 @@ class ResultsScreen extends MusicBeatSubstate
 			}
 		});
 		
-		new FlxTimer().start(2, function(tmr:FlxTimer){
+		new FlxTimer().start(2.5, function(tmr:FlxTimer){
 		
 		    FlxTween.tween(graphNote, {alpha: 1}, 0.5);
 		
@@ -557,7 +558,7 @@ class ResultsScreen extends MusicBeatSubstate
 		});
 		
 		
-		new FlxTimer().start(2.5, function(tmr:FlxTimer){
+		new FlxTimer().start(3, function(tmr:FlxTimer){
 			FlxTween.tween(backBG, {x:  1280 - backBG.width}, 1, {ease: FlxEase.cubeInOut});
 			FlxTween.tween(backText, {x: 1280 - backBG.width / 2 - backText.width / 2}, 1.2, {ease: FlxEase.cubeInOut});
 		});
