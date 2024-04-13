@@ -38,14 +38,14 @@ class ReflectionFunctions
 				FunkinLua.luaTrace('getPropertyFromClass: Class $classVar not found', false, false, FlxColor.RED);
 				return null;
 			}
-			
+			/*
 			if (MusicBeatState.instance.mobileControls != null 
 			&& myClass == 'flixel.FlxG' 
 			&& variable.indexOf('key') != -1){
 			    var check:Dynamic;
 			    check = specialKeyCheck(variable); //fuck you old lua 🙃
 			    if (check != null) return check;
-			}
+			}*/
 
 			var split:Array<String> = variable.split('.');
 			if(split.length > 1) {
