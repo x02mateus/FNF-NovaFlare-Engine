@@ -128,6 +128,8 @@ class ModsMenuState extends MusicBeatState
 			}
 			updateModDisplayData();
 			checkToggleButtons();
+			buttonEnableAll.visible = buttonEnableAll.active = false;
+			buttonDisableAll.visible = buttonDisableAll.active = true;
 			FlxG.sound.play(Paths.sound('scrollMenu'), 0.6);
 		});
 		buttonEnableAll.bg.color = FlxColor.GREEN;
@@ -148,6 +150,8 @@ class ModsMenuState extends MusicBeatState
 			}
 			updateModDisplayData();
 			checkToggleButtons();
+			buttonEnableAll.visible = buttonEnableAll.active = true;
+			buttonDisableAll.visible = buttonDisableAll.active = false;
 			FlxG.sound.play(Paths.sound('scrollMenu'), 0.6);
 		});
 		buttonDisableAll.bg.color = 0xFFFF6666;
@@ -307,7 +311,7 @@ class ModsMenuState extends MusicBeatState
 
 	override function update(elapsed:Float)
 	{
-		if(controls.BACK && hoveringOnMods)
+		if((controls.BACK  #if android || FlxG.android.justReleased.BACK #end ) && hoveringOnMods)
 		{
 			if(colorTween != null) {
 				colorTween.cancel();
@@ -479,7 +483,7 @@ class ModsMenuState extends MusicBeatState
 				}
 				else 
 				{
-					if(controls.BACK #if android || FlxG.android.justReleased.BACK#end)
+					if(controls.BACK)
 					{
 						hoveringOnMods = true;
 						var button = getButton();
