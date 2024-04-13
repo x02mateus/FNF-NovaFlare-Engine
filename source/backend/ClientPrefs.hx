@@ -68,6 +68,7 @@ import states.TitleState;
 	public var CustomFadeSound:Float = 0.5;
 	public var CustomFadeText:Bool = true;
 	public var skipTitleVideo:Bool = false;		
+	public var freeplayOld:Bool = false;
 	
 	public var gameOverVibration:Bool = false;	
 	public var discordRPC:Bool = true;
