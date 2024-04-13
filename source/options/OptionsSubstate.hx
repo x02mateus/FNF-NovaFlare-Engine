@@ -135,7 +135,7 @@ class OptionsSubstate extends MusicBeatSubstate
 				new CustomFadeSound('Change Custom Fade Sound Volume.'),	
 				new CustomFadeText('Check for showcase engine version and loading condition.'),								
 				new SkipTitleVideo('Check for skip intro video'),
-				new FreeplayStateVersion('Choose which engine freeplay you need.');
+				new FreeplayStateVersion('Choose which engine freeplay you need.'),
 			]),
 			new OptionCata(345, 40 + 64, OptionsName.setControls(), [                
 			    new ControlsAlpha('Virtual pad alpha at state.'),
