@@ -9,7 +9,7 @@ class JudgementCounter extends FlxSpriteGroup
     var game = PlayState.instance;
     var isExtend:Bool = ClientPrefs.data.marvelousRating;
 	public var mainText:FlxText;
-    public var judgeTeam:FlxTypedGroup<FlxText>
+    public var judgeTeam:FlxTypedGroup<FlxText>;
     
 	public function new(x:Float, y:Float)
 	{
