@@ -769,7 +769,7 @@ class ModsMenuState extends MusicBeatState
 	    new FlxTimer().start(0.01, function(tmr:FlxTimer){		
 		    buttonEnableAll.visible = buttonEnableAll.enabled = modsList.disabled.length > 0;
 		    buttonDisableAll.visible = buttonDisableAll.enabled = !buttonEnableAll.visible;
-		} //I don't understand why, but is it better to have it updated in the next frame
+		}); //I don't understand why, but is it better to have it updated in the next frame
 	}
 
 	function reload()
