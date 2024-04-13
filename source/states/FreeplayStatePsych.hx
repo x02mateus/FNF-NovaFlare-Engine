@@ -9,7 +9,7 @@ import objects.MusicPlayer;
 
 import states.FreeplayState.SongMetadata;
 
-import options.GameplayChangersSubstate;
+import substates.GameplayChangersSubstate;
 import substates.ResetScoreSubState;
 
 import flixel.math.FlxMath;
@@ -169,8 +169,7 @@ class FreeplayStatePsych extends MusicBeatState
 			leText = "Press X to listen to the Song / Press C to open the Gameplay Changers Menu / Press Y to Reset your Score and Accuracy.";
         else
 			leText = "Press SPACE to listen to the Song / Press CTRL to open the Gameplay Changers Menu / Press RESET to Reset your Score and Accuracy.";
-
-		var leText:String = Language.getPhrase("freeplay_tip", leText);
+		
 		bottomString = leText;
 		var size:Int = 16;
 		bottomText = new FlxText(bottomBG.x, bottomBG.y + 4, FlxG.width, leText, size);
@@ -194,7 +193,7 @@ class FreeplayStatePsych extends MusicBeatState
 		persistentUpdate = true;
 		super.closeSubState();
 		removeVirtualPad();
-		addVirtualPad('LEFT_FULL', 'A_B_C_X_Y_Z');
+		addVirtualPad(LEFT_FULL, A_B_C_X_Y_Z);
 	}
 
 	public function addSong(songName:String, weekNum:Int, songCharacter:String, color:Int)
@@ -239,7 +238,7 @@ class FreeplayStatePsych extends MusicBeatState
 
 		if (!player.playingMusic)
 		{
-			scoreText.text = Language.getPhrase('personal_best', 'PERSONAL BEST: {0} ({1}%)', [lerpScore, ratingSplit.join('.')]);
+			scoreText.text = 'PERSONAL BEST: ' + lerpScore + ' (' + ratingSplit.join('.') + '%)';
 			positionHighscore();
 			
 			if(songs.length > 1)
