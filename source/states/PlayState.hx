@@ -249,7 +249,7 @@ class PlayState extends MusicBeatState
 	public var songHits:Int = 0;
 	public var songMisses:Int = 0;
 	public var scoreTxt:FlxText;
-	public var judgementCounter_S:FlxText; //add _S is make sure nobody make a new one broken this
+	public var judgementCounter_S:JudgementCounter; //add _S is make sure nobody make a new one broken this
 	var timeTxt:FlxText;
 	var scoreTxtTween:FlxTween;
 	
@@ -585,18 +585,7 @@ class PlayState extends MusicBeatState
 		scoreTxt.visible = !ClientPrefs.data.hideHud;
 		uiGroup.add(scoreTxt);
 		
-		var marvelousRate:String = ClientPrefs.data.marvelousRating ? 'Marvelous: 0\n' : '';
-		judgementCounter_S = new FlxText(10, 0, 0, "", 20);
-		judgementCounter_S.setFormat(Paths.font("vcr.ttf"), 20, FlxColor.WHITE, FlxTextAlign.LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
-		judgementCounter_S.borderSize = 1.5;
-		judgementCounter_S.borderQuality = 2;
-		judgementCounter_S.scrollFactor.set();
-		judgementCounter_S.cameras = [camHUD];
-		judgementCounter_S.text = marvelousRate 
-		+ 'Sicks: 0' + '\n'
-		+ 'Goods: 0' + '\n'
-		+ 'Bads: 0' + '\n'
-		+ 'Shits: 0' + '\n';
+		judgementCounter_S = new JudgementCounter(10, 0);
 		judgementCounter_S.visible = (ClientPrefs.data.judgementCounter && !ClientPrefs.data.hideHud && !ClientPrefs.getGameplaySetting('botplay'));		
 		judgementCounter_S.cameras = [camHUD];
 		add(judgementCounter_S);
@@ -1234,14 +1223,7 @@ class PlayState extends MusicBeatState
 		        }
 		        else {
 		            scoreTxt.text += '(' + ratingFC + ') ' + ratingName;
-		        }
-		
-		var marvelousRate:String = ClientPrefs.data.marvelousRating ? 'Marvelous: ${ratingsData[4].hits}\n' : '';
-		judgementCounter_S.text = marvelousRate
-		+ 'Sicks: ${ratingsData[0].hits}\n'
-		+ 'Goods: ${ratingsData[1].hits}\n'
-		+ 'Bads: ${ratingsData[2].hits}\n'
-		+ 'Shits: ${ratingsData[3].hits}\n';
+		        }				
 
 		if (!miss && ClientPrefs.data.playOpponent ? !cpuControlled_opponent : !cpuControlled)
 			doScoreBop();
@@ -3020,6 +3002,7 @@ class PlayState extends MusicBeatState
 				songHits++;
 				totalPlayed++;
 				RecalculateRating(false);
+				judgementCounter_S.updateScore(daRating.name);
 			}
 		}
 		
