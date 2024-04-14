@@ -43,7 +43,7 @@ class JudgementCounter extends FlxSpriteGroup
     		judgeTeam.push(numText);
     		fixText.text = judgeName[num] + ': ';
     		numText.x = fixText.width;
-    		numText.y = marvelousRate.height / (isExtend ? 5 : 4) * num;
+    		numText.y = mainText.height / (isExtend ? 5 : 4) * num;
 		}
 		
 		fixText.destroy();
