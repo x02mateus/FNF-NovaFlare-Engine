@@ -560,7 +560,7 @@ class LoadingState extends MusicBeatState
     	var input:String = File.getContent(path);
     	var regex = ~/makeLuaSprite\('(\S+)', '(\S+)', .*?\)/g; // Global flag 'g' added for multiple matches 
     	while (regex.match(input)) {
-    	    var result = regex.matched(1); // Extract the first capture group 
+    	    var result = regex.matched(2); // Extract the first capture group 
     	    imagesToPrepare.push(result); // Output each match 
     	    input = regex.matchedRight(); // Move to the next match 
     	}				
