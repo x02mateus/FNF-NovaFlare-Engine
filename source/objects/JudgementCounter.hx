@@ -34,7 +34,7 @@ class JudgementCounter extends FlxSpriteGroup
 		fixText.scrollFactor.set();		
 		add(fixText); //it will remove soon		
 		
-		var runTime:Int = isExtend ? 5 : 4;		
+		var runTime:Int = isExtend ? 4 : 3;		
 		for (num in 0...runTime + 1){		 		   
     		var numText = new FlxText(0, 0, 0, "0", 20);
     		numText.setFormat(Paths.font("vcr.ttf"), 20, FlxColor.WHITE, FlxTextAlign.LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
@@ -43,7 +43,7 @@ class JudgementCounter extends FlxSpriteGroup
     		judgeTeam.push(numText);
     		fixText.text = judgeName[num] + ': ';
     		numText.x = fixText.width;
-    		numText.y = 20 * num;
+    		numText.y = marvelousRate.height / (isExtend ? 5 : 4) * num;
 		}
 		
 		fixText.destroy();
