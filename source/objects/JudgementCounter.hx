@@ -15,28 +15,26 @@ class JudgementCounter extends FlxSpriteGroup
 	{
 		super(x, y);
 		
-		var marvelousRate:String = isExtend ? 'Marvelous:\n' : '';
-		mainText = new FlxText(0, 0, 0, "", 20);
-		mainText.setFormat(Paths.font("vcr.ttf"), 20, FlxColor.WHITE, FlxTextAlign.LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
-		mainText.scrollFactor.set();
-		mainText.borderSize = 1.25;
-		mainText.text = marvelousRate 
-		+ 'Sicks:' + '\n'
-		+ 'Goods:' + '\n'
-		+ 'Bads:' + '\n'
-		+ 'Shits:' + '\n';
-		add(mainText);
-		
 		var judgeName:Array<String> = ['Sicks', 'Goods', 'Bads', 'Shits'];
 		if (isExtend) judgeName.unshift('Marvelous');
 		
+		var runTime:Int = isExtend ? 4 : 3;		
+		for (num in 0...runTime + 1){ 		   
+    		var numText = new FlxText(0, 0, 0, "0", 20);
+    		numText.setFormat(Paths.font("vcr.ttf"), 20, FlxColor.WHITE, FlxTextAlign.LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+    		numText.scrollFactor.set();    		 
+    		numText.borderSize = 1.25;   	
+    		numText.text = judgeName[num] + ': ';   			
+    		add(numText);    		  
+    		numText.y = 20 * num;
+		}
+						
 		var fixText = new FlxText(0, 0, 0, "", 20);
 		fixText.setFormat(Paths.font("vcr.ttf"), 20, FlxColor.WHITE, FlxTextAlign.LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		fixText.scrollFactor.set();	
 		fixText.borderSize = 1.25;	
 		add(fixText); //it will remove soon		
 		
-		var runTime:Int = isExtend ? 4 : 3;		
 		for (num in 0...runTime + 1){		 		   
     		var numText = new FlxText(0, 0, 0, "0", 20);
     		numText.setFormat(Paths.font("vcr.ttf"), 20, FlxColor.WHITE, FlxTextAlign.LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
@@ -46,7 +44,7 @@ class JudgementCounter extends FlxSpriteGroup
     		judgeTeam.push(numText);
     		fixText.text = judgeName[num] + ': ';
     		numText.x = fixText.width;
-    		numText.y = mainText.height / (isExtend ? 5 : 4) * num;
+    		numText.y = 20 * num;
 		}
 		
 		fixText.destroy();
