@@ -13,6 +13,8 @@ import backend.Song;
 import backend.StageData;
 import objects.Character;
 
+import haxe.ds.StringMap;
+
 import sys.thread.Thread;
 import sys.thread.Mutex;
 
@@ -344,6 +346,7 @@ class LoadingState extends MusicBeatState
 		if (player2 != player1) preloadCharacter(player2, prefixVocals);
 		if (!stageData.hide_girlfriend && gfVersion != player2 && gfVersion != player1)
 			preloadCharacter(gfVersion);
+		preloadScript();
 		
 		if (!dontPreloadDefaultVoices && needsVoices) songsToPrepare.push(prefixVocals);
 	}
@@ -491,5 +494,75 @@ class LoadingState extends MusicBeatState
 			}
 		}
 		catch(e:Dynamic) {}
+	}
+	
+	function preloadScript(){
+        #if ((LUA_ALLOWED || HSCRIPT_ALLOWED) && sys)
+		for (folder in Mods.directoriesWithFile(Paths.getSharedPath(), 'scripts/'))
+			for (file in FileSystem.readDirectory(folder))
+			{
+				#if LUA_ALLOWED
+				
+				if(file.toLowerCase().endsWith('.lua'))
+					check(folder + file);					
+				#end
+                /*
+				#if HSCRIPT_ALLOWED
+				if(file.toLowerCase().endsWith('.hx'))
+					initHScript(folder + file);
+				#end
+				*/
+			}
+		
+		var songName = PlayState.SONG.song;
+		for (folder in Mods.directoriesWithFile(Paths.getSharedPath(), 'data/$songName/'))
+			for (file in FileSystem.readDirectory(folder))
+			{
+				#if LUA_ALLOWED
+				if(file.toLowerCase().endsWith('.lua'))
+					check(folder + file);
+				#end
+                /*
+				#if HSCRIPT_ALLOWED
+				if(file.toLowerCase().endsWith('.hx'))
+					initHScript(folder + file);
+				#end
+				*/
+			}
+		#end
+	    /*
+    	public function startLuasNamed(luaFile:String)
+    	{
+    		#if MODS_ALLOWED
+    		var luaToLoad:String = Paths.modFolders(luaFile);
+    		if(!FileSystem.exists(luaToLoad))
+    			luaToLoad = Paths.getSharedPath(luaFile);
+    
+    		if(FileSystem.exists(luaToLoad))
+    		#elseif sys
+    		var luaToLoad:String = Paths.getSharedPath(luaFile);
+    		if(Assets.exists(luaToLoad))
+    		#end
+    		{
+    			for (script in luaArray)
+    				if(script.scriptName == luaToLoad) return false;
+    
+    			new FunkinLua(luaToLoad);
+    			return true;
+    		}
+    		return false;
+    	}	
+    	*/
+	}
+	
+	function check(path:String)
+	{
+    	var input:String = File.getContent(Paths.mods(creditsFile));
+    	var regex = ~/makeLuaSprite\('(\S+)', '(\S+)', .*?\)/g; // Global flag 'g' added for multiple matches 
+    	while (regex.match(input)) {
+    	    var result = regex.matched(1); // Extract the first capture group 
+    	    imagesToPrepare.push(result); // Output each match 
+    	    input = regex.matchedRight(); // Move to the next match 
+    	}				
 	}
 }
