@@ -1931,7 +1931,7 @@ class FPSRainbowOption extends Option
 
 	private override function updateDisplay():String
 	{
-		return "FPS Rainbow: " + (ClientPrefs.data.rainbowFPS ? enable_O : disable_O);
+		return "FPS Color Indication: " + (ClientPrefs.data.rainbowFPS ? enable_O : disable_O);
 	} 
 }
 

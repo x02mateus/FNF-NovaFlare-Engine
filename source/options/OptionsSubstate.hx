@@ -156,7 +156,7 @@ class OptionsSubstate extends MusicBeatSubstate
 			]),			
 			new OptionCata(935, 40 + 64, "Watermark", [                
 				new FPSOption("Toggle the FPS counter."),
-				new FPSRainbowOption("Make the FPS Counter flicker through rainbow colors."),
+				new FPSRainbowOption("Make the FPS Counter color varies according to your frame count."),
 				new FPSScale('Set the size of FPS counter.'),
                 new ExtraOption("Toggle the extra counter."),
                 new MEMType("Choose memory showcase data."),                
