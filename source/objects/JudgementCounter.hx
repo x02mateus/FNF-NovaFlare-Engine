@@ -8,7 +8,8 @@ class JudgementCounter extends FlxSpriteGroup
 {
     var game = PlayState.instance;
     var isExtend:Bool = ClientPrefs.data.marvelousRating;
-	public var mainText:FlxText;
+	
+	public var mainTeam:Array<FlxText> = [];
     public var judgeTeam:Array<FlxText> = [];
     
 	public function new(x:Float, y:Float)
@@ -26,14 +27,9 @@ class JudgementCounter extends FlxSpriteGroup
     		numText.borderSize = 1.25;   	
     		numText.text = judgeName[num] + ': ';   			
     		add(numText);    		  
+    		mainTeam.push(numText);
     		numText.y = 20 * num;
-		}
-						
-		var fixText = new FlxText(0, 0, 0, "", 20);
-		fixText.setFormat(Paths.font("vcr.ttf"), 20, FlxColor.WHITE, FlxTextAlign.LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
-		fixText.scrollFactor.set();	
-		fixText.borderSize = 1.25;	
-		add(fixText); //it will remove soon		
+		}								
 		
 		for (num in 0...runTime + 1){		 		   
     		var numText = new FlxText(0, 0, 0, "0", 20);
@@ -41,13 +37,10 @@ class JudgementCounter extends FlxSpriteGroup
     		numText.scrollFactor.set();    		 
     		numText.borderSize = 1.25;   		
     		add(numText);
-    		judgeTeam.push(numText);
-    		fixText.text = judgeName[num] + ': ';
-    		numText.x = fixText.width;
+    		judgeTeam.push(numText);    		
+    		numText.x = mainTeam[num].width;
     		numText.y = 20 * num;
-		}
-		
-		fixText.destroy();
+		}				
 	}
 	
 	public function updateScore(name:String)
