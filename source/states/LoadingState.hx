@@ -496,7 +496,7 @@ class LoadingState extends MusicBeatState
 		catch(e:Dynamic) {}
 	}
 	
-	function preloadScript(){
+	static function preloadScript(){
         #if ((LUA_ALLOWED || HSCRIPT_ALLOWED) && sys)
 		for (folder in Mods.directoriesWithFile(Paths.getSharedPath(), 'scripts/'))
 			for (file in FileSystem.readDirectory(folder))
@@ -555,9 +555,9 @@ class LoadingState extends MusicBeatState
     	*/
 	}
 	
-	function check(path:String)
+	static function check(path:String)
 	{
-    	var input:String = File.getContent(Paths.mods(creditsFile));
+    	var input:String = File.getContent(Paths.mods(path));
     	var regex = ~/makeLuaSprite\('(\S+)', '(\S+)', .*?\)/g; // Global flag 'g' added for multiple matches 
     	while (regex.match(input)) {
     	    var result = regex.matched(1); // Extract the first capture group 
