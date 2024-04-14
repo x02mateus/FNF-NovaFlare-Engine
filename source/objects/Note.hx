@@ -540,9 +540,7 @@ class Note extends FlxSprite
 			(mustPress || (wasGoodHit || (prevNote.wasGoodHit && !canBeHit)))
 			&& ClientPrefs.data.playOpponent)
 			)
-		{
-			if (!wasGoodHit) return;
-			
+		{						
 			updateHitbox();
 			var swagRect:FlxRect = clipRect;
 			if(swagRect == null) swagRect = new FlxRect(0, 0, frameWidth, frameHeight);
