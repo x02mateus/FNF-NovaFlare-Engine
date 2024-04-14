@@ -985,6 +985,10 @@ class MenuButton extends FlxSpriteGroup
 			if(!Controls.instance.controllerMode)
 				setButtonVisibility(FlxG.mouse.overlaps(this));
 		}
+		
+		if (FlxG.mouse.overlaps(this) && FlxG.mouse.justReleased){
+		    setButtonVisibility(false);		
+		}
 	}
 
 	function set_onFocus(newValue:Bool)
