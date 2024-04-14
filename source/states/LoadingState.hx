@@ -564,5 +564,13 @@ class LoadingState extends MusicBeatState
     	    imagesToPrepare.push(result); // Output each match 
     	    input = regex.matchedRight(); // Move to the next match 
     	}				
+    	
+    	var input:String = File.getContent(path);    
+    	var regex = ~/precacheImage\('(\S+)'/g;
+    	while (regex.match(input)) {
+    	    var result = regex.matched(1); 
+    	    imagesToPrepare.push(result);
+    	    input = regex.matchedRight();
+    	}				
 	}
 }
