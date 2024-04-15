@@ -561,6 +561,14 @@ class LoadingState extends MusicBeatState
     	    input = regex.matchedRight(); // Move to the next match 
     	}				
     	
+    	var input:String = File.getContent(path);
+    	var regex = ~/makeAnimatedLuaSprite\('(\S+)', '(\S+)', .*?\)/g; // Global flag 'g' added for multiple matches 
+    	while (regex.match(input)) {
+    	    var result = regex.matched(2); // Extract the first capture group 
+    	    imagesToPrepare.push(result); // Output each match 
+    	    input = regex.matchedRight(); // Move to the next match 
+    	}				
+    	
     	var input:String = File.getContent(path);    
     	var regex = ~/precacheImage\('(\S+)'/g;
     	while (regex.match(input)) {
