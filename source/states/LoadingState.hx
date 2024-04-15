@@ -530,7 +530,7 @@ class LoadingState extends MusicBeatState
     				*/
     			}
     			
-    		startLuasNamed('stages/' + PlayState.SONG.stage; + '.lua');	
+    		startLuasNamed('stages/' + PlayState.SONG.stage + '.lua');	
 		#end	        	    	
 	}
 	
