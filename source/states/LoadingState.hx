@@ -496,64 +496,60 @@ class LoadingState extends MusicBeatState
 		catch(e:Dynamic) {}
 	}
 	
-	static function preloadScript(){
+	static function preloadScript(){	
         #if ((LUA_ALLOWED || HSCRIPT_ALLOWED) && sys)
-		for (folder in Mods.directoriesWithFile(Paths.getSharedPath(), 'scripts/'))
-			for (file in FileSystem.readDirectory(folder))
-			{
-				#if LUA_ALLOWED
-				
-				if(file.toLowerCase().endsWith('.lua'))
-					check(folder + file);					
-				#end
-                /*
-				#if HSCRIPT_ALLOWED
-				if(file.toLowerCase().endsWith('.hx'))
-					initHScript(folder + file);
-				#end
-				*/
-			}
-		
-		var songName = PlayState.SONG.song;
-		for (folder in Mods.directoriesWithFile(Paths.getSharedPath(), 'data/$songName/'))
-			for (file in FileSystem.readDirectory(folder))
-			{
-				#if LUA_ALLOWED
-				if(file.toLowerCase().endsWith('.lua'))
-					check(folder + file);
-				#end
-                /*
-				#if HSCRIPT_ALLOWED
-				if(file.toLowerCase().endsWith('.hx'))
-					initHScript(folder + file);
-				#end
-				*/
-			}
-		#end
-	    /*
-    	public function startLuasNamed(luaFile:String)
-    	{
-    		#if MODS_ALLOWED
-    		var luaToLoad:String = Paths.modFolders(luaFile);
-    		if(!FileSystem.exists(luaToLoad))
-    			luaToLoad = Paths.getSharedPath(luaFile);
-    
-    		if(FileSystem.exists(luaToLoad))
-    		#elseif sys
-    		var luaToLoad:String = Paths.getSharedPath(luaFile);
-    		if(Assets.exists(luaToLoad))
-    		#end
-    		{
-    			for (script in luaArray)
-    				if(script.scriptName == luaToLoad) return false;
-    
-    			new FunkinLua(luaToLoad);
-    			return true;
-    		}
-    		return false;
-    	}	
-    	*/
+    		for (folder in Mods.directoriesWithFile(Paths.getSharedPath(), 'scripts/'))
+    			for (file in FileSystem.readDirectory(folder))
+    			{
+    				#if LUA_ALLOWED
+    				
+    				if(file.toLowerCase().endsWith('.lua'))
+    					check(folder + file);					
+    				#end
+                    /*
+    				#if HSCRIPT_ALLOWED
+    				if(file.toLowerCase().endsWith('.hx'))
+    					initHScript(folder + file);
+    				#end
+    				*/
+    			}
+    		
+    		var songName = PlayState.SONG.song;
+    		for (folder in Mods.directoriesWithFile(Paths.getSharedPath(), 'data/$songName/'))
+    			for (file in FileSystem.readDirectory(folder))
+    			{
+    				#if LUA_ALLOWED
+    				if(file.toLowerCase().endsWith('.lua'))
+    					check(folder + file);
+    				#end
+                    /*
+    				#if HSCRIPT_ALLOWED
+    				if(file.toLowerCase().endsWith('.hx'))
+    					initHScript(folder + file);
+    				#end
+    				*/
+    			}
+    			
+    		startLuasNamed('stages/' + PlayState.SONG.stage; + '.lua');	
+		#end	        	    	
 	}
+	
+	static function startLuasNamed(luaFile:String)
+	{
+		#if MODS_ALLOWED
+		var luaToLoad:String = Paths.modFolders(luaFile);
+		if(!FileSystem.exists(luaToLoad))
+			luaToLoad = Paths.getSharedPath(luaFile);
+
+		if(FileSystem.exists(luaToLoad))
+		#elseif sys
+		var luaToLoad:String = Paths.getSharedPath(luaFile);
+		if(Assets.exists(luaToLoad))
+		#end
+		{			
+			check(luaToLoad);		
+		}
+	}	
 	
 	static function check(path:String)
 	{
