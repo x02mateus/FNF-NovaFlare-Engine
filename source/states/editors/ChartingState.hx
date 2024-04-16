@@ -326,6 +326,7 @@ class ChartingState extends MusicBeatState
 		\n
 		\nC - Test your chart inside Chart Editor
 		\nA - Play your chart
+		\nUp/Down (right) - Decrease/Increase Note Sustain Length
 		\nX - Stop/Resume song";
                 } else {
 		text =
@@ -1914,11 +1915,11 @@ class ChartingState extends MusicBeatState
 			}
 
 			if(curSelectedNote != null && curSelectedNote[1] > -1) {
-				if (FlxG.keys.justPressed.E)
+				if (FlxG.keys.justPressed.E || && virtualPad.buttonE.justPressed)
 				{
 					changeNoteSustain(Conductor.stepCrochet);
 				}
-				if (FlxG.keys.justPressed.Q)
+				if (FlxG.keys.justPressed.Q || && virtualPad.buttonP.justPressed)
 				{
 					changeNoteSustain(-Conductor.stepCrochet);
 				}
@@ -1962,6 +1963,12 @@ class ChartingState extends MusicBeatState
 					if (UI_box.selected_tab >= 3)
 						UI_box.selected_tab = 0;
 				}
+			}
+			
+			if (virtualPad.buttonG.justPressed) {
+				UI_box.selected_tab += 1;
+				if (UI_box.selected_tab >= 3)
+					UI_box.selected_tab = 0;
 			}
 
 			if (FlxG.keys.justPressed.SPACE || virtualPad.buttonX.justPressed)
