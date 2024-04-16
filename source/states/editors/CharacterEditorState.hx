@@ -171,6 +171,7 @@ class CharacterEditorState extends MusicBeatState
 		if (controls.mobileC) {
 			str = "CAMERA
 			\nX/Y - Camera Zoom In/Out
+			\nG + Arrows - Move Camera
 			\nZ - Reset Camera Zoom
 			\n
 			\nCHARACTER
@@ -888,10 +889,10 @@ class CharacterEditorState extends MusicBeatState
 		if(FlxG.keys.pressed.CONTROL /*|| virtualPad.buttonC.pressed*/) ctrlMult = 0.25;
 
 		// CAMERA CONTROLS
-		if (FlxG.keys.pressed.J) FlxG.camera.scroll.x -= elapsed * 500 * shiftMult * ctrlMult;
-		if (FlxG.keys.pressed.K) FlxG.camera.scroll.y += elapsed * 500 * shiftMult * ctrlMult;
-		if (FlxG.keys.pressed.L) FlxG.camera.scroll.x += elapsed * 500 * shiftMult * ctrlMult;
-		if (FlxG.keys.pressed.I) FlxG.camera.scroll.y -= elapsed * 500 * shiftMult * ctrlMult;
+		if (FlxG.keys.pressed.J #if android || (virtualPad.buttonLeft.pressed && virtualPad.buttonG.pressed) #end) FlxG.camera.scroll.x -= elapsed * 500 * shiftMult * ctrlMult;
+		if (FlxG.keys.pressed.K #if android || (virtualPad.buttonDown.pressed && virtualPad.buttonG.pressed) #end) FlxG.camera.scroll.y += elapsed * 500 * shiftMult * ctrlMult;
+		if (FlxG.keys.pressed.L #if android || (virtualPad.buttonRight.pressed && virtualPad.buttonG.pressed) #end) FlxG.camera.scroll.x += elapsed * 500 * shiftMult * ctrlMult;
+		if (FlxG.keys.pressed.I #if android || (virtualPad.buttonUp.pressed && virtualPad.buttonG.pressed) #end) FlxG.camera.scroll.y -= elapsed * 500 * shiftMult * ctrlMult;
 
 		var lastZoom = FlxG.camera.zoom;
 		if(FlxG.keys.justPressed.R && !FlxG.keys.pressed.CONTROL || virtualPad.buttonZ.justPressed) FlxG.camera.zoom = 1;
