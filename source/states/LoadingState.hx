@@ -578,7 +578,7 @@ class LoadingState extends MusicBeatState
     	}				
 	}
 	
-	
+	/*
 	var noteData:Array<SwagSection>;
 
 		// NEW SHIT
@@ -724,5 +724,5 @@ class LoadingState extends MusicBeatState
 
 		stagesFunc(function(stage:BaseStage) stage.eventPushed(event));
 		eventsPushed.push(event.event);
-	}
+	}*/
 }
