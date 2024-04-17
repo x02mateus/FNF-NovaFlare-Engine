@@ -955,6 +955,9 @@ class CharacterEditorState extends MusicBeatState
 		}
 		if(moveKeysP.contains(true))
 		{
+			if (controls.mobileC && virtualPad.buttonG.pressed)
+				return;
+				
 			character.offset.x += ((moveKeysP[0] ? 1 : 0) - (moveKeysP[1] ? 1 : 0)) * shiftMultBig;
 			character.offset.y += ((moveKeysP[2] ? 1 : 0) - (moveKeysP[3] ? 1 : 0)) * shiftMultBig;
 			changedOffset = true;
@@ -962,6 +965,9 @@ class CharacterEditorState extends MusicBeatState
 
 		if(moveKeys.contains(true))
 		{
+			if (controls.mobileC && virtualPad.buttonG.pressed)
+				return;
+				
 			holdingArrowsTime += elapsed;
 			if(holdingArrowsTime > 0.6)
 			{
