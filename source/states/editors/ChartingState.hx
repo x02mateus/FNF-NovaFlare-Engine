@@ -1916,11 +1916,11 @@ class ChartingState extends MusicBeatState
 			}
 
 			if(curSelectedNote != null && curSelectedNote[1] > -1) {
-				if (FlxG.keys.justPressed.E || && virtualPad.buttonE.justPressed)
+				if (FlxG.keys.justPressed.E || virtualPad.buttonE.justPressed)
 				{
 					changeNoteSustain(Conductor.stepCrochet);
 				}
-				if (FlxG.keys.justPressed.Q || && virtualPad.buttonP.justPressed)
+				if (FlxG.keys.justPressed.Q || virtualPad.buttonP.justPressed)
 				{
 					changeNoteSustain(-Conductor.stepCrochet);
 				}
