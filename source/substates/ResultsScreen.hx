@@ -117,24 +117,16 @@ class ResultsScreen extends MusicBeatSubstate
             extraLoad = false;
         }			
         
-        var pixelSave = new FlxSprite(0, 0).loadGraphic(Paths.image(filesLoad, null, true, extraLoad));		
-		pixelSave.scale.x = FlxG.width / pixelSave.width;
-		pixelSave.scale.y = FlxG.height / pixelSave.height;
-		pixelSave.offset.x = 0;
-		pixelSave.offset.y = 0;
-		pixelSave.updateHitbox();		
-		pixelSave.antialiasing = ClientPrefs.data.antialiasing;		
-		pixelSave.shader = new Gaussian_blur();
-		add(pixelSave);		
-	    
-		background = new FlxSprite(0, 0);		
-		background.pixels = pixelSave.pixels;
+        var background = new FlxSprite(0, 0).loadGraphic(Paths.image(filesLoad, null, true, extraLoad));		
+		background.scale.x = FlxG.width / background.width;
+		background.scale.y = FlxG.height / background.height;
+		background.offset.x = 0;
+		background.offset.y = 0;
 		background.updateHitbox();		
-		background.antialiasing = ClientPrefs.data.antialiasing;				
-		background.alpha = 0;
+		background.antialiasing = ClientPrefs.data.antialiasing;		
+		background.shader = new Gaussian_blur();
 		add(background);		
-		
-		pixelSave.destroy(); //byebye shader
+	    
 		
 		//--------------------------
 		
