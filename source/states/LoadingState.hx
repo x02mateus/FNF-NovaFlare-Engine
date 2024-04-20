@@ -538,8 +538,8 @@ class LoadingState extends MusicBeatState
 	}
 	
 	static var unspawnNotes:Array<Note> = [];
-	static function preloadChart():Void{	
-
+	static function preloadChart():Dynamic
+	{	
 	    unspawnNotes = [];
 	    
 	    var noteData:Array<SwagSection> =  PlayState.SONG.notes;
