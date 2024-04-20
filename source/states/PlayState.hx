@@ -308,7 +308,7 @@ class PlayState extends MusicBeatState
 
 	public var luaVirtualPad:FlxVirtualPad;
 	
-	public function new(preloadChart:Array<Note> = []) {
+	public function new(preloadChart:Array<Note>) {
 	    super();
 	    if (preloadChart.length != 0) unspawnNotes = preloadChart;
 	}
