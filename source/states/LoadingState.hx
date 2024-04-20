@@ -537,7 +537,7 @@ class LoadingState extends MusicBeatState
 	}
 	
 	static var unspawnNotes:Array<Note> = [];
-	static function preloadChart():Dynamic
+	static function preloadChart()
 	{	
 	    Thread.create(() -> {
 			mutex.acquire();
