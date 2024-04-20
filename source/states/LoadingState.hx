@@ -25,6 +25,8 @@ class LoadingState extends MusicBeatState
 
 	static var requestedBitmaps:Map<String, BitmapData> = [];
 	static var mutex:Mutex = new Mutex();
+	
+	static var isPlayState:Bool = false;
 
 	function new(target:FlxState, stopMusic:Bool)
 	{
@@ -50,16 +52,7 @@ class LoadingState extends MusicBeatState
 
 	#if PSYCH_WATERMARKS
 	var logo:FlxSprite;
-	var pessy:FlxSprite;
 	var loadingText:FlxText;
-
-	var timePassed:Float;
-	var shakeFl:Float;
-	var shakeMult:Float = 0;
-	
-	var isSpinning:Bool = false;
-	var spawnedPessy:Bool = false;
-	var pressedTimes:Int = 0;
 	#else
 	var funkay:FlxSprite;
 	#end
@@ -162,59 +155,7 @@ class LoadingState extends MusicBeatState
 			case 2:
 				txt += '..';
 		}
-		loadingText.text = txt;
-
-		if(!spawnedPessy)
-		{
-			if(!transitioning && controls.ACCEPT)
-			{
-				shakeMult = 1;
-				FlxG.sound.play(Paths.sound('cancelMenu'));
-				pressedTimes++;
-			}
-			shakeMult = Math.max(0, shakeMult - elapsed * 5);
-			logo.offset.x = Math.sin(shakeFl * Math.PI / 180) * shakeMult * 100;
-
-			if(pressedTimes >= 5)
-			{
-				FlxG.camera.fade(0xAAFFFFFF, 0.5, true);
-				logo.visible = false;
-				spawnedPessy = true;
-				canChangeState = false;
-				FlxG.sound.play(Paths.sound('secret'));
-
-				pessy = new FlxSprite(700, 140);
-				new FlxTimer().start(0.01, function(tmr:FlxTimer) {
-					pessy.frames = Paths.getSparrowAtlas('loading_screen/pessy');
-					pessy.antialiasing = ClientPrefs.data.antialiasing;
-					pessy.flipX = (logo.offset.x > 0);
-					pessy.x = FlxG.width + 200;
-					pessy.velocity.x = -1100;
-					if(pessy.flipX)
-					{
-						pessy.x = -pessy.width - 200;
-						pessy.velocity.x = 1100;
-					}
-		
-					pessy.animation.addByPrefix('run', 'run', 24, true);
-					pessy.animation.addByPrefix('spin', 'spin', 24, true);
-					pessy.animation.play('run', true);
-					
-					insert(members.indexOf(loadingText), pessy);
-					new FlxTimer().start(5, function(tmr:FlxTimer) canChangeState = true);
-				});
-			}
-		}
-		else if(!isSpinning && (pessy.flipX && pessy.x > FlxG.width) || (!pessy.flipX && pessy.x < -pessy.width))
-		{
-			isSpinning = true;
-			pessy.animation.play('spin', true);
-			pessy.flipX = false;
-			pessy.x = 500;
-			pessy.y = FlxG.height + 500;
-			pessy.velocity.x = 0;
-			FlxTween.tween(pessy, {y: 10}, 0.65, {ease: FlxEase.quadOut});
-		}
+		loadingText.text = txt;		
 		#end
 	}
 	
@@ -223,13 +164,21 @@ class LoadingState extends MusicBeatState
 	{
 		if (stopMusic && FlxG.sound.music != null)
 			FlxG.sound.music.stop();
+			
+		
 
 		imagesToPrepare = [];
 		soundsToPrepare = [];
 		musicToPrepare = [];
 		songsToPrepare = [];
-
-		MusicBeatState.switchState(target);
+        
+        if (isPlayState){
+            isPlayState = false;
+            unspawnNotes.remove;
+            MusicBeatState.switchState(new PlayState(unspawnNotes));
+        } else {
+		    MusicBeatState.switchState(target);
+	    }
 		transitioning = true;
 		finishedLoading = true;
 	}
@@ -304,6 +253,8 @@ class LoadingState extends MusicBeatState
 	public static function prepareToSong()
 	{
 		if (!ClientPrefs.data.loadingScreen) return;
+		
+		isPlayState = true;
 
 		var song:SwagSong = PlayState.SONG;
 		var folder:String = Paths.formatToSongPath(song.song);
@@ -346,7 +297,8 @@ class LoadingState extends MusicBeatState
 		if (player2 != player1) preloadCharacter(player2, prefixVocals);
 		if (!stageData.hide_girlfriend && gfVersion != player2 && gfVersion != player1) preloadCharacter(gfVersion);
 			
-		preloadScript();
+		preloadScript();		
+		//preloadChart();
 		
 		if (!dontPreloadDefaultVoices && needsVoices) songsToPrepare.push(prefixVocals);
 	}
@@ -400,7 +352,7 @@ class LoadingState extends MusicBeatState
 
 	public static function startThreads()
 	{
-		loadMax = imagesToPrepare.length + soundsToPrepare.length + musicToPrepare.length + songsToPrepare.length;
+		loadMax = imagesToPrepare.length + soundsToPrepare.length + musicToPrepare.length + songsToPrepare.length + PlayState.SONG.notes.length;
 		loaded = 0;
 
 		//then start threads
@@ -454,6 +406,7 @@ class LoadingState extends MusicBeatState
 				}
 				loaded++;
 			});
+		initThread(() -> preloadChart());
 	}
 
 	static function initThread(func:Void->Dynamic, traceData:String)
@@ -504,7 +457,7 @@ class LoadingState extends MusicBeatState
     				#if LUA_ALLOWED
     				
     				if(file.toLowerCase().endsWith('.lua'))
-    					check(folder + file);					
+    					filesCheck(folder + file);					
     				#end
                     /*
     				#if HSCRIPT_ALLOWED
@@ -520,7 +473,7 @@ class LoadingState extends MusicBeatState
     			{
     				#if LUA_ALLOWED
     				if(file.toLowerCase().endsWith('.lua'))
-    					check(folder + file);
+    					filesCheck(folder + file);
     				#end
                     /*
     				#if HSCRIPT_ALLOWED
@@ -547,11 +500,11 @@ class LoadingState extends MusicBeatState
 		if(Assets.exists(luaToLoad))
 		#end
 		{			
-			check(luaToLoad);		
+			filesCheck(luaToLoad);		
 		}
 	}	
 	
-	static function check(path:String)
+	static function filesCheck(path:String)
 	{
     	var input:String = File.getContent(path);
     	var regex = ~/makeLuaSprite\('(\S+)', '(\S+)', .*?\)/g; // Global flag 'g' added for multiple matches 
@@ -578,24 +531,12 @@ class LoadingState extends MusicBeatState
     	}				
 	}
 	
-	/*
-	var noteData:Array<SwagSection>;
+	static var unspawnNotes:Array<Note> = [];
+	static function preloadChart(){	
 
-		// NEW SHIT
-		noteData = songData.notes;
-
-		var file:String = Paths.json(songName + '/events');
-		#if MODS_ALLOWED
-		if (FileSystem.exists(Paths.modsJson(songName + '/events')) || FileSystem.exists(file))
-		#else
-		if (Assets.exists(file))
-		#end
-		{
-			var eventsData:Array<Dynamic> = Song.loadFromJson('events', songName).events;
-			for (event in eventsData) //Event Notes
-				for (i in 0...event[1].length)
-					makeEvent(event, i);
-		}
+	    unspawnNotes = [];
+	    
+	    var noteData:Array<SwagSection> =  PlayState.SONG.notes;
 
 		for (section in noteData)
 		{
@@ -702,17 +643,18 @@ class LoadingState extends MusicBeatState
         			}
         		}
         
-        		if(!noteTypes.contains(swagNote.noteType)) {
+        		/*if(!noteTypes.contains(swagNote.noteType)) {
         			noteTypes.push(swagNote.noteType);
-        		}	
+        		}	*/
 			}
+			loaded++;
 		}
+		/*
 		for (event in songData.events) //Event Notes
 			for (i in 0...event[1].length)
-				makeEvent(event, i);
+				makeEvent(event, i);*/
 
-		unspawnNotes.sort(sortByTime);
-		generatedMusic = true;
+		unspawnNotes.sort(PlayState.sortByTime);
 	}
 
 	// called only once per different event (Used for precaching)
@@ -724,5 +666,5 @@ class LoadingState extends MusicBeatState
 
 		stagesFunc(function(stage:BaseStage) stage.eventPushed(event));
 		eventsPushed.push(event.event);
-	}*/
+	}
 }
