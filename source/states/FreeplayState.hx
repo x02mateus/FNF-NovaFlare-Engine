@@ -543,7 +543,7 @@ class FreeplayState extends MusicBeatState {
 			}
 			
 			if (!searching && !listening) {
-				if ((FlxG.mouse.justPressed && FlxG.pixelPerfectOverlap(difficultyLeft, m>lousechecker, 25)) || controls.UI_LEFT_P) {
+				if ((FlxG.mouse.justPressed && FlxG.pixelPerfectOverlap(difficultyLeft, mousechecker, 25)) || controls.UI_LEFT_P) {
 					changeDiff(-1);
 					difficultyLeft.color = FlxColor.fromRGB(0, 255, 0);
 					if (leftcolor != null) leftcolor.cancel();
@@ -1380,7 +1380,7 @@ class FreeplayState extends MusicBeatState {
 						//FlxG.sound.music.volume = 0.1;
 					}
 					LoadingState.loadAndSwitchState(new OptionsState());
-				case 1: // Gameplay Changer
+				case 1: // Gameplay Changer	
 					openSubState(new GameplayChangersSubstate());
 				case 2: // Reset Score
 					openSubState(new ResetScoreSubState(songs[curSelected].songName, curDifficulty, songs[curSelected].songCharacter));
