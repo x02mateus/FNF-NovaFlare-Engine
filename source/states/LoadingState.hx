@@ -11,6 +11,8 @@ import flixel.FlxState;
 
 import backend.Song;
 import backend.StageData;
+import backend.Section;
+
 import objects.Note.EventNote; //why
 import objects.*;
 
@@ -50,6 +52,8 @@ class LoadingState extends MusicBeatState
 	var intendedPercent:Float = 0;
 	var curPercent:Float = 0;
 	var canChangeState:Bool = true;
+	
+	var timePassed:Float;
 
 	#if PSYCH_WATERMARKS
 	var logo:FlxSprite;
@@ -147,7 +151,6 @@ class LoadingState extends MusicBeatState
 
 		#if PSYCH_WATERMARKS // PSYCH LOADING SCREEN
 		timePassed += elapsed;
-		shakeFl += elapsed * 3000;
 		var txt:String = 'Now Loading.';
 		switch(Math.floor(timePassed % 1 * 3))
 		{
@@ -608,7 +611,7 @@ class LoadingState extends MusicBeatState
         					if(oldNote.isSustainNote)
         					{
         						oldNote.scale.y *= Note.SUSTAIN_SIZE / oldNote.frameHeight;
-        						oldNote.scale.y /= playbackRate;
+        						oldNote.scale.y /= ClientPrefs.getGameplaySetting('songspeed');
         						oldNote.updateHitbox();
         					}
         
@@ -617,7 +620,7 @@ class LoadingState extends MusicBeatState
         				}
         				else if(oldNote.isSustainNote)
         				{
-        					oldNote.scale.y /= playbackRate;
+        					oldNote.scale.y /= ClientPrefs.getGameplaySetting('songspeed');
         					oldNote.updateHitbox();
         				}
         
@@ -659,6 +662,7 @@ class LoadingState extends MusicBeatState
 	}
 
 	// called only once per different event (Used for precaching)
+	/*
 	function eventPushed(event:EventNote) {
 		eventPushedUnique(event);
 		if(eventsPushed.contains(event.event)) {
@@ -668,4 +672,5 @@ class LoadingState extends MusicBeatState
 		stagesFunc(function(stage:BaseStage) stage.eventPushed(event));
 		eventsPushed.push(event.event);
 	}
+	*/
 }
