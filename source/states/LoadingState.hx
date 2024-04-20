@@ -9,6 +9,8 @@ import flixel.addons.transition.FlxTransitionableState;
 import flixel.graphics.FlxGraphic;
 import flixel.FlxState;
 
+import states.editors.ChartingState;
+
 import backend.Song;
 import backend.StageData;
 import backend.Section;
@@ -536,7 +538,7 @@ class LoadingState extends MusicBeatState
 	}
 	
 	static var unspawnNotes:Array<Note> = [];
-	static function preloadChart(){	
+	static function preloadChart():Void{	
 
 	    unspawnNotes = [];
 	    
