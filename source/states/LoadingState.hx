@@ -11,7 +11,7 @@ import flixel.FlxState;
 
 import backend.Song;
 import backend.StageData;
-import objects.Character;
+import objects.*;
 
 import haxe.ds.StringMap;
 
