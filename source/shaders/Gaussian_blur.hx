@@ -6,56 +6,51 @@ class Gaussian_blur extends FlxShader
 {
 	@:glFragmentSource('
 		#pragma header
-        precision lowp float;
+        // 16x acceleration of https://www.shadertoy.com/view/4tSyzy
+        // by applying gaussian at intermediate MIPmap level.
         
-        #define SIZE 20.0
+        #define texture texture2D
+        #define iR openfl_TextureSize
         
-        #define pi 6.28318530718
+        #define quality 5
         
-        #define Quality_Angle 0.5
-        #define Quality_Depth 0.5
+        #define samples 5
         
-        #define uv openfl_TextureCoordv
+        int LOD;
+        int sLOD;
+        float sigma;
         
-        
-        float d;
-        float i;
-        
-        vec2 SR;
-        
-        vec2 CosSin;
-        vec4 accColor;
-        
-        float DIRECTIONS;
-        float QUALITY;
-        
-        float stepQ;
-        float dimDir;
-        float PD;
-        
-        float roundf(float n) {return floor(n+.5);}
-        
-        void main(void) {
-        DIRECTIONS=roundf(SIZE*(pi/2.)*Quality_Angle);
-        QUALITY=roundf(SIZE*Quality_Depth);
-        
-        stepQ=1./QUALITY;
-        dimDir=QUALITY*DIRECTIONS/2.;
-        PD=pi/DIRECTIONS;
-        
-        SR=SIZE/openfl_TextureSize;
-        
-        accColor=vec4(0.);
-        
-        for (d=0.;d<pi;d+=PD) {
-            CosSin=vec2(cos(d)*SR.x,sin(d)*SR.y);
-            for (i=stepQ;i<=1.;i+=stepQ) {
-                accColor+=texture2D(bitmap,uv+CosSin*i)*(1.-i);
-            }
+        float gaussian(vec2 i)
+        {
+        	return exp(-.5*dot(i/=sigma,i))/(6.28318530718*sigma*sigma);
         }
-        gl_FragColor=accColor/dimDir;
-        }'
-        )
+        
+        vec4 blur(sampler2D sp,vec2 U,vec2 scale)
+        {
+        	vec4 O=vec4(0.);
+        	vec2 d;
+        	int s=samples/sLOD;
+        
+        	for (int i=0;i<s*s;i++)
+        	{
+        		d=vec2(i-s*(i/s),i/s)*float(sLOD)-float(samples)/2.;
+        		O+=gaussian(d)*texture(sp,U+scale*d,float(LOD));
+        	}
+        
+        	return O/O.a;
+        }
+        
+        void main()
+        {
+        	LOD=samples;
+        	sLOD=samples/(samples/quality);
+        	if (sLOD<1)
+        		sLOD=1;
+        
+        	sigma=float(samples)*.25;
+        	gl_FragColor=blur(bitmap,openfl_TextureCoordv,1./iR);
+        }
+        ')
 	public function new()
 	{
 		super();
