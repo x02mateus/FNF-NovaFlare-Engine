@@ -307,7 +307,7 @@ class LoadingState extends MusicBeatState
 		if (player2 != player1) preloadCharacter(player2, prefixVocals);
 		if (!stageData.hide_girlfriend && gfVersion != player2 && gfVersion != player1) preloadCharacter(gfVersion);
 		
-		//preloadMisc();
+		preloadMisc();
 		preloadScript();		
 		
 		if (!dontPreloadDefaultVoices && needsVoices) songsToPrepare.push(prefixVocals);
@@ -460,6 +460,40 @@ class LoadingState extends MusicBeatState
 		catch(e:Dynamic) {}
 	}
 	
+	static function preloadMisc(){	
+	    imagesToPrepare.push()
+	    
+	    var ratingsData:Array<Rating> = Rating.loadDefault();
+	    var stageData:StageFile = StageData.getStageFile(curStage);
+		
+	    var uiPrefix:String = '';
+		var uiSuffix:String = '';
+		
+		if(stageData == null) { //Stage couldn't be found, create a dummy stage for preventing a crash
+			stageData = StageData.dummy();
+		}
+		stageUI = "normal";
+		
+		if (stageData.stageUI != null && stageData.stageUI.trim().length > 0)
+			stageUI = stageData.stageUI;
+		else {
+			if (stageData.isPixelStage)
+				stageUI = "pixel";
+		}		
+		if (stageUI != "normal")
+		{
+			uiPrefix = '${stageUI}UI/';
+			if (PlayState.isPixelStage) uiSuffix = '-pixel';
+		}
+
+		for (rating in ratingsData){
+			imagesToPrepare.push(uiPrefix + rating.image + uiSuffix);			         
+		}
+		
+		for (i in 0...10)
+		imagesToPrepare.push(uiPrefix + 'num' + i + uiSuffix);		
+	}
+	
 	static function preloadScript(){	
         #if ((LUA_ALLOWED || HSCRIPT_ALLOWED) && sys)
     		for (folder in Mods.directoriesWithFile(Paths.getSharedPath(), 'scripts/'))
@@ -577,7 +611,7 @@ class LoadingState extends MusicBeatState
             }
             
             for (line in 0...lineUse){
-                Thread.create(() -> {       		
+                Thread.create(() -> {
             		for (num in chartPlist[line]...chartPlist[line + 1])
             		{
             		    var section = noteData[num];
