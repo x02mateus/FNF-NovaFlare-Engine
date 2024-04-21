@@ -185,7 +185,7 @@ class LoadingState extends MusicBeatState
         if (isPlayState){
             isPlayState = false;
             unspawnNotes.remove;
-            MusicBeatState.switchState(new PlayState(unspawnNotes));
+            MusicBeatState.switchState(new PlayState(unspawnNotes, noteTypes));
         } else {
 		    MusicBeatState.switchState(target);
 	    }
@@ -541,9 +541,9 @@ class LoadingState extends MusicBeatState
 	}
 	
 	static var unspawnNotes:Array<Note> = [];
+    static var noteTypes:Array<String> = [];
 	public var songSpeed:Float = 1;
-	public var songSpeedType:String = "multiplicative";
-	
+	public var songSpeedType:String = "multiplicative";	
 	public static function setSpeed()
 	{
 	    songSpeed = PlayState.SONG.speed;
@@ -562,6 +562,7 @@ class LoadingState extends MusicBeatState
 			mutex.acquire();
 			
     	    unspawnNotes = [];    	        	    
+    	    noteTypes = [];
     	    
     	    var noteData:Array<SwagSection> =  PlayState.SONG.notes;
     
@@ -670,9 +671,9 @@ class LoadingState extends MusicBeatState
             			}
             		}
             
-            		/*if(!noteTypes.contains(swagNote.noteType)) {
+            		if(!noteTypes.contains(swagNote.noteType)) {
             			noteTypes.push(swagNote.noteType);
-            		}	*/
+            		}	
     			}
     			loaded++;
     		}
