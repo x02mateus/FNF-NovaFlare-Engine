@@ -307,7 +307,7 @@ class LoadingState extends MusicBeatState
 		if (player2 != player1) preloadCharacter(player2, prefixVocals);
 		if (!stageData.hide_girlfriend && gfVersion != player2 && gfVersion != player1) preloadCharacter(gfVersion);
 		
-		//preloadMisc();
+		preloadMisc();
 		preloadScript();		
 		
 		if (!dontPreloadDefaultVoices && needsVoices) songsToPrepare.push(prefixVocals);
@@ -458,6 +458,38 @@ class LoadingState extends MusicBeatState
 			}
 		}
 		catch(e:Dynamic) {}
+	}
+	
+	static function preloadMisc(){		    
+	    var ratingsData:Array<Rating> = Rating.loadDefault();
+	    var stageData:StageFile = StageData.getStageFile(PlayState.SONG.stage);
+		
+	    var uiPrefix:String = '';
+		var uiSuffix:String = '';
+		
+		if(stageData == null) { //Stage couldn't be found, create a dummy stage for preventing a crash
+			stageData = StageData.dummy();
+		}
+		var stageUI = "normal";
+		
+		if (stageData.stageUI != null && stageData.stageUI.trim().length > 0)
+			stageUI = stageData.stageUI;
+		else {
+			if (stageData.isPixelStage)
+				stageUI = "pixel";
+		}		
+		if (stageUI != "normal")
+		{
+			uiPrefix = '${stageUI}UI/';
+			if (PlayState.isPixelStage) uiSuffix = '-pixel';
+		}
+
+		for (rating in ratingsData){
+			imagesToPrepare.push(uiPrefix + rating.image + uiSuffix);			         
+		}
+		
+		for (i in 0...10)
+		imagesToPrepare.push(uiPrefix + 'num' + i + uiSuffix);		
 	}
 	
 	static function preloadScript(){	
