@@ -14,6 +14,7 @@ import states.editors.ChartingState;
 import backend.Song;
 import backend.StageData;
 import backend.Section;
+import backend.Rating;
 
 import objects.Note.EventNote; //why
 import objects.*;
