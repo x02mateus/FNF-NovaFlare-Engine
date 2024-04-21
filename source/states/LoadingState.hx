@@ -600,7 +600,7 @@ class LoadingState extends MusicBeatState
 				songSpeed = ClientPrefs.getGameplaySetting('scrollspeed');
 		}		
 	}
-	var lineUse:Int = ClientPrefs.data.loadLine;
+	static var lineUse:Int = ClientPrefs.data.loadLine;
 	static function preloadChart()
 	{	
 	    Thread.create(() -> {
