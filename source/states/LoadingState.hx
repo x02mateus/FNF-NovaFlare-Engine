@@ -135,6 +135,11 @@ class LoadingState extends MusicBeatState
 	{
 		super.update(elapsed);
 		if (dontUpdate) return;
+		
+		if (pushNotes.length == lineUse)
+		{
+		    sortNotes();
+		}
 
 		if (!transitioning)
 		{
@@ -363,7 +368,12 @@ class LoadingState extends MusicBeatState
 
 	public static function startThreads()
 	{
-		loadMax = imagesToPrepare.length + soundsToPrepare.length + musicToPrepare.length + songsToPrepare.length + PlayState.SONG.notes.length;
+		loadMax = imagesToPrepare.length
+		            + soundsToPrepare.length 
+		            + musicToPrepare.length 
+		            + songsToPrepare.length 
+		            + PlayState.SONG.notes.length
+		            + 1;
 		loaded = 0;
 
 		//then start threads
@@ -574,6 +584,7 @@ class LoadingState extends MusicBeatState
 	}
 	
 	static var unspawnNotes:Array<Note> = [];
+	static var pushNotes:Array<Array<Note>> = [];
     static var noteTypes:Array<String> = [];
 	public static var songSpeed:Float = 1;
 	public static var songSpeedType:String = "multiplicative";	
@@ -589,6 +600,7 @@ class LoadingState extends MusicBeatState
 				songSpeed = ClientPrefs.getGameplaySetting('scrollspeed');
 		}		
 	}
+	var lineUse:Int = ClientPrefs.data.loadLine;
 	static function preloadChart()
 	{	
 	    Thread.create(() -> {
@@ -597,8 +609,7 @@ class LoadingState extends MusicBeatState
     	    unspawnNotes = [];    	        	    
     	    noteTypes = [];
     	    
-    	    var noteData:Array<SwagSection> =  PlayState.SONG.notes;
-            var lineUse:Int = ClientPrefs.data.loadLine;
+    	    var noteData:Array<SwagSection> =  PlayState.SONG.notes;            
             var chartPlist:Array<Int> = [];
             
             if (lineUse > noteData.length) lineUse = noteData.length;
@@ -606,11 +617,14 @@ class LoadingState extends MusicBeatState
             for (realSection in 0...lineUse + 1)
             {
                 if (realSection != lineUse) chartPlist.push(plist * realSection);  
-                else chartPlist.push(noteData.length - plist * lineUse);                     
+                else chartPlist.push(noteData.length);                     
             }
             
             for (line in 0...lineUse){
                 Thread.create(() -> {
+                    var mutex:Mutex = new Mutex();
+                    mutex.acquire();
+                    var sectionNotes:Array<Note> = [];
             		for (num in chartPlist[line]...chartPlist[line + 1])
             		{
             		    var section = noteData[num];
@@ -655,7 +669,7 @@ class LoadingState extends MusicBeatState
                     
                     		swagNote.scrollFactor.set();
                     
-                    		unspawnNotes.push(swagNote);
+                    		sectionNotes.push(swagNote);
                     
                     		final susLength:Float = swagNote.sustainLength / Conductor.stepCrochet;
                     		final floorSus:Int = Math.floor(susLength) - ClientPrefs.data.fixLNL;
@@ -672,7 +686,7 @@ class LoadingState extends MusicBeatState
                     				sustainNote.scrollFactor.set();
                     				sustainNote.parent = swagNote;
                     				sustainNote.hitMultUpdate(susNote, floorSus + 1);
-                    				unspawnNotes.push(sustainNote);
+                    				sectionNotes.push(sustainNote);
                     				swagNote.tail.push(sustainNote);
                     
                     				sustainNote.correctionOffset = swagNote.height / 2;
@@ -721,16 +735,18 @@ class LoadingState extends MusicBeatState
                     			noteTypes.push(swagNote.noteType);
                     		}	
             			}
+            			
             			loaded++;
-            		}        		    
+            		}
+            		pushNotes.push(sectionNotes);
+            		mutex.release();		   
     	        });
     		}
     		/*
     		for (event in songData.events) //Event Notes
     			for (i in 0...event[1].length)
     				makeEvent(event, i);*/
-    
-    		unspawnNotes.sort(PlayState.sortByTime);
+      		
     		mutex.release();
     	});
 	}
@@ -747,4 +763,19 @@ class LoadingState extends MusicBeatState
 		eventsPushed.push(event.event);
 	}
 	*/
+	
+	static function sortNotes()
+	{
+	    Thread.create(() -> {
+			mutex.acquire();
+    	    for (array in 0...pushNotes.length)
+    	    {	
+    	        for (note in 0...pushNotes[array].length)
+    	        unspawnNotes.push(pushNotes[array][note]);
+    	    }
+    	    unspawnNotes.sort(PlayState.sortByTime);
+    	    mutex.release();
+    	    loaded++;
+	    });
+	}
 }
