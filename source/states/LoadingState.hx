@@ -66,7 +66,7 @@ class LoadingState extends MusicBeatState
 	
 	public static var instance:LoadingState;
 
-	override function create()
+	override public function create()
 	{
 	    instance = this;
 	    
@@ -600,7 +600,7 @@ class LoadingState extends MusicBeatState
             		else
             			oldNote = null;
             
-            		var swagNote:Note = new Note(daStrumTime, daNoteData, oldNote, LoadingState.instance);
+            		var swagNote:Note = new Note(daStrumTime, daNoteData, oldNote, false, false, LoadingState.instance);
             		swagNote.mustPress = gottaHitNote;
             		swagNote.sustainLength = songNotes[2];
             		swagNote.gfNote = (section.gfSection && (songNotes[1]<4));
@@ -619,7 +619,7 @@ class LoadingState extends MusicBeatState
             			{
             				oldNote = unspawnNotes[Std.int(unspawnNotes.length - 1)];
             
-            				var sustainNote:Note = new Note(daStrumTime + (Conductor.stepCrochet * susNote), daNoteData, oldNote, true, LoadingState.instance);
+            				var sustainNote:Note = new Note(daStrumTime + (Conductor.stepCrochet * susNote), daNoteData, oldNote, true, false, LoadingState.instance);
             				sustainNote.mustPress = gottaHitNote;
             				sustainNote.gfNote = (section.gfSection && (songNotes[1]<4));
             				sustainNote.noteType = swagNote.noteType;
