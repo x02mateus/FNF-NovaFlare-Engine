@@ -129,8 +129,8 @@ class ResultsScreen extends MusicBeatSubstate
 		background.updateHitbox();		
 		background.antialiasing = ClientPrefs.data.antialiasing;			
 		add(background);		
-	    var blurFilter:BlurFilter = new BlurFilter(5, 5, 3);         
-        var filterFrames = FlxFilterFrames.fromFrames(background.frames, background.width, background.height, [blurFilter]);
+	    var blurFilter:BlurFilter = new BlurFilter(10, 10, 3);         
+        var filterFrames = FlxFilterFrames.fromFrames(background.frames, Std.int(background.width), Std.int(background.height), [blurFilter]);
 		filterFrames.applyToSprite(background, false, true);
 		
 		//--------------------------
