@@ -117,7 +117,7 @@ class ResultsScreen extends MusicBeatSubstate
             extraLoad = false;
         }			
         
-        background = new FlxSprite(0, 0).loadGraphic(Paths.image(filesLoad, null, true, extraLoad));		
+        background = new FlxSprite(0, 0).loadGraphic(Paths.image('menuBG'));		
 		background.scale.x = FlxG.width / background.width;
 		background.scale.y = FlxG.height / background.height;
 		background.offset.x = 0;
