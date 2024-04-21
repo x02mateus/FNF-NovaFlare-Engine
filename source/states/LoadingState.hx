@@ -554,7 +554,7 @@ class LoadingState extends MusicBeatState
     		switch(songSpeedType)
     		{
     			case "multiplicative":
-    				songSpeed = SONG.speed * ClientPrefs.getGameplaySetting('scrollspeed');
+    				songSpeed = PlayState.SONG.speed * ClientPrefs.getGameplaySetting('scrollspeed');
     			case "constant":
     				songSpeed = ClientPrefs.getGameplaySetting('scrollspeed');
     		}
