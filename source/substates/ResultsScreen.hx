@@ -76,7 +76,6 @@ class ResultsScreen extends MusicBeatSubstate
     var backBG:FlxSprite;
 	//back image
 	
-	var camBG:FlxCamera;
 	var camOther:FlxCamera;        
     //camera
     
@@ -500,7 +499,7 @@ class ResultsScreen extends MusicBeatSubstate
 	
 	function startTween(){
 	
-	    FlxTween.tween(camBG, {alpha: 1}, 1);	
+	    FlxTween.tween(background, {alpha: 1}, 1);	
 	    
 	    
 	    new FlxTimer().start(1, function(tmr:FlxTimer){				    
