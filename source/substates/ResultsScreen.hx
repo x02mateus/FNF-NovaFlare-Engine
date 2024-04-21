@@ -36,12 +36,13 @@ import openfl.display.Shape;
 import openfl.display.Bitmap;
 import openfl.utils.Assets;
 
-import flixel.FlxSpriteFilter;
 import openfl.filters.BlurFilter;
+import flixel.graphics.frames.FlxFilterFrames;
 
 class ResultsScreen extends MusicBeatSubstate
 {
 	var background:FlxSprite;	
+	var bgFilter:FlxFilterFrames;
 	//BG
 		    
     var modsBG:FlxSprite;
@@ -129,7 +130,8 @@ class ResultsScreen extends MusicBeatSubstate
 		background.antialiasing = ClientPrefs.data.antialiasing;			
 		add(background);		
 	    var blurFilter:BlurFilter = new BlurFilter(5, 5, 3);         
-        var spriteFilter = new FlxSpriteFilter(background, [blurFilter]);
+        var filterFrames = FlxFilterFrames.fromFrames(background.frames, background.width, background.height, [blurFilter]);
+		filterFrames.applyToSprite(background, false, true);
 		
 		//--------------------------
 		
