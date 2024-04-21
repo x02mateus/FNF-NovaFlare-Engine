@@ -593,6 +593,7 @@ class LoadingState extends MusicBeatState
 			
     	    unspawnNotes = [];    	        	    
     	    noteTypes = [];
+    	    events = [];
     	    
     	    var noteData:Array<SwagSection> =  PlayState.SONG.notes;
     
