@@ -570,13 +570,13 @@ class LoadingState extends MusicBeatState
             
             if (lineUse > noteData.length) lineUse = noteData.length;
             var plist = Std.int(noteData.length / lineUse);
-            for (section in 0...lineUse + 1)
+            for (realSection in 0...lineUse + 1)
             {
-                if (section != lineUse) chartPlist.push(plist * section);  
-                else chartPlist.push(plist * lineUse + noteData.length - plist * lineUse);                     
+                if (realSection != lineUse) chartPlist.push(plist * realSection);  
+                else chartPlist.push(noteData.length - plist * lineUse);                     
             }
             
-            for (num in 0...lineUse){
+            for (line in 0...lineUse){
                 Thread.create(() -> {        		
             		for (num in chartPlist[num]...chartPlist[num + 1])
             		{
