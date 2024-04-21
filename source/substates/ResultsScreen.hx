@@ -37,6 +37,7 @@ import openfl.display.Bitmap;
 import openfl.utils.Assets;
 
 import shaders.Gaussian_blur;
+import shaders.Zoom;
 
 class ResultsScreen extends MusicBeatSubstate
 {
@@ -74,6 +75,7 @@ class ResultsScreen extends MusicBeatSubstate
     var backBG:FlxSprite;
 	//back image
 	
+	var camBG:FlxCamera;
 	var camOther:FlxCamera;        
     //camera
     
@@ -102,6 +104,12 @@ class ResultsScreen extends MusicBeatSubstate
 	{
 	    
 		super();	
+		
+		camBG = new FlxCamera();
+	    camBG.bgColor.alpha = 0;
+	    camBG.alpha = 0;
+	    FlxG.cameras.add(camBG, false);		
+	    
 	    cameras = [FlxG.cameras.list[FlxG.cameras.list.length - 1]];
 	    
 	    camOther = new FlxCamera();
@@ -123,10 +131,13 @@ class ResultsScreen extends MusicBeatSubstate
 		background.offset.x = 0;
 		background.offset.y = 0;
 		background.updateHitbox();		
-		background.antialiasing = ClientPrefs.data.antialiasing;		
-		//background.shader = new Gaussian_blur();
+		background.antialiasing = ClientPrefs.data.antialiasing;				
 		add(background);		
+	    background.camera = camBG;
 	    
+	    var shader1 = new Gaussian_blur();
+	    var shader2 = new Zoom();
+		camBG.camera.setFilters([shader1, shader2]);
 		
 		//--------------------------
 		
@@ -495,7 +506,7 @@ class ResultsScreen extends MusicBeatSubstate
 	
 	function startTween(){
 	
-	    FlxTween.tween(background, {alpha: 1}, 1);	
+	    FlxTween.tween(camBG, {alpha: 1}, 1);	
 	    
 	    
 	    new FlxTimer().start(1, function(tmr:FlxTimer){				    
