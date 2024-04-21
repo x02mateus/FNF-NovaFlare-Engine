@@ -622,7 +622,6 @@ class LoadingState extends MusicBeatState
             
             for (line in 0...lineUse){
                 Thread.create(() -> {
-                    var mutex:Mutex = new Mutex();
                     mutex.acquire();
                     var sectionNotes:Array<Note> = [];
             		for (num in chartPlist[line]...chartPlist[line + 1])
@@ -734,8 +733,7 @@ class LoadingState extends MusicBeatState
                     		if(!noteTypes.contains(swagNote.noteType)) {
                     			noteTypes.push(swagNote.noteType);
                     		}	
-            			}
-            			
+            			}            			
             			loaded++;
             		}
             		pushNotes.push(sectionNotes);
