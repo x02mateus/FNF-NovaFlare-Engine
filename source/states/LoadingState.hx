@@ -66,6 +66,8 @@ class LoadingState extends MusicBeatState
 
 	override function create()
 	{
+	    instance = this;
+	    
 		if (checkLoaded())
 		{
 			dontUpdate = true;
@@ -537,12 +539,25 @@ class LoadingState extends MusicBeatState
 	}
 	
 	static var unspawnNotes:Array<Note> = [];
+	static var songSpeed:Float = 1;
+	static var songSpeedType:String = "multiplicative";
+	public static var instance:LoadingState;
 	static function preloadChart()
 	{	
 	    Thread.create(() -> {
 			mutex.acquire();
 			
     	    unspawnNotes = [];
+    	    
+    	    songSpeed = PlayState.SONG.speed;
+    		songSpeedType = ClientPrefs.getGameplaySetting('scrolltype');
+    		switch(songSpeedType)
+    		{
+    			case "multiplicative":
+    				songSpeed = SONG.speed * ClientPrefs.getGameplaySetting('scrollspeed');
+    			case "constant":
+    				songSpeed = ClientPrefs.getGameplaySetting('scrollspeed');
+    		}
     	    
     	    var noteData:Array<SwagSection> =  PlayState.SONG.notes;
     
@@ -580,7 +595,7 @@ class LoadingState extends MusicBeatState
             		else
             			oldNote = null;
             
-            		var swagNote:Note = new Note(daStrumTime, daNoteData, oldNote);
+            		var swagNote:Note = new Note(daStrumTime, daNoteData, oldNote, LoadingState.instance);
             		swagNote.mustPress = gottaHitNote;
             		swagNote.sustainLength = songNotes[2];
             		swagNote.gfNote = (section.gfSection && (songNotes[1]<4));
@@ -599,7 +614,7 @@ class LoadingState extends MusicBeatState
             			{
             				oldNote = unspawnNotes[Std.int(unspawnNotes.length - 1)];
             
-            				var sustainNote:Note = new Note(daStrumTime + (Conductor.stepCrochet * susNote), daNoteData, oldNote, true);
+            				var sustainNote:Note = new Note(daStrumTime + (Conductor.stepCrochet * susNote), daNoteData, oldNote, true, LoadingState.instance);
             				sustainNote.mustPress = gottaHitNote;
             				sustainNote.gfNote = (section.gfSection && (songNotes[1]<4));
             				sustainNote.noteType = swagNote.noteType;
