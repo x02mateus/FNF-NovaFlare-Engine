@@ -12,9 +12,11 @@ class Gaussian_blur extends FlxShader
         #define texture texture2D
         #define iR openfl_TextureSize
         
-        #define quality 5
+        #define quality 1
         
-        #define samples 5
+        #define SIZE 5
+       
+        int samples=2;
         
         int LOD;
         int sLOD;
@@ -42,13 +44,19 @@ class Gaussian_blur extends FlxShader
         
         void main()
         {
+        vec2 uv=openfl_TextureCoordv*SIZE;
+        if(uv.x<0. || uv.x>1. || uv.y<0. || uv.y>1.)
+        {
+        gl_FragColor = vec4(0.);
+        } else {
         	LOD=samples;
         	sLOD=samples/(samples/quality);
         	if (sLOD<1)
         		sLOD=1;
         
         	sigma=float(samples)*.25;
-        	gl_FragColor=blur(bitmap,openfl_TextureCoordv,1./iR);
+        	gl_FragColor=blur(bitmap,uv,1./iR);
+        }
         }
         ')
 	public function new()
