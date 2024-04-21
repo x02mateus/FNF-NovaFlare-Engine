@@ -307,7 +307,7 @@ class LoadingState extends MusicBeatState
 		if (player2 != player1) preloadCharacter(player2, prefixVocals);
 		if (!stageData.hide_girlfriend && gfVersion != player2 && gfVersion != player1) preloadCharacter(gfVersion);
 		
-		preloadMisc();
+		//preloadMisc();
 		preloadScript();		
 		
 		if (!dontPreloadDefaultVoices && needsVoices) songsToPrepare.push(prefixVocals);
@@ -544,7 +544,7 @@ class LoadingState extends MusicBeatState
     static var noteTypes:Array<String> = [];
 	public var songSpeed:Float = 1;
 	public var songSpeedType:String = "multiplicative";	
-	public static function setSpeed()
+	public function setSpeed()
 	{
 	    songSpeed = PlayState.SONG.speed;
 		songSpeedType = ClientPrefs.getGameplaySetting('scrolltype');
