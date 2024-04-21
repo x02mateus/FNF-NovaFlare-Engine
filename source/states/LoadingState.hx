@@ -14,6 +14,7 @@ import states.editors.ChartingState;
 import backend.Song;
 import backend.StageData;
 import backend.Section;
+import backend.Rating;
 
 import objects.Note.EventNote; //why
 import objects.*;
@@ -460,9 +461,7 @@ class LoadingState extends MusicBeatState
 		catch(e:Dynamic) {}
 	}
 	
-	static function preloadMisc(){	
-	    imagesToPrepare.push()
-	    
+	static function preloadMisc(){		    
 	    var ratingsData:Array<Rating> = Rating.loadDefault();
 	    var stageData:StageFile = StageData.getStageFile(curStage);
 		
