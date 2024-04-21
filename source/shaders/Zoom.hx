@@ -9,7 +9,7 @@ class Zoom extends FlxShader
 
         #define uv openfl_TextureCoordv
         
-        #define SIZE 5
+        #define SIZE 5.
         
         void main()
         {

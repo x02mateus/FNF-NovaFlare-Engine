@@ -14,7 +14,7 @@ class Gaussian_blur extends FlxShader
         
         #define quality 1
         
-        #define SIZE 5
+        #define SIZE 5.
        
         int samples=2;
         
