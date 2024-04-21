@@ -736,7 +736,7 @@ class LoadingState extends MusicBeatState
             			}            			
             			loaded++;
             		}
-            		pushNotes[num] = sectionNotes;
+            		pushNotes[line] = sectionNotes;
             		//mutex.release();		   
     	        });
     		}
