@@ -124,7 +124,7 @@ class ResultsScreen extends MusicBeatSubstate
 		background.offset.y = 0;
 		background.updateHitbox();		
 		background.antialiasing = ClientPrefs.data.antialiasing;		
-		background.shader = new Gaussian_blur();
+		//background.shader = new Gaussian_blur();
 		add(background);		
 	    
 		
