@@ -165,7 +165,8 @@ class PlayState extends MusicBeatState
 	public var killNotes:Array<Note> = [];
 	public var unspawnNotes:Array<Note> = [];
 	public var eventNotes:Array<EventNote> = [];
-
+    public var extraEvents.:Array<String> = [];
+    
 	public var camFollow:FlxObject;
 	private static var prevCamFollow:FlxObject;
 
@@ -308,10 +309,11 @@ class PlayState extends MusicBeatState
 
 	public var luaVirtualPad:FlxVirtualPad;
 	
-	public function new(?preloadChart:Array<Note>, ?preloadNoteType:Array<String>) {
+	public function new(?preloadChart:Array<Note>, ?preloadNoteType:Array<String>, preloadEvents:Array<Array<Dynamic>>) {
 	    super();
 	    if (preloadChart != null) unspawnNotes = preloadChart;
 	    if (preloadNoteType != null) noteTypes = preloadNoteType;
+	    if (preloadEvents != null) extraEvents = preloadEvents;
 	}
 	
 	override public function create(){
@@ -1535,6 +1537,11 @@ class PlayState extends MusicBeatState
     
     		unspawnNotes.sort(sortByTime);
 		}
+		if (extraEvents.length > 0)
+		    for (event in 0...extraEvents.length)
+    			for (data in 0...extraEvents[event][1].length)
+    				makeEvent(extraEvents[event], data);
+    				
 		generatedMusic = true;
 	}
 

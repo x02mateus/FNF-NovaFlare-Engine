@@ -186,7 +186,7 @@ class LoadingState extends MusicBeatState
         if (isPlayState){
             isPlayState = false;
             unspawnNotes.remove;
-            MusicBeatState.switchState(new PlayState(unspawnNotes, noteTypes));
+            MusicBeatState.switchState(new PlayState(unspawnNotes, noteTypes, events));
         } else {
 		    MusicBeatState.switchState(target);
 	    }
@@ -575,6 +575,7 @@ class LoadingState extends MusicBeatState
 	
 	static var unspawnNotes:Array<Note> = [];
     static var noteTypes:Array<String> = [];
+    static var events:Array<Array<Dynamic>> = [];
 	public static var songSpeed:Float = 1;	
 	public static var songSpeedType:String = "multiplicative";		
 	public static function setSpeed()
@@ -710,26 +711,11 @@ class LoadingState extends MusicBeatState
     			}
     			loaded++;
     		}
-    		/*
-    		for (event in songData.events) //Event Notes
-    			for (i in 0...event[1].length)
-    				makeEvent(event, i);*/
+    		for (event in PlayState.SONG.events) //Event Notes
+    		    events.push(event);
     
     		unspawnNotes.sort(PlayState.sortByTime);
     		mutex.release();
     	});
 	}
-
-	// called only once per different event (Used for precaching)
-	/*
-	function eventPushed(event:EventNote) {
-		eventPushedUnique(event);
-		if(eventsPushed.contains(event.event)) {
-			return;
-		}
-
-		stagesFunc(function(stage:BaseStage) stage.eventPushed(event));
-		eventsPushed.push(event.event);
-	}
-	*/
 }
