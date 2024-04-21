@@ -64,13 +64,9 @@ class LoadingState extends MusicBeatState
 	#else
 	var funkay:FlxSprite;
 	#end
-	
-	public static var instance:LoadingState;
 
 	override public function create()
 	{
-	    instance = this;
-	    
 		if (checkLoaded())
 		{
 			dontUpdate = true;
@@ -634,7 +630,7 @@ class LoadingState extends MusicBeatState
             		else
             			oldNote = null;
             
-            		var swagNote:Note = new Note(daStrumTime, daNoteData, oldNote, false, false, LoadingState.instance);
+            		var swagNote:Note = new Note(daStrumTime, daNoteData, oldNote, false, false, LoadingState);
             		swagNote.mustPress = gottaHitNote;
             		swagNote.sustainLength = songNotes[2];
             		swagNote.gfNote = (section.gfSection && (songNotes[1]<4));
@@ -653,7 +649,7 @@ class LoadingState extends MusicBeatState
             			{
             				oldNote = unspawnNotes[Std.int(unspawnNotes.length - 1)];
             
-            				var sustainNote:Note = new Note(daStrumTime + (Conductor.stepCrochet * susNote), daNoteData, oldNote, true, false, LoadingState.instance);
+            				var sustainNote:Note = new Note(daStrumTime + (Conductor.stepCrochet * susNote), daNoteData, oldNote, true, false, LoadingState);
             				sustainNote.mustPress = gottaHitNote;
             				sustainNote.gfNote = (section.gfSection && (songNotes[1]<4));
             				sustainNote.noteType = swagNote.noteType;
