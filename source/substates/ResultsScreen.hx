@@ -36,8 +36,8 @@ import openfl.display.Shape;
 import openfl.display.Bitmap;
 import openfl.utils.Assets;
 
-import shaders.Gaussian_blur;
-import shaders.Zoom;
+import flixel.FlxSpriteFilter;
+import openfl.filters.BlurFilter;
 
 class ResultsScreen extends MusicBeatSubstate
 {
@@ -103,12 +103,7 @@ class ResultsScreen extends MusicBeatSubstate
 	public function new(x:Float, y:Float)
 	{
 	    
-		super();	
-		
-		camBG = new FlxCamera();
-	    camBG.bgColor.alpha = 0;
-	    camBG.alpha = 0;
-	    FlxG.cameras.add(camBG, false);		
+		super();		
 	    
 	    cameras = [FlxG.cameras.list[FlxG.cameras.list.length - 1]];
 	    
@@ -131,13 +126,10 @@ class ResultsScreen extends MusicBeatSubstate
 		background.offset.x = 0;
 		background.offset.y = 0;
 		background.updateHitbox();		
-		background.antialiasing = ClientPrefs.data.antialiasing;				
+		background.antialiasing = ClientPrefs.data.antialiasing;			
 		add(background);		
-	    background.camera = camBG;
-	    
-	   /* var shader1 = new Gaussian_blur();
-	    var shader2 = new Zoom();
-		camBG.setFilters([shader1, shader2]);*/ 
+	    var blurFilter:BlurFilter = new BlurFilter(5, 5, 3);         
+        var spriteFilter = new FlxSpriteFilter(background, [blurFilter]);
 		
 		//--------------------------
 		
