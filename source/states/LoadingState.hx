@@ -577,8 +577,8 @@ class LoadingState extends MusicBeatState
             }
             
             for (line in 0...lineUse){
-                Thread.create(() -> {        		
-            		for (num in chartPlist[num]...chartPlist[num + 1])
+                Thread.create(() -> {       		
+            		for (num in chartPlist[line]...chartPlist[line + 1])
             		{
             		    var section = noteData[num];
             			for (songNotes in section.sectionNotes)
