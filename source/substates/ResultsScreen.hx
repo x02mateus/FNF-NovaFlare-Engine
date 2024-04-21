@@ -137,7 +137,7 @@ class ResultsScreen extends MusicBeatSubstate
 	    
 	   /* var shader1 = new Gaussian_blur();
 	    var shader2 = new Zoom();
-		camBG.setFilters([shader1, shader2]);*/
+		camBG.setFilters([shader1, shader2]);*/ 
 		
 		//--------------------------
 		
