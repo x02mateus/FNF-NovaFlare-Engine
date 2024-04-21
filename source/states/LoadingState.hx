@@ -136,7 +136,7 @@ class LoadingState extends MusicBeatState
 		super.update(elapsed);
 		if (dontUpdate) return;
 		
-		if (pushNotes.length == lineUse)
+		if (pushNotes.length == lineUse && checkArray())
 		{
 		    sortNotes();
 		}
@@ -622,7 +622,7 @@ class LoadingState extends MusicBeatState
             
             for (line in 0...lineUse){
                 Thread.create(() -> {
-                    mutex.acquire();
+                   // mutex.acquire();
                     var sectionNotes:Array<Note> = [];
             		for (num in chartPlist[line]...chartPlist[line + 1])
             		{
@@ -736,8 +736,8 @@ class LoadingState extends MusicBeatState
             			}            			
             			loaded++;
             		}
-            		pushNotes.push(sectionNotes);
-            		mutex.release();		   
+            		pushNotes[num] = sectionNotes;
+            		//mutex.release();		   
     	        });
     		}
     		/*
@@ -776,4 +776,14 @@ class LoadingState extends MusicBeatState
     	    loaded++;
 	    });
 	}
+	
+	static function checkArray():Bool
+	{
+	    for (i in 0...pushNotes.length) 
+	        if (pushNotes[i] == null)
+	            return false;
+	    
+	    return true;
+	}
+	
 }
