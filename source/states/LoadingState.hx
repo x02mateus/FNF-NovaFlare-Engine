@@ -63,6 +63,8 @@ class LoadingState extends MusicBeatState
 	#else
 	var funkay:FlxSprite;
 	#end
+	
+	public static var instance:LoadingState;
 
 	override function create()
 	{
@@ -413,6 +415,7 @@ class LoadingState extends MusicBeatState
 				}
 				loaded++;
 			});
+		setSpeed();
 		preloadChart();
 	}
 
@@ -539,25 +542,27 @@ class LoadingState extends MusicBeatState
 	}
 	
 	static var unspawnNotes:Array<Note> = [];
-	static var songSpeed:Float = 1;
-	static var songSpeedType:String = "multiplicative";
-	public static var instance:LoadingState;
+	public var songSpeed:Float = 1;
+	public var songSpeedType:String = "multiplicative";
+	
+	public static function setSpeed()
+	{
+	    songSpeed = PlayState.SONG.speed;
+		songSpeedType = ClientPrefs.getGameplaySetting('scrolltype');
+		switch(songSpeedType)
+		{
+			case "multiplicative":
+				songSpeed = PlayState.SONG.speed * ClientPrefs.getGameplaySetting('scrollspeed');
+			case "constant":
+				songSpeed = ClientPrefs.getGameplaySetting('scrollspeed');
+		}		
+	}
 	static function preloadChart()
 	{	
 	    Thread.create(() -> {
 			mutex.acquire();
 			
-    	    unspawnNotes = [];
-    	    
-    	    songSpeed = PlayState.SONG.speed;
-    		songSpeedType = ClientPrefs.getGameplaySetting('scrolltype');
-    		switch(songSpeedType)
-    		{
-    			case "multiplicative":
-    				songSpeed = PlayState.SONG.speed * ClientPrefs.getGameplaySetting('scrollspeed');
-    			case "constant":
-    				songSpeed = ClientPrefs.getGameplaySetting('scrollspeed');
-    		}
+    	    unspawnNotes = [];    	        	    
     	    
     	    var noteData:Array<SwagSection> =  PlayState.SONG.notes;
     
