@@ -171,9 +171,7 @@ class LoadingState extends MusicBeatState
 	{
 		if (stopMusic && FlxG.sound.music != null)
 			FlxG.sound.music.stop();
-			
-		
-
+					
 		imagesToPrepare = [];
 		soundsToPrepare = [];
 		musicToPrepare = [];
@@ -359,14 +357,22 @@ class LoadingState extends MusicBeatState
 
 	public static function startThreads()
 	{
-		loadMax = imagesToPrepare.length + soundsToPrepare.length + musicToPrepare.length + songsToPrepare.length + PlayState.SONG.notes.length;
+		loadMax = imagesToPrepare.length
+		         + soundsToPrepare.length 
+		         + musicToPrepare.length 
+		         + songsToPrepare.length 
+		         + PlayState.SONG.notes.length;
+		         
 		loaded = 0;
 
 		//then start threads
 		for (sound in soundsToPrepare) initThread(() -> Paths.sound(sound), 'sound $sound');
 		for (music in musicToPrepare) initThread(() -> Paths.music(music), 'music $music');
 		for (song in songsToPrepare) initThread(() -> Paths.returnSound(null, song, 'songs'), 'song $song');
-
+        
+        setSpeed();
+		preloadChart();
+		
 		// for images, they get to have their own thread
 		for (image in imagesToPrepare)
 			Thread.create(() -> {
@@ -412,9 +418,7 @@ class LoadingState extends MusicBeatState
 					trace('ERROR! fail on preloading image $image');
 				}
 				loaded++;
-			});
-		setSpeed();
-		preloadChart();
+			});		
 	}
 
 	static function initThread(func:Void->Dynamic, traceData:String)
@@ -587,18 +591,23 @@ class LoadingState extends MusicBeatState
 		}		
 	}
 	static function preloadChart()
-	{	
-	    Thread.create(() -> {
-			mutex.acquire();
-			
-    	    unspawnNotes = [];    	        	    
-    	    noteTypes = [];
-    	    events = [];
-    	    
-    	    var noteData:Array<SwagSection> =  PlayState.SONG.notes;
-    
-    		for (section in noteData)
-    		{
+	{		    		
+	    unspawnNotes = [];    	        	    
+	    noteTypes = [];
+	    events = [];	    
+	    var noteData:Array<SwagSection> =  PlayState.SONG.notes;
+	    
+        Thread.create(() -> {
+    		mutex.acquire();    		    		
+    		for (event in PlayState.SONG.events) //Event Notes
+    		    events.push(event);
+    		mutex.release();
+    	});    	        
+    	
+		for (section in noteData)
+		{
+		    Thread.create(() -> {
+		        mutex.acquire();    	
     			for (songNotes in section.sectionNotes)
     			{
     				var daStrumTime:Float = songNotes[0];
@@ -706,13 +715,10 @@ class LoadingState extends MusicBeatState
             			noteTypes.push(swagNote.noteType);
             		}	
     			}
-    			loaded++;
-    		}
-    		for (event in PlayState.SONG.events) //Event Notes
-    		    events.push(event);
-    
-    		unspawnNotes.sort(PlayState.sortByTime);
-    		mutex.release();
-    	});
+    			unspawnNotes.sort(PlayState.sortByTime);
+		        mutex.release();
+            });    	        
+		    loaded++;
+	    }		
 	}
 }
