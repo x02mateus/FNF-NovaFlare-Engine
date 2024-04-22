@@ -54,9 +54,9 @@ class StrumNote extends FlxSprite
 		var path:String = PlayState.isPixelStage ? 'pixelUI/' : '';
 		if(PlayState.SONG != null && PlayState.SONG.arrowSkin != null && PlayState.SONG.arrowSkin.length > 1) skin = PlayState.SONG.arrowSkin;
 		else{
-    		skin = Note.defaultNoteSkin;
+    		skin = path + Note.defaultNoteSkin;
     
-    		var customSkin:String = path + skin + Note.getNoteSkinPostfix();
+    		var customSkin:String = skin + Note.getNoteSkinPostfix();
     		if(Paths.fileExists('images/$customSkin.png', IMAGE)) skin = customSkin;
     		
     		if (Paths.fileExists('images/NOTE_assets.png', IMAGE) && ClientPrefs.data.noteSkin == ClientPrefs.defaultData.noteSkin && !PlayState.isPixelStage) //fix for load old mods note assets
