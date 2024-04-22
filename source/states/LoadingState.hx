@@ -717,8 +717,8 @@ class LoadingState extends MusicBeatState
     			}
     			unspawnNotes.sort(PlayState.sortByTime);
 		        mutex.release();
-            });    	        
-		    loaded++;
+		        loaded++;
+            });    	        		    
 	    }		
 	}
 }
