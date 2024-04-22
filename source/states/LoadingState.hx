@@ -369,10 +369,7 @@ class LoadingState extends MusicBeatState
 		for (sound in soundsToPrepare) initThread(() -> Paths.sound(sound), 'sound $sound');
 		for (music in musicToPrepare) initThread(() -> Paths.music(music), 'music $music');
 		for (song in songsToPrepare) initThread(() -> Paths.returnSound(null, song, 'songs'), 'song $song');
-        
-        setSpeed();
-		preloadChart();
-		
+                		
 		// for images, they get to have their own thread
 		for (image in imagesToPrepare)
 			Thread.create(() -> {
@@ -419,6 +416,8 @@ class LoadingState extends MusicBeatState
 				}
 				loaded++;
 			});		
+		setSpeed();
+		preloadChart();
 	}
 
 	static function initThread(func:Void->Dynamic, traceData:String)
@@ -451,7 +450,7 @@ class LoadingState extends MusicBeatState
 			var character:Dynamic = Json.parse(Assets.getText(path));
 			#end
 			
-			imagesToPrepare.push(character.image);
+			imagesToPrepare.push(character.image);		
 			if (prefixVocals != null && character.vocals_file != null)
 			{
 				songsToPrepare.push(prefixVocals + "-" + character.vocals_file);
