@@ -22,7 +22,6 @@ import objects.*;
 import haxe.ds.StringMap;
 
 import sys.thread.Thread;
-import sys.thread.ElasticThreadPool;
 import sys.thread.Mutex;
 
 class LoadingState extends MusicBeatState
@@ -604,10 +603,9 @@ class LoadingState extends MusicBeatState
     		mutex.release();
     	});    	        
     	
-        var threadPool:ElasticThreadPool = new ElasticThreadPool(noteData.length, 60);
 		for (section in noteData)
 		{
-		    threadPool.run(() -> {
+		    Thread.create(() -> {
 		        mutex.acquire();    	
     			for (songNotes in section.sectionNotes)
     			{
