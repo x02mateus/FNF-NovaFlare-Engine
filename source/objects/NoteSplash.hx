@@ -31,11 +31,8 @@ class NoteSplash extends FlxSprite
 
 		var skin:String = null;
 		if(PlayState.SONG.splashSkin != null && PlayState.SONG.splashSkin.length > 0) skin = PlayState.SONG.splashSkin;
-		else{		    
-		    if (Paths.fileExists('images/noteSplashes.png', IMAGE) && ClientPrefs.data.splashSkin == ClientPrefs.defaultData.splashSkin) //fix for load old mods note assets
-		        skin = 'noteSplashes';
-		    else skin = defaultNoteSplash + getSplashSkinPostfix();
-		    }
+		else skin = defaultNoteSplash + getSplashSkinPostfix();
+		
 		rgbShader = new PixelSplashShaderRef();
 		shader = rgbShader.shader;
 		precacheConfig(skin);
@@ -51,14 +48,13 @@ class NoteSplash extends FlxSprite
 	}
 
 	var maxAnims:Int = 2;
-	public function setupNoteSplash(x:Float, y:Float, direction:Int = 0, ?note:Note = null, ?alpha = 0.6) {
+	public function setupNoteSplash(x:Float, y:Float, direction:Int = 0, ?note:Note = null) {
 		setPosition(x - Note.swagWidth * 0.95, y - Note.swagWidth);
 		aliveTime = 0;
 
 		var texture:String = null;
 		if(note != null && note.noteSplashData.texture != null) texture = note.noteSplashData.texture;
 		else if(PlayState.SONG.splashSkin != null && PlayState.SONG.splashSkin.length > 0) texture = PlayState.SONG.splashSkin;
-		else if (Paths.fileExists('images/noteSplashes.png', IMAGE) && ClientPrefs.data.splashSkin == ClientPrefs.defaultData.splashSkin) texture = 'noteSplashes';
 		else texture = defaultNoteSplash + getSplashSkinPostfix();
 		
 		var config:NoteSplashConfig = null;
@@ -68,7 +64,7 @@ class NoteSplash extends FlxSprite
 			config = precacheConfig(_configLoaded);
 
 		var tempShader:RGBPalette = null;
-		if((note == null || note.noteSplashData.useRGBShader) && (PlayState.SONG == null || !PlayState.SONG.disableNoteRGB) && ClientPrefs.data.splashRGB)
+		if((note == null || note.noteSplashData.useRGBShader) && (PlayState.SONG == null || !PlayState.SONG.disableNoteRGB))
 		{
 			// If Note RGB is enabled:
 			if(note != null && !note.noteSplashData.useGlobalShader)
@@ -162,8 +158,7 @@ class NoteSplash extends FlxSprite
 	{
 		if(configs.exists(skin)) return configs.get(skin);
 
-		var path:String = Paths.getPath('images/$skin.txt', TEXT, true);
-		if (!FileSystem.exists(path)) path = 'assets/shared/images/noteSplashes/noteSplashes.txt'; // use default text
+		var path:String = Paths.getPath('images/$skin.txt', TEXT);
 		var configFile:Array<String> = CoolUtil.coolTextFile(path);
 		if(configFile.length < 1) return null;
 		
