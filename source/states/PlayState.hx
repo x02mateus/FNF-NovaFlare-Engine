@@ -3764,7 +3764,7 @@ class PlayState extends MusicBeatState
 	}
 	#end
 
-	public inline function spawnNoteSplashOnNote(note:Note) {
+	public function spawnNoteSplashOnNote(note:Note) {
 		if(note != null) {
 			var strum:StrumNote = ClientPrefs.data.playOpponent ? opponentStrums.members[note.noteData] : playerStrums.members[note.noteData];
 			if(strum != null)
