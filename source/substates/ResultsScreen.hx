@@ -123,10 +123,10 @@ class ResultsScreen extends MusicBeatSubstate
         background = new FlxSprite(0, 0).loadGraphic(Paths.image('menuBG'));		
 		background.scale.x = FlxG.width * 1.05 / background.width;
 		background.scale.y = FlxG.height * 1.05 / background.height;
-		background.updateHitbox();		
-		background.screenCenter();
+		background.updateHitbox();				
 		background.antialiasing = ClientPrefs.data.antialiasing;			
 		add(background);		
+		background.screenCenter();
 	    var blurFilter:BlurFilter = new BlurFilter(10, 10, 3);         
         var filterFrames = FlxFilterFrames.fromFrames(background.frames, Std.int(background.width), Std.int(background.height), [blurFilter]);
 		filterFrames.applyToSprite(background, false, true);
