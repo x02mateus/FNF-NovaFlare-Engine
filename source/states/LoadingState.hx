@@ -1,13 +1,22 @@
 package states;
 
 import haxe.Json;
+import haxe.ds.StringMap;
+
 import lime.utils.Assets;
+
 import openfl.display.BitmapData;
 import openfl.utils.AssetType;
 import openfl.utils.Assets as OpenFlAssets;
+import openfl.display.BitmapData;
+import openfl.display.Shape;
+
 import flixel.addons.transition.FlxTransitionableState;
 import flixel.graphics.FlxGraphic;
+import flixel.graphics.frames.FlxFilterFrames;
 import flixel.FlxState;
+
+import flash.filters.GlowFilter;
 
 import states.editors.ChartingState;
 
@@ -18,8 +27,6 @@ import backend.Rating;
 
 import objects.Note.EventNote; //why
 import objects.*;
-
-import haxe.ds.StringMap;
 
 import sys.thread.Thread;
 import sys.thread.Mutex;
@@ -49,21 +56,18 @@ class LoadingState extends MusicBeatState
 	var target:FlxState = null;
 	var stopMusic:Bool = false;
 	var dontUpdate:Bool = false;
-
+    
+    var filePath:String = 'menuExtend/LoadingState/';
+    
 	var bar:FlxSprite;
-	var barWidth:Int = 0;
+    var button:LoadButton;
+    var barHeight:Int = 20;
+    
 	var intendedPercent:Float = 0;
 	var curPercent:Float = 0;
-	var canChangeState:Bool = true;
+	var percentText:FlxText;
 	
-	var timePassed:Float;
-
-	#if PSYCH_WATERMARKS
-	var logo:FlxSprite;
-	var loadingText:FlxText;
-	#else
-	var funkay:FlxSprite;
-	#end
+	var titleText:FlxText;
 
 	override public function create()
 	{
@@ -75,52 +79,28 @@ class LoadingState extends MusicBeatState
 			return;
 		}
 
-		#if PSYCH_WATERMARKS // PSYCH LOADING SCREEN
 		var bg = new FlxSprite().loadGraphic(Paths.image('menuDesat'));
 		bg.setGraphicSize(Std.int(FlxG.width));
 		bg.color = 0xFFD16FFF;
 		bg.updateHitbox();
 		add(bg);
 	
-		loadingText = new FlxText(520, 600, 400, 'Now Loading...', 32);
-		loadingText.setFormat(Paths.font("vcr.ttf"), 32, FlxColor.WHITE, LEFT, OUTLINE_FAST, FlxColor.BLACK);
-		loadingText.borderSize = 2;
-		add(loadingText);
-	
-		logo = new FlxSprite(0, 0).loadGraphic(Paths.image('loading_screen/icon'));
-		logo.scale.set(0.75, 0.75);
-		logo.updateHitbox();
-		logo.antialiasing = ClientPrefs.data.antialiasing;
-		logo.screenCenter();
-		logo.x -= 50;
-		logo.y -= 40;
-		add(logo);
+		titleText = new FlxText(520, 600, 400, 'Now Loading...', 32);
+		titleText.setFormat(Paths.font("vcr.ttf"), 32, FlxColor.WHITE, LEFT, OUTLINE_FAST, FlxColor.BLACK);
+		titleText.borderSize = 2;
+		add(titleText);		
 
-		#else // BASE GAME LOADING SCREEN
-		var bg = new FlxSprite().makeGraphic(1, 1, 0xFFCAFF4D);
-		bg.scale.set(FlxG.width, FlxG.height);
+		var bg:FlxSprite = new FlxSprite(0, 0).makeGraphic(1, 1, FlxColor.BLACK);
+		bg.scale.set(FlxG.width, barHeight);
 		bg.updateHitbox();
-		bg.screenCenter();
-		add(bg);
-
-		funkay = new FlxSprite(0, 0).loadGraphic(Paths.image('funkay'));
-		funkay.antialiasing = ClientPrefs.data.antialiasing;
-		funkay.setGraphicSize(0, FlxG.height);
-		funkay.updateHitbox();
-		add(funkay);
-		#end
-
-		var bg:FlxSprite = new FlxSprite(0, 660).makeGraphic(1, 1, FlxColor.BLACK);
-		bg.scale.set(FlxG.width - 300, 25);
-		bg.updateHitbox();
+		bg.alpha = 0.6;
 		bg.screenCenter(X);
 		add(bg);
 
-		bar = new FlxSprite(bg.x + 5, bg.y + 5).makeGraphic(1, 1, FlxColor.WHITE);
-		bar.scale.set(0, 15);
+		bar = new FlxSprite(0, 0).makeGraphic(1, 1, FlxColor.WHITE);
+		bar.scale.set(0, barHeight);
 		bar.updateHitbox();
-		add(bar);
-		barWidth = Std.int(bg.width - 10);
+		add(bar);		
 
 		persistentUpdate = true;
 		super.create();
@@ -134,7 +114,7 @@ class LoadingState extends MusicBeatState
 
 		if (!transitioning)
 		{
-			if (canChangeState && !finishedLoading && checkLoaded() && intendedPercent > 0.99)
+			if (!finishedLoading && checkLoaded() && intendedPercent == 1)
 			{
 				transitioning = true;
 				onLoad();
@@ -148,22 +128,9 @@ class LoadingState extends MusicBeatState
 			if (Math.abs(curPercent - intendedPercent) < 0.001) curPercent = intendedPercent;
 			else curPercent = FlxMath.lerp(intendedPercent, curPercent, Math.exp(-elapsed * 15));
 
-			bar.scale.x = barWidth * curPercent;
+			bar.scale.x = FlxG.width * curPercent;
 			bar.updateHitbox();
 		}
-
-		#if PSYCH_WATERMARKS // PSYCH LOADING SCREEN
-		timePassed += elapsed;
-		var txt:String = 'Now Loading.';
-		switch(Math.floor(timePassed % 1 * 3))
-		{
-			case 1:
-				txt += '.';
-			case 2:
-				txt += '..';
-		}
-		loadingText.text = txt;		
-		#end
 	}
 	
 	var finishedLoading:Bool = false; //use for stop update
@@ -331,8 +298,6 @@ class LoadingState extends MusicBeatState
 					for (file in FileSystem.readDirectory(subfolder))
 						if(file.endsWith(ext))
 							arr.push(folder + file.substr(0, file.length - ext.length));
-
-				//trace('Folder detected! ' + folder);
 			}
 		}
 
@@ -502,12 +467,11 @@ class LoadingState extends MusicBeatState
     				if(file.toLowerCase().endsWith('.lua'))
     					filesCheck(folder + file);					
     				#end
-                    /*
+                    
     				#if HSCRIPT_ALLOWED
     				if(file.toLowerCase().endsWith('.hx'))
-    					initHScript(folder + file);
-    				#end
-    				*/
+    					filesCheck(folder + file);
+    				#end    				
     			}
     		
     		var songName = PlayState.SONG.song;
@@ -518,12 +482,11 @@ class LoadingState extends MusicBeatState
     				if(file.toLowerCase().endsWith('.lua'))
     					filesCheck(folder + file);
     				#end
-                    /*
+                    
     				#if HSCRIPT_ALLOWED
     				if(file.toLowerCase().endsWith('.hx'))
-    					initHScript(folder + file);
-    				#end
-    				*/
+    					filesCheck(folder + file);
+    				#end    				
     			}
     			
     		startLuasNamed('stages/' + PlayState.SONG.stage + '.lua');	
@@ -550,6 +513,7 @@ class LoadingState extends MusicBeatState
 	static function filesCheck(path:String)
 	{
     	var input:String = File.getContent(path);
+    	
     	var regex = ~/makeLuaSprite\('(\S+)', '(\S+)', .*?\)/g; // Global flag 'g' added for multiple matches 
     	while (regex.match(input)) {
     	    var result = regex.matched(2); // Extract the first capture group 
@@ -720,4 +684,29 @@ class LoadingState extends MusicBeatState
             });    	        		    
 	    }		
 	}
+}
+
+class LoadButton extends FlxSprite
+{
+    function new(Width:Int, Height:Int){    
+        var color:FlxColor = FlxColor.WHITE;
+		
+		var shape:Shape = new Shape();
+        shape.graphics.beginFill(color);
+        shape.graphics.drawRoundRect(0, 0, Width, Height, Std.int(Height / 2), Std.int(Height / 2));     
+        shape.graphics.endFill();
+        
+        var BitmapData:BitmapData = new BitmapData(Width, Height, 0x00);
+        BitmapData.draw(shape);   
+        
+        pixels = BitmapData;
+        
+        super();
+    }
+    
+    var glowFilter = new GlowFilter(0xFF0000, 1, 50, 50, 1.5, 1);
+		spr2 = createSprite(0.5, -100, "Glow");
+		spr2Filter = createFilterFrames(spr2, glowFilter);
+		tween2 = FlxTween.tween(glowFilter, {blurX: 4, blurY: 4}, 1, {type: PINGPONG});
+		tween2.active = false;
 }
