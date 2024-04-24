@@ -445,11 +445,13 @@ class ResultsScreen extends MusicBeatSubstate
 	    var numberBG:FlxSprite = new FlxSprite(percentBG.x + 5, percentBG.y + 5 + percentRectBGNumber.length * height).loadGraphic(createGraphic(Std.int(percentBG.width - 10), 30, 20, 20));
 	    numberBG.color = FlxColor.BLACK;
 		numberBG.alpha = 0;
+		numberBG.antialiasing = ClientPrefs.data.antialiasing;
 		percentRectBGNumber.add(numberBG);		
 		
 		var numberRect:FlxSprite = new FlxSprite(percentBG.x + 5, percentBG.y + 5 + percentRectNumber.length * height).loadGraphic(createGraphic(Std.int((percentBG.width - 10) * (number / (game.NoteTime.length - 1))), 30, 20, 20));
 		numberRect.color = color;
 		numberRect.alpha = 0;
+		numberRect.antialiasing = ClientPrefs.data.antialiasing;
 		percentRectNumber.add(numberRect);	
 	
 	    var numberText = new FlxText(percentBG.x + 5, numberBG.y + numberBG.height, 0, RateName, 16);		    
@@ -560,42 +562,41 @@ class ResultsScreen extends MusicBeatSubstate
 		        FlxTween.tween(percentTextNumber.members[i], {alpha: 1}, 0.5);
 		    }
 		});
-		
-		
+				
 		new FlxTimer().start(3, function(tmr:FlxTimer){
 			FlxTween.tween(backBG, {x:  1280 - backBG.width}, 1, {ease: FlxEase.cubeInOut});
 			FlxTween.tween(backText, {x: 1280 - backBG.width / 2 - backText.width / 2}, 1.2, {ease: FlxEase.cubeInOut});
-		});
-	
-		
+		});			
 	}
 	
-	var timerTween:FlxTimer;
     function rectTween(sprite:FlxSprite, tweenHeight:Bool = false, width:Int = 0, height:Int = 0){
         
         if (width == 0) width = Std.int(sprite.width);
         if (height == 0) height = Std.int(sprite.height);
         
         var swagRect:FlxRect;
-	    var showNum:Int = 0;
 	    
-	    timerTween = new FlxTimer().start(0.01, function(tmr:FlxTimer) {
-		    showNum++;
+	    var time:Float = 0;
+	    var maxTime:Float = 0.5;
+	    
+	    var timerTween:FlxTimer = new FlxTimer().start(0.0001, function(tmr:FlxTimer) {
+		    time += FlxG.elapsed;
+    		if (time > maxTime) time = maxTime;
     		
     		if(swagRect == null) swagRect = new FlxRect(0, 0, 0, 0);
     		swagRect.x = 0;
 	        swagRect.y = 0;
 	        if (tweenHeight){
 	            swagRect.width = width;
-		        swagRect.height = height * (showNum / 20);    		
+		        swagRect.height = height * (time / maxTime);    		
 		    }else{
-		        swagRect.width = width * (showNum / 20);
+		        swagRect.width = width * (time / maxTime);
 		        swagRect.height = height;    				    
 		    }
 		    sprite.clipRect = swagRect;
-		    sprite.alpha = 1;
+		    //sprite.alpha = 1;
 		    
-		    if (showNum == 50){
+		    if (time == maxTime){
 		        timerTween.cancel();		        		        
 		    }
         }, 0);            
