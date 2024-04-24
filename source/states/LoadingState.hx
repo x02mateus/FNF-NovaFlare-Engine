@@ -61,7 +61,7 @@ class LoadingState extends MusicBeatState
     
 	var bar:FlxSprite;
     var button:LoadButton;
-    var barHeight:Int = 20;
+    var barHeight:Int = 10;
     
 	var intendedPercent:Float = 0;
 	var curPercent:Float = 0;
@@ -90,14 +90,14 @@ class LoadingState extends MusicBeatState
 		titleText.borderSize = 2;
 		add(titleText);		
 
-		var bg:FlxSprite = new FlxSprite(0, 0).makeGraphic(1, 1, FlxColor.BLACK);
+		var bg:FlxSprite = new FlxSprite(0, FlxG.height - barHeight).makeGraphic(1, 1, FlxColor.BLACK);
 		bg.scale.set(FlxG.width, barHeight);
 		bg.updateHitbox();
 		bg.alpha = 0.6;
 		bg.screenCenter(X);
 		add(bg);
 
-		bar = new FlxSprite(0, 0).makeGraphic(1, 1, FlxColor.WHITE);
+		bar = new FlxSprite(0, bg.height).makeGraphic(1, 1, FlxColor.WHITE);
 		bar.scale.set(0, barHeight);
 		bar.updateHitbox();
 		add(bar);		
@@ -114,7 +114,7 @@ class LoadingState extends MusicBeatState
 
 		if (!transitioning)
 		{
-			if (!finishedLoading && checkLoaded() && intendedPercent == 1)
+			if (!finishedLoading && checkLoaded() && curPercent == 1)
 			{
 				transitioning = true;
 				onLoad();
