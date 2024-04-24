@@ -579,7 +579,9 @@ class ResultsScreen extends MusicBeatSubstate
 	    var time:Float = 0;
 	    var maxTime:Float = 0.5;
 	    
-	    var timerTween:FlxTimer = new FlxTimer().start(0.0001, function(tmr:FlxTimer) {
+	    var timerTween:FlxTimer;
+	    
+	    timerTween = new FlxTimer().start(0.0001, function(tmr:FlxTimer) {
 		    time += FlxG.elapsed;
     		if (time > maxTime) time = maxTime;
     		
