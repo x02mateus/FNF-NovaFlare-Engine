@@ -121,16 +121,16 @@ class ResultsScreen extends MusicBeatSubstate
         }			
         
         background = new FlxSprite(0, 0).loadGraphic(Paths.image('menuBG'));		
-		background.scale.x = FlxG.width / background.width;
-		background.scale.y = FlxG.height / background.height;
-		background.offset.x = 0;
-		background.offset.y = 0;
+		background.scale.x = FlxG.width * 1.05 / background.width;
+		background.scale.y = FlxG.height * 1.05 / background.height;
 		background.updateHitbox();		
+		background.screenCenter();
 		background.antialiasing = ClientPrefs.data.antialiasing;			
 		add(background);		
 	    var blurFilter:BlurFilter = new BlurFilter(10, 10, 3);         
         var filterFrames = FlxFilterFrames.fromFrames(background.frames, Std.int(background.width), Std.int(background.height), [blurFilter]);
 		filterFrames.applyToSprite(background, false, true);
+		background.alpha = 0;
 		
 		//--------------------------
 		
