@@ -597,7 +597,7 @@ class ResultsScreen extends MusicBeatSubstate
 		    //sprite.alpha = 1;
 		    
 		    if (time == maxTime){
-		        timerTween.cancel();		        		        
+		        cancel();		        		        
 		    }
         }, 0);            
     }
