@@ -521,6 +521,7 @@ class OptionsState extends MusicBeatState
 						ClientPrefs.saveSettings();	
 						onPlayState = false;						
         				StageData.loadDirectory(PlayState.SONG);
+        				LoadingState.prepareToSong();
         				LoadingState.loadAndSwitchState(new PlayState());
         				FlxG.sound.music.volume = 0;
 						persistentUpdate = false;          
