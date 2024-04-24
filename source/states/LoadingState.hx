@@ -688,7 +688,7 @@ class LoadingState extends MusicBeatState
 
 class LoadButton extends FlxSprite
 {
-    function new(Width:Int, Height:Int){    
+    function new(Width:Int, Height:Int){
         var color:FlxColor = FlxColor.WHITE;
 		
 		var shape:Shape = new Shape();
@@ -703,10 +703,11 @@ class LoadButton extends FlxSprite
         
         super();
     }
-    
+    /*
     var glowFilter = new GlowFilter(0xFF0000, 1, 50, 50, 1.5, 1);
 		spr2 = createSprite(0.5, -100, "Glow");
 		spr2Filter = createFilterFrames(spr2, glowFilter);
 		tween2 = FlxTween.tween(glowFilter, {blurX: 4, blurY: 4}, 1, {type: PINGPONG});
 		tween2.active = false;
+		*/
 }
