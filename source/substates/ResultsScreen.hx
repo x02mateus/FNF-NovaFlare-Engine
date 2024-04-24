@@ -558,6 +558,10 @@ class ResultsScreen extends MusicBeatSubstate
 		        rectTween(percentRectNumber.members[i]);
 		    }
 		    
+		    for (i in 0...percentRectNumber.length){		        
+		        FlxTween.tween(percentRectNumber.members[i], {alpha: 1}, 0.3);
+		    }
+		    
 		    for (i in 0...percentTextNumber.length){
 		        FlxTween.tween(percentTextNumber.members[i], {alpha: 1}, 0.5);
 		    }
