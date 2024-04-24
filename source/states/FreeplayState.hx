@@ -1355,7 +1355,7 @@ class FreeplayState extends MusicBeatState {
 			
 		if (FlxG.mouse.pressed && holdOptions && !searching && !listening && optionsGroup[curHoldOptions] != null) {
 			if (optionsGroup[curHoldOptions].alpha <= 1)
-				optionsGroup[curHoldOptions].alpha += elapsed;
+				optionsGroup[curHoldOptions].alpha += elapsed*3;
 				
 			if (optionsGroup[curHoldOptions].alpha > 1)
 				optionsGroup[curHoldOptions].alpha = 1;
