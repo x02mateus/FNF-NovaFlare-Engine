@@ -592,34 +592,22 @@ class FreeplayState extends MusicBeatState {
 			checkButton(elapsed);
 			mouseControl(elapsed);
 			
-			if (!listening && !searching) {
-				if (controls.RESET) {
-					persistentUpdate = false;
-					openSubState(new ResetScoreSubState(songs[curSelected].songName, curDifficulty, songs[curSelected].songCharacter));
-				} else if (FlxG.keys.justPressed.CONTROL) {
-					persistentUpdate = false;
-					openSubState(new GameplayChangersSubstate());
-				} else if (FlxG.keys.justPressed.P) {
-					persistentUpdate = false;
-					OptionsState.onFreePlay = true;
-					if (playingSong != -1 || playmusiconexit) {
-						destroyFreeplayVocals();
-						FlxG.sound.playMusic(Paths.music('freakyMenu'), 0);
-						if (waitTimer != null) waitTimer.cancel();
-						//FlxG.sound.music.volume = 0.1;
-					}				
-					LoadingState.loadAndSwitchState(new OptionsState());
-				} else if (FlxG.keys.justPressed.C) {
-					var songLowercase:String = Paths.formatToSongPath(songs[curSelected].songName);
-					var poop:String = Highscore.formatSong(songLowercase, curDifficulty);
-					PlayState.SONG = Song.loadFromJson(poop, songLowercase);
-					PlayState.isStoryMode = false;
-					PlayState.storyDifficulty = curDifficulty;
-					if(colorTween != null) colorTween.cancel();
-					if (rightcolor != null) rightcolor.cancel();
-					if (leftcolor != null) rightcolor.cancel();
-					LoadingState.loadAndSwitchState(new ChartingState());
-				}
+			if (controls.RESET) {
+			    persistentUpdate = false;
+				openSubState(new ResetScoreSubState(songs[curSelected].songName, curDifficulty, songs[curSelected].songCharacter));
+			} else if (FlxG.keys.justPressed.CONTROL) {
+			    persistentUpdate = false;
+				openSubState(new GameplayChangersSubstate());
+			} else if (FlxG.keys.justPressed.P) {
+			    persistentUpdate = false;
+			    OptionsState.onFreePlay = true;
+			    if (playingSong != -1 || playmusiconexit) {
+					destroyFreeplayVocals();
+					FlxG.sound.playMusic(Paths.music('freakyMenu'), 0);
+					if (waitTimer != null) waitTimer.cancel();
+					//FlxG.sound.music.volume = 0.1;
+				}				
+				LoadingState.loadAndSwitchState(new OptionsState());
 			}
 			
 			camSearch.x = FlxMath.lerp(searching ? 0 : -1280, camSearch.x, FlxMath.bound(1 - (elapsed * 6), 0, 1));
@@ -1355,7 +1343,7 @@ class FreeplayState extends MusicBeatState {
 			
 		if (FlxG.mouse.pressed && holdOptions && !searching && !listening && optionsGroup[curHoldOptions] != null) {
 			if (optionsGroup[curHoldOptions].alpha <= 1)
-				optionsGroup[curHoldOptions].alpha += elapsed*3;
+				optionsGroup[curHoldOptions].alpha += elapsed;
 				
 			if (optionsGroup[curHoldOptions].alpha > 1)
 				optionsGroup[curHoldOptions].alpha = 1;
@@ -1372,15 +1360,15 @@ class FreeplayState extends MusicBeatState {
 			persistentUpdate = false;
 			switch(curHoldOptions) {
 				case 0: //Options					
-					OptionsState.onFreePlay = true;
-					if (playingSong != -1 || playmusiconexit) {
-						destroyFreeplayVocals();
-						FlxG.sound.playMusic(Paths.music('freakyMenu'), 0);
-						if (waitTimer != null) waitTimer.cancel();
-						//FlxG.sound.music.volume = 0.1;
-					}
+				    OptionsState.onFreePlay = true;
+				    if (playingSong != -1 || playmusiconexit) {
+    					destroyFreeplayVocals();
+    					FlxG.sound.playMusic(Paths.music('freakyMenu'), 0);
+    					if (waitTimer != null) waitTimer.cancel();
+    					//FlxG.sound.music.volume = 0.1;
+    				}    				
 					LoadingState.loadAndSwitchState(new OptionsState());
-				case 1: // Gameplay Changer	
+				case 1: // Gameplay Changer					
 					openSubState(new GameplayChangersSubstate());
 				case 2: // Reset Score
 					openSubState(new ResetScoreSubState(songs[curSelected].songName, curDifficulty, songs[curSelected].songCharacter));
