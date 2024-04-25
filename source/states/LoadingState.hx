@@ -97,11 +97,17 @@ class LoadingState extends MusicBeatState
 		bg.screenCenter(X);
 		add(bg);
 
-		bar = new FlxSprite(0, bg.height).makeGraphic(1, 1, FlxColor.WHITE);
+		bar = new FlxSprite(0, FlxG.height - barHeight).makeGraphic(1, 1, FlxColor.WHITE);
 		bar.scale.set(0, barHeight);
+		b.alpha = 0.8;
 		bar.updateHitbox();
 		add(bar);		
-
+		
+		button = new LoadButton(35, barHeight);
+        button.y = FlxG.height - barHeight;
+        button.updateHitbox();
+        add(button);
+        
 		persistentUpdate = true;
 		super.create();
 	}
@@ -129,7 +135,9 @@ class LoadingState extends MusicBeatState
 			else curPercent = FlxMath.lerp(intendedPercent, curPercent, Math.exp(-elapsed * 15));
 
 			bar.scale.x = FlxG.width * curPercent;
+			button.x = bar.scale.x - button.width;
 			bar.updateHitbox();
+			button.updateHitbox();
 		}
 	}
 	
@@ -702,12 +710,9 @@ class LoadButton extends FlxSprite
         pixels = BitmapData;
         
         super();
+        
+        var glowFilter = new GlowFilter(0xFFFFFF, 1, 50, 50, 1.5, 1);
+        var filterFrames = FlxFilterFrames.fromFrames(this.frames, Std.int(this.width), Std.int(this.height), [glowFilter]);
+		filterFrames.applyToSprite(this, false, true);
     }
-    /*
-    var glowFilter = new GlowFilter(0xFF0000, 1, 50, 50, 1.5, 1);
-		spr2 = createSprite(0.5, -100, "Glow");
-		spr2Filter = createFilterFrames(spr2, glowFilter);
-		tween2 = FlxTween.tween(glowFilter, {blurX: 4, blurY: 4}, 1, {type: PINGPONG});
-		tween2.active = false;
-		*/
 }
