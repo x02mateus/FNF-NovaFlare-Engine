@@ -24,6 +24,7 @@ import backend.Song;
 import backend.StageData;
 import backend.Section;
 import backend.Rating;
+import states.LoadingState.LoadButton;
 
 import objects.Note.EventNote; //why
 import objects.*;
@@ -99,7 +100,7 @@ class LoadingState extends MusicBeatState
 
 		bar = new FlxSprite(0, FlxG.height - barHeight).makeGraphic(1, 1, FlxColor.WHITE);
 		bar.scale.set(0, barHeight);
-		b.alpha = 0.8;
+		bar.alpha = 0.8;
 		bar.updateHitbox();
 		add(bar);		
 		
