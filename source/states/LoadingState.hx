@@ -572,16 +572,16 @@ class LoadingState extends MusicBeatState
 	    events = [];	    
 	    var noteData:Array<SwagSection> =  PlayState.SONG.notes;
 	    
-        Thread.create(() -> {
-    		mutex.acquire();    		    		
+        Thread.create(() -> {	    		
     		for (event in PlayState.SONG.events) //Event Notes
     		    events.push(event);
-    		mutex.release();
     	});    	        
     	
 		for (section in noteData)
 		{
 		    Thread.create(() -> {
+		        var mutex:Mutex = new Mutex();
+		        var var putNotes:Array<Note> = [];
 		        mutex.acquire();    	
     			for (songNotes in section.sectionNotes)
     			{
@@ -610,8 +610,8 @@ class LoadingState extends MusicBeatState
             		}
             
             		var oldNote:Note;
-            		if (unspawnNotes.length > 0)
-            			oldNote = unspawnNotes[Std.int(unspawnNotes.length - 1)];
+            		if (putNotes.length > 0)
+            			oldNote = putNotes[Std.int(putNotes.length - 1)];
             		else
             			oldNote = null;
             
@@ -624,7 +624,7 @@ class LoadingState extends MusicBeatState
             
             		swagNote.scrollFactor.set();
             
-            		unspawnNotes.push(swagNote);
+            		putNotes.push(swagNote);
             
             		final susLength:Float = swagNote.sustainLength / Conductor.stepCrochet;
             		final floorSus:Int = Math.floor(susLength) - ClientPrefs.data.fixLNL;
@@ -632,7 +632,7 @@ class LoadingState extends MusicBeatState
             		if(floorSus > 0) {
             			for (susNote in 0...floorSus + 1)
             			{
-            				oldNote = unspawnNotes[Std.int(unspawnNotes.length - 1)];
+            				oldNote = putNotes[Std.int(putNotes.length - 1)];
             
             				var sustainNote:Note = new Note(daStrumTime + (Conductor.stepCrochet * susNote), daNoteData, oldNote, true, false, LoadingState);
             				sustainNote.mustPress = gottaHitNote;
@@ -641,7 +641,7 @@ class LoadingState extends MusicBeatState
             				sustainNote.scrollFactor.set();
             				sustainNote.parent = swagNote;
             				sustainNote.hitMultUpdate(susNote, floorSus + 1);
-            				unspawnNotes.push(sustainNote);
+            				putNotes.push(sustainNote);
             				swagNote.tail.push(sustainNote);
             
             				sustainNote.correctionOffset = swagNote.height / 2;
@@ -690,11 +690,19 @@ class LoadingState extends MusicBeatState
             			noteTypes.push(swagNote.noteType);
             		}	
     			}
-    			unspawnNotes.sort(PlayState.sortByTime);
+    			putNotes.sort(PlayState.sortByTime);
 		        mutex.release();
+		        putdata(putNotes, unspawnNotes);
 		        loaded++;
             });    	        		    
 	    }		
+	}
+	
+	static function putdata(putChart:Array<Note>, getChart:Array<Note>)
+	{
+	    for (i in 0...putChart.length){
+	        getChart.push(putChart[i]);
+	    }
 	}
 }
 
