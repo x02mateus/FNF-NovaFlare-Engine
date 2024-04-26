@@ -582,6 +582,7 @@ class LoadingState extends MusicBeatState
 		for (section in noteData)
 		{
 		    Thread.create(() -> {
+		        var mutex:Mutex = new Mutex();
 		        mutex.acquire();    	
     			for (songNotes in section.sectionNotes)
     			{
@@ -709,6 +710,9 @@ class LoadButton extends FlxSprite
         shape.graphics.drawRoundRect(0, 0, Width, Height, Std.int(Height / 2), Std.int(Height / 2));     
         shape.graphics.endFill();
         
-        graphic = shape.graphics;
+        var BitmapData:BitmapData = new BitmapData(Width, Height, 0x00);
+        BitmapData.draw(shape);   
+        
+        graphic = BitmapData;                
     }
 }
