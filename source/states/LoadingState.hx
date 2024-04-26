@@ -104,9 +104,13 @@ class LoadingState extends MusicBeatState
 		add(bar);		
 		
 		button = new LoadButton(0, 0, 35, barHeight);
-        button.y = FlxG.height - barHeight;
+        button.y = FlxG.height - barHeight * 2;
         button.updateHitbox();
         add(button);
+        
+        var glowFilter = new GlowFilter(0xFFFFFF, 1, 50, 50, 1.5, 1);
+        var filterFrames = FlxFilterFrames.fromFrames(button.frames, Std.int(button.width), Std.int(button.height), [glowFilter]);
+		filterFrames.applyToSprite(button, false, true);
         
 		persistentUpdate = true;
 		super.create();
@@ -708,10 +712,6 @@ class LoadButton extends FlxSprite
         var BitmapData:BitmapData = new BitmapData(Width, Height, 0x00);
         BitmapData.draw(shape);   
         
-        pixels = BitmapData;               
-        
-        var glowFilter = new GlowFilter(0xFFFFFF, 1, 50, 50, 1.5, 1);
-        var filterFrames = FlxFilterFrames.fromFrames(this.frames, Std.int(this.width), Std.int(this.height), [glowFilter]);
-		filterFrames.applyToSprite(this, false, true);
+        pixels = BitmapData;                               
     }
 }
