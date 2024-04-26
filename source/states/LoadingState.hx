@@ -24,7 +24,6 @@ import backend.Song;
 import backend.StageData;
 import backend.Section;
 import backend.Rating;
-import states.LoadingState.LoadButton;
 
 import objects.Note.EventNote; //why
 import objects.*;
@@ -104,7 +103,7 @@ class LoadingState extends MusicBeatState
 		bar.updateHitbox();
 		add(bar);		
 		
-		button = new LoadButton(35, barHeight);
+		button = new LoadButton(0, 0, 35, barHeight);
         button.y = FlxG.height - barHeight;
         button.updateHitbox();
         add(button);
@@ -697,7 +696,8 @@ class LoadingState extends MusicBeatState
 
 class LoadButton extends FlxSprite
 {
-    function new(Width:Int, Height:Int){
+    function new(x:Float, y:Float, Width:Int, Height:Int){
+        super(x, y);    
         var color:FlxColor = FlxColor.WHITE;
 		
 		var shape:Shape = new Shape();
@@ -708,9 +708,7 @@ class LoadButton extends FlxSprite
         var BitmapData:BitmapData = new BitmapData(Width, Height, 0x00);
         BitmapData.draw(shape);   
         
-        pixels = BitmapData;
-        
-        super();
+        pixels = BitmapData;               
         
         var glowFilter = new GlowFilter(0xFFFFFF, 1, 50, 50, 1.5, 1);
         var filterFrames = FlxFilterFrames.fromFrames(this.frames, Std.int(this.width), Std.int(this.height), [glowFilter]);
