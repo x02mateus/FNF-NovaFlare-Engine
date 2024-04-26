@@ -581,7 +581,7 @@ class LoadingState extends MusicBeatState
 		{
 		    Thread.create(() -> {
 		        var mutex:Mutex = new Mutex();
-		        var var putNotes:Array<Note> = [];
+		        var putNotes:Array<Note> = [];
 		        mutex.acquire();    	
     			for (songNotes in section.sectionNotes)
     			{
