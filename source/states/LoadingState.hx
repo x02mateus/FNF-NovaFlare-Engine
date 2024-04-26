@@ -93,18 +93,18 @@ class LoadingState extends MusicBeatState
 		var bg:FlxSprite = new FlxSprite(0, FlxG.height - barHeight).makeGraphic(1, 1, FlxColor.BLACK);
 		bg.scale.set(FlxG.width, barHeight);
 		bg.updateHitbox();
-		bg.alpha = 0.6;
+		bg.alpha = 0.4;
 		bg.screenCenter(X);
 		add(bg);
 
 		bar = new FlxSprite(0, FlxG.height - barHeight).makeGraphic(1, 1, FlxColor.WHITE);
 		bar.scale.set(0, barHeight);
-		bar.alpha = 0.8;
+		bar.alpha = 0.6;
 		bar.updateHitbox();
 		add(bar);		
 		
 		button = new LoadButton(0, 0, 35, barHeight);
-        button.y = FlxG.height - barHeight * 2;
+        button.y = FlxG.height - barHeight;
         button.updateHitbox();
         add(button);
         
@@ -139,7 +139,7 @@ class LoadingState extends MusicBeatState
 			else curPercent = FlxMath.lerp(intendedPercent, curPercent, Math.exp(-elapsed * 15));
 
 			bar.scale.x = FlxG.width * curPercent;
-			button.x = bar.scale.x - button.width;
+			button.x = bar.scale.x - button.width / 2;
 			bar.updateHitbox();
 			button.updateHitbox();
 		}
@@ -702,16 +702,13 @@ class LoadButton extends FlxSprite
 {
     public function new(x:Float, y:Float, Width:Int, Height:Int){
         super(x, y);    
-        var color:FlxColor = FlxColor.WHITE;
+        makeGraphic(Width, Height, 0x00);
 		
 		var shape:Shape = new Shape();
         shape.graphics.beginFill(color);
         shape.graphics.drawRoundRect(0, 0, Width, Height, Std.int(Height / 2), Std.int(Height / 2));     
         shape.graphics.endFill();
         
-        var BitmapData:BitmapData = new BitmapData(Width, Height, 0x00);
-        BitmapData.draw(shape);   
-        
-        pixels = BitmapData;                               
+        graphic = shape.graphics;
     }
 }
