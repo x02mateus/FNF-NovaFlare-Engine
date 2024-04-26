@@ -697,12 +697,14 @@ class LoadingState extends MusicBeatState
             });    	        		    
 	    }		
 	}
-	
+	static var unspawnNotesMutex:Mutex = new Mutex();
 	static function putdata(putChart:Array<Note>, getChart:Array<Note>)
 	{
+	    unspawnNotesMutex.acquire();
 	    for (i in 0...putChart.length){
 	        getChart.push(putChart[i]);
 	    }
+	    unspawnNotesMutex.release();
 	}
 }
 
