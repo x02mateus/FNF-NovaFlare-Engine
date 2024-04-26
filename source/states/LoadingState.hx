@@ -696,7 +696,7 @@ class LoadingState extends MusicBeatState
 
 class LoadButton extends FlxSprite
 {
-    function new(x:Float, y:Float, Width:Int, Height:Int){
+    public function new(x:Float, y:Float, Width:Int, Height:Int){
         super(x, y);    
         var color:FlxColor = FlxColor.WHITE;
 		
