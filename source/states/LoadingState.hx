@@ -591,6 +591,7 @@ class LoadingState extends MusicBeatState
     	});    	        
     	
     	for (chart in 0...noteData.length)
+    	{
 		    Thread.create(() -> {
 		        var section = noteData[chart];
 		        var putNotes:Array<Note> = [];
@@ -710,7 +711,7 @@ class LoadingState extends MusicBeatState
 	    }		
 	}
 	
-	static var unspawnNotesMutex:Mutex;
+	static var unspawnNotesMutex:Mutex = new Mutex();
 	static function putdata(putChart:Array<Note>, getChart:Array<Note>)
 	{
 	    unspawnNotesMutex.acquire();
