@@ -159,7 +159,6 @@ class LoadingState extends MusicBeatState
         
         if (isPlayState){
             isPlayState = false;
-            unspawnNotes.remove;
             MusicBeatState.switchState(new PlayState(unspawnNotes, noteTypes, events));
         } else {
 		    MusicBeatState.switchState(target);
@@ -711,7 +710,7 @@ class LoadingState extends MusicBeatState
 	    }		
 	}
 	
-	static var unspawnNotesMutex:Mutex = new Mutex();
+	static var unspawnNotesMutex:Mutex;
 	static function putdata(putChart:Array<Note>, getChart:Array<Note>)
 	{
 	    unspawnNotesMutex.acquire();
