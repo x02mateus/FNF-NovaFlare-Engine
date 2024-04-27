@@ -595,10 +595,10 @@ class LoadingState extends MusicBeatState
     	for (chart in 0...noteData.length)
     	{
 		    Thread.create(() -> {
+		        mutex.acquire();    	
 		        var section = noteData[chart];
 		        var putNotes:Array<Note> = [];
-		        var mutex = chartMutex[chart % 8];
-		        mutex.acquire();    	
+		        var mutex = chartMutex[chart % 8];		        
     			for (songNotes in section.sectionNotes)
     			{
     				var daStrumTime:Float = songNotes[0];
