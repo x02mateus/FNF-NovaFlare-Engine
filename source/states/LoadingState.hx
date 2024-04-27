@@ -568,6 +568,7 @@ class LoadingState extends MusicBeatState
 	}
 	
 	static var chartMutex:Array<Mutex> = [];
+	static var noteTypeMutex:Mutex = new Mutex();
 	static function setMutex()
 	{		    		
 	    chartMutex = [];
@@ -588,7 +589,7 @@ class LoadingState extends MusicBeatState
     		eventMutex.acquire();    		    		
     		for (event in PlayState.SONG.events) //Event Notes
     		    events.push(event);
-    		eventMutex.release();
+    		mutex.release();
     	});    	        
     	
     	for (chart in 0...noteData.length)
@@ -700,10 +701,11 @@ class LoadingState extends MusicBeatState
             				swagNote.x += FlxG.width / 2 + 25;
             			}
             		}
-            
-            		if(!noteTypes.contains(swagNote.noteType)) {
-            			noteTypes.push(swagNote.noteType);
-            		}	
+                    noteTypeMutex..acquire();    
+                		if(!noteTypes.contains(swagNote.noteType)) {
+                			noteTypes.push(swagNote.noteType);
+                		}	
+            		noteTypeMutex..release();
     			}
     			putdata(putNotes, unspawnNotes);
 		        mutex.release();
