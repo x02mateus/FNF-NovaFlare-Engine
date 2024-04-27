@@ -589,7 +589,7 @@ class LoadingState extends MusicBeatState
     		eventMutex.acquire();    		    		
     		for (event in PlayState.SONG.events) //Event Notes
     		    events.push(event);
-    		mutex.release();
+    		eventMutex.release();
     	});    	        
     	
     	for (chart in 0...noteData.length)
