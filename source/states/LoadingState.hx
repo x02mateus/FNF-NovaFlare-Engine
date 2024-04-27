@@ -583,11 +583,12 @@ class LoadingState extends MusicBeatState
 	    events = [];	    
 	    var noteData:Array<SwagSection> =  PlayState.SONG.notes;
 	    
+	    var eventMutex:Mutex = new Mutex();
         Thread.create(() -> {
-    		mutex.acquire();    		    		
+    		eventMutex.acquire();    		    		
     		for (event in PlayState.SONG.events) //Event Notes
     		    events.push(event);
-    		mutex.release();
+    		eventMutex.release();
     	});    	        
     	
     	for (chart in 0...noteData.length)
@@ -716,6 +717,7 @@ class LoadingState extends MusicBeatState
 	{
 	    unspawnNotesMutex.acquire();
 	    for (i in 0...putChart.length){
+	        putChart[i].updateHitbox(); //idk but a little note look wired
 	        getChart.push(putChart[i]);
 	    }
 	    unspawnNotes.sort(PlayState.sortByTime);
