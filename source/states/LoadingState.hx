@@ -572,7 +572,7 @@ class LoadingState extends MusicBeatState
 	static function setMutex()
 	{		    		
 	    chartMutex = [];
-	    for (num in 0...8){
+	    for (num in 0...32){
 	        var mutex:Mutex = new Mutex();
 	        chartMutex.push(mutex);
 	    }
@@ -595,10 +595,12 @@ class LoadingState extends MusicBeatState
     	for (chart in 0...noteData.length)
     	{
 		    Thread.create(() -> {
+		        var mutex = chartMutex[chart % 32];	
 		        mutex.acquire();    	
+		        
 		        var section = noteData[chart];
 		        var putNotes:Array<Note> = [];
-		        var mutex = chartMutex[chart % 8];		        
+		        	        
     			for (songNotes in section.sectionNotes)
     			{
     				var daStrumTime:Float = songNotes[0];
