@@ -104,7 +104,8 @@ class LoadingState extends MusicBeatState
 		add(bar);		
 		
 		button = new LoadButton(0, 0, 35, barHeight);
-        button.y = FlxG.height - barHeight;
+        button.y = FlxG.height - button.height;
+        button.x = -button.width;
         button.updateHitbox();
         add(button);
         
@@ -138,8 +139,8 @@ class LoadingState extends MusicBeatState
 			if (Math.abs(curPercent - intendedPercent) < 0.001) curPercent = intendedPercent;
 			else curPercent = FlxMath.lerp(intendedPercent, curPercent, Math.exp(-elapsed * 15));
 
-			bar.scale.x = FlxG.width * curPercent;
-			button.x = bar.scale.x - button.width / 2;
+			bar.scale.x = FlxG.width * curPercent - button.width / 2;
+			button.x = bar.scale.x + button.width;
 			bar.updateHitbox();
 			button.updateHitbox();
 		}
@@ -394,6 +395,7 @@ class LoadingState extends MusicBeatState
 				loaded++;
 			});		
 		setSpeed();
+		setMutex();
 		preloadChart();
 	}
 
@@ -565,6 +567,16 @@ class LoadingState extends MusicBeatState
 				songSpeed = ClientPrefs.getGameplaySetting('scrollspeed');
 		}		
 	}
+	
+	static var chartMutex:Array<Mutex> = [];
+	static function setMutex()
+	{		    		
+	    chartMutex = [];
+	    for (num in 0...4){
+	        var mutex:Mutex = new Mutex();
+	        chartMutex.push(mutex);
+	    }
+	}
 	static function preloadChart()
 	{		    		
 	    unspawnNotes = [];    	        	    
@@ -572,16 +584,18 @@ class LoadingState extends MusicBeatState
 	    events = [];	    
 	    var noteData:Array<SwagSection> =  PlayState.SONG.notes;
 	    
-        Thread.create(() -> {	    		
+        Thread.create(() -> {
+    		mutex.acquire();    		    		
     		for (event in PlayState.SONG.events) //Event Notes
     		    events.push(event);
+    		mutex.release();
     	});    	        
     	
-		for (section in noteData)
-		{
+    	for (chart in 0...noteData.length)
 		    Thread.create(() -> {
-		        var mutex:Mutex = new Mutex();
+		        var section = noteData[chart];
 		        var putNotes:Array<Note> = [];
+		        var mutex = chartMutex[chart % 4];
 		        mutex.acquire();    	
     			for (songNotes in section.sectionNotes)
     			{
@@ -690,13 +704,13 @@ class LoadingState extends MusicBeatState
             			noteTypes.push(swagNote.noteType);
             		}	
     			}
-    			putNotes.sort(PlayState.sortByTime);
+    			putdata(putNotes, unspawnNotes);
 		        mutex.release();
-		        putdata(putNotes, unspawnNotes);
 		        loaded++;
             });    	        		    
 	    }		
 	}
+	
 	static var unspawnNotesMutex:Mutex = new Mutex();
 	static function putdata(putChart:Array<Note>, getChart:Array<Note>)
 	{
@@ -704,6 +718,7 @@ class LoadingState extends MusicBeatState
 	    for (i in 0...putChart.length){
 	        getChart.push(putChart[i]);
 	    }
+	    unspawnNotes.sort(PlayState.sortByTime);
 	    unspawnNotesMutex.release();
 	}
 }
