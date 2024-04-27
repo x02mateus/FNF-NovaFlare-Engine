@@ -594,8 +594,8 @@ class LoadingState extends MusicBeatState
     	
     	for (chart in 0...noteData.length)
     	{
-		    Thread.create(() -> {
-		        var mutex = chartMutex[chart % 32];	
+    	    var mutex = chartMutex[chart % 32];	
+		    Thread.create(() -> {	        
 		        mutex.acquire();    	
 		        
 		        var section = noteData[chart];
