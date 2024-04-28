@@ -595,7 +595,7 @@ class LoadingState extends MusicBeatState
 	    events = [];	    
 	    var noteData:Array<SwagSection> =  PlayState.SONG.notes;
 	    
-	    saveNotes[noteData.length] = null;
+	    saveNotes[noteData.length] = [];
 	    saveMax = noteData.length;
 	    
         Thread.create(() -> {    			
@@ -721,7 +721,7 @@ class LoadingState extends MusicBeatState
                 		}	
             		noteTypeMutex.release();
             		*/
-    			}    		
+    			}
     			saveNotes[chart] = putNotes;
 		        mutex.release();
 		        loaded++;
@@ -731,14 +731,16 @@ class LoadingState extends MusicBeatState
 	}
 	static function sortNote();
 	{
-	    mutex.acquire();    	
-	    for (array in 0...saveNotes.length){
-	        for (note in 0...saveNotes[array].length)
-	        unspawnNotes.push(saveNotes[array][note]);
-	    }
-	    unspawnNotes.sort(PlayState.sortByTime);
-	    mutex.release();
-		loaded++;
+	    Thread.create(() -> {
+    	    mutex.acquire();    	
+    	    for (array in 0...saveNotes.length){
+    	        for (note in 0...saveNotes[array].length)
+    	            unspawnNotes.push(saveNotes[array][note]);
+    	    }
+    	    unspawnNotes.sort(PlayState.sortByTime);
+    	    mutex.release();
+    		loaded++;
+		});    	
 	}
 }
 
