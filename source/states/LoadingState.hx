@@ -595,7 +595,7 @@ class LoadingState extends MusicBeatState
 	    events = [];	    
 	    var noteData:Array<SwagSection> =  PlayState.SONG.notes;
 	    
-	    saveNotes[noteData.length] = [];
+	    saveNotes[noteData.length - 1] = [];
 	    saveMax = noteData.length;
 	    
         Thread.create(() -> {    			
@@ -729,7 +729,7 @@ class LoadingState extends MusicBeatState
             });    	        		    
 	    }		
 	}
-	static function sortNote();
+	static function sortNote()
 	{
 	    Thread.create(() -> {
     	    mutex.acquire();    	
