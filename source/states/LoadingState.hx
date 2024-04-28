@@ -596,7 +596,6 @@ class LoadingState extends MusicBeatState
     	for (chart in 0...noteData.length)
     	{
 		    Thread.create(() -> {	        
-		        mutex.acquire();    			        
 		        var section = noteData[chart];
 		        var putNotes:Array<Note> = [];
 		        	        
@@ -721,11 +720,11 @@ class LoadingState extends MusicBeatState
 	    Thread.create(() -> {
     	    
     	    for (array in 0...saveNotes.length){
-    	        for (note in 0...saveNotes[array].length)
-    	            unspawnNotes.push(saveNotes[array][note]);
+    	        if (saveNotes[array].length > 0)
+    	            for (note in 0...saveNotes[array].length)
+    	                unspawnNotes.push(saveNotes[array][note]);
     	    }
-    	    unspawnNotes.sort(PlayState.sortByTime);
-    	   
+    	    unspawnNotes.sort(PlayState.sortByTime);    	   
     		loaded++;
 		});    	
 	}
