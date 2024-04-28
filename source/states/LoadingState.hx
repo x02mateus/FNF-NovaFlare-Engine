@@ -555,6 +555,7 @@ class LoadingState extends MusicBeatState
 	
 	static var unspawnNotes:Array<Note> = [];
 	static var saveNotes:Array<Array<Note>> = [];
+	static var noteMutex:Mutex = new Mutex();
 	static var saveNum:Int = 0;
 	static var saveMax:Int = 0;
     static var noteTypes:Array<String> = [];
@@ -701,24 +702,24 @@ class LoadingState extends MusicBeatState
             				swagNote.x += FlxG.width / 2 + 25;
             			}
             		}
-            		/*
+            		
                     noteTypeMutex.acquire();    
                 		if(!noteTypes.contains(swagNote.noteType)) {
                 			noteTypes.push(swagNote.noteType);
                 		}	
-            		noteTypeMutex.release();
-            		*/
+            		noteTypeMutex.release();            		
     			}
+    			noteMutex.acquire();    
     			saveNotes[chart] = putNotes;
+    			noteMutex.release();      
 		        loaded++;
 		        saveNum++;
             });    	        		    
-	    }		
+	    }
 	}
 	static function sortNote()
 	{
-	    Thread.create(() -> {
-    	    
+	    Thread.create(() -> {    	    
     	    for (array in 0...saveNotes.length){
     	        if (saveNotes[array].length > 0)
     	            for (note in 0...saveNotes[array].length)
