@@ -144,6 +144,11 @@ class LoadingState extends MusicBeatState
 			bar.updateHitbox();
 			button.updateHitbox();
 		}
+		
+		if (saveNum == saveMax && saveNum != 0){
+		    saveNum = 0; //close it
+		    sortNote();
+		} 
 	}
 	
 	var finishedLoading:Bool = false; //use for stop update
@@ -338,8 +343,8 @@ class LoadingState extends MusicBeatState
 		         + soundsToPrepare.length 
 		         + musicToPrepare.length 
 		         + songsToPrepare.length 
-		         + PlayState.SONG.notes.length;
-		         
+		         + PlayState.SONG.notes.length
+		         + 1;
 		loaded = 0;
 
 		//then start threads
@@ -550,6 +555,9 @@ class LoadingState extends MusicBeatState
 	}
 	
 	static var unspawnNotes:Array<Note> = [];
+	static var saveNotes:Array<Array<Note>> = [];
+	static var saveNum:Int = 0;
+	static var saveMax:Int = 0;
     static var noteTypes:Array<String> = [];
     static var events:Array<Array<Dynamic>> = [];
 	public static var songSpeed:Float = 1;	
@@ -578,18 +586,21 @@ class LoadingState extends MusicBeatState
 	    }
 	}
 	static function preloadChart()
-	{		    		
+	{
 	    unspawnNotes = [];    	        	    
+	    saveNotes = [];
+	    saveNum = 0;
+	    
 	    noteTypes = [];
 	    events = [];	    
 	    var noteData:Array<SwagSection> =  PlayState.SONG.notes;
 	    
-	    var eventMutex:Mutex = new Mutex();
-        Thread.create(() -> {
-    		eventMutex.acquire();    		    		
+	    saveNotes[noteData.length] = null;
+	    saveMax = noteData.length;
+	    
+        Thread.create(() -> {    			
     		for (event in PlayState.SONG.events) //Event Notes
     		    events.push(event);
-    		eventMutex.release();
     	});    	        
     	
     	for (chart in 0...noteData.length)
@@ -703,29 +714,31 @@ class LoadingState extends MusicBeatState
             				swagNote.x += FlxG.width / 2 + 25;
             			}
             		}
+            		/*
                     noteTypeMutex.acquire();    
                 		if(!noteTypes.contains(swagNote.noteType)) {
                 			noteTypes.push(swagNote.noteType);
                 		}	
             		noteTypeMutex.release();
-    			}
-    			putdata(putNotes, unspawnNotes);
+            		*/
+    			}    		
+    			saveNotes[chart] = putNotes;
 		        mutex.release();
 		        loaded++;
+		        saveNum++;
             });    	        		    
 	    }		
 	}
-	
-	static var unspawnNotesMutex:Mutex = new Mutex();
-	static function putdata(putChart:Array<Note>, getChart:Array<Note>)
+	static function sortNote();
 	{
-	    unspawnNotesMutex.acquire();
-	    for (i in 0...putChart.length){
-	        putChart[i].updateHitbox(); //idk but a little note look wired
-	        getChart.push(putChart[i]);
+	    mutex.acquire();    	
+	    for (array in 0...saveNotes.length){
+	        for (note in 0...saveNotes[array].length)
+	        unspawnNotes.push(saveNotes[array][note]);
 	    }
 	    unspawnNotes.sort(PlayState.sortByTime);
-	    unspawnNotesMutex.release();
+	    mutex.release();
+		loaded++;
 	}
 }
 
