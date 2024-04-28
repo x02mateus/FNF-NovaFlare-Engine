@@ -399,7 +399,6 @@ class LoadingState extends MusicBeatState
 				loaded++;
 			});		
 		setSpeed();
-		setMutex();
 		preloadChart();
 	}
 
@@ -575,16 +574,7 @@ class LoadingState extends MusicBeatState
 		}		
 	}
 	
-	static var chartMutex:Array<Mutex> = [];
 	static var noteTypeMutex:Mutex = new Mutex();
-	static function setMutex()
-	{		    		
-	    chartMutex = [];
-	    for (num in 0...32){
-	        var mutex:Mutex = new Mutex();
-	        chartMutex.push(mutex);
-	    }
-	}
 	static function preloadChart()
 	{
 	    unspawnNotes = [];    	        	    
@@ -605,10 +595,8 @@ class LoadingState extends MusicBeatState
     	
     	for (chart in 0...noteData.length)
     	{
-    	    var mutex = chartMutex[chart % 32];	
 		    Thread.create(() -> {	        
-		        mutex.acquire();    	
-		        
+		        mutex.acquire();    			        
 		        var section = noteData[chart];
 		        var putNotes:Array<Note> = [];
 		        	        
@@ -723,7 +711,6 @@ class LoadingState extends MusicBeatState
             		*/
     			}
     			saveNotes[chart] = putNotes;
-		        mutex.release();
 		        loaded++;
 		        saveNum++;
             });    	        		    
@@ -732,13 +719,13 @@ class LoadingState extends MusicBeatState
 	static function sortNote()
 	{
 	    Thread.create(() -> {
-    	    mutex.acquire();    	
+    	    
     	    for (array in 0...saveNotes.length){
     	        for (note in 0...saveNotes[array].length)
     	            unspawnNotes.push(saveNotes[array][note]);
     	    }
     	    unspawnNotes.sort(PlayState.sortByTime);
-    	    mutex.release();
+    	   
     		loaded++;
 		});    	
 	}
