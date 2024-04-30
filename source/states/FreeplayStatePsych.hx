@@ -12,6 +12,7 @@ import states.FreeplayState.SongMetadata;
 import substates.GameplayChangersSubstate;
 import substates.ResetScoreSubState;
 
+import flixel.addons.transition.FlxTransitionableState;
 import flixel.math.FlxMath;
 import flixel.util.FlxDestroyUtil;
 import haxe.Json;
