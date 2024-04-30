@@ -136,7 +136,7 @@ class LoadingState extends MusicBeatState
 			else curPercent = FlxMath.lerp(intendedPercent, curPercent, Math.exp(-elapsed * 15));
 
 			bar.scale.x = FlxG.width * curPercent - button.width / 2;
-			button.x = bar.scale.x + button.width;
+			button.x = bar.scale.x - button.width / 2;
 			bar.updateHitbox();
 			button.updateHitbox();
 		}
@@ -614,8 +614,8 @@ class LoadingState extends MusicBeatState
                 		}
                 
                 		var oldNote:Note;
-                		if (putNotes.length > 0)
-                			oldNote = putNotes[Std.int(putNotes.length - 1)];
+                		if (unspawnNotes.length > 0)
+                			oldNote = unspawnNotes[Std.int(unspawnNotes.length - 1)];
                 		else
                 			oldNote = null;
                 
@@ -636,7 +636,7 @@ class LoadingState extends MusicBeatState
                 		if(floorSus > 0) {
                 			for (susNote in 0...floorSus + 1)
                 			{
-                				oldNote = putNotes[Std.int(putNotes.length - 1)];
+                				oldNote = unspawnNotes[Std.int(unspawnNotes.length - 1)];
                 
                 				var sustainNote:Note = new Note(daStrumTime + (Conductor.stepCrochet * susNote), daNoteData, oldNote, true, false, LoadingState);
                 				sustainNote.mustPress = gottaHitNote;
@@ -704,18 +704,6 @@ class LoadingState extends MusicBeatState
             });
         }
 	}
-	static function sortNote()
-	{
-	    Thread.create(() -> {    	    
-    	    for (array in 0...saveNotes.length){
-    	        if (saveNotes[array].length > 0)
-    	            for (note in 0...saveNotes[array].length)
-    	                unspawnNotes.push(saveNotes[array][note]);
-    	    }
-    	    unspawnNotes.sort(PlayState.sortByTime);    	   
-    		loaded++;
-		});    	
-	}
 }
 
 class LoadButton extends FlxSprite
@@ -726,7 +714,7 @@ class LoadButton extends FlxSprite
 		
 		var shape:Shape = new Shape();
         shape.graphics.beginFill(color);
-        shape.graphics.drawRoundRect(0, 0, Width * 2, Height * 2, Std.int(Height / 2), Std.int(Height / 2));     
+        shape.graphics.drawRoundRect(0, 0, Width / 2, Height / 2, Std.int(Height / 2), Std.int(Height / 2));     
         shape.graphics.endFill();
         
         var BitmapData:BitmapData = new BitmapData(Width, Height, 0x00);
