@@ -898,11 +898,11 @@ class CharacterEditorState extends MusicBeatState
 		if(FlxG.keys.pressed.CONTROL /*|| virtualPad.buttonC.pressed*/) ctrlMult = 0.25;
 
 		// CAMERA CONTROLS
-		if (FlxG.keys.pressed.J) FlxG.camera.scroll.x -= elapsed * 500 * shiftMult * ctrlMult;
-		if (FlxG.keys.pressed.K) FlxG.camera.scroll.y += elapsed * 500 * shiftMult * ctrlMult;
-		if (FlxG.keys.pressed.L) FlxG.camera.scroll.x += elapsed * 500 * shiftMult * ctrlMult;
-		if (FlxG.keys.pressed.I) FlxG.camera.scroll.y -= elapsed * 500 * shiftMult * ctrlMult;
-
+		if (FlxG.keys.pressed.J #if mobile || (virtualPad.buttonLeft.pressed && virtualPad.buttonG.pressed) #end) FlxG.camera.scroll.x -= elapsed * 500 * shiftMult * ctrlMult;
+		if (FlxG.keys.pressed.K #if mobile || (virtualPad.buttonDown.pressed && virtualPad.buttonG.pressed) #end) FlxG.camera.scroll.y += elapsed * 500 * shiftMult * ctrlMult;
+		if (FlxG.keys.pressed.L #if mobile || (virtualPad.buttonRight.pressed && virtualPad.buttonG.pressed) #end) FlxG.camera.scroll.x += elapsed * 500 * shiftMult * ctrlMult;
+		if (FlxG.keys.pressed.I #if mobile || (virtualPad.buttonUp.pressed && virtualPad.buttonG.pressed) #end) FlxG.camera.scroll.y -= elapsed * 500 * shiftMult * ctrlMult;
+		
 		var lastZoom = FlxG.camera.zoom;
 		if(FlxG.keys.justPressed.R && !FlxG.keys.pressed.CONTROL || virtualPad.buttonZ.justPressed) FlxG.camera.zoom = 1;
 		else if ((FlxG.keys.pressed.E || virtualPad.buttonX.pressed) && FlxG.camera.zoom < 3) {
@@ -964,6 +964,8 @@ class CharacterEditorState extends MusicBeatState
 		}
 		if(moveKeysP.contains(true))
 		{
+		    if (controls.mobileC && virtualPad.buttonG.pressed)
+		        return;
 			character.offset.x += ((moveKeysP[0] ? 1 : 0) - (moveKeysP[1] ? 1 : 0)) * shiftMultBig;
 			character.offset.y += ((moveKeysP[2] ? 1 : 0) - (moveKeysP[3] ? 1 : 0)) * shiftMultBig;
 			changedOffset = true;
@@ -971,6 +973,8 @@ class CharacterEditorState extends MusicBeatState
 
 		if(moveKeys.contains(true))
 		{
+		    if (controls.mobileC && virtualPad.buttonG.pressed)				
+		        return;
 			holdingArrowsTime += elapsed;
 			if(holdingArrowsTime > 0.6)
 			{
