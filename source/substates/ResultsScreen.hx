@@ -120,7 +120,7 @@ class ResultsScreen extends MusicBeatSubstate
             extraLoad = false;
         }			
         
-        background = new FlxSprite(0, 0).loadGraphic(Paths.image('menuBG'));		
+        background = new FlxSprite(0, 0).loadGraphic(Paths.image(filesLoad, null, true, extraLoad));		
 		background.scale.x = FlxG.width * 1.05 / background.width;
 		background.scale.y = FlxG.height * 1.05 / background.height;
 		background.updateHitbox();				
