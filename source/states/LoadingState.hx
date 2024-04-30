@@ -155,6 +155,8 @@ class LoadingState extends MusicBeatState
         
         if (isPlayState){
             isPlayState = false;
+            FlxTransitionableState.skipNextTransIn = true;
+			FlxTransitionableState.skipNextTransOut = true;
             MusicBeatState.switchState(new PlayState(unspawnNotes, noteTypes, events));
         } else {
 		    MusicBeatState.switchState(target);
@@ -334,7 +336,7 @@ class LoadingState extends MusicBeatState
 		         + soundsToPrepare.length 
 		         + musicToPrepare.length 
 		         + songsToPrepare.length 
-		         + PlayState.SONG.notes.length		         
+		         + PlayState.SONG.notes.length;		         
 		loaded = 0;
 
 		//then start threads
