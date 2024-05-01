@@ -98,7 +98,7 @@ class LoadingState extends MusicBeatState
         add(button);
         
         precentText = new FlxText(520, 600, 400, '0%', 30);
-		precentText.setFormat(Paths.font("loadScreen.ttf"), 30, FlxColor.WHITE, RIGHT, OUTLINE_FAST, FlxColor.BLACK);
+		precentText.setFormat(Paths.font("loadScreen.ttf"), 30, FlxColor.WHITE, RIGHT, OUTLINE_FAST, FlxColor.TRANSPARENT);
 		precentText.borderSize = 0;
 		precentText.antialiasing = ClientPrefs.data.antialiasing;
 		add(precentText);		
@@ -628,9 +628,9 @@ class LoadingState extends MusicBeatState
     	
 	}
 	
-	static var unspawnNotes:Array<Note> = [];	
-    static var noteTypes:Array<String> = [];
-    static var events:Array<Array<Dynamic>> = [];
+	public static var unspawnNotes:Array<Note> = [];	
+    public static var noteTypes:Array<String> = [];
+    public static var events:Array<Array<Dynamic>> = [];
     
     static var chartMutex:Mutex = new Mutex();
 	
