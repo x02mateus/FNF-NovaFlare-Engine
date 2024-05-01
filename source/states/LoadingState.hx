@@ -64,7 +64,7 @@ class LoadingState extends MusicBeatState
     
 	var intendedPercent:Float = 0;
 	var curPercent:Float = 0;
-	var percentText:FlxText;	
+	var precentText:FlxText;	
 
 	override public function create()
 	{
@@ -326,6 +326,10 @@ class LoadingState extends MusicBeatState
 		preloadMisc();
 		preloadScript();		
 		
+		events = [];	
+		for (event in PlayState.SONG.events) //Event Notes
+    		    events.push(event);
+		
 		if (!dontPreloadDefaultVoices && needsVoices) songsToPrepare.push(prefixVocals);
 	}
 
@@ -477,7 +481,7 @@ class LoadingState extends MusicBeatState
 				songsToPrepare.push(prefixVocals + "-" + character.vocals_file);
 				if(char == PlayState.SONG.player1) dontPreloadDefaultVoices = true;
 			}
-			startLuasNamed('characters/' + char + '.lua');
+			startScriptNamed('characters/' + char + '.lua');
 		}
 		catch(e:Dynamic) {}
 	}
@@ -551,11 +555,17 @@ class LoadingState extends MusicBeatState
     				#end    				
     			}
     			
-    		startLuasNamed('stages/' + PlayState.SONG.stage + '.lua');	
+    		startScriptNamed('stages/' + PlayState.SONG.stage + '.lua');	
+    		startScriptNamed('stages/' + PlayState.SONG.stage + '.hx');
+    		
+    		for (event in events){
+			    startScriptNamed('custom_events/' + event + '.lua');
+			    startScriptNamed('custom_events/' + event + '.hx');
+			}
 		#end	        	    	
 	}
 	
-	static function startLuasNamed(luaFile:String)
+	static function startScriptNamed(luaFile:String)
 	{
 		#if MODS_ALLOWED
 		var luaToLoad:String = Paths.modFolders(luaFile);
@@ -644,15 +654,8 @@ class LoadingState extends MusicBeatState
 	{
 	    unspawnNotes = [];    	        	   	    
 	    noteTypes = [];
-	    events = [];	    
-	    var noteData:Array<SwagSection> =  PlayState.SONG.notes;	   	    
-	    
-        Thread.create(() -> {	
-            mutex.acquire();
-    		for (event in PlayState.SONG.events) //Event Notes
-    		    events.push(event);
-    		mutex.release();
-    	});    	        
+	        
+	    var noteData:Array<SwagSection> =  PlayState.SONG.notes;	   	    	            
     	    	
     	for (chart in 0...noteData.length)
     	{
