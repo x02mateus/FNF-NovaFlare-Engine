@@ -8,6 +8,7 @@ import flixel.FlxSubState;
 
 import states.StoryMenuState;
 import states.FreeplayState;
+import states.FreeplayStatePsych;
 
 class GameOverSubstate extends MusicBeatSubstate
 {
@@ -102,9 +103,10 @@ class GameOverSubstate extends MusicBeatSubstate
 			Mods.loadTopMod();
 			if (PlayState.isStoryMode)
 				MusicBeatState.switchState(new StoryMenuState());
-			else
-				MusicBeatState.switchState(new FreeplayState());
-
+			else{
+				if (!ClientPrefs.data.freeplayOld) MusicBeatState.switchState(new FreeplayState());
+				else MusicBeatState.switchState(new FreeplayStatePsych());
+            }
 			FlxG.sound.playMusic(Paths.music('freakyMenu'));
 			PlayState.instance.callOnScripts('onGameOverConfirm', [false]);
 		}
