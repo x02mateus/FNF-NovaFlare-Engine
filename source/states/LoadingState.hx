@@ -73,7 +73,6 @@ class LoadingState extends MusicBeatState
 
 		var bg = new FlxSprite().loadGraphic(Paths.image(filePath + 'loadScreen'));
 		bg.setGraphicSize(Std.int(FlxG.width));
-		bg.color = 0xFFD16FFF;
 		bg.updateHitbox();
 		add(bg);			
 
