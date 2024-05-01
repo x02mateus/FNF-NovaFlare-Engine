@@ -77,7 +77,7 @@ class LoadingState extends MusicBeatState
 			return;
 		}
 
-		var bg = new FlxSprite().loadGraphic(Paths.image('menuDesat'));
+		var bg = new FlxSprite().loadGraphic(Paths.image(filePath + 'loadScreen'));
 		bg.setGraphicSize(Std.int(FlxG.width));
 		bg.color = 0xFFD16FFF;
 		bg.updateHitbox();
@@ -120,16 +120,7 @@ class LoadingState extends MusicBeatState
 		super.update(elapsed);
 		if (dontUpdate) return;
 
-		if (!transitioning)
-		{
-			if (!finishedLoading && checkLoaded() && curPercent == 1)
-			{
-				transitioning = true;
-				onLoad();
-				return;
-			}
-			intendedPercent = loaded / loadMax;
-		}
+		
 
 		if (curPercent != intendedPercent)
 		{
@@ -144,10 +135,16 @@ class LoadingState extends MusicBeatState
 			precentText.text = '$precent / 100%';
 		}
 		
-	    if (chartLoaded == chartLM && chartLoaded != 0 && !isSorted){
-	        isSorted = true;
-	        sortNotes();
-	    }
+		if (!transitioning)
+		{
+			if (!finishedLoading && checkLoaded() && curPercent == 1)
+			{
+				transitioning = true;
+				onLoad();
+				return;
+			}
+			intendedPercent = loaded / loadMax;
+		}
 	}
 	
 	var finishedLoading:Bool = false; //use for stop update
