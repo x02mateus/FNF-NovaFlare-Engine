@@ -1424,7 +1424,7 @@ class PlayState extends MusicBeatState
 		
         if (isRestart){
             isRestart = false;
-            unspawnNotes = LoadingState.UnspawnNotes;            
+            unspawnNotes = LoadingState.unspawnNotes;            
             noteTypes = LoadingState.noteTypes;
             extraEvents = LoadingState.events;
         }
