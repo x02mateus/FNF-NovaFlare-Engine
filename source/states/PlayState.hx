@@ -167,8 +167,6 @@ class PlayState extends MusicBeatState
 	public var eventNotes:Array<EventNote> = [];
     public var extraEvents:Array<Array<Dynamic>> = [];
     
-    public static var isRestart:Bool = false;
-    
 	public var camFollow:FlxObject;
 	private static var prevCamFollow:FlxObject;
 
@@ -1422,14 +1420,6 @@ class PlayState extends MusicBeatState
 					makeEvent(event, i);
 		}
 		
-        if (isRestart){
-            isRestart = false;
-            startOnTime = 0; //狗屎玩意
-            unspawnNotes = LoadingState.unspawnNotes;            
-            noteTypes = LoadingState.noteTypes;
-            extraEvents = LoadingState.events;
-        }
-        
         if (unspawnNotes.length == 0){
     		for (section in noteData)
     		{
@@ -3818,7 +3808,7 @@ class PlayState extends MusicBeatState
 		FlxG.animationTimeScale = 1;
 		#if FLX_PITCH FlxG.sound.music.pitch = 1; #end
 		Note.globalRgbShaders = [];
-		if (!isRestart) backend.NoteTypesConfig.clearNoteTypesData();
+		backend.NoteTypesConfig.clearNoteTypesData();
 		instance = null;
 		@:privateAccess
 		FlxG.game._filters = [];
