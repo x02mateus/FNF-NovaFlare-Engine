@@ -101,14 +101,12 @@ class LoadingState extends MusicBeatState
 		precentText.borderSize = 1;
 		precentText.antialiasing = ClientPrefs.data.antialiasing;
 		add(precentText);		
-		precentText.x = FlxG.width - precentText.width - 10;
-        precentText.y = FlxG.height - precentText.height - barHeight - 10;                
+		precentText.x = FlxG.width - precentText.width - 5;
+        precentText.y = FlxG.height - precentText.height - barHeight - 5;                
         
         addNote();
         		
-		super.create();
-		
-		
+		super.create();				
 	}
 
 	var transitioning:Bool = false;
@@ -127,7 +125,8 @@ class LoadingState extends MusicBeatState
 			bar.updateHitbox();
 			button.updateHitbox();
 			var precent:Float = Math.floor(curPercent * 10000) / 100;
-			precentText.text = precent + '%';
+			if (precent % 1 != 0) precentText.text = precent + '%';
+			else precentText.text = precent + '.00%'; //修复显示问题
 		}
 		
 		if (!transitioning)
