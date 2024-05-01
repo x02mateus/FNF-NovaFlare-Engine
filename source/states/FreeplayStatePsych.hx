@@ -433,8 +433,10 @@ class FreeplayStatePsych extends MusicBeatState
 			}
 
 			LoadingState.prepareToSong();
-			FlxTransitionableState.skipNextTransIn = true;
-			FlxTransitionableState.skipNextTransOut = true;
+			if (ClientPrefs.data.loadingScreen) {
+			    FlxTransitionableState.skipNextTransIn = true;
+		        FlxTransitionableState.skipNextTransOut = true;
+		    }
 			LoadingState.loadAndSwitchState(new PlayState());
 			#if !SHOW_LOADING_SCREEN FlxG.sound.music.stop(); #end
 			stopMusicPlay = true;

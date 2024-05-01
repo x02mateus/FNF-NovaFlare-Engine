@@ -1230,8 +1230,10 @@ class FreeplayState extends MusicBeatState {
 					return;
 				}
 				LoadingState.prepareToSong();
-				FlxTransitionableState.skipNextTransIn = true;
-			    FlxTransitionableState.skipNextTransOut = true;
+				if (ClientPrefs.data.loadingScreen) {
+				    FlxTransitionableState.skipNextTransIn = true;
+			        FlxTransitionableState.skipNextTransOut = true;
+			    }
 				LoadingState.loadAndSwitchState(new PlayState());
 				FlxG.mouse.visible = false;
 		
