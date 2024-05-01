@@ -476,6 +476,7 @@ class LoadingState extends MusicBeatState
         imagesToPrepare.push(uiPrefix + 'ready' + uiSuffix);	
         imagesToPrepare.push(uiPrefix + 'set' + uiSuffix);	
         imagesToPrepare.push(uiPrefix + 'go' + uiSuffix);				    
+        imagesToPrepare.push('healthBar');
 	}
 	
 	static function preloadScript(){	
@@ -533,8 +534,7 @@ class LoadingState extends MusicBeatState
 	
 	static function filesCheck(path:String)
 	{
-    	var input:String = File.getContent(path);
-    	
+    	var input:String = File.getContent(path);    	
     	var regex = ~/makeLuaSprite\('(\S+)', '(\S+)', .*?\)/g; // Global flag 'g' added for multiple matches 
     	while (regex.match(input)) {
     	    var result = regex.matched(2); // Extract the first capture group 
@@ -542,19 +542,41 @@ class LoadingState extends MusicBeatState
     	    input = regex.matchedRight(); // Move to the next match 
     	}				
     	
-    	var regex = ~/makeAnimatedLuaSprite\('(\S+)', '(\S+)', .*?\)/g; // Global flag 'g' added for multiple matches 
+    	var input:String = File.getContent(path);
+    	var regex = ~/makeAnimatedLuaSprite\('(\S+)', '(\S+)', .*?\)/g;
     	while (regex.match(input)) {
     	    var result = regex.matched(2);
     	    imagesToPrepare.push(result);
     	    input = regex.matchedRight(); 
     	}				
     	
+    	var input:String = File.getContent(path);
     	var regex = ~/precacheImage\('(\S+)'/g;
     	while (regex.match(input)) {
     	    var result = regex.matched(1); 
     	    imagesToPrepare.push(result);
     	    input = regex.matchedRight();
     	}				
+    	
+    	var input:String = File.getContent(path);
+        var regex = ~/triggerEvent\('(\S+)', '(\S+)', '(\S+)', .*?\)/g;
+    	while (regex.match(input)) {
+    	    var data = regex.matched(1);
+    	    if (data == 'Change Character'){
+    	        var result = regex.matched(3);
+    	        imagesToPrepare.push(result);
+    	    }
+    	    input = regex.matchedRight(); 
+    	}				
+    	
+    	var input:String = File.getContent(path);
+        var regex = ~/addCharacterToList\('(\S+)', '(\S+)', .*?\)/g;
+    	while (regex.match(input)) {    	   
+	        var result = regex.matched(1);
+	        imagesToPrepare.push(result);
+    	    input = regex.matchedRight(); 
+    	}				
+    	
 	}
 	
 	static var unspawnNotes:Array<Note> = [];	
