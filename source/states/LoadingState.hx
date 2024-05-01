@@ -103,8 +103,8 @@ class LoadingState extends MusicBeatState
         button.updateHitbox();
         add(button);
         
-        precentText = new FlxText(520, 600, 400, '0 / 100%', 32);
-		precentText.setFormat(Paths.font("vcr.ttf"), 25, FlxColor.WHITE, RIGHT, OUTLINE_FAST, FlxColor.BLACK);
+        precentText = new FlxText(520, 600, 400, '0%', 25);
+		precentText.setFormat(Paths.font("loadScreen.ttf"), 25, FlxColor.WHITE, RIGHT, OUTLINE_FAST, FlxColor.BLACK);
 		precentText.borderSize = 2;
 		add(precentText);		
 		precentText.x = FlxG.width - precentText.width - 10;
@@ -118,9 +118,7 @@ class LoadingState extends MusicBeatState
 	override function update(elapsed:Float)
 	{
 		super.update(elapsed);
-		if (dontUpdate) return;
-
-		
+		if (dontUpdate) return;		
 
 		if (curPercent != intendedPercent)
 		{
@@ -132,7 +130,7 @@ class LoadingState extends MusicBeatState
 			bar.updateHitbox();
 			button.updateHitbox();
 			var precent:Float = Math.floor(curPercent / loadMax * 100) / 100;
-			precentText.text = precent + ' / 100%';
+			precentText.text = precent + '%';
 		}
 		
 		if (!transitioning)
