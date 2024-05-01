@@ -45,6 +45,7 @@ class LoadingState extends MusicBeatState
 	{
 		this.target = target;
 		this.stopMusic = stopMusic;		
+		addNote();
 		startThreads();
 		super();
 	}
@@ -102,9 +103,7 @@ class LoadingState extends MusicBeatState
 		precentText.antialiasing = ClientPrefs.data.antialiasing;
 		add(precentText);		
 		precentText.x = FlxG.width - precentText.width - 5;
-        precentText.y = FlxG.height - precentText.height - barHeight - 5;                
-        
-        addNote();
+        precentText.y = FlxG.height - precentText.height - barHeight - 5;                               
         		
 		super.create();				
 	}
@@ -182,7 +181,7 @@ class LoadingState extends MusicBeatState
 			note.updateHitbox();
 			note.playAnim('static');
 			strumNote.add(note);
-			note.visible = false;
+			note.alpha = 0;
 		}
 		add(strumNote);		
 		
@@ -201,7 +200,7 @@ class LoadingState extends MusicBeatState
 			note.rgbShader.enabled = ClientPrefs.data.noteRGB;
 			note.animation.play(Note.colArray[i] + 'Scroll');
 			normalNote.add(note);
-			note.visible = false;
+			note.alpha = 0;
 		}
 		add(normalNote);
 		
@@ -246,6 +245,7 @@ class LoadingState extends MusicBeatState
 		
 		if(doPrecache)
 		{
+		    addNote();
 			startThreads();
 			while(true)
 			{
