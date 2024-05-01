@@ -590,7 +590,7 @@ class LoadingState extends MusicBeatState
 	    chartLM = chartLoaded = 0;
 	    
 	    plistChart(noteData.length);   	    
-	    saveNotesArray[saveNotesArray.length - 1] = [];
+	    saveNotesArray[plistArray.length - 1] = [];
 	    
 	    chartLM = saveNotesArray.length - 1;
 	    
