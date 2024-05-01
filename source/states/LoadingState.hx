@@ -127,7 +127,7 @@ class LoadingState extends MusicBeatState
 			button.x = bar.scale.x - button.width / 2;
 			bar.updateHitbox();
 			button.updateHitbox();
-			var precent:Float = Math.floor(curPercent * 100) / 100;
+			var precent:Float = Math.floor(curPercent * 10000) / 100;
 			precentText.text = precent + '%';
 		}
 		
