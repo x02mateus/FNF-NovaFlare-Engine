@@ -45,7 +45,7 @@ class LoadingState extends MusicBeatState
 	{
 		this.target = target;
 		this.stopMusic = stopMusic;		
-		
+		startThreads();
 		super();
 	}
 
@@ -109,7 +109,7 @@ class LoadingState extends MusicBeatState
         		
 		super.create();
 		
-		startThreads();
+		
 	}
 
 	var transitioning:Bool = false;
@@ -263,6 +263,51 @@ class LoadingState extends MusicBeatState
 		}
 		return target;
 	}
+	
+	public static function clearInvalids()
+	{
+		clearInvalidFrom(imagesToPrepare, 'images', '.png', IMAGE);
+		clearInvalidFrom(soundsToPrepare, 'sounds', '.${Paths.SOUND_EXT}', SOUND);
+		clearInvalidFrom(musicToPrepare, 'music',' .${Paths.SOUND_EXT}', SOUND);
+		clearInvalidFrom(songsToPrepare, 'songs', '.${Paths.SOUND_EXT}', SOUND, 'songs');
+
+		for (arr in [imagesToPrepare, soundsToPrepare, musicToPrepare, songsToPrepare])
+			while (arr.contains(null))
+				arr.remove(null);
+	}
+
+	static function clearInvalidFrom(arr:Array<String>, prefix:String, ext:String, type:AssetType, ?library:String = null)
+	{
+		for (i in 0...arr.length)
+		{
+			var folder:String = arr[i];
+			if(folder.trim().endsWith('/'))
+			{
+				for (subfolder in Mods.directoriesWithFile(Paths.getSharedPath(), '$prefix/$folder'))
+					for (file in FileSystem.readDirectory(subfolder))
+						if(file.endsWith(ext))
+							arr.push(folder + file.substr(0, file.length - ext.length));
+			}
+		}
+
+		var i:Int = 0;
+		while(i < arr.length)
+		{
+
+			var member:String = arr[i];
+			var myKey = '$prefix/$member$ext';
+			if(library == 'songs') myKey = '$member$ext';
+
+			//trace('attempting on $prefix: $myKey');
+			var doTrace:Bool = false;
+			if(member.endsWith('/') || (!Paths.fileExists(myKey, type, false, library) && (doTrace = true)))
+			{
+				arr.remove(member);
+				if(doTrace) trace('Removed invalid $prefix: $member');
+			}
+			else i++;
+		}
+	}
 
 	static var imagesToPrepare:Array<String> = [];
 	static var soundsToPrepare:Array<String> = [];
@@ -331,51 +376,6 @@ class LoadingState extends MusicBeatState
     		    events.push(event);
 		
 		if (!dontPreloadDefaultVoices && needsVoices) songsToPrepare.push(prefixVocals);
-	}
-
-	public static function clearInvalids()
-	{
-		clearInvalidFrom(imagesToPrepare, 'images', '.png', IMAGE);
-		clearInvalidFrom(soundsToPrepare, 'sounds', '.${Paths.SOUND_EXT}', SOUND);
-		clearInvalidFrom(musicToPrepare, 'music',' .${Paths.SOUND_EXT}', SOUND);
-		clearInvalidFrom(songsToPrepare, 'songs', '.${Paths.SOUND_EXT}', SOUND, 'songs');
-
-		for (arr in [imagesToPrepare, soundsToPrepare, musicToPrepare, songsToPrepare])
-			while (arr.contains(null))
-				arr.remove(null);
-	}
-
-	static function clearInvalidFrom(arr:Array<String>, prefix:String, ext:String, type:AssetType, ?library:String = null)
-	{
-		for (i in 0...arr.length)
-		{
-			var folder:String = arr[i];
-			if(folder.trim().endsWith('/'))
-			{
-				for (subfolder in Mods.directoriesWithFile(Paths.getSharedPath(), '$prefix/$folder'))
-					for (file in FileSystem.readDirectory(subfolder))
-						if(file.endsWith(ext))
-							arr.push(folder + file.substr(0, file.length - ext.length));
-			}
-		}
-
-		var i:Int = 0;
-		while(i < arr.length)
-		{
-
-			var member:String = arr[i];
-			var myKey = '$prefix/$member$ext';
-			if(library == 'songs') myKey = '$member$ext';
-
-			//trace('attempting on $prefix: $myKey');
-			var doTrace:Bool = false;
-			if(member.endsWith('/') || (!Paths.fileExists(myKey, type, false, library) && (doTrace = true)))
-			{
-				arr.remove(member);
-				if(doTrace) trace('Removed invalid $prefix: $member');
-			}
-			else i++;
-		}
 	}
 
 	public static function startThreads()
