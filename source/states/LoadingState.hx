@@ -433,11 +433,13 @@ class LoadingState extends MusicBeatState
 			imagesToPrepare.push('icons/' + character);	
 			imagesToPrepare.push('icons/icon-' + character);		
 			imagesToPrepare.push(character.image);		
+			
 			if (prefixVocals != null && character.vocals_file != null)
 			{
 				songsToPrepare.push(prefixVocals + "-" + character.vocals_file);
 				if(char == PlayState.SONG.player1) dontPreloadDefaultVoices = true;
 			}
+			startLuasNamed('characters/' + char + '.lua');
 		}
 		catch(e:Dynamic) {}
 	}
@@ -487,12 +489,12 @@ class LoadingState extends MusicBeatState
     				#if LUA_ALLOWED
     				
     				if(file.toLowerCase().endsWith('.lua'))
-    					filesCheck(folder + file);					
+    					scriptFilesCheck(folder + file);					
     				#end
                     
     				#if HSCRIPT_ALLOWED
     				if(file.toLowerCase().endsWith('.hx'))
-    					filesCheck(folder + file);
+    					scriptFilesCheck(folder + file);
     				#end    				
     			}
     		
@@ -502,12 +504,12 @@ class LoadingState extends MusicBeatState
     			{
     				#if LUA_ALLOWED
     				if(file.toLowerCase().endsWith('.lua'))
-    					filesCheck(folder + file);
+    					scriptFilesCheck(folder + file);
     				#end
                     
     				#if HSCRIPT_ALLOWED
     				if(file.toLowerCase().endsWith('.hx'))
-    					filesCheck(folder + file);
+    					scriptFilesCheck(folder + file);
     				#end    				
     			}
     			
@@ -528,11 +530,11 @@ class LoadingState extends MusicBeatState
 		if(Assets.exists(luaToLoad))
 		#end
 		{			
-			filesCheck(luaToLoad);		
+			scriptFilesCheck(luaToLoad);		
 		}
 	}	
 	
-	static function filesCheck(path:String)
+	static function scriptFilesCheck(path:String)
 	{
     	var input:String = File.getContent(path);    	
     	var regex = ~/makeLuaSprite\('(\S+)', '(\S+)', .*?\)/g; // Global flag 'g' added for multiple matches 
@@ -564,7 +566,7 @@ class LoadingState extends MusicBeatState
     	    var data = regex.matched(1);
     	    if (data == 'Change Character'){
     	        var result = regex.matched(3);
-    	        imagesToPrepare.push(result);
+    	        preloadCharacter(result);
     	    }
     	    input = regex.matchedRight(); 
     	}				
@@ -573,7 +575,7 @@ class LoadingState extends MusicBeatState
         var regex = ~/addCharacterToList\('(\S+)', '(\S+)', .*?\)/g;
     	while (regex.match(input)) {    	   
 	        var result = regex.matched(1);
-	        imagesToPrepare.push(result);
+	        preloadCharacter(result);
     	    input = regex.matchedRight(); 
     	}				
     	
