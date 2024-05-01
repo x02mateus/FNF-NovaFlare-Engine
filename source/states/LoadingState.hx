@@ -430,6 +430,8 @@ class LoadingState extends MusicBeatState
 			var character:Dynamic = Json.parse(Assets.getText(path));
 			#end
 			
+			imagesToPrepare.push('icons/' + character);	
+			imagesToPrepare.push('icons/icon-' + character);		
 			imagesToPrepare.push(character.image);		
 			if (prefixVocals != null && character.vocals_file != null)
 			{
@@ -469,7 +471,11 @@ class LoadingState extends MusicBeatState
 		}
 		
 		for (i in 0...10)
-		imagesToPrepare.push(uiPrefix + 'num' + i + uiSuffix);		
+		imagesToPrepare.push(uiPrefix + 'num' + i + uiSuffix);
+		
+        imagesToPrepare.push(uiPrefix + 'ready' + uiSuffix);	
+        imagesToPrepare.push(uiPrefix + 'set' + uiSuffix);	
+        imagesToPrepare.push(uiPrefix + 'go' + uiSuffix);				    
 	}
 	
 	static function preloadScript(){	
