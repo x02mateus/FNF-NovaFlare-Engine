@@ -559,7 +559,7 @@ class LoadingState extends MusicBeatState
     static var saveNotesArray:Array<Array<Note>> = [];
     	
     static var chartMutex:Array<Mutex> = [];	
-	
+	static var pushMutex:Mutex = new Mutex();
 	static var chartLoaded:Int = 0;
 	static var chartLM:Int = 0;
 	public static var songSpeed:Float = 1;	
@@ -715,10 +715,14 @@ class LoadingState extends MusicBeatState
                 		}        		             
                 		
                 		if(!noteTypes.contains(swagNote.noteType)) {
-                			noteTypes.push(swagNote.noteType);                
+                		    pushMutex.acquire();    
+                			noteTypes.push(swagNote.noteType);    
+                			pushMutex.release();                 
                 		}
             		}               
+            	pushMutex.acquire();    
             	pust = saveNotesArray[line];
+            	pushMutex.release();     
         		loadMutex.release();      
                 loaded++;        
                 chartLoaded++;
