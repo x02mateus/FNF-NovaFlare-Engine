@@ -124,9 +124,9 @@ class LoadingState extends MusicBeatState
 			bar.updateHitbox();
 			button.updateHitbox();
 			var precent:Float = Math.floor(curPercent * 10000) / 100;
-			if (precent % 1 != 0) precentText.text = precent + '%';			
-			else if (precent % 0.1 != 0) precentText.text = precent + '0%';
-			else precentText.text = precent + '.00%'; //修复显示问题
+			if (precent % 1 == 0) precentText.text = precent + '.00%';
+			else if (precent % 0.1 == 0) precentText.text = precent + '0%';									
+			else precentText.text = precent + '%'; //修复显示问题
 		}
 		
 		if (!transitioning)
