@@ -609,7 +609,8 @@ class LoadingState extends MusicBeatState
         	    Thread.create(() -> {        	        
             	    loadMutex.acquire();    
                     var section = noteData[chart];
-                    var unspawnNotes = saveNotesArray[line];
+                    var pust:Array<Note> = [];	
+                    //var pust = saveNotesArray[line];
                     	        
             		for (songNotes in section.sectionNotes)
             		{      
@@ -638,8 +639,8 @@ class LoadingState extends MusicBeatState
                 		}
                 
                 		var oldNote:Note;
-                		if (unspawnNotes.length > 0)
-                			oldNote = unspawnNotes[Std.int(unspawnNotes.length - 1)];
+                		if (pust.length > 0)
+                			oldNote = pust[Std.int(pust.length - 1)];
                 		else
                 			oldNote = null;
                 
@@ -651,7 +652,7 @@ class LoadingState extends MusicBeatState
                 		if(!Std.isOfType(songNotes[3], String)) swagNote.noteType = ChartingState.noteTypeList[songNotes[3]]; //Backward compatibility + compatibility with Week 7 charts
                 
                 		swagNote.scrollFactor.set();                        
-                		unspawnNotes.push(swagNote);
+                		pust.push(swagNote);
                         
                 		final susLength:Float = swagNote.sustainLength / Conductor.stepCrochet;
                 		final floorSus:Int = Math.floor(susLength) - ClientPrefs.data.fixLNL;
@@ -659,7 +660,7 @@ class LoadingState extends MusicBeatState
                 		if(floorSus > 0) {
                 			for (susNote in 0...floorSus + 1)
                 			{
-                				oldNote = unspawnNotes[Std.int(unspawnNotes.length - 1)];
+                				oldNote = pust[Std.int(pust.length - 1)];
                 
                 				var sustainNote:Note = new Note(daStrumTime + (Conductor.stepCrochet * susNote), daNoteData, oldNote, true, false, LoadingState);
                 				sustainNote.mustPress = gottaHitNote;
@@ -668,7 +669,7 @@ class LoadingState extends MusicBeatState
                 				sustainNote.scrollFactor.set();
                 				sustainNote.parent = swagNote;
                 				sustainNote.hitMultUpdate(susNote, floorSus + 1);                				
-                				unspawnNotes.push(sustainNote);
+                				pust.push(sustainNote);
                 				swagNote.tail.push(sustainNote);                	
                 
                 				sustainNote.correctionOffset = swagNote.height / 2;
@@ -717,6 +718,7 @@ class LoadingState extends MusicBeatState
                 			noteTypes.push(swagNote.noteType);                
                 		}
             		}               
+            	pust = saveNotesArray[line];
         		loadMutex.release();      
                 loaded++;        
                 chartLoaded++;
