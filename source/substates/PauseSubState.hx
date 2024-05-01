@@ -10,6 +10,7 @@ import states.editors.ChartingState;
 import states.FreeplayState;
 import states.FreeplayStatePsych;
 import states.StoryMenuState;
+import states.LoadingState;
 
 import options.OptionsState;
 import options.OptionsSubstate;
@@ -930,13 +931,14 @@ class PauseSubState extends MusicBeatSubstate
 		PlayState.instance.paused = true; // For lua
 		FlxG.sound.music.volume = 0;
 		PlayState.instance.vocals.volume = 0;
-        if (ClientPrefs.data.loadingScreen) PlayState.isRestart = true;
 		if(noTrans)
 		{
 			FlxTransitionableState.skipNextTransIn = true;
 			FlxTransitionableState.skipNextTransOut = true;
 		}
-		MusicBeatState.resetState();
+		LoadingState.prepareToSong();
+		LoadingState.loadAndSwitchState(new PlayState());
+		//MusicBeatState.resetState();
 	}
 
 	function updateSkipTimeText()
