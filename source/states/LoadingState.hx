@@ -602,7 +602,7 @@ class LoadingState extends MusicBeatState
     	
     	for (line in 0...chartLM)    
     	{
-        	for (chart in saveNotesArray[line]...saveNotesArray[line + 1])
+        	for (chart in plistArray[line]...plistArray[line + 1])
         	{
         	    Thread.create(() -> {
         	        var loadMutex = chartMutex[line];
