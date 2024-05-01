@@ -40,6 +40,9 @@ class LoadingState extends MusicBeatState
 	static var mutex:Mutex = new Mutex();
 	
 	static var isPlayState:Bool = false;
+	
+	public var strumNote:FlxTypedGroup<StrumNote>;
+	public var normalNote:FlxTypedGroup<Note>;
 
 	function new(target:FlxState, stopMusic:Bool)
 	{
@@ -103,12 +106,15 @@ class LoadingState extends MusicBeatState
         button.updateHitbox();
         add(button);
         
-        precentText = new FlxText(520, 600, 400, '0%', 25);
-		precentText.setFormat(Paths.font("loadScreen.ttf"), 25, FlxColor.WHITE, RIGHT, OUTLINE_FAST, FlxColor.BLACK);
-		precentText.borderSize = 2;
+        precentText = new FlxText(520, 600, 400, '0%', 30);
+		precentText.setFormat(Paths.font("loadScreen.ttf"), 30, FlxColor.WHITE, RIGHT, OUTLINE_FAST, FlxColor.BLACK);
+		precentText.borderSize = 1;
+		precentText.antialiasing = ClientPrefs.data.antialiasing;
 		add(precentText);		
 		precentText.x = FlxG.width - precentText.width - 10;
         precentText.y = FlxG.height - precentText.height - barHeight - 10;
+        
+        addNote();
         
 		persistentUpdate = true;
 		super.create();
@@ -129,7 +135,7 @@ class LoadingState extends MusicBeatState
 			button.x = bar.scale.x - button.width / 2;
 			bar.updateHitbox();
 			button.updateHitbox();
-			var precent:Float = Math.floor(curPercent / loadMax * 100) / 100;
+			var precent:Float = Math.floor(curPercent / loadMax * 10000) / 100;
 			precentText.text = precent + '%';
 		}
 		
@@ -166,6 +172,47 @@ class LoadingState extends MusicBeatState
 	    }
 		transitioning = true;
 		finishedLoading = true;
+	}
+	
+	function addNote()
+	{						
+		PlayState.stageUI = "normal";
+		
+		strumNote = new FlxTypedGroup<StrumNote>();
+		for (i in 0...Note.colArray.length)
+		{
+			var note:StrumNote = new StrumNote(300 + (300 / Note.colArray.length) * i, 0, i, 0);
+			note.scale.x = 75 / note.frameWidth;
+			note.scale.y = 75 / note.frameHeight;
+    		note.centerOffsets();
+			note.centerOrigin();
+			note.updateHitbox();
+			note.playAnim('static');
+			strumNote.add(note);
+			note.visible = false;
+		}
+		add(strumNote);		
+		
+		normalNote = new FlxTypedGroup<Note>();
+		for (i in 0...Note.colArray.length)
+		{
+			var note:Note = new Note(0, i);
+			note.x = 300 + (300 / Note.colArray.length) * i;
+			note.y = 75;
+			note.scale.x = 75 / note.frameWidth;
+			note.scale.y = 75 / note.frameHeight;
+			note.centerOffsets();
+			note.centerOrigin();
+			note.inEditor = true;
+			note.updateHitbox();
+			note.rgbShader.enabled = ClientPrefs.data.noteRGB;
+			note.animation.play(Note.colArray[i] + 'Scroll');
+			normalNote.add(note);
+			note.visible = false;
+		}
+		add(normalNote);
+		
+		//用于正确读取note的切割	        		        	
 	}
 
 	static function checkLoaded():Bool {
