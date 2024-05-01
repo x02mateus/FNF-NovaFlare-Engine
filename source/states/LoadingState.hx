@@ -147,7 +147,7 @@ class LoadingState extends MusicBeatState
 	{
 		if (stopMusic && FlxG.sound.music != null)
 			FlxG.sound.music.stop();
-		if (FreeplayState.vocals! = null) FreeplayState.destroyFreeplayVocals;
+		if (FreeplayState.vocals != null) FreeplayState.destroyFreeplayVocals();
 					
 		imagesToPrepare = [];
 		soundsToPrepare = [];
