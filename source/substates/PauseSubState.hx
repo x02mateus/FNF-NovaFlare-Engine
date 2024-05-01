@@ -936,9 +936,7 @@ class PauseSubState extends MusicBeatSubstate
 			FlxTransitionableState.skipNextTransIn = true;
 			FlxTransitionableState.skipNextTransOut = true;
 		}
-		LoadingState.prepareToSong();
-		LoadingState.loadAndSwitchState(new PlayState());
-		//MusicBeatState.resetState();
+		MusicBeatState.switchState(new PlayState(LoadingState.unspawnNotes, LoadingState.noteTypes, LoadingState.events));
 	}
 
 	function updateSkipTimeText()
