@@ -3818,7 +3818,7 @@ class PlayState extends MusicBeatState
 		FlxG.animationTimeScale = 1;
 		#if FLX_PITCH FlxG.sound.music.pitch = 1; #end
 		Note.globalRgbShaders = [];
-		backend.NoteTypesConfig.clearNoteTypesData();
+		if (!isRestart) backend.NoteTypesConfig.clearNoteTypesData();
 		instance = null;
 		@:privateAccess
 		FlxG.game._filters = [];
