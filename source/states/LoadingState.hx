@@ -106,6 +106,7 @@ class LoadingState extends MusicBeatState
 		button = new LoadButton(0, 0, 35, barHeight);
         button.y = FlxG.height - button.height;
         button.x = -button.width;
+        button.antialiasing = ClientPrefs.data.antialiasing;
         button.updateHitbox();
         add(button);
         
@@ -604,8 +605,8 @@ class LoadingState extends MusicBeatState
     	{
         	for (chart in plistArray[line]...plistArray[line + 1])
         	{
-        	    Thread.create(() -> {
-        	        var loadMutex = chartMutex[line];
+        	    var loadMutex = chartMutex[line];
+        	    Thread.create(() -> {        	        
             	    loadMutex.acquire();    
                     var section = noteData[chart];
                     var unspawnNotes = saveNotesArray[line];
