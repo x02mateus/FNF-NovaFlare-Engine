@@ -526,6 +526,10 @@ class Paths
 		    var fileToCheck:String = #if mobile Sys.getCwd() + #end 'mods/' + key;
 			if(FileSystem.exists(fileToCheck)) 
 			return fileToCheck;			
+			
+			var fileToCheck:String = #if mobile Sys.getCwd() + #end 'assets/' + key;
+			if(FileSystem.exists(fileToCheck)) 
+			return fileToCheck;
 		    
 		    var fileToCheck:String = #if mobile Sys.getCwd() + #end 'assets/shared/' + key;
 			if(FileSystem.exists(fileToCheck)) 
