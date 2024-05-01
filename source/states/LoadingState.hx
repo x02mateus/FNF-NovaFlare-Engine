@@ -610,7 +610,6 @@ class LoadingState extends MusicBeatState
             	    loadMutex.acquire();    
                     var section = noteData[chart];
                     var pust:Array<Note> = [];	
-                    //var pust = saveNotesArray[line];
                     	        
             		for (songNotes in section.sectionNotes)
             		{      
@@ -721,7 +720,7 @@ class LoadingState extends MusicBeatState
                 		}
             		}               
             	pushMutex.acquire();    
-            	pust = saveNotesArray[line];
+            	saveNotesArray[line] = pust;
             	pushMutex.release();     
         		loadMutex.release();      
                 loaded++;        
@@ -736,9 +735,9 @@ class LoadingState extends MusicBeatState
 	    var plist = ClientPrefs.data.loadLine;
 	    if (ClientPrefs.data.loadLine > AL) plist = ClientPrefs.data.loadLine;
 	    var plistData:Int = Std.int(AL / plist);
-	    for (i in 0...plist)
+	    for (i in 0...plist + 1)
 	    {
-	        if (i == plist - 1) plistArray.push(AL);
+	        if (i == plist) plistArray.push(AL);
 	        else plistArray.push(plistData * i);	    
 	    }
 	    
