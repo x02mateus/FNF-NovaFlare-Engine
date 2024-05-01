@@ -40,15 +40,11 @@ class LoadingState extends MusicBeatState
 	static var mutex:Mutex = new Mutex();
 	
 	static var isPlayState:Bool = false;
-	
-	public var strumNote:FlxTypedGroup<StrumNote>;
-	public var normalNote:FlxTypedGroup<Note>;
-
+		
 	function new(target:FlxState, stopMusic:Bool)
 	{
 		this.target = target;
-		this.stopMusic = stopMusic;
-		startThreads();
+		this.stopMusic = stopMusic;		
 		
 		super();
 	}
@@ -68,17 +64,12 @@ class LoadingState extends MusicBeatState
     
 	var intendedPercent:Float = 0;
 	var curPercent:Float = 0;
-	var percentText:FlxText;
-	
-	var precentText:FlxText;
+	var percentText:FlxText;	
 
 	override public function create()
 	{
 		if (checkLoaded())
-		{
-			dontUpdate = true;	
-			return;
-		}
+			dontUpdate = true;					
 
 		var bg = new FlxSprite().loadGraphic(Paths.image(filePath + 'loadScreen'));
 		bg.setGraphicSize(Std.int(FlxG.width));
@@ -112,12 +103,13 @@ class LoadingState extends MusicBeatState
 		precentText.antialiasing = ClientPrefs.data.antialiasing;
 		add(precentText);		
 		precentText.x = FlxG.width - precentText.width - 10;
-        precentText.y = FlxG.height - precentText.height - barHeight - 10;
+        precentText.y = FlxG.height - precentText.height - barHeight - 10;                
         
         addNote();
-        
-		persistentUpdate = true;
+        		
 		super.create();
+		
+		startThreads();
 	}
 
 	var transitioning:Bool = false;
@@ -174,6 +166,8 @@ class LoadingState extends MusicBeatState
 		finishedLoading = true;
 	}
 	
+	public var strumNote:FlxTypedGroup<StrumNote>;
+	public var normalNote:FlxTypedGroup<Note>;
 	function addNote()
 	{						
 		PlayState.stageUI = "normal";
