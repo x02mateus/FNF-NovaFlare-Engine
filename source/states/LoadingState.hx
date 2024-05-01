@@ -99,7 +99,7 @@ class LoadingState extends MusicBeatState
         
         precentText = new FlxText(520, 600, 400, '0%', 30);
 		precentText.setFormat(Paths.font("loadScreen.ttf"), 30, FlxColor.WHITE, RIGHT, OUTLINE_FAST, FlxColor.BLACK);
-		precentText.borderSize = 1;
+		precentText.borderSize = 0;
 		precentText.antialiasing = ClientPrefs.data.antialiasing;
 		add(precentText);		
 		precentText.x = FlxG.width - precentText.width - 5;
@@ -125,7 +125,7 @@ class LoadingState extends MusicBeatState
 			button.updateHitbox();
 			var precent:Float = Math.floor(curPercent * 10000) / 100;
 			if (precent % 1 == 0) precentText.text = precent + '.00%';
-			else if (precent % 0.1 == 0) precentText.text = precent + '0%';									
+			else if ((precent * 10) % 1 == 0) precentText.text = precent + '0%';									
 			else precentText.text = precent + '%'; //修复显示问题
 		}
 		
