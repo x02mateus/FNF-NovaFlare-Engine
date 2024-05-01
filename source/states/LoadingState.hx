@@ -19,6 +19,7 @@ import flixel.FlxState;
 import flash.filters.GlowFilter;
 
 import states.editors.ChartingState;
+import states.FreeplayState;
 
 import backend.Song;
 import backend.StageData;
@@ -146,6 +147,7 @@ class LoadingState extends MusicBeatState
 	{
 		if (stopMusic && FlxG.sound.music != null)
 			FlxG.sound.music.stop();
+		if (FreeplayState.vocals! = null) FreeplayState.destroyFreeplayVocals;
 					
 		imagesToPrepare = [];
 		soundsToPrepare = [];

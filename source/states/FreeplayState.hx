@@ -1000,11 +1000,11 @@ class FreeplayState extends MusicBeatState {
 	}
 	
 	public static function destroyFreeplayVocals() {
-		if(vocals != null) {
-			vocals.stop();
-			vocals.destroy();
+		if(FreeplayState.vocals != null) {
+			FreeplayState.vocals.stop();
+			FreeplayState.vocals.destroy();
 		}
-		vocals = null;
+		FreeplayState.vocals = null;
 	}
 	
 	function closeListenMenu() {
@@ -1013,7 +1013,6 @@ class FreeplayState extends MusicBeatState {
 	
 	override function destroy() {
 		super.destroy();
-		destroyFreeplayVocals();
 	}
    
 	function timeConverter(time:Float) {
@@ -1237,9 +1236,9 @@ class FreeplayState extends MusicBeatState {
 				LoadingState.loadAndSwitchState(new PlayState());
 				FlxG.mouse.visible = false;
 		
-				FlxG.sound.music.volume = 0;
+				//FlxG.sound.music.volume = 0;
 					
-				destroyFreeplayVocals();
+				//destroyFreeplayVocals();
 				buttonControl = false;
 			} else if ((selectedThing == 'back' && FlxG.pixelPerfectOverlap(backButton, mousechecker, 25)) || controls.BACK) {
 				if (searching) {closeSearchMenu(); backText.text = 'EXIT'; return;}
