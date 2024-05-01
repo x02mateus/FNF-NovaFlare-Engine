@@ -141,8 +141,10 @@ class LoadingState extends MusicBeatState
 			button.updateHitbox();
 		}
 		
-	    if (chartLoaded = chartLM && chartLoaded != 0)
+	    if (chartLoaded == chartLM && chartLoaded != 0 && !isSorted){
+	        isSorted = true;
 	        sortNotes();
+	    }
 	}
 	
 	var finishedLoading:Bool = false; //use for stop update
@@ -589,7 +591,7 @@ class LoadingState extends MusicBeatState
 	    plistChart(noteData.length);   	    
 	    saveNotesArray[saveNotesArray.length - 1] = [];
 	    
-	    chartLM = saveNotesArray.length - 1;
+	    chartLM:Int = saveNotesArray.length - 1;
 	    
         Thread.create(() -> {	
             mutex.acquire();
@@ -598,7 +600,7 @@ class LoadingState extends MusicBeatState
     		mutex.release();
     	});    	        
     	
-    	for (line in 0...saveNotesArray.length - 1)    
+    	for (line in 0...chartLM)    
     	{
         	for (chart in saveNotesArray[line]...saveNotesArray[line + 1])
         	{
@@ -740,8 +742,9 @@ class LoadingState extends MusicBeatState
 	    }
 	}
 	
+	var isSorted:Bool = false;
 	static function sortNotes()
-	{
+	{	  
 	    Thread.create(() -> {
 			mutex.acquire();			
 			for (line in 0...saveNotesArray.length)
