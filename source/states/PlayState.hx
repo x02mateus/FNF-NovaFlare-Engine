@@ -164,8 +164,12 @@ class PlayState extends MusicBeatState
 	public var notes:FlxTypedGroup<Note>;
 	public var killNotes:Array<Note> = [];
 	public var unspawnNotes:Array<Note> = [];
+	static var saveUnspawnNotes:Array<Note> = [];
 	public var eventNotes:Array<EventNote> = [];
     public var extraEvents:Array<Array<Dynamic>> = [];
+    static var saveExtraEvents:Array<Array<Dynamic>> = [];
+    
+    public static var isRestart:Bool = false;
     
 	public var camFollow:FlxObject;
 	private static var prevCamFollow:FlxObject;
@@ -311,9 +315,9 @@ class PlayState extends MusicBeatState
 	
 	public function new(?preloadChart:Array<Note>, ?preloadNoteType:Array<String>, ?preloadEvents:Array<Array<Dynamic>>) {
 	    super();
-	    if (preloadChart != null) unspawnNotes = preloadChart;
-	    if (preloadNoteType != null) noteTypes = preloadNoteType;
-	    if (preloadEvents != null) extraEvents = preloadEvents;
+	    if (preloadChart != null) unspawnNotes = saveUnspawnNotes = preloadChart;
+	    if (preloadNoteType != null) noteTypes = saveNoteTypes = preloadNoteType;
+	    if (preloadEvents != null) extraEvents = saveExtraEvents = preloadEvents;
 	}
 	
 	override public function create(){
@@ -1349,6 +1353,7 @@ class PlayState extends MusicBeatState
 	var debugNum:Int = 0;
 	private var noteTypes:Array<String> = [];
 	private var eventsPushed:Array<String> = [];
+	static var saveNoteTypes:Array<String> = [];
 	private function generateSong(dataPath:String):Void
 	{
 		// FlxG.log.add(ChartParser.parse());
@@ -1419,6 +1424,13 @@ class PlayState extends MusicBeatState
 				for (i in 0...event[1].length)
 					makeEvent(event, i);
 		}
+		
+        if (isRestart){
+            isRestart = false;
+            unspawnNotes = saveUnspawnNotes;            
+            noteTypes = saveNoteTypes;
+            extraEvents = saveExtraEvents;
+        }
         
         if (unspawnNotes.length == 0){
     		for (section in noteData)
@@ -1537,6 +1549,7 @@ class PlayState extends MusicBeatState
     
     		unspawnNotes.sort(sortByTime);
 		}
+		
 		if (extraEvents.length > 0)
 		    for (event in 0...extraEvents.length)
     			for (data in 0...extraEvents[event][1].length)
