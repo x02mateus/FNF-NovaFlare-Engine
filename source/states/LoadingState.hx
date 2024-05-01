@@ -591,7 +591,7 @@ class LoadingState extends MusicBeatState
 	    plistChart(noteData.length);   	    
 	    saveNotesArray[saveNotesArray.length - 1] = [];
 	    
-	    chartLM:Int = saveNotesArray.length - 1;
+	    chartLM = saveNotesArray.length - 1;
 	    
         Thread.create(() -> {	
             mutex.acquire();
