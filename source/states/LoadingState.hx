@@ -104,11 +104,11 @@ class LoadingState extends MusicBeatState
         add(button);
         
         precentText = new FlxText(520, 600, 400, '0 / 100%', 32);
-		precentText.setFormat(Paths.font("vcr.ttf"), 32, FlxColor.WHITE, RIGHT, OUTLINE_FAST, FlxColor.BLACK);
+		precentText.setFormat(Paths.font("vcr.ttf"), 25, FlxColor.WHITE, RIGHT, OUTLINE_FAST, FlxColor.BLACK);
 		precentText.borderSize = 2;
 		add(precentText);		
-		precentText.x = FlxG.width - precentText.width;
-        precentText.y = FlxG.height - precentText.height - barHeight;
+		precentText.x = FlxG.width - precentText.width - 10;
+        precentText.y = FlxG.height - precentText.height - barHeight - 10;
         
 		persistentUpdate = true;
 		super.create();
@@ -132,7 +132,7 @@ class LoadingState extends MusicBeatState
 			bar.updateHitbox();
 			button.updateHitbox();
 			var precent:Float = Math.floor(curPercent / loadMax * 100) / 100;
-			precentText.text = '$precent / 100%';
+			precentText.text = precent + ' / 100%';
 		}
 		
 		if (!transitioning)
@@ -341,8 +341,7 @@ class LoadingState extends MusicBeatState
 		         + soundsToPrepare.length 
 		         + musicToPrepare.length 
 		         + songsToPrepare.length 
-		         + PlayState.SONG.notes.length
-		         + 1;       
+		         + PlayState.SONG.notes.length;       
 		loaded = 0;
 
 		//then start threads
