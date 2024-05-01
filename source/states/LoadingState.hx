@@ -164,9 +164,9 @@ class LoadingState extends MusicBeatState
 		finishedLoading = true;
 	}
 	
-	public var strumNote:FlxTypedGroup<StrumNote>;
-	public var normalNote:FlxTypedGroup<Note>;
-	function addNote()
+	static  var strumNote:FlxTypedGroup<StrumNote>;
+	static  var normalNote:FlxTypedGroup<Note>;
+	static function addNote()
 	{						
 		PlayState.stageUI = "normal";
 		
@@ -183,7 +183,7 @@ class LoadingState extends MusicBeatState
 			strumNote.add(note);
 			note.alpha = 0;
 		}
-		add(strumNote);		
+		//add(strumNote);		
 		
 		normalNote = new FlxTypedGroup<Note>();
 		for (i in 0...Note.colArray.length)
@@ -202,7 +202,7 @@ class LoadingState extends MusicBeatState
 			normalNote.add(note);
 			note.alpha = 0;
 		}
-		add(normalNote);
+		//add(normalNote);
 		
 		//用于正确读取note的切割	        		        	
 	}
