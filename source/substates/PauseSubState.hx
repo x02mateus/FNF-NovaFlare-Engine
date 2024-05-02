@@ -10,7 +10,6 @@ import states.editors.ChartingState;
 import states.FreeplayState;
 import states.FreeplayStatePsych;
 import states.StoryMenuState;
-import states.LoadingState;
 
 import options.OptionsState;
 import options.OptionsSubstate;
@@ -936,7 +935,7 @@ class PauseSubState extends MusicBeatSubstate
 			FlxTransitionableState.skipNextTransIn = true;
 			FlxTransitionableState.skipNextTransOut = true;
 		}
-		MusicBeatState.switchState(new PlayState(LoadingState.unspawnNotes, LoadingState.noteTypes, LoadingState.events));
+		MusicBeatState.resetState();
 	}
 
 	function updateSkipTimeText()
