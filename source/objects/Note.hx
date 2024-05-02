@@ -304,9 +304,10 @@ class Note extends FlxSprite
 			
 		}
 		x += offsetX;
-		
-		reloadNote(); //?
-		scrollFactor.set();
+		if (texture == '' || texture == null){
+		    reloadNote(); 
+		    scrollFactor.set();
+	    }//我去我不到啊啥比玩意的有时候没有贴图了就
 	}
 
 	public static inline function initializeGlobalRGBShader(noteData:Int)
