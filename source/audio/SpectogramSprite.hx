@@ -31,7 +31,6 @@ class SpectogramSprite extends FlxTypedSpriteGroup {
 	public function regenLineShit() {
 		for(i in 0...lengthOfShit) {
 			var lineShit = new FlxSprite(100, i / lengthOfShit * daHeight).makeGraphic(1, 1, col);
-			lineShit.active = false;
 			lineShit.ID = i;
 			add(lineShit);
 		}
