@@ -1,12 +1,11 @@
 package audio.visualize;
 
-import flixel.FlxG;
 import Math;
 import flixel.math.FlxMath;
 import audio.visualize.VisShit;
-import graphics.rendering.MeshRender;
+import flixel.group.FlxTypedGroup;
 
-class PolygonSpectogram extends MeshRender {
+class PolygonSpectogram extends FlxTypedGroup {
 	public var curTime;
 	public var waveAmplitude;
 	public var thickness;

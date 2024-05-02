@@ -1,6 +1,5 @@
 package audio.visualize;
 
-import flixel.FlxG;
 import flixel.math.FlxMath;
 import audio.visualize.VisShit;
 import flixel.math.FlxBasePoint;
