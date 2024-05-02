@@ -475,17 +475,16 @@ class LoadingState extends MusicBeatState
 		if(stageData == null) { //Stage couldn't be found, create a dummy stage for preventing a crash
 			stageData = StageData.dummy();
 		}
-		var stageUI = "normal";
 		
 		if (stageData.stageUI != null && stageData.stageUI.trim().length > 0)
-			stageUI = stageData.stageUI;
+			PlayState.stageUI = stageData.stageUI;
 		else {
 			if (stageData.isPixelStage)
-				stageUI = "pixel";
+				PlayState.stageUI = "pixel";
 		}		
-		if (stageUI != "normal")
+		if (PlayState.stageUI != "normal")
 		{
-			uiPrefix = '${stageUI}UI/';
+			uiPrefix = PlayState.stageUI +'UI/';
 			if (PlayState.isPixelStage) uiSuffix = '-pixel';
 		}
 
