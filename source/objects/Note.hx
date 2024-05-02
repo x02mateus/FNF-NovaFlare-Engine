@@ -301,8 +301,12 @@ class Note extends FlxSprite
 		{
 			centerOffsets();
 			centerOrigin();
+			
 		}
 		x += offsetX;
+		
+		reloadNote(); //?
+		scrollFactor.set();
 	}
 
 	public static inline function initializeGlobalRGBShader(noteData:Int)
