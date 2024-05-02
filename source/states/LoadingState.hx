@@ -465,7 +465,7 @@ class LoadingState extends MusicBeatState
 		catch(e:Dynamic) {}
 	}
 	
-	static function preloadMisc(){		    
+	static function preloadMisc(){
 	    var ratingsData:Array<Rating> = Rating.loadDefault();
 	    var stageData:StageFile = StageData.getStageFile(PlayState.SONG.stage);
 		
@@ -476,6 +476,7 @@ class LoadingState extends MusicBeatState
 			stageData = StageData.dummy();
 		}
 		
+		PlayState.stageUI = 'normal'; //fix
 		if (stageData.stageUI != null && stageData.stageUI.trim().length > 0)
 			PlayState.stageUI = stageData.stageUI;
 		else {
