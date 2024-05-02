@@ -303,11 +303,7 @@ class Note extends FlxSprite
 			centerOrigin();
 			
 		}
-		x += offsetX;
-		if (texture == '' || texture == null){
-		    reloadNote(); 
-		    scrollFactor.set();
-	    }//我去我不到啊啥比玩意的有时候没有贴图了就
+		x += offsetX;		    
 	}
 
 	public static inline function initializeGlobalRGBShader(noteData:Int)
