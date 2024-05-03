@@ -124,7 +124,7 @@ class MainMenuState extends MusicBeatState
         bgMove.screenCenter(XY);
 		bg.scrollFactor.set(0, 0);
 		
-		musicDisplay:SpectogramSprite = new SpectogramSprite(FlxG.sound.music);
+		musicDisplay = new SpectogramSprite(FlxG.sound.music);
 		add(musicDisplay);
 
 		magenta = new FlxSprite(-80).loadGraphic(Paths.image('menuDesat'));
