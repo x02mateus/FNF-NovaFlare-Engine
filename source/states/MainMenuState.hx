@@ -17,7 +17,7 @@ import states.editors.MasterEditorMenu;
 import options.OptionsState;
 import openfl.Lib;
 
-import audio.SpectogramSprite;
+//import audio.SpectogramSprite;
 
 class MainMenuState extends MusicBeatState
 {
@@ -48,7 +48,7 @@ class MainMenuState extends MusicBeatState
 	var magenta:FlxSprite;
 	var logoBl:FlxSprite;
 	
-    var musicDisplay:SpectogramSprite;
+    //var musicDisplay:SpectogramSprite;
 	
 	//var camFollow:FlxObject;
 
@@ -124,8 +124,8 @@ class MainMenuState extends MusicBeatState
         bgMove.screenCenter(XY);
 		bg.scrollFactor.set(0, 0);
 		
-		musicDisplay = new SpectogramSprite(FlxG.sound.music);
-		add(musicDisplay);
+		/*musicDisplay = new SpectogramSprite(FlxG.sound.music);
+		add(musicDisplay);*/
 
 		magenta = new FlxSprite(-80).loadGraphic(Paths.image('menuDesat'));
 		magenta.scrollFactor.set(0, yScroll);
