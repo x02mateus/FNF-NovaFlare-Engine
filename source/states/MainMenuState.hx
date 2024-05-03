@@ -17,7 +17,7 @@ import states.editors.MasterEditorMenu;
 import options.OptionsState;
 import openfl.Lib;
 
-import audio.visualize.SpectogramSprite;
+import audio.SpectogramSprite;
 
 class MainMenuState extends MusicBeatState
 {
