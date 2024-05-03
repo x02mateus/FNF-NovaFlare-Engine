@@ -1,4 +1,4 @@
-package audio.visualize.dsp._OffsetArray;
+package funkin.audio.dsp._OffsetArray;
 
 class OffsetArrayIterator {
 	public var array;
