@@ -159,7 +159,7 @@ class LoadingState extends MusicBeatState
             FlxTransitionableState.skipNextTransIn = true;
 			FlxTransitionableState.skipNextTransOut = true;
 			unspawnNotes.remove();
-			noteTypes.remove;
+			noteTypes.remove();
 			events.remove();
             MusicBeatState.switchState(new PlayState(unspawnNotes, noteTypes, events));
         } else {
@@ -172,7 +172,7 @@ class LoadingState extends MusicBeatState
 	static  var strumNote:FlxTypedGroup<StrumNote>;
 	static  var normalNote:FlxTypedGroup<Note>;
 	static function addNote()
-	{							
+	{
 		strumNote = new FlxTypedGroup<StrumNote>();
 		for (i in 0...Note.colArray.length)
 		{
