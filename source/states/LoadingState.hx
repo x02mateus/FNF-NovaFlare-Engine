@@ -631,7 +631,10 @@ class LoadingState extends MusicBeatState
 	}
 	
 	static function preloadChart()
-	{
+	{	    
+	    Note.globalRgbShaders = [];
+		backend.NoteTypesConfig.clearNoteTypesData();
+		
 	    unspawnNotes = [];    	        	   	    
 	    noteTypes = [];
 	        
