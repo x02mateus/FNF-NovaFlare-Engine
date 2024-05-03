@@ -636,12 +636,10 @@ class LoadingState extends MusicBeatState
 	        
 	    var noteData:Array<SwagSection> =  PlayState.SONG.notes;	   	    	            
     	    	
-    	for (chart in 0...noteData.length)
+    	for (section in noteData)
     	{
     	    Thread.create(() -> {
-        	    chartMutex.acquire();    
-                var section = noteData[chart];
-                	        
+        	    chartMutex.acquire();                        	        
         		for (songNotes in section.sectionNotes)
         		{      
     				var daStrumTime:Float = songNotes[0];
@@ -674,7 +672,7 @@ class LoadingState extends MusicBeatState
             		else
             			oldNote = null;
             
-            		var swagNote:Note = new Note(daStrumTime, daNoteData, oldNote, false, false, LoadingState);
+            		var swagNote:Note = new Note(daStrumTime, daNoteData, oldNote, LoadingState);
             		swagNote.mustPress = gottaHitNote;
             		swagNote.sustainLength = songNotes[2];
             		swagNote.gfNote = (section.gfSection && (songNotes[1]<4));
@@ -692,7 +690,7 @@ class LoadingState extends MusicBeatState
             			{
             				oldNote = unspawnNotes[Std.int(unspawnNotes.length - 1)];
             
-            				var sustainNote:Note = new Note(daStrumTime + (Conductor.stepCrochet * susNote), daNoteData, oldNote, true, false, LoadingState);
+            				var sustainNote:Note = new Note(daStrumTime + (Conductor.stepCrochet * susNote), daNoteData, oldNote, true, LoadingState);
             				sustainNote.mustPress = gottaHitNote;
             				sustainNote.gfNote = (section.gfSection && (songNotes[1]<4));
             				sustainNote.noteType = swagNote.noteType;
