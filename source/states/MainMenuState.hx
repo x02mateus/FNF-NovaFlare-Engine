@@ -17,6 +17,8 @@ import states.editors.MasterEditorMenu;
 import options.OptionsState;
 import openfl.Lib;
 
+import audio.visualize.SpectogramSprite;
+
 class MainMenuState extends MusicBeatState
 {
 	public static var psychEngineVersion:String = '0.7.3'; //This is also used for Discord RPC
@@ -45,6 +47,8 @@ class MainMenuState extends MusicBeatState
 
 	var magenta:FlxSprite;
 	var logoBl:FlxSprite;
+	
+    var musicDisplay:SpectogramSprite;
 	
 	//var camFollow:FlxObject;
 
@@ -120,10 +124,8 @@ class MainMenuState extends MusicBeatState
         bgMove.screenCenter(XY);
 		bg.scrollFactor.set(0, 0);
 		
-		//camFollow = new FlxObject(0, 0, 1, 1);
-		
-		//add(camFollow);
-		
+		musicDisplay:SpectogramSprite = new SpectogramSprite(FlxG.sound.music);
+		add(musicDisplay);
 
 		magenta = new FlxSprite(-80).loadGraphic(Paths.image('menuDesat'));
 		magenta.scrollFactor.set(0, yScroll);
