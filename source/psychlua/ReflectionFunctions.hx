@@ -226,7 +226,7 @@ class ReflectionFunctions
 	    
 	    for (num in 1...5){
 	        if (ClientPrefs.data.extraKey >= num && key == Reflect.field(ClientPrefs.data, 'extraKeyReturn' + num)){
-	            extraControl = Reflect.getProperty(MusicBeatState.instance.mobileControls.current, 'extraKeyReturn' + num);
+	            extraControl = Reflect.getProperty(MusicBeatState.instance.mobileControls.current, 'buttonExtra' + num);
 	            break;
 	        }
 	    }
