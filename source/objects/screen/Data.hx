@@ -39,6 +39,22 @@ class DataGet {
     }
 }
 
+class Display {
+    static public function fix(data:Float, isMemory:Bool = false):String
+    {
+        var returnString:String = '';
+        if (isMemory){
+		    if (data % 1 == 0) returnString = Std.String(data) + '.0';									
+    		else returnString = Std.String(data);
+		} else {				    
+			if (data % 1 == 0) returnString = Std.String(data) + '.00';
+			else if ((data * 10) % 1 == 0) precentText.text = Std.String(data) + '0';									
+			else returnString = Std.String(data)
+		}		
+		return returnString;
+    }
+}
+
 class ColorReturn {
     static public function transfer(data:Float, maxData:Float):FlxColor
     {
