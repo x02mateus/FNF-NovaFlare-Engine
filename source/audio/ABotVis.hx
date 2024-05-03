@@ -1,4 +1,4 @@
-package audio.visualize;
+package audio;
 
 import backend.Paths;
 import Lambda;

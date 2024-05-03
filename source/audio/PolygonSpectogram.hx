@@ -1,8 +1,8 @@
-package audio.visualize;
+package audio;
 
 import Math;
 import flixel.math.FlxMath;
-import audio.visualize.VisShit;
+import audio.VisShit;
 import flixel.group.FlxTypedGroup;
 
 class PolygonSpectogram extends FlxTypedGroup {

@@ -1,8 +1,8 @@
-package audio.visualize;
+package audio;
 
 import Math;
 import flixel.math.FlxMath;
-import audio.visualize.dsp.FFT;
+import audio.dsp.FFT;
 import flixel.FlxG;
 import haxe.Log;
 

@@ -1,7 +1,7 @@
-package audio.visualize;
+package audio;
 
 import flixel.math.FlxMath;
-import audio.visualize.VisShit;
+import audio.VisShit;
 import flixel.math.FlxBasePoint;
 import Math;
 import backend.Conductor;
