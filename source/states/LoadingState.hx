@@ -157,10 +157,7 @@ class LoadingState extends MusicBeatState
         if (isPlayState){
             isPlayState = false;
             FlxTransitionableState.skipNextTransIn = true;
-			FlxTransitionableState.skipNextTransOut = true;
-			unspawnNotes.remove();
-			noteTypes.remove();
-			events.remove();
+			FlxTransitionableState.skipNextTransOut = true;	
             MusicBeatState.switchState(new PlayState(unspawnNotes, noteTypes, events));
         } else {
 		    MusicBeatState.switchState(target);
