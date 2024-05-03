@@ -603,7 +603,7 @@ class LoadingState extends MusicBeatState
     	    }
     	    input = regex.matchedRight(); 
     	}				
-    	addCharacterToList('bigaudiidle', 'dad')
+    	
     	var input:String = File.getContent(path);
         var regex = ~/addCharacterToList\('(\S+)', '(\S+)', .*?\)/g;
     	while (regex.match(input)) {    	   
