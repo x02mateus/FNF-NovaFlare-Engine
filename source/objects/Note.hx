@@ -145,14 +145,14 @@ class Note extends FlxSprite
 		}
 	}
 
-	private  function set_texture(value:String):String {
+	private function set_texture(value:String):String {
 		if(texture != value) reloadNote(value);
 
 		texture = value;
 		return value;
 	}
 
-	public  function defaultRGB()
+	public function defaultRGB()
 	{
 		var arr:Array<FlxColor> = ClientPrefs.data.arrowRGB[noteData];
 		if(PlayState.isPixelStage) arr = ClientPrefs.data.arrowRGBPixel[noteData];
@@ -165,7 +165,7 @@ class Note extends FlxSprite
 		}
 	}
 
-	private  function set_noteType(value:String):String {
+	private function set_noteType(value:String):String {
 		noteSplashData.texture = PlayState.SONG != null ? PlayState.SONG.splashSkin : 'noteSplashes';
 		defaultRGB();
 
@@ -306,7 +306,7 @@ class Note extends FlxSprite
 		x += offsetX;		    
 	}
 
-	public static  function initializeGlobalRGBShader(noteData:Int)
+	public static function initializeGlobalRGBShader(noteData:Int)
 	{
 		if(globalRgbShaders[noteData] == null)
 		{
@@ -329,13 +329,13 @@ class Note extends FlxSprite
 	static var _modChecked:String = 'shits wdf'; //用于旧版剪头读取，如果mods不同会重新读取是否新的路径有贴图，实际上这个是用于优化加载，不用这个会导致每次普通剪头都要检查是否有贴图文件
 	public var originalHeight:Float = 6;
 	public var correctionOffset:Float = 0; //dont mess with this
-	public  function reloadNote(texture:String = '', postfix:String = '') {
+	public function reloadNote(texture:String = '', postfix:String = '') {
 		if(texture == null) texture = '';
 		if(postfix == null) postfix = '';
 
 		var skin:String = texture + postfix;
 		if(texture.length < 1) {
-			skin = PlayState.SONG != null ? PlayState.SONG.arrowSkin : null;
+			//skin = PlayState.SONG != null ? PlayState.SONG.arrowSkin : null;
 			if(skin == null || skin.length < 1){
 				skin = defaultNoteSkin + postfix;
 				if(ClientPrefs.data.noteSkin == ClientPrefs.defaultData.noteSkin){ 
@@ -402,7 +402,7 @@ class Note extends FlxSprite
 			animation.play(animName, true);
 	}
 
-	public static  function getNoteSkinPostfix()
+	public static function getNoteSkinPostfix()
 	{
 		var skin:String = '';
 		if(ClientPrefs.data.noteSkin != ClientPrefs.defaultData.noteSkin)
@@ -410,7 +410,7 @@ class Note extends FlxSprite
 		return skin;
 	}
 
-	 function loadNoteAnims() {
+	function loadNoteAnims() {
 		if (isSustainNote)
 		{
 			attemptToAddAnimationByPrefix('purpleholdend', 'pruple end hold', 24, true); // this fixes some retarded typo from the original note .FLA
@@ -423,7 +423,7 @@ class Note extends FlxSprite
 		updateHitbox();
 	}
 
-	 function loadPixelNoteAnims() {
+	function loadPixelNoteAnims() {
 		if(isSustainNote)
 		{
 			animation.add(colArray[noteData] + 'holdend', [noteData + 4], 24, true);
@@ -431,7 +431,7 @@ class Note extends FlxSprite
 		} else animation.add(colArray[noteData] + 'Scroll', [noteData + 4], 24, true);
 	}
 
-	 function attemptToAddAnimationByPrefix(name:String, prefix:String, framerate:Float = 24, doLoop:Bool = true)
+	function attemptToAddAnimationByPrefix(name:String, prefix:String, framerate:Float = 24, doLoop:Bool = true)
 	{
 		var animFrames = [];
 		@:privateAccess
@@ -559,7 +559,7 @@ class Note extends FlxSprite
 		}
 	}
 
-	public  function hitMultUpdate(number:Int = 0, maxNumber:Int = 0){
+	public function hitMultUpdate(number:Int = 0, maxNumber:Int = 0){
 		if (number == 0){
 			earlyHitMult = 0;
 			lateHitMult = 1;	   //写1而不是0.5是用于修复长条先miss问题
