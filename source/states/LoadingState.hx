@@ -567,7 +567,8 @@ class LoadingState extends MusicBeatState
     	var input:String = File.getContent(path);    	
     	var regex = ~/makeLuaSprite\('(\S+)', '(\S+)', .*?\)/g; // Global flag 'g' added for multiple matches 
     	while (regex.match(input)) {
-    	    var result = regex.matched(2); // Extract the first capture group 
+    	    var result = regex.matched(2); // Extract the first capture group
+    	    result = StringTools.replace(result, "'", ""); 
     	    imagesToPrepare.push(result); // Output each match 
     	    input = regex.matchedRight(); // Move to the next match 
     	}				
@@ -576,6 +577,7 @@ class LoadingState extends MusicBeatState
     	var regex = ~/makeAnimatedLuaSprite\('(\S+)', '(\S+)', .*?\)/g;
     	while (regex.match(input)) {
     	    var result = regex.matched(2);
+    	    result = StringTools.replace(result, "'", "");
     	    imagesToPrepare.push(result);
     	    input = regex.matchedRight(); 
     	}				
@@ -584,6 +586,7 @@ class LoadingState extends MusicBeatState
     	var regex = ~/precacheImage\('(\S+)'/g;
     	while (regex.match(input)) {
     	    var result = regex.matched(1); 
+    	    result = StringTools.replace(result, "'", "");
     	    imagesToPrepare.push(result);
     	    input = regex.matchedRight();
     	}				
@@ -592,21 +595,23 @@ class LoadingState extends MusicBeatState
         var regex = ~/triggerEvent\('(\S+)', '(\S+)', '(\S+)', .*?\)/g;
     	while (regex.match(input)) {
     	    var data = regex.matched(1);
+    	    data = StringTools.replace(data, "'", "");
     	    if (data == 'Change Character'){
     	        var result = regex.matched(3);
+    	        result = StringTools.replace(result, "'", "");
     	        preloadCharacter(result);
     	    }
     	    input = regex.matchedRight(); 
     	}				
-    	
+    	addCharacterToList('bigaudiidle', 'dad')
     	var input:String = File.getContent(path);
         var regex = ~/addCharacterToList\('(\S+)', '(\S+)', .*?\)/g;
     	while (regex.match(input)) {    	   
 	        var result = regex.matched(1);
+	        result = StringTools.replace(result, "'", "");
 	        preloadCharacter(result);
     	    input = regex.matchedRight(); 
-    	}				
-    	
+    	}				    	
 	}
 	
 	public static var unspawnNotes:Array<Note> = [];	
