@@ -49,7 +49,7 @@ class Display {
 		} else {				    
 			if (data % 1 == 0) returnString = Std.String(data) + '.00';
 			else if ((data * 10) % 1 == 0) precentText.text = Std.String(data) + '0';									
-			else returnString = Std.String(data)
+			else returnString = Std.String(data);
 		}		
 		return returnString;
     }
