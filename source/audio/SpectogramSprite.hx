@@ -2,10 +2,10 @@ package audio;
 
 import flixel.math.FlxMath;
 import audio.VisShit;
-import flixel.math.FlxBasePoint;
+import flixel.math.FlxPoint;
 import Math;
 import backend.Conductor;
-import flixel.group.FlxTypedSpriteGroup;
+import flixel.group.FlxSpriteGroup;
 
 enum VISTYPE {
 	STATIC;
@@ -13,7 +13,7 @@ enum VISTYPE {
 	FREQUENCIES;
 }
 
-class SpectogramSprite extends FlxTypedSpriteGroup {
+class SpectogramSprite extends FlxSpriteGroup {
 	public var curTime = 0;
 	public var frameCounter = 0;
 	public var doAnim = false;
@@ -112,7 +112,7 @@ class SpectogramSprite extends FlxTypedSpriteGroup {
 					fftSamples.push(curAud.balanced);
 				}
 				var freqShit = this.vis.funnyFFT(fftSamples);
-				var prevLine = new FlxBasePoint(0, 0);
+				var prevLine = new FlxPoint(0, 0);
 				var swagheight = 200;
 				var _g = 0;
 				var _g1 = this.group.members.length;
@@ -161,7 +161,7 @@ class SpectogramSprite extends FlxTypedSpriteGroup {
 				}
 				this.wavOptimiz = 8;
 				var i = remappedShit;
-				var prevLine = new FlxBasePoint(0, 0);
+				var prevLine = new FlxPoint(0, 0);
 				var swagheight = 200;
 				var _g = remappedShit;
 				var _g1 = remappedShit + this.lengthOfShit;
@@ -176,8 +176,7 @@ class SpectogramSprite extends FlxTypedSpriteGroup {
 					prevLine.set_y((remappedSample | 0) / this.lengthOfShit * this.daHeight + this.y);
 					var x = prevLine.x - this.group.members[remappedSample | 0].x;
 					var y = prevLine.y - this.group.members[remappedSample | 0].y;
-					var point = FlxBasePoint.pool.get().set(x, y);
-					point._inPool = false;
+					var point = FlxPoint.get(x, y);				
 					var line = point;
 					this.group.members[remappedSample | 0].setGraphicSize(Math.max(Math.sqrt(line.x * line.x + line.y * line.y), 1) | 0, 1);
 					this.group.members[remappedSample | 0].set_angle(flixel_math_FlxPoint.get_radians(line) * (180 / Math.PI));
