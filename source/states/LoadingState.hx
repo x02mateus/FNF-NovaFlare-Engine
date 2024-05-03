@@ -75,6 +75,7 @@ class LoadingState extends MusicBeatState
 
 		var bg = new FlxSprite().loadGraphic(Paths.image(filePath + 'loadScreen'));
 		bg.setGraphicSize(Std.int(FlxG.width));
+		bg.antialiasing = ClientPrefs.data.antialiasing;
 		bg.updateHitbox();
 		add(bg);			
 
@@ -99,7 +100,7 @@ class LoadingState extends MusicBeatState
         add(button);
         
         precentText = new FlxText(520, 600, 400, '0%', 30);
-		precentText.setFormat(Paths.font("loadScreen.ttf"), 20, FlxColor.WHITE, RIGHT, OUTLINE_FAST, FlxColor.TRANSPARENT);
+		precentText.setFormat(Paths.font("loadScreen.ttf"), 25, FlxColor.WHITE, RIGHT, OUTLINE_FAST, FlxColor.TRANSPARENT);
 		precentText.borderSize = 0;
 		precentText.antialiasing = ClientPrefs.data.antialiasing;
 		add(precentText);		

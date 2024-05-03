@@ -339,6 +339,11 @@ class StoryMenuState extends MusicBeatState
             LoadingState.prepareToSong();
 			new FlxTimer().start(1, function(tmr:FlxTimer)
 			{
+			    LoadingState.prepareToSong();
+				if (ClientPrefs.data.loadingScreen) {
+				    FlxTransitionableState.skipNextTransIn = true;
+			        FlxTransitionableState.skipNextTransOut = true;
+			    }
 				LoadingState.loadAndSwitchState(new PlayState(), true);
 				if (!ClientPrefs.data.freeplayOld) FreeplayState.destroyFreeplayVocals();
 				else FreeplayStatePsych.destroyFreeplayVocals();
