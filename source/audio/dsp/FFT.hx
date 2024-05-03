@@ -1,8 +1,8 @@
-package audio.visualize.dsp;
+package audio.dsp;
 
-import audio.visualize.dsp.FFT;
+import audio.dsp.FFT;
 import Math;
-import audio.visualize.dsp.Signal;
+import audio.dsp.Signal;
 import haxe.Log;
 import Std;
 
@@ -268,7 +268,7 @@ class FFT {
 			Log.trace("Found frequencies: " + Std.string(freqis), {
 				fileName: "source/funkin/audio/visualize/dsp/FFT.hx",
 				lineNumber: 145,
-				className: "funkin.audio.visualize.dsp.FFT",
+				className: "funkin.audio.dsp.FFT",
 				methodName: "main"
 			});
 		} else {
@@ -293,7 +293,7 @@ class FFT {
 				Log.trace("Frequency Errors: " + Std.string(freqs_err), {
 					fileName: "source/funkin/audio/visualize/dsp/FFT.hx",
 					lineNumber: 151,
-					className: "funkin.audio.visualize.dsp.FFT",
+					className: "funkin.audio.dsp.FFT",
 					methodName: "main"
 				});
 			}

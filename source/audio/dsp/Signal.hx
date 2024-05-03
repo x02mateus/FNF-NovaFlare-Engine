@@ -1,6 +1,6 @@
-package audio.visualize.dsp;
+package audio.dsp;
 
-import audio.visualize.dsp.Signal;
+import audio.dsp.Signal;
 import Math;
 import Lambda;
 
