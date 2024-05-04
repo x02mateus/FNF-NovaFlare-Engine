@@ -58,7 +58,7 @@ jobs:
           name: macOSBuild-${{matrix.version}}
           path: export/release/macos/bin/*
           if-no-files-found: error
-  Android:
+ Android:
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -199,7 +199,7 @@ jobs:
            path: /home/runner
 
       - name: Move macOS11 File
-        run: mv "/home/runner/NovaFlare Engine-releasezip" "/home/runner/NovaFlare_Engine-macOS-11zip"
+        run: mv "/home/runner/NovaFlare Engine-release.zip" "/home/runner/NovaFlare_Engine-macOS-11.zip"
       
       - name: Download macOS12 Build
         uses: actions/download-artifact@main
@@ -208,7 +208,7 @@ jobs:
            path: /home/runner
 
       - name: Move macOS12 File
-        run: mv "/home/runner/NovaFlare Engine-releasezip" "/home/runner/NovaFlare_Engine-macOS-12zip"
+        run: mv "/home/runner/NovaFlare Engine-release.zip" "/home/runner/NovaFlare_Engine-macOS-12.zip"
         
       - name: Download macOS13 Build
         uses: actions/download-artifact@main
@@ -217,7 +217,7 @@ jobs:
            path: /home/runner
 
       - name: Move macOS13 File
-        run: mv "/home/runner/NovaFlare Engine-releasezip" "/home/runner/NovaFlare_Engine-macOS-13zip"
+        run: mv "/home/runner/NovaFlare Engine-release.zip" "/home/runner/NovaFlare_Engine-macOS-13.zip"
         
         
       - name: Download Windows Build
@@ -225,6 +225,9 @@ jobs:
         with:
            name: WindowsBuild
            path: /home/runner
+      
+      - name: Move Windows File
+        run: mv "/home/runner/NovaFlare Engine-release.zip" "/home/runner/NovaFlare_Engine-Windows.zip"
 
       - name: Publish The Release
         uses: marvinpinto/action-automatic-releases@latest
