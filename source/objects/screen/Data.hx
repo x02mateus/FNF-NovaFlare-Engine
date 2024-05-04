@@ -43,14 +43,13 @@ class Display {
     static public function fix(data:Float, isMemory:Bool = false):String
     {
         var returnString:String = '';
-        if (isMemory){
-		    if (data % 1 == 0) returnString = Std.String(data) + '.0';									
-    		else returnString = Std.String(data);
-		} else {				    
-			if (data % 1 == 0) returnString = Std.String(data) + '.00';
-			else if ((data * 10) % 1 == 0) precentText.text = Std.String(data) + '0';									
-			else returnString = Std.String(data);
-		}		
+        
+	    if (data % 1 == 0) 
+	        if (isMemory && DataGet.memType == 'GB') returnString = Std.string(data) + '.00';
+	        else returnString = Std.string(data) + '.0';			
+	    else if ((data * 10) % 1 == 0 && isMemory && DataGet.memType == 'GB')) returnString = Std.string(data) + '0';						
+		else returnString = Std.string(data);
+		
 		return returnString;
     }
 }
