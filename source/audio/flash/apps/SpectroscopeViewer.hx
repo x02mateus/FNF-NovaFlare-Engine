@@ -8,8 +8,6 @@ import flash.media.Microphone;
 import flash.utils.Timer;
 import flash.events.TimerEvent;
 
-import util.Sprintf;
-
 import audio.ds.HxaArray;
 import audio.fft.FFTFilter;
 import audio.pitch.PitchDetectors;
@@ -100,7 +98,7 @@ class SpectroscopeViewer extends Sprite {
         spectroscope.markPoint(Math.floor(512 * naive.pitch / fftFilter.freqs[fftFilter.freqs.length - 1]), 0xff0000);
         spectroscope.markPoint(Math.floor(512 * dywa.pitch / fftFilter.freqs[fftFilter.freqs.length - 1]), 0x0000ff);
         
-        statusText.text = Sprintf.format("Detected pitch: %0.3f Hz  %0.3f Hz", [naive.pitch, dywa.pitch]);
+        statusText.text = "Detected pitch: " + naive.pitch + "Hz  " + dywa.pitch + "Hz";
     }
     
 	public static function main() {
