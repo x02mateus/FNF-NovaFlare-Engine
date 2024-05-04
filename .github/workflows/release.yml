@@ -58,7 +58,7 @@ jobs:
           name: macOSBuild-${{matrix.version}}
           path: export/release/macos/bin/*
           if-no-files-found: error
- Android:
+  Android:
     runs-on: ubuntu-latest
     strategy:
       matrix:
