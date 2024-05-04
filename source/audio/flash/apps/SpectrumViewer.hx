@@ -9,8 +9,6 @@ import flash.utils.Timer;
 import flash.events.TimerEvent;
 import util.Stopwatch;
 
-import util.Sprintf;
-
 import audio.fft.FFTFilter;
 import audio.flash.widgets.Plotter;
 import audio.flash.sound.MicrophoneBuffer;
@@ -73,7 +71,7 @@ class SpectrumViewer extends Sprite {
         
         plotter.plot(fftFilter.freqs, fftFilter.mag);
         if (stopwatch.averageTime >= 0)
-            statusText.text = Sprintf.format("Average time per FFT: %0.3fms", [stopwatch.averageTime*1000]);
+            statusText.text = 'Average time per FFT:' + Std.string(stopwatch.averageTime*1000) + 'ms';
     }
     
 	public static function main() {
