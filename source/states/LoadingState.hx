@@ -605,13 +605,25 @@ class LoadingState extends MusicBeatState
     	}				
     	
     	var input:String = File.getContent(path);
-        var regex = ~/addCharacterToList\('(\S+)', '(\S+)', .*?\)/g;
-    	while (regex.match(input)) {    	   
-	        var result = regex.matched(1);
-	        result = StringTools.replace(result, "'", "");
-	        preloadCharacter(result);
-    	    input = regex.matchedRight(); 
-    	}				    	
+        var regex = ~/triggerEvent\('(\S+)', '(\S+)', '(\S+)',.*?\)/g;
+        while (regex.match(input)) {
+            var event = regex.matched(1);
+            var firstParam = regex.matched(2);
+            var secondParam = regex.matched(3);            
+            if (event == "Change Character") {              
+                preloadCharacter(secondParam);
+            }            
+            input = regex.matchedRight();
+        }
+    	
+    	var input:String = File.getContent(path);
+        var regex = ~/addCharacterToList\('(\S+)',/;
+        while (regex.match(input)) {    
+            var result = regex.matched(1);
+            result = StringTools.replace(result, "'", "");
+            preloadCharacter(result);
+            input = regex.matchedRight();
+        }
 	}
 	
 	public static var unspawnNotes:Array<Note> = [];	
