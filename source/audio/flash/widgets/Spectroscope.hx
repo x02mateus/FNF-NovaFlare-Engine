@@ -86,7 +86,7 @@ class Spectroscope extends Sprite {
         updateAxes();
     }
     function set_ylabel(label: String) return (ylabelField.text = label)
-    function get_ylabel(): String return ylabelField.text
+    function get_ylabel(): String return ylabelField.text;
     
     /**
      * Update the display with new x-y data.
