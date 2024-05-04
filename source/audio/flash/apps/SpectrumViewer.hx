@@ -21,7 +21,6 @@ class SpectrumViewer extends Sprite {
     var statusText: TextField;
     var musicBuffer: AudioBuffer;
     var fftFilter: FFTFilter;
-    var stopwatch: Stopwatch;
     
     // Config
     static inline var LOG_N = 11; // Log2 (FFT length);
@@ -33,19 +32,11 @@ class SpectrumViewer extends Sprite {
         plotter = new Plotter(500, 300);
         plotter.xaxis("Frequency (Hz)", 0, SAMPLE_RATE*1000/2, 500, "%0.0f");
         plotter.yaxis("dB", -60, 0, 10, "%0.0f");
-        addChild(plotter);
-        
-        statusText = new TextField();
-        statusText.x = 20;
-        statusText.y = 400;
-        statusText.text = "";
-        statusText.autoSize = TextFieldAutoSize.LEFT;
-        addChild(statusText);
+        addChild(plotter);         
         
         // Load music file
         var music:FlxSound = FlxG.sound.music;               
         fftFilter = new FFTFilter(music._sound.__buffer, SAMPLE_RATE*1000);
-        stopwatch = new Stopwatch();
         
         // Start polling
         var timer = new Timer(UPDATE_PERIOD);
@@ -54,14 +45,9 @@ class SpectrumViewer extends Sprite {
     }
     
     public function update(event) {
-        if (FlxG.sound.music == null || !FlxG.sound.music.playing) return;
-        stopwatch.tic();
-        fftFilter.update();
-        stopwatch.toc();
-        
-        plotter.plot(fftFilter.freqs, fftFilter.mag);
-        if (stopwatch.averageTime >= 0)
-            statusText.text = 'Average time per FFT:' + Std.string(stopwatch.averageTime*1000) + 'ms';
+        if (FlxG.sound.music == null || !FlxG.sound.music.playing) return;      
+        fftFilter.update();        
+        plotter.plot(fftFilter.freqs, fftFilter.mag);               
     }
     
 }
