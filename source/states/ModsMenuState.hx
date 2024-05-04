@@ -208,7 +208,7 @@ class ModsMenuState extends MusicBeatState
 		bgButtons.alpha = 0.2;
 		add(bgButtons);
 
-		var buttonsX = bgButtons.x + 320;
+		var buttonsX = bgButtons.x + 10;
 		var buttonsY = bgButtons.y + 10;
 
 		var button = new MenuButton(buttonsX, buttonsY, 80, 80, Paths.image('modsMenuButtons'), function() moveModToPosition(0), 54, 54); //Move to the top
@@ -216,15 +216,33 @@ class ModsMenuState extends MusicBeatState
 		button.icon.animation.play('icon', true);
 		add(button);
 		buttons.push(button);
-
-		var button = new MenuButton(buttonsX + 100, buttonsY, 80, 80, Paths.image('modsMenuButtons'), function() moveModToPosition(curSelectedMod - 1), 54, 54); //Move up
+		
+		var button = new MenuButton(buttonsX + 90, buttonsY, 80, 80, Paths.image('modsMenuButtons'), function() moveModToPosition(modsList.all.length-1), 54, 54); //Move to the down
 		button.icon.animation.add('icon', [1]);
 		button.icon.animation.play('icon', true);
 		add(button);
 		buttons.push(button);
 
-		var button = new MenuButton(buttonsX + 200, buttonsY, 80, 80, Paths.image('modsMenuButtons'), function() moveModToPosition(curSelectedMod + 1), 54, 54); //Move down
+		var button = new MenuButton(buttonsX + 180, buttonsY, 80, 80, Paths.image('modsMenuButtons'), function() moveModToPosition(curSelectedMod - 1), 54, 54); //Move up
+		button.icon.animation.add('icon', [4]);
+		button.icon.animation.play('icon', true);
+		add(button);
+		buttons.push(button);
+
+		var button = new MenuButton(buttonsX + 270, buttonsY, 80, 80, Paths.image('modsMenuButtons'), function() moveModToPosition(curSelectedMod + 1), 54, 54); //Move down
+		button.icon.animation.add('icon', [5]);
+		button.icon.animation.play('icon', true);
+		add(button);
+		buttons.push(button);
+		
+		var button = new MenuButton(buttonsX + 360, buttonsY, 80, 80, Paths.image('modsMenuButtons'), function() changeSelectedMod(-1), 54, 54); //choose
 		button.icon.animation.add('icon', [2]);
+		button.icon.animation.play('icon', true);
+		add(button);
+		buttons.push(button);
+
+		var button = new MenuButton(buttonsX + 450, buttonsY, 80, 80, Paths.image('modsMenuButtons'), function() changeSelectedMod(+1), 54, 54); //choose
+		button.icon.animation.add('icon', [3]);
 		button.icon.animation.play('icon', true);
 		add(button);
 		buttons.push(button);
@@ -235,7 +253,7 @@ class ModsMenuState extends MusicBeatState
 				button.enabled = false;
 		}
 
-		settingsButton = new MenuButton(buttonsX + 300, buttonsY, 80, 80, Paths.image('modsMenuButtons'), function() //Settings
+		settingsButton = new MenuButton(buttonsX + 540, buttonsY, 80, 80, Paths.image('modsMenuButtons'), function() //Settings
 		{
 			var curMod:ModItem = modsGroup.members[curSelectedMod];
 			if(curMod != null && curMod.settings != null && curMod.settings.length > 0)
@@ -244,7 +262,7 @@ class ModsMenuState extends MusicBeatState
 			}
 		}, 54, 54);
 
-		settingsButton.icon.animation.add('icon', [3]);
+		settingsButton.icon.animation.add('icon', [6]);
 		settingsButton.icon.animation.play('icon', true);
 		add(settingsButton);
 		buttons.push(settingsButton);
@@ -252,7 +270,7 @@ class ModsMenuState extends MusicBeatState
 		if(modsGroup.members[curSelectedMod].settings == null || modsGroup.members[curSelectedMod].settings.length < 1)
 			settingsButton.enabled = false;
 
-		var button = new MenuButton(buttonsX + 400, buttonsY, 80, 80, Paths.image('modsMenuButtons'), function() //On/Off
+		var button = new MenuButton(buttonsX + 630, buttonsY, 80, 80, Paths.image('modsMenuButtons'), function() //On/Off
 		{
 			var curMod:ModItem = modsGroup.members[curSelectedMod];
 			var mod:String = curMod.folder;
@@ -274,7 +292,7 @@ class ModsMenuState extends MusicBeatState
 			checkToggleButtons();
 			FlxG.sound.play(Paths.sound('scrollMenu'), 0.6);
 		}, 54, 54);
-		button.icon.animation.add('icon', [4]);
+		button.icon.animation.add('icon', [7]);
 		button.icon.animation.play('icon', true);
 		add(button);
 		buttons.push(button);
@@ -282,6 +300,46 @@ class ModsMenuState extends MusicBeatState
 			if(!focus)
 				button.bg.color = modsList.enabled.contains(modsGroup.members[curSelectedMod].folder) ? FlxColor.GREEN : 0xFFFF6666;
 		};
+		
+		var button = new MenuButton(buttonsX + 450, buttonsY, 80, 80, Paths.image('modsMenuButtons'), function()
+		{
+		    if(colorTween != null) {
+				colorTween.cancel();
+			}
+			saveTxt();
+
+			FlxG.sound.play(Paths.sound('cancelMenu'));
+			if(waitingToRestart)
+			{
+				//MusicBeatState.switchState(new TitleState());
+				TitleState.initialized = false;
+				TitleState.closedState = false;
+				FlxG.sound.music.fadeOut(0.3);
+				if (!ClientPrefs.data.freeplayOld){
+    				if(FreeplayState.vocals != null)
+    				{
+    					FreeplayState.vocals.fadeOut(0.3);
+    					FreeplayState.vocals = null;
+    				}
+				} else {
+				    if(FreeplayStatePsych.vocals != null)
+    				{
+    					FreeplayStatePsych.vocals.fadeOut(0.3);
+    					FreeplayStatePsych.vocals = null;
+    				}				
+				}
+				FlxG.camera.fade(FlxColor.BLACK, 0.5, false, FlxG.resetGame, false);
+			}
+			else MusicBeatState.switchState(new MainMenuState());
+
+			persistentUpdate = false;
+			FlxG.autoPause = ClientPrefs.data.autoPause;
+			FlxG.mouse.visible = false;		
+		}, 54, 54); //choose
+		button.icon.animation.add('icon', [8]);
+		button.icon.animation.play('icon', true);
+		add(button);
+		buttons.push(button);
 
 		if(modsList.all.length < 1)
 		{
