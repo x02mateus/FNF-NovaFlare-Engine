@@ -4,30 +4,21 @@ import flash.Lib;
 import flash.display.Sprite;
 import flash.text.TextField;
 import flash.text.TextFieldAutoSize;
-import flash.media.Microphone;
-import flash.utils.Timer;
-import flash.events.TimerEvent;
-import util.Stopwatch;
-
 import audio.fft.FFTFilter;
 import audio.flash.widgets.Plotter;
-import audio.flash.sound.MicrophoneBuffer;
+import audio.flash.sound.MusicBuffer;
+import flixel.FlxG;
+import flixel.FlxSprite;
+import openfl.media.Sound;
 
-/**
- * Spectrum visualization app.
- * 
- * @author Gerald T. Beauregard (original AS3 code, see note in audio.fft.FFT)
- * @author Konstantin Tretyakov (substantial rewrite in Haxe)
- */
-class SpectrumViewer extends Sprite {
+class MusicAnalyzer extends Sprite {
     // Data
     var statusMessage: String = ""; // Message (useful for debugging and other things)
     
     // UI & child elements
     var plotter: Plotter;
     var statusText: TextField;
-    var mic: Microphone;
-    var micBuffer: MicrophoneBuffer;
+    var musicBuffer: MusicBuffer;
     var fftFilter: FFTFilter;
     var stopwatch: Stopwatch;
     
@@ -50,12 +41,11 @@ class SpectrumViewer extends Sprite {
         statusText.autoSize = TextFieldAutoSize.LEFT;
         addChild(statusText);
         
-        mic = Microphone.getMicrophone();
-        mic.rate = SAMPLE_RATE;     // (only 5k, 8k, 11k, 22k and 44k are supported)
-        mic.setSilenceLevel(0.0);   // Listen to everything
-        micBuffer = new MicrophoneBuffer(1 << LOG_N, mic);
-
-        fftFilter = new FFTFilter(micBuffer, SAMPLE_RATE*1000);
+        // Load music file
+        var music:Sound = Paths.music('freakyMenu');
+        
+        musicBuffer = new MusicBuffer(1 << LOG_N, music);
+        fftFilter = new FFTFilter(musicBuffer, SAMPLE_RATE*1000);
         stopwatch = new Stopwatch();
         
         // Start polling
@@ -74,7 +64,7 @@ class SpectrumViewer extends Sprite {
             statusText.text = 'Average time per FFT:' + Std.string(stopwatch.averageTime*1000) + 'ms';
     }
     
-	public static function main() {
-        Lib.current.addChild(new SpectrumViewer());
-	}    
+    public static function main() {
+        Lib.current.addChild(new MusicAnalyzer());
+    }    
 }
