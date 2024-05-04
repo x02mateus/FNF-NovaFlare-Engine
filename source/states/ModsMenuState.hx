@@ -301,7 +301,7 @@ class ModsMenuState extends MusicBeatState
 				button.bg.color = modsList.enabled.contains(modsGroup.members[curSelectedMod].folder) ? FlxColor.GREEN : 0xFFFF6666;
 		};
 		
-		var button = new MenuButton(buttonsX + 700, buttonsY, 80, 80, Paths.image('modsMenuButtons'), function()
+		var button = new MenuButton(buttonsX + 720, buttonsY, 80, 80, Paths.image('modsMenuButtons'), function()
 		{
 		    if(colorTween != null) {
 				colorTween.cancel();
