@@ -11,7 +11,7 @@ import flixel.FlxSprite;
 import openfl.media.Sound;
 @:access(openfl.media.Sound.__buffer)
 
-class MusicAnalyzer extends Sprite {
+class SpectrumViewer extends Sprite {
     // Data
     var statusMessage: String = ""; // Message (useful for debugging and other things)
     
