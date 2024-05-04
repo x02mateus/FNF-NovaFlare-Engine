@@ -95,9 +95,9 @@ class Plotter extends Sprite {
         updateAxes();
     }
     function set_xlabel(label: String) return (xlabelField.text = label)
-    function get_xlabel(): String return xlabelField.text
+    function get_xlabel(): String return xlabelField.text;
     function set_ylabel(label: String) return (ylabelField.text = label)
-    function get_ylabel(): String return ylabelField.text
+    function get_ylabel(): String return ylabelField.text;
     
     /**
      * Update the display with new x-y data.
