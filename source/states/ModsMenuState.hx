@@ -241,7 +241,7 @@ class ModsMenuState extends MusicBeatState
 		add(button);
 		buttons.push(button);
 
-		var button = new MenuButton(buttonsX + 450, buttonsY, 80, 80, Paths.image('modsMenuButtons'), function() changeSelectedMod(+1), 54, 54); //choose
+		var button = new MenuButton(buttonsX + 450, buttonsY, 80, 80, Paths.image('modsMenuButtons'), function() changeSelectedMod(1), 54, 54); //choose
 		button.icon.animation.add('icon', [3]);
 		button.icon.animation.play('icon', true);
 		add(button);
