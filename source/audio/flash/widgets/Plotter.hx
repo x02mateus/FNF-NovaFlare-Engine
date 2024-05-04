@@ -196,7 +196,7 @@ class TickIter {
     public function new(min, max, step) {
         this.min = this.cur = min; this.max = max; this.step = step;
     }
-    inline public function hasNext() return cur <= max
+    inline public function hasNext() {return cur <= max;}
     inline public function next() {
         var v = cur;
         cur += step;
