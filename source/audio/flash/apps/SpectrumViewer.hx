@@ -6,10 +6,10 @@ import flash.text.TextField;
 import flash.text.TextFieldAutoSize;
 import audio.fft.FFTFilter;
 import audio.flash.widgets.Plotter;
-import audio.flash.sound.MusicBuffer;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import openfl.media.Sound;
+@:access(openfl.media.Sound.__buffer)
 
 class MusicAnalyzer extends Sprite {
     // Data
@@ -42,10 +42,8 @@ class MusicAnalyzer extends Sprite {
         addChild(statusText);
         
         // Load music file
-        var music:Sound = Paths.music('freakyMenu');
-        
-        musicBuffer = new MusicBuffer(1 << LOG_N, music);
-        fftFilter = new FFTFilter(musicBuffer, SAMPLE_RATE*1000);
+        var music:FlxSound = FlxG.sound.music;               
+        fftFilter = new FFTFilter(music._sound.__buffer, SAMPLE_RATE*1000);
         stopwatch = new Stopwatch();
         
         // Start polling
