@@ -2328,11 +2328,18 @@ class MarvelousRating extends Option
 		description = desc;
 	}
 
-	override function press()
+	override function left()
 	{
 		ClientPrefs.data.marvelousRating = !ClientPrefs.data.marvelousRating;
 		display = updateDisplay();
     }
+    
+    override function right()
+	{
+		ClientPrefs.data.marvelousRating = !ClientPrefs.data.marvelousRating;
+		display = updateDisplay();
+    }
+    
 
 	private override function updateDisplay():String
 	{
