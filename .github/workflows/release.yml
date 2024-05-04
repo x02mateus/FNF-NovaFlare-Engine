@@ -146,7 +146,7 @@ jobs:
           cd export/release/ios/build/*-iphoneos
           mkdir Payload
           mv *.app Payload
-          zip -r NovaFlareEngine.ipa Payload
+          zip -r NovaFlare Engine.ipa Payload
 
       - name: Upload Artifact
         if: ${{ success() }}
@@ -167,8 +167,8 @@ jobs:
            path: /home/runner
 
       - name: Move EXTERNAL File
-        run: mv /home/runner/NovaFlareEngine-release.apk /home/runner/NovaFlare_Engine-EXTERNAL.apk
-
+        run: mv "/home/runner/NovaFlare Engine-release.apk" "/home/runner/NovaFlare_Engine-EXTERNAL.apk"
+            
       - name: Download OBB Build
         uses: actions/download-artifact@main
         with:
@@ -176,7 +176,7 @@ jobs:
            path: /home/runner
 
       - name: Move OBB File
-        run: mv /home/runner/NovaFlareEngine-release.apk /home/runner/NovaFlare_Engine-OBB.apk
+        run: mv "/home/runner/NovaFlare Engine-release.apk" "/home/runner/NovaFlare_Engine-OBB.apk"
 
       - name: Download DATA Build
         uses: actions/download-artifact@main
@@ -185,7 +185,7 @@ jobs:
            path: /home/runner
 
       - name: Move DATA File
-        run: mv /home/runner/NovaFlareEngine-release.apk /home/runner/NovaFlare_Engine-DATA.apk
+        run: mv "/home/runner/NovaFlare Engine-release.apk" "/home/runner/NovaFlare_Engine-DATA.apk"
 
       - name: Download MEDIA Build
         uses: actions/download-artifact@main
@@ -194,7 +194,7 @@ jobs:
            path: /home/runner
 
       - name: Move MEDIA File
-        run: mv /home/runner/NovaFlareEngine-release.apk /home/runner/NovaFlare_Engine-MEDIA.apk
+        run: mv "/home/runner/NovaFlare Engine-release.apk" "/home/runner/NovaFlare_Engine-MEDIA.apk"
 
       - name: Download iOS Build
         uses: actions/download-artifact@main
@@ -209,7 +209,7 @@ jobs:
            path: /home/runner
 
       - name: Move macOS11 File
-        run: mv /home/runner/NovaFlareEngine-release.zip /home/runner/NovaFlare_Engine-macOS-11.zip
+        run: mv "/home/runner/NovaFlare Engine-releasezip" "/home/runner/NovaFlare_Engine-macOS-11zip"
       
       - name: Download macOS12 Build
         uses: actions/download-artifact@main
@@ -218,7 +218,7 @@ jobs:
            path: /home/runner
 
       - name: Move macOS12 File
-        run: mv /home/runner/NovaFlareEngine-release.zip /home/runner/NovaFlare_Engine-macOS-12.zip
+        run: mv "/home/runner/NovaFlare Engine-releasezip" "/home/runner/NovaFlare_Engine-macOS-12zip"
         
       - name: Download macOS13 Build
         uses: actions/download-artifact@main
@@ -227,7 +227,7 @@ jobs:
            path: /home/runner
 
       - name: Move macOS13 File
-        run: mv /home/runner/NovaFlareEngine-release.zip /home/runner/NovaFlare_Engine-macOS-13.zip
+        run: mv "/home/runner/NovaFlare Engine-releasezip" "/home/runner/NovaFlare_Engine-macOS-13zip"
         
         
       - name: Download Windows Build
