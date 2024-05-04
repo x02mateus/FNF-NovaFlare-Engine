@@ -3,7 +3,7 @@ package;
 import objects.screen.Graphics;
 import objects.screen.FPS;
 
-import audio.flash.apps.SpectroscopeViewer;
+import audio.flash.apps.SpectrumViewer;
 import flixel.graphics.FlxGraphic;
 import flixel.FlxGame;
 import flixel.FlxState;
@@ -46,7 +46,7 @@ class Main extends Sprite
 	public static var fpsVar:FPS;
 	public static var watermark:Watermark;
 	
-	public static var musicViewer:SpectroscopeViewer; 
+	public static var musicViewer:SpectrumViewer; 
 
 	#if mobile
 	public static final platform:String = "Phones";
@@ -180,7 +180,7 @@ class Main extends Sprite
 			watermark.visible = ClientPrefs.data.showWatermark;
 		}
 		
-		musicViewer = new SpectroscopeViewer(); 
+		musicViewer = new SpectrumViewer(); 
 		addChild(musicViewer);
 
 		#if linux
