@@ -53,6 +53,7 @@ class MusicAnalyzer extends Sprite {
     }
     
     public function update(event) {
+        if (FlxG.sound.music == null || !FlxG.sound.music.playing) return;
         stopwatch.tic();
         fftFilter.update();
         stopwatch.toc();
@@ -62,7 +63,4 @@ class MusicAnalyzer extends Sprite {
             statusText.text = 'Average time per FFT:' + Std.string(stopwatch.averageTime*1000) + 'ms';
     }
     
-    public static function main() {
-        Lib.current.addChild(new MusicAnalyzer());
-    }    
 }
