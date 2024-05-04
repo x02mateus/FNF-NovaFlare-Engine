@@ -94,9 +94,9 @@ class Plotter extends Sprite {
         yToPx = viewportHeight / (ymax - ymin); 
         updateAxes();
     }
-    function set_xlabel(label: String) return {xlabelField.text = label}
+    function set_xlabel(label: String) return {xlabelField.text = label;}
     function get_xlabel(): String return xlabelField.text;
-    function set_ylabel(label: String) return {ylabelField.text = label}
+    function set_ylabel(label: String) return {ylabelField.text = label;}
     function get_ylabel(): String return ylabelField.text;
     
     /**
