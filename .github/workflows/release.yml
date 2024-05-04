@@ -58,15 +58,15 @@ jobs:
           name: macOSBuild-${{matrix.version}}
           path: export/release/macos/bin/*
           if-no-files-found: error
-  Android:
+ Android:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        storage-type: [EXTERNAL, OBB, DATA, MEDIA]
+        storage-type: [EXTERNAL, MEDIA, OBB, DATA]
     steps:
       - name: Checkout
         uses: actions/checkout@main
-      
+
       - name: Setup Android NDK
         uses: nttld/setup-ndk@main
         id: setup-ndk
@@ -84,22 +84,10 @@ jobs:
         with:
           haxe-version: 4.3.4
 
-      - name: Restore Previous Cache
-        id: cache-debug-build-android-restore
-        uses: actions/cache/restore@main
-        with:
-          path: |
-            ~/haxelib
-            ~/.gradle
-            export/release/android/haxe
-            export/release/android/obj
-          key: cache-android-build
-
       - name: Install Libraries
         run: |
-          haxelib setup ~/haxelib
-          haxelib install hmm 
-          haxelib run hmm install 
+          haxelib install hmm --quiet
+          haxelib run hmm install --quiet
 
       - name: Configure Android
         run: |
@@ -109,18 +97,20 @@ jobs:
           haxelib run lime config ANDROID_SETUP true
         env:
           ANDROID_NDK_HOME: ${{ steps.setup-ndk.outputs.ndk-path }}
-          
+
       - name: Compile
-        run: haxelib run lime build android -D ${{ matrix.storage-type }} -final
+        run: haxelib run lime build android -D officialBuild -D ${{ matrix.storage-type }} -final
         env:
           cert_pass: nullfunni
           cert_alias_pass: nullfunni
 
       - name: Upload Artifact
+        if: ${{ success() }}
         uses: actions/upload-artifact@main
         with:
-          name: androidBuild
+          name: androidBuild-${{ matrix.storage-type }}
           path: export/release/android/bin/app/build/outputs/apk/release/*.apk
+          if-no-files-found: error
   iOS:
     runs-on: macos-13
     steps:
