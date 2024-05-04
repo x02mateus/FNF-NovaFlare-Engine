@@ -3,6 +3,7 @@ package;
 import objects.screen.Graphics;
 import objects.screen.FPS;
 
+import audio.flash.apps.SpectroscopeViewer;
 import flixel.graphics.FlxGraphic;
 import flixel.FlxGame;
 import flixel.FlxState;
@@ -13,10 +14,11 @@ import openfl.Lib;
 import openfl.display.Sprite;
 import openfl.events.Event;
 import openfl.display.StageScaleMode;
+import openfl.events.KeyboardEvent;
+
 import lime.system.System as LimeSystem;
 import lime.app.Application;
 import states.TitleState;
-import openfl.events.KeyboardEvent;
 import mobile.backend.Data;
 #if hl
 import hl.Api;
@@ -43,6 +45,8 @@ class Main extends Sprite
 
 	public static var fpsVar:FPS;
 	public static var watermark:Watermark;
+	
+	public static var musicViewer:SpectroscopeViewer; 
 
 	#if mobile
 	public static final platform:String = "Phones";
@@ -175,6 +179,9 @@ class Main extends Sprite
 		    watermark.y += (1 - ClientPrefs.data.WatermarkScale) * watermark.bitmapData.height;
 			watermark.visible = ClientPrefs.data.showWatermark;
 		}
+		
+		musicViewer = new SpectroscopeViewer(); 
+		addChild(musicViewer);
 
 		#if linux
 		var icon = Image.fromFile("icon.png");
