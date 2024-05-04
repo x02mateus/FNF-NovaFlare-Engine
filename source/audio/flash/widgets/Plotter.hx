@@ -5,7 +5,6 @@ import flash.display.Sprite;
 import flash.text.TextField;
 import flash.text.TextFieldAutoSize;
 
-import util.Sprintf;
 import audio.ds.HxaArray;
 
 /**
@@ -118,7 +117,7 @@ class Plotter extends Sprite {
         for (xtick in tickiter(xmin, xmax, xstep)) {
             var x = left + xToPx * (xtick - xmin);
             var t = new TextField();
-            t.text = Sprintf.format(xformat, [xtick]);
+            t.text = xformat + Std.string(xtick);
             t.width = 0;
             t.height = 20;
             t.x = x;
@@ -131,7 +130,7 @@ class Plotter extends Sprite {
         for (ytick in tickiter(ymin, ymax, ystep)) {
             var y = top + viewportHeight - yToPx * (ytick - ymin);
             var t = new TextField();
-            t.text = Sprintf.format(yformat, [ytick]);
+            t.text = yformat + Std.string(ytick);
             t.width = 0;
             t.height = 20;
             t.x = left - 2;
