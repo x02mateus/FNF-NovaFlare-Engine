@@ -178,7 +178,10 @@ class Plotter extends Sprite {
         }
     }
     
-    inline static function tickiter(min, max, step) return new TickIter(min, max, step)
+    inline static function tickiter(min:Float, max:Float, step:Float):TickIter 
+    { 
+        return new TickIter(min, max, step); 
+    }
 }
 
 /**
