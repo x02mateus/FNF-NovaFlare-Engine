@@ -6,6 +6,7 @@ import flash.text.TextField;
 import flash.text.TextFieldAutoSize;
 import audio.fft.FFTFilter;
 import audio.flash.widgets.Plotter;
+import lime.media.AudioBuffer;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import openfl.media.Sound;
@@ -18,7 +19,7 @@ class SpectrumViewer extends Sprite {
     // UI & child elements
     var plotter: Plotter;
     var statusText: TextField;
-    var musicBuffer: MusicBuffer;
+    var musicBuffer: AudioBuffer;
     var fftFilter: FFTFilter;
     var stopwatch: Stopwatch;
     
