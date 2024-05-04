@@ -47,7 +47,7 @@ class Display {
 	    if (data % 1 == 0) 
 	        if (isMemory && DataGet.memType == 'GB') returnString = Std.string(data) + '.00';
 	        else returnString = Std.string(data) + '.0';			
-	    else if ((data * 10) % 1 == 0 && isMemory && DataGet.memType == 'GB')) returnString = Std.string(data) + '0';						
+	    else if ((data * 10) % 1 == 0 && isMemory && DataGet.memType == 'GB') returnString = Std.string(data) + '0';						
 		else returnString = Std.string(data);
 		
 		return returnString;
