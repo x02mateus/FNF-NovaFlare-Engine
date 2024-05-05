@@ -22,14 +22,12 @@ body:
       required: true
   
   - type: dropdown
-    id: modding
+    id: preload
     attributes:
-      label: "Are you modding a build from source or with Lua?"
+      label: "Have you open preload state?"
       options:
-        - Lua
-        - Source
-        - Lua and Source
-        - I am not modding
+        - "Yes"
+        - "No"
     validations:
       required: true
 
