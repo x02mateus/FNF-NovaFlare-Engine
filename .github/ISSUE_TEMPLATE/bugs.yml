@@ -34,8 +34,8 @@ body:
     attributes:
       label: "Have you open preload state?"
       options:
-        - Yes
-        - No
+        - "Yes"
+        - "No"
     validations:
       required: true
 
