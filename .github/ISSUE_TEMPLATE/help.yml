@@ -20,6 +20,18 @@ body:
         - I am not modding
     validations:
       required: true
+  
+  - type: dropdown
+    id: modding
+    attributes:
+      label: "Are you modding a build from source or with Lua?"
+      options:
+        - Lua
+        - Source
+        - Lua and Source
+        - I am not modding
+    validations:
+      required: true
 
   - type: dropdown
     id: btarget

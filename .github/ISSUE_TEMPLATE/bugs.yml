@@ -28,6 +28,16 @@ body:
         - I am not modding
     validations:
       required: true
+  
+  - type: dropdown
+    id: modding
+    attributes:
+      label: "Have you open preload state?"
+      options:
+        - Yes
+        - No
+    validations:
+      required: true
 
   - type: dropdown
     id: btarget
