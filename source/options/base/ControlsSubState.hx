@@ -511,7 +511,6 @@ class ControlsSubState extends MusicBeatSubstate
 	var colorTween:FlxTween;
 	function swapMode()
 	{
-		FlxTween.cancelTweensOf(bg);
 		FlxTween.color(bg, 0.5, bg.color, onKeyboardMode ? gamepadColor : keyboardColor, {ease: FlxEase.linear});
 		onKeyboardMode = !onKeyboardMode;
 
