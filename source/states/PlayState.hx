@@ -728,11 +728,6 @@ class PlayState extends MusicBeatState
 		callOnScripts('onCreatePost');
 
 		cacheCountdown();
-
-		#if (!android)
-		addVirtualPad(NONE, P);
-    	addVirtualPadCamera(false);
-		#end				         
         
 		super.create();
 		Paths.clearUnusedMemory();
@@ -3365,9 +3360,7 @@ class PlayState extends MusicBeatState
 				invalidateNote(note);
 		});
 
-		noteMissCommon(daNote.noteData, daNote);
-		var result:Dynamic = callOnLuas('noteMiss', [notes.members.indexOf(daNote), daNote.noteData, daNote.noteType, daNote.isSustainNote]);
-		if(result != LuaUtils.Function_Stop && result != LuaUtils.Function_StopHScript && result != LuaUtils.Function_StopAll) callOnHScript('noteMiss', [daNote]);
+		noteMissCommon(daNote.noteData, daNote);		
 	}
 
 	public function noteMissPress(direction:Int = 1):Void //You pressed a key when there was no notes to press for this key
@@ -3425,8 +3418,8 @@ class PlayState extends MusicBeatState
 			
 			NoteMs.push(167);
 		    NoteTime.push(note.strumTime); //it will work better for ResultsScreen
-		}
-
+		}			
+		
 		if(instakillOnMiss)
 		{
 			vocals.volume = 0;
@@ -3447,6 +3440,9 @@ class PlayState extends MusicBeatState
 		if(!endingSong) songMisses++;
 		totalPlayed++;
 		RecalculateRating(true);
+		
+		var result:Dynamic = callOnLuas('noteMiss', [notes.members.indexOf(note), note.noteData, note.noteType, note.isSustainNote]);
+		if(result != LuaUtils.Function_Stop && result != LuaUtils.Function_StopHScript && result != LuaUtils.Function_StopAll) callOnHScript('noteMiss', [note]);
 
 		// play character anims
 		var char:Character = ClientPrefs.data.playOpponent ? dad : boyfriend;
