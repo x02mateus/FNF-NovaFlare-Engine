@@ -232,11 +232,11 @@ class MainMenuState extends MusicBeatState
 		#end
 		#end
 		
-		#if !android
+		#if !mobile
 		FlxG.mouse.visible = true;
 		#end
         
-		#if android
+		#if mobile
 		addVirtualPad(MainMenuStateC, A_B_E);
 		virtualPad.cameras = [camHUD];
 		#end		
@@ -358,7 +358,7 @@ class MainMenuState extends MusicBeatState
 				MusicBeatState.switchState(new TitleState());
 			}		
 				
-			else if (controls.justPressed('debug_1') #if mobile || virtualPad.buttonE.justPressed #end)
+			else if (controls.justPressed('debug_1') || virtualPad.buttonE.justPressed)
 			{
 				endCheck = true;
 				MusicBeatState.switchState(new MasterEditorMenu());
