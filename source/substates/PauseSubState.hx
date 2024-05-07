@@ -399,7 +399,6 @@ class PauseSubState extends MusicBeatSubstate
 			changeMenuColor();
 		}, 0);
 		
-		#if mobile
 		if (PlayState.chartingMode)
 		{
 			addVirtualPad(PauseSubstateC, A);
@@ -409,7 +408,6 @@ class PauseSubState extends MusicBeatSubstate
 			addVirtualPad(UP_DOWN, A);
 		}
 		addVirtualPadCamera(false);
-		#end
 		
 		cameras = [FlxG.cameras.list[FlxG.cameras.list.length - 1]];
 		
