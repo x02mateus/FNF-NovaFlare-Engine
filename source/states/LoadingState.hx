@@ -46,7 +46,6 @@ class LoadingState extends MusicBeatState
 	{
 		this.target = target;
 		this.stopMusic = stopMusic;		
-		addNote();
 		startThreads();
 		super();
 	}
@@ -182,8 +181,9 @@ class LoadingState extends MusicBeatState
 			note.updateHitbox();
 			note.playAnim('static');
 			strumNote.add(note);
-			note.alpha = 0;
+			note.alpha = 0.0001;
 		}
+		add(strumNote);
 		
 		normalNote = new FlxTypedGroup<Note>();
 		for (i in 0...Note.colArray.length)
@@ -200,7 +200,9 @@ class LoadingState extends MusicBeatState
 			note.rgbShader.enabled = ClientPrefs.data.noteRGB;
 			note.animation.play(Note.colArray[i] + 'Scroll');
 			normalNote.add(note);
+			note.alpha = 0.0001;
 		}
+		add(normalNote);
 		//用于正确读取note的切割	        		        	
 	}
 
@@ -242,7 +244,6 @@ class LoadingState extends MusicBeatState
 		
 		if(doPrecache)
 		{
-		    addNote();
 			startThreads();
 			while(true)
 			{
@@ -664,7 +665,9 @@ class LoadingState extends MusicBeatState
 	}
 	
 	static function preloadChart()
-	{	    
+	{	    	    
+	    addNote();
+	    
 	    Note.globalRgbShaders = [];
 		backend.NoteTypesConfig.clearNoteTypesData();
 		
