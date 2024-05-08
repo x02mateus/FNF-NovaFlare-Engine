@@ -167,8 +167,8 @@ class LoadingState extends MusicBeatState
 		finishedLoading = true;
 	}
 	
-	static  var strumNote:FlxTypedGroup<StrumNote>;
-	static  var normalNote:FlxTypedGroup<Note>;
+	static var strumNote:FlxTypedGroup<StrumNote>;
+	static var normalNote:FlxTypedGroup<Note>;
 	static function addNote()
 	{
 		strumNote = new FlxTypedGroup<StrumNote>();
@@ -185,6 +185,22 @@ class LoadingState extends MusicBeatState
 			note.alpha = 0;
 		}
 		
+		normalNote = new FlxTypedGroup<Note>();
+		for (i in 0...Note.colArray.length)
+		{
+			var note:Note = new Note(0, i);
+			note.x = 300 + (300 / Note.colArray.length) * i;
+			note.y = 75;
+			note.scale.x = 75 / note.frameWidth;
+			note.scale.y = 75 / note.frameHeight;
+			note.centerOffsets();
+			note.centerOrigin();
+			note.inEditor = true;
+			note.updateHitbox();
+			note.rgbShader.enabled = ClientPrefs.data.noteRGB;
+			note.animation.play(Note.colArray[i] + 'Scroll');
+			normalNote.add(note);
+		}
 		//用于正确读取note的切割	        		        	
 	}
 
