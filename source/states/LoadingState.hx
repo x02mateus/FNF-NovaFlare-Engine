@@ -183,7 +183,6 @@ class LoadingState extends MusicBeatState
 			strumNote.add(note);
 			note.alpha = 0.0001;
 		}
-		add(strumNote);
 		
 		normalNote = new FlxTypedGroup<Note>();
 		for (i in 0...Note.colArray.length)
@@ -202,7 +201,6 @@ class LoadingState extends MusicBeatState
 			normalNote.add(note);
 			note.alpha = 0.0001;
 		}
-		add(normalNote);
 		//用于正确读取note的切割	        		        	
 	}
 
