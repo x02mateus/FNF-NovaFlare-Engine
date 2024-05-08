@@ -325,7 +325,7 @@ class Note extends FlxSprite
 	}
 
 	var _lastNoteOffX:Float = 0;
-	static var _lastValidChecked:String = ''; //optimization
+	static var _lastValidChecked:String = '???'; //optimization
 	static var _modChecked:String = 'shits wdf'; //用于旧版剪头读取，如果mods不同会重新读取是否新的路径有贴图，实际上这个是用于优化加载，不用这个会导致每次普通剪头都要检查是否有贴图文件
 	public var originalHeight:Float = 6;
 	public var correctionOffset:Float = 0; //dont mess with this
