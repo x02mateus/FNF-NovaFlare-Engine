@@ -117,7 +117,7 @@ class Note extends FlxSprite
 	public var ratingMod:Float = 0; //9 = unknown, 0.25 = shit, 0.5 = bad, 0.75 = good, 1 = sick
 	public var ratingDisabled:Bool = false;
 
-	public var texture(default, set):String = '';	
+	public var texture(default, set):String = null;	
 	public var noteSplashTexture:String = null;  //just use fix old mods  XD
 
 	public var noAnimation:Bool = false;
@@ -234,7 +234,7 @@ class Note extends FlxSprite
 		this.noteData = noteData;
 
 		if(noteData > -1) {
-			reloadNote('');
+			texture = '';
 			rgbShader = new RGBShaderReference(this, initializeGlobalRGBShader(noteData));
 			if(PlayState.SONG != null && (PlayState.SONG.disableNoteRGB || !ClientPrefs.data.noteRGB)) rgbShader.enabled = false;
 
@@ -325,9 +325,8 @@ class Note extends FlxSprite
 	}
 
 	var _lastNoteOffX:Float = 0;
-	static var _lastValidChecked:String = '???'; //optimization
+	static var _lastValidChecked:String = ''; //optimization
 	static var _modChecked:String = 'shits wdf'; //用于旧版剪头读取，如果mods不同会重新读取是否新的路径有贴图，实际上这个是用于优化加载，不用这个会导致每次普通剪头都要检查是否有贴图文件
-	static var checkskin:String = '';
 	public var originalHeight:Float = 6;
 	public var correctionOffset:Float = 0; //dont mess with this
 	public function reloadNote(texture:String = '', postfix:String = '') {
@@ -365,8 +364,6 @@ class Note extends FlxSprite
 			_lastValidChecked = customSkin;
 		}
 		else skinPostfix = '';
-		
-		checkskin = skin;
 
 		if(PlayState.isPixelStage) {
 			if(isSustainNote) {
