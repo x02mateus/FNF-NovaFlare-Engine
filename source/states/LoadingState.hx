@@ -174,6 +174,7 @@ class LoadingState extends MusicBeatState
 		for (i in 0...Note.colArray.length)
 		{
 			var note:StrumNote = new StrumNote(300 + (300 / Note.colArray.length) * i, 0, i, 0);
+			note.reloadNote();
 			note.scale.x = 75 / note.frameWidth;
 			note.scale.y = 75 / note.frameHeight;
     		note.centerOffsets();
@@ -188,6 +189,7 @@ class LoadingState extends MusicBeatState
 		for (i in 0...Note.colArray.length)
 		{
 			var note:Note = new Note(0, i);
+			note.reloadNote();
 			note.x = 300 + (300 / Note.colArray.length) * i;
 			note.y = 75;
 			note.scale.x = 75 / note.frameWidth;
