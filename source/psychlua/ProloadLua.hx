@@ -23,7 +23,7 @@ import psychlua.HScript;
 import states.LoadingState;
 
 import flixel.input.keyboard.FlxKey;
-import flixel.input.LoadingStatepad.FlxLoadingStatepadInputID;
+import flixel.input.gamepad.FlxGamepadInputID;
 
 import haxe.Json;
 
