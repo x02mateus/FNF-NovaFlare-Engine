@@ -238,7 +238,7 @@ class LoadingState extends MusicBeatState
 			else if(ClientPrefs.data.middleScroll)
 			{
 				note.x += 310;
-				if(Std.int(songNotes[1] % 4) > 1) 
+				if(Std.int(i % 4) > 1) 
 					note.x += FlxG.width / 2 + 25;
 			}
 			endNote.push(note);			
