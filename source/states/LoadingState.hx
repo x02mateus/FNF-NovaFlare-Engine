@@ -650,9 +650,9 @@ class LoadingState extends MusicBeatState
             		var copyHoldNote:Array<Note> = [];
             		var copyEndNote:Array<Note> = [];
             		
-            		copyNormalNote.copyFrom(normalNote, 0, normalNote.length);
-            		copyHoldNote.copyFrom(holdNote, 0, holdNote.length);
-            		copyEndNote.copyFrom(endNote, 0, endNote.length);
+            		copyNormalNote.concat([normalNote]);           		
+            		copyHoldNote.concat([holdNote]);
+            		copyEndNote.concat([endNote]);
             		
             		if (ClientPrefs.data.filpChart) {
             		    if (daNoteData == 0) {
