@@ -647,9 +647,7 @@ class LoadingState extends MusicBeatState
 	
 	public static var unspawnNotes:Array<Note> = [];	
     public static var noteTypes:Array<String> = [];
-    public static var events:Array<Array<Dynamic>> = [];
-    
-    static var chartMutex:Mutex = new Mutex();
+    public static var events:Array<Array<Dynamic>> = [];    
 	
 	public static var songSpeed:Float = 1;	
 	public static var songSpeedType:String = "multiplicative";		
@@ -681,7 +679,7 @@ class LoadingState extends MusicBeatState
     	for (section in noteData)
     	{
     	    Thread.create(() -> {
-        	    chartMutex.acquire();                        	        
+        	    mutex.acquire();                        	        
         		for (songNotes in section.sectionNotes)
         		{      
     				var daStrumTime:Float = songNotes[0];
@@ -789,7 +787,7 @@ class LoadingState extends MusicBeatState
             		}
         		}
             unspawnNotes.sort(PlayState.sortByTime);
-    		chartMutex.release();      
+    		mutex.release();      
             loaded++;        
             });
         }
