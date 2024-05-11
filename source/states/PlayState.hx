@@ -319,7 +319,7 @@ class PlayState extends MusicBeatState
 	override public function create(){
 		   
 		//trace('Playback Rate: ' + playbackRate);
-		//if (!ClientPrefs.data.loadingScreen) Paths.clearStoredMemory();
+		if (!ClientPrefs.data.loadingScreen) Paths.clearStoredMemory();
 
 		startCallback = startCountdown;
 		endCallback = endSong;
@@ -730,7 +730,7 @@ class PlayState extends MusicBeatState
 		cacheCountdown();
         
 		super.create();
-		Paths.clearStoredMemory();
+		//Paths.clearStoredMemory();
 		Paths.clearUnusedMemory();
 
 		if(eventNotes.length < 1) checkEventNote();

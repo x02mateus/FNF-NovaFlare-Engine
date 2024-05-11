@@ -68,6 +68,8 @@ class LoadingState extends MusicBeatState
 	{
 		if (checkLoaded())
 			dontUpdate = true;					
+			
+		Paths.clearStoredMemory();
 
 		var bg = new FlxSprite().loadGraphic(Paths.image(filePath + 'loadScreen'));
 		bg.setGraphicSize(Std.int(FlxG.width));
@@ -161,92 +163,7 @@ class LoadingState extends MusicBeatState
 	    }
 		transitioning = true;
 		finishedLoading = true;
-	}
-	
-	static var normalNote:Array<Note> = [];
-	static var holdNote:Array<Note> = [];
-	static var endNote:Array<Note> = [];
-	static function addNote()
-	{
-		normalNote = holdNote = endNote = [];		
-		for (i in 0...Note.colArray.length * 2)
-		{
-		    var daData:Int = Std.int(i % 4);
-			var note:Note = new Note(0, daData, null, false, LoadingState);	
-			if (i > 3) note.mustPress = true;    	
-			if (note.mustPress)
-    		{    		 
-    			note.x += FlxG.width / 2; 
-    		}
-    		else if(ClientPrefs.data.middleScroll)
-    		{
-    			note.x += 310;
-    			if(daData > 1)
-    			{
-    				note.x += FlxG.width / 2 + 25;
-    			}
-    		}        		             		
-			normalNote.push(note);			
-		}
-		
-		for (i in 0...Note.colArray.length * 2)
-		{
-		    var daData:Int = Std.int(i % 4);
-			var note:Note = new Note(0, daData, null, true, LoadingState, true);	
-			note.correctionOffset = normalNote[i].height / 2;
-			if (i > 3) note.mustPress = true;    		    	
-			if(!PlayState.isPixelStage)
-			{		
-				note.scale.y *= Note.SUSTAIN_SIZE / note.frameHeight;
-				note.scale.y /= ClientPrefs.getGameplaySetting('songspeed');
-				note.updateHitbox();
-
-				if(ClientPrefs.data.downScroll)
-					note.correctionOffset = 0;
-			}	
-					
-			note.scale.y /= ClientPrefs.getGameplaySetting('songspeed');
-			note.updateHitbox();	
-
-			if (note.mustPress) note.x += FlxG.width / 2;
-			else if(ClientPrefs.data.middleScroll)
-			{
-				note.x += 310;
-				if(daData > 1) 
-					note.x += FlxG.width / 2 + 25;
-			}
-			holdNote.push(note);			
-		}
-		
-		for (i in 0...Note.colArray.length * 2)
-		{
-		    var daData:Int = Std.int(i % 4);
-			var note:Note = new Note(0, daData, null, true, LoadingState);	
-			note.correctionOffset = normalNote[i].height / 2;
-			if (i > 3) note.mustPress = true;    		    	
-			if(!PlayState.isPixelStage)
-			{		
-				note.scale.y *= Note.SUSTAIN_SIZE / note.frameHeight;
-				note.scale.y /= ClientPrefs.getGameplaySetting('songspeed');
-				note.updateHitbox();
-
-				if(ClientPrefs.data.downScroll)
-					note.correctionOffset = 0;
-			}	
-					
-			note.scale.y /= ClientPrefs.getGameplaySetting('songspeed');
-			note.updateHitbox();	
-
-			if (note.mustPress) note.x += FlxG.width / 2;
-			else if(ClientPrefs.data.middleScroll)
-			{
-				note.x += 310;
-				if(daData > 1) 
-					note.x += FlxG.width / 2 + 25;
-			}
-			endNote.push(note);			
-		}
-	}
+	}		
 
 	static function checkLoaded():Bool {
 		for (key => bitmap in requestedBitmaps)
@@ -787,6 +704,91 @@ class LoadingState extends MusicBeatState
             loaded++;        
             });
         }
+	}
+	
+	static var normalNote:Array<Note> = [];
+	static var holdNote:Array<Note> = [];
+	static var endNote:Array<Note> = [];
+	static function addNote()
+	{
+		normalNote = holdNote = endNote = [];		
+		for (i in 0...Note.colArray.length * 2)
+		{
+		    var daData:Int = Std.int(i % 4);
+			var note:Note = new Note(0, daData, null, false, LoadingState);	
+			if (i > 3) note.mustPress = true;    	
+			if (note.mustPress)
+    		{    		 
+    			note.x += FlxG.width / 2; 
+    		}
+    		else if(ClientPrefs.data.middleScroll)
+    		{
+    			note.x += 310;
+    			if(daData > 1)
+    			{
+    				note.x += FlxG.width / 2 + 25;
+    			}
+    		}        		             		
+			normalNote.push(note);			
+		}
+		
+		for (i in 0...Note.colArray.length * 2)
+		{
+		    var daData:Int = Std.int(i % 4);
+			var note:Note = new Note(0, daData, null, true, LoadingState, true);	
+			note.correctionOffset = normalNote[i].height / 2;
+			if (i > 3) note.mustPress = true;    		    	
+			if(!PlayState.isPixelStage)
+			{		
+				note.scale.y *= Note.SUSTAIN_SIZE / note.frameHeight;
+				note.scale.y /= ClientPrefs.getGameplaySetting('songspeed');
+				note.updateHitbox();
+
+				if(ClientPrefs.data.downScroll)
+					note.correctionOffset = 0;
+			}	
+					
+			note.scale.y /= ClientPrefs.getGameplaySetting('songspeed');
+			note.updateHitbox();	
+
+			if (note.mustPress) note.x += FlxG.width / 2;
+			else if(ClientPrefs.data.middleScroll)
+			{
+				note.x += 310;
+				if(daData > 1) 
+					note.x += FlxG.width / 2 + 25;
+			}
+			holdNote.push(note);			
+		}
+		
+		for (i in 0...Note.colArray.length * 2)
+		{
+		    var daData:Int = Std.int(i % 4);
+			var note:Note = new Note(0, daData, null, true, LoadingState);	
+			note.correctionOffset = normalNote[i].height / 2;
+			if (i > 3) note.mustPress = true;    		    	
+			if(!PlayState.isPixelStage)
+			{		
+				note.scale.y *= Note.SUSTAIN_SIZE / note.frameHeight;
+				note.scale.y /= ClientPrefs.getGameplaySetting('songspeed');
+				note.updateHitbox();
+
+				if(ClientPrefs.data.downScroll)
+					note.correctionOffset = 0;
+			}	
+					
+			note.scale.y /= ClientPrefs.getGameplaySetting('songspeed');
+			note.updateHitbox();	
+
+			if (note.mustPress) note.x += FlxG.width / 2;
+			else if(ClientPrefs.data.middleScroll)
+			{
+				note.x += 310;
+				if(daData > 1) 
+					note.x += FlxG.width / 2 + 25;
+			}
+			endNote.push(note);			
+		}
 	}
 }
 
