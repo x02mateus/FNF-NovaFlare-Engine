@@ -29,13 +29,6 @@ import backend.Rating;
 import objects.Note.EventNote; //why
 import objects.*;
 
-#if LUA_ALLOWED
-import psychlua.*;
-#else
-import psychlua.LuaUtils;
-import psychlua.HScript;
-#end
-
 import sys.thread.Thread;
 import sys.thread.Mutex;
 
@@ -48,8 +41,6 @@ class LoadingState extends MusicBeatState
 	static var mutex:Mutex = new Mutex();
 	
 	static var isPlayState:Bool = false;
-	
-	#if LUA_ALLOWED public static var luaArray:Array<ProloadLua> = []; #end
 		
 	function new(target:FlxState, stopMusic:Bool)
 	{
@@ -181,25 +172,9 @@ class LoadingState extends MusicBeatState
 		finishedLoading = true;
 	}
 	
-	static var strumNote:FlxTypedGroup<StrumNote>;
 	static var normalNote:FlxTypedGroup<Note>;
 	static function addNote()
-	{
-		strumNote = new FlxTypedGroup<StrumNote>();
-		for (i in 0...Note.colArray.length)
-		{
-			var note:StrumNote = new StrumNote(300 + (300 / Note.colArray.length) * i, 0, i, 0);
-			note.reloadNote();
-			note.scale.x = 75 / note.frameWidth;
-			note.scale.y = 75 / note.frameHeight;
-    		note.centerOffsets();
-			note.centerOrigin();
-			note.updateHitbox();
-			note.playAnim('static');
-			strumNote.add(note);
-			note.alpha = 0.0001;
-		}
-		
+	{		
 		normalNote = new FlxTypedGroup<Note>();
 		for (i in 0...Note.colArray.length)
 		{
@@ -537,23 +512,20 @@ class LoadingState extends MusicBeatState
         imagesToPrepare.push('healthBar');
 	}
 	
-	public static function preloadScript(){		    
+	static function preloadScript(){	
         #if ((LUA_ALLOWED || HSCRIPT_ALLOWED) && sys)
-            
-            luaArray = [];
-            
     		for (folder in Mods.directoriesWithFile(Paths.getSharedPath(), 'scripts/'))
     			for (file in FileSystem.readDirectory(folder))
     			{
     				#if LUA_ALLOWED
     				
     				if(file.toLowerCase().endsWith('.lua'))
-    					startScriptNamed(folder + file);					
+    					scriptFilesCheck(folder + file);					
     				#end
                     
     				#if HSCRIPT_ALLOWED
     				if(file.toLowerCase().endsWith('.hx'))
-    					startScriptNamed(folder + file);
+    					scriptFilesCheck(folder + file);
     				#end    				
     			}
     		
@@ -563,12 +535,12 @@ class LoadingState extends MusicBeatState
     			{
     				#if LUA_ALLOWED
     				if(file.toLowerCase().endsWith('.lua'))
-    					startScriptNamed(folder + file);
+    					scriptFilesCheck(folder + file);
     				#end
                     
     				#if HSCRIPT_ALLOWED
     				if(file.toLowerCase().endsWith('.hx'))
-    					startScriptNamed(folder + file);
+    					scriptFilesCheck(folder + file);
     				#end    				
     			}
     			
@@ -582,7 +554,7 @@ class LoadingState extends MusicBeatState
 		#end	        	    	
 	}
 	
-	public static function startScriptNamed(luaFile:String)
+	static function startScriptNamed(luaFile:String)
 	{
 		#if MODS_ALLOWED
 		var luaToLoad:String = Paths.modFolders(luaFile);
@@ -595,98 +567,55 @@ class LoadingState extends MusicBeatState
 		if(Assets.exists(luaToLoad))
 		#end
 		{			
-			new ProloadLua(luaToLoad);		
+			scriptFilesCheck(luaToLoad);		
 		}
-		
-		callOnScripts('onCreatePost');
-		callOnScripts('onDestroy');
-		callOnScripts('onStepHit');
-		callOnScripts('onBeatHit');
-		callOnScripts('onSectionHit');
-		callOnScripts('onRecalculateRating');
-		callOnScripts('onMoveCamera');
-		callOnScripts('onUpdate');
-		callOnScripts('onUpdatePost');
-		callOnScripts('onUpdateScore');
-		callOnScripts('preUpdateScore');
-		callOnScripts('onSongStart');
-		callOnScripts('onEndSong');
-		callOnScripts('onStartCountdown');
-		callOnScripts('onCountdownStarted');
-		callOnScripts('onCountdownTick');
-		callOnScripts('onEvent');
-		callOnScripts('onEventPushed');
-		callOnScripts('eventEarlyTrigger');
-		callOnScripts('onNextDialogue');
-		callOnScripts('onSkipDialogue');
-		callOnScripts('onPause');
-		callOnScripts('onResume');
-		callOnScripts('goodNoteHit');
-		callOnScripts('goodNoteHitPre');
-		callOnScripts('opponentNoteHit');
-		callOnScripts('opponentNoteHitPre');
-		callOnScripts('onSpawnNote');
-		callOnScripts('noteMiss');
-		callOnScripts('noteMissPress');
-		callOnScripts('onKeyPress');
-		callOnScripts('onKeyPressPre');
-		callOnScripts('onKeyRelease');
-		callOnScripts('onKeyReleasePre');
-		callOnScripts('onGhostTap');
-		callOnScripts('onTimerCompleted');
-		callOnScripts('onTweenCompleted');
-		callOnScripts('onSoundFinished');
-		//what?
-	}
+	}	
 	
-	public static function callOnScripts(funcToCall:String, args:Array<Dynamic> = null, ignoreStops = false, exclusions:Array<String> = null, excludeValues:Array<Dynamic> = null):Dynamic {
-		var returnVal:Dynamic = LuaUtils.Function_Continue;
-		if(args == null) args = [];
-		if(exclusions == null) exclusions = [];
-		if(excludeValues == null) excludeValues = [LuaUtils.Function_Continue];
-
-		var result:Dynamic = callOnLuas(funcToCall, args, ignoreStops, exclusions, excludeValues);
-		//if(result == null || excludeValues.contains(result)) result = callOnHScript(funcToCall, args, ignoreStops, exclusions, excludeValues);
-		return result;
-	}
-
-	public static function callOnLuas(funcToCall:String, args:Array<Dynamic> = null, ignoreStops = false, exclusions:Array<String> = null, excludeValues:Array<Dynamic> = null):Dynamic {
-		var returnVal:Dynamic = LuaUtils.Function_Continue;
-		#if LUA_ALLOWED
-		if(args == null) args = [];
-		if(exclusions == null) exclusions = [];
-		if(excludeValues == null) excludeValues = [LuaUtils.Function_Continue];
-
-		var arr:Array<ProloadLua> = [];
-		for (script in luaArray)
-		{
-			if(script.closed)
-			{
-				arr.push(script);
-				continue;
-			}
-
-			if(exclusions.contains(script.scriptName))
-				continue;
-
-			var myValue:Dynamic = script.call(funcToCall, args);
-			if((myValue == LuaUtils.Function_StopLua || myValue == LuaUtils.Function_StopAll) && !excludeValues.contains(myValue) && !ignoreStops)
-			{
-				returnVal = myValue;
-				break;
-			}
-
-			if(myValue != null && !excludeValues.contains(myValue))
-				returnVal = myValue;
-
-			if(script.closed) arr.push(script);
-		}
-
-		if(arr.length > 0)
-			for (script in arr)
-				luaArray.remove(script);
-		#end
-		return returnVal;
+	static function scriptFilesCheck(path:String)
+	{    	
+    	var input:String = File.getContent(path);
+        var regex = ~/makeLuaSprite\('(\S+)', '(\S+)',.*?\)/g; // Global flag 'g' added for multiple matches
+        while (regex.match(input)) {
+            var result = regex.matched(2); // Extract the first capture group
+            imagesToPrepare.push(result); // Output each match
+            input = regex.matchedRight(); // Move to the next match
+        }
+    	
+    	var input:String = File.getContent(path);
+    	var regex = ~/makeAnimatedLuaSprite\('(\S+)', '(\S+)',.*?\)/g;
+    	while (regex.match(input)) {
+    	    var result = regex.matched(2);    
+    	    imagesToPrepare.push(result);
+    	    input = regex.matchedRight(); 
+    	}				
+    	
+    	var input:String = File.getContent(path);
+    	var regex = ~/precacheImage\('(\S+)'/g;
+    	while (regex.match(input)) {
+    	    var result = regex.matched(1); 
+    	    imagesToPrepare.push(result);
+    	    input = regex.matchedRight();
+    	}				    	
+    	
+    	var input:String = File.getContent(path);
+        var regex = ~/triggerEvent\('(\S+)', '(\S+)', '(\S+)',.*?\)/g;
+        while (regex.match(input)) {
+            var event = regex.matched(1);
+            var firstParam = regex.matched(2);
+            var secondParam = regex.matched(3);            
+            if (event == "Change Character") {              
+                preloadCharacter(secondParam);
+            }            
+            input = regex.matchedRight();
+        }
+    	
+    	var input:String = File.getContent(path);
+        var regex = ~/addCharacterToList\('(\S+)',.*?\)/g;
+        while (regex.match(input)) {    
+            var result = regex.matched(1);
+            preloadCharacter(result);
+            input = regex.matchedRight();
+        }
 	}
 	
 	public static var unspawnNotes:Array<Note> = [];	
@@ -725,7 +654,7 @@ class LoadingState extends MusicBeatState
     	    Thread.create(() -> {
         	    mutex.acquire();                        	        
         		for (songNotes in section.sectionNotes)
-        		{      
+        		{
     				var daStrumTime:Float = songNotes[0];
             		var daNoteData:Int = Std.int(songNotes[1] % 4);
             		var gottaHitNote:Bool = section.mustHitSection;
@@ -835,20 +764,6 @@ class LoadingState extends MusicBeatState
             loaded++;        
             });
         }
-	}
-	
-	override function destroy() {
-		#if LUA_ALLOWED
-		for (lua in luaArray)
-		{
-			lua.call('onDestroy', []);
-			lua.stop();
-		}
-		luaArray = [];
-		ProloadLua.customFunctions.clear();
-		#end
-		
-		realStart = false;
 	}
 }
 
