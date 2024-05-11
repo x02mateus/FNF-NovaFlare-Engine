@@ -48,7 +48,7 @@ class ProloadLua {
 		LuaL.openlibs(lua);
 
 		this.scriptName = scriptName.trim();
-		var game:LoadingState = LoadingState;
+		var game:FlxState = LoadingState;
 		game.luaArray.push(this);
 
 		var myFolder:Array<String> = this.scriptName.split('/');
@@ -187,7 +187,7 @@ class ProloadLua {
 
 	//main
 	public var lastCalledFunction:String = '';
-	public static var lastCalledScript:FunkinLua = null;
+	public static var lastCalledScript:ProloadLua = null;
 	public function call(func:String, args:Array<Dynamic>):Dynamic {
 		if(closed) return LuaUtils.Function_Continue;
 
@@ -263,21 +263,6 @@ class ProloadLua {
 		if(hscriptBase != null) hscriptBase.interp = null;
 		hscriptBase = null;
 		#end
-	}
-
-	function oldTweenFunction(tag:String, vars:String, tweenValue:Any, duration:Float, ease:String, funcName:String)
-	{
-		var target:Dynamic = LuaUtils.tweenPrepare(tag, vars);
-		if(target != null) {
-			PlayState.instance.modchartTweens.set(tag, FlxTween.tween(target, tweenValue, duration, {ease: LuaUtils.getTweenEaseByString(ease),
-				onComplete: function(twn:FlxTween) {
-					PlayState.instance.modchartTweens.remove(tag);
-					PlayState.instance.callOnLuas('onTweenCompleted', [tag, vars]);
-				}
-			}));
-		} else {
-			luaTrace('$funcName: Couldnt find object: $vars', false, false, FlxColor.RED);
-		}
 	}
 
 	public static function luaTrace(text:String, ignoreCheck:Bool = false, deprecated:Bool = false, color:FlxColor = FlxColor.WHITE) {
