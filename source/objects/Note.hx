@@ -208,7 +208,7 @@ class Note extends FlxSprite
 		return value;
 	}
 
-	public function new(strumTime:Float, noteData:Int, ?prevNote:Note, ?sustainNote:Bool = false, ?inEditor:Bool = false, ?createdFrom:Dynamic = null)
+	public function new(strumTime:Float, noteData:Int, ?prevNote:Note, ?sustainNote:Bool = false, ?inEditor:Bool = false, ?createdFrom:Dynamic = null, ?isEnd:Bool = false)
 	{
 		super();
 
@@ -251,7 +251,7 @@ class Note extends FlxSprite
 		if(prevNote != null)
 			prevNote.nextNote = this;
 
-		if (isSustainNote && prevNote != null)
+		if (isSustainNote && prevNote != null || isEnd)
 		{
 			alpha = 0.6;
 			multAlpha = 0.6;
