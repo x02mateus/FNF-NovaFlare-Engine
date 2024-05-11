@@ -208,7 +208,7 @@ class Note extends FlxSprite
 		return value;
 	}
 
-	public function new(strumTime:Float, noteData:Int, ?prevNote:Note, ?sustainNote:Bool = false, ?inEditor:Bool = false, ?createdFrom:Dynamic = null)
+	public function new(strumTime:Float, noteData:Int, ?prevNote:Note, ?sustainNote:Bool = false, ?inEditor:Bool = false, ?createdFrom:Dynamic = null, ?isHold:Bool = false)
 	{
 		super();
 
@@ -248,8 +248,9 @@ class Note extends FlxSprite
 
 		// trace(prevNote);
 
-		if(prevNote != null) prevNote.nextNote = this;
-
+		if (prevNote != null) prevNote.nextNote = this;
+		if (isHold) prevNote = this;
+		
 		if (isSustainNote && prevNote != null)
 		{
 			alpha = 0.6;
@@ -272,7 +273,7 @@ class Note extends FlxSprite
 			if (PlayState.isPixelStage)
 				offsetX += 30;
 
-			if (prevNote.isSustainNote)
+			if (prevNote.isSustainNote || isHold)
 			{
 				prevNote.animation.play(colArray[prevNote.noteData % colArray.length] + 'hold');
 
