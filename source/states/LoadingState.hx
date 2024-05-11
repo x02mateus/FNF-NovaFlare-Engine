@@ -49,7 +49,7 @@ class LoadingState extends MusicBeatState
 	
 	static var isPlayState:Bool = false;
 	
-	#if LUA_ALLOWED public var luaArray:Array<ProloadLua> = []; #end
+	#if LUA_ALLOWED public static var luaArray:Array<ProloadLua> = []; #end
 		
 	function new(target:FlxState, stopMusic:Bool)
 	{
@@ -537,8 +537,11 @@ class LoadingState extends MusicBeatState
         imagesToPrepare.push('healthBar');
 	}
 	
-	public static function preloadScript(){	
+	public static function preloadScript(){		    
         #if ((LUA_ALLOWED || HSCRIPT_ALLOWED) && sys)
+            
+            luaArray = [];
+            
     		for (folder in Mods.directoriesWithFile(Paths.getSharedPath(), 'scripts/'))
     			for (file in FileSystem.readDirectory(folder))
     			{
