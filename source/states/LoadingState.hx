@@ -29,6 +29,8 @@ import backend.Rating;
 import objects.Note.EventNote; //why
 import objects.*;
 
+import psychlua.ProloadLua;
+
 import sys.thread.Thread;
 import sys.thread.Mutex;
 
@@ -41,6 +43,8 @@ class LoadingState extends MusicBeatState
 	static var mutex:Mutex = new Mutex();
 	
 	static var isPlayState:Bool = false;
+	
+	#if LUA_ALLOWED public var luaArray:Array<ProloadLua> = []; #end
 		
 	function new(target:FlxState, stopMusic:Bool)
 	{
@@ -66,6 +70,8 @@ class LoadingState extends MusicBeatState
 	var intendedPercent:Float = 0;
 	var curPercent:Float = 0;
 	var precentText:FlxText;	
+	
+	var realStart:Bool = false;
 
 	override public function create()
 	{
@@ -116,6 +122,8 @@ class LoadingState extends MusicBeatState
 	{
 		super.update(elapsed);
 		if (dontUpdate) return;		
+		
+		if (!realStart) startThreads();
 
 		if (curPercent != intendedPercent)
 		{
@@ -308,10 +316,10 @@ class LoadingState extends MusicBeatState
 		}
 	}
 
-	static var imagesToPrepare:Array<String> = [];
-	static var soundsToPrepare:Array<String> = [];
-	static var musicToPrepare:Array<String> = [];
-	static var songsToPrepare:Array<String> = [];
+	public static var imagesToPrepare:Array<String> = [];
+	public static var soundsToPrepare:Array<String> = [];
+	public static var musicToPrepare:Array<String> = [];
+	public static var songsToPrepare:Array<String> = [];
 	public static function prepare(images:Array<String> = null, sounds:Array<String> = null, music:Array<String> = null)
 	{
 		if (images != null) imagesToPrepare = imagesToPrepare.concat(images);
@@ -379,6 +387,8 @@ class LoadingState extends MusicBeatState
 
 	public static function startThreads()
 	{
+	    realStart = true;
+	    
 		loadMax = imagesToPrepare.length
 		         + soundsToPrepare.length 
 		         + musicToPrepare.length 
@@ -460,7 +470,7 @@ class LoadingState extends MusicBeatState
 		});
 	}
 
-	inline private static function preloadCharacter(char:String, ?prefixVocals:String)
+	public static function preloadCharacter(char:String, ?prefixVocals:String)
 	{
 		try
 		{
@@ -564,7 +574,7 @@ class LoadingState extends MusicBeatState
 		#end	        	    	
 	}
 	
-	static function startScriptNamed(luaFile:String)
+	public static function startScriptNamed(luaFile:String)
 	{
 		#if MODS_ALLOWED
 		var luaToLoad:String = Paths.modFolders(luaFile);
@@ -577,72 +587,98 @@ class LoadingState extends MusicBeatState
 		if(Assets.exists(luaToLoad))
 		#end
 		{			
-			scriptFilesCheck(luaToLoad);		
+			new ProloadLua(luaToLoad);		
 		}
-	}	
+		
+		callOnScripts('onCreatePost');
+		callOnScripts('onDestroy');
+		callOnScripts('onStepHit');
+		callOnScripts('onBeatHit');
+		callOnScripts('onSectionHit');
+		callOnScripts('onRecalculateRating');
+		callOnScripts('onMoveCamera');
+		callOnScripts('onUpdate');
+		callOnScripts('onUpdatePost');
+		callOnScripts('onUpdateScore');
+		callOnScripts('preUpdateScore');
+		callOnScripts('onSongStart');
+		callOnScripts('onEndSong');
+		callOnScripts('onStartCountdown');
+		callOnScripts('onCountdownStarted');
+		callOnScripts('onCountdownTick');
+		callOnScripts('onEvent');
+		callOnScripts('onEventPushed');
+		callOnScripts('eventEarlyTrigger');
+		callOnScripts('onNextDialogue');
+		callOnScripts('onSkipDialogue');
+		callOnScripts('onPause');
+		callOnScripts('onResume');
+		callOnScripts('goodNoteHit');
+		callOnScripts('goodNoteHitPre');
+		callOnScripts('opponentNoteHit');
+		callOnScripts('opponentNoteHitPre');
+		callOnScripts('onSpawnNote');
+		callOnScripts('noteMiss');
+		callOnScripts('noteMissPress');
+		callOnScripts('onKeyPress');
+		callOnScripts('onKeyPressPre');
+		callOnScripts('onKeyRelease');
+		callOnScripts('onKeyReleasePre');
+		callOnScripts('onGhostTap');
+		callOnScripts('onTimerCompleted');
+		callOnScripts('onTweenCompleted');
+		callOnScripts('onSoundFinished');
+		//what?
+	}
 	
-	static function scriptFilesCheck(path:String)
-	{
-    	var input:String = File.getContent(path);    	
-    	var regex = ~/makeLuaSprite\('(\S+)', '(\S+)', .*?\)/g; // Global flag 'g' added for multiple matches 
-    	while (regex.match(input)) {
-    	    var result = regex.matched(2); // Extract the first capture group
-    	    result = StringTools.replace(result, "'", ""); 
-    	    imagesToPrepare.push(result); // Output each match 
-    	    input = regex.matchedRight(); // Move to the next match 
-    	}				
-    	
-    	var input:String = File.getContent(path);
-    	var regex = ~/makeAnimatedLuaSprite\('(\S+)', '(\S+)', .*?\)/g;
-    	while (regex.match(input)) {
-    	    var result = regex.matched(2);
-    	    result = StringTools.replace(result, "'", "");
-    	    imagesToPrepare.push(result);
-    	    input = regex.matchedRight(); 
-    	}				
-    	
-    	var input:String = File.getContent(path);
-    	var regex = ~/precacheImage\('(\S+)'/g;
-    	while (regex.match(input)) {
-    	    var result = regex.matched(1); 
-    	    result = StringTools.replace(result, "'", "");
-    	    imagesToPrepare.push(result);
-    	    input = regex.matchedRight();
-    	}				
-    	
-    	var input:String = File.getContent(path);
-        var regex = ~/triggerEvent\('(\S+)', '(\S+)', '(\S+)', .*?\)/g;
-    	while (regex.match(input)) {
-    	    var data = regex.matched(1);
-    	    data = StringTools.replace(data, "'", "");
-    	    if (data == 'Change Character'){
-    	        var result = regex.matched(3);
-    	        result = StringTools.replace(result, "'", "");
-    	        preloadCharacter(result);
-    	    }
-    	    input = regex.matchedRight(); 
-    	}				
-    	
-    	var input:String = File.getContent(path);
-        var regex = ~/triggerEvent\('(\S+)', '(\S+)', '(\S+)',.*?\)/g;
-        while (regex.match(input)) {
-            var event = regex.matched(1);
-            var firstParam = regex.matched(2);
-            var secondParam = regex.matched(3);            
-            if (event == "Change Character") {              
-                preloadCharacter(secondParam);
-            }            
-            input = regex.matchedRight();
-        }
-    	
-    	var input:String = File.getContent(path);
-        var regex = ~/addCharacterToList\('(\S+)',/;
-        while (regex.match(input)) {    
-            var result = regex.matched(1);
-            result = StringTools.replace(result, "'", "");
-            preloadCharacter(result);
-            input = regex.matchedRight();
-        }
+	static function callOnScripts(funcToCall:String, args:Array<Dynamic> = null, ignoreStops = false, exclusions:Array<String> = null, excludeValues:Array<Dynamic> = null):Dynamic {
+		var returnVal:Dynamic = LuaUtils.Function_Continue;
+		if(args == null) args = [];
+		if(exclusions == null) exclusions = [];
+		if(excludeValues == null) excludeValues = [LuaUtils.Function_Continue];
+
+		var result:Dynamic = callOnLuas(funcToCall, args, ignoreStops, exclusions, excludeValues);
+		if(result == null || excludeValues.contains(result)) result = callOnHScript(funcToCall, args, ignoreStops, exclusions, excludeValues);
+		return result;
+	}
+
+	static function callOnLuas(funcToCall:String, args:Array<Dynamic> = null, ignoreStops = false, exclusions:Array<String> = null, excludeValues:Array<Dynamic> = null):Dynamic {
+		var returnVal:Dynamic = LuaUtils.Function_Continue;
+		#if LUA_ALLOWED
+		if(args == null) args = [];
+		if(exclusions == null) exclusions = [];
+		if(excludeValues == null) excludeValues = [LuaUtils.Function_Continue];
+
+		var arr:Array<ProloadLua> = [];
+		for (script in luaArray)
+		{
+			if(script.closed)
+			{
+				arr.push(script);
+				continue;
+			}
+
+			if(exclusions.contains(script.scriptName))
+				continue;
+
+			var myValue:Dynamic = script.call(funcToCall, args);
+			if((myValue == LuaUtils.Function_StopLua || myValue == LuaUtils.Function_StopAll) && !excludeValues.contains(myValue) && !ignoreStops)
+			{
+				returnVal = myValue;
+				break;
+			}
+
+			if(myValue != null && !excludeValues.contains(myValue))
+				returnVal = myValue;
+
+			if(script.closed) arr.push(script);
+		}
+
+		if(arr.length > 0)
+			for (script in arr)
+				luaArray.remove(script);
+		#end
+		return returnVal;
 	}
 	
 	public static var unspawnNotes:Array<Note> = [];	
@@ -791,6 +827,18 @@ class LoadingState extends MusicBeatState
             loaded++;        
             });
         }
+	}
+	
+	override function destroy() {
+		#if LUA_ALLOWED
+		for (lua in luaArray)
+		{
+			lua.call('onDestroy', []);
+			lua.stop();
+		}
+		luaArray = [];
+		ProloadLua.customFunctions.clear();
+		#end
 	}
 }
 
