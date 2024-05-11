@@ -76,7 +76,7 @@ class LoadingState extends MusicBeatState
 	var curPercent:Float = 0;
 	var precentText:FlxText;	
 	
-	var realStart:Bool = false;
+	static var realStart:Bool = false;
 
 	override public function create()
 	{
@@ -332,8 +332,8 @@ class LoadingState extends MusicBeatState
 		if (music != null) musicToPrepare = musicToPrepare.concat(music);
 	}
 
-	static var dontPreloadDefaultVoices:Bool = false;
-	public static function prepareToSong()
+	public static var dontPreloadDefaultVoices:Bool = false;
+	public function prepareToSong()
 	{
 		if (!ClientPrefs.data.loadingScreen) return;
 		
@@ -537,7 +537,7 @@ class LoadingState extends MusicBeatState
         imagesToPrepare.push('healthBar');
 	}
 	
-	static function preloadScript(){	
+	function preloadScript(){	
         #if ((LUA_ALLOWED || HSCRIPT_ALLOWED) && sys)
     		for (folder in Mods.directoriesWithFile(Paths.getSharedPath(), 'scripts/'))
     			for (file in FileSystem.readDirectory(folder))
@@ -545,12 +545,12 @@ class LoadingState extends MusicBeatState
     				#if LUA_ALLOWED
     				
     				if(file.toLowerCase().endsWith('.lua'))
-    					scriptFilesCheck(folder + file);					
+    					startScriptNamed(folder + file);					
     				#end
                     
     				#if HSCRIPT_ALLOWED
     				if(file.toLowerCase().endsWith('.hx'))
-    					scriptFilesCheck(folder + file);
+    					startScriptNamed(folder + file);
     				#end    				
     			}
     		
@@ -560,12 +560,12 @@ class LoadingState extends MusicBeatState
     			{
     				#if LUA_ALLOWED
     				if(file.toLowerCase().endsWith('.lua'))
-    					scriptFilesCheck(folder + file);
+    					startScriptNamed(folder + file);
     				#end
                     
     				#if HSCRIPT_ALLOWED
     				if(file.toLowerCase().endsWith('.hx'))
-    					scriptFilesCheck(folder + file);
+    					startScriptNamed(folder + file);
     				#end    				
     			}
     			
@@ -579,7 +579,7 @@ class LoadingState extends MusicBeatState
 		#end	        	    	
 	}
 	
-	public static function startScriptNamed(luaFile:String)
+	public function startScriptNamed(luaFile:String)
 	{
 		#if MODS_ALLOWED
 		var luaToLoad:String = Paths.modFolders(luaFile);
@@ -636,18 +636,18 @@ class LoadingState extends MusicBeatState
 		//what?
 	}
 	
-	static function callOnScripts(funcToCall:String, args:Array<Dynamic> = null, ignoreStops = false, exclusions:Array<String> = null, excludeValues:Array<Dynamic> = null):Dynamic {
+	public function callOnScripts(funcToCall:String, args:Array<Dynamic> = null, ignoreStops = false, exclusions:Array<String> = null, excludeValues:Array<Dynamic> = null):Dynamic {
 		var returnVal:Dynamic = LuaUtils.Function_Continue;
 		if(args == null) args = [];
 		if(exclusions == null) exclusions = [];
 		if(excludeValues == null) excludeValues = [LuaUtils.Function_Continue];
 
 		var result:Dynamic = callOnLuas(funcToCall, args, ignoreStops, exclusions, excludeValues);
-		if(result == null || excludeValues.contains(result)) result = callOnHScript(funcToCall, args, ignoreStops, exclusions, excludeValues);
+		//if(result == null || excludeValues.contains(result)) result = callOnHScript(funcToCall, args, ignoreStops, exclusions, excludeValues);
 		return result;
 	}
 
-	static function callOnLuas(funcToCall:String, args:Array<Dynamic> = null, ignoreStops = false, exclusions:Array<String> = null, excludeValues:Array<Dynamic> = null):Dynamic {
+	public function callOnLuas(funcToCall:String, args:Array<Dynamic> = null, ignoreStops = false, exclusions:Array<String> = null, excludeValues:Array<Dynamic> = null):Dynamic {
 		var returnVal:Dynamic = LuaUtils.Function_Continue;
 		#if LUA_ALLOWED
 		if(args == null) args = [];
@@ -844,6 +844,8 @@ class LoadingState extends MusicBeatState
 		luaArray = [];
 		ProloadLua.customFunctions.clear();
 		#end
+		
+		realStart = false;
 	}
 }
 
