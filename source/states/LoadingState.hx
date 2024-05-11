@@ -29,7 +29,12 @@ import backend.Rating;
 import objects.Note.EventNote; //why
 import objects.*;
 
-import psychlua.ProloadLua;
+#if LUA_ALLOWED
+import psychlua.*;
+#else
+import psychlua.LuaUtils;
+import psychlua.HScript;
+#end
 
 import sys.thread.Thread;
 import sys.thread.Mutex;
