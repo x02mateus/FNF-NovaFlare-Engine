@@ -333,7 +333,7 @@ class LoadingState extends MusicBeatState
 	}
 
 	public static var dontPreloadDefaultVoices:Bool = false;
-	public function prepareToSong()
+	public static function prepareToSong()
 	{
 		if (!ClientPrefs.data.loadingScreen) return;
 		
@@ -537,7 +537,7 @@ class LoadingState extends MusicBeatState
         imagesToPrepare.push('healthBar');
 	}
 	
-	function preloadScript(){	
+	public static function preloadScript(){	
         #if ((LUA_ALLOWED || HSCRIPT_ALLOWED) && sys)
     		for (folder in Mods.directoriesWithFile(Paths.getSharedPath(), 'scripts/'))
     			for (file in FileSystem.readDirectory(folder))
@@ -579,7 +579,7 @@ class LoadingState extends MusicBeatState
 		#end	        	    	
 	}
 	
-	public function startScriptNamed(luaFile:String)
+	public static function startScriptNamed(luaFile:String)
 	{
 		#if MODS_ALLOWED
 		var luaToLoad:String = Paths.modFolders(luaFile);
@@ -636,7 +636,7 @@ class LoadingState extends MusicBeatState
 		//what?
 	}
 	
-	public function callOnScripts(funcToCall:String, args:Array<Dynamic> = null, ignoreStops = false, exclusions:Array<String> = null, excludeValues:Array<Dynamic> = null):Dynamic {
+	public static function callOnScripts(funcToCall:String, args:Array<Dynamic> = null, ignoreStops = false, exclusions:Array<String> = null, excludeValues:Array<Dynamic> = null):Dynamic {
 		var returnVal:Dynamic = LuaUtils.Function_Continue;
 		if(args == null) args = [];
 		if(exclusions == null) exclusions = [];
@@ -647,7 +647,7 @@ class LoadingState extends MusicBeatState
 		return result;
 	}
 
-	public function callOnLuas(funcToCall:String, args:Array<Dynamic> = null, ignoreStops = false, exclusions:Array<String> = null, excludeValues:Array<Dynamic> = null):Dynamic {
+	public static function callOnLuas(funcToCall:String, args:Array<Dynamic> = null, ignoreStops = false, exclusions:Array<String> = null, excludeValues:Array<Dynamic> = null):Dynamic {
 		var returnVal:Dynamic = LuaUtils.Function_Continue;
 		#if LUA_ALLOWED
 		if(args == null) args = [];
