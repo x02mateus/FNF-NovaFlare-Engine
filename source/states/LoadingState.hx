@@ -167,8 +167,7 @@ class LoadingState extends MusicBeatState
 	static var endNote:Array<Note> = [];
 	static function addNote()
 	{
-		normalNote = holdNote = endNote = [];
-		daStrumTime + (Conductor.stepCrochet * susNote), daNoteData, oldNote, true, LoadingState);
+		normalNote = holdNote = endNote = [];		
 		for (i in 0...Note.colArray.length * 2)
 		{
 			var note:Note = new Note(0, i, null, false, LoadingState);	
