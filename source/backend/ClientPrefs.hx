@@ -94,7 +94,7 @@ import states.TitleState;
 	public var dynamicColors:Bool = true;
 	public var needMobileControl:Bool = true; //work for desktop
 	public var hitboxLocation:String = 'Bottom';
-	public var hitboxSkin:String = 'Classic';
+	public var hitboxSkin:String = 'New';
 	public var controlsAlpha:Float = 0.6;
 	public var playControlsAlpha:Float = 0.2;
 	public var hideHitboxHints:Bool = false;
