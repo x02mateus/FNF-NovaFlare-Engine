@@ -13,6 +13,7 @@ import openfl.display.Shape;
 
 import flixel.addons.transition.FlxTransitionableState;
 import flixel.graphics.FlxGraphic;
+import flixel.FlxState;
 
 import states.editors.ChartingState;
 import states.FreeplayState;
