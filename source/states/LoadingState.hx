@@ -171,16 +171,17 @@ class LoadingState extends MusicBeatState
 		normalNote = holdNote = endNote = [];		
 		for (i in 0...Note.colArray.length * 2)
 		{
-			var note:Note = new Note(0, i, null, false, LoadingState);	
-			if (i > 3)
-    		{
-    		    note.mustPress = true;
+		    var daData:Int = Std.int(i % 4);
+			var note:Note = new Note(0, daData, null, false, LoadingState);	
+			if (i > 3) note.mustPress = true;    	
+			if (note.mustPress)
+    		{    		 
     			note.x += FlxG.width / 2; 
     		}
     		else if(ClientPrefs.data.middleScroll)
     		{
     			note.x += 310;
-    			if(Std.int(i % 4) > 1)
+    			if(daData > 1)
     			{
     				note.x += FlxG.width / 2 + 25;
     			}
@@ -190,7 +191,8 @@ class LoadingState extends MusicBeatState
 		
 		for (i in 0...Note.colArray.length * 2)
 		{
-			var note:Note = new Note(0, i, null, true, LoadingState, true);	
+		    var daData:Int = Std.int(i % 4);
+			var note:Note = new Note(0, daData, null, true, LoadingState, true);	
 			note.correctionOffset = normalNote[i].height / 2;
 			if (i > 3) note.mustPress = true;    		    	
 			if(!PlayState.isPixelStage)
@@ -210,7 +212,7 @@ class LoadingState extends MusicBeatState
 			else if(ClientPrefs.data.middleScroll)
 			{
 				note.x += 310;
-				if(Std.int(i % 4) > 1) 
+				if(daData > 1) 
 					note.x += FlxG.width / 2 + 25;
 			}
 			holdNote.push(note);			
@@ -218,7 +220,8 @@ class LoadingState extends MusicBeatState
 		
 		for (i in 0...Note.colArray.length * 2)
 		{
-			var note:Note = new Note(0, i, null, true, LoadingState);	
+		    var daData:Int = Std.int(i % 4);
+			var note:Note = new Note(0, daData, null, true, LoadingState);	
 			note.correctionOffset = normalNote[i].height / 2;
 			if (i > 3) note.mustPress = true;    		    	
 			if(!PlayState.isPixelStage)
@@ -238,7 +241,7 @@ class LoadingState extends MusicBeatState
 			else if(ClientPrefs.data.middleScroll)
 			{
 				note.x += 310;
-				if(Std.int(i % 4) > 1) 
+				if(daData > 1) 
 					note.x += FlxG.width / 2 + 25;
 			}
 			endNote.push(note);			
