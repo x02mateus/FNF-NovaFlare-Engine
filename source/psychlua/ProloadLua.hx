@@ -23,7 +23,7 @@ import psychlua.HScript;
 import states.LoadingState;
 
 import flixel.input.keyboard.FlxKey;
-import flixel.input.gamepad.FlxGamepadInputID;
+import flixel.input.LoadingStatepad.FlxLoadingStatepadInputID;
 
 import haxe.Json;
 
@@ -49,8 +49,7 @@ class ProloadLua {
 		LuaL.openlibs(lua);
 
 		this.scriptName = scriptName.trim();
-		var game:FlxState = LoadingState;
-		game.luaArray.push(this);
+		LoadingState.luaArray.push(this);
 
 		var myFolder:Array<String> = this.scriptName.split('/');
 		#if MODS_ALLOWED
@@ -63,14 +62,14 @@ class ProloadLua {
 			if(foundScript != null)
 			{
 				if(!ignoreAlreadyRunning)
-					for (luaInstance in game.luaArray)
+					for (luaInstance in LoadingState.luaArray)
 						if(luaInstance.scriptName == foundScript)
 						{
 							luaTrace('addLuaScript: The script "' + foundScript + '" is already running!');
 							return;
 						}
 
-				game.startScriptNamed(foundScript);
+				LoadingState.startScriptNamed(foundScript);
 				return;
 			}
 			luaTrace("addLuaScript: Script doesn't exist!", false, false, FlxColor.RED);
@@ -82,7 +81,7 @@ class ProloadLua {
 			if(foundScript != null)
 			{
 				if(!ignoreAlreadyRunning)
-					for (script in game.hscriptArray)
+					for (script in LoadingState.hscriptArray)
 						if(script.origin == foundScript)
 						{
 							luaTrace('addHScript: The script "' + foundScript + '" is already running!');
@@ -104,7 +103,7 @@ class ProloadLua {
 			var spr:FlxSprite = LuaUtils.getObjectDirectly(split[0]);
 			var animated = gridX != 0 || gridY != 0;
             
-            game.imagesToPrepare.push(image);			
+            LoadingState.imagesToPrepare.push(image);			
 		});				
 		
 		set("addCharacterToList", function(name:String, type:String) {
@@ -113,10 +112,10 @@ class ProloadLua {
 				case 'dad': charType = 1;
 				case 'gf' | 'girlfriend': charType = 2;
 			}
-			game.preloadCharacter(name);
+			LoadingState.preloadCharacter(name);
 		});
 		set("precacheImage", function(name:String, ?allowGPU:Bool = true) {
-			game.imagesToPrepare.push(name);	
+			LoadingState.imagesToPrepare.push(name);	
 		});
 		set("precacheSound", Paths.sound);
 		set("precacheMusic", Paths.music);
@@ -125,7 +124,7 @@ class ProloadLua {
 		set("triggerEvent", function(name:String, arg1:Dynamic, arg2:Dynamic) {
 			var value1:String = arg1;
 			var value2:String = arg2;
-			game.triggerEvent(name, value1, value2, Conductor.songPosition);
+			LoadingState.triggerEvent(name, value1, value2, Conductor.songPosition);
 			//trace('Triggered event: ' + name + ', ' + value1 + ', ' + value2);
 			return true;
 		});
@@ -136,18 +135,18 @@ class ProloadLua {
 
 		set("makeLuaSprite", function(tag:String, ?image:String = null, ?x:Float = 0, ?y:Float = 0) {
 			tag = tag.replace('.', '');
-			game.imagesToPrepare.push(image);	
+			LoadingState.imagesToPrepare.push(image);	
 		});
 		set("makeAnimatedLuaSprite", function(tag:String, ?image:String = null, ?x:Float = 0, ?y:Float = 0, ?spriteType:String = "sparrow") {
 			tag = tag.replace('.', '');
-			game.imagesToPrepare.push(image);	
+			LoadingState.imagesToPrepare.push(image);	
 		});									
 
 		set("playMusic", function(sound:String, volume:Float = 1, loop:Bool = false) {
-			game.musicToPrepare.push(sound);
+			LoadingState.musicToPrepare.push(sound);
 		});
 		set("playSound", function(sound:String, volume:Float = 1, ?tag:String = null) {
-			game.soundsToPrepare.push(sound);
+			LoadingState.soundsToPrepare.push(sound);
 		});		
         /*
 		#if DISCORD_ALLOWED DiscordClient.addLuaCallbacks(this); #end
