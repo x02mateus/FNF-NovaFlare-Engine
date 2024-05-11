@@ -640,10 +640,19 @@ class LoadingState extends MusicBeatState
     	    Thread.create(() -> {
         	    chartMutex.acquire();                        	        
         		for (songNotes in section.sectionNotes)
-        		{      
+        		{              		    
     				var daStrumTime:Float = songNotes[0];
             		var daNoteData:Int = Std.int(songNotes[1] % 4);
+            		var gottaHitNote:Bool = section.mustHitSection;
                     var dataFix:Int = 0;
+                    
+                    var copyNormalNote:Array<Note> = [];
+            		var copyHoldNote:Array<Note> = [];
+            		var copyEndNote:Array<Note> = [];
+            		
+            		copyNormalNote.copyFrom(normalNote, 0, normalNote.length);
+            		copyHoldNote.copyFrom(holdNote, 0, holdNote.length);
+            		copyEndNote.copyFrom(endNote, 0, endNote.length);
             		
             		if (ClientPrefs.data.filpChart) {
             		    if (daNoteData == 0) {
@@ -659,13 +668,19 @@ class LoadingState extends MusicBeatState
             		        daNoteData = 0;
             		    } 
             		}
+            		
+            		if (songNotes[1] > 3)
+            		{
+            			gottaHitNote = !section.mustHitSection;
+            		}
             
             		if (songNotes[1] > 3)
             		{
             			dataFix = 3;
             		}            		            		
                     
-                    var swagNote:Note = normalNote[daNoteData + dataFix];
+                    var swagNote:Note = copyNormalNote[daNoteData + dataFix];
+                    swagNote.mustPress = gottaHitNote;
                     swagNote.strumTime = daStrumTime;
             		swagNote.sustainLength = songNotes[2];
             		swagNote.gfNote = (section.gfSection && (songNotes[1]<4));
@@ -682,8 +697,9 @@ class LoadingState extends MusicBeatState
             			for (susNote in 0...floorSus + 1)
             			{            			                        			    
             				var sustainNote:Note; 
-            				if (susNote != floorSus) sustainNote = holdNote[daNoteData + dataFix];
-            				else sustainNote = endNote[daNoteData + dataFix];          
+            				if (susNote != floorSus) sustainNote = copyHoldNote[daNoteData + dataFix];
+            				else sustainNote = copyEndNote[daNoteData + dataFix];          
+            				sustainNote.mustPress = gottaHitNote;
             				sustainNote.strumTime = daStrumTime;  				            				
             				sustainNote.gfNote = (section.gfSection && (songNotes[1]<4));
             				sustainNote.noteType = swagNote.noteType;
