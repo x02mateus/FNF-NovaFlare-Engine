@@ -42,7 +42,7 @@ class ReflectionFunctions
 			if (MusicBeatState.instance.mobileControls != null 
 			&& myClass == 'flixel.FlxG' 
 			&& variable.indexOf('key') != -1
-			&& FlxG.mouse.pressed){
+			){
 			    var check:Dynamic;
 			    check = specialKeyCheck(variable); //fuck you old lua 🙃
 			    if (check != null) return check;
