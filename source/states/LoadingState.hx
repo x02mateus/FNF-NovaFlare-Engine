@@ -180,7 +180,7 @@ class LoadingState extends MusicBeatState
     		else if(ClientPrefs.data.middleScroll)
     		{
     			note.x += 310;
-    			if(i > 1)
+    			if(Std.int(i % 4) > 1)
     			{
     				note.x += FlxG.width / 2 + 25;
     			}
@@ -191,7 +191,7 @@ class LoadingState extends MusicBeatState
 		for (i in 0...Note.colArray.length * 2)
 		{
 			var note:Note = new Note(0, i, null, true, LoadingState, true);	
-			sustainNote.correctionOffset = normalNote[i].height / 2;
+			note.correctionOffset = normalNote[i].height / 2;
 			if (i > 3) note.mustPress = true;    		    	
 			if(!PlayState.isPixelStage)
 			{		
@@ -210,7 +210,7 @@ class LoadingState extends MusicBeatState
 			else if(ClientPrefs.data.middleScroll)
 			{
 				note.x += 310;
-				if(daNoteData > 1) 
+				if(Std.int(i % 4) > 1) 
 					note.x += FlxG.width / 2 + 25;
 			}
 			holdNote.push(note);			
@@ -219,7 +219,7 @@ class LoadingState extends MusicBeatState
 		for (i in 0...Note.colArray.length * 2)
 		{
 			var note:Note = new Note(0, i, null, true, LoadingState);	
-			sustainNote.correctionOffset = normalNote[i].height / 2;
+			note.correctionOffset = normalNote[i].height / 2;
 			if (i > 3) note.mustPress = true;    		    	
 			if(!PlayState.isPixelStage)
 			{		
@@ -238,7 +238,7 @@ class LoadingState extends MusicBeatState
 			else if(ClientPrefs.data.middleScroll)
 			{
 				note.x += 310;
-				if(daNoteData > 1) 
+				if(Std.int(songNotes[1] % 4) > 1) 
 					note.x += FlxG.width / 2 + 25;
 			}
 			endNote.push(note);			
