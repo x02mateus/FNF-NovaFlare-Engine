@@ -213,7 +213,7 @@ jobs:
       - name: Download Windows Build
         uses: actions/download-artifact@main
         with:
-           name: WindowsBuild
+           name: windowsBuild
            path: /home/runner
 
       - name: Publish The Release
