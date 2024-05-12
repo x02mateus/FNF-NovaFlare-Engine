@@ -164,7 +164,7 @@ class ClientPrefs {
 		'pause'			=> [ENTER, ESCAPE],
 		'reset'			=> [R],
 		
-		'volume_mute'	=> [#if mobile NONE #else ZERO #end],
+		'volume_mute'	=> [#if mobile F10 #else ZERO #end],
 		'volume_up'		=> [NUMPADPLUS, PLUS],
 		'volume_down'	=> [NUMPADMINUS, MINUS],
 		
