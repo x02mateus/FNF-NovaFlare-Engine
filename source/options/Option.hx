@@ -2328,19 +2328,12 @@ class MarvelousRating extends Option
 		description = desc;
 	}
 
-	override function left()
+	override function press()
 	{
 		ClientPrefs.data.marvelousRating = !ClientPrefs.data.marvelousRating;
 		display = updateDisplay();
     }
-    
-    override function right()
-	{
-		ClientPrefs.data.marvelousRating = !ClientPrefs.data.marvelousRating;
-		display = updateDisplay();
-    }
-    
-
+       
 	private override function updateDisplay():String
 	{
 		return "Marvelous Rating: " + (ClientPrefs.data.marvelousRating ? enable_O : disable_O);
@@ -2355,10 +2348,15 @@ class MarvelousSprite extends Option
 		description = desc;
 	}
 
-	override function press()
+	override function left()
 	{
 		ClientPrefs.data.marvelousSprite = !ClientPrefs.data.marvelousSprite;
 		display = updateDisplay();
+    }    
+    
+    override function right()
+	{
+		left();
     }    
 
 	private override function updateDisplay():String
