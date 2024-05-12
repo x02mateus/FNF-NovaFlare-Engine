@@ -167,12 +167,6 @@ class PlayState extends MusicBeatState
 	public var eventNotes:Array<EventNote> = [];
     public var extraEvents:Array<Array<Dynamic>> = [];
     
-    public static var isRestart:Bool = false;
-    
-    public static var saveNotes:Array<Note> = [];
-    public static var saveEvents:Array<Array<Dynamic>> = [];
-    public static var saveNoteType:Array<String> = [];
-    
 	public var camFollow:FlxObject;
 	private static var prevCamFollow:FlxObject;
 
@@ -1422,13 +1416,6 @@ class PlayState extends MusicBeatState
 					makeEvent(event, i);
 		}
 		
-		if (isRestart)
-		{
-		    unspawnNotes = saveNotes;
-		    noteTypes = saveNoteType;
-		    extraEvents = saveEvents;		    
-		}
-		
         if (unspawnNotes.length == 0){
     		for (section in noteData)
     		{
@@ -1551,15 +1538,7 @@ class PlayState extends MusicBeatState
 		    for (event in 0...extraEvents.length)
     			for (data in 0...extraEvents[event][1].length)
     				makeEvent(extraEvents[event], data);
-    	
-    	if (!isRestart)
-		{    
-            saveNotes = unspawnNotes;
-    		saveNoteType = noteTypes;		 
-            saveEvents = extraEvents;        
-    	}
-    	isRestart = false;  //close it		
-    		
+    				
 		generatedMusic = true;
 	}
 
