@@ -645,7 +645,6 @@ class PauseSubState extends MusicBeatSubstate
 						function(tmr:FlxTimer) close()
 					);
 				case 'Restart':
-				    PlayState.startOnTime = 0;
 					restartSong();
 				case 'Exit':
 					PlayState.deathCounter = 0;
@@ -698,10 +697,7 @@ class PauseSubState extends MusicBeatSubstate
 					}
 				case 'Leave':
 					closeMenu(
-						function(trm:FlxTimer) {
-						PlayState.startOnTime = 0;
-						restartSong();
-					    }
+						function(trm:FlxTimer) restartSong()
 					);
 					PlayState.chartingMode = false;
 				case 'Back':
@@ -930,7 +926,6 @@ class PauseSubState extends MusicBeatSubstate
 	public static function restartSong(noTrans:Bool = false)
 	{
 		PlayState.instance.paused = true; // For lua
-		PlayState.isRestart = true;
 		FlxG.sound.music.volume = 0;
 		PlayState.instance.vocals.volume = 0;
 		if(noTrans)
