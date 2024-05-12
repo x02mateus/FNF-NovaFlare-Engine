@@ -700,7 +700,7 @@ class PauseSubState extends MusicBeatSubstate
 					closeMenu(
 						function(trm:FlxTimer) {
 						PlayState.startOnTime = 0;
-						restartSong()
+						restartSong();
 					    }
 					);
 					PlayState.chartingMode = false;
