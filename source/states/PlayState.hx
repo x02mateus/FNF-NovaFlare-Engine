@@ -1551,10 +1551,13 @@ class PlayState extends MusicBeatState
 		    for (event in 0...extraEvents.length)
     			for (data in 0...extraEvents[event][1].length)
     				makeEvent(extraEvents[event], data);
-    				       
-        saveNotes = unspawnNotes;
-		saveNoteType = noteTypes;		 
-        saveEvents = extraEvents;        
+    	
+    	if (!isRestart)
+		{    
+            saveNotes = unspawnNotes;
+    		saveNoteType = noteTypes;		 
+            saveEvents = extraEvents;        
+    	}
     	isRestart = false;  //close it		
     		
 		generatedMusic = true;
