@@ -59,7 +59,7 @@ import states.TitleState;
 	public var shaders:Bool = true;
 	public var colorblindMode:Int = 0;
 	public var cacheOnGPU:Bool = #if !switch false #else true #end; //From Stilic	
-	public var loadingScreen:Bool = true;
+	public var loadingScreen:Bool = false;
 	public var antialiasing:Bool = true;
 	public var framerate:Int = 60;
 	public var autoPause:Bool = true;	
