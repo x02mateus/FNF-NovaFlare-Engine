@@ -59,6 +59,10 @@ import psychlua.HScript;
 import tea.SScript;
 #end
 
+#if cpp
+import cpp.NativeGc;
+#end
+
 /**
  * This is where all the Gameplay stuff happens and is managed
  *
@@ -734,6 +738,8 @@ class PlayState extends MusicBeatState
 		Paths.clearUnusedMemory();
 
 		if(eventNotes.length < 1) checkEventNote();
+		
+		NativeGc.enable(false);
 	}
 
 	function set_songSpeed(value:Float):Float
@@ -2814,6 +2820,7 @@ class PlayState extends MusicBeatState
 			}
 			else
 			{
+			    NativeGc.enable(true);
 				trace('WENT BACK TO FREEPLAY??');				
 				#if DISCORD_ALLOWED DiscordClient.resetClientID(); #end
 
