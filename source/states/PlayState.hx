@@ -739,7 +739,7 @@ class PlayState extends MusicBeatState
 
 		if(eventNotes.length < 1) checkEventNote();
 		NativeGc.enterGCFreeZone();
-		//NativeGc.setMinimumWorkingMemory(4 * 1024 * 1024 * 1024);
+	    NativeGc.setMinimumWorkingMemory(4 * 1024 * 1024 * 1024);
 	}
 
 	function set_songSpeed(value:Float):Float
