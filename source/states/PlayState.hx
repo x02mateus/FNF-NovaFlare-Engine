@@ -2820,7 +2820,7 @@ class PlayState extends MusicBeatState
 			}
 			else
 			{
-			    NativeGc.exitGCFreeZone();
+			    //NativeGc.exitGCFreeZone();
 			    //NativeGc.enable(true);
 				trace('WENT BACK TO FREEPLAY??');				
 				#if DISCORD_ALLOWED DiscordClient.resetClientID(); #end
