@@ -114,7 +114,7 @@ class Note extends FlxSprite
 	public var hitHealth:Float = 0.023;
 	public var missHealth:Float = 0.0475;
 	public var rating:String = 'unknown';
-	public var ratingMod:Float = 0; //9 = unknown, 0.25 = shit, 0.5 = bad, 0.75 = good, 1 = sick
+	public var ratingMod:Float = 0; //0 = unknown, 0.25 = shit, 0.5 = bad, 0.75 = good, 1 = sick
 	public var ratingDisabled:Bool = false;
 
 	public var texture(default, set):String = null;	
@@ -128,7 +128,12 @@ class Note extends FlxSprite
 	public var hitsoundDisabled:Bool = false;
 	public var hitsoundChartEditor:Bool = true;
 	public var hitsound:String = 'hitsound';
-
+	
+	public var noteSplashBrt:Int = 0;
+	public var noteSplashSat:Int = 0;
+	public var noteSplashHue:Int = 0;
+    // fix old lua😡
+    
 	private function set_multSpeed(value:Float):Float {
 		resizeByRatio(value / multSpeed);
 		multSpeed = value;
@@ -208,7 +213,7 @@ class Note extends FlxSprite
 		return value;
 	}
 
-	public function new(strumTime:Float, noteData:Int, ?prevNote:Note, ?sustainNote:Bool = false, ?inEditor:Bool = false, ?createdFrom:Dynamic = null, ?isHold:Bool = false)
+	public function new(strumTime:Float, noteData:Int, ?prevNote:Note, ?sustainNote:Bool = false, ?inEditor:Bool = false, ?createdFrom:Dynamic = null)
 	{
 		super();
 
@@ -248,8 +253,7 @@ class Note extends FlxSprite
 
 		// trace(prevNote);
 
-		if (prevNote != null) prevNote.nextNote = this;
-		if (isHold) prevNote = this;
+		if (prevNote != null) prevNote.nextNote = this;		
 		
 		if (isSustainNote && prevNote != null)
 		{
@@ -273,7 +277,7 @@ class Note extends FlxSprite
 			if (PlayState.isPixelStage)
 				offsetX += 30;
 
-			if (prevNote.isSustainNote || isHold)
+			if (prevNote.isSustainNote)
 			{
 				prevNote.animation.play(colArray[prevNote.noteData % colArray.length] + 'hold');
 
