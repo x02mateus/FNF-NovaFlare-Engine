@@ -1545,7 +1545,7 @@ class FreeplayState extends MusicBeatState {
 			barShadow.updateHitbox();
 			barShadow.color = songs[i].color;
 			barsArray.push(barShadow);
-		
+		    
 			var bar:FlxSprite = new FlxSprite().loadGraphic(Paths.image(filePath + 'songBar'));
 			add(bar);
 			bar.camera = camSong;
@@ -1563,9 +1563,11 @@ class FreeplayState extends MusicBeatState {
 			icon.y = songText.y + songText.height / 2 - icon.height / 2;
 			icon.updateHitbox();
 			icon.scrollFactor.set(1,1);
-			iconsArray.push(icon);
+			iconsArray.push(icon);						
 			
 			add(songText);
+			
+			songText.active = barShadow.active = bar.active = icon.active = false;
 			camSong.alpha = 0.6;
 		}
 	}
