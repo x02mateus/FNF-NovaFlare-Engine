@@ -573,16 +573,16 @@ class LoadingState extends MusicBeatState
 	
 	static function scriptFilesCheck(path:String)
 	{    	
-    	var input:String = File.getContent(path);
-        var regex = ~/makeLuaSprite\('(\S+)', '(\S+)',.*?\)/g; // Global flag 'g' added for multiple matches
+    	var input:String = File.getContent(path);      
+        var regex = /makeLuaSprite\(['"]([^'"]*)['"], ['"]([^'"]*)['"],.*?\)/g;
         while (regex.match(input)) {
             var result = regex.matched(2); // Extract the first capture group
             imagesToPrepare.push(result); // Output each match
             input = regex.matchedRight(); // Move to the next match
         }
     	
-    	var input:String = File.getContent(path);
-    	var regex = ~/makeAnimatedLuaSprite\('(\S+)', '(\S+)',.*?\)/g;
+    	var input:String = File.getContent(path);    
+    	var regex = /makeAnimatedLuaSprite\(['"]([^'"]*)['"], ['"]([^'"]*)['"],.*?\)/g;
     	while (regex.match(input)) {
     	    var result = regex.matched(2);    
     	    imagesToPrepare.push(result);
@@ -590,15 +590,15 @@ class LoadingState extends MusicBeatState
     	}				
     	
     	var input:String = File.getContent(path);
-    	var regex = ~/precacheImage\('(\S+)'/g;
+    	var regex = ~/precacheImage\(['"]([^'"]*)['"],.*?\)/g;
     	while (regex.match(input)) {
     	    var result = regex.matched(1); 
     	    imagesToPrepare.push(result);
     	    input = regex.matchedRight();
     	}				    	
     	
-    	var input:String = File.getContent(path);
-        var regex = ~/triggerEvent\('(\S+)', '(\S+)', '(\S+)',.*?\)/g;
+    	var input:String = File.getContent(path);        
+        var regex = ~/triggerEvent\(['"]([^'"]*)['"], ['"]([^'"]*)['"], ['"]([^'"]*)['"],.*?\)/g;
         while (regex.match(input)) {
             var event = regex.matched(1);
             var firstParam = regex.matched(2);
@@ -609,8 +609,8 @@ class LoadingState extends MusicBeatState
             input = regex.matchedRight();
         }
     	
-    	var input:String = File.getContent(path);
-        var regex = ~/addCharacterToList\('(\S+)',.*?\)/g;
+    	var input:String = File.getContent(path);       
+        var regex = ~/addCharacterToList\(['"]([^'"]*)['"],.*?\)/g;
         while (regex.match(input)) {    
             var result = regex.matched(1);
             preloadCharacter(result);
