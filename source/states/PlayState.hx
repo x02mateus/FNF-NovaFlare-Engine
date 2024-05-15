@@ -2114,12 +2114,15 @@ class PlayState extends MusicBeatState
 							{
 								if (((!daNote.mustPress && !cpuControlled_opponent && ClientPrefs.data.playOpponent) || (daNote.mustPress && !cpuControlled && !ClientPrefs.data.playOpponent))
 								 && !daNote.ignoreNote && !endingSong
-								 && (daNote.tooLate == true || daNote.wasGoodHit == false)								
+								 && (daNote.tooLate == true || daNote.wasGoodHit == false)		
+								 && !daNote.missed						
 								 )
-									noteMiss(daNote);
-									
-									daNote.active = daNote.visible = false;
-								    invalidateNote(daNote);                                 
+									noteMiss(daNote);																		                           
+							}
+							else if (Conductor.songPosition - daNote.strumTime > noteKillOffset * 1.5)
+							{
+							    daNote.active = daNote.visible = false;
+								invalidateNote(daNote);        
 							}
 						});
 					}
@@ -3428,6 +3431,7 @@ class PlayState extends MusicBeatState
 			NoteMs.push(167);
 		    NoteTime.push(note.strumTime); //it will work better for ResultsScreen
 		}			
+		note.missed = true;
 		
 		if(instakillOnMiss)
 		{
