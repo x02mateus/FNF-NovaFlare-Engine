@@ -738,7 +738,7 @@ class PlayState extends MusicBeatState
 		Paths.clearUnusedMemory();
 
 		if(eventNotes.length < 1) checkEventNote();
-		NativeGc.enterGCFreeZone();
+		//NativeGc.enterGCFreeZone();
 	    NativeGc.setMinimumWorkingMemory(4 * 1024 * 1024 * 1024);
 	}
 
