@@ -1216,25 +1216,8 @@ class PlayState extends MusicBeatState
 			var percent:Float = CoolUtil.floorDecimal(ratingPercent * 100, 2);
 			str += ' (${percent}%) - ${ratingFC}';
 		}
-
-		scoreTxt.text = 
-                "NPS: "
-		        + nps
-		        + " (Max: "
-		        + maxNPS
-		        + ")"
-		        + " | " // 	NPS
-		        + "Score: " + songScore
-		        + " | Misses: " + songMisses
-		        + " | Accuracy: " + Math.ceil(ratingPercent * 10000) / 100 + '%'
-		        + " | ";
-		        
-		        if (ratingName == 'N/A'){
-		            scoreTxt.text += 'N/A';
-		        }
-		        else {
-		            scoreTxt.text += '(' + ratingFC + ') ' + ratingName;
-		        }				
+		
+		scoreTxtUpdate();		
 
 		if (!miss && ClientPrefs.data.playOpponent ? !cpuControlled_opponent : !cpuControlled)
 			doScoreBop();
@@ -2177,26 +2160,8 @@ class PlayState extends MusicBeatState
 				
 			if (npsCheck != nps) {
 			
-			    npsCheck = nps;
-			
-			    scoreTxt.text = 
-                "NPS: "
-		        + nps
-		        + " (Max: "
-		        + maxNPS
-		        + ")"
-		        + " | " // 	NPS
-		        + "Score: " + songScore
-		        + " | Misses: " + songMisses
-		        + " | Accuracy: " + Math.ceil(ratingPercent * 10000) / 100 + '%'
-		        + " | ";
-		        
-		        if (ratingName == 'N/A'){
-		            scoreTxt.text += 'N/A';
-		        }
-		        else {
-		            scoreTxt.text += '(' + ratingFC + ') ' + ratingName;
-		        }
+			    npsCheck = nps;			    
+			    scoreTxtUpdate();				  
 			}
 		}
 
@@ -2208,6 +2173,30 @@ class PlayState extends MusicBeatState
 			shaderUpdate(elapsed);
         #end
 		callOnScripts('onUpdatePost', [elapsed]);
+    }
+    
+    public function scoreTxtUpdate()
+    {
+        scoreTxt.text = 
+                "NPS: "
+		        + nps
+		        + " (Max: "
+		        + maxNPS
+		        + ")";
+		        
+		        if (ClientPrefs.data.playOpponent ? !cpuControlled_opponent : !cpuControlled)
+		        scoreTxt.text += " | "
+                		     + "Score: " + songScore
+                		     + " | Misses: " + songMisses
+                		     + " | Accuracy: " + Math.ceil(ratingPercent * 10000) / 100 + '%'
+                		     + " | ";
+                		        
+                		     if (ratingName == 'N/A'){
+                		         scoreTxt.text += 'N/A';
+                		     }
+                		     else {
+                		         scoreTxt.text += '(' + ratingFC + ') ' + ratingName;
+                		     }            
     }
 
 	// Health icon updaters
