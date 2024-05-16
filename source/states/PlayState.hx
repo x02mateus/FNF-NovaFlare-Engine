@@ -2093,7 +2093,12 @@ class PlayState extends MusicBeatState
 							if(daNote.isSustainNote && strum.sustainReduce) daNote.clipToStrumNote(strum);
 
 							// Kill extremely late notes and cause misses
-							if (Conductor.songPosition - daNote.strumTime > noteKillOffset)
+							if (Conductor.songPosition - daNote.strumTime > noteKillOffset * 1.5)
+							{
+							    daNote.active = daNote.visible = false;
+								invalidateNote(daNote);        
+							}
+							else if (Conductor.songPosition - daNote.strumTime > noteKillOffset)
 							{
 								if (((!daNote.mustPress && !cpuControlled_opponent && ClientPrefs.data.playOpponent) || (daNote.mustPress && !cpuControlled && !ClientPrefs.data.playOpponent))
 								 && !daNote.ignoreNote && !endingSong
@@ -2102,11 +2107,7 @@ class PlayState extends MusicBeatState
 								 )
 									noteMiss(daNote);																		                           
 							}
-							else if (Conductor.songPosition - daNote.strumTime > noteKillOffset * 1.5)
-							{
-							    daNote.active = daNote.visible = false;
-								invalidateNote(daNote);        
-							}
+							
 						});
 					}
 					else
@@ -2185,6 +2186,7 @@ class PlayState extends MusicBeatState
 		        + ")";
 		        
 		        if (ClientPrefs.data.playOpponent ? !cpuControlled_opponent : !cpuControlled)
+		        {
 		        scoreTxt.text += " | "
                 		     + "Score: " + songScore
                 		     + " | Misses: " + songMisses
@@ -2197,6 +2199,7 @@ class PlayState extends MusicBeatState
                 		     else {
                 		         scoreTxt.text += '(' + ratingFC + ') ' + ratingName;
                 		     }            
+                }
     }
 
 	// Health icon updaters
