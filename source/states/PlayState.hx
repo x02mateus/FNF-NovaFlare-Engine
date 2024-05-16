@@ -3176,7 +3176,7 @@ class PlayState extends MusicBeatState
 			var canHit:Bool = !strumsBlocked[n.noteData] && n.canBeHit && ((n.mustPress && !ClientPrefs.data.playOpponent) || (!n.mustPress && ClientPrefs.data.playOpponent)) && !n.tooLate && !n.wasGoodHit && !n.blockHit;
 			return n != null && canHit && !n.isSustainNote && n.noteData == key;
 		});
-		plrInputNotes.sort(sortHitNotes);
+		//plrInputNotes.sort(sortHitNotes);
 
 		var shouldMiss:Bool = !ClientPrefs.data.ghostTapping;
 
@@ -3190,7 +3190,7 @@ class PlayState extends MusicBeatState
 					// if the note has a 0ms distance (is on top of the current note), kill it
 					if (Math.abs(doubleNote.strumTime - funnyNote.strumTime) < 1.0)
 						invalidateNote(doubleNote);
-					else if (doubleNote.strumTime > funnyNote.strumTime && !doubleNote.hitCausesMiss && !doubleNote.ignoreNote)
+					else if (doubleNote.strumTime > funnyNote.strumTime && !doubleNote.hitCausesMiss && !doubleNote.ignoreNote && (funnyNote.hitCausesMiss || funnyNote.ignoreNote))
 					{
 						// replace the note if its ahead of time (or at least ensure "doubleNote" is ahead)
 						funnyNote = doubleNote;
