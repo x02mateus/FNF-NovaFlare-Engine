@@ -9,7 +9,7 @@ import flixel.addons.transition.FlxTransitionableState;
 class FlashingState extends MusicBeatState
 {
 	public static var leftState:Bool = false;
-
+    var pressed:Bool = false;
 	var warnText:FlxText;
 	override function create()
 	{
@@ -40,8 +40,11 @@ class FlashingState extends MusicBeatState
 
 	override function update(elapsed:Float)
 	{
+	    if (pressed) return;
+	    
 		var back:Bool = controls.BACK;
 		if (controls.ACCEPT || back) {
+		    pressed = true;
 			FlxTransitionableState.skipNextTransIn = true;
 			FlxTransitionableState.skipNextTransOut = true;
 			if(!back) {

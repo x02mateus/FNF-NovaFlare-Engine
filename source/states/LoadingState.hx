@@ -646,7 +646,7 @@ class LoadingState extends MusicBeatState
 	}
 	
 	static function preloadChart()
-	{	    	    
+	{
 	    addNote();
 	    
 	    Note.globalRgbShaders = [];
@@ -747,6 +747,8 @@ class LoadingState extends MusicBeatState
             					if(daNoteData > 1) //Up and Right
             						sustainNote.x += FlxG.width / 2 + 25;
             				}
+            				
+            				sustainNote.updateHitbox();
             			}
             		}
             
@@ -766,6 +768,7 @@ class LoadingState extends MusicBeatState
             		if(!noteTypes.contains(swagNote.noteType)) {
             			noteTypes.push(swagNote.noteType);                
             		}
+            		swagNote..updateHitbox();
         		}
             unspawnNotes.sort(PlayState.sortByTime);
     		mutex.release();      
