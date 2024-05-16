@@ -217,7 +217,7 @@ class Main extends Sprite
 			FlxG.fullscreen = !FlxG.fullscreen;
 	}
 	
-	public static updateWatermark()
+	public static function updateWatermark()
 	{
 	    var image:String = Paths.modFolders('images/menuExtend/Others/watermark.png');
 	    	    
