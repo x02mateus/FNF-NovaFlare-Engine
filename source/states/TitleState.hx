@@ -136,9 +136,7 @@ class TitleState extends MusicBeatState
             #end
 		#end
 				
-		Mods.loadTopMod();
-		
-		Main.updateWatermark();
+		Mods.loadTopMod();		
 
 		#if CHECK_FOR_UPDATES
 		if(ClientPrefs.data.checkForUpdates && !closedState) {
