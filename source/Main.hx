@@ -162,7 +162,22 @@ class Main extends Sprite
 		FlxG.fullscreen = true;
 		#end
 		
-		updateWatermark();	    				
+		var image:String = Paths.modFolders('images/menuExtend/Others/watermark.png');
+	    	    
+	    if (FileSystem.exists(image)) {
+	        if(watermark != null) removeChild(watermark);    	
+    	    watermark = new Watermark(
+    	    5,
+    	    Lib.current.stage.stageHeight - 5,
+    	    0.4);	    
+    		addChild(watermark);    		
+    		watermark.y -= watermark.bitmapData.height;
+		}
+		if(watermark != null) {
+		    watermark.scaleX = watermark.scaleY = ClientPrefs.data.WatermarkScale;
+		    watermark.y += (1 - ClientPrefs.data.WatermarkScale) * watermark.bitmapData.height;
+			watermark.visible = ClientPrefs.data.showWatermark;
+		}								
 
 		#if linux
 		var icon = Image.fromFile("icon.png");
@@ -215,25 +230,5 @@ class Main extends Sprite
 	function toggleFullScreen(event:KeyboardEvent){
 		if(Controls.instance.justReleased('fullscreen'))
 			FlxG.fullscreen = !FlxG.fullscreen;
-	}
-	
-	public static function updateWatermark()
-	{
-	    var image:String = Paths.modFolders('images/menuExtend/Others/watermark.png');
-	    	    
-	    if (FileSystem.exists(image)) {
-	        if(watermark != null) removeChild(watermark);    	
-    	    watermark = new Watermark(
-    	    5,
-    	    Lib.current.stage.stageHeight - 5,
-    	    0.4);	    
-    		addChild(watermark);    		
-    		watermark.y -= watermark.bitmapData.height;
-		}
-		if(watermark != null) {
-		    watermark.scaleX = watermark.scaleY = ClientPrefs.data.WatermarkScale;
-		    watermark.y += (1 - ClientPrefs.data.WatermarkScale) * watermark.bitmapData.height;
-			watermark.visible = ClientPrefs.data.showWatermark;
-		}				
 	}
 }
