@@ -3176,7 +3176,7 @@ class PlayState extends MusicBeatState
 			var canHit:Bool = !strumsBlocked[n.noteData] && n.canBeHit && ((n.mustPress && !ClientPrefs.data.playOpponent) || (!n.mustPress && ClientPrefs.data.playOpponent)) && !n.tooLate && !n.wasGoodHit && !n.blockHit;
 			return n != null && canHit && !n.isSustainNote && n.noteData == key;
 		});
-		//plrInputNotes.sort(sortHitNotes);
+		plrInputNotes.sort(sortHitNotes);
 
 		var shouldMiss:Bool = !ClientPrefs.data.ghostTapping;
 
@@ -3190,7 +3190,7 @@ class PlayState extends MusicBeatState
 					// if the note has a 0ms distance (is on top of the current note), kill it
 					if (Math.abs(doubleNote.strumTime - funnyNote.strumTime) < 1.0)
 						invalidateNote(doubleNote);
-					else if (doubleNote.strumTime < funnyNote.strumTime
+					else if (doubleNote.strumTime > funnyNote.strumTime
 					       && !doubleNote.hitCausesMiss 
 					       && !doubleNote.ignoreNote 
 					       && (funnyNote.hitCausesMiss || funnyNote.ignoreNote))
@@ -3249,10 +3249,12 @@ class PlayState extends MusicBeatState
 
 	public static function sortHitNotes(a:Note, b:Note):Int
 	{
+	    /*
 		if (a.lowPriority && !b.lowPriority)
 			return 1;
 		else if (!a.lowPriority && b.lowPriority)
 			return -1;
+		*/
 
 		return FlxSort.byValues(FlxSort.ASCENDING, a.strumTime, b.strumTime);
 	}
