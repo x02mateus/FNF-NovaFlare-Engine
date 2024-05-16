@@ -768,7 +768,7 @@ class LoadingState extends MusicBeatState
             		if(!noteTypes.contains(swagNote.noteType)) {
             			noteTypes.push(swagNote.noteType);                
             		}
-            		swagNote..updateHitbox();
+            		swagNote.updateHitbox();
         		}
             unspawnNotes.sort(PlayState.sortByTime);
     		mutex.release();      
