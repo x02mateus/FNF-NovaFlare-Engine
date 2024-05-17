@@ -349,7 +349,7 @@ class LoadingState extends MusicBeatState
 		         + soundsToPrepare.length 
 		         + musicToPrepare.length 
 		         + songsToPrepare.length 
-		         + PlayState.SONG.notes.length;       
+		         + 32;       
 		loaded = 0;
 
 		//then start threads
