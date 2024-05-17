@@ -29,8 +29,7 @@ import backend.Rating;
 import objects.Note.EventNote; //why
 import objects.*;
 
-import sys.thread.Thread;
-import sys.thread.Mutex;
+import sys.thread.*;
 
 class LoadingState extends MusicBeatState
 {
@@ -615,7 +614,7 @@ class LoadingState extends MusicBeatState
     public static var noteTypes:Array<String> = [];
     public static var events:Array<Array<Dynamic>> = [];    
     
-	public static var chartMutex:Array<Mutex> = [];	
+	public static var chartCondition:Array<Mutex> = [];	
 	public static var plistChart:Array<Int> = [];
 	
 	public static var songSpeed:Float = 1;	
@@ -641,7 +640,7 @@ class LoadingState extends MusicBeatState
 	    unspawnNotes = [];    	        	   	    
 	    noteTypes = [];
 	    plistChart = [];
-	    chartMutex = [];
+	    chartCondition = [];
 	        
 	    var noteData:Array<SwagSection> =  PlayState.SONG.notes;	   	    	            
     	
@@ -650,7 +649,7 @@ class LoadingState extends MusicBeatState
     	for (bigSection in 0...32)
     	{
     	    Thread.create(() -> {
-    	        chartMutex[bigSection].acquire();  
+    	        chartCondition[bigSection].wait();
     	        
     	        var unspawnNotes:Array<Note> = [];	
     	        var noteTypes:Array<String> = [];
@@ -770,23 +769,18 @@ class LoadingState extends MusicBeatState
                     unspawnNotes.sort(PlayState.sortByTime);            		                
                 }
                 pushData(unspawnNotes, noteTypes);
-                chartMutex[bigSection].release();      
+                chartCondition[bigSection].signal();
                 loaded++;            
             });
         }
 	}
 	
 	static function addMutex(chart:Array<SwagSection>)
-	{		
-		 for (plist in 0...32)      	
-		 {
-		    var mutex:Mutex = new Mutex();
-		    chartMutex.push(mutex);		 
-		 }   
-		 
+	{						 
 		 var bigSection:Int = Std.int(chart.length / 32);
-		 for (plist in 0...32 + 1)
+		 for (plist in 0...33)
 		 {	
+		    chartCondition.push(new Condition());		
 		    if (plist != 32) plistChart.push(bigSection * plist);   
 		    else plistChart.push(chart.length);		 		 
 		 }
@@ -794,7 +788,7 @@ class LoadingState extends MusicBeatState
 	
 	static function pushData(chart:Array<Note>, types:Array<String>)
 	{
-	    mutex.acquire();
+	    chartCondition[32].wait();
 	    for (i in 0...chart.length)
 	        unspawnNotes.push(chart[i]);
 	    unspawnNotes.sort(PlayState.sortByTime);  
@@ -802,7 +796,7 @@ class LoadingState extends MusicBeatState
 	    for (i in 0...types.length)
 	        if(!noteTypes.contains(types[i]))
                     noteTypes.push(types[i]);                                
-	    mutex.release();
+	    chartCondition[32].signal();
 	}
 }
 
