@@ -368,7 +368,6 @@ class LoadingState extends MusicBeatState
 		    var image = imagesToPrepare[images];
 			Thread.create(() -> {
 				mutex.acquire();
-				loaded++;
 				if (images == imagesToPrepare.length - 1) startChartLoad = true;
 				try {
 					var bitmap:BitmapData;
@@ -410,6 +409,7 @@ class LoadingState extends MusicBeatState
 					mutex.release();
 					trace('ERROR! fail on preloading image $image');
 				}				
+				loaded++;
 			});		
         }
 		setSpeed();		
