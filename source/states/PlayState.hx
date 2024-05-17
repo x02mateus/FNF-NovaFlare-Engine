@@ -2106,8 +2106,7 @@ class PlayState extends MusicBeatState
 								 && !daNote.missed						
 								 )
 									noteMiss(daNote);																		                           
-							}
-							
+							}							
 						});
 					}
 					else

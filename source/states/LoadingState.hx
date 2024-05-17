@@ -646,8 +646,9 @@ class LoadingState extends MusicBeatState
     	        var unspawnNotes:Array<Note> = [];	
     	        var noteTypes:Array<String> = [];
     	            	   
-            	for (section in plistChart[bigSection]...plistChart[bigSection + 1])
-            	{            	                     	        
+            	for (smallSection in plistChart[bigSection]...plistChart[bigSection + 1])
+            	{   
+            	    var section = noteData[smallSection];        	                     	        
             		for (songNotes in section.sectionNotes)
             		{
         				var daStrumTime:Float = songNotes[0];
