@@ -37,7 +37,7 @@ class LoadingState extends MusicBeatState
 	public static var loaded:Int = 0;
 	public static var loadMax:Int = 0;
     
-    var startChartLoad:Bool = false;
+    public static var startChartLoad:Bool = false;
 	static var requestedBitmaps:Map<String, BitmapData> = [];
 	static var mutex:Mutex = new Mutex();
 	
