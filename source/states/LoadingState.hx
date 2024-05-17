@@ -614,7 +614,7 @@ class LoadingState extends MusicBeatState
     public static var noteTypes:Array<String> = [];
     public static var events:Array<Array<Dynamic>> = [];    
     
-	public static var chartCondition:Array<Mutex> = [];	
+	public static var chartCondition:Array<Condition> = [];	
 	public static var plistChart:Array<Int> = [];
 	
 	public static var songSpeed:Float = 1;	
