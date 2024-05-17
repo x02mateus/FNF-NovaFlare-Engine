@@ -24,6 +24,7 @@ import flixel.addons.ui.FlxInputText;
 import flixel.util.FlxStringUtil;
 import flixel.sound.FlxSound;
 import flixel.ui.FlxBar;
+import flixel.math.FlxRect;
 
 #if MODS_ALLOWED
 import sys.FileSystem;
