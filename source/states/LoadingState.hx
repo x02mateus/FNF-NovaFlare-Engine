@@ -649,7 +649,7 @@ class LoadingState extends MusicBeatState
     	for (bigSection in 0...32)
     	{
     	    Thread.create(() -> {
-    	        chartCondition[bigSection].wait();
+    	        chartCondition[bigSection].acquire();
     	        
     	        var unspawnNotes:Array<Note> = [];	
     	        var noteTypes:Array<String> = [];
@@ -769,7 +769,7 @@ class LoadingState extends MusicBeatState
                     unspawnNotes.sort(PlayState.sortByTime);            		                
                 }
                 pushData(unspawnNotes, noteTypes);
-                chartCondition[bigSection].signal();
+                chartCondition[bigSection].release();
                 loaded++;            
             });
         }
@@ -788,7 +788,7 @@ class LoadingState extends MusicBeatState
 	
 	static function pushData(chart:Array<Note>, types:Array<String>)
 	{
-	    chartCondition[32].wait();
+	    chartCondition[32].acquire();
 	    for (i in 0...chart.length)
 	        unspawnNotes.push(chart[i]);
 	    unspawnNotes.sort(PlayState.sortByTime);  
@@ -796,7 +796,7 @@ class LoadingState extends MusicBeatState
 	    for (i in 0...types.length)
 	        if(!noteTypes.contains(types[i]))
                     noteTypes.push(types[i]);                                
-	    chartCondition[32].signal();
+	    chartCondition[32].release();
 	}
 }
 
