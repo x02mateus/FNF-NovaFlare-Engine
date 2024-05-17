@@ -37,9 +37,7 @@ class LoadingState extends MusicBeatState
 	public static var loaded:Int = 0;
 	public static var loadMax:Int = 0;
     
-    public static var imageLoaded:Int = 0;
-    public static var imageLoadedMax:Int = 0;
-    var imageLoadCheck:Bool = false;
+    var startChartLoad:Bool = false;
 	static var requestedBitmaps:Map<String, BitmapData> = [];
 	static var mutex:Mutex = new Mutex();
 	
@@ -124,10 +122,10 @@ class LoadingState extends MusicBeatState
 		
 		if (!realStart) startThreads();
 		
-		if (!imageLoadCheck && imageLoaded == imageLoadedMax && imageLoaded != 0) 
+		if (startChartLoad) 
         {
             preloadChart();
-            imageLoadCheck = true;            
+            startChartLoad = false;            
         }
         
 		if (curPercent != intendedPercent)
@@ -359,20 +357,20 @@ class LoadingState extends MusicBeatState
 		         + musicToPrepare.length 
 		         + songsToPrepare.length 
 		         + 32;       
-		loaded = imageLoaded = 0;
-        imageLoadedMax = imagesToPrepare.length;
+		loaded = 0;
         
-		//then start threads
+       
 		for (sound in soundsToPrepare) initThread(() -> Paths.sound(sound), 'sound $sound');
 		for (music in musicToPrepare) initThread(() -> Paths.music(music), 'music $music');
 		for (song in songsToPrepare) initThread(() -> Paths.returnSound(null, song, 'songs'), 'song $song');
                 		
-		// for images, they get to have their own thread
-		for (image in imagesToPrepare)
+		for (images in 0...imagesToPrepare.length)
+		{
+		    var image = imagesToPrepare[images];
 			Thread.create(() -> {
 				mutex.acquire();
 				loaded++;
-				imageLoaded++;
+				if (images == imagesToPrepare.length - 1) startChartLoad = true;
 				try {
 					var bitmap:BitmapData;
 					var file:String = null;
@@ -414,6 +412,7 @@ class LoadingState extends MusicBeatState
 					trace('ERROR! fail on preloading image $image');
 				}				
 			});		
+        }
 		setSpeed();		
 	}
 
