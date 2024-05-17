@@ -36,7 +36,10 @@ class LoadingState extends MusicBeatState
 {
 	public static var loaded:Int = 0;
 	public static var loadMax:Int = 0;
-       
+    
+    public static var imageLoaded:Int = 0;
+    public static var imageLoadedMax:Int = 0;
+    var imageLoadCheck:Bool = false;
 	static var requestedBitmaps:Map<String, BitmapData> = [];
 	static var mutex:Mutex = new Mutex();
 	
@@ -120,6 +123,12 @@ class LoadingState extends MusicBeatState
 		if (dontUpdate) return;		
 		
 		if (!realStart) startThreads();
+		
+		if (!imageLoadCheck && imageLoaded == imageLoadedMax && imageLoaded != 0) 
+        {
+            preloadChart();
+            imageLoadCheck = true;            
+        }
         
 		if (curPercent != intendedPercent)
 		{
@@ -350,7 +359,8 @@ class LoadingState extends MusicBeatState
 		         + musicToPrepare.length 
 		         + songsToPrepare.length 
 		         + 32;       
-		loaded = 0;
+		loaded = imageLoaded = 0;
+        imageLoadedMax = imagesToPrepare.length;
         
 		//then start threads
 		for (sound in soundsToPrepare) initThread(() -> Paths.sound(sound), 'sound $sound');
@@ -358,58 +368,53 @@ class LoadingState extends MusicBeatState
 		for (song in songsToPrepare) initThread(() -> Paths.returnSound(null, song, 'songs'), 'song $song');
                 		
 		// for images, they get to have their own thread
-		for (images in 0...imagesToPrepare.length + 1){
-		    if (images == imagesToPrepare.length) preloadChart();
-		    else{
-    			Thread.create(() -> {
-    				mutex.acquire();
-    				try {
-    					var bitmap:BitmapData;
-    					var file:String = null;
-    
-    					#if MODS_ALLOWED
-    					file = Paths.modsImages(image);
-    					if (Paths.currentTrackedAssets.exists(file)) {
-    						mutex.release();
-    						loaded++;
-    						return;
-    					}
-    					else if (FileSystem.exists(file))
-    						bitmap = BitmapData.fromFile(file);
-    					else
-    					#end
-    					{
-    						file = Paths.getPath('images/$image.png', IMAGE);
-    						if (Paths.currentTrackedAssets.exists(file)) {
-    							mutex.release();
-    							loaded++;
-    							return;
-    						}
-    						else if (OpenFlAssets.exists(file, IMAGE))
-    							bitmap = OpenFlAssets.getBitmapData(file);
-    						else {
-    							trace('no such image $image exists');
-    							mutex.release();
-    							loaded++;
-    							return;
-    						}
-    					}
-    					mutex.release();
-    
-    					if (bitmap != null) requestedBitmaps.set(file, bitmap);
-    					else trace('oh no the image is null NOOOO ($image)');
-    				}
-    				catch(e:Dynamic) {
-    					mutex.release();
-    					trace('ERROR! fail on preloading image $image');
-    				}
-    				loaded++;
-    				imageLoaded++;
-    			});		
-			}
-		}
-		setSpeed();
-		
+		for (image in imagesToPrepare)
+			Thread.create(() -> {
+				mutex.acquire();
+				loaded++;
+				imageLoaded++;
+				try {
+					var bitmap:BitmapData;
+					var file:String = null;
+
+					#if MODS_ALLOWED
+					file = Paths.modsImages(image);
+					if (Paths.currentTrackedAssets.exists(file)) {
+						mutex.release();
+						loaded++;
+						return;
+					}
+					else if (FileSystem.exists(file))
+						bitmap = BitmapData.fromFile(file);
+					else
+					#end
+					{
+						file = Paths.getPath('images/$image.png', IMAGE);
+						if (Paths.currentTrackedAssets.exists(file)) {
+							mutex.release();
+							loaded++;
+							return;
+						}
+						else if (OpenFlAssets.exists(file, IMAGE))
+							bitmap = OpenFlAssets.getBitmapData(file);
+						else {
+							trace('no such image $image exists');
+							mutex.release();
+							loaded++;
+							return;
+						}
+					}
+					mutex.release();
+
+					if (bitmap != null) requestedBitmaps.set(file, bitmap);
+					else trace('oh no the image is null NOOOO ($image)');
+				}
+				catch(e:Dynamic) {
+					mutex.release();
+					trace('ERROR! fail on preloading image $image');
+				}				
+			});		
+		setSpeed();		
 	}
 
 	static function initThread(func:Void->Dynamic, traceData:String)
