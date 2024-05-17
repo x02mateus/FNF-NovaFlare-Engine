@@ -36,7 +36,10 @@ class LoadingState extends MusicBeatState
 {
 	public static var loaded:Int = 0;
 	public static var loadMax:Int = 0;
-
+    
+    public static var imageLoaded:Int = 0;
+    public static var imageLoadedMax:Int = 0;
+    var imageLoadCheck:Bool = false;
 	static var requestedBitmaps:Map<String, BitmapData> = [];
 	static var mutex:Mutex = new Mutex();
 	
@@ -120,7 +123,13 @@ class LoadingState extends MusicBeatState
 		if (dontUpdate) return;		
 		
 		if (!realStart) startThreads();
-
+		
+		if (!imageLoadCheck && imageLoaded == imageLoadedMax && imageLoaded != 0) 
+        {
+            imageLoadCheck = true;
+            preloadChart();
+        }
+        
 		if (curPercent != intendedPercent)
 		{
 			if (Math.abs(curPercent - intendedPercent) < 0.001) curPercent = intendedPercent;
@@ -350,8 +359,9 @@ class LoadingState extends MusicBeatState
 		         + musicToPrepare.length 
 		         + songsToPrepare.length 
 		         + 32;       
-		loaded = 0;
-
+		loaded = imageLoaded = 0;
+        imageLoadedMax = imagesToPrepare.length;
+        
 		//then start threads
 		for (sound in soundsToPrepare) initThread(() -> Paths.sound(sound), 'sound $sound');
 		for (music in musicToPrepare) initThread(() -> Paths.music(music), 'music $music');
@@ -402,9 +412,10 @@ class LoadingState extends MusicBeatState
 					trace('ERROR! fail on preloading image $image');
 				}
 				loaded++;
+				imageLoaded++;
 			});		
 		setSpeed();
-		preloadChart();
+		
 	}
 
 	static function initThread(func:Void->Dynamic, traceData:String)
