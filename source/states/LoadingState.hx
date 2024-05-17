@@ -645,10 +645,8 @@ class LoadingState extends MusicBeatState
     	        
     	        var unspawnNotes:Array<Note> = [];	
     	        var noteTypes:Array<String> = [];
-    	        
-    	        var plist:Int = plistChart[bigSection];
-    	        var nextPlist:Int = plistChart[bigSection + 1];
-            	for (section in noteData[plist]...noteData[nextPlist])
+    	            	   
+            	for (section in plistChart[bigSection]...plistChart[bigSection + 1])
             	{            	                     	        
             		for (songNotes in section.sectionNotes)
             		{
@@ -793,7 +791,7 @@ class LoadingState extends MusicBeatState
 	    
 	    for (i in 0...types.length)
 	        if(!noteTypes.contains(types[i]))
-                    noteTypes.push(typestypes[i]);                                
+                    noteTypes.push(types[i]);                                
 	    mutex.release();
 	}
 }

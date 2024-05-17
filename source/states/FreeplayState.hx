@@ -1585,8 +1585,6 @@ class FreeplayState extends MusicBeatState {
 		if (bg.color == songs[curSelected].color)
 			return;
 		
-		Main.updateWatermark();
-		
 		if (modCheck != Mods.currentModDirectory){
 			modCheck = Mods.currentModDirectory;
 			
