@@ -481,7 +481,7 @@ class HitSoundType extends Option
     
     private override function updateDisplay():String
 	{	    
-		return "HitSound Typr: < " + ClientPrefs.data.hitsoundType + " >";
+		return "HitSound Type: < " + ClientPrefs.data.hitsoundType + " >";
 	}
 }
 

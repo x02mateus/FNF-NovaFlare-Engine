@@ -128,7 +128,7 @@ class OptionsHelpers
         for (folder in Mods.directoriesWithFile(Paths.getSharedPath(), 'sounds/hitsounds/'))
 			for (file in FileSystem.readDirectory(folder))
 			{				
-				if(file.toLowerCase().endsWith('.lua'))
+				if(file.toLowerCase().endsWith('.ogg'))
 					hitsoundArray.push(file);				
 			}
 		if(!hitsoundArray.contains(ClientPrefs.data.hitsoundType)){
