@@ -39,7 +39,7 @@ class LoadingState extends MusicBeatState
     public static var startChartLoad:Bool = false;
 	static var requestedBitmaps:Map<String, BitmapData> = [];
 	static var mutex:Mutex = new Mutex();
-	
+	static var condition:Condition = new Condition();
 	static var isPlayState:Bool = false;
 		
 	function new(target:FlxState, stopMusic:Bool)
@@ -613,8 +613,7 @@ class LoadingState extends MusicBeatState
 	public static var unspawnNotes:Array<Note> = [];	
     public static var noteTypes:Array<String> = [];
     public static var events:Array<Array<Dynamic>> = [];    
-    
-	public static var chartCondition:Array<Condition> = [];	
+	
 	public static var plistChart:Array<Int> = [];
 	
 	public static var songSpeed:Float = 1;	
@@ -640,17 +639,14 @@ class LoadingState extends MusicBeatState
 	    unspawnNotes = [];    	        	   	    
 	    noteTypes = [];
 	    plistChart = [];
-	    chartCondition = [];
 	        
 	    var noteData:Array<SwagSection> =  PlayState.SONG.notes;	   	    	            
     	
-    	addMutex(noteData);   	    	
+    	addMutex(noteData);
     	
     	for (bigSection in 0...32)
     	{
-    	    Thread.create(() -> {
-    	        chartCondition[bigSection].acquire();
-    	        
+    	    Thread.create(() -> {      
     	        var unspawnNotes:Array<Note> = [];	
     	        var noteTypes:Array<String> = [];
     	            	   
@@ -769,7 +765,6 @@ class LoadingState extends MusicBeatState
                     unspawnNotes.sort(PlayState.sortByTime);            		                
                 }
                 pushData(unspawnNotes, noteTypes);
-                chartCondition[bigSection].release();
                 loaded++;            
             });
         }
@@ -779,8 +774,7 @@ class LoadingState extends MusicBeatState
 	{						 
 		 var bigSection:Int = Std.int(chart.length / 32);
 		 for (plist in 0...33)
-		 {	
-		    chartCondition.push(new Condition());		
+		 {			
 		    if (plist != 32) plistChart.push(bigSection * plist);   
 		    else plistChart.push(chart.length);		 		 
 		 }
@@ -788,7 +782,7 @@ class LoadingState extends MusicBeatState
 	
 	static function pushData(chart:Array<Note>, types:Array<String>)
 	{
-	    chartCondition[32].acquire();
+	    condition.wait();
 	    for (i in 0...chart.length)
 	        unspawnNotes.push(chart[i]);
 	    unspawnNotes.sort(PlayState.sortByTime);  
@@ -796,7 +790,7 @@ class LoadingState extends MusicBeatState
 	    for (i in 0...types.length)
 	        if(!noteTypes.contains(types[i]))
                     noteTypes.push(types[i]);                                
-	    chartCondition[32].release();
+	    condition.signal();
 	}
 }
 
