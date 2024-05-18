@@ -121,34 +121,7 @@ class OptionsHelpers
 		}
     }
     
-    static public function changeSplashSkin()
-    {
-        var noteSplashes:Array<String> = [];
-		if(Mods.mergeAllTextsNamed('images/noteSplashes/list.txt', 'shared').length > 0)
-			noteSplashes = Mods.mergeAllTextsNamed('images/noteSplashes/list.txt', 'shared');
-		else
-			noteSplashes = CoolUtil.coolTextFile(Paths.getSharedPath('shared/images/noteSplashes/list.txt'));
-			
-		if(noteSplashes.length > 0)
-		{
-		    noteSplashes.insert(0, ClientPrefs.defaultData.splashSkin);
-		
-		    if (SplashSkin.chooseNum < 0) SplashSkin.chooseNum = noteSplashes.length - 1;
-		    if (SplashSkin.chooseNum > noteSplashes.length - 1) SplashSkin.chooseNum = 0;
-		    
-			if(!noteSplashes.contains(ClientPrefs.data.splashSkin)){
-				ClientPrefs.data.splashSkin = ClientPrefs.defaultData.splashSkin; //Reset to default if saved noteskin couldnt be found
-				SplashSkin.chooseNum = 0;
-            }else{
-                ClientPrefs.data.splashSkin = noteSplashes[SplashSkin.chooseNum];
-            }
-		}else{
-		    ClientPrefs.data.splashSkin = ClientPrefs.defaultData.splashSkin;
-		    SplashSkin.chooseNum = 0;
-		}
-    }
-    
-    static public function setHitsoundType()
+    static public function setHitSoundType()
     {        
         hitsoundArray = [];
        
@@ -160,18 +133,18 @@ class OptionsHelpers
 			}
 		if(!hitsoundArray.contains(ClientPrefs.data.hitsoundType)){
 			ClientPrefs.data.hitsoundType = ClientPrefs.defaultData.hitsoundType;
-			HitsoundType.chooseNum = 0;
+			HitSoundType.chooseNum = 0;
         }else{
 	        for (i in 0...hitsoundArray.length)
-	            if (ClientPrefs.data.hitsoundType == hitsoundArray[i]) HitsoundType.chooseNum = i;
+	            if (ClientPrefs.data.hitsoundType == hitsoundArray[i]) HitSoundType.chooseNum = i;
 	    }
     }
     
-    static public function changeHitsoundType()
+    static public function changeHitSoundType()
     {        
-        if (HitsoundType.chooseNum < 0) HitsoundType.chooseNum = hitsoundArray.length - 1;
-		if (HitsoundType.chooseNum > hitsoundArray.length - 1) HitsoundType.chooseNum = 0;
-		ClientPrefs.data.hitsoundType = hitsoundArray[HitsoundType.chooseNum];
+        if (HitSoundType.chooseNum < 0) HitSoundType.chooseNum = hitsoundArray.length - 1;
+		if (HitSoundType.chooseNum > hitsoundArray.length - 1) HitSoundType.chooseNum = 0;
+		ClientPrefs.data.hitsoundType = hitsoundArray[HitSoundType.chooseNum];
 		
 		if (ClientPrefs.data.hitsoundType == ClientPrefs.defaultData.hitsoundType) FlxG.sound.play(Paths.sound('hitsound'), ClientPrefs.data.hitsoundVolume);
 		else FlxG.sound.play(Paths.sound(ClientPrefs.data.hitsoundType), ClientPrefs.data.hitsoundVolume);

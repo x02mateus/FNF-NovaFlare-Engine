@@ -459,7 +459,7 @@ class HitSoundType extends Option
 	{
 		super();
 		description = desc;
-		OptionsHelpers.setHitsoundType();
+		OptionsHelpers.setHitSoundType();
 	}
 	
 	override function right()
@@ -476,7 +476,7 @@ class HitSoundType extends Option
     
     override function change()
 	{
-        OptionsHelpers.changeHitsoundType();
+        OptionsHelpers.changeHitSoundType();
     }
     
     private override function updateDisplay():String
