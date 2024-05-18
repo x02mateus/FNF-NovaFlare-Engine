@@ -765,17 +765,17 @@ class LoadingState extends MusicBeatState
 		for (i in 0...Note.colArray.length)
 		{
 			var note:Note = new Note(0, i, null, false, false, LoadingState);			
-			normalNote.add(note);			
+			normalNote.push(note);			
 		}    		        	
 		for (i in 0...Note.colArray.length)
 		{
 			var note:Note = new Note(0, i, null, true, false, LoadingState, true);			
-			holdNote.add(note);			
+			holdNote.push(note);			
 		}    		        
 		for (i in 0...Note.colArray.length)
 		{
 			var note:Note = new Note(0, i, null, true, false, LoadingState);			
-			endNote.add(note);			
+			endNote.push(note);			
 		}    		        
 	}
 }
