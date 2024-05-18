@@ -60,6 +60,7 @@ class Main extends Sprite
 		#if cpp
         cpp.NativeGc.enable(true);
         cpp.NativeGc.run(true);
+        cpp.NativeGc.enterGCFreeZone();
         #end
 	}
 
