@@ -500,7 +500,8 @@ class HitSound extends Option
 		if (ClientPrefs.data.hitsoundVolume > 1)
 			ClientPrefs.data.hitsoundVolume = 1;
 		ClientPrefs.data.hitsoundVolume = FlxMath.roundDecimal(ClientPrefs.data.hitsoundVolume, 1);
-                FlxG.sound.play(Paths.sound('hitsound'), ClientPrefs.data.hitsoundVolume);
+        if (ClientPrefs.data.hitsoundType == ClientPrefs.defaultData.hitsoundType) FlxG.sound.play(Paths.sound('hitsound'), ClientPrefs.data.hitsoundVolume);
+		else FlxG.sound.play(Paths.sound('hitsounds/' + ClientPrefs.data.hitsoundType), ClientPrefs.data.hitsoundVolume);
 		
 
 	}
