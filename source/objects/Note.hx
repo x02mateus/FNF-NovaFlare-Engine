@@ -217,7 +217,7 @@ class Note extends FlxSprite
 	{
 		super();
 		
-		if (ClientPrefs.data.hitsoundType != ClientPrefs.defaultData.hitsoundType) hitsound = ClientPrefs.data.hitsoundType;
+		if (ClientPrefs.data.hitsoundType != ClientPrefs.defaultData.hitsoundType) hitsound = 'hitsounds/' + ClientPrefs.data.hitsoundType;
 
 		animation = new PsychAnimationController(this);
 
