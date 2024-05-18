@@ -737,9 +737,7 @@ class PlayState extends MusicBeatState
 		//Paths.clearStoredMemory();
 		Paths.clearUnusedMemory();
 
-		if(eventNotes.length < 1) checkEventNote();
-		NativeGc.enterGCFreeZone();
-	
+		if(eventNotes.length < 1) checkEventNote();			
 	}
 
 	function set_songSpeed(value:Float):Float
