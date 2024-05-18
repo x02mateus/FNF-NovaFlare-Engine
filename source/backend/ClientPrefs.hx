@@ -45,6 +45,7 @@ import states.TitleState;
 	public var timeBarType:String = 'Time Left';
 	public var scoreZoom:Bool = true;
 	public var healthBarAlpha:Float = 1;
+	public var hitsoundType:String = 'Default';
 	public var hitsoundVolume:Float = 0;
 	public var pauseMusic:String = 'Tea Time';
 	public var comboStacking:Bool = true;
