@@ -39,7 +39,7 @@ class LoadingState extends MusicBeatState
     public static var startChartLoad:Bool = false;
 	static var requestedBitmaps:Map<String, BitmapData> = [];
 	static var mutex:Mutex = new Mutex();
-	static var condition:Condition = new Condition();
+	static var lock:Lock = new Lock();
 	static var isPlayState:Bool = false;
 		
 	function new(target:FlxState, stopMusic:Bool)
@@ -642,7 +642,7 @@ class LoadingState extends MusicBeatState
 	        
 	    var noteData:Array<SwagSection> =  PlayState.SONG.notes;	   	    	            
     	
-    	addMutex(noteData);
+    	chartDataSet(noteData);
     	
     	for (bigSection in 0...32)
     	{
@@ -763,15 +763,14 @@ class LoadingState extends MusicBeatState
                 		swagNote.updateHitbox();
             		}
                     unspawnNotes.sort(PlayState.sortByTime);            		                
-                }
-                condition.signal();
+                }              
                 pushData(unspawnNotes, noteTypes);
                 loaded++;            
             });
         }
 	}
 	
-	static function addMutex(chart:Array<SwagSection>)
+	static function chartDataSet(chart:Array<SwagSection>)
 	{						 
 		 var bigSection:Int = Std.int(chart.length / 32);
 		 for (plist in 0...33)
@@ -783,7 +782,7 @@ class LoadingState extends MusicBeatState
 	
 	static function pushData(chart:Array<Note>, types:Array<String>)
 	{
-	    condition.wait();
+	    lock.wait();
 	    for (i in 0...chart.length)
 	        unspawnNotes.push(chart[i]);
 	    unspawnNotes.sort(PlayState.sortByTime);  
@@ -791,7 +790,7 @@ class LoadingState extends MusicBeatState
 	    for (i in 0...types.length)
 	        if(!noteTypes.contains(types[i]))
                     noteTypes.push(types[i]);                                
-	    condition.signal();
+	    lock.release();
 	}
 }
 
