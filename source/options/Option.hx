@@ -452,6 +452,40 @@ class SplashRGB extends Option
 	}
 }
 
+class HitSoundType extends Option
+{
+    public static var chooseNum:Int;
+	public function new(desc:String)
+	{
+		super();
+		description = desc;
+		OptionsHelpers.setHitsoundType();
+	}
+	
+	override function right()
+	{		
+		chooseNum++;        
+		display = updateDisplay();		
+	}
+
+	override function left()
+	{
+		chooseNum--;        
+		display = updateDisplay();	
+    }
+    
+    override function change()
+	{
+        OptionsHelpers.changeHitsoundType();
+    }
+    
+    private override function updateDisplay():String
+	{
+	    var data:Float = ClientPrefs.data.hitsoundVolume * 100;
+		return "HitSound volume: < " + data + "% >";
+	}
+}
+
 class HitSound extends Option
 {
 	public function new(desc:String)
@@ -836,17 +870,19 @@ class TimeBarType extends Option
 	override function left()
 	{
 		chooseNum--;
-		OptionsHelpers.changeTimeBarType();
-		display = updateDisplay();		
-		
-    }
-
-	override function right()
-	{chooseNum++;
-        OptionsHelpers.changeTimeBarType();
 		display = updateDisplay();				
     }
 
+	override function right()
+	{   
+	    chooseNum++;        
+		display = updateDisplay();				
+    }
+    
+    override function change()
+	{
+        OptionsHelpers.changeTimeBarType();
+    }
 	override function getValue():String
 	{
 		return "Time bar type: < " + ClientPrefs.data.timeBarType + " >";

@@ -9,6 +9,7 @@ class OptionsHelpers
     public static var qualityArray = ["Low", "Normal", "High", 'Very High'];
 	public static var colorblindFilterArray = ['None', 'Protanopia', 'Protanomaly', 'Deuteranopia','Deuteranomaly','Tritanopia','Tritanomaly','Achromatopsia','Achromatomaly'];
     public static var memoryTypeArray = ["Usage", "Reserved", "Current", "Large"];
+    public static var hitsoundArray = [];
     public static var TimeBarArray = ['Time Left', 'Time Elapsed', 'Song Name', 'Disabled'];
     public static var PauseMusicArray = ['None', 'Breakfast', 'Tea Time'];
     public static var fileLoadArray = ["NovaFlare Engine", "NF Engine", "PsychEngine", "OS Engine", "TG Engine", "SB Engine"];
@@ -120,6 +121,62 @@ class OptionsHelpers
 		}
     }
     
+    static public function changeSplashSkin()
+    {
+        var noteSplashes:Array<String> = [];
+		if(Mods.mergeAllTextsNamed('images/noteSplashes/list.txt', 'shared').length > 0)
+			noteSplashes = Mods.mergeAllTextsNamed('images/noteSplashes/list.txt', 'shared');
+		else
+			noteSplashes = CoolUtil.coolTextFile(Paths.getSharedPath('shared/images/noteSplashes/list.txt'));
+			
+		if(noteSplashes.length > 0)
+		{
+		    noteSplashes.insert(0, ClientPrefs.defaultData.splashSkin);
+		
+		    if (SplashSkin.chooseNum < 0) SplashSkin.chooseNum = noteSplashes.length - 1;
+		    if (SplashSkin.chooseNum > noteSplashes.length - 1) SplashSkin.chooseNum = 0;
+		    
+			if(!noteSplashes.contains(ClientPrefs.data.splashSkin)){
+				ClientPrefs.data.splashSkin = ClientPrefs.defaultData.splashSkin; //Reset to default if saved noteskin couldnt be found
+				SplashSkin.chooseNum = 0;
+            }else{
+                ClientPrefs.data.splashSkin = noteSplashes[SplashSkin.chooseNum];
+            }
+		}else{
+		    ClientPrefs.data.splashSkin = ClientPrefs.defaultData.splashSkin;
+		    SplashSkin.chooseNum = 0;
+		}
+    }
+    
+    static public function setHitsoundType()
+    {        
+        hitsoundArray = [];
+       
+        for (folder in Mods.directoriesWithFile(Paths.getSharedPath(), 'sounds/hitsounds/'))
+			for (file in FileSystem.readDirectory(folder))
+			{				
+				if(file.toLowerCase().endsWith('.lua'))
+					hitsoundArray.push(file);				
+			}
+		if(!hitsoundArray.contains(ClientPrefs.data.hitsoundType)){
+			ClientPrefs.data.hitsoundType = ClientPrefs.defaultData.hitsoundType;
+			HitsoundType.chooseNum = 0;
+        }else{
+	        for (i in 0...hitsoundArray.length)
+	            if (ClientPrefs.data.hitsoundType == hitsoundArray[i]) HitsoundType.chooseNum = i;
+	    }
+    }
+    
+    static public function changeHitsoundType()
+    {        
+        if (HitsoundType.chooseNum < 0) HitsoundType.chooseNum = hitsoundArray.length - 1;
+		if (HitsoundType.chooseNum > hitsoundArray.length - 1) HitsoundType.chooseNum = 0;
+		ClientPrefs.data.hitsoundType = hitsoundArray[HitsoundType.chooseNum];
+		
+		if (ClientPrefs.data.hitsoundType == ClientPrefs.defaultData.hitsoundType) FlxG.sound.play(Paths.sound('hitsound'), ClientPrefs.data.hitsoundVolume);
+		else FlxG.sound.play(Paths.sound(ClientPrefs.data.hitsoundType), ClientPrefs.data.hitsoundVolume);
+    }
+    
     static public function setTimeBarType()
     {        
         if(!TimeBarArray.contains(ClientPrefs.data.timeBarType)){
@@ -139,6 +196,8 @@ class OptionsHelpers
 		if (TimeBarType.chooseNum > TimeBarArray.length - 1) TimeBarType.chooseNum = 0;
 		
 		ClientPrefs.data.timeBarType = TimeBarArray[TimeBarType.chooseNum];
+		
+		
     }
     
     static public function setPauseMusicType()

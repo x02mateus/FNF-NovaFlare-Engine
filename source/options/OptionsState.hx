@@ -108,6 +108,7 @@ class OptionsState extends MusicBeatState
                 new NoteRGB('Easier to set RGB for Note.'),
                 new SplashSkin('Change your current splashSkin'),              
 				new SplashRGB('Easier to to RGB for Splash.'),
+				new HitSoundType('Choose sound type for hitSound.'),
                 new HitSound("Adds 'hitsound' on note hits."),				               
 				new CamZoom("Toggle the camera zoom in-game."),
 				new ScoreZoom("Zoom score on 2'nd beat."),				
@@ -774,6 +775,7 @@ class OptionsState extends MusicBeatState
                 ClientPrefs.data.noteRGB = ClientPrefs.defaultData.noteRGB;
                 ClientPrefs.data.splashSkin = ClientPrefs.defaultData.splashSkin;
                 ClientPrefs.data.splashRGB = ClientPrefs.defaultData.splashRGB;
+                ClientPrefs.data.hitsoundType = ClientPrefs.defaultData.hitsoundType;
                 ClientPrefs.data.hitsoundVolume = ClientPrefs.defaultData.hitsoundVolume;
                 ClientPrefs.data.camZooms = ClientPrefs.defaultData.camZooms;
                 ClientPrefs.data.scoreZoom = ClientPrefs.defaultData.scoreZoom;
