@@ -139,6 +139,7 @@ class OptionsHelpers
 	        for (i in 0...hitsoundArray.length)
 	            if (ClientPrefs.data.hitsoundType == hitsoundArray[i]) HitSoundType.chooseNum = i;
 	    }
+	    if (HitSoundType.chooseNum >= hitsoundArray.length) HitSoundType.chooseNum = 0;
     }
     
     static public function changeHitSoundType()
