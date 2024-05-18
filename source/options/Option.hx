@@ -480,9 +480,8 @@ class HitSoundType extends Option
     }
     
     private override function updateDisplay():String
-	{
-	    var data:Float = ClientPrefs.data.hitsoundVolume * 100;
-		return "HitSound volume: < " + data + "% >";
+	{	    
+		return "HitSound Typr: < " + ClientPrefs.data.hitsoundType + " >";
 	}
 }
 

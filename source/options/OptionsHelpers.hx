@@ -147,7 +147,7 @@ class OptionsHelpers
 		ClientPrefs.data.hitsoundType = hitsoundArray[HitSoundType.chooseNum];
 		
 		if (ClientPrefs.data.hitsoundType == ClientPrefs.defaultData.hitsoundType) FlxG.sound.play(Paths.sound('hitsound'), ClientPrefs.data.hitsoundVolume);
-		else FlxG.sound.play(Paths.sound(ClientPrefs.data.hitsoundType), ClientPrefs.data.hitsoundVolume);
+		else FlxG.sound.play(Paths.sound('hitsounds/' + ClientPrefs.data.hitsoundType), ClientPrefs.data.hitsoundVolume);
     }
     
     static public function setTimeBarType()
