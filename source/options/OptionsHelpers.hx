@@ -124,7 +124,8 @@ class OptionsHelpers
     static public function setHitSoundType()
     {        
         hitsoundArray = [];
-       
+        hitsoundArray.push(ClientPrefs.defaultData.hitsoundType);
+               
         for (folder in Mods.directoriesWithFile(Paths.getSharedPath(), 'sounds/hitsounds/'))
 			for (file in FileSystem.readDirectory(folder))
 			{				
