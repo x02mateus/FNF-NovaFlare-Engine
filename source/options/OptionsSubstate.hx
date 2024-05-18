@@ -102,7 +102,7 @@ class OptionsSubstate extends MusicBeatSubstate
                 new ResultsScreen('If checked, Open Results Screen at end song.'),                          
 			]),
 			new OptionCata(345, 40, OptionsName.setAppearance(), [
-			    new HitSoundType('Choose sound type for hitSound.'),
+			    //new HitSoundType('Choose sound type for hitSound.'),
                 new HitSound("Adds 'hitsound' on note hits."),				               
 				new CamZoom("Toggle the camera zoom in-game."),
 				new ScoreZoom("Zoom score on"),				
@@ -730,7 +730,7 @@ class OptionsSubstate extends MusicBeatSubstate
             case 0:
                 ClientPrefs.data.resultsScreen = ClientPrefs.defaultData.resultsScreen;
             case 1:                
-                ClientPrefs.data.hitsoundType = ClientPrefs.defaultData.hitsoundType;
+                //ClientPrefs.data.hitsoundType = ClientPrefs.defaultData.hitsoundType;
                 ClientPrefs.data.hitsoundVolume = ClientPrefs.defaultData.hitsoundVolume;
                 ClientPrefs.data.camZooms = ClientPrefs.defaultData.camZooms;
                 ClientPrefs.data.scoreZoom = ClientPrefs.defaultData.scoreZoom;
