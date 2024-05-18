@@ -129,7 +129,7 @@ class OptionsHelpers
 			for (file in FileSystem.readDirectory(folder))
 			{				
 				if(file.endsWith('.ogg'))
-					hitsoundArray.push(file.replace('.ogg', ''););				
+					hitsoundArray.push(file.replace('.ogg', ''));				
 			}
 		if(!hitsoundArray.contains(ClientPrefs.data.hitsoundType)){
 			ClientPrefs.data.hitsoundType = ClientPrefs.defaultData.hitsoundType;
