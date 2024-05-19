@@ -157,7 +157,7 @@ jobs:
            path: /home/runner
 
       - name: Move EXTERNAL File
-        run: mv "/home/runner/NovaFlare Engine-release.apk" "/home/runner/NovaFlare_Engine-EXTERNAL.apk"
+        run: mv "/home/runner/NovaFlare Engine-release.apk" "/home/runner/android-EXTERNAL.apk"
             
       - name: Download OBB Build
         uses: actions/download-artifact@main
@@ -166,7 +166,7 @@ jobs:
            path: /home/runner
 
       - name: Move OBB File
-        run: mv "/home/runner/NovaFlare Engine-release.apk" "/home/runner/NovaFlare_Engine-OBB.apk"
+        run: mv "/home/runner/NovaFlare Engine-release.apk" "/home/runner/android-OBB.apk"
 
       - name: Download DATA Build
         uses: actions/download-artifact@main
@@ -175,7 +175,7 @@ jobs:
            path: /home/runner
 
       - name: Move DATA File
-        run: mv "/home/runner/NovaFlare Engine-release.apk" "/home/runner/NovaFlare_Engine-DATA.apk"
+        run: mv "/home/runner/NovaFlare Engine-release.apk" "/home/runner/android-DATA.apk"
 
       - name: Download MEDIA Build
         uses: actions/download-artifact@main
@@ -184,13 +184,16 @@ jobs:
            path: /home/runner
 
       - name: Move MEDIA File
-        run: mv "/home/runner/NovaFlare Engine-release.apk" "/home/runner/NovaFlare_Engine-MEDIA.apk"
+        run: mv "/home/runner/NovaFlare Engine-release.apk" "/home/runner/android-MEDIA.apk"
 
       - name: Download iOS Build
         uses: actions/download-artifact@main
         with:
            name: iOSBuild
            path: /home/runner
+      
+      - name: Move iOS File
+        run: mv "/home/runner/NovaFlare Engine-release.ipa" "/home/runner/ios.ipa"
       
       - name: Download macOS11 Build
         uses: actions/download-artifact@main
@@ -221,8 +224,8 @@ jobs:
         with:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
           prerelease: true
-          automatic_release_tag: "V1.1.2-HOTFIX"
-          title: "V1.1.2 - HOTFIX"
+          automatic_release_tag: "V1.1.3"
+          title: "V1.1.3"
           files: |
             /home/runner/*.apk
             /home/runner/*.zip
