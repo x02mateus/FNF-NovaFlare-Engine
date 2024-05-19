@@ -170,7 +170,31 @@ class LoadingState extends MusicBeatState
 	    }
 		transitioning = true;
 		finishedLoading = true;
-	}		
+	}
+	
+	static var normalNote:FlxTypedGroup<Note>;
+	static function addNote()
+	{		
+		normalNote = new FlxTypedGroup<Note>();
+		for (i in 0...Note.colArray.length)
+		{
+			var note:Note = new Note(0, i);
+			note.reloadNote();
+			note.x = 300 + (300 / Note.colArray.length) * i;
+			note.y = 75;
+			note.scale.x = 75 / note.frameWidth;
+			note.scale.y = 75 / note.frameHeight;
+			note.centerOffsets();
+			note.centerOrigin();
+			note.inEditor = true;
+			note.updateHitbox();
+			note.rgbShader.enabled = ClientPrefs.data.noteRGB;
+			note.animation.play(Note.colArray[i] + 'Scroll');
+			normalNote.add(note);
+			note.alpha = 0.0001;
+		}
+		//用于正确读取note的切割	        		        	
+	}
 
 	static function checkLoaded():Bool {
 		for (key => bitmap in requestedBitmaps)
@@ -669,8 +693,7 @@ class LoadingState extends MusicBeatState
             		else
             			oldNote = null;
             
-            		var swagNote:Note = new Note(daStrumTime, daNoteData, oldNote, LoadingState, false, true);
-            		swagNote.pixels = normalNote[daNoteData].pixels;
+            		var swagNote:Note = new Note(daStrumTime, daNoteData, oldNote, LoadingState);
             		swagNote.mustPress = gottaHitNote;
             		swagNote.sustainLength = songNotes[2];
             		swagNote.gfNote = (section.gfSection && (songNotes[1]<4));
@@ -688,9 +711,7 @@ class LoadingState extends MusicBeatState
             			{
             				oldNote = unspawnNotes[Std.int(unspawnNotes.length - 1)];
             
-            				var sustainNote:Note = new Note(daStrumTime + (Conductor.stepCrochet * susNote), daNoteData, oldNote, true, LoadingState, false, true);
-            				if (susNote != floorSus) sustainNote.pixels = holdNote[daNoteData].pixels;
-            				else sustainNote.pixels = endNote[daNoteData].pixels;
+            				var sustainNote:Note = new Note(daStrumTime + (Conductor.stepCrochet * susNote), daNoteData, oldNote, true, LoadingState);
             				sustainNote.mustPress = gottaHitNote;
             				sustainNote.gfNote = (section.gfSection && (songNotes[1]<4));
             				sustainNote.noteType = swagNote.noteType;
@@ -754,29 +775,6 @@ class LoadingState extends MusicBeatState
             loaded++;        
             });
         }
-	}
-	
-	static var normalNote:Array<Note>;
-	static var holdNote:Array<Note>;
-	static var endNote:Array<Note>;
-	static function addNote()
-	{
-	    normalNote = holdNote = endNote = [];
-		for (i in 0...Note.colArray.length)
-		{
-			var note:Note = new Note(0, i, null, false, false, LoadingState);			
-			normalNote.push(note);			
-		}    		        	
-		for (i in 0...Note.colArray.length)
-		{
-			var note:Note = new Note(0, i, null, true, false, LoadingState, true);			
-			holdNote.push(note);			
-		}    		        
-		for (i in 0...Note.colArray.length)
-		{
-			var note:Note = new Note(0, i, null, true, false, LoadingState);			
-			endNote.push(note);			
-		}    		        
 	}
 }
 
