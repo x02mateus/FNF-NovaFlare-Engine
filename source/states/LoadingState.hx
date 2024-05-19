@@ -624,7 +624,7 @@ class LoadingState extends MusicBeatState
 	static function preloadChart()
 	{
 	    addNote();
-	    /*
+	    
 	    Note.globalRgbShaders = [];
 		backend.NoteTypesConfig.clearNoteTypesData();
 		
@@ -753,7 +753,7 @@ class LoadingState extends MusicBeatState
     		mutex.release();      
             loaded++;        
             });
-        }*/
+        }
 	}
 	
 	static var normalNote:Array<Note>;
