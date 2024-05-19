@@ -219,7 +219,7 @@ class Note extends FlxSprite
 		
 		if (ClientPrefs.data.hitsoundType != ClientPrefs.defaultData.hitsoundType) hitsound = 'hitsounds/' + ClientPrefs.data.hitsoundType;
         
-		animation = new PsychAnimationController(this);
+		if (!noLoad) animation = new PsychAnimationController(this);
 
 		antialiasing = ClientPrefs.data.antialiasing;
 		if(createdFrom == null) createdFrom = PlayState.instance;
@@ -256,7 +256,10 @@ class Note extends FlxSprite
 		}
 
 		if (prevNote != null) prevNote.nextNote = this;		
-		if (isHold) prevNote = this;
+		if (isHold) {
+		    prevNote.nextNote = null;
+		    prevNote = this;
+		}
 		if (isSustainNote && prevNote != null)
 		{
 			alpha = 0.6;
