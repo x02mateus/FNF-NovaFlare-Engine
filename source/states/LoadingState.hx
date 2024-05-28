@@ -368,8 +368,7 @@ class LoadingState extends MusicBeatState
 		{
 		    var image = imagesToPrepare[images];
 			Thread.create(() -> {
-				mutex.acquire();
-				loaded++;
+				mutex.acquire();			
 				if (images == imagesToPrepare.length - 1) startChartLoad = true;
 				try {
 					var bitmap:BitmapData;
@@ -411,6 +410,7 @@ class LoadingState extends MusicBeatState
 					mutex.release();
 					trace('ERROR! fail on preloading image $image');
 				}				
+				loaded++;
 			});		
         }
 		setSpeed();		
@@ -650,7 +650,7 @@ class LoadingState extends MusicBeatState
     	for (bigSection in 0...32)
     	{
     	    Thread.create(() -> {
-    	        chartMutex[bigSection].acquire();  
+    	       // chartMutex[bigSection].acquire();  
     	        
     	        var unspawnNotes:Array<Note> = [];	
     	        var noteTypes:Array<String> = [];
@@ -770,7 +770,7 @@ class LoadingState extends MusicBeatState
                     unspawnNotes.sort(PlayState.sortByTime);            		                
                 }
                 pushData(unspawnNotes, noteTypes);
-                chartMutex[bigSection].release();                                
+                //chartMutex[bigSection].release();                                
             });
         }
 	}
