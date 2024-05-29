@@ -681,7 +681,7 @@ class LoadingState extends MusicBeatState
 	            	   
         	for (smallSection in plistChart[plistData]...plistChart[plistData + 1])
         	{   
-        	    var section = noteData[smallSection];        	                     	        
+        	    var section = chart[smallSection];        	                     	        
         		for (songNotes in section.sectionNotes)
         		{
     				var daStrumTime:Float = songNotes[0];
@@ -794,7 +794,7 @@ class LoadingState extends MusicBeatState
             }
             pushData(unspawnNotes, noteTypes);
         } catch(e:Dynamic) {	       
-	        createNote(noteData, plistData); //try again            
+	        createNote(chart, plistData); //try again            
 	    }
 	}
 	
