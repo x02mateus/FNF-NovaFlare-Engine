@@ -805,7 +805,10 @@ class LoadingState extends MusicBeatState
     	        if(!noteTypes.contains(types[i]))
                         noteTypes.push(types[i]);                                   
             loaded++;                                         	    	    
-	    } finally { 
+	    } catch {
+	        pushData(chart, types); //try again
+	        mutex.release(); 
+	    } finally { 	        
 	        mutex.release(); 
 	    }
 	}
