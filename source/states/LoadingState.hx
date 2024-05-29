@@ -647,10 +647,12 @@ class LoadingState extends MusicBeatState
     	
     	addMutex(noteData);   	    	
     	
+    	Sys.sleep(0.1);
+    	
     	for (bigSection in 0...32)
     	{
     	    Thread.create(() -> {
-    	       // chartMutex[bigSection].acquire();  
+    	       //chartMutex[bigSection].acquire();  
     	        
     	        var unspawnNotes:Array<Note> = [];	
     	        var noteTypes:Array<String> = [];
@@ -794,15 +796,18 @@ class LoadingState extends MusicBeatState
 	static function pushData(chart:Array<Note>, types:Array<String>)
 	{
 	    mutex.acquire();
-	    for (i in 0...chart.length)
-	        unspawnNotes.push(chart[i]);
-	    unspawnNotes.sort(PlayState.sortByTime);  
-	    
-	    for (i in 0...types.length)
-	        if(!noteTypes.contains(types[i]))
-                    noteTypes.push(types[i]);                                   
-        loaded++;                                         
-	    mutex.release();
+	    try{
+    	    for (i in 0...chart.length)
+    	        unspawnNotes.push(chart[i]);
+    	    unspawnNotes.sort(PlayState.sortByTime);  
+    	    
+    	    for (i in 0...types.length)
+    	        if(!noteTypes.contains(types[i]))
+                        noteTypes.push(types[i]);                                   
+            loaded++;                                         	    	    
+	    } finally { 
+	        mutex.release(); 
+	    }
 	}
 }
 
