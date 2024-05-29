@@ -807,8 +807,8 @@ class LoadingState extends MusicBeatState
             loaded++;                     
             mutex.release();                     	    	    
 	    } catch(e:Dynamic) {
-	        pushData(chart, types); //try again
 	        mutex.release(); 
+	        pushData(chart, types); //try again	        
 	    }
 	}
 }
