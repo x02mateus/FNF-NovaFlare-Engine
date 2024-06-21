@@ -36,8 +36,7 @@ class LoadingState extends MusicBeatState
 {
 	public static var loaded:Int = 0;
 	public static var loadMax:Int = 0;
-    
-    public static var startChartLoad:Bool = false;
+
 	static var requestedBitmaps:Map<String, BitmapData> = [];
 	static var mutex:Mutex = new Mutex();
 	
@@ -71,9 +70,7 @@ class LoadingState extends MusicBeatState
 	static var realStart:Bool = false;
 
 	override public function create()
-	{
-		if (checkLoaded())
-			dontUpdate = true;					
+	{				
 		
 		Paths.clearStoredMemory();
 
@@ -121,13 +118,7 @@ class LoadingState extends MusicBeatState
 		if (dontUpdate) return;		
 		
 		if (!realStart) startThreads();
-		
-		if (startChartLoad) 
-        {
-            preloadChart();
-            startChartLoad = false;            
-        }
-        
+
 		if (curPercent != intendedPercent)
 		{
 			if (Math.abs(curPercent - intendedPercent) < 0.001) curPercent = intendedPercent;
@@ -177,6 +168,30 @@ class LoadingState extends MusicBeatState
 	    }
 		transitioning = true;
 		finishedLoading = true;
+	}
+	
+	static var normalNote:FlxTypedGroup<Note>;
+	static function addNote()
+	{		
+		normalNote = new FlxTypedGroup<Note>();
+		for (i in 0...Note.colArray.length)
+		{
+			var note:Note = new Note(0, i);
+			note.reloadNote();
+			note.x = 300 + (300 / Note.colArray.length) * i;
+			note.y = 75;
+			note.scale.x = 75 / note.frameWidth;
+			note.scale.y = 75 / note.frameHeight;
+			note.centerOffsets();
+			note.centerOrigin();
+			note.inEditor = true;
+			note.updateHitbox();
+			note.rgbShader.enabled = ClientPrefs.data.noteRGB;
+			note.animation.play(Note.colArray[i] + 'Scroll');
+			normalNote.add(note);
+			note.alpha = 0.0001;
+		}
+		//用于正确读取note的切割	        		        	
 	}
 
 	static function checkLoaded():Bool {
@@ -239,7 +254,7 @@ class LoadingState extends MusicBeatState
 		clearInvalidFrom(imagesToPrepare, 'images', '.png', IMAGE);
 		clearInvalidFrom(soundsToPrepare, 'sounds', '.${Paths.SOUND_EXT}', SOUND);
 		clearInvalidFrom(musicToPrepare, 'music',' .${Paths.SOUND_EXT}', SOUND);
-		clearInvalidFrom(songsToPrepare, 'songs', '.${Paths.SOUND_EXT}', SOUND, 'songs');
+		clearInvalidFrom(songsToPrepare, 'songs', '.${Paths.SOUND_EXT}', SOUND);
 
 		for (arr in [imagesToPrepare, soundsToPrepare, musicToPrepare, songsToPrepare])
 			while (arr.contains(null))
@@ -266,9 +281,9 @@ class LoadingState extends MusicBeatState
 
 			var member:String = arr[i];
 			var myKey = '$prefix/$member$ext';
-			if(library == 'songs') myKey = '$member$ext';
+			//if(library == 'songs') myKey = '$member$ext';
 
-			//trace('attempting on $prefix: $myKey');
+			trace('attempting on $prefix: $myKey');
 			var doTrace:Bool = false;
 			if(member.endsWith('/') || (!Paths.fileExists(myKey, type, false, library) && (doTrace = true)))
 			{
@@ -307,7 +322,7 @@ class LoadingState extends MusicBeatState
 			#if MODS_ALLOWED
 			var moddyFile:String = Paths.modsJson('$folder/preload');
 			if (FileSystem.exists(moddyFile)) json = Json.parse(File.getContent(moddyFile));
-			else json = Json.parse(File.getContent(path));
+			else if (FileSystem.exists(path))json = Json.parse(File.getContent(path));
 			#else
 			json = Json.parse(Assets.getText(path));
 			#end
@@ -356,20 +371,18 @@ class LoadingState extends MusicBeatState
 		         + soundsToPrepare.length 
 		         + musicToPrepare.length 
 		         + songsToPrepare.length 
-		         + 32;       
+		         + PlayState.SONG.notes.length;       
 		loaded = 0;
-        
-       
+
+		//then start threads
 		for (sound in soundsToPrepare) initThread(() -> Paths.sound(sound), 'sound $sound');
 		for (music in musicToPrepare) initThread(() -> Paths.music(music), 'music $music');
 		for (song in songsToPrepare) initThread(() -> Paths.returnSound(null, song, 'songs'), 'song $song');
-                		
-		for (images in 0...imagesToPrepare.length)
-		{
-		    var image = imagesToPrepare[images];
+         trace(imagesToPrepare);     		
+		// for images, they get to have their own thread
+		for (image in imagesToPrepare)
 			Thread.create(() -> {
-				mutex.acquire();			
-				if (images == imagesToPrepare.length - 1) startChartLoad = true;
+				mutex.acquire();
 				try {
 					var bitmap:BitmapData;
 					var file:String = null;
@@ -409,11 +422,11 @@ class LoadingState extends MusicBeatState
 				catch(e:Dynamic) {
 					mutex.release();
 					trace('ERROR! fail on preloading image $image');
-				}				
+				}
 				loaded++;
 			});		
-        }
-		setSpeed();		
+		setSpeed();
+		preloadChart();
 	}
 
 	static function initThread(func:Void->Dynamic, traceData:String)
@@ -558,65 +571,53 @@ class LoadingState extends MusicBeatState
 	
 	static function scriptFilesCheck(path:String)
 	{    	
-    	var input:String = File.getContent(path);      
-        var regex = ~/makeLuaSprite\(['"]([^'"]*)['"], ['"]([^'"]*)['"],.*?\)/g;
-        while (regex.match(input)) {
-            var result = regex.matched(2); // Extract the first capture group
-            imagesToPrepare.push(result); // Output each match
-            input = regex.matchedRight(); // Move to the next match
-        }
-    	
-    	var input:String = File.getContent(path);    
-    	var regex = ~/makeAnimatedLuaSprite\(['"]([^'"]*)['"], ['"]([^'"]*)['"],.*?\)/g;
-    	while (regex.match(input)) {
-    	    var result = regex.matched(2);    
-    	    imagesToPrepare.push(result);
-    	    input = regex.matchedRight(); 
-    	}				
-    	
-    	var input:String = File.getContent(path);
-    	var regex = ~/precacheImage\(['"]([^'"]*)['"],.*?\)/g;
-    	while (regex.match(input)) {
-    	    var result = regex.matched(1); 
-    	    imagesToPrepare.push(result);
-    	    input = regex.matchedRight();
-    	}				    	
-    	
-    	var input:String = File.getContent(path);        
-        var regex = ~/triggerEvent\(['"]([^'"]*)['"], ['"]([^'"]*)['"], ['"]([^'"]*)['"],.*?\)/g;
-        while (regex.match(input)) {
-            var event = regex.matched(1);
-            var firstParam = regex.matched(2);
-            var secondParam = regex.matched(3);            
-            if (event == "Change Character") {              
-                preloadCharacter(secondParam);
-            }            
-            input = regex.matchedRight();
-        }
-    	
-    	var input:String = File.getContent(path);       
-        var regex = ~/addCharacterToList\(['"]([^'"]*)['"],.*?\)/g;
-        while (regex.match(input)) {    
-            var result = regex.matched(1);
-            preloadCharacter(result);
-            input = regex.matchedRight();
-        }
-        
-        var input:String = File.getContent(path);
-    	var regex = ~/addLuaScript\(['"]([^'"]*)['"],.*?\)/g;
-    	while (regex.match(input)) {
-    	    var result = regex.matched(1); 
-    	    startScriptNamed(result + '.lua');
-    	    input = regex.matchedRight();
-    	}
+		var input:String = File.getContent(path);      
+		var lines = input.split("\n");
+
+		for (line in lines) {
+			line = line.trim();
+			if (line.startsWith('makeLuaSprite')) { 
+				var keyValue = line.split(","); 
+				var pushData:String = keyValue[1].trim();
+				pushData = pushData.replace("'", '');  
+				imagesToPrepare.push(pushData);           
+			}
+			if (line.startsWith('makeAnimatedLuaSprite')) {          
+				var keyValue = line.split(","); 
+				var pushData:String = keyValue[1].trim();
+				pushData = pushData.replace("'", '');  
+				imagesToPrepare.push(pushData);        
+			}
+		}
+		
+		var input:String = File.getContent(path);
+		var regex = ~/precacheImage\(['"]([^'"]*)['"],.*?\)/g;
+		while (regex.match(input)) {
+			var result = regex.matched(1); 
+			imagesToPrepare.push(result);
+			input = regex.matchedRight();
+		}				    	
+		
+		var input:String = File.getContent(path);       
+		var regex = ~/addCharacterToList\(['"]([^'"]*)['"],.*?\)/g;
+		while (regex.match(input)) {    
+			var result = regex.matched(1);
+			preloadCharacter(result);
+			input = regex.matchedRight();
+		}
+		
+		var input:String = File.getContent(path);
+		var regex = ~/addLuaScript\(['"]([^'"]*)['"],.*?\)/g;
+		while (regex.match(input)) {
+			var result = regex.matched(1); 
+			startScriptNamed(result + '.lua');
+			input = regex.matchedRight();
+		}
 	}
 	
 	public static var unspawnNotes:Array<Note> = [];	
     public static var noteTypes:Array<String> = [];
     public static var events:Array<Array<Dynamic>> = [];    
-    
-	public static var chartMutex:Array<Mutex> = [];	
-	public static var plistChart:Array<Int> = [];
 	
 	public static var songSpeed:Float = 1;	
 	public static var songSpeedType:String = "multiplicative";		
@@ -634,54 +635,21 @@ class LoadingState extends MusicBeatState
 	}
 	
 	static function preloadChart()
-	{	    
+	{	    	    
+	    addNote();
+	    
 	    Note.globalRgbShaders = [];
 		backend.NoteTypesConfig.clearNoteTypesData();
 		
 	    unspawnNotes = [];    	        	   	    
 	    noteTypes = [];
-	    plistChart = [];
-	    chartMutex = [];
 	        
 	    var noteData:Array<SwagSection> =  PlayState.SONG.notes;	   	    	            
-    	
-    	addMutex(noteData);   	    	
-    	
-    	//Sys.sleep(0.1);
-    	
-    	for (bigSection in 0...32)
+    	    	
+    	for (section in noteData)
     	{
-    	    Thread.create(() -> {    	         	  
-    	        createNote(noteData, bigSection);          	                                                         
-            });
-        }
-	}
-	
-	static function addMutex(chart:Array<SwagSection>)
-	{		
-		 for (plist in 0...32)      	
-		 {
-		    var mutex:Mutex = new Mutex();
-		    chartMutex.push(mutex);		 
-		 }   
-		 
-		 var bigSection:Int = Std.int(chart.length / 32);
-		 for (plist in 0...32 + 1)
-		 {	
-		    if (plist != 32) plistChart.push(bigSection * plist);   
-		    else plistChart.push(chart.length);		 		 
-		 }
-	}
-	
-	static function createNote(chart:Array<SwagSection>, plistData:Int)
-	{		
-	    try{
-            var unspawnNotes:Array<Note> = [];	
-	        var noteTypes:Array<String> = [];
-	            	   
-        	for (smallSection in plistChart[plistData]...plistChart[plistData + 1])
-        	{   
-        	    var section = chart[smallSection];        	                     	        
+    	    Thread.create(() -> {
+        	    mutex.acquire();                        	        
         		for (songNotes in section.sectionNotes)
         		{
     				var daStrumTime:Float = songNotes[0];
@@ -768,8 +736,6 @@ class LoadingState extends MusicBeatState
             					if(daNoteData > 1) //Up and Right
             						sustainNote.x += FlxG.width / 2 + 25;
             				}
-            				
-            				sustainNote.updateHitbox();
             			}
             		}
             
@@ -789,32 +755,12 @@ class LoadingState extends MusicBeatState
             		if(!noteTypes.contains(swagNote.noteType)) {
             			noteTypes.push(swagNote.noteType);                
             		}
-            		swagNote.updateHitbox();
-        		}                           		                
-            }
-            pushData(unspawnNotes, noteTypes);
-        } catch(e:Dynamic) {	       
-	        createNote(chart, plistData); //try again            
-	    }
-	}
-	
-	static function pushData(chart:Array<Note>, types:Array<String>)
-	{
-	    mutex.acquire();
-	    try{
-    	    for (i in 0...chart.length)
-    	        unspawnNotes.push(chart[i]);
-    	    unspawnNotes.sort(PlayState.sortByTime);  
-    	    
-    	    for (i in 0...types.length)
-    	        if(!noteTypes.contains(types[i]))
-                        noteTypes.push(types[i]);                                   
-            loaded++;                     
-            mutex.release();                     	    	    
-	    } catch(e:Dynamic) {
-	        mutex.release(); 
-	        pushData(chart, types); //try again	        
-	    }
+        		}
+            unspawnNotes.sort(PlayState.sortByTime);
+    		mutex.release();      
+            loaded++;        
+            });
+        }
 	}
 }
 
