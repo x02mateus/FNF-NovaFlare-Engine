@@ -205,30 +205,42 @@ jobs:
         with:
            name: macOSBuild-11
            path: /home/runner
+      
+      - name: Move macOS11 File
+        run: mv "/home/runner/NovaFlare Engine.zip" "/home/runner/macOS11.zip"
         
       - name: Download macOS12 Build
         uses: actions/download-artifact@main
         with:
            name: macOSBuild-12
            path: /home/runner
+      
+      - name: Move macOS12 File
+        run: mv "/home/runner/NovaFlare Engine.zip" "/home/runner/macOS12.zip"
 
       - name: Download macOS13 Build
         uses: actions/download-artifact@main
         with:
            name: macOSBuild-13
            path: /home/runner
+           
+      - name: Move macOS13 File
+        run: mv "/home/runner/NovaFlare Engine.zip" "/home/runner/macOS13.zip"
         
       - name: Download Windows Build
         uses: actions/download-artifact@main
         with:
            name: windowsBuild
            path: /home/runner
+      
+      - name: Move Windows File
+        run: mv "/home/runner/NovaFlare Engine.zip" "/home/runner/windows.zip"
 
       - name: Publish The Release
         uses: marvinpinto/action-automatic-releases@latest
         with:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
-          prerelease: true
+          prerelease: false
           automatic_release_tag: "V1.1.3"
           title: "V1.1.3"
           files: |
