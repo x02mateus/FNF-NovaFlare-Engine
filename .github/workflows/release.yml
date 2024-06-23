@@ -21,18 +21,24 @@ jobs:
       - name: Compile
         run: haxelib run lime build windows
 
+      - name: Make zip for release
+        shell: pwsh
+        run: | 
+          cd export\release\windows\bin
+          Compress-Archive -Path . -DestinationPath windows.zip
+
       - name: Upload Artifact
         if: ${{ success() }}
         uses: actions/upload-artifact@main
         with:
           name: windowsBuild
-          path: export\release\windows\bin\*
+          path: export\release\windows\bin\*.zip
           if-no-files-found: error      
   macOS:
     runs-on: macos-${{matrix.version}}
     strategy:
       matrix:
-        version: [11, 12, 13]
+        version: [12, 13]
     steps:
       - name: Checkout
         uses: actions/checkout@main
@@ -51,12 +57,17 @@ jobs:
       - name: Compile
         run: haxelib run lime build mac
 
+      - name: Make tar for relese
+        run: |
+          cd export/release/macos/bin
+          tar czf macOS${{matrix.version}}.tar .
+
       - name: Upload Artifact
         if: ${{ success() }}
         uses: actions/upload-artifact@main
         with:
           name: macOSBuild-${{matrix.version}}
-          path: export/release/macos/bin/*
+          path: export/release/macos/bin/*.tar
           if-no-files-found: error
   Android:
     runs-on: ubuntu-latest
@@ -199,42 +210,24 @@ jobs:
       
       - name: Move iOS File
         run: mv "/home/runner/NovaFlare Engine.zip" "/home/runner/ios.zip"
-      
-      - name: Download macOS11 Build
-        uses: actions/download-artifact@main
-        with:
-           name: macOSBuild-11
-           path: /home/runner
-      
-      - name: Move macOS11 File
-        run: mv "/home/runner/NovaFlare Engine.zip" "/home/runner/macOS11.zip"
-        
+  
       - name: Download macOS12 Build
         uses: actions/download-artifact@main
         with:
            name: macOSBuild-12
            path: /home/runner
-      
-      - name: Move macOS12 File
-        run: mv "/home/runner/NovaFlare Engine.zip" "/home/runner/macOS12.zip"
 
       - name: Download macOS13 Build
         uses: actions/download-artifact@main
         with:
            name: macOSBuild-13
            path: /home/runner
-           
-      - name: Move macOS13 File
-        run: mv "/home/runner/NovaFlare Engine.zip" "/home/runner/macOS13.zip"
-        
+
       - name: Download Windows Build
         uses: actions/download-artifact@main
         with:
            name: windowsBuild
            path: /home/runner
-      
-      - name: Move Windows File
-        run: mv "/home/runner/NovaFlare Engine.zip" "/home/runner/windows.zip"
 
       - name: Publish The Release
         uses: marvinpinto/action-automatic-releases@latest
@@ -246,3 +239,4 @@ jobs:
           files: |
             /home/runner/*.apk
             /home/runner/*.zip
+            /home/runner/*.tar
