@@ -17,7 +17,7 @@ import states.editors.MasterEditorMenu;
 import options.OptionsState;
 import openfl.Lib;
 
-import rpg.state.MainRPG;
+//import rpg.state.MainRPG;
 
 //import audio.SpectogramSprite;
 
@@ -365,7 +365,7 @@ class MainMenuState extends MusicBeatState
 
 			else if (FlxG.keys.justPressed.EIGHT)
 			{
-				MusicBeatState.switchState(new MainRPG());
+				//MusicBeatState.switchState(new MainRPG());
 			}
 			
 		
