@@ -495,6 +495,10 @@ class FreeplayState extends MusicBeatState {
 		blackBG.antialiasing = ClientPrefs.data.antialiasing;
 		blackBG.camera = camBG;
 		add(blackBG);
+		
+		#if !mobile
+		FlxG.mouse.visible = true;
+		#end						
 								
 		super.create();
 		

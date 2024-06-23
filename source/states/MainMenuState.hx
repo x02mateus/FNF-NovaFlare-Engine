@@ -17,6 +17,8 @@ import states.editors.MasterEditorMenu;
 import options.OptionsState;
 import openfl.Lib;
 
+import rpg.state.MainRPG;
+
 //import audio.SpectogramSprite;
 
 class MainMenuState extends MusicBeatState
@@ -269,7 +271,7 @@ class MainMenuState extends MusicBeatState
 
 		FlxG.camera.followLerp = FlxMath.bound(elapsed * 9 / (FlxG.updateFramerate / 60), 0, 1);
 
-		if (FlxG.mouse.justPressed) usingMouse = true;
+		if (FlxG.mouse.justPressed || FlxG.mouse.deltaX != 0 || FlxG.mouse.deltaY != 0) usingMouse = true;
 		
         if(!endCheck){
 		
@@ -326,24 +328,27 @@ class MainMenuState extends MusicBeatState
     			if (FlxG.mouse.overlaps(spr)){
     			    if (FlxG.mouse.justPressed){
     			        if (spr.animation.curAnim.name == 'selected') selectSomething();
-    			        else spr.animation.play('idle');
     			    }
-    				if (FlxG.mouse.pressed){
-        			    curSelected = spr.ID;
-			    	
-        			    if (spr.animation.curAnim.name == 'idle'){
-        			        FlxG.sound.play(Paths.sound('scrollMenu'));	 
-        			        spr.animation.play('selected');		
-        			    }	
-        			    
-        			    menuItems.forEach(function(spr:FlxSprite){
-            	            if (spr.ID != curSelected)
-            			    {
-                			    spr.animation.play('idle');
-                			    spr.centerOffsets();
-                			}
-            		    });
-    			    }   			    
+					curSelected = spr.ID;
+				
+					if (spr.animation.curAnim.name == 'idle'){
+						FlxG.sound.play(Paths.sound('scrollMenu'));	 
+						spr.animation.play('selected');		
+					}	
+					
+					menuItems.forEach(function(spr:FlxSprite){
+						if (spr.ID != curSelected)
+						{
+							spr.animation.play('idle');
+							spr.centerOffsets();
+						}
+					});
+			    }			    
+				if (!FlxG.mouse.overlaps(spr)){				
+					if (spr.animation.curAnim.name == 'selected'){
+						spr.animation.play('idle');		
+						spr.centerOffsets();
+					}	
 			    }			    
 			    if(saveCurSelected != curSelected) checkChoose();
 			}
@@ -360,6 +365,11 @@ class MainMenuState extends MusicBeatState
 			{
 				endCheck = true;
 				MusicBeatState.switchState(new MasterEditorMenu());
+			}
+
+			else if (FlxG.keys.justPressed.EIGHT)
+			{
+				MusicBeatState.switchState(new MainRPG());
 			}
 			
 		

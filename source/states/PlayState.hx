@@ -1961,8 +1961,8 @@ class PlayState extends MusicBeatState
 			Conductor.songPosition += elapsed * 1000 * playbackRate;
 			if(checkIfDesynced)
 			{			    
-			    if (musicCheck(vocals, FlxG.sound.music.time, 2)
-			    || (musicCheck(opponentVocals, FlxG.sound.music.time, 2)))
+			    if (musicCheck(vocals, FlxG.sound.music.time, 20)
+			    || (musicCheck(opponentVocals, FlxG.sound.music.time, 20)))
 			        fixDesyncedStep++;
 			    else fixDesyncedStep = 0;
 			    
@@ -3425,7 +3425,7 @@ class PlayState extends MusicBeatState
 			NoteMs.push(167);
 		    NoteTime.push(note.strumTime); //it will work better for ResultsScreen
 		}			
-		note.missed = true;
+		if (note != null)note.missed = true;
 		
 		if(instakillOnMiss)
 		{
@@ -3447,10 +3447,10 @@ class PlayState extends MusicBeatState
 		if(!endingSong) songMisses++;
 		totalPlayed++;
 		RecalculateRating(true);
-		
-		var result:Dynamic = callOnLuas('noteMiss', [notes.members.indexOf(note), note.noteData, note.noteType, note.isSustainNote]);
-		if(result != LuaUtils.Function_Stop && result != LuaUtils.Function_StopHScript && result != LuaUtils.Function_StopAll) callOnHScript('noteMiss', [note]);
-
+		if (note != null){
+			var result:Dynamic = callOnLuas('noteMiss', [note, note.noteData, note.noteType, note.isSustainNote]);
+			if(result != LuaUtils.Function_Stop && result != LuaUtils.Function_StopHScript && result != LuaUtils.Function_StopAll) callOnHScript('noteMiss', [note]);
+		}
 		// play character anims
 		var char:Character = ClientPrefs.data.playOpponent ? dad : boyfriend;
 		if((note != null && note.gfNote) || (SONG.notes[curSection] != null && SONG.notes[curSection].gfSection)) char = gf;
@@ -3816,8 +3816,9 @@ class PlayState extends MusicBeatState
 		@:privateAccess
 		FlxG.game._filters = [];
 		camGame.filters = camHUD.filters = camOther.filters = [];
-		super.destroy();
+		//super.destroy();
 	}
+	
 
 	var checkIfDesynced:Bool = false;
 	var lastStepHit:Int = -1;
