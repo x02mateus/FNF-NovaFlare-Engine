@@ -17,8 +17,6 @@ import states.editors.MasterEditorMenu;
 import options.OptionsState;
 import openfl.Lib;
 
-import rpg.state.MainRPG;
-
 //import audio.SpectogramSprite;
 
 class MainMenuState extends MusicBeatState
@@ -365,14 +363,7 @@ class MainMenuState extends MusicBeatState
 			{
 				endCheck = true;
 				MusicBeatState.switchState(new MasterEditorMenu());
-			}
-
-			else if (FlxG.keys.justPressed.EIGHT)
-			{
-				MusicBeatState.switchState(new MainRPG());
-			}
-			
-		
+			}		
         }
       
         SoundTime = FlxG.sound.music.time / 1000;
