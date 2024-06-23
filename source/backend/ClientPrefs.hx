@@ -60,7 +60,7 @@ import states.TitleState;
 	public var shaders:Bool = true;
 	public var colorblindMode:Int = 0;
 	public var cacheOnGPU:Bool = #if !switch false #else true #end; //From Stilic	
-	public var loadingScreen:Bool = false;
+	public var loadingScreen:Bool = true;
 	public var antialiasing:Bool = true;
 	public var framerate:Int = 60;
 	public var autoPause:Bool = true;	
@@ -100,7 +100,7 @@ import states.TitleState;
 	public var playControlsAlpha:Float = 0.2;
 	public var hideHitboxHints:Bool = false;
 	
-	public var extraKey:Int = 4;
+	public var extraKey:Int = 2;
 	public var extraKeyReturn1:String = 'SPACE';
 	public var extraKeyReturn2:String = 'SPACE';
 	public var extraKeyReturn3:String = 'SHIFT';
