@@ -3448,7 +3448,7 @@ class PlayState extends MusicBeatState
 		totalPlayed++;
 		RecalculateRating(true);
 		if (note != null){
-			var result:Dynamic = callOnLuas('noteMiss', [note, note.noteData, note.noteType, note.isSustainNote]);
+			var result:Dynamic = callOnLuas('noteMiss', [notes.members.indexOf(note), note.noteData, note.noteType, note.isSustainNote]);
 			if(result != LuaUtils.Function_Stop && result != LuaUtils.Function_StopHScript && result != LuaUtils.Function_StopAll) callOnHScript('noteMiss', [note]);
 		}
 		// play character anims
