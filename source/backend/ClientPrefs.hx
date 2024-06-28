@@ -60,7 +60,7 @@ import states.TitleState;
 	public var shaders:Bool = true;
 	public var colorblindMode:Int = 0;
 	public var cacheOnGPU:Bool = #if !switch false #else true #end; //From Stilic	
-	public var loadingScreen:Bool = true;
+	public var loadingScreen:Bool = false;
 	public var antialiasing:Bool = true;
 	public var framerate:Int = 60;
 	public var autoPause:Bool = true;	
@@ -81,7 +81,7 @@ import states.TitleState;
 	public var screensaver:Bool = false;
 	public var filesCheck:Bool = true;		
     
-	public var comboOffset:Array<Int> = [0, 0, 0, 0];
+	public var comboOffset:Array<Int> = [0, 0, 0, 0, 530, 470];
 	public var ratingOffset:Int = 0;	
 	public var noteOffset:Int = 0;
 	public var sickWindow:Int = 45;
@@ -99,8 +99,14 @@ import states.TitleState;
 	public var controlsAlpha:Float = 0.6;
 	public var playControlsAlpha:Float = 0.2;
 	public var hideHitboxHints:Bool = false;
+
+	public var keyboardDisplay:Bool = true;
+	public var keyboardAlpha:Float = 0.8;
+	public var keyboardTime:Float = 500;
+	public var keyboardBGColor:Int = 1;
+	public var keyboardTextColor:Int = 0;
 	
-	public var extraKey:Int = 2;
+	public var extraKey:Int = 4;
 	public var extraKeyReturn1:String = 'SPACE';
 	public var extraKeyReturn2:String = 'SPACE';
 	public var extraKeyReturn3:String = 'SHIFT';
