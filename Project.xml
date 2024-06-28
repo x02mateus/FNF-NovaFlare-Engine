@@ -101,6 +101,8 @@
 	<haxelib name="flixel" />
 	<haxelib name="flixel-ui" />
 	<haxelib name="flixel-addons" />
+	<haxelib name="haxeui-core" /> 
+	<haxelib name="haxeui-flixel" />
 
 	<!--Psych stuff needed-->
 	<haxelib name="linc_luajit" if="LUA_ALLOWED"/>
@@ -111,6 +113,8 @@
 	<haxelib name="hxdiscord_rpc" if="DISCORD_ALLOWED"/>
 	<haxelib name="flxanimate" unless="html5"/>
 	<haxelib name="androiddialogs" if="android"/>
+	<haxelib name="funkin.vis"/>
+	<haxelib name="grig.audio" />
 	<haxelib name="tjson"/>
 
 	<!-- Mobile Specific-->

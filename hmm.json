@@ -86,18 +86,18 @@
       "url": "https://github.com/ShadowMario/flxanimate.git"
     },
     {
-      "name": "extension-androidtools",
+      "name": "funkin.vis",
       "type": "git",
       "dir": null,
-      "ref": "main",
-      "url": "https://github.com/beihu235/extension-androidtools"
+      "ref": "38261833590773cb1de34ac5d11e0825696fc340",
+      "url": "https://github.com/FunkinCrew/funkVis"
     },
     {
-      "name": "androiddialogs",
+      "name": "grig.audio",
       "type": "git",
-      "dir": null,
-      "ref": "master",
-      "url": "https://github.com/beihu235/AndroidDialogs"
+      "dir": "src",
+      "ref": "57f5d47f2533fd0c3dcd025a86cb86c0dfa0b6d2",
+      "url": "https://gitlab.com/haxe-grig/grig.audio.git"
     }
   ]
 }
