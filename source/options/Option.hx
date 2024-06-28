@@ -302,9 +302,7 @@ class Judgement extends Option
 	}
 
 	override function press()
-	{
-		
-							
+	{						
 		var num:Int = 8;	
 		OptionsState.instance.selectedCatIndex = num;
 		OptionsState.instance.switchCat(OptionsState.instance.options[num], false);
@@ -502,8 +500,6 @@ class HitSound extends Option
 		ClientPrefs.data.hitsoundVolume = FlxMath.roundDecimal(ClientPrefs.data.hitsoundVolume, 1);
         if (ClientPrefs.data.hitsoundType == ClientPrefs.defaultData.hitsoundType) FlxG.sound.play(Paths.sound('hitsound'), ClientPrefs.data.hitsoundVolume);
 		else FlxG.sound.play(Paths.sound('hitsounds/' + ClientPrefs.data.hitsoundType), ClientPrefs.data.hitsoundVolume);
-		
-
 	}
 
 	override function left()
@@ -560,6 +556,29 @@ class ScoreZoom extends Option
 	private override function updateDisplay():String
 	{
 		return "Score Beat: " + (ClientPrefs.data.scoreZoom ? enable_O : disable_O);
+	}
+}
+
+class KeyboardDisplayOption  extends Option
+{
+	public function new(desc:String)
+	{
+		super();
+		description = desc;
+		acceptValues = true;
+	}
+
+	override function press()
+	{						
+		var num:Int = 9;	
+		OptionsState.instance.selectedCatIndex = num;
+		OptionsState.instance.switchCat(OptionsState.instance.options[num], false);
+		
+    }
+
+	private override function updateDisplay():String
+	{
+		return "Keyboard Display";
 	}
 }
 
@@ -2400,4 +2419,158 @@ class MarvelousSprite extends Option
 	{
 		return "Marvelous Sprite: < " + (ClientPrefs.data.marvelousSprite ? 'marvelous' : 'sick') + ' >';
 	}
+}
+
+//----------------------------------------------------------------
+//----------------------------------------------------------------
+//----------------------------------------------------------------
+//大类10
+
+class KeyboardDisplay extends Option
+{
+	public function new(desc:String)
+	{
+		super();
+		description = desc;
+	}
+
+	override function press()
+	{
+		ClientPrefs.data.keyboardDisplay = !ClientPrefs.data.keyboardDisplay;
+		display = updateDisplay();
+    }
+       
+	private override function updateDisplay():String
+	{
+		return "Display: " + (ClientPrefs.data.keyboardDisplay ? enable_O : disable_O);
+	}
+}
+
+
+class KeyboardAlpha extends Option
+{
+	public function new(desc:String)
+	{
+		super();
+
+		description = desc;
+		acceptValues = true;
+	}
+
+	override function right()
+	{
+		ClientPrefs.data.keyboardAlpha += 0.1;
+		if (ClientPrefs.data.keyboardAlpha > 1)
+			ClientPrefs.data.keyboardAlpha = 1;
+		
+		ClientPrefs.data.keyboardAlpha = FlxMath.roundDecimal(ClientPrefs.data.keyboardAlpha, 1);	
+    }
+
+	override function left()
+	{
+		ClientPrefs.data.keyboardAlpha -= 0.1;
+
+		if (ClientPrefs.data.keyboardAlpha < 0)
+			ClientPrefs.data.keyboardAlpha = 0;
+		
+		ClientPrefs.data.keyboardAlpha = FlxMath.roundDecimal(ClientPrefs.data.keyboardAlpha, 1);
+    }
+
+	private override function updateDisplay():String
+	{
+	    var data:Float = ClientPrefs.data.keyboardAlpha * 100;
+		return "Alpha: < " + data + "% >";
+	}
+}
+
+class KeyboardTime extends Option
+{
+	public function new(desc:String)
+	{
+		super();
+
+		description = desc;
+		acceptValues = true;
+	}
+
+	override function right()
+	{
+		ClientPrefs.data.keyboardTime += 10;
+		if (ClientPrefs.data.keyboardTime > 1000)
+			ClientPrefs.data.keyboardTime = 1000;
+		
+		ClientPrefs.data.keyboardTime = FlxMath.roundDecimal(ClientPrefs.data.keyboardTime, 1);	
+    }
+
+	override function left()
+	{
+		ClientPrefs.data.keyboardTime -= 10;
+
+		if (ClientPrefs.data.keyboardTime < 0)
+			ClientPrefs.data.keyboardTime = 0;
+		
+		ClientPrefs.data.keyboardTime = FlxMath.roundDecimal(ClientPrefs.data.keyboardTime, 1);
+    }
+
+	private override function updateDisplay():String
+	{
+	    var data:Float = ClientPrefs.data.keyboardTime;
+		return "Sustain time: < " + data + " MS >";
+	}
+}
+
+class KeyboardBGColor extends Option
+{
+	public function new(desc:String)
+	{
+		super();
+		description = desc;
+	}
+
+	override function left()
+	{
+        ClientPrefs.data.keyboardBGColor -= 1;
+        if (ClientPrefs.data.keyboardBGColor < 0) ClientPrefs.data.keyboardBGColor = 0;
+		display = updateDisplay();
+    }
+    
+    override function right()
+	{
+        ClientPrefs.data.keyboardBGColor += 1;
+        if (ClientPrefs.data.keyboardBGColor > OptionsHelpers.colorStingArray.length - 1) ClientPrefs.data.keyboardBGColor = OptionsHelpers.colorStingArray.length - 1;
+		display = updateDisplay();
+    }
+    
+	private override function updateDisplay():String
+	{
+		return "BG Color: " + OptionsHelpers.colorStingArray[ClientPrefs.data.keyboardBGColor];
+	} 
+}
+
+class KeyboardTextColor extends Option
+{
+	public function new(desc:String)
+	{
+		super();
+		description = desc;
+	}
+
+	override function left()
+	{
+        ClientPrefs.data.keyboardTextColor -= 1;
+        if (ClientPrefs.data.keyboardTextColor < 0) ClientPrefs.data.keyboardTextColor = 0;
+		display = updateDisplay();
+    }
+    
+    override function right()
+	{
+        ClientPrefs.data.keyboardTextColor += 1;
+        if (ClientPrefs.data.keyboardTextColor > OptionsHelpers.colorStingArray.length - 1) ClientPrefs.data.keyboardTextColor = OptionsHelpers.colorStingArray.length - 1;
+		display = updateDisplay();
+    }
+    
+	private override function updateDisplay():String
+	{
+		return "Text Color: " + OptionsHelpers.colorStingArray[ClientPrefs.data.keyboardTextColor];
+	} 
 }
