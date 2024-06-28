@@ -3,14 +3,11 @@ package objects;
 import openfl.display.Bitmap;
 import openfl.display.BitmapData;
 import openfl.display.Shape;
-import flash.geom.Matrix;
 import openfl.utils.Assets;
 import flixel.util.FlxSave;
 
 import backend.InputFormatter;
 import options.OptionsHelpers;
-
-import flixel.util.FlxGradient;
 
 class KeyboardDisplay extends FlxSpriteGroup
 {
@@ -110,12 +107,16 @@ class KeyboardDisplay extends FlxSpriteGroup
         switch(key)
         {
             case 0:
+                if (leftArray.length > 0 && leftArray[leftArray.length - 1].endTime == -999999) leftArray[leftArray.length - 1].endTime = Conductor.songPosition;
                 leftArray.push(obj);
             case 1:
+                if (downArray.length > 0 && downArray[downArray.length - 1].endTime == -999999) downArray[downArray.length - 1].endTime = Conductor.songPosition;
                 downArray.push(obj);
             case 2:
+                if (upArray.length > 0 && upArray[upArray.length - 1].endTime == -999999) upArray[upArray.length - 1].endTime = Conductor.songPosition;
                 upArray.push(obj);
             case 3:
+                if (rightArray.length > 0 && rightArray[rightArray.length - 1].endTime == -999999) rightArray[rightArray.length - 1].endTime = Conductor.songPosition;
                 rightArray.push(obj);
         }
 
