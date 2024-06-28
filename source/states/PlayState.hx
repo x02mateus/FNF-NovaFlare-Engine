@@ -219,6 +219,7 @@ class PlayState extends MusicBeatState
 	public var healthBarBG:FlxSprite;
 	public var timeBarBG:FlxSprite;  //修复那傻逼lua
 	var songPercent:Float = 0;
+	public var keyboardDisplay:KeyboardDisplay;
 
 	public var ratingsData:Array<Rating> = Rating.loadDefault();
 
@@ -529,6 +530,11 @@ class PlayState extends MusicBeatState
 		}
 		stagesFunc(function(stage:BaseStage) stage.createPost());
 
+		/*var test:AudioDisplay = new AudioDisplay(FlxG.sound.music, 0, FlxG.height,  FlxG.width, Std.int(FlxG.height / 2), 300, FlxColor.WHITE);
+		add(test);
+		test.alpha = 0.7;
+		test.cameras = [camHUD];*/
+
 		comboGroup = new FlxSpriteGroup();
 		add(comboGroup);
 		cachePopUpScore();
@@ -616,7 +622,7 @@ class PlayState extends MusicBeatState
 		botplayTxt.cameras = [camHUD];	
 		uiGroup.add(botplayTxt);
 		if(ClientPrefs.data.downScroll)
-			botplayTxt.y = timeBar.y - 78;
+			botplayTxt.y = timeBar.y - 78;	
 			
 		if(ClientPrefs.data.timeBarType == 'Song Name')
 		{
@@ -645,6 +651,12 @@ class PlayState extends MusicBeatState
 		playerStrums = new FlxTypedGroup<StrumNote>();
 
 		generateSong(SONG.song);
+
+		keyboardDisplay = new KeyboardDisplay(ClientPrefs.data.comboOffset[4], ClientPrefs.data.comboOffset[5]);
+		keyboardDisplay.antialiasing = ClientPrefs.data.antialiasing;
+		keyboardDisplay.visible = ClientPrefs.data.keyboardDisplay;
+		add(keyboardDisplay);
+		keyboardDisplay.cameras = [camHUD];
 
 		camFollow = new FlxObject(0, 0, 1, 1);
 		camFollow.setPosition(camPos.x, camPos.y);
@@ -1909,6 +1921,8 @@ class PlayState extends MusicBeatState
     			}
     		}
 		}
+
+		keyboardDisplay.dataUpdate(elapsed);
 		
 		if(!inCutscene && !paused && !freezeCamera) {
 			FlxG.camera.followLerp = 2.4 * cameraSpeed * playbackRate;
@@ -2267,6 +2281,9 @@ class PlayState extends MusicBeatState
 		persistentDraw = true;
 		mobileControls.visible = false;
 		paused = true;
+
+		keyboardDisplay.save();
+		for (i in 0...4) keyboardDisplay.released(i);
 
 		#if VIDEOS_ALLOWED
 		if(videoSprites.length > 0)
@@ -2734,6 +2751,8 @@ class PlayState extends MusicBeatState
 			}
 		}
 
+		keyboardDisplay.save();
+
 		timeBar.visible = false;
 		timeTxt.visible = false;
 		canPause = false;
@@ -3168,6 +3187,8 @@ class PlayState extends MusicBeatState
 		var char:Character = ClientPrefs.data.playOpponent ? dad : boyfriend;
 		if(!generatedMusic || endingSong || char.stunned) return;
 
+		keyboardDisplay.pressed(key);
+
 		// had to name it like this else it'd break older scripts lol
 		var ret:Dynamic = callOnScripts('preKeyPress', [key], true);		
 
@@ -3270,6 +3291,8 @@ class PlayState extends MusicBeatState
 	{
 		if(ClientPrefs.data.playOpponent ? !cpuControlled_opponent : !cpuControlled && startedCountdown && !paused)
 		{
+			keyboardDisplay.released(key);
+
 			var spr:StrumNote = ClientPrefs.data.playOpponent ? opponentStrums.members[key] : playerStrums.members[key];
 			if(spr != null)
 			{
