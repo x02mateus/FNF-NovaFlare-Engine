@@ -86,6 +86,13 @@
       "url": "https://github.com/ShadowMario/flxanimate.git"
     },
     {
+      "name": "extension-androidtools",
+      "type": "git",
+      "dir": null,
+      "ref": "SAF",
+      "url": "https://github.com/PsychPorting/extension-androidtools-Base.git"
+    },
+    {
       "name": "funkin.vis",
       "type": "git",
       "dir": null,
