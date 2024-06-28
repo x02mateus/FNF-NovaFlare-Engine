@@ -50,6 +50,7 @@ import backend.Mods;
 
 import objects.Alphabet;
 import objects.BGSprite;
+import objects.AudioDisplay;
 
 import states.PlayState;
 import states.LoadingState;
