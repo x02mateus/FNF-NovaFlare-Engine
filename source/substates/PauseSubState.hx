@@ -121,7 +121,7 @@ class PauseSubState extends MusicBeatSubstate
 	var colorTween:FlxTween;
 	var colorTweenShadow:FlxTween;
 
-	public function new()
+	override function create()
 	{
 		FlxG.sound.play(Paths.sound('scrollMenu'), 0.4);
 		pauseMusic = new FlxSound();
