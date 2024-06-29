@@ -54,8 +54,6 @@ class NotesSubState extends MusicBeatSubstate
     var ColorCheck:String = '';
     
 	public function new() {
-                controls.isInSubstate = true;
-
 		super();
 		
 		#if DISCORD_ALLOWED
