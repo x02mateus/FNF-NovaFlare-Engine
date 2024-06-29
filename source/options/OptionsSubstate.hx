@@ -102,6 +102,7 @@ class OptionsSubstate extends MusicBeatSubstate
                 new ResultsScreen('If checked, Open Results Screen at end song.'),                          
 			]),
 			new OptionCata(345, 40, OptionsName.setAppearance(), [
+			    //new HitSoundType('Choose sound type for hitSound.'),
                 new HitSound("Adds 'hitsound' on note hits."),				               
 				new CamZoom("Toggle the camera zoom in-game."),
 				new ScoreZoom("Zoom score on"),				
@@ -135,6 +136,7 @@ class OptionsSubstate extends MusicBeatSubstate
 				new CustomFadeSound('Change Custom Fade Sound Volume.'),	
 				new CustomFadeText('Check for showcase engine version and loading condition.'),								
 				new SkipTitleVideo('Check for skip intro video'),
+				new FreeplayStateVersion('Choose which engine freeplay you need.'),
 			]),
 			new OptionCata(345, 40 + 64, OptionsName.setControls(), [                
 			    new ControlsAlpha('Virtual pad alpha at state.'),
@@ -155,7 +157,7 @@ class OptionsSubstate extends MusicBeatSubstate
 			]),			
 			new OptionCata(935, 40 + 64, "Watermark", [                
 				new FPSOption("Toggle the FPS counter."),
-				new FPSRainbowOption("Make the FPS Counter flicker through rainbow colors."),
+				new FPSRainbowOption("Make the FPS Counter color varies according to your frame count."),
 				new FPSScale('Set the size of FPS counter.'),
                 new ExtraOption("Toggle the extra counter."),
                 new MEMType("Choose memory showcase data."),                
@@ -725,6 +727,7 @@ class OptionsSubstate extends MusicBeatSubstate
             case 0:
                 ClientPrefs.data.resultsScreen = ClientPrefs.defaultData.resultsScreen;
             case 1:                
+                //ClientPrefs.data.hitsoundType = ClientPrefs.defaultData.hitsoundType;
                 ClientPrefs.data.hitsoundVolume = ClientPrefs.defaultData.hitsoundVolume;
                 ClientPrefs.data.camZooms = ClientPrefs.defaultData.camZooms;
                 ClientPrefs.data.scoreZoom = ClientPrefs.defaultData.scoreZoom;
@@ -753,7 +756,8 @@ class OptionsSubstate extends MusicBeatSubstate
                 ClientPrefs.data.CustomFade = ClientPrefs.defaultData.CustomFade;
                 ClientPrefs.data.CustomFadeSound = ClientPrefs.defaultData.CustomFadeSound;
                 ClientPrefs.data.CustomFadeText = ClientPrefs.defaultData.CustomFadeText;
-                ClientPrefs.data.skipTitleVideo = ClientPrefs.defaultData.skipTitleVideo;                
+                ClientPrefs.data.skipTitleVideo = ClientPrefs.defaultData.skipTitleVideo;       
+                ClientPrefs.data.freeplayOld = ClientPrefs.defaultData.freeplayOld;                       
             case 5:                
                 ClientPrefs.data.controlsAlpha = ClientPrefs.defaultData.controlsAlpha;
                 ClientPrefs.data.playControlsAlpha = ClientPrefs.defaultData.playControlsAlpha;                                
