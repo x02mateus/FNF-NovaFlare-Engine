@@ -65,8 +65,6 @@ class MobileControlSelectSubState extends MusicBeatSubstate
 				MobileControls.setCustomMode(virtualPadd);
 			
 			if (virtualPadd.visible == true) MobileControls.setExtraCustomMode(virtualPadd);	
-
-			controls.isInSubstate = false;
                         
             FlxG.sound.play(Paths.sound('cancelMenu'));
             FlxTransitionableState.skipNextTransIn = true;
