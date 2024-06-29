@@ -1787,10 +1787,12 @@ class PlayState extends MusicBeatState
 		{
 		    if (PauseSubState.moveType == 1){
 		        PauseSubState.moveType = 2; //really back to pause
+		        super.closeSubState();
 		        openSubState(new OptionsSubstate());
 		        return;
 		    }
-		    else if (PauseSubState.moveType == 2){		        
+		    else if (PauseSubState.moveType == 2){		
+		        super.closeSubState();        
 		        openSubState(new PauseSubState());		        
 		        return;
 		    }
