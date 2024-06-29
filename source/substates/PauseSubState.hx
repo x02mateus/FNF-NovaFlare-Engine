@@ -414,8 +414,6 @@ class PauseSubState extends MusicBeatSubstate
 		moveType = 0;
 		
 		super.create();
-		
-		controls.isInSubstate = true;
 	}
 
 	override function update(elapsed:Float) {

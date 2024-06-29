@@ -244,9 +244,7 @@ class OptionsSubstate extends MusicBeatSubstate
 		camMouseCheck.bgColor.alpha = 0;
 		FlxG.cameras.add(camMouseCheck, false);	
 		
-		super.create();					
-		
-		controls.isInSubstate = true;
+		super.create();									
 	}
 
 	public function switchCat(cat:OptionCata, checkForOutOfBounds:Bool = true)
@@ -484,8 +482,7 @@ class OptionsSubstate extends MusicBeatSubstate
 
 				if (back)
 				{
-				    ClientPrefs.saveSettings();
-				    controls.isInSubstate = true;
+				    ClientPrefs.saveSettings();				    
 				    pauseMusic.pause();
 				    close();
 				}

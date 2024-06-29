@@ -26,8 +26,6 @@ class ResetScoreSubState extends MusicBeatSubstate
 		this.difficulty = difficulty;
 		this.week = week;
 
-                controls.isInSubstate = true;
-
 		super();
 
 		var name:String = song;
@@ -100,7 +98,6 @@ class ResetScoreSubState extends MusicBeatSubstate
 			FlxG.sound.play(Paths.sound('cancelMenu'), 1);
 			ClientPrefs.saveSettings();
 			close();
-			controls.isInSubstate = false;
 		} else if(controls.ACCEPT) {
 			if(onYes) {
 				if(week == -1) {
@@ -110,8 +107,7 @@ class ResetScoreSubState extends MusicBeatSubstate
 				}
 			}
 			FlxG.sound.play(Paths.sound('cancelMenu'), 1);
-			ClientPrefs.saveSettings();
-                        controls.isInSubstate = false;
+			ClientPrefs.saveSettings();                       
 			close();
 		}
 		if (virtualPad == null){ //sometimes it dosent add the vpad, hopefully this fixes it
