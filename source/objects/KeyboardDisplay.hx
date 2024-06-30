@@ -94,6 +94,9 @@ class KeyboardDisplay extends FlxSpriteGroup
         add(totolText); 
 
         saveBitmap = new DisBitmap();
+
+        var obj:TimeDis = new TimeDis(0, 0, _x, _y);
+        obj.visible = false; //把纹理保存在运存中，如果你愿意这玩意出bug就试试删了它
     }
 
     public function pressed(key:Int)
@@ -173,7 +176,7 @@ class KeyboardDisplay extends FlxSpriteGroup
                 rightArray.remove(obj);
         }
         remove(obj, true);
-        obj.kill();
+        obj.destroy();
     }
 
     public var kps:Int = 0;
