@@ -371,9 +371,11 @@ class Paths
 		return getPackerAtlas(key, library);
 	}
 
-	inline static public function getSparrowAtlas(key:String, ?library:String = null, ?allowGPU:Bool = true):FlxAtlasFrames
+	inline static public function getSparrowAtlas(key:String, ?library:String = null, ?allowGPU:Bool = true, ?cache:BitmapData):FlxAtlasFrames
 	{
-		var imageLoaded:FlxGraphic = image(key, library, allowGPU);
+		var imageLoaded:FlxGraphic;
+		if (cache != null) imageLoaded = cacheBitmap(key, cache, allowGPU);
+		else imageLoaded = image(key, library, allowGPU);
 		#if MODS_ALLOWED
 		var xmlExists:Bool = false;
 
@@ -493,6 +495,10 @@ class Paths
 
 	inline static public function modsImagesJson(key:String) {
 		return modFolders('images/' + key + '.json');
+	}
+
+	inline static public function rpgData(key:String) {
+		return modFolders('rpg/' + key + '.rd');
 	}
 
 	/* Goes unused for now
