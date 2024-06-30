@@ -8,6 +8,7 @@ import shaders.RGBPalette.RGBShaderReference;
 
 import objects.StrumNote;
 
+import openfl.display.BitmapData;
 import flixel.math.FlxRect;
 
 using StringTools;
@@ -39,6 +40,9 @@ typedef NoteSplashData = {
 class Note extends FlxSprite
 {
 	public var extraData:Map<String, Dynamic> = new Map<String, Dynamic>();
+
+	public static var saveCache:BitmapData = null;
+	public static var saveSkin:String = '';
 
 	public var strumTime:Float = 0;
 	public var noteData:Int = 0;
@@ -253,8 +257,6 @@ class Note extends FlxSprite
 			}
 		}
 
-		// trace(prevNote);
-
 		if (prevNote != null) prevNote.nextNote = this;		
 		
 		if (isSustainNote && prevNote != null)
@@ -339,37 +341,48 @@ class Note extends FlxSprite
 		if(texture == null) texture = '';
 		if(postfix == null) postfix = '';
 
-		var skin:String = texture + postfix;
-		if(texture.length < 1) {
-			skin = PlayState.SONG != null ? PlayState.SONG.arrowSkin : null;
-			if(skin == null || skin.length < 1){
-				skin = defaultNoteSkin + postfix;
-				if(ClientPrefs.data.noteSkin == ClientPrefs.defaultData.noteSkin){ 
-					if (_modChecked == Mods.currentModDirectory || (Paths.fileExists('images/NOTE_assets.png', IMAGE) && Paths.fileExists('images/NOTE_assets.xml', TEXT)))
-					{ //fix for load old mods note assets
-						_modChecked = Mods.currentModDirectory;
-						skin = 'NOTE_assets';
+		var skin:String = '';
+		var animName:String = '';
+		var skinPixel:String = '';
+		var lastScaleY:Float = 0;
+		var skinPostfix:String = '';
+		var customSkin:String = '';
+		var path:String = '';
+
+		if (saveCache == null || texture != '')
+		{
+			skin = texture + postfix;
+			if(texture.length < 1) {
+				skin = PlayState.SONG != null ? PlayState.SONG.arrowSkin : null;
+				if(skin == null || skin.length < 1){
+					skin = defaultNoteSkin + postfix;
+					if(ClientPrefs.data.noteSkin == ClientPrefs.defaultData.noteSkin){ 
+						if (_modChecked == Mods.currentModDirectory || (Paths.fileExists('images/NOTE_assets.png', IMAGE) && Paths.fileExists('images/NOTE_assets.xml', TEXT)))
+						{ //fix for load old mods note assets
+							_modChecked = Mods.currentModDirectory;
+							skin = 'NOTE_assets';
+						}
 					}
 				}
 			}
-		}
 
-		var animName:String = null;
+			skinPixel = skin;
+			lastScaleY = scale.y;
+			skinPostfix = getNoteSkinPostfix();
+			customSkin = skin + skinPostfix;
+			path = PlayState.isPixelStage ? 'pixelUI/' : '';
+			if(customSkin == _lastValidChecked || Paths.fileExists('images/' + path + customSkin + '.png', IMAGE))
+			{
+				skin = customSkin;
+				_lastValidChecked = customSkin;
+			}
+			else skinPostfix = '';
+	    }
+
+		animName = null;
 		if(animation.curAnim != null) {
 			animName = animation.curAnim.name;
 		}
-
-		var skinPixel:String = skin;
-		var lastScaleY:Float = scale.y;
-		var skinPostfix:String = getNoteSkinPostfix();
-		var customSkin:String = skin + skinPostfix;
-		var path:String = PlayState.isPixelStage ? 'pixelUI/' : '';
-		if(customSkin == _lastValidChecked || Paths.fileExists('images/' + path + customSkin + '.png', IMAGE))
-		{
-			skin = customSkin;
-			_lastValidChecked = customSkin;
-		}
-		else skinPostfix = '';
 
 		if(PlayState.isPixelStage) {
 			if(isSustainNote) {
@@ -390,7 +403,15 @@ class Note extends FlxSprite
 				offsetX -= _lastNoteOffX;
 			}
 		} else {
-			frames = Paths.getSparrowAtlas(skin);
+			if (saveCache == null) { 
+				saveCache = BitmapData.fromFile(Paths.getPath('images/$skin.png', IMAGE));
+				saveSkin = skin;
+			}
+			if (texture == '' && saveCache != null)
+			frames = Paths.getSparrowAtlas(saveSkin, null, true, saveCache);
+			else
+			frames = Paths.getSparrowAtlas(skin, null, true);
+
 			loadNoteAnims();
 			if(!isSustainNote)
 			{
