@@ -104,7 +104,7 @@ class EditorPlayState extends MusicBeatSubstate
 		/**** NOTES ****/
 		strumLineNotes = new FlxTypedGroup<StrumNote>();
 		add(strumLineNotes);
-		grpNoteSplashes = new FlxTypedGroup<NoteSplash>();
+		grpNoteSplashes = new FlxTypedGroup<NoteSplash>(8);
 		add(grpNoteSplashes);
 		
 		var splash:NoteSplash = new NoteSplash(100, 100);
@@ -132,14 +132,10 @@ class EditorPlayState extends MusicBeatSubstate
 		add(dataTxt);
 
         var daButton:String;
-		#if android
-		daButton = "BACK";
-		#else
-        if (controls.mobileC)
-        	daButton = "X";
+	if (controls.mobileC)
+		daButton = #if android "BACK" #else "X" #end;
         else
-            daButton = "ESC";
-        #end
+		daButton = "ESC";
 
     	var tipText:FlxText = new FlxText(10, FlxG.height - 24, 0, 'Press ' + daButton + ' to Go Back to Chart Editor', 16);
 		tipText.setFormat(Paths.font("vcr.ttf"), 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
@@ -159,7 +155,7 @@ class EditorPlayState extends MusicBeatSubstate
 		#end
 
 		#if !android
-		addVirtualPad(NONE, P);
+		addVirtualPad('NONE', 'P');
 		addVirtualPadCamera(false);
 		#end
 
@@ -171,7 +167,7 @@ class EditorPlayState extends MusicBeatSubstate
 
 	override function update(elapsed:Float)
 	{
-		if(#if !android virtualPad.buttonP.justPressed || #end FlxG.keys.justPressed.ESCAPE #if android || FlxG.android.justPressed.BACK #end)
+		if(#if android FlxG.android.justReleased.BACK #else virtualPad.buttonP.justPressed #end || FlxG.keys.justPressed.ESCAPE)
 		{
 			mobileControls.visible = false;
 			endSong();
