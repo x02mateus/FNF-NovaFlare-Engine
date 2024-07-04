@@ -113,9 +113,8 @@
 	<haxelib name="androiddialogs" if="android"/>
 	<haxelib name="tjson"/>
 
-	<!-- Mobile Specific-->
-	<haxelib name="extension-androidtools" if="android" />
-	<!--<haxelib name="hx-ios-uikit" if="ios" />-->
+    <haxelib name="flixel-ui" />
+	<haxelib name="flixel-addons" />
 
 	<!-- Disable Discord IO Thread -->
 	<haxedef name="DISCORD_DISABLE_IO_THREAD" if="hxdiscord_rpc" />
