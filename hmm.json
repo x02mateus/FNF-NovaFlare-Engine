@@ -10,29 +10,22 @@
     {
       "name": "openfl",
       "type": "haxelib",
-      "version": null
+      "version": "9.3.2"
     },
     {
       "name": "flixel",
-      "type": "git",
-      "dir": null,
-      "ref": "dev",
-      "url": "https://github.com/beihu235/flixel"
+      "type": "haxelib",
+      "version": "5.5.0"
     },
     {
       "name": "flixel-addons",
       "type": "haxelib",
-      "version": null
+      "version": "3.2.1"
     },
     {
       "name": "flixel-tools",
       "type": "haxelib",
-      "version": null
-    },
-    {
-      "name": "flixel-ui",
-      "type": "haxelib",
-      "version": null
+      "version": "1.5.`"
     },
     {
       "name": "hxcpp",
@@ -84,13 +77,6 @@
       "dir": null,
       "ref": "dev",
       "url": "https://github.com/ShadowMario/flxanimate.git"
-    },
-    {
-      "name": "extension-androidtools",
-      "type": "git",
-      "dir": null,
-      "ref": "SAF",
-      "url": "https://github.com/PsychPorting/extension-androidtools-Base.git"
     },
     {
       "name": "funkin.vis",
