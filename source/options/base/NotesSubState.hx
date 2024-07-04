@@ -7,6 +7,7 @@ import flixel.input.keyboard.FlxKey;
 import flixel.input.gamepad.FlxGamepadInputID;
 import lime.system.Clipboard;
 import flixel.util.FlxGradient;
+import flixel.addons.ui.FlxUIInputText;
 import objects.StrumNote;
 import objects.Note;
 import flixel.addons.transition.FlxTransitionableState;
@@ -47,12 +48,14 @@ class NotesSubState extends MusicBeatSubstate
 	var _lastControllerMode:Bool = false;
 	var tipTxt:FlxText;
     
-    var AndroidColorGet:PsychUIInputText;
+    var AndroidColorGet:FlxUIInputText;
 	var underline_text_BG:FlxSprite;
     var LengthCheck:String = '';
     var ColorCheck:String = '';
     
 	public function new() {
+                controls.isInSubstate = true;
+
 		super();
 		
 		#if DISCORD_ALLOWED
@@ -185,7 +188,7 @@ class NotesSubState extends MusicBeatSubstate
 		controllerPointer.visible = controls.controllerMode;
 		_lastControllerMode = controls.controllerMode;
 		
-		AndroidColorGet = new PsychUIInputText(940, 20, 160, '', 30);
+		AndroidColorGet = new FlxUIInputText(940, 20, 160, '', 30);
 		AndroidColorGet.focusGained = () -> FlxG.stage.window.textInputEnabled = true;
 		LengthCheck = AndroidColorGet.text;
 		AndroidColorGet.backgroundColor = FlxColor.TRANSPARENT;
