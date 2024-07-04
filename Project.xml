@@ -110,7 +110,6 @@
 	<haxelib name="hxvlc" if="VIDEOS_ALLOWED ios"/>
 	<haxelib name="hxdiscord_rpc" if="DISCORD_ALLOWED"/>
 	<haxelib name="flxanimate" unless="html5"/>
-	<haxelib name="androiddialogs" if="android"/>
 	<haxelib name="tjson"/>
 
     <haxelib name="funkin.vis"/>
