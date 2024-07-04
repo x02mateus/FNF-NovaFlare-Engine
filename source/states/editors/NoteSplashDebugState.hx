@@ -3,8 +3,12 @@ package states.editors;
 import objects.Note;
 import objects.StrumNote;
 import objects.NoteSplash;
+import flixel.addons.ui.FlxInputText;
+import flixel.addons.ui.FlxUINumericStepper;
 
-class NoteSplashDebugState extends MusicBeatState implements PsychUIEventHandler.PsychUIEvent
+using StringTools;
+
+class NoteSplashDebugState extends MusicBeatState
 {
 	var config:NoteSplashConfig;
 	var forceFrame:Int = -1;
@@ -15,10 +19,10 @@ class NoteSplashDebugState extends MusicBeatState implements PsychUIEventHandler
 	var notes:FlxTypedGroup<StrumNote>;
 	var splashes:FlxTypedGroup<FlxSprite>;
 	
-	var imageInputText:PsychUIInputText;
-	var nameInputText:PsychUIInputText;
-	var stepperMinFps:PsychUINumericStepper;
-	var stepperMaxFps:PsychUINumericStepper;
+	var imageInputText:FlxInputText;
+	var nameInputText:FlxInputText;
+	var stepperMinFps:FlxUINumericStepper;
+	var stepperMaxFps:FlxUINumericStepper;
 
 	var offsetsText:FlxText;
 	var curFrameText:FlxText;
@@ -68,56 +72,68 @@ class NoteSplashDebugState extends MusicBeatState implements PsychUIEventHandler
 		var imageName:FlxText = new FlxText(txtx, txty - 120, 'Image Name:', 16);
 		add(imageName);
 
-		imageInputText = new PsychUIInputText(txtx, txty - 100, 360, defaultTexture, 16);
-		imageInputText.onPressEnter = function(e)
+		imageInputText = new FlxInputText(txtx, txty - 100, 360, defaultTexture, 16);
+		imageInputText.callback = function(text:String, action:String)
 		{
-			textureName = imageInputText.text;
-			try
+			switch(action)
 			{
-				loadFrames();
-			}
-			catch(e:Dynamic)
-			{
-				trace('ERROR! $e');
-				textureName = defaultTexture;
-				loadFrames();
+				case 'enter':
+					imageInputText.hasFocus = false;
+					textureName = text;
+					try {
+						loadFrames();
+					} catch(e:Dynamic) {
+						trace('ERROR! $e');
+						textureName = defaultTexture;
+						loadFrames();
 
-				missingText.text = 'ERROR WHILE LOADING IMAGE:\n${imageInputText.text}';
-				missingText.screenCenter(Y);
-				missingText.visible = true;
-				missingTextBG.visible = true;
-				FlxG.sound.play(Paths.sound('cancelMenu'));
+						missingText.text = 'ERROR WHILE LOADING IMAGE:\n$text';
+						missingText.screenCenter(Y);
+						missingText.visible = true;
+						missingTextBG.visible = true;
+						FlxG.sound.play(Paths.sound('cancelMenu'));
 
-				new FlxTimer().start(2.5, function(tmr:FlxTimer)
-				{
-					missingText.visible = false;
-					missingTextBG.visible = false;
-				});
+						new FlxTimer().start(2.5, function(tmr:FlxTimer)
+						{
+							missingText.visible = false;
+							missingTextBG.visible = false;
+						});
+					}
+
+				default:
+					trace('changed image to $text');
 			}
-			PsychUIInputText.focusOn = null;
-		}
+
+		};
 		add(imageInputText);
 
 		var animName:FlxText = new FlxText(txtx, txty, 'Animation Name:', 16);
 		add(animName);
 
-		nameInputText = new PsychUIInputText(txtx, txty + 20, 360, '', 16);
-		nameInputText.onChange = function(oldText:String, curText:String)
+		nameInputText = new FlxInputText(txtx, txty + 20, 360, '', 16);
+		nameInputText.callback = function(text:String, action:String)
 		{
-			trace('changed anim name to $curText');
-			config.anim = curText;
-			curAnim = 1;
-			reloadAnims();
+			switch(action)
+			{
+				case 'enter':
+					nameInputText.hasFocus = false;
+				
+				default:
+					trace('changed anim name to $text');
+					config.anim = text;
+					curAnim = 1;
+					reloadAnims();
+			}
 
 		};
 		add(nameInputText);
 
 		add(new FlxText(txtx, txty - 50, 0, 'Min/Max Framerate:', 16));
-		stepperMinFps = new PsychUINumericStepper(txtx, txty - 30, 1, 22, 1, 60, 0);
+		stepperMinFps = new FlxUINumericStepper(txtx, txty - 30, 1, 22, 1, 60, 0);
 		stepperMinFps.name = 'min_fps';
 		add(stepperMinFps);
 
-		stepperMaxFps = new PsychUINumericStepper(txtx + 60, txty - 30, 1, 26, 1, 60, 0);
+		stepperMaxFps = new FlxUINumericStepper(txtx + 60, txty - 30, 1, 26, 1, 60, 0);
 		stepperMaxFps.name = 'max_fps';
 		add(stepperMaxFps);
 
@@ -175,7 +191,7 @@ class NoteSplashDebugState extends MusicBeatState implements PsychUIEventHandler
 		loadFrames();
 		changeSelection();
 		super.create();
-		addVirtualPad('NOTE_SPLASH_DEBUG', 'NOTE_SPLASH_DEBUG');
+		addVirtualPad(NOTE_SPLASH_DEBUG, NOTE_SPLASH_DEBUG);
 		FlxG.mouse.visible = true;
 	}
 
@@ -184,7 +200,10 @@ class NoteSplashDebugState extends MusicBeatState implements PsychUIEventHandler
 	var pressEnterToSave:Float = 0;
 	override function update(elapsed:Float)
 	{
-		var notTyping:Bool = (PsychUIInputText.focusOn == null);
+		@:privateAccess
+		cast(stepperMinFps.text_field, FlxInputText).hasFocus = cast(stepperMaxFps.text_field, FlxInputText).hasFocus = false;
+
+		var notTyping:Bool = !nameInputText.hasFocus && !imageInputText.hasFocus;
 		if(controls.BACK && notTyping)
 		{
 			MusicBeatState.switchState(new MasterEditorMenu());
@@ -357,11 +376,11 @@ class NoteSplashDebugState extends MusicBeatState implements PsychUIEventHandler
 		#end
 	}
 	
-	public function UIEvent(id:String, sender:Dynamic)
+	override function getEvent(id:String, sender:Dynamic, data:Dynamic, ?params:Array<Dynamic>)
 	{
-		if (id == PsychUINumericStepper.CHANGE_EVENT && (sender is PsychUINumericStepper))
+		if (id == FlxUINumericStepper.CHANGE_EVENT && (sender is FlxUINumericStepper))
 		{
-			var nums:PsychUINumericStepper = cast sender;
+			var nums:FlxUINumericStepper = cast sender;
 			var wname = nums.name;
 			switch(wname)
 			{
@@ -449,7 +468,9 @@ class NoteSplashDebugState extends MusicBeatState implements PsychUIEventHandler
 	function changeSelection(change:Int = 0)
 	{
 		var max:Int = Note.colArray.length;
-		curSelected = FlxMath.wrap(curSelected + change, 0, max - 1);
+		curSelected += change;
+		if(curSelected < 0) curSelected = max - 1;
+		else if(curSelected >= max) curSelected = 0;
 
 		selection.x = curSelected * 220 + 220;
 		updateOffsetText();
