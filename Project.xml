@@ -2,7 +2,7 @@
 <project>
 	<!-- _________________________ Application Settings _________________________ -->
 
-	<app title="NovaFlare Engine" file="NovaFlare Engine" packageName="com.NovaFlareEngine" package="com.NovaFlareEngine" main="Main" version="1.1.4" company="beihu" />
+	<app title="NovaFlare Engine" file="NovaFlare Engine" packageName="com.NovaFlareEngine" package="com.NovaFlareEngine" main="Main" version="1.1.1" company="beihu" />
 	<!--Switch Export with Unique ApplicationID and Icon-->
 	<set name="APP_ID" value="0x0100f6c013bbc000" />
 
@@ -99,7 +99,7 @@
 	<!-- _______________________________ Libraries ______________________________ -->
 
 	<haxelib name="flixel" />
-	
+	<haxelib name="flixel-ui" />
 	<haxelib name="flixel-addons" />
 
 	<!--Psych stuff needed-->
@@ -110,9 +110,7 @@
 	<haxelib name="hxvlc" if="VIDEOS_ALLOWED ios"/>
 	<haxelib name="hxdiscord_rpc" if="DISCORD_ALLOWED"/>
 	<haxelib name="flxanimate" unless="html5"/>
-	
-	<haxelib name="funkin.vis"/>
-	<haxelib name="grig.audio" />
+	<haxelib name="androiddialogs" if="android"/>
 	<haxelib name="tjson"/>
 
 	<!-- Mobile Specific-->
@@ -186,10 +184,10 @@
 			<config:android permission="android.permission.ACCESS_NETWORK_STATE" />
 		</section>
 
-		<!--<section if="ios">
+		<section if="ios">
 			<define name='objc' />
 			<ios linker-flags='-ObjC' />
-		</section>-->
+		</section>
 
 	<!--Avoid memory leaks with for loops in HScript-->
 	<haxedef name="loop_unroll_max_cost" value="25" />
