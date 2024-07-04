@@ -1022,7 +1022,7 @@ class FreeplayState extends MusicBeatState {
 		return FlxStringUtil.formatTime(secondsTotal, false);
 	}
 	
-	var searchInput:FlxInputText;
+	var searchInput:PsychUIInputText;
 	public static var searchSelected:Int = 0;
 	var searchSelectedObj:FlxSprite;
 	var searchTextGroup:Array<FlxText> = [];
@@ -1042,7 +1042,7 @@ class FreeplayState extends MusicBeatState {
 		underbar.updateHitbox();
 		add(underbar);
 		
-		searchInput = new FlxInputText(60, 150, 450, '', 30, 0x00FFFFFF);
+		searchInput = new PsychUIInputText(60, 150, 450, '', 30, 0x00FFFFFF);
 		searchInput.focusGained = () -> FlxG.stage.window.textInputEnabled = true; 
 		searchInput.backgroundColor = FlxColor.TRANSPARENT;
 		searchInput.fieldBorderColor = FlxColor.TRANSPARENT;
