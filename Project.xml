@@ -113,8 +113,8 @@
 	<haxelib name="androiddialogs" if="android"/>
 	<haxelib name="tjson"/>
 
-    <haxelib name="flixel-ui" />
-	<haxelib name="flixel-addons" />
+    <haxelib name="funkin.vis"/>
+	<haxelib name="grig.audio" />
 
 	<!-- Disable Discord IO Thread -->
 	<haxedef name="DISCORD_DISABLE_IO_THREAD" if="hxdiscord_rpc" />
