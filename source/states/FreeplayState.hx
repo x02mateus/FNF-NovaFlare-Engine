@@ -17,8 +17,10 @@ import states.editors.ChartingState;
 import substates.GameplayChangersSubstate;
 import substates.ResetScoreSubState;
 
+import flixel.addons.ui.FlxInputText;
 import flixel.addons.transition.FlxTransitionableState;
 import flixel.group.FlxGroup;
+import flixel.addons.ui.FlxInputText;
 import flixel.util.FlxStringUtil;
 import flixel.sound.FlxSound;
 import flixel.ui.FlxBar;
@@ -200,10 +202,6 @@ class FreeplayState extends MusicBeatState {
 		bg.camera = camGame;
 		add(bg);
 		bg.screenCenter();
-
-		var test:AudioDisplay = new AudioDisplay(FlxG.sound.music, 0, FlxG.height - 60, 580, 100, 100, FlxColor.WHITE);
-		add(test);
-		test.alpha = 0.7;
 		
 		mousechecker = new FlxSprite(114, 514).makeGraphic(1, 1, FlxColor.WHITE);
 		
@@ -533,7 +531,7 @@ class FreeplayState extends MusicBeatState {
 				if(FlxG.mouse.wheel != 0)
 				{
 					FlxG.sound.play(Paths.sound('scrollMenu'), 0.2);
-					changeSong(-1 * FlxG.mouse.wheel);
+					changeSong(-2 * FlxG.mouse.wheel);
 					curSelectedFloat = curSelected;
 				}
 				
@@ -1022,7 +1020,7 @@ class FreeplayState extends MusicBeatState {
 		return FlxStringUtil.formatTime(secondsTotal, false);
 	}
 	
-	var searchInput:PsychUIInputText;
+	var searchInput:FlxInputText;
 	public static var searchSelected:Int = 0;
 	var searchSelectedObj:FlxSprite;
 	var searchTextGroup:Array<FlxText> = [];
@@ -1042,7 +1040,7 @@ class FreeplayState extends MusicBeatState {
 		underbar.updateHitbox();
 		add(underbar);
 		
-		searchInput = new PsychUIInputText(60, 150, 450, '', 30, 0x00FFFFFF);
+		searchInput = new FlxInputText(60, 150, 450, '', 30, 0x00FFFFFF);
 		searchInput.focusGained = () -> FlxG.stage.window.textInputEnabled = true; 
 		searchInput.backgroundColor = FlxColor.TRANSPARENT;
 		searchInput.fieldBorderColor = FlxColor.TRANSPARENT;
@@ -1162,7 +1160,7 @@ class FreeplayState extends MusicBeatState {
 			if(FlxG.mouse.wheel != 0)
 			{
 				FlxG.sound.play(Paths.sound('scrollMenu'), 0.2);
-				searchChangeSong(-1 * FlxG.mouse.wheel);
+				searchChangeSong(-2 * FlxG.mouse.wheel);
 			}
 			
 			if (controls.UI_UP_P)
