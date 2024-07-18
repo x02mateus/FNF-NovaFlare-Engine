@@ -264,7 +264,6 @@ class Note extends FlxSprite
 			hitsoundDisabled = true;
 			if(ClientPrefs.data.downScroll) flipY = true;								
 			
-			noAnimation = true; //better work for play anim
 			isEndNote = true;
 
 			offsetX += width / 2;
@@ -290,9 +289,7 @@ class Note extends FlxSprite
 					prevNote.scale.y *= 1.19;
 					prevNote.scale.y *= (6 / height); //Auto adjust note size
 				}
-				prevNote.updateHitbox();								
-			
-				prevNote.noAnimation = false;
+				prevNote.updateHitbox();												
 				prevNote.isEndNote = false;
 			}
 
@@ -572,6 +569,7 @@ class Note extends FlxSprite
 		}else if (number == maxNumber){
 			earlyHitMult = 0.5;
 			lateHitMult = 0;	  		
+			noAnimation = true; //better anim play
 		}else{
 			earlyHitMult = 0.5;
 			lateHitMult = 0.75;	
