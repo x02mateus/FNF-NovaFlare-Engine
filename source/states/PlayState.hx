@@ -1470,12 +1470,12 @@ class PlayState extends MusicBeatState
             				oldNote = unspawnNotes[Std.int(unspawnNotes.length - 1)];
             
             				var sustainNote:Note = new Note(daStrumTime + (Conductor.stepCrochet * susNote), daNoteData, oldNote, true);
+            				sustainNote.hitMultUpdate(susNote, floorSus + 1);
             				sustainNote.mustPress = gottaHitNote;
             				sustainNote.gfNote = (section.gfSection && (songNotes[1]<4));
             				sustainNote.noteType = swagNote.noteType;
             				sustainNote.scrollFactor.set();
             				sustainNote.parent = swagNote;
-            				sustainNote.hitMultUpdate(susNote, floorSus + 1);
             				unspawnNotes.push(sustainNote);
             				swagNote.tail.push(sustainNote);
             
