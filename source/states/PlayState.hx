@@ -2057,6 +2057,7 @@ class PlayState extends MusicBeatState
 
 				var index:Int = unspawnNotes.indexOf(dunceNote);
 				unspawnNotes.splice(index, 1);
+				dunceNote.updateHitbox();
 			}
 		}
 
