@@ -432,6 +432,7 @@ class Paths
 		if (path != null) modLibPath += '$path/';
 
 		var file:String = modsSounds(modLibPath, key);
+		
 		if(FileSystem.exists(file)) {
 			if(!currentTrackedSounds.exists(file)) {
 				currentTrackedSounds.set(file, Sound.fromFile(file));
@@ -476,6 +477,7 @@ class Paths
 	}
 
 	inline static public function modsSounds(path:String, key:String) {
+		//trace(modFolders(path + '/' + key + '.' + SOUND_EXT));
 		return modFolders(path + '/' + key + '.' + SOUND_EXT);
 	}
 

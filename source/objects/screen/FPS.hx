@@ -30,9 +30,12 @@ class FPS extends Sprite
     {        
         fpsShow = new FPSCounter(10, 10);
         addChild(fpsShow);
-    
+        fpsShow.update();
+	    
         extraShow = new ExtraCounter(10, 70);
         addChild(extraShow);
+	    extraShow.update();
+        
     }
     
     private override function __enterFrame(deltaTime:Float):Void

@@ -14,12 +14,10 @@ import lime.app.Application;
 
 import objects.AchievementPopup;
 import states.editors.MasterEditorMenu;
+
 import options.OptionsState;
 import openfl.Lib;
 
-//import rpg.state.MainRPG;
-
-//import audio.SpectogramSprite;
 
 class MainMenuState extends MusicBeatState
 {
@@ -114,7 +112,7 @@ class MainMenuState extends MusicBeatState
 		bg.antialiasing = ClientPrefs.data.antialiasing;
 		add(bg);
 		
-	    var test:AudioDisplay = new AudioDisplay(FlxG.sound.music, 0, FlxG.height,  FlxG.width, FlxG.height, 200, FlxColor.WHITE);
+	    var test:AudioDisplay = new AudioDisplay(FlxG.sound.music, 0, FlxG.height,  FlxG.width, FlxG.height, 200, 4, FlxColor.WHITE);
 		add(test);
 		test.alpha = 0.7;
 
