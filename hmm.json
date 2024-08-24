@@ -15,7 +15,7 @@
     {
       "name": "flixel",
       "type": "haxelib",
-      "version": "5.5.0"
+      "version": "5.8.0"
     },
     {
       "name": "flixel-addons",
@@ -87,8 +87,8 @@
       "name": "extension-androidtools",
       "type": "git",
       "dir": null,
-      "ref": "SAF",
-      "url": "https://github.com/MobilePorting/extension-androidtools-Base.git"
+      "ref": "main",
+      "url": "https://github.com/beihu235/extension-androidtools"
     },
     {
       "name": "funkin.vis",
