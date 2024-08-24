@@ -46,8 +46,10 @@
     },
     {
       "name": "SScript",
-      "type": "haxelib",
-      "version": "8.1.6"
+      "type": "git",
+      "dir": null,
+      "ref": "main",
+      "url": "https://github.com/beihu235/SScript-8.1.6"
     },
     {
       "name": "hscript",
