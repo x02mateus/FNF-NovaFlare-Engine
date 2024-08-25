@@ -4,7 +4,11 @@
       "name": "lime",
       "type": "git",
       "dir": null,
+<<<<<<< HEAD
       "ref": "main",
+=======
+      "ref": "develop",
+>>>>>>> 1bfbf958f4918cf0f92b54a22aec39bdf54bb91a
       "url": "https://github.com/beihu235/lime"
     },
     {
@@ -16,7 +20,11 @@
       "name": "flixel",
       "type": "git",
       "dir": null,
+<<<<<<< HEAD
       "ref": "main",
+=======
+      "ref": "dev",
+>>>>>>> 1bfbf958f4918cf0f92b54a22aec39bdf54bb91a
       "url": "https://github.com/beihu235/flixel"
     },
     {
@@ -47,11 +55,14 @@
       "version": "2.6.0"
     },
     {
+<<<<<<< HEAD
       "name": "hxvlc",
       "type": "haxelib",
       "version": "null"
     },
     {
+=======
+>>>>>>> 1bfbf958f4918cf0f92b54a22aec39bdf54bb91a
       "name": "SScript",
       "type": "git",
       "dir": null,
