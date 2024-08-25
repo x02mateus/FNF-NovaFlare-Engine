@@ -1,4 +1,4 @@
-name: Main
+name: Mobile
 on: workflow_dispatch
 jobs:
   Mobile:
@@ -28,7 +28,7 @@ jobs:
           haxelib install flixel-ui --quiet
           haxelib install hscript 2.5.0 --quiet
           haxelib install hxCodec 2.6.0 --quiet
-          haxelib git Sscript https://github.com/beihu235/SScript-8.1.6 main --quiet
+          haxelib git SScript https://github.com/beihu235/SScript-8.1.6 main --quiet
           haxelib install tjson 1.4.0 --quiet
           haxelib git flxanimate https://github.com/ShadowMario/flxanimate.git dev --quiet
           if [[ "${{ runner.os }}" == "macOS" ]] ; then
