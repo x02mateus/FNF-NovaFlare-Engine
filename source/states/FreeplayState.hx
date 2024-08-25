@@ -18,7 +18,7 @@ import backend.Song;
 
 import objects.HealthIcon;
 import objects.ShapeEX;
-import objects.FreePlayShape;
+import objects.FreeplayShape;
 
 import substates.GameplayChangersSubstate;
 import substates.ResetScoreSubState;
@@ -292,7 +292,7 @@ class FreeplayState extends MusicBeatState
 			}
 			if (FlxG.mouse.justReleased)
 			{
-				position += avgSpeed * (0.0166 / elapsed) * Math.pow(1.1, Math.abs(avgSpeed * 0.8));
+				position += avgSpeed * 1.5 * (0.0166 / elapsed) * Math.pow(1.1, Math.abs(avgSpeed * 0.8));
 				if (Math.abs(avgSpeed * (0.0166 / elapsed)) < 3) {
 					for (i in 0...grpSongs.length)
 					{
@@ -412,6 +412,7 @@ class FreeplayState extends MusicBeatState
 	var avgSpeed:Float = 0;
 	function mouseMove()
 	{
+		if (FlxG.mouse.justPressed) saveMouseY = FlxG.mouse.y;
 		moveData = FlxG.mouse.y - saveMouseY;
 		saveMouseY = FlxG.mouse.y;
 		avgSpeed = avgSpeed * 0.75 + moveData * 0.25;
@@ -481,6 +482,7 @@ class FreeplayState extends MusicBeatState
 		for (num in 0...grpSongs.length) 
 		{
 			grpSongs[num].posY = Difficulty.list.length * 70;
+			if (start && num > curSelected) grpSongs[num].lerpPosY = Difficulty.list.length * 70;
 		}
 		
 		grpSongs[curSelected].createDiff(songs[curSelected].color, start);

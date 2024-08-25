@@ -709,7 +709,8 @@ class LoadingState extends MusicBeatState
             		swagNote.noteType = songNotes[3];
             		if(!Std.isOfType(songNotes[3], String)) swagNote.noteType = ChartingState.noteTypeList[songNotes[3]]; //Backward compatibility + compatibility with Week 7 charts
             
-            		swagNote.scrollFactor.set();                        
+            		swagNote.scrollFactor.set();     
+					swagNote.updateHitbox();                   
             		unspawnNotes.push(swagNote);
                     
             		final susLength:Float = swagNote.sustainLength / Conductor.stepCrochet;

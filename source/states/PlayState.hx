@@ -33,7 +33,7 @@ import states.editors.CharacterEditorState;
 import substates.PauseSubState;
 import substates.GameOverSubstate;
 import substates.ResultsScreen;
-import options.OptionsSubstate;
+//import options.OptionsSubstate;
 
 #if !flash
 import flixel.addons.display.FlxRuntimeShader;
@@ -310,8 +310,6 @@ class PlayState extends MusicBeatState
 	public var startCallback:Void->Void = null;
 	public var endCallback:Void->Void = null;
 
-	#if VIDEOS_ALLOWED public var videoSprites:Array<VideoSpriteManager> = []; #end
-
 	public var luaVirtualPad:FlxVirtualPad;
 	
 	public function new(?preloadChart:Array<Note>, ?preloadNoteType:Array<String>, ?preloadEvents:Array<Array<Dynamic>>) {
@@ -372,8 +370,6 @@ class PlayState extends MusicBeatState
 		FlxG.cameras.add(luaVpadCam, false);
 		FlxG.cameras.add(camPause, false);
 		grpNoteSplashes = new FlxTypedGroup<NoteSplash>();
-
-		persistentUpdate = persistentDraw = true;
 
 		if (SONG == null)
 			SONG = Song.loadFromJson('tutorial');
@@ -746,7 +742,9 @@ class PlayState extends MusicBeatState
 		cacheCountdown();
         
 		super.create();
-		//Paths.clearStoredMemory();
+
+		persistentUpdate = persistentDraw = true;
+		
 		Paths.clearUnusedMemory();
 
 		if(eventNotes.length < 1) checkEventNote();			
@@ -943,31 +941,61 @@ class PlayState extends MusicBeatState
 		char.y += char.positionArray[1];
 	}
 
-	public function startVideo(name:String) #if VIDEOS_ALLOWED :VideoManager#end
+	public var videoCutscene:VideoSprite = null;
+	public function startVideo(name:String, forMidSong:Bool = false, canSkip:Bool = true, loop:Bool = false, playOnLoad:Bool = true)
 	{
 		#if VIDEOS_ALLOWED
-		var filepath:String = Paths.video(name);
-		var video:VideoManager = new VideoManager();
 		inCutscene = true;
+		canPause = false;
 
-		if(#if MODS_ALLOWED !FileSystem.exists(filepath) #else !Assets.exists(filepath) #end) {
-			FlxG.log.warn('Couldnt find video file: ' + name);
-			startAndEnd();
-			return null;
-		}
+		var foundFile:Bool = false;
+		var fileName:String = Paths.video(name);
 
-		video.startVideo(filepath);
-		video.onVideoEnd.add(function(){
-			startAndEnd();
-			return;
-		});
-
-		return video;
+		#if sys
+		if (FileSystem.exists(fileName))
 		#else
-		FlxG.log.warn('Platform not supported for video play back!');
-		startAndEnd();
-		return;
+		if (OpenFlAssets.exists(fileName))
 		#end
+		foundFile = true;
+
+		if (foundFile)
+		{
+			videoCutscene = new VideoSprite(fileName, forMidSong, canSkip, loop);
+
+			// Finish callback
+			if (!forMidSong)
+			{
+				function onVideoEnd()
+				{
+					if (generatedMusic && PlayState.SONG.notes[Std.int(curStep / 16)] != null && !endingSong && !isCameraOnForcedPos)
+					{
+						moveCameraSection();
+						FlxG.camera.snapToTarget();
+					}
+					videoCutscene = null;
+					canPause = false;
+					inCutscene = false;
+					startAndEnd();
+				}
+				videoCutscene.finishCallback = onVideoEnd;
+				videoCutscene.onSkip = onVideoEnd;
+			}
+			add(videoCutscene);
+
+			if (playOnLoad)
+				videoCutscene.videoSprite.play();
+			return videoCutscene;
+		}
+		#if (LUA_ALLOWED || HSCRIPT_ALLOWED)
+		else addTextToDebug("Video not found: " + fileName, FlxColor.RED);
+		#else
+		else FlxG.log.error("Video not found: " + fileName);
+		#end
+		#else
+		FlxG.log.warn('Platform not supported!');
+		startAndEnd();
+		#end
+		return null;
 	}
 
 	function startAndEnd()
@@ -1788,7 +1816,7 @@ class PlayState extends MusicBeatState
 		    if (PauseSubState.moveType == 1){
 		        PauseSubState.moveType = 2; //really back to pause
 		        super.closeSubState();
-		        openSubState(new OptionsSubstate());
+		        //openSubState(new OptionsSubstate());
 		        return;
 		    }
 		    else if (PauseSubState.moveType == 2){		
@@ -1802,13 +1830,6 @@ class PlayState extends MusicBeatState
 	
 			FlxTimer.globalManager.forEach(function(tmr:FlxTimer) if(!tmr.finished) tmr.active = true);
 			FlxTween.globalManager.forEach(function(twn:FlxTween) if(!twn.finished) twn.active = true);
-
-			#if VIDEOS_ALLOWED
-			if(videoSprites.length > 0)
-			for(video in videoSprites)
-				if(video.exists)
-				video.paused = false;
-			#end
 
 			paused = false;
 			mobileControls.visible = true;
@@ -2057,7 +2078,6 @@ class PlayState extends MusicBeatState
 
 				var index:Int = unspawnNotes.indexOf(dunceNote);
 				unspawnNotes.splice(index, 1);
-				dunceNote.updateHitbox();
 			}
 		}
 
@@ -2287,13 +2307,6 @@ class PlayState extends MusicBeatState
 
 		keyboardDisplay.save();
 		for (i in 0...4) keyboardDisplay.released(i);
-
-		#if VIDEOS_ALLOWED
-		if(videoSprites.length > 0)
-			for(video in videoSprites)
-				if(video.exists)
-					video.paused = true;
-		#end
 		
 		if(FlxG.sound.music != null) {
 			FlxG.sound.music.pause();
@@ -2372,9 +2385,6 @@ class PlayState extends MusicBeatState
 
 				#if VIDEOS_ALLOWED
 				// i assume it's better removing the thing on gameover
-				if(videoSprites.length > 0)
-					for(video in videoSprites)
-						removeVideoSprite(video);
 				#end
 
 				openSubState(new GameOverSubstate());
@@ -3779,20 +3789,6 @@ class PlayState extends MusicBeatState
         }
         killNotes = [];
 	}
-
-	#if VIDEOS_ALLOWED
-	public function removeVideoSprite(video:VideoSpriteManager):Void {
-		if(members.contains(video))
-			remove(video, true);
-		else {
-			forEachOfType(FlxSpriteGroup, function(group:FlxSpriteGroup){
-				if(group.members.contains(video))
-					group.remove(video, true);
-			});
-		}
-		video.altDestroy();
-	}
-	#end
 
 	public function spawnNoteSplashOnNote(note:Note) {
 		if(note != null) {

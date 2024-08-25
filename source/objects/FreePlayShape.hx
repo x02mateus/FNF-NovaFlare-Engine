@@ -243,7 +243,7 @@ class MusicLine extends FlxSpriteGroup
         super(X, Y);
 		
         blackLine = new FlxSprite().makeGraphic(Std.int(width), 5);
-        blackLine.color = FlxColor.BLACK;
+        blackLine.color = 0xffffff;
         blackLine.alpha = 0.5;
         add(blackLine);
 
@@ -829,7 +829,7 @@ class BackRect extends FlxSpriteGroup //back button
 
                 if (textTween != null) textTween.cancel();
                 textTween = FlxTween.tween(text, {x: 105}, 0.3, {ease: FlxEase.backInOut});
-                var color = 
+          
                 background.color = saveColor2;
             }
         } else {

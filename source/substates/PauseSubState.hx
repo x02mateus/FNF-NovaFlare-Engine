@@ -12,7 +12,7 @@ import states.FreeplayStatePsych;
 import states.StoryMenuState;
 
 import options.OptionsState;
-import options.OptionsSubstate;
+//import options.OptionsSubstate;
 
 import flixel.util.FlxStringUtil;
 import flixel.addons.transition.FlxTransitionableState;
@@ -139,8 +139,8 @@ class PauseSubState extends MusicBeatSubstate
 			}
 		} catch(e:Dynamic) {}		
 		pauseMusic.play(false, FlxG.random.int(0, Std.int(pauseMusic.length / 2)));
-        pauseMusic.volume = moveType != 0 ? OptionsSubstate.pauseMusic.volume : 0;
-		pauseMusic.time = moveType != 0 ? OptionsSubstate.pauseMusic.time : FlxG.random.int(0, Std.int(pauseMusic.length / 2));
+       // pauseMusic.volume = moveType != 0 ? OptionsSubstate.pauseMusic.volume : 0;
+		//pauseMusic.time = moveType != 0 ? OptionsSubstate.pauseMusic.time : FlxG.random.int(0, Std.int(pauseMusic.length / 2));
 		
 		FlxG.sound.list.add(pauseMusic);
 	
@@ -731,7 +731,7 @@ class PauseSubState extends MusicBeatSubstate
 				case 'Entirety':
 					PlayState.instance.paused = true; // For lua
 					PlayState.instance.vocals.volume = 0;
-					OptionsState.onPlayState = true;
+					//OptionsState.onPlayState = true;
 					MusicBeatState.switchState(new OptionsState());
 					if(ClientPrefs.data.pauseMusic != 'None'){
 						FlxG.sound.playMusic(Paths.music(Paths.formatToSongPath(ClientPrefs.data.pauseMusic)), pauseMusic.volume);

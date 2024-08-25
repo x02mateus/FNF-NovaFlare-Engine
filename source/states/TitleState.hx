@@ -26,12 +26,12 @@ import states.PirateState;
 import mobile.states.CopyState;
 #end
 
-#if VIDEOS_ALLOWED
-import backend.VideoHandler_Title;
-#end
-
 import lime.system.JNI;
 import lime.app.Application;
+
+#if hxvlc
+import hxvlc.flixel.FlxVideoSprite;
+#end
 
 typedef TitleData =
 {
@@ -564,6 +564,17 @@ class TitleState extends MusicBeatState
 			if(controls.UI_RIGHT) swagShader.hue += elapsed * 0.1;
 		}
 
+		if (videobool)
+		{
+			if(pressedEnter)
+			{
+				video.stop();
+				videobool = false;
+				skipVideo.visible = false;
+				startCutscenesOut();
+			}
+		}
+
 		super.update(elapsed);
 	}
 
@@ -759,7 +770,8 @@ class TitleState extends MusicBeatState
 	}
 	
 	#if VIDEOS_ALLOWED
-	var video:VideoSprite;
+	var video:FlxVideoSprite;
+	var videobool:Bool = false;
 	function startVideo(name:String)
 	{
 	    skipVideo = new FlxText(0, FlxG.height - 26, 0, "Press " + #if android "Back on your phone " #else "Enter " #end + "to skip", 18);
@@ -785,17 +797,30 @@ class TitleState extends MusicBeatState
 			return;
 		}
         
-        
-		var video:VideoSprite = new VideoSprite(0, 0, 1280, 720);
-			video.playVideo(filepath);
-			add(video);
-			video.updateHitbox();
-			video.finishCallback = function()
+		video = new FlxVideoSprite(0, 0);
+		video.antialiasing = true;
+		video.bitmap.onFormatSetup.add(function():Void
+		{
+			if (video.bitmap != null && video.bitmap.bitmapData != null)
 			{
-				videoEnd();
-				return;
+				final scale:Float = Math.min(FlxG.width / video.bitmap.bitmapData.width, FlxG.height / video.bitmap.bitmapData.height);
+		
+				video.setGraphicSize(video.bitmap.bitmapData.width * scale, video.bitmap.bitmapData.height * scale);
+				video.updateHitbox();
+				video.screenCenter();
 			}
-		showText();	
+		});
+		video.bitmap.onEndReached.add(video.destroy);
+		add(video);
+		video.load(filepath);
+		video.play();
+		videobool = true;
+
+		video.bitmap.onEndReached.add(function() {
+			videoEnd();
+		});
+
+		showText();
 		#else
 		FlxG.log.warn('Platform not supported!');
 		videoEnd();
@@ -806,8 +831,11 @@ class TitleState extends MusicBeatState
 	function videoEnd()
 	{
 	    skipVideo.visible = false;
-	    //video.visible = false;
+		video.stop();
+		//video.visible = false;
 		startCutscenesOut();
+		videobool = false;
+		trace("end");
 	}
 	
 	function showText(){

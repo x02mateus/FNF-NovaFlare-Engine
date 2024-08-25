@@ -2,6 +2,8 @@ package backend;
 
 import flixel.util.FlxSave;
 import openfl.utils.Assets;
+import flixel.FlxBasic;
+import flixel.FlxObject;
 
 class CoolUtil
 {
@@ -190,4 +192,39 @@ class CoolUtil
 				text.borderStyle = NONE;
 		}
 	}
+
+		/**
+	 * Replacement for `FlxG.mouse.overlaps` because it's currently broken when using a camera with a different position or size.
+	 * It will be fixed eventually by HaxeFlixel v5.4.0.
+	 * 
+	 * @param 	objectOrGroup The object or group being tested.
+	 * @param 	camera Specify which game camera you want. If null getScreenPosition() will just grab the first global camera.
+	 * @return 	Whether or not the two objects overlap.
+	 */
+	 @:access(flixel.group.FlxTypedGroup.resolveGroup)
+	 inline public static function mouseOverlaps(objectOrGroup:FlxBasic, ?camera:FlxCamera):Bool
+	 {
+		 var result:Bool = false;
+ 
+		 final group = FlxTypedGroup.resolveGroup(objectOrGroup);
+		 if (group != null)
+		 {
+			 group.forEachExists(function(basic:FlxBasic)
+			 {
+				 if (mouseOverlaps(basic, camera))
+				 {
+					 result = true;
+					 return;
+				 }
+			 });
+		 }
+		 else
+		 {
+			 final point = FlxG.mouse.getWorldPosition(camera, FlxPoint.weak());
+			 final object:FlxObject = cast objectOrGroup;
+			 result = object.overlapsPoint(point, true, camera);
+		 }
+ 
+		 return result;
+	 }
 }
