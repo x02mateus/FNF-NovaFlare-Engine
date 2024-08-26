@@ -519,7 +519,7 @@ class FreeplayState extends MusicBeatState
 			if (saveSongs[i].songName.trim().toLowerCase().indexOf(text.trim().toLowerCase()) != -1)
 			songs.push(saveSongs[i]);
 		}
-
+ 
 		for (rect in 0...saveGrpSongs.length)
 		{
 			saveGrpSongs[rect].ignoreCheck = true;

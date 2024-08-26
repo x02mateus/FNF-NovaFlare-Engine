@@ -9,7 +9,7 @@ import openfl.display.Shape;
 import objects.ShapeEX;
 
 import flixel.util.FlxSpriteUtil;
-import flixel.util.FlxStringUtil;
+import flixel.util.FlxStringUtil; 
 
 import states.FreeplayState;
 
