@@ -17,8 +17,8 @@ import backend.Highscore;
 import backend.Song;
 
 import objects.HealthIcon;
-import objects.ShapeEX;
-import objects.FreeplayShape;
+import objects.shape.ShapeEX;
+import objects.shape.FreeplayShape;
 
 import substates.GameplayChangersSubstate;
 import substates.ResetScoreSubState;

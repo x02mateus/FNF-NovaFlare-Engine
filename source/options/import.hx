@@ -6,5 +6,5 @@ import options.base.NoteOffsetState;
 import options.base.NotesSubState;
 import options.base.ControlsSubState;
 
-import objects.ShapeEX;
-import objects.OptionShapeEX;
+import objects.shape.ShapeEX;
+import objects.shape.OptionShape;

@@ -1,4 +1,4 @@
-package objects;
+package objects.shape;
 
 import openfl.display.BitmapData;
 import openfl.display.BitmapDataChannel;

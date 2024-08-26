@@ -1,8 +1,9 @@
 package options;
 
-import openfl.Lib;
-import lime.app.Application;
-
+typedef Keybind = {
+	keyboard:String,
+	gamepad:String
+}
 
 enum OptionType {
 	BOOL;
@@ -30,6 +31,9 @@ class Option extends FlxSpriteGroup
 	public var defaultKeys:Keybind = null; //Only used in keybind type
 	public var keys:Keybind = null; //Only used in keybind type
 
+	public var onChange:Void->Void = null; //Pressed enter (on Bool type options) or pressed/held left/right (on other types)
+	public var type:OptionType = BOOL;
+
 	public var saveHeight:Float = 0;
 
 	public function new(description:String = '', variable:String = '', type:OptionType = BOOL, ?minValue:Float = 0, ?maxValue:Float = 0, ?options:Array<String> = null)
@@ -38,6 +42,7 @@ class Option extends FlxSpriteGroup
 
 		this.options = options;
 		this.description = description;
+		this.type = type;
 
 		if(this.type != KEYBIND && variable != '') this.defaultValue = Reflect.getProperty(ClientPrefs.defaultData, variable);
 
@@ -58,6 +63,7 @@ class Option extends FlxSpriteGroup
 				defaultValue = '';
 				defaultKeys = {gamepad: 'NONE', keyboard: 'NONE'};
 				keys = {gamepad: 'NONE', keyboard: 'NONE'};
+			default:
 		}
 
 		if(getValue() == null)
@@ -68,6 +74,7 @@ class Option extends FlxSpriteGroup
 			case STRING:
 				var num:Int = options.indexOf(getValue());
 				if(num > -1) curOption = num;
+			default:
 		}
 
 		switch(type)
@@ -80,6 +87,7 @@ class Option extends FlxSpriteGroup
 				addString();
 			case TEXT:
 				addText();
+			default:
 		}
 	}
 

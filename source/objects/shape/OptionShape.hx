@@ -1,4 +1,4 @@
-package objects;
+package objects.shape;
 
 import openfl.display.BitmapData;
 import openfl.display.BitmapDataChannel;
@@ -6,10 +6,12 @@ import flash.geom.Point;
 import flash.geom.Matrix;
 import openfl.geom.Rectangle;
 import openfl.display.Shape;
-import objects.ShapeEX;
+import objects.shape.ShapeEX;
 
 import flixel.util.FlxSpriteUtil;
 import flixel.util.FlxStringUtil;
+
+import options.Option;
 
 class BoolRect extends FlxSpriteGroup {
     var touchFix:Rect;
@@ -333,76 +335,6 @@ class CurRect extends FlxSpriteGroup {
     }
 }
 
-class BackRect extends FlxSpriteGroup 
-{
-    var background:Rect;
-    var button:FlxSprite; 
-    var text:FlxText;
-
-    public var onClick:Void->Void = null;
-
-    var saveColor:FlxColor = 0;
-    var saveColor2:FlxColor = 0;
-
-	public function new(X:Float, Y:Float, width:Float = 0, height:Float = 0, texts:String = '', color:FlxColor = FlxColor.WHITE, onClick:Void->Void = null)
-    {
-        super(X, Y);
-
-        background = new Rect(0, 0, height, height);
-        background.color = color;
-        add(background); 
-
-        button = new FlxSprite(0,0).loadGraphic(Paths.image('menuExtend/FreePlayState/playButton'));
-        button.scale.set(0.4, 0.4);
-        button.antialiasing = ClientPrefs.data.antialiasing;
-        button.x += background.width / 2 - button.width / 2;
-        button.y += background.height / 2 - button.height / 2;
-        button.flipX = true;
-        add(button);
-
-        text = new FlxText(70, 0, 0, texts, 18);
-		text.font = Paths.font('montserrat.ttf'); 	
-        text.antialiasing = ClientPrefs.data.antialiasing;	
-        add(text);
-
-        text.x += background.width / 2 - text.width / 2;
-        text.y += background.height / 2 - text.height / 2;
-
-        this.onClick = onClick;
-        this.saveColor = color;
-        saveColor2 = color;
-        saveColor2.lightness = 0.5;
-	}
-
-	public var onFocus:Bool = false;
-    var bgTween:FlxTween;
-    var textTween:FlxTween;
-    var focused:Bool = false;
-    override function update(elapsed:Float)
-    {
-        super.update(elapsed);
-        
-        onFocus = FlxG.mouse.overlaps(this);
-
-        if(onFocus && onClick != null && FlxG.mouse.justReleased)
-            onClick();
-
-        if (onFocus)
-        {
-            if (!focused){
-                focused = true;
-                background.color = saveColor2;
-            }
-        } else {
-            if (focused){
-                focused = false;
-               
-                background.color = saveColor;
-            }
-        }
-    }
-}
-
 class OptionCata extends FlxSpriteGroup
 {
     var bg:Rect;
@@ -455,7 +387,7 @@ class OptionCata extends FlxSpriteGroup
     }
 
     var focused:Bool = false;
-    public var forceUpdate()
+    public function forceUpdate()
     {
         if (!focused)
         {
@@ -482,18 +414,6 @@ class OptionBG extends FlxSpriteGroup
         bg = new Rect(0, 0, 250, 80.625);
         bg.alpha = 0;
         add(bg);
-
-		text = new FlxText(40, 0, 0, _title, 18);
-		text.font = Paths.font('montserrat.ttf'); 	
-        text.antialiasing = ClientPrefs.data.antialiasing;	
-        text.y += bg.height / 2 - text.height / 2;
-        add(text);
-
-        specRect = new Rect(20, 20, 5, 40, 5, 5, 0x53b7ff);
-        specRect.alpha = 0;
-        specRect.scale.y = 0;
-        specRect.antialiasing = ClientPrefs.data.antialiasing;	
-        add(specRect);
 	}
 
     public var onFocus:Bool = false;
@@ -521,17 +441,8 @@ class OptionBG extends FlxSpriteGroup
     }
 
     var focused:Bool = false;
-    public var forceUpdate()
+    public function forceUpdate()
     {
-        if (!focused)
-        {
-            focused = true;
-            specAlphaTw = FlxTween.tween(specRect, {alpha: 1}, 0.15); 
-            specScaleTw = FlxTween.tween(specRect.scale, {y: 1}, 0.15); 
-        } else {
-            focused = false;
-            specAlphaTw = FlxTween.tween(specRect, {alpha: 0}, 0.15); 
-            specScaleTw = FlxTween.tween(specRect.scale, {y: 0}, 0.15); 
-        }
+       
     }
 }

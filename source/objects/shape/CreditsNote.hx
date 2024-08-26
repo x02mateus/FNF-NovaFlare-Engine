@@ -1,4 +1,4 @@
-package objects;
+package objects.shape;
 
 class CreditsNote extends FlxSprite
 {

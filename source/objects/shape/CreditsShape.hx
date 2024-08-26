@@ -1,6 +1,6 @@
-package objects;
+package objects.shape;
 
-import objects.ShapeEX;
+import objects.shape.ShapeEX;
 import openfl.display.BitmapData;
 import openfl.display.BitmapDataChannel;
 import flash.geom.Point;

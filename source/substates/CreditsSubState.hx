@@ -1,9 +1,9 @@
 package substates;
 
 import objects.AttachedSprite;
-import objects.ShapeEX;
-import objects.CreditsShape;
-import objects.CreditsNote;
+import objects.shape.ShapeEX;
+import objects.shape.CreditsShape;
+import objects.shape.CreditsNote;
 #if hxvlc
 import hxvlc.flixel.FlxVideoSprite;
 #end
