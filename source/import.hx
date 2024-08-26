@@ -8,8 +8,9 @@ import backend.Discord;
 #if ACHIEVEMENTS_ALLOWED
 import backend.Achievements;
 #end
-#if hxvlc
-import backend.VideoSprite;
+#if VIDEOS_ALLOWED
+import backend.VideoManager;
+import backend.VideoSpriteManager;
 #end
 
 #if android
@@ -18,6 +19,7 @@ import android.widget.Toast;
 import android.os.Environment;
 import android.Permissions;
 import lime.app.Application;
+import backend.AppData;
 #end
 
 //Mobile Controls
@@ -61,11 +63,7 @@ import flxanimate.*;
 #end
 
 //Flixel
-#if (flixel >= "5.3.0")
 import flixel.sound.FlxSound;
-#else
-import flixel.system.FlxSound;
-#end
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.FlxCamera;
