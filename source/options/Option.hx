@@ -132,11 +132,15 @@ class Option extends FlxSpriteGroup
         text.antialiasing = ClientPrefs.data.antialiasing;	
         text.y += saveHeight / 2 - text.height / 2;
         add(text);
-		
+
+		var rect = new StringRect(0, 0, this);
+		add(rect);
 	}
 
 	function addText() {
-		var text = new FlxText(40, 0, 0, description, 20);
+		saveHeight = 40;
+
+		var text = new FlxText(40, 0, 0, description, 30);
 		text.font = Paths.font('montserrat.ttf'); 	
         text.antialiasing = ClientPrefs.data.antialiasing;	
         text.y += saveHeight / 2 - text.height / 2;

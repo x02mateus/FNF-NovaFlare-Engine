@@ -40,11 +40,6 @@
       "url": "https://github.com/beihu235/hxcpp"
     },
     {
-      "name": "hxCodec",
-      "type": "haxelib", 
-      "version": "2.6.0"
-    },
-    {
       "name": "hxvlc",
       "type": "haxelib",
       "version": "1.8.0"

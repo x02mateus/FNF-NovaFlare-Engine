@@ -176,7 +176,7 @@ class StringRect extends FlxSpriteGroup {
     var specRect:FlxSprite;
     var disText:FlxText;
 
-    var strArray:Array<String> = ['0', '1', '2', '3', '4', '5', '6'];
+    var strArray:Array<String> = [];
 
     var follow:Option;
 
