@@ -9,9 +9,9 @@ class AppData
         return AppDetails.getVersionName();
     }
 
-    public static function getPackageName():String {
+    //public static function getPackageName():String {
         //return AppDetails.getAppPackageName();
-    }
+    //}
 
     public static function getVersionCode():Int {
         return AppDetails.getVersionCode();
