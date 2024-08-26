@@ -108,9 +108,30 @@ class Option extends FlxSpriteGroup
 	function addData() {
 		saveHeight = 50;
 
+		var text = new FlxText(40, 0, 0, description, 20);
+		text.font = Paths.font('montserrat.ttf'); 	
+        text.antialiasing = ClientPrefs.data.antialiasing;	
+        text.y += saveHeight / 2 - text.height / 2;
+        add(text);
+
+		valueText = new FlxText(40, 0, 0, defaultValue, 20);
+		valueText.font = Paths.font('montserrat.ttf'); 	
+        valueText.antialiasing = ClientPrefs.data.antialiasing;	
+        valueText.y += saveHeight / 2 - text.height / 2;
+        add(valueText);
+
+		var rect = new FloatRect(0, 0, minValue, maxValue, this);
+		add(rect);
 	}
 
 	function addString() {
+		saveHeight = 50;
+
+		var text = new FlxText(40, 0, 0, description, 20);
+		text.font = Paths.font('montserrat.ttf'); 	
+        text.antialiasing = ClientPrefs.data.antialiasing;	
+        text.y += saveHeight / 2 - text.height / 2;
+        add(text);
 		
 	}
 

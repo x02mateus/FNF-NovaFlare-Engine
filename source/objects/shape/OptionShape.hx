@@ -104,7 +104,7 @@ class FloatRect extends FlxSpriteGroup {
     var max:Float;
     var min:Float;
 
-    public function new(X:Float, Y:Float, maxData:Float, minData:Float, point:Option = null)
+    public function new(X:Float, Y:Float, minData:Float, maxData:Float, point:Option = null)
     {
         super(X, Y);
 
