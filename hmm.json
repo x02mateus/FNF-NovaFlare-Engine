@@ -91,7 +91,7 @@
       "url": "https://github.com/ShadowMario/flxanimate.git"
     },
     {
-      "name": "extension-androidtool",
+      "name": "extension-androidtools",
       "type": "git",
       "dir": null,
       "ref": "main",
