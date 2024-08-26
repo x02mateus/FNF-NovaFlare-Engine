@@ -404,16 +404,13 @@ class OptionCata extends FlxSpriteGroup
 
 class OptionBG extends FlxSpriteGroup
 {
-    var bg:Rect;
     var optionArray:Array<Option> = [];
+
+    var saveHeight:Int = 0;
 
 	public function new(x:Float, y:Float)
 	{
 		super(x, y);
-
-        bg = new Rect(0, 0, 250, 80.625);
-        bg.alpha = 0;
-        add(bg);
 	}
 
     public var onFocus:Bool = false;
@@ -422,27 +419,13 @@ class OptionBG extends FlxSpriteGroup
         super.update(elapsed);
         
         onFocus = FlxG.mouse.overlaps(this);
-
-        if(onFocus && onClick != null && FlxG.mouse.justReleased)
-            onClick();
     }
 
-    var bgTween:FlxTween;
-    var specAlphaTw:FlxTween;
-    var specScaleTw:FlxTween;
-    function onClick() 
+    public function addOption(mem:Option)
     {
-        bg.alpha = 0.6;
-        if (bgTween != null) bgTween.cancel();
-        bgTween = FlxTween.tween(bg, {alpha: 0}, 0.3); 
-
-        if (specAlphaTw != null) specAlphaTw.cancel();
-        if (specScaleTw != null) specScaleTw.cancel();
-    }
-
-    var focused:Bool = false;
-    public function forceUpdate()
-    {
-       
+        add(mem);
+        optionArray.push(mem);
+        mem.y += saveHeight;
+        saveHeight += mem.saveHeight;
     }
 }

@@ -34,9 +34,9 @@ class Option extends FlxSpriteGroup
 	public var onChange:Void->Void = null; //Pressed enter (on Bool type options) or pressed/held left/right (on other types)
 	public var type:OptionType = BOOL;
 
-	public var saveHeight:Float = 0;
+	public var saveHeight:Int = 0;
 
-	public function new(description:String = '', variable:String = '', type:OptionType = BOOL, ?minValue:Float = 0, ?maxValue:Float = 0, ?options:Array<String> = null)
+	public function new(description:String = '', variable:String = '', type:OptionType = BOOL, ?minValue:Float = 0, ?maxValue:Float = 0, ?options:Array<String> = null, ?display:String = '')
 	{
 		super();
 

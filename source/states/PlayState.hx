@@ -371,6 +371,8 @@ class PlayState extends MusicBeatState
 		FlxG.cameras.add(camPause, false);
 		grpNoteSplashes = new FlxTypedGroup<NoteSplash>();
 
+		persistentUpdate = persistentDraw = true;
+
 		if (SONG == null)
 			SONG = Song.loadFromJson('tutorial');
 
@@ -742,8 +744,6 @@ class PlayState extends MusicBeatState
 		cacheCountdown();
         
 		super.create();
-
-		persistentUpdate = persistentDraw = true;
 		
 		Paths.clearUnusedMemory();
 
