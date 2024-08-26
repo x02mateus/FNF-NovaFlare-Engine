@@ -5,16 +5,16 @@ import android.os.AppDetails;
 
 class AppData
 {
-    public static function getAppVersionName():String {
-        return AppDetails.getAppVersionName();
+    public static function getVersionName():String {
+        return AppDetails.getVersionName();
     }
 
-    public static function getAppPackageName():String {
-        return AppDetails.getAppPackageName();
+    public static function getPackageName():String {
+        //return AppDetails.getAppPackageName();
     }
 
-    public static function getAppName():String {
-        return AppDetails.getAppName();
+    public static function getVersionCode():Int {
+        return AppDetails.getVersionCode();
     }
 }
 #end
