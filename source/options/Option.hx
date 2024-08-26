@@ -92,7 +92,7 @@ class Option extends FlxSpriteGroup
 	}
 
 	function addBool() {
-		saveHeight = 40;
+		saveHeight = 30;
 
 		var text = new FlxText(40, 0, 0, description, 20);
 		text.font = Paths.font('montserrat.ttf'); 	
@@ -100,12 +100,14 @@ class Option extends FlxSpriteGroup
         text.y += saveHeight / 2 - text.height / 2;
         add(text);
 
-		var rect = new BoolRect(0, 0, 1030, 40, this);
+		var rect = new BoolRect(0, 0, 1030, saveHeight, this);
 		add(rect);
 	}
 
+	var valueText:FlxText;
 	function addData() {
-		
+		saveHeight = 50;
+
 	}
 
 	function addString() {

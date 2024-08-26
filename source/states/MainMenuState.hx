@@ -10,7 +10,6 @@ import flixel.effects.FlxFlicker;
 import flixel.addons.display.FlxBackdrop;
 
 import flixel.input.keyboard.FlxKey;
-import lime.app.Application;
 
 import objects.AchievementPopup;
 import states.editors.MasterEditorMenu;
@@ -196,7 +195,7 @@ class MainMenuState extends MusicBeatState
 
 		//FlxG.camera.follow(camFollow, null, 0);
 
-		var versionShit:FlxText = new FlxText(12, FlxG.height - 44, 0, "NovaFlare Engine v" + novaFlareEngineVersion/* + ' - HOTFIX'*/, 12);
+		var versionShit:FlxText = new FlxText(12, FlxG.height - 44, 0, "NovaFlare Engine v" + novaFlareEngineVersion, 12);
 		versionShit.scrollFactor.set();
 		versionShit.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		versionShit.antialiasing = ClientPrefs.data.antialiasing;

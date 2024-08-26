@@ -516,14 +516,14 @@ class ResultsScreen extends MusicBeatSubstate
 		});			
 		
 		
-		new FlxTimer().start(1.5, function(tmr:FlxTimer){
+		new FlxTimer().start(1, function(tmr:FlxTimer){
 		  
 		    FlxTween.tween(modsMenu, {alpha: 1}, 0.5);	           
             FlxTween.tween(modsText, {alpha: 1}, 0.5);	
 		
 		});						
 		
-		new FlxTimer().start(2, function(tmr:FlxTimer){
+		new FlxTimer().start(1, function(tmr:FlxTimer){
 			for (i in 0...mesTextNumber.length){
 			    var tweenTimer:FlxTimer = new FlxTimer();
                 tweenTimer.start((0.5 - 0.1) / mesTextNumber.length * i, function(tmr:FlxTimer){
@@ -546,7 +546,7 @@ class ResultsScreen extends MusicBeatSubstate
 			}
 		});
 		
-		new FlxTimer().start(2.5, function(tmr:FlxTimer){
+		new FlxTimer().start(1, function(tmr:FlxTimer){
 		
 		    FlxTween.tween(graphNote, {alpha: 1}, 0.5);
 		
@@ -567,19 +567,18 @@ class ResultsScreen extends MusicBeatSubstate
 		    }
 		});
 				
-		new FlxTimer().start(3, function(tmr:FlxTimer){
+		new FlxTimer().start(1, function(tmr:FlxTimer){
 			FlxTween.tween(backBG, {x:  1280 - backBG.width}, 1, {ease: FlxEase.cubeInOut});
 			FlxTween.tween(backText, {x: 1280 - backBG.width / 2 - backText.width / 2}, 1.2, {ease: FlxEase.cubeInOut});
 		});			
 	}
 	
+	var swagRect:FlxRect;
     function rectTween(sprite:FlxSprite, tweenHeight:Bool = false, width:Int = 0, height:Int = 0){
         
         if (width == 0) width = Std.int(sprite.width);
         if (height == 0) height = Std.int(sprite.height);
         
-        var swagRect:FlxRect;
-	    
 	    var time:Float = 0;
 	    var maxTime:Float = 0.5;
 	    
@@ -600,7 +599,6 @@ class ResultsScreen extends MusicBeatSubstate
 		        swagRect.height = height;    				    
 		    }
 		    sprite.clipRect = swagRect;
-		    //sprite.alpha = 1;
 		    
 		    if (time == maxTime){
 		        timerTween.cancel();		        		        

@@ -342,7 +342,7 @@ class ExtraTopRect extends FlxSpriteGroup //play/back button
     {
         super.update(elapsed);
 
-        if(!ignoreCheck && !Controls.instance.controllerMode)
+        if(!ignoreCheck)
             onFocus = FlxG.mouse.overlaps(this);
 
         if(onFocus && onClick != null && FlxG.mouse.justReleased)
@@ -428,7 +428,7 @@ class EventRect extends FlxSpriteGroup //freeplay bottom bg rect
     {
         super.update(elapsed);
 
-        if(!ignoreCheck && !Controls.instance.controllerMode)
+        if(!ignoreCheck)
             onFocus = FlxG.mouse.overlaps(this);
 
         if(onFocus && onClick != null && FlxG.mouse.justReleased)
@@ -459,6 +459,7 @@ class SongRect extends FlxSpriteGroup //songs member for freeplay
 
     public var member:Int;
     public var name:String;
+    public var haveAdd:Bool = false;
 
 	public function new(X:Float, Y:Float, songNameS:String, songChar:String, songColor:FlxColor)
     {
@@ -589,7 +590,7 @@ class SongRect extends FlxSpriteGroup //songs member for freeplay
                 tween = FlxTween.tween(this, {alpha: 1}, 0.2);
         } else {
             if (tween != null) tween.cancel();
-                tween = FlxTween.tween(this, {alpha: 0.5}, 0.2);
+                tween = FlxTween.tween(this, {alpha: 0.6}, 0.2);
         }
         return value;
     }
@@ -668,6 +669,9 @@ class DiffRect extends FlxSpriteGroup //songs member for freeplay
         add(bgLine);
 
         this.follow = point;
+
+        y = follow.y + lerpPosY;
+        x = 660 + Math.abs(y + height / 2 - FlxG.height / 2) / FlxG.height / 2 * 250 + lerpPosX;
 	}
 
     function drawLine(width:Float, height:Float):BitmapData {
@@ -753,6 +757,7 @@ class BackRect extends FlxSpriteGroup //back button
         bg2 = new FlxSprite(-60);
         bg2.pixels = drawRect(width, height);
         bg2.color = color;
+        bg2.antialiasing = ClientPrefs.data.antialiasing;
         add(bg2);
 
         background = new Rect(0, 0, height, height);
@@ -870,6 +875,7 @@ class PlayRect extends FlxSpriteGroup //back button
         bg2 = new FlxSprite(50);
         bg2.pixels = drawRect(width, height);
         bg2.color = color;
+        bg2.antialiasing = ClientPrefs.data.antialiasing;
         add(bg2);
 
         background = new Rect(width - height, 0, height, height);
