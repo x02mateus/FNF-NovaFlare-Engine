@@ -8,9 +8,8 @@ import backend.Discord;
 #if ACHIEVEMENTS_ALLOWED
 import backend.Achievements;
 #end
-#if VIDEOS_ALLOWED
-import backend.VideoManager;
-import backend.VideoSpriteManager;
+#if hxvlc
+import backend.VideoSprite;
 #end
 
 #if android
