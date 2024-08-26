@@ -174,7 +174,7 @@
 		<haxedef name="HXCPP_STACK_TRACE" />
 		<haxedef name="HXCPP_CATCH_SEGV" />
 	</section>
-
+ 
 	<section if="desktop">
 		<!--Enable Handle Error-->
 		<haxedef name="openfl_enable_handle_error" if="${openfl &ge; 9.4.0}" />

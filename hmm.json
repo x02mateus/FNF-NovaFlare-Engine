@@ -41,7 +41,7 @@
     },
     {
       "name": "hxCodec",
-      "type": "haxelib",
+      "type": "haxelib", 
       "version": "2.6.0"
     },
     {
