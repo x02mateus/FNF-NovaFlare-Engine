@@ -104,18 +104,18 @@ class FloatRect extends FlxSpriteGroup {
     var max:Float;
     var min:Float;
 
-    public function new(X:Float, Y:Float, maxData:Float, minData:Float, point:Option = null)
+    public function new(X:Float, Y:Float, minData:Float, maxData:Float, point:Option = null)
     {
         super(X, Y);
 
         bg = new FlxSprite();
-        bg.pixels = drawRect(800, 10);
+        bg.pixels = drawRect(950, 10);
         bg.antialiasing = ClientPrefs.data.antialiasing;
         bg.color = 0x24232C;
         add(bg);
 
         display = new FlxSprite();
-        display.pixels = drawRect(800, 10);
+        display.pixels = drawRect(950, 10);
         display.antialiasing = ClientPrefs.data.antialiasing;
         display.color = 0x53b7ff;
         add(display);
@@ -128,6 +128,9 @@ class FloatRect extends FlxSpriteGroup {
         this.follow = point;
         this.max = maxData;
         this.min = minData;
+
+        persent = 0.5 + (point.defaultValue - (maxData - minData) / 2) / (maxData - minData);
+        onHold();
     }
 
     function drawRect(width:Float, height:Float):BitmapData {
@@ -160,12 +163,13 @@ class FloatRect extends FlxSpriteGroup {
     }
 
     var posX:Float;
+    var persent:Float = 0;
     function onHold() {
         rect.x = FlxG.mouse.x - posX;
         if (rect.x < bg.x) rect.x = bg.x;
         if (rect.x + rect.width > bg.x + bg.width) rect.x = bg.x + bg.width - rect.width;
 
-        var persent:Float = (rect.x - bg.x) / (bg.width - rect.width);
+        persent = (rect.x - bg.x) / (bg.width - rect.width);
 
         display._frame.frame.width = display.width * persent;
     }
@@ -176,7 +180,7 @@ class StringRect extends FlxSpriteGroup {
     var specRect:FlxSprite;
     var disText:FlxText;
 
-    var strArray:Array<String> = ['0', '1', '2', '3', '4', '5', '6'];
+    var strArray:Array<String> = [];
 
     var follow:Option;
 
@@ -184,7 +188,7 @@ class StringRect extends FlxSpriteGroup {
     {
         super(X, Y);
 
-        bg = new Rect(0, 0, 800, 50, 15, 15);
+        bg = new Rect(0, 0, 950, 50, 15, 15);
         bg.antialiasing = ClientPrefs.data.antialiasing;
         bg.color = 0x24232C;
         add(bg);
@@ -404,16 +408,13 @@ class OptionCata extends FlxSpriteGroup
 
 class OptionBG extends FlxSpriteGroup
 {
-    var bg:Rect;
     var optionArray:Array<Option> = [];
+
+    var saveHeight:Int = 0;
 
 	public function new(x:Float, y:Float)
 	{
 		super(x, y);
-
-        bg = new Rect(0, 0, 250, 80.625);
-        bg.alpha = 0;
-        add(bg);
 	}
 
     public var onFocus:Bool = false;
@@ -422,27 +423,13 @@ class OptionBG extends FlxSpriteGroup
         super.update(elapsed);
         
         onFocus = FlxG.mouse.overlaps(this);
-
-        if(onFocus && onClick != null && FlxG.mouse.justReleased)
-            onClick();
     }
 
-    var bgTween:FlxTween;
-    var specAlphaTw:FlxTween;
-    var specScaleTw:FlxTween;
-    function onClick() 
+    public function addOption(mem:Option)
     {
-        bg.alpha = 0.6;
-        if (bgTween != null) bgTween.cancel();
-        bgTween = FlxTween.tween(bg, {alpha: 0}, 0.3); 
-
-        if (specAlphaTw != null) specAlphaTw.cancel();
-        if (specScaleTw != null) specScaleTw.cancel();
-    }
-
-    var focused:Bool = false;
-    public function forceUpdate()
-    {
-       
+        add(mem);
+        optionArray.push(mem);
+        mem.y += saveHeight;
+        saveHeight += mem.saveHeight;
     }
 }

@@ -15,7 +15,7 @@
     {
       "name": "flixel",
       "type": "haxelib",
-      "version": "5.5.0"
+      "version": "5.8.0"
     },
     {
       "name": "flixel-addons",
@@ -40,14 +40,11 @@
       "url": "https://github.com/beihu235/hxcpp"
     },
     {
-      "name": "hxCodec",
-      "type": "haxelib", 
-      "version": "2.6.0"
-    },
-    {
       "name": "hxvlc",
-      "type": "haxelib",
-      "version": "1.8.0"
+      "type": "git",
+      "dir": null,
+      "ref": "70e7f5f3e76d526ac6fb8f0e6665efe7dfda589d",
+      "url": "https://github.com/MAJigsaw77/hxvlc"
     },
     {
       "name": "SScript",
@@ -81,28 +78,28 @@
       "type": "git",
       "dir": null,
       "ref": "master",
-      "url": "https://github.com/superpowers04/linc_luajit.git"
+      "url": "https://github.com/mcagabe19-stuff/linc_luajit-legacy"
     },
     {
       "name": "flxanimate",
       "type": "git",
       "dir": null,
-      "ref": "dev",
+      "ref": "main",
       "url": "https://github.com/ShadowMario/flxanimate.git"
     },
     {
       "name": "extension-androidtools",
       "type": "git",
       "dir": null,
-      "ref": "main",
-      "url": "https://github.com/beihu235/extension-androidtools"
+      "ref": "727693f0a76c6e396df675bb0ed95d7639a4db01",
+      "url": "https://github.com/MAJigsaw77/extension-androidtools"
     },
     {
       "name": "funkin.vis",
       "type": "git",
       "dir": null,
-      "ref": "38261833590773cb1de34ac5d11e0825696fc340",
-      "url": "https://github.com/FunkinCrew/funkVis"
+      "ref": "main",
+      "url": "https://github.com/beihu235/funkVis-FrequencyFixed"
     },
     {
       "name": "grig.audio",
