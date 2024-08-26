@@ -15,7 +15,7 @@
     {
       "name": "flixel",
       "type": "haxelib",
-      "version": "5.8.0"
+      "version": "5.5.0"
     },
     {
       "name": "flixel-addons",
@@ -40,11 +40,14 @@
       "url": "https://github.com/beihu235/hxcpp"
     },
     {
+      "name": "hxCodec",
+      "type": "haxelib", 
+      "version": "2.6.0"
+    },
+    {
       "name": "hxvlc",
-      "type": "git",
-      "dir": null,
-      "ref": "70e7f5f3e76d526ac6fb8f0e6665efe7dfda589d",
-      "url": "https://github.com/MAJigsaw77/hxvlc"
+      "type": "haxelib",
+      "version": "1.8.0"
     },
     {
       "name": "SScript",
@@ -91,15 +94,15 @@
       "name": "extension-androidtools",
       "type": "git",
       "dir": null,
-      "ref": "727693f0a76c6e396df675bb0ed95d7639a4db01",
-      "url": "https://github.com/MAJigsaw77/extension-androidtools"
+      "ref": "main",
+      "url": "https://github.com/beihu235/extension-androidtools"
     },
     {
       "name": "funkin.vis",
       "type": "git",
       "dir": null,
-      "ref": "main",
-      "url": "https://github.com/beihu235/funkVis-FrequencyFixed"
+      "ref": "38261833590773cb1de34ac5d11e0825696fc340",
+      "url": "https://github.com/FunkinCrew/funkVis"
     },
     {
       "name": "grig.audio",

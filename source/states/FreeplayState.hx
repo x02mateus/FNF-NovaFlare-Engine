@@ -523,20 +523,15 @@ class FreeplayState extends MusicBeatState
 		for (rect in 0...saveGrpSongs.length)
 		{
 			saveGrpSongs[rect].ignoreCheck = true;
-			saveGrpSongs[rect].haveAdd = false;
 		}
 		
 		var data:Int = 0;
 		for (song in 0...songs.length){
-			var added:Bool = false;
 			for (rect in 0...saveGrpSongs.length){
 				var rect = saveGrpSongs[rect];
-				if (rect.name.trim().toLowerCase() == songs[song].songName.trim().toLowerCase() && !rect.haveAdd && !added)
+				if (rect.name.trim().toLowerCase() == songs[song].songName.trim().toLowerCase())
 				{
-					added = true;
-					
 					rect.member = data;
-					rect.haveAdd = true;
 					data++;
 					rect.ignoreCheck = false;		
 					grpSongs.push(rect);		
@@ -573,12 +568,12 @@ class FreeplayState extends MusicBeatState
 	function updateVoice() {
 		if (timer != null) timer.cancel;
 
-		destroyFreeplayVocals();
-		FlxG.sound.music.stop();
-
 		timer.start(0.5, function(tmr:FlxTimer){
 
-			if (songs[curSelected] == null) return;		
+			if (songs[curSelected] == null) return;
+
+			destroyFreeplayVocals();
+			FlxG.sound.music.stop();
 
 			Thread.create(() -> {
 				if (musicMutex.tryAcquire() == true) musicMutex.release();

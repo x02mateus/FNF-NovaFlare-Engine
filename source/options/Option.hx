@@ -34,9 +34,9 @@ class Option extends FlxSpriteGroup
 	public var onChange:Void->Void = null; //Pressed enter (on Bool type options) or pressed/held left/right (on other types)
 	public var type:OptionType = BOOL;
 
-	public var saveHeight:Int = 0;
+	public var saveHeight:Float = 0;
 
-	public function new(description:String = '', variable:String = '', type:OptionType = BOOL, ?minValue:Float = 0, ?maxValue:Float = 0, ?options:Array<String> = null, ?display:String = '')
+	public function new(description:String = '', variable:String = '', type:OptionType = BOOL, ?minValue:Float = 0, ?maxValue:Float = 0, ?options:Array<String> = null)
 	{
 		super();
 
@@ -92,7 +92,7 @@ class Option extends FlxSpriteGroup
 	}
 
 	function addBool() {
-		saveHeight = 30;
+		saveHeight = 40;
 
 		var text = new FlxText(40, 0, 0, description, 20);
 		text.font = Paths.font('montserrat.ttf'); 	
@@ -100,47 +100,20 @@ class Option extends FlxSpriteGroup
         text.y += saveHeight / 2 - text.height / 2;
         add(text);
 
-		var rect = new BoolRect(0, 0, 1030, saveHeight, this);
+		var rect = new BoolRect(0, 0, 1030, 40, this);
 		add(rect);
 	}
 
-	var valueText:FlxText;
 	function addData() {
-		saveHeight = 50;
-
-		var text = new FlxText(40, 0, 0, description, 20);
-		text.font = Paths.font('montserrat.ttf'); 	
-        text.antialiasing = ClientPrefs.data.antialiasing;	
-        text.y += saveHeight / 2 - text.height / 2;
-        add(text);
-
-		valueText = new FlxText(40, 0, 0, defaultValue, 20);
-		valueText.font = Paths.font('montserrat.ttf'); 	
-        valueText.antialiasing = ClientPrefs.data.antialiasing;	
-        valueText.y += saveHeight / 2 - text.height / 2;
-        add(valueText);
-
-		var rect = new FloatRect(0, 0, minValue, maxValue, this);
-		add(rect);
+		
 	}
 
 	function addString() {
-		saveHeight = 50;
-
-		var text = new FlxText(40, 0, 0, description, 20);
-		text.font = Paths.font('montserrat.ttf'); 	
-        text.antialiasing = ClientPrefs.data.antialiasing;	
-        text.y += saveHeight / 2 - text.height / 2;
-        add(text);
-
-		var rect = new StringRect(0, 0, this);
-		add(rect);
+		
 	}
 
 	function addText() {
-		saveHeight = 40;
-
-		var text = new FlxText(40, 0, 0, description, 30);
+		var text = new FlxText(40, 0, 0, description, 20);
 		text.font = Paths.font('montserrat.ttf'); 	
         text.antialiasing = ClientPrefs.data.antialiasing;	
         text.y += saveHeight / 2 - text.height / 2;

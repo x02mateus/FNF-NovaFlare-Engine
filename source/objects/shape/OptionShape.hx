@@ -104,7 +104,7 @@ class FloatRect extends FlxSpriteGroup {
     var max:Float;
     var min:Float;
 
-    public function new(X:Float, Y:Float, minData:Float, maxData:Float, point:Option = null)
+    public function new(X:Float, Y:Float, maxData:Float, minData:Float, point:Option = null)
     {
         super(X, Y);
 
@@ -176,7 +176,7 @@ class StringRect extends FlxSpriteGroup {
     var specRect:FlxSprite;
     var disText:FlxText;
 
-    var strArray:Array<String> = [];
+    var strArray:Array<String> = ['0', '1', '2', '3', '4', '5', '6'];
 
     var follow:Option;
 
@@ -404,13 +404,16 @@ class OptionCata extends FlxSpriteGroup
 
 class OptionBG extends FlxSpriteGroup
 {
+    var bg:Rect;
     var optionArray:Array<Option> = [];
-
-    var saveHeight:Int = 0;
 
 	public function new(x:Float, y:Float)
 	{
 		super(x, y);
+
+        bg = new Rect(0, 0, 250, 80.625);
+        bg.alpha = 0;
+        add(bg);
 	}
 
     public var onFocus:Bool = false;
@@ -419,13 +422,27 @@ class OptionBG extends FlxSpriteGroup
         super.update(elapsed);
         
         onFocus = FlxG.mouse.overlaps(this);
+
+        if(onFocus && onClick != null && FlxG.mouse.justReleased)
+            onClick();
     }
 
-    public function addOption(mem:Option)
+    var bgTween:FlxTween;
+    var specAlphaTw:FlxTween;
+    var specScaleTw:FlxTween;
+    function onClick() 
     {
-        add(mem);
-        optionArray.push(mem);
-        mem.y += saveHeight;
-        saveHeight += mem.saveHeight;
+        bg.alpha = 0.6;
+        if (bgTween != null) bgTween.cancel();
+        bgTween = FlxTween.tween(bg, {alpha: 0}, 0.3); 
+
+        if (specAlphaTw != null) specAlphaTw.cancel();
+        if (specScaleTw != null) specScaleTw.cancel();
+    }
+
+    var focused:Bool = false;
+    public function forceUpdate()
+    {
+       
     }
 }

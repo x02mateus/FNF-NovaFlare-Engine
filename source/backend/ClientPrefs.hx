@@ -7,18 +7,6 @@ import states.TitleState;
 
 // Add a variable here and it will get automatically saved
 @:structInit class SaveVariables {
-
-	public var framerate:Int = 60;
-	public var colorblindMode:Int = 0;
-	public var lowQuality:Bool = false;
-	public var gameQuality:Int = #if mobile 0 #else 1 #end;
-	public var antialiasing:Bool = true;
-	public var flashing:Bool = true;
-	public var shaders:Bool = true;
-	public var cacheOnGPU:Bool = false;	
-	public var autoPause:Bool = true;
-	public var loadingScreen:Bool = false;
-
 	public var downScroll:Bool = false;
 	public var middleScroll:Bool = false;
 	public var filpChart:Bool = false;
@@ -66,7 +54,16 @@ import states.TitleState;
 	public var comboOffsetFix:Bool = true;
 	public var showRating:Bool = true;	
 	
-		
+	public var lowQuality:Bool = false;
+	public var gameQuality:Int = #if mobile 0 #else 1 #end;
+	public var flashing:Bool = true;
+	public var shaders:Bool = true;
+	public var colorblindMode:Int = 0;
+	public var cacheOnGPU:Bool = #if !switch false #else true #end; //From Stilic	
+	public var loadingScreen:Bool = false;
+	public var antialiasing:Bool = true;
+	public var framerate:Int = 60;
+	public var autoPause:Bool = true;	
 	
 	public var CustomFade:String = 'Move';
 	public var CustomFadeSound:Float = 0.5;

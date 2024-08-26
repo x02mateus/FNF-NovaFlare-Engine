@@ -9,8 +9,6 @@ class OptionsState extends MusicBeatState
 
 	var optionName:Array<String> = ['General', 'Gameplay', 'Game Backend', 'Game UI', 'Skin', 'Input', 'User Interface', 'Watermark'];
 	var optionArray:Array<OptionCata> = [];
-
-	var bgArray:Array<OptionBG> = [];
     
 	override function create()
 	{     
@@ -34,17 +32,6 @@ class OptionsState extends MusicBeatState
 		var back = new BackButton(0,0, 250, 75, 'back', 0x53b7ff, backMenu);
 		back.y = FlxG.height - 75;
 		add(back);
-
-		for (i in 0...optionArray.length)
-		{
-			var bg:OptionBG = new OptionBG(250, 0);
-			add(bg);
-			switch (i)
-			{
-				case 0:
-					GeneralGroup.add(bg);
-			}
-		}
 		
 		super.create();
 	}
