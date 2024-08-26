@@ -117,7 +117,7 @@ class FloatRect extends FlxSpriteGroup {
         display = new FlxSprite();
         display.pixels = drawRect(950, 10);
         display.antialiasing = ClientPrefs.data.antialiasing;
-        display.color = 0x53b7ff;
+        display.color = 0x0095ff;
         add(display);
 
         rect = new Rect(0, 0, 80, 20, 20, 20);
@@ -129,7 +129,7 @@ class FloatRect extends FlxSpriteGroup {
         this.max = maxData;
         this.min = minData;
 
-        persent = 0.5 + (point.defaultValue - (maxData - minData) / 2) / (maxData - minData);
+        persent = (point.defaultValue - minData) / (maxData - minData);
         onHold();
     }
 
