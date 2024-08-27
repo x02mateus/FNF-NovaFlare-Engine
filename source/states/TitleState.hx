@@ -119,9 +119,9 @@ class TitleState extends MusicBeatState
 		ClientPrefs.loadPrefs();			
 		
 		#if android
-		if (AppData.getVersionName() != Application.meta.get('version')
-		    || AppData.getAppName() != Application.meta.get('title')
-			|| AppData.getPackageName() != Application.meta.get('packageName')
+		if (AppData.getVersionName() != Application.current.meta.get('version')
+		    || AppData.getAppName() != Application.current.meta.get('title')
+			|| AppData.getPackageName() != Application.current.meta.get('packageName')
 			)
 			FlxG.switchState(new PirateState());
 		
