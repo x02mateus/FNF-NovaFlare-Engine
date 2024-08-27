@@ -28,7 +28,7 @@ class Option extends FlxSpriteGroup
 
 	public var minValue:Float = 0;
 	public var maxValue:Float = 0;
-	public var decimals:Int = 1; //Only used in float/percent type
+	public var decimals:Int = 0;
 
 	public var defaultKeys:Keybind = null; //Only used in keybind type
 	public var keys:Keybind = null; //Only used in keybind type
@@ -38,7 +38,7 @@ class Option extends FlxSpriteGroup
 
 	public var saveHeight:Int = 0;
 
-	public function new(description:String = '', variable:String = '', type:OptionType = BOOL, ?minValue:Float = 0, ?maxValue:Float = 0, ?options:Array<String> = null, ?display:String = '')
+	public function new(description:String = '', variable:String = '', type:OptionType = BOOL, ?minValue:Float = 0, ?maxValue:Float = 0, ?decimals:Int = 0, ?options:Array<String> = null, ?display:String = '')
 	{
 		super();
 
@@ -49,6 +49,7 @@ class Option extends FlxSpriteGroup
 		this.display = display;
 		this.minValue = minValue;
 		this.maxValue = maxValue;
+		this.decimals = decimals;
 
 		if(this.type != KEYBIND && variable != '') this.defaultValue = Reflect.getProperty(ClientPrefs.data, variable);
 

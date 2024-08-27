@@ -31,11 +31,11 @@ class BoolRect extends FlxSpriteGroup {
         bg = new FlxSprite();
         bg.pixels = drawRect(50, 20);
         bg.antialiasing = ClientPrefs.data.antialiasing;
-        bg.x += touchFix.width - bg.width - 50;
+        bg.x += touchFix.width - bg.width - 60;
         bg.y += touchFix.height / 2 - bg.height / 2;
         add(bg);
 
-        display = new Rect(touchFix.width - bg.width - 50 - 15, touchFix.height / 2 - bg.height / 2, 80, 20, 20, 20);
+        display = new Rect(touchFix.width - bg.width - 60 - 15, touchFix.height / 2 - bg.height / 2, 80, 20, 20, 20);
         display.color = 0x53b7ff;
         if (point.defaultValue == true) 
         {
@@ -89,6 +89,7 @@ class BoolRect extends FlxSpriteGroup {
         state = !state;
 
         follow.setValue(state);
+        follow.change();
     }
 }
 
@@ -97,6 +98,8 @@ class FloatRect extends FlxSpriteGroup {
     var display:FlxSprite;
 
     var rect:Rect;
+    var addButton:FlxSprite;
+    var deleteButton:FlxSprite;
 
     var follow:Option;
 
@@ -107,14 +110,14 @@ class FloatRect extends FlxSpriteGroup {
     {
         super(X, Y);
 
-        bg = new FlxSprite();
-        bg.pixels = drawRect(950, 10);
+        bg = new FlxSprite(50);
+        bg.pixels = drawRect(850, 10);
         bg.antialiasing = ClientPrefs.data.antialiasing;
         bg.color = 0x24232C;
         add(bg);
 
-        display = new FlxSprite();
-        display.pixels = drawRect(950, 10);
+        display = new FlxSprite(50);
+        display.pixels = drawRect(850, 10);
         display.antialiasing = ClientPrefs.data.antialiasing;
         display.color = 0x0095ff;
         add(display);
@@ -123,6 +126,18 @@ class FloatRect extends FlxSpriteGroup {
         rect.color = 0x53b7ff;
         add(rect);
         rect.y += bg.height / 2 - rect.height / 2;
+
+        addButton = new FlxSprite(930);
+        addButton.pixels = drawButton(20, true);
+        addButton.antialiasing = ClientPrefs.data.antialiasing;
+        addButton.y += bg.height / 2 - addButton.height / 2;
+        add(addButton);
+
+        deleteButton = new FlxSprite();
+        deleteButton.pixels = drawButton(20, false);
+        deleteButton.antialiasing = ClientPrefs.data.antialiasing;
+        deleteButton.y += bg.height / 2 - deleteButton.height / 2;
+        add(deleteButton);
 
         this.follow = point;
         this.max = maxData;
@@ -144,6 +159,39 @@ class FloatRect extends FlxSpriteGroup {
         return bitmap;
     }
 
+    function drawButton(size:Int, isAdd:Bool) {
+        var shape:Shape = new Shape();
+
+        shape.graphics.beginFill(0); 
+        shape.graphics.lineStyle(4, 0xFFFFFF, 1);
+        shape.graphics.drawCircle(size / 2, size / 2, size - 4);
+        shape.graphics.endFill();
+
+        var p1:Point = new Point(size / 2 - size / 5, size / 2);
+        var p2:Point = new Point(size / 2 + size / 5, size / 2);
+        var p3:Point = new Point(size / 2, size / 2 - size / 5);
+        var p4:Point = new Point(size / 2, size / 2 + size / 5);
+
+        shape.graphics.beginFill(0xFFFFFF); 
+        shape.graphics.lineStyle(4, 0xFFFFFF, 1);
+        shape.graphics.moveTo(p1.x, p1.y);
+        shape.graphics.lineTo(p2.x, p2.y);
+        shape.graphics.endFill();
+
+        if (isAdd)
+        {
+            shape.graphics.beginFill(0xFFFFFF); 
+            shape.graphics.lineStyle(4, 0xFFFFFF, 1);
+            shape.graphics.moveTo(p3.x, p3.y);
+            shape.graphics.lineTo(p4.x, p4.y);
+            shape.graphics.endFill();
+        }
+
+        var bitmap:BitmapData = new BitmapData(Std.int(size), Std.int(size), true, 0);
+        bitmap.draw(shape);
+        return bitmap;
+    }
+
     public var onFocus:Bool = false;
     
     override function update(elapsed:Float)
@@ -159,12 +207,36 @@ class FloatRect extends FlxSpriteGroup {
         if (FlxG.mouse.justReleased) onFocus = false;
 
         if(onFocus && FlxG.mouse.pressed) onHold();
+
+        if ((FlxG.mouse.overlaps(addButton) || FlxG.mouse.overlaps(deleteButton)) && FlxG.mouse.justPressed)
+        {
+            var data:Bool = FlxG.mouse.overlaps(addButton);
+            changeData(data);
+        }
+    }
+
+    function changeData(isAdd:Bool) {
+        var data:Float = follow.getValue();
+        if (isAdd) data += Math.pow(0.1, follow.decimals);
+        else data -= Math.pow(0.1, follow.decimals);
+
+        if (data < min) data = min;
+        if (data > max) data = max;
+
+        data = FlxMath.roundDecimal(data, follow.decimals);
+        persent = (data - min) / (max - min);
+
+        rectUpdate();
+
+        follow.setValue(data);
+        follow.valueText.text = follow.getValue() + follow.display;
+        follow.change();
     }
 
     function rectUpdate() {
         display._frame.frame.width = display.width * persent;
         if (display._frame.frame.width < 1) display._frame.frame.width = 1;
-        rect.x += display.width * persent - rect.width * persent;
+        rect.x = this.x + 50 + bg.width * persent - rect.width * persent;
     }
 
     var posX:Float;
@@ -179,8 +251,9 @@ class FloatRect extends FlxSpriteGroup {
         display._frame.frame.width = display.width * persent;
         if (display._frame.frame.width < 1) display._frame.frame.width = 1;
         
-        follow.setValue(Math.floor(min + (max - min) * persent + 0.5));
+        follow.setValue(FlxMath.roundDecimal(min + (max - min) * persent, follow.decimals));
         follow.valueText.text = follow.getValue() + follow.display;
+        follow.change();
     }
 }
 
@@ -235,14 +308,14 @@ class StringRect extends FlxSpriteGroup {
         shape.graphics.drawRoundRect(1, 1, size * 3, size, size, size);
         shape.graphics.endFill();
 
-        var p1:Point = new Point(size, size * 0.25);
-        var p2:Point = new Point(size * 1.5, size * 0.75);
-        var p3:Point = new Point(size * 2, size * 0.25);
+        var p1:Point = new Point(size * 1.2, size * 0.35);
+        var p2:Point = new Point(size * 1.5, size * 0.65);
+        var p3:Point = new Point(size * 1.8, size * 0.35);
 
         if (isUp){
-            p1.y = size * 0.75;
-            p2.y = size * 0.25;
-            p3.y = size * 0.75;
+            p1.y = size * 0.65;
+            p2.y = size * 0.35;
+            p3.y = size * 0.65;
         }
 
         shape.graphics.beginFill(0xFFFFFF); 
@@ -270,19 +343,35 @@ class StringRect extends FlxSpriteGroup {
 
         onFocus = FlxG.mouse.overlaps(bg);
 
-        if(onFocus && FlxG.mouse.justPressed)
-            onClick();
+        if(onFocus)
+        {
+            if (FlxG.mouse.overlaps(upRect)) upRect.color = 0x53b7ff;
+            else upRect.color = 0xffffff;
+            
+            if (FlxG.mouse.overlaps(downRect)) downRect.color = 0x53b7ff;
+            else downRect.color = 0xffffff;
+
+           if (FlxG.mouse.justPressed) onClick();
+        }
     }
 
     function onClick() {
         if (FlxG.mouse.overlaps(upRect))
         {
-
+            follow.curOption++;
+            if (follow.curOption >= follow.options.length) follow.curOption = 0;
+            follow.setValue(follow.options[follow.curOption]);
+            disText.text = follow.options[follow.curOption];
+            follow.change();
         }
         
         if (FlxG.mouse.overlaps(downRect))
         {
-            
+            follow.curOption--;
+            if (follow.curOption < 0) follow.curOption = follow.options.length - 1;
+            follow.setValue(follow.options[follow.curOption]);
+            disText.text = follow.options[follow.curOption];
+            follow.change();
         }
     }
 }

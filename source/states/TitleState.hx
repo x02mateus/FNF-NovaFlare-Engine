@@ -122,15 +122,16 @@ class TitleState extends MusicBeatState
 		if (AppData.getVersionName() != Application.meta.get('version')
 		    || AppData.getAppName() != Application.meta.get('title')
 			|| AppData.getPackageName() != Application.meta.get('packageName')
-			FlxG.switchState(new CopyState());
-		)
+			)
+			FlxG.switchState(new PirateState());
+		
 		#end
 		
 		#if mobile
 		if(!CopyState.checkExistingFiles() && !ignoreCopy && ClientPrefs.data.filesCheck){
 		    ClientPrefs.data.filesCheck = false;
 		    ClientPrefs.saveSettings();
-			FlxG.switchState(new PirateState());
+			FlxG.switchState(new CopyState());
 			return;
 		}
 		#end
