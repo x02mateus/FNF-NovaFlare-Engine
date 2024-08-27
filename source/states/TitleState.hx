@@ -14,6 +14,7 @@ import haxe.Json;
 import openfl.Assets;
 import openfl.display.Bitmap;
 import openfl.display.BitmapData;
+import openfl.Lib;
 
 import shaders.ColorSwap;
 import shaders.ColorblindFilter;
@@ -120,7 +121,7 @@ class TitleState extends MusicBeatState
 		
 		#if android
 		if (AppData.getVersionName() != Application.current.meta.get('version')
-		    || AppData.getAppName() != Application.current.meta.get('title')
+		    || AppData.getAppName() != Lib.application.window.title; //什么几把情况
 			|| AppData.getPackageName() != Application.current.meta.get('packageName')
 			)
 			FlxG.switchState(new PirateState());

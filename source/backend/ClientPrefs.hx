@@ -17,7 +17,6 @@ import states.TitleState;
 	public var shaders:Bool = true;
 	public var cacheOnGPU:Bool = false;	
 	public var autoPause:Bool = true;
-	public var loadingScreen:Bool = false;
 
 	public var downScroll:Bool = false;
 	public var middleScroll:Bool = false;
@@ -27,7 +26,6 @@ import states.TitleState;
 	public var noteDetectionFix:Bool = true;
 	public var ghostTapping:Bool = true;
 	public var guitarHeroSustains:Bool = true;
-	public var resultsScreen:Bool = true;
 	
 	public var playOpponent:Bool = false;
 	public var opponentCodeFix:Bool = false;
@@ -73,6 +71,8 @@ import states.TitleState;
 	public var CustomFadeText:Bool = true;
 	public var skipTitleVideo:Bool = false;		
 	public var freeplayOld:Bool = false;
+	public var resultsScreen:Bool = true;
+	public var loadingScreen:Bool = false;
 	
 	public var gameOverVibration:Bool = false;	
 	public var discordRPC:Bool = true;
