@@ -20,7 +20,7 @@ class PirateState extends MusicBeatState
 		var bg:FlxSprite = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
 		add(bg);
 
-		var guh:String = "Hey, watch out!\n
+		var guh:String = "
 		This is pirate version\n
 		You are banned from entering the game\n
 		please use the legitimate version\n

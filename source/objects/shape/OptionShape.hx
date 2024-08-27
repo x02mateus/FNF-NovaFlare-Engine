@@ -39,8 +39,11 @@ class BoolRect extends FlxSpriteGroup {
         display.color = 0x53b7ff;
         if (point.defaultValue == true) 
         {
-            display.alpha = 0;
+            display.alpha = 1;
             state = true;
+        } else {
+            display.alpha = 0;
+            state = false;
         }
         add(display);
 
@@ -80,7 +83,7 @@ class BoolRect extends FlxSpriteGroup {
     var state:Bool = false;
     function onClick() {
         if (tween != null) tween.cancel();
-        if (state)
+        if (!state)
         {
             tween = FlxTween.tween(display, {alpha: 1}, 0.1);
         } else {
@@ -447,7 +450,7 @@ class OptionBG extends FlxSpriteGroup
 {
     var optionArray:Array<Option> = [];
 
-    var saveHeight:Int = 0;
+    public var saveHeight:Int = 0;
 
 	public function new(x:Float, y:Float)
 	{

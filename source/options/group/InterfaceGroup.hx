@@ -1,8 +1,8 @@
 package options.group;
 
-class BackendGroup
+class InterfaceGroup
 {
-    static public function addOption() {
+    static public function add(follow:OptionBG) {
         
     }
 }

@@ -1,8 +1,8 @@
 package options.group;
 
-class BackendGroup
+class SkinGroup
 {
-    static public function addOption() {
+    static public function add(follow:OptionBG) {
         
     }
 }
