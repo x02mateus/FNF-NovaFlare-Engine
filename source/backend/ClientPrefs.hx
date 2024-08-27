@@ -9,7 +9,7 @@ import states.TitleState;
 @:structInit class SaveVariables {
 
 	public var framerate:Int = 60;
-	public var colorblindMode:Int = 0;
+	public var colorblindMode:String = 'None';
 	public var lowQuality:Bool = false;
 	public var gameQuality:Int = #if mobile 0 #else 1 #end;
 	public var antialiasing:Bool = true;

@@ -212,12 +212,12 @@ class FreeplayState extends MusicBeatState
 		voiceDis.camera = camAudio;
 		voiceDis.alpha = 0.7;
 
-		instDis = new ExtraAudio(Std.int(camAudio.width) - 10 - Std.int(camAudio.width / 2 - 20), 10, Std.int(camAudio.width / 2 - 20), 90, FlxG.sound.music);
+		instDis = new ExtraAudio(Std.int(camAudio.width) - 10 - Std.int(camAudio.width / 2 - 20) + 1, 10, Std.int(camAudio.width / 2 - 20), 90, FlxG.sound.music);
 		add(instDis);
 		instDis.camera = camAudio;
 		instDis.alpha = 0.7;
 
-		voiceLine = new MusicLine(10, 125, 545);
+		voiceLine = new MusicLine(10, 105, 545);
 		voiceLine.camera = camAudio;
 		add(voiceLine);
 
@@ -255,13 +255,11 @@ class FreeplayState extends MusicBeatState
 		songsRectPosUpdate(true);
 	}
 
+	public var ignoreCheck:Bool = false; //最高级控制更新
 	override function update(elapsed:Float)
 	{
-		if(controls.BACK) {
-			//backMenu();						
-		}
-		
 		super.update(elapsed);
+		if (ignoreCheck) return;
 
 		if (vocals != null && (Math.abs(vocals.time - FlxG.sound.music.time) > 5)) {
 			vocals.time = FlxG.sound.music.time;
@@ -321,13 +319,22 @@ class FreeplayState extends MusicBeatState
 	override function closeSubState()
 	{				
 		super.closeSubState();
-		persistentUpdate = true;
+		
+		new FlxTimer().start(0.1, function(tmr:FlxTimer){
+			ignoreCheck = false;
+		});
 	}
 
 	var pressCheck:Bool = false;
 	function backMenu() {
 		if (!pressCheck){
 			pressCheck = true;
+			FlxG.sound.music.stop();
+			destroyFreeplayVocals();
+			FlxG.sound.music.volume = 0;
+			FlxG.sound.playMusic(Paths.music('freakyMenu'), 0);
+			FlxTween.tween(FlxG.sound.music, {volume: 1}, 1);
+
 			MusicBeatState.switchState(new MainMenuState());
 		}
 	}
@@ -340,8 +347,6 @@ class FreeplayState extends MusicBeatState
 			PlayState.SONG = Song.loadFromJson(poop, songLowercase);
 			PlayState.isStoryMode = false;
 			PlayState.storyDifficulty = curDifficulty;
-			
-			FlxG.sound.play(Paths.sound('confirmMenu'));
 		}
 		catch(e:Dynamic)
 		{
@@ -377,12 +382,12 @@ class FreeplayState extends MusicBeatState
 			case 0:
 				LoadingState.loadAndSwitchState(new OptionsState());
 			case 1:
-				persistentUpdate = false;
+				ignoreCheck = true;
 				openSubState(new GameplayChangersSubstate());
 			case 2:
 				randomSel();
 			case 3: 
-				persistentUpdate = false;
+				ignoreCheck = true;
 				openSubState(new ResetScoreSubState(songs[curSelected].songName, curDifficulty, songs[curSelected].songCharacter));
 			case 4:
 				LoadingState.loadAndSwitchState(new ChartingState());
@@ -523,6 +528,7 @@ class FreeplayState extends MusicBeatState
 		for (rect in 0...saveGrpSongs.length)
 		{
 			saveGrpSongs[rect].ignoreCheck = true;
+			saveGrpSongs[rect].alpha = 0.6;
 			saveGrpSongs[rect].haveAdd = false;
 		}
 		
@@ -573,16 +579,17 @@ class FreeplayState extends MusicBeatState
 	function updateVoice() {
 		if (timer != null) timer.cancel;
 
-		destroyFreeplayVocals();
-		FlxG.sound.music.stop();
-
 		timer.start(0.5, function(tmr:FlxTimer){
 
 			if (songs[curSelected] == null) return;		
 
-			Thread.create(() -> {
-				if (musicMutex.tryAcquire() == true) musicMutex.release();
-				
+			voiceDis.audioDis.stopUpdate = true;
+			instDis.audioDis.stopUpdate = true;
+		
+			destroyFreeplayVocals();
+			FlxG.sound.music.stop();
+
+			Thread.create(() -> {			
 				musicMutex.acquire();
 				
 				var poop:String = Highscore.formatSong(songs[curSelected].songName.toLowerCase(), curDifficulty);

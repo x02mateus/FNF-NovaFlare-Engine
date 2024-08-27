@@ -389,9 +389,11 @@ class PsychUIInputText extends FlxSpriteGroup
 		return (focusOn = v);
 	}
 
+	public var ignoreCheck = false;
 	override function update(elapsed:Float)
 	{
 		super.update(elapsed);
+		if (ignoreCheck) return;
 
 		if(FlxG.mouse.justPressed)
 		{

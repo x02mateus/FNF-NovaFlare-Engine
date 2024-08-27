@@ -73,6 +73,8 @@ class ResetScoreSubState extends MusicBeatSubstate
 		addVirtualPad(LEFT_RIGHT, A_B);
 		addVirtualPadCamera(false);
 
+		virtualPad.y -= FlxG.height * 0.1;
+
 		updateOptions();
 		
 		cameras = [FlxG.cameras.list[FlxG.cameras.list.length - 1]];

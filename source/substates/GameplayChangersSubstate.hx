@@ -132,6 +132,8 @@ class GameplayChangersSubstate extends MusicBeatSubstate
 		addVirtualPad(LEFT_FULL, A_B_C);
 		addVirtualPadCamera(false);
 
+		virtualPad.y -= FlxG.height * 0.1;
+
 		changeSelection();
 		reloadCheckboxes();
 		

@@ -198,6 +198,8 @@ class InfoText extends FlxSpriteGroup //freeplay info
 
     override function update(elapsed:Float)
     {
+        if (FreeplayState.instance.ignoreCheck) return;
+        
         if (Math.abs((WhiteBG._frame.frame.width / WhiteBG.width) - (data / maxData)) > 0.01)
         {
             if (Math.abs((WhiteBG._frame.frame.width / WhiteBG.width) - (data / maxData)) < 0.005) WhiteBG._frame.frame.width = Std.int(WhiteBG.width * (data / maxData));
@@ -250,19 +252,19 @@ class MusicLine extends FlxSpriteGroup
         whiteLine = new FlxSprite().makeGraphic(1, 5);
         add(whiteLine);
 
-        timeDis = new FlxText(0, 5, 0, '0', 18);
+        timeDis = new FlxText(0, 20, 0, '0', 18);
 		timeDis.font = Paths.font('montserrat.ttf');	
         timeDis.alignment = LEFT;  	    		
         timeDis.antialiasing = ClientPrefs.data.antialiasing;
         add(timeDis);
 
-        timeMaxDis = new FlxText(0, 5, 0, '0', 18);
+        timeMaxDis = new FlxText(0, 20, 0, '0', 18);
 		timeMaxDis.font = Paths.font('montserrat.ttf');	  
         timeMaxDis.alignment = RIGHT;  	
         timeMaxDis.antialiasing = ClientPrefs.data.antialiasing;	
         add(timeMaxDis);
 
-        playRate = new FlxText(0, 5, 0, '1', 18);
+        playRate = new FlxText(0, 20, 0, '1.00', 18);
 		playRate.font = Paths.font('montserrat.ttf');	
         timeDis.alignment = CENTER;    		
         playRate.antialiasing = ClientPrefs.data.antialiasing;
@@ -341,6 +343,7 @@ class ExtraTopRect extends FlxSpriteGroup //play/back button
     override function update(elapsed:Float)
     {
         super.update(elapsed);
+        if (FreeplayState.instance.ignoreCheck) return;
 
         if(!ignoreCheck)
             onFocus = FlxG.mouse.overlaps(this);
@@ -427,6 +430,7 @@ class EventRect extends FlxSpriteGroup //freeplay bottom bg rect
     override function update(elapsed:Float)
     {
         super.update(elapsed);
+        if (FreeplayState.instance.ignoreCheck) return;
 
         if(!ignoreCheck)
             onFocus = FlxG.mouse.overlaps(this);
@@ -532,6 +536,8 @@ class SongRect extends FlxSpriteGroup //songs member for freeplay
     override function update(elapsed:Float)
     {
         super.update(elapsed);
+        if (FreeplayState.instance.ignoreCheck) return;
+
         if (onFocus)
         {
             if (Math.abs(lerpPosX - posX) < 0.1) lerpPosX = posX;
@@ -695,6 +701,7 @@ class DiffRect extends FlxSpriteGroup //songs member for freeplay
     override function update(elapsed:Float)
     {
         super.update(elapsed);
+        if (FreeplayState.instance.ignoreCheck) return;
         
         if (follow.onFocus)
         {
@@ -819,6 +826,7 @@ class BackRect extends FlxSpriteGroup //back button
     override function update(elapsed:Float)
     {
         super.update(elapsed);
+        if (FreeplayState.instance.ignoreCheck) return;
         
         onFocus = FlxG.mouse.overlaps(this);
 
@@ -936,6 +944,7 @@ class PlayRect extends FlxSpriteGroup //back button
     override function update(elapsed:Float)
     {
         super.update(elapsed);
+        if (FreeplayState.instance.ignoreCheck) return;
         
         onFocus = FlxG.mouse.overlaps(this);
 
@@ -1013,6 +1022,8 @@ class SearchButton extends FlxSpriteGroup
 
     override function update(e:Float) {
         super.update(e);
+        search.ignoreCheck = FreeplayState.instance.ignoreCheck;
+        if (FreeplayState.instance.ignoreCheck) return;
     }
 
 }

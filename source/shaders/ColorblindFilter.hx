@@ -15,7 +15,6 @@ class ColorblindFilter {
 
 	public static function UpdateColors(?input:Array<BitmapFilter> = null):Void
 	{
-		trace("VALUE: " + ClientPrefs.data.colorblindMode);
 
 		var a1:Float = 1;
 		var a2:Float = 0;
@@ -31,8 +30,7 @@ class ColorblindFilter {
 
 		switch (ClientPrefs.data.colorblindMode)
 		{
-			case 0:
-				trace('No color filter');
+			case 'None':
 				a1 = 1;
 				b1 = 0;
 				c1 = 0;
@@ -42,7 +40,7 @@ class ColorblindFilter {
 				a3 = 0;
 				b3 = 0;
 				c3 = 1;
-			case 1:
+			case 'Protanopia':
 				trace('Protanopia filter');
 				a1 = 0.567;
 				b1 = 0.433;
@@ -53,7 +51,7 @@ class ColorblindFilter {
 				a3 = 0;
 				b3 = 0.242;
 				c3 = 0.758;
-			case 2:
+			case 'Protanomaly':
 				trace('Protanomaly filter');
 				a1 = 0.817;
 				b1 = 0.183;
@@ -64,7 +62,7 @@ class ColorblindFilter {
 				a3 = 0;
 				b3 = 0.125;
 				c3 = 0.875;
-			case 3:
+			case 'Deuteranopia':
 				trace('Deuteranopia filter');
 				a1 = 0.625;
 				b1 = 0.375;
@@ -75,7 +73,7 @@ class ColorblindFilter {
 				a3 = 0;
 				b3 = 0;
 				c3 = 1.0;
-			case 4:
+			case 'Deuteranomaly':
 				trace('Deuteranomaly filter');
 				a1 = 0.8;
 				b1 = 0.2;
@@ -86,7 +84,7 @@ class ColorblindFilter {
 				a3 = 0;
 				b3 = 0.142;
 				c3 = 0.858;
-			case 5:
+			case 'Tritanopia':
 				trace('Tritanopia filter');
 				a1 = 0.95;
 				b1 = 0.05;
@@ -97,7 +95,7 @@ class ColorblindFilter {
 				a3 = 0;
 				b3 = 0.475;
 				c3 = 0.525;
-			case 6:
+			case 'Tritanomaly':
 				trace('Tritanomaly filter');
 				a1 = 0.967;
 				b1 = 0.033;
@@ -108,7 +106,7 @@ class ColorblindFilter {
 				a3 = 0;
 				b3 = 0.183;
 				c3 = 0.817;
-			case 7:
+			case 'Achromatopsia':
 				trace('Achromatopsia filter');
 				a1 = 0.299;
 				b1 = 0.587;
@@ -119,7 +117,7 @@ class ColorblindFilter {
 				a3 = 0.299;
 				b3 = 0.587;
 				c3 = 0.114;
-			case 8:
+			case 'Achromatomaly':
 				trace('Achromatomaly filter');
 				a1 = 0.618;
 				b1 = 0.320;

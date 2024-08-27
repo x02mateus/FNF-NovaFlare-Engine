@@ -24,6 +24,8 @@ class BoolRect extends FlxSpriteGroup {
     {
         super(X, Y);
 
+        this.follow = point;
+
         touchFix = new Rect(0, 0, width, height);
         touchFix.alpha = 0;
         add(touchFix);
@@ -31,23 +33,14 @@ class BoolRect extends FlxSpriteGroup {
         bg = new FlxSprite();
         bg.pixels = drawRect(50, 20);
         bg.antialiasing = ClientPrefs.data.antialiasing;
-        bg.x += touchFix.width - bg.width - 60;
+        bg.x += touchFix.width - bg.width - 50;
         bg.y += touchFix.height / 2 - bg.height / 2;
         add(bg);
 
-        display = new Rect(touchFix.width - bg.width - 60 - 15, touchFix.height / 2 - bg.height / 2, 80, 20, 20, 20);
+        display = new Rect(touchFix.width - bg.width - 50 - 15, touchFix.height / 2 - bg.height / 2, 80, 20, 20, 20);
         display.color = 0x53b7ff;
-        if (point.defaultValue == true) 
-        {
-            display.alpha = 1;
-            state = true;
-        } else {
-            display.alpha = 0;
-            state = false;
-        }
+        resetUpdate();
         add(display);
-
-        this.follow = point;
     }
 
     function drawRect(width:Float, height:Float):BitmapData {
@@ -94,6 +87,17 @@ class BoolRect extends FlxSpriteGroup {
         follow.setValue(state);
         follow.change();
     }
+
+    public function resetUpdate() {
+        if (follow.defaultValue == true) 
+        {
+            display.alpha = 1;
+            state = true;
+        } else {
+            display.alpha = 0;
+            state = false;
+        }
+    }
 }
 
 class FloatRect extends FlxSpriteGroup {
@@ -113,6 +117,10 @@ class FloatRect extends FlxSpriteGroup {
     {
         super(X, Y);
 
+        this.follow = point;
+        this.max = maxData;
+        this.min = minData;
+
         bg = new FlxSprite(50);
         bg.pixels = drawRect(850, 10);
         bg.antialiasing = ClientPrefs.data.antialiasing;
@@ -131,23 +139,18 @@ class FloatRect extends FlxSpriteGroup {
         rect.y += bg.height / 2 - rect.height / 2;
 
         addButton = new FlxSprite(930);
-        addButton.pixels = drawButton(20, true);
+        addButton.pixels = drawButton(30, true);
         addButton.antialiasing = ClientPrefs.data.antialiasing;
         addButton.y += bg.height / 2 - addButton.height / 2;
         add(addButton);
 
         deleteButton = new FlxSprite();
-        deleteButton.pixels = drawButton(20, false);
+        deleteButton.pixels = drawButton(30, false);
         deleteButton.antialiasing = ClientPrefs.data.antialiasing;
         deleteButton.y += bg.height / 2 - deleteButton.height / 2;
         add(deleteButton);
 
-        this.follow = point;
-        this.max = maxData;
-        this.min = minData;
-
-        persent = (point.defaultValue - minData) / (maxData - minData);
-        rectUpdate();
+        resetUpdate();
     }
 
     function drawRect(width:Float, height:Float):BitmapData {
@@ -258,6 +261,14 @@ class FloatRect extends FlxSpriteGroup {
         follow.valueText.text = follow.getValue() + follow.display;
         follow.change();
     }
+
+    public function resetUpdate() 
+    {
+        persent = (follow.defaultValue - min) / (max - min);
+        rectUpdate();
+        follow.valueText.text = follow.getValue() + follow.display;
+        follow.change();
+    }
 }
 
 class StringRect extends FlxSpriteGroup {
@@ -273,6 +284,9 @@ class StringRect extends FlxSpriteGroup {
     public function new(X:Float, Y:Float, point:Option = null)
     {
         super(X, Y);
+
+        this.follow = point;
+        strArray = point.options;
 
         bg = new Rect(0, 0, 950, 50, 15, 15);
         bg.antialiasing = ClientPrefs.data.antialiasing;
@@ -298,9 +312,6 @@ class StringRect extends FlxSpriteGroup {
         disText.antialiasing = ClientPrefs.data.antialiasing;  		
         add(disText);
         disText.y += bg.height / 2 - disText.height / 2;
-
-        this.follow = point;
-        strArray = point.options;
     }
 
     function drawRect(isUp:Bool, size:Float):BitmapData {
@@ -346,16 +357,13 @@ class StringRect extends FlxSpriteGroup {
 
         onFocus = FlxG.mouse.overlaps(bg);
 
-        if(onFocus)
-        {
-            if (FlxG.mouse.overlaps(upRect)) upRect.color = 0x53b7ff;
+        if (FlxG.mouse.overlaps(upRect)) upRect.color = 0x53b7ff;
             else upRect.color = 0xffffff;
             
             if (FlxG.mouse.overlaps(downRect)) downRect.color = 0x53b7ff;
             else downRect.color = 0xffffff;
 
-           if (FlxG.mouse.justPressed) onClick();
-        }
+        if(onFocus && FlxG.mouse.justPressed) onClick();
     }
 
     function onClick() {
@@ -376,6 +384,57 @@ class StringRect extends FlxSpriteGroup {
             disText.text = follow.options[follow.curOption];
             follow.change();
         }
+    }
+    
+    public function resetUpdate() {
+        var num:Int = follow.options.indexOf(follow.getValue());
+		if(num > -1) follow.curOption = num;
+        else follow.curOption = 0;
+
+        disText.text = follow.options[follow.curOption];
+        follow.change();
+    }
+}
+
+class ResetRect extends FlxSpriteGroup {
+
+    var rect:Rect;
+    var follow:OptionBG;
+    public function new(x:Float, y:Float, point:OptionBG)
+    {
+        super(x,y);
+
+        rect = new Rect(0, 0, 550, 50, 20, 20);
+        add(rect);
+
+        var text = new FlxText(0, 0, 0, 'Reset', 25);
+		text.font = Paths.font('montserrat.ttf'); 	
+        text.antialiasing = ClientPrefs.data.antialiasing;	
+        text.y += rect.height / 2 - text.height / 2;
+        text.x += rect.width / 2 - text.width / 2;
+        add(text);
+
+        this.follow = point;
+    }
+
+    public var onFocus:Bool = false;
+    override function update(elapsed:Float)
+    {
+        super.update(elapsed);
+        
+        onFocus = FlxG.mouse.overlaps(this);
+
+        if(onFocus)
+        {
+            rect.color = 0x53b7ff;
+            if (FlxG.mouse.justReleased) onClick();
+        } else {
+            rect.color = 0x24232C;
+        }
+    }
+
+    function onClick() {
+        follow.resetData();
     }
 }
 
@@ -471,5 +530,10 @@ class OptionBG extends FlxSpriteGroup
         optionArray.push(mem);
         mem.y += saveHeight;
         saveHeight += mem.saveHeight;
+    }
+
+    public function resetData() {
+        for (i in 0...optionArray.length)
+            optionArray[i].resetData();
     }
 }

@@ -14,6 +14,7 @@ enum OptionType {
 	KEYBIND;
 	STATE;
 	TEXT;
+	TITLE;
 }
 
 class Option extends FlxSpriteGroup
@@ -33,7 +34,7 @@ class Option extends FlxSpriteGroup
 	public var defaultKeys:Keybind = null; //Only used in keybind type
 	public var keys:Keybind = null; //Only used in keybind type
 
-	public var onChange:Void->Void = null; //Pressed enter (on Bool type options) or pressed/held left/right (on other types)
+	public var onChange:Void->Void = null;
 	public var type:OptionType = BOOL;
 
 	public var saveHeight:Int = 0;
@@ -94,10 +95,13 @@ class Option extends FlxSpriteGroup
 				addString();
 			case TEXT:
 				addText();
+			case TITLE:
+				addTitle();
 			default:
 		}
 	}
 
+	public var boolRect:BoolRect;
 	function addBool() {
 		saveHeight = 80;
 
@@ -107,11 +111,12 @@ class Option extends FlxSpriteGroup
         text.y += saveHeight / 2 - text.height / 2;
         add(text);
 
-		var rect = new BoolRect(0, 0, 1030, saveHeight, this);
-		add(rect);
+		boolRect = new BoolRect(0, 0, 1030, saveHeight, this);
+		add(boolRect);
 	}
 
 	public var valueText:FlxText;
+	public var dataRect:FloatRect;
 	function addData() {
 		saveHeight = 110;
 
@@ -127,10 +132,11 @@ class Option extends FlxSpriteGroup
         add(valueText);
 		valueText.alignment = RIGHT;
 
-		var rect = new FloatRect(40, 65, minValue, maxValue, this);
-		add(rect);
+		dataRect = new FloatRect(40, 65, minValue, maxValue, this);
+		add(dataRect);
 	}
 
+	public var strRect:StringRect;
 	function addString() {
 		saveHeight = 140;
 
@@ -139,12 +145,22 @@ class Option extends FlxSpriteGroup
         text.antialiasing = ClientPrefs.data.antialiasing;	
         add(text);
 
-		var rect = new StringRect(40, 60, this);
-		add(rect);
+		strRect = new StringRect(40, 60, this);
+		add(strRect);
 	}
 
 	function addText() {
 		saveHeight = 70;
+
+		var text = new FlxText(40, 0, 0, description, 30);
+		text.font = Paths.font('montserrat.ttf'); 	
+        text.antialiasing = ClientPrefs.data.antialiasing;	
+        text.y += saveHeight / 2 - text.height / 2;
+        add(text);
+	}
+
+	function addTitle() {
+		saveHeight = 90;
 
 		var text = new FlxText(40, 0, 0, description, 50);
 		text.font = Paths.font('montserrat.ttf'); 	
@@ -176,5 +192,21 @@ class Option extends FlxSpriteGroup
 			return value;
 		}
 		return Reflect.setProperty(ClientPrefs.data, variable, value);
+	}
+
+	public function resetData() {
+		if (variable == '') return;
+		Reflect.setProperty(ClientPrefs.data, variable, Reflect.getProperty(ClientPrefs.defaultData, variable));
+		defaultValue = Reflect.getProperty(ClientPrefs.defaultData, variable);
+		switch(type)
+		{
+			case BOOL:
+				boolRect.resetUpdate();
+			case INT, FLOAT, PERCENT:
+				dataRect.resetUpdate();
+			case STRING:
+				strRect.resetUpdate();
+			default:
+		}
 	}
 }
