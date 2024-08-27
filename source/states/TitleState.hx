@@ -121,7 +121,7 @@ class TitleState extends MusicBeatState
 		
 		#if android
 		if (AppData.getVersionName() != Application.current.meta.get('version')
-		    || AppData.getAppName() != Lib.application.window.title; //什么几把情况
+		    || AppData.getAppName() != Lib.application.window.title //什么几把情况
 			|| AppData.getPackageName() != Application.current.meta.get('packageName')
 			)
 			FlxG.switchState(new PirateState());
