@@ -21,16 +21,20 @@ import shaders.ColorblindFilter;
 import states.StoryMenuState;
 import states.OutdatedState;
 import states.MainMenuState;
-import states.PirateState;
+
 #if mobile
 import mobile.states.CopyState;
 #end
 
-import lime.system.JNI;
 import lime.app.Application;
 
 #if hxvlc
 import hxvlc.flixel.FlxVideoSprite;
+#end
+
+#if android
+import backend.AppData;
+import states.PirateState;
 #end
 
 typedef TitleData =
@@ -112,13 +116,21 @@ class TitleState extends MusicBeatState
 
 		FlxG.save.bind('funkin', CoolUtil.getSavePath());
 
-		ClientPrefs.loadPrefs();				
+		ClientPrefs.loadPrefs();			
+		
+		#if android
+		if (AppData.getVersionName() != Application.meta.get('version')
+		    || AppData.getAppName() != Application.meta.get('title')
+			|| AppData.getPackageName() != Application.meta.get('packageName')
+			FlxG.switchState(new CopyState());
+		)
+		#end
 		
 		#if mobile
 		if(!CopyState.checkExistingFiles() && !ignoreCopy && ClientPrefs.data.filesCheck){
 		    ClientPrefs.data.filesCheck = false;
 		    ClientPrefs.saveSettings();
-			FlxG.switchState(new CopyState());
+			FlxG.switchState(new PirateState());
 			return;
 		}
 		#end

@@ -28,6 +28,7 @@ class Option extends FlxSpriteGroup
 
 	public var minValue:Float = 0;
 	public var maxValue:Float = 0;
+	public var decimals:Int = 1; //Only used in float/percent type
 
 	public var defaultKeys:Keybind = null; //Only used in keybind type
 	public var keys:Keybind = null; //Only used in keybind type
@@ -46,6 +47,8 @@ class Option extends FlxSpriteGroup
 		this.type = type;
 		this.variable = variable;
 		this.display = display;
+		this.minValue = minValue;
+		this.maxValue = maxValue;
 
 		if(this.type != KEYBIND && variable != '') this.defaultValue = Reflect.getProperty(ClientPrefs.data, variable);
 
@@ -95,7 +98,7 @@ class Option extends FlxSpriteGroup
 	}
 
 	function addBool() {
-		saveHeight = 100;
+		saveHeight = 80;
 
 		var text = new FlxText(40, 0, 0, description, 20);
 		text.font = Paths.font('montserrat.ttf'); 	
@@ -109,25 +112,26 @@ class Option extends FlxSpriteGroup
 
 	public var valueText:FlxText;
 	function addData() {
-		saveHeight = 100;
+		saveHeight = 110;
 
-		var text = new FlxText(40, 10, 0, description, 20);
+		var text = new FlxText(40, 25, 0, description, 20);
 		text.font = Paths.font('montserrat.ttf'); 	
         text.antialiasing = ClientPrefs.data.antialiasing;	
         add(text);
 
-		valueText = new FlxText(40, 10, 0, defaultValue + display, 20);
+		valueText = new FlxText(40, 25, 200, defaultValue + display, 20);
 		valueText.font = Paths.font('montserrat.ttf'); 	
         valueText.antialiasing = ClientPrefs.data.antialiasing;	
 		valueText.x += 950 - valueText.width;
         add(valueText);
+		valueText.alignment = RIGHT;
 
-		var rect = new FloatRect(40, 70, minValue, maxValue, this);
+		var rect = new FloatRect(40, 65, minValue, maxValue, this);
 		add(rect);
 	}
 
 	function addString() {
-		saveHeight = 100;
+		saveHeight = 140;
 
 		var text = new FlxText(40, 20, 0, description, 20);
 		text.font = Paths.font('montserrat.ttf'); 	
@@ -139,9 +143,9 @@ class Option extends FlxSpriteGroup
 	}
 
 	function addText() {
-		saveHeight = 45;
+		saveHeight = 70;
 
-		var text = new FlxText(40, 0, 0, description, 45);
+		var text = new FlxText(40, 0, 0, description, 50);
 		text.font = Paths.font('montserrat.ttf'); 	
         text.antialiasing = ClientPrefs.data.antialiasing;	
         text.y += saveHeight / 2 - text.height / 2;

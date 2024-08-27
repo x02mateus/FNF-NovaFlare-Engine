@@ -16,18 +16,15 @@ class PirateState extends MusicBeatState
 	override function create()
 	{
 		super.create();
-		Lib.application.window.title = "NovaFlare Engine - PirateState";
-
 
 		var bg:FlxSprite = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
 		add(bg);
 
 		var guh:String = "Hey, watch out!\n
 		This is pirate version\n
-		Press A to download official version\n		
-		You can't enter the game until then!!!";
-
-		controls.isInSubstate = false; // qhar I hate it
+		You are banned from entering the game\n
+		please use the legitimate version\n
+		";
 		warnText = new FlxText(0, 0, FlxG.width, guh, 32);
 		warnText.setFormat("VCR OSD Mono", 32, FlxColor.RED, CENTER);
 		warnText.screenCenter(Y);
@@ -38,7 +35,7 @@ class PirateState extends MusicBeatState
 
 	override function update(elapsed:Float)
 	{		
-		if (controls.ACCEPT) CoolUtil.browserLoad('https://github.com/NFteam-android/FNF-NF-Engine-newbase');
+		if (controls.ACCEPT) CoolUtil.browserLoad('https://github.com/beihu235/FNF-NovaFlare-Engine/releases');
 		
 		super.update(elapsed);
 	}

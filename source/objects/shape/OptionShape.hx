@@ -31,7 +31,6 @@ class BoolRect extends FlxSpriteGroup {
         bg = new FlxSprite();
         bg.pixels = drawRect(50, 20);
         bg.antialiasing = ClientPrefs.data.antialiasing;
-        bg.color = 0x53b7ff;
         bg.x += touchFix.width - bg.width - 50;
         bg.y += touchFix.height / 2 - bg.height / 2;
         add(bg);
@@ -51,13 +50,13 @@ class BoolRect extends FlxSpriteGroup {
     function drawRect(width:Float, height:Float):BitmapData {
         var shape:Shape = new Shape();
 
-        shape.graphics.beginFill(0xffffff); 
+        shape.graphics.beginFill(0x53b7ff); 
         shape.graphics.drawRoundRect(0, 0, width, height, height, height);
         shape.graphics.endFill();
 
         var line:Int = 2;
 
-        shape.graphics.beginFill(0x00); 
+        shape.graphics.beginFill(0x24232C); 
         shape.graphics.drawRoundRect(line, line, width - line * 2, height - line * 2, height - line * 2, height - line * 2);
         shape.graphics.endFill();
 
@@ -130,7 +129,7 @@ class FloatRect extends FlxSpriteGroup {
         this.min = minData;
 
         persent = (point.defaultValue - minData) / (maxData - minData);
-        onHold();
+        rectUpdate();
     }
 
     function drawRect(width:Float, height:Float):BitmapData {
@@ -162,6 +161,12 @@ class FloatRect extends FlxSpriteGroup {
         if(onFocus && FlxG.mouse.pressed) onHold();
     }
 
+    function rectUpdate() {
+        display._frame.frame.width = display.width * persent;
+        if (display._frame.frame.width < 1) display._frame.frame.width = 1;
+        rect.x += display.width * persent - rect.width * persent;
+    }
+
     var posX:Float;
     var persent:Float = 0;
     function onHold() {
@@ -172,12 +177,17 @@ class FloatRect extends FlxSpriteGroup {
         persent = (rect.x - bg.x) / (bg.width - rect.width);
 
         display._frame.frame.width = display.width * persent;
+        if (display._frame.frame.width < 1) display._frame.frame.width = 1;
+        
+        follow.setValue(Math.floor(min + (max - min) * persent + 0.5));
+        follow.valueText.text = follow.getValue() + follow.display;
     }
 }
 
 class StringRect extends FlxSpriteGroup {
     var bg:Rect;
-    var specRect:FlxSprite;
+    var upRect:FlxSprite;
+    var downRect:FlxSprite;
     var disText:FlxText;
 
     var strArray:Array<String> = [];
@@ -200,14 +210,14 @@ class StringRect extends FlxSpriteGroup {
         specRect.x += bg.width - specRect.width - 20;
         specRect.y += bg.height / 2 - specRect.height / 2;
         
-        disText = new FlxText(20, 0, 0, 'texts', 20);
+        disText = new FlxText(20, 0, 0, point.options[point.curOption], 20);
 		disText.font = Paths.font('montserrat.ttf');	  
         disText.antialiasing = ClientPrefs.data.antialiasing;  		
         add(disText);
         disText.y += bg.height / 2 - disText.height / 2;
 
         this.follow = point;
-        //strArray = point.options;
+        strArray = point.options;
     }
 
     function drawRect(size:Float):BitmapData {
@@ -285,57 +295,6 @@ class StringRect extends FlxSpriteGroup {
             chooseArray = [];
             chooseBG.destroy();
         }
-    }
-}
-
-class CurRect extends FlxSpriteGroup {
-    var bg:FlxSprite;
-    var disText:FlxText;
-    public function new(X:Float, Y:Float, Width:Float, Height:Float, text:String, num:Int, max:Int)
-    {
-        super(X, Y);
-
-        var data = 0;
-        if (num == 0) data = 1;
-        else if (num == max) data = 2;
-
-        bg = new FlxSprite(0, 0);
-        bg.pixels = drawRect(Width, Height, data);
-        bg.antialiasing = ClientPrefs.data.antialiasing;
-        bg.color = 0x53b7ff;
-        bg.alpha = 0;
-        add(bg);
-        
-        disText = new FlxText(20, 0, 0, text, 15);
-		disText.font = Paths.font('montserrat.ttf');	  
-        disText.antialiasing = ClientPrefs.data.antialiasing;  		
-        add(disText);
-        disText.y += bg.height / 2 - disText.height / 2;
-    }
-
-    function drawRect(width:Float, height:Float, roundData:Int):BitmapData {
-        var shape:Shape = new Shape();
-
-        shape.graphics.beginFill(0xFFFFFFFF); 
-        if (roundData == 1) shape.graphics.drawRoundRectComplex(0, 0, width, height, 12, 12, 0, 0);
-        else if (roundData == 2) shape.graphics.drawRoundRectComplex(0, 0, width, height, 0, 0, 12, 12);
-        else shape.graphics.drawRoundRectComplex(0, 0, width, height, 0, 0, 0, 0);
-        shape.graphics.endFill();
-
-        var bitmap:BitmapData = new BitmapData(Std.int(width), Std.int(height), true, 0);
-        bitmap.draw(shape);
-        return bitmap;
-    }
-
-    public var onFocus:Bool = false;
-    override function update(elapsed:Float)
-    {
-        super.update(elapsed);
-
-        onFocus = FlxG.mouse.overlaps(bg);
-
-        if (onFocus) bg.alpha = 1;
-        else bg.alpha = 0;
     }
 }
 
