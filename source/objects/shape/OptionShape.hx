@@ -203,12 +203,19 @@ class StringRect extends FlxSpriteGroup {
         bg.color = 0x24232C;
         add(bg);
 
-        specRect = new FlxSprite();
-        specRect.pixels = drawRect(25);
-        specRect.antialiasing = ClientPrefs.data.antialiasing;
-        add(specRect);
-        specRect.x += bg.width - specRect.width - 20;
-        specRect.y += bg.height / 2 - specRect.height / 2;
+        downRect = new FlxSprite();
+        downRect.pixels = drawRect(false, 35);
+        downRect.antialiasing = ClientPrefs.data.antialiasing;
+        add(downRect);
+        downRect.x += bg.width - downRect.width - 20;
+        downRect.y += bg.height / 2 - downRect.height / 2;
+
+        upRect = new FlxSprite();
+        upRect.pixels = drawRect(true, 35);
+        upRect.antialiasing = ClientPrefs.data.antialiasing;
+        add(upRect);
+        upRect.x +=  bg.width - downRect.width - 20 - upRect.width - 20;
+        upRect.y += bg.height / 2 - upRect.height / 2;
         
         disText = new FlxText(20, 0, 0, point.options[point.curOption], 20);
 		disText.font = Paths.font('montserrat.ttf');	  
@@ -220,12 +227,23 @@ class StringRect extends FlxSpriteGroup {
         strArray = point.options;
     }
 
-    function drawRect(size:Float):BitmapData {
+    function drawRect(isUp:Bool, size:Float):BitmapData {
         var shape:Shape = new Shape();
 
-        var p1:Point = new Point(0, 0);
-        var p2:Point = new Point(size * 0.5, size * 0.5);
-        var p3:Point = new Point(size, 0);
+        shape.graphics.beginFill(0x24232C); 
+        shape.graphics.lineStyle(3, 0x131217, 1);
+        shape.graphics.drawRoundRect(1, 1, size * 3, size, size, size);
+        shape.graphics.endFill();
+
+        var p1:Point = new Point(size, size * 0.25);
+        var p2:Point = new Point(size * 1.5, size * 0.75);
+        var p3:Point = new Point(size * 2, size * 0.25);
+
+        if (isUp){
+            p1.y = size * 0.75;
+            p2.y = size * 0.25;
+            p3.y = size * 0.75;
+        }
 
         shape.graphics.beginFill(0xFFFFFF); 
         shape.graphics.lineStyle(3, 0xFFFFFF, 1);
@@ -239,7 +257,7 @@ class StringRect extends FlxSpriteGroup {
         shape.graphics.lineTo(p3.x, p3.y);
         shape.graphics.endFill();
 
-        var bitmap:BitmapData = new BitmapData(Std.int(size), Std.int(size * 0.5 + 2), true, 0);
+        var bitmap:BitmapData = new BitmapData(Std.int(size * 3 + 3), Std.int(size + 3), true, 0);
         bitmap.draw(shape);
         return bitmap;
     }
@@ -252,48 +270,19 @@ class StringRect extends FlxSpriteGroup {
 
         onFocus = FlxG.mouse.overlaps(bg);
 
-        if (onFocus) bg.color = 0x53b7ff;
-        else bg.color = 0x24232C;
-
         if(onFocus && FlxG.mouse.justPressed)
             onClick();
     }
 
-    var chooseBG:Rect;
-    var chooseCam:FlxCamera;
-    var chooseArray:Array<CurRect> = [];
     function onClick() {
-        var length:Int = 0;
-        if (strArray.length >= 5) length = 5;
-        else length = strArray.length;
-
-        if (!isOpened)
+        if (FlxG.mouse.overlaps(upRect))
         {
-            isOpened = true;
 
-            specRect.flipY = true;
+        }
+        
+        if (FlxG.mouse.overlaps(downRect))
+        {
             
-            chooseBG = new Rect(0, bg.height + 5, bg.width, (bg.height - 20) * length, 15, 15, 0x24232C);
-            add(chooseBG);	
-
-            for (num in 0...length)
-            {
-                var rect:CurRect = new CurRect(0, bg.height + 5 + 30 * num, chooseBG.width, 30, strArray[num], num, length - 1);
-                add(rect);
-                chooseArray.push(rect);
-            }
-        } else {
-            isOpened = false;
-
-            specRect.flipY = false;
-
-            for (num in 0...length)
-            {
-                var rect:CurRect = chooseArray[length - 1 - num];
-                rect.destroy();
-            }
-            chooseArray = [];
-            chooseBG.destroy();
         }
     }
 }
