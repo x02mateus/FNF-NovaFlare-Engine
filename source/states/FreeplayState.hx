@@ -33,7 +33,6 @@ class FreeplayState extends MusicBeatState
 {
 	static public var instance:FreeplayState;
 
-	var selector:FlxText;
 	static public var curSelected:Int = 0;
 	private static var position:Float = 360 - 45;
 	private static var lerpPosition:Float = 360 - 45;

@@ -1027,8 +1027,3 @@ class SearchButton extends FlxSpriteGroup
     }
 
 }
-
-
-
-
-

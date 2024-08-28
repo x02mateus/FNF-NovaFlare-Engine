@@ -26,18 +26,14 @@ class BoolRect extends FlxSpriteGroup {
 
         this.follow = point;
 
-        touchFix = new Rect(0, 0, width, height);
-        touchFix.alpha = 0;
-        add(touchFix);
-
         bg = new FlxSprite();
         bg.pixels = drawRect(50, 20);
         bg.antialiasing = ClientPrefs.data.antialiasing;
-        bg.x += touchFix.width - bg.width - 50;
-        bg.y += touchFix.height / 2 - bg.height / 2;
+        bg.x += width - bg.width - 50;
+        bg.y += height / 2 - bg.height / 2;
         add(bg);
 
-        display = new Rect(touchFix.width - bg.width - 50 - 15, touchFix.height / 2 - bg.height / 2, 80, 20, 20, 20);
+        display = new Rect(width - bg.width - 50 - 15, height / 2 - bg.height / 2, 80, 20, 20, 20);
         display.color = 0x53b7ff;
         resetUpdate();
         add(display);
@@ -66,7 +62,7 @@ class BoolRect extends FlxSpriteGroup {
     {
         super.update(elapsed);
 
-        onFocus = FlxG.mouse.overlaps(this);
+        onFocus = FlxG.mouse.overlaps(display);
 
         if(onFocus && FlxG.mouse.justReleased)
             onClick();
