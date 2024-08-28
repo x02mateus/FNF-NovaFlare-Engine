@@ -8,6 +8,7 @@ import states.TitleState;
 // Add a variable here and it will get automatically saved
 @:structInit class SaveVariables {
 
+	//General
 	public var framerate:Int = 60;
 	public var colorblindMode:String = 'None';
 	public var lowQuality:Bool = false;
@@ -18,83 +19,83 @@ import states.TitleState;
 	public var cacheOnGPU:Bool = false;	
 	public var autoPause:Bool = true;
 
+	//Gameplay
 	public var downScroll:Bool = false;
 	public var middleScroll:Bool = false;
 	public var filpChart:Bool = false;
-	public var noReset:Bool = false;
-	public var fixLNL:Int= 0; //fix long note length
-	public var noteDetectionFix:Bool = true;
 	public var ghostTapping:Bool = true;
 	public var guitarHeroSustains:Bool = true;
-	
+	public var noReset:Bool = false;
+	//Opponent s
 	public var playOpponent:Bool = false;
 	public var opponentCodeFix:Bool = false;
 	public var botOpponentFix:Bool = true;
 	public var HealthDrainOPPOMult:Float = 0.5;
-	public var HealthDrainOPPO:Bool = false;	
-	
-	public var showFPS:Bool = true;
-	public var showExtra:Bool = true;
-	public var rainbowFPS:Bool = false;
-	public var memoryType:Int = 0;	
-	public var FPSScale:Float = 1;
-	public var WatermarkScale:Float = 1;
-	public var showWatermark:Bool = true;					
-	
-	public var noteSkin:String = 'Default';
-	public var splashSkin:String = 'Psych';
-	public var noteRGB:Bool = true;
-	public var splashRGB:Bool = true;
-	public var showSplash:Bool = true;
-	public var splashAlpha:Float = 0.6;
-	public var oldHealthBarVersion:Bool = false;
-	public var opponentStrums:Bool = true;
-	public var camZooms:Bool = true;
-	public var judgementCounter:Bool = false;
-	public var hideHud:Bool = false;	
-	public var timeBarType:String = 'Time Left';
-	public var scoreZoom:Bool = true;
-	public var healthBarAlpha:Float = 1;
+	public var HealthDrainOPPO:Bool = false;
+
+	//Backend
+	//Gameplay backend s
+	public var fixLNL:Int= 0; //fix long note length
+	public var pauseMusic:String = 'Tea Time';		
 	public var hitsoundType:String = 'Default';
 	public var hitsoundVolume:Float = 0;
-	public var pauseMusic:String = 'Tea Time';
-	public var comboStacking:Bool = true;
-	public var showComboNum:Bool = true;
-	public var comboColor:Bool = true;	
-	public var comboOffsetFix:Bool = true;
-	public var showRating:Bool = true;	
-	
-		
-	
-	public var CustomFade:String = 'Move';
-	public var CustomFadeSound:Float = 0.5;
-	public var CustomFadeText:Bool = true;
-	public var skipTitleVideo:Bool = false;		
-	public var freeplayOld:Bool = false;
-	public var resultsScreen:Bool = true;
-	public var loadingScreen:Bool = false;
-	
-	public var gameOverVibration:Bool = false;	
-	public var discordRPC:Bool = true;
-	public var checkForUpdates:Bool = true;
 	public var oldHscriptVersion:Bool = false;
 	public var pauseButton:Bool = #if mobile true #else false #end;
-	public var fileLoad:String = 'NovaFlare Engine';
-	public var openedFlash:Bool = false;
-	public var screensaver:Bool = false;
-	public var filesCheck:Bool = true;		
-    
-	public var comboOffset:Array<Int> = [0, 0, 0, 0, 530, 470];
+	public var gameOverVibration:Bool = false;	
 	public var ratingOffset:Int = 0;	
 	public var noteOffset:Int = 0;
+	public var marvelousWindow:Int = 15;
 	public var sickWindow:Int = 45;
 	public var goodWindow:Int = 90;
 	public var badWindow:Int = 135;
 	public var safeFrames:Float = 10;			
 	public var marvelousRating:Bool = true;	
 	public var marvelousSprite:Bool = true;	
-    public var marvelousWindow:Int = 15;
+	//App backend s
+	public var discordRPC:Bool = true;
+	public var checkForUpdates:Bool = true;
+	public var fileLoad:String = 'NovaFlare Engine';
+	public var openedFlash:Bool = false;
+	public var screensaver:Bool = false;
+	public var filesCheck:Bool = true;				
+	
+	//Game UI
+	//Visble s
+	public var hideHud:Bool = false;	
+	public var showComboNum:Bool = true;
+	public var showRating:Bool = true;	
+	public var opponentStrums:Bool = true;
+	public var judgementCounter:Bool = false;
+	public var keyboardDisplay:Bool = true;
+	// TimeBar s
+	public var timeBarType:String = 'Time Left';
+	//HealthBar s
+	public var healthBarAlpha:Float = 1;
+	public var oldHealthBarVersion:Bool = false;
+	//Combe s
+	public var comboStacking:Bool = true;
+	public var comboColor:Bool = true;	
+	public var comboOffsetFix:Bool = true;
+	//KeyBoard s
+	public var keyboardAlpha:Float = 0.8;
+	public var keyboardTime:Float = 500;
+	public var keyboardBGColor:Int = 1;
+	public var keyboardTextColor:Int = 0;
+	//Camera s
+	public var camZooms:Bool = true;
+	public var scoreZoom:Bool = true;
+	
+	//Skin
+	public var noteSkin:String = 'Default';
+	public var noteRGB:Bool = true;
+	//splash s
+	public var splashSkin:String = 'Psych';
+	public var splashRGB:Bool = true;
+	public var showSplash:Bool = true;
+	public var splashAlpha:Float = 0.6;
     
+    //Input
+	//Moblie Input Backend s
 	public var dynamicColors:Bool = true;
 	public var needMobileControl:Bool = true; //work for desktop
 	public var hitboxLocation:String = 'Bottom';
@@ -103,19 +104,32 @@ import states.TitleState;
 	public var playControlsAlpha:Float = 0.2;
 	public var hideHitboxHints:Bool = false;
 
-	public var keyboardDisplay:Bool = true;
-	public var keyboardAlpha:Float = 0.8;
-	public var keyboardTime:Float = 500;
-	public var keyboardBGColor:Int = 1;
-	public var keyboardTextColor:Int = 0;
-	
+	//这个extra你不用管
 	public var extraKey:Int = 4;
 	public var extraKeyReturn1:String = 'SPACE';
 	public var extraKeyReturn2:String = 'SPACE';
 	public var extraKeyReturn3:String = 'SHIFT';
 	public var extraKeyReturn4:String = 'SHIFT';
-	
-	public var language:Int = 0; //for english at begin
+
+	//User Interface
+	public var CustomFade:String = 'Move';
+	public var CustomFadeSound:Float = 0.5;
+	public var CustomFadeText:Bool = true;
+	public var skipTitleVideo:Bool = false;		
+	public var freeplayOld:Bool = false;
+	public var resultsScreen:Bool = true;
+	public var loadingScreen:Bool = false;
+
+	//Watermark
+	public var showFPS:Bool = true;
+	public var showExtra:Bool = true;
+	public var rainbowFPS:Bool = false;
+	public var memoryType:Int = 0;	
+	public var FPSScale:Float = 1;
+	public var WatermarkScale:Float = 1;
+	public var showWatermark:Bool = true;	
+
+	public var comboOffset:Array<Int> = [0, 0, 0, 0, 530, 470];
 	
 	public var arrowRGB:Array<Array<FlxColor>> = [
 		[0xFFC24B99, 0xFFFFFFFF, 0xFF3C1F56],

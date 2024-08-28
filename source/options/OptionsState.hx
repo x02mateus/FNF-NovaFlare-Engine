@@ -11,7 +11,7 @@ class OptionsState extends MusicBeatState
 	private static var lerpPosition:Float = 0;
 	private static var maxPos:Float = 0;
 
-	var optionName:Array<String> = ['General', 'Gameplay', 'Game Backend', 'Game UI', 'Skin', 'Input', 'User Interface', 'Watermark'];
+	var optionName:Array<String> = ['General', 'Gameplay', 'Backend', 'Game UI', 'Skin', 'Input', 'User Interface', 'Watermark'];
 	var cataArray:Array<OptionCata> = [];
 	var bgArray:Array<OptionBG> = [];
     
