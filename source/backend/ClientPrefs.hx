@@ -79,8 +79,8 @@ import states.TitleState;
 	//KeyBoard s
 	public var keyboardAlpha:Float = 0.8;
 	public var keyboardTime:Float = 500;
-	public var keyboardBGColor:Int = 1;
-	public var keyboardTextColor:Int = 0;
+	public var keyboardBGColor:String = 'BLACK';
+	public var keyboardTextColor:String = 'WHITE';
 	//Camera s
 	public var camZooms:Bool = true;
 	public var scoreZoom:Bool = true;

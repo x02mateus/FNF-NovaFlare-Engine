@@ -23,8 +23,8 @@ class KeyboardDisplay extends FlxSpriteGroup
     public var _width:Float;
     public var _height:Float;
     public var kpsText:FlxText;
-    public var totolText:FlxText;
-    var totol:Int = 0;
+    public var totalText:FlxText;
+    var total:Int = 0;
 
     public static var instance:KeyboardDisplay;
 
@@ -64,7 +64,7 @@ class KeyboardDisplay extends FlxSpriteGroup
             var obj:KeyButton = new KeyButton(X + (KeyButton.size + 4) * i * 2, Y + KeyButton.size + 4, KeyButton.size * 2 + 4, KeyButton.size);
             add(obj); 
         }
-        var textArray:Array<String> = ['KPS', 'Totol'];
+        var textArray:Array<String> = ['KPS', 'total'];
         for (i in 0...2)
         {    
             var obj:FlxText = new FlxText(members[12 + i].x + members[12 + i].width / 2, members[12 + i].y + members[12 + i].height / 4, KeyButton.size * 2 + 4, textArray[i], 20, false);
@@ -83,15 +83,15 @@ class KeyboardDisplay extends FlxSpriteGroup
         kpsText.color = OptionsHelpers.colorArray[ClientPrefs.data.keyboardTextColor];
         kpsText.alpha = ClientPrefs.data.keyboardAlpha;
 
-        if (FlxG.save.data.keyboardtotol != null) totol = FlxG.save.data.keyboardtotol;
-        totolText = new FlxText(members[13].x + members[13].width / 2, members[13].y + members[13].height / 5 * 3.5, KeyButton.size * 2 + 4, Std.string(totol), 15, false);
-        totolText.setFormat(Assets.getFont("assets/fonts/montserrat.ttf").fontName, 15, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, 0x00);
-        totolText.x -= totolText.width / 2;
-        totolText.y -= totolText.height / 2;
-        totolText.color = OptionsHelpers.colorArray[ClientPrefs.data.keyboardTextColor];
-        totolText.alpha = ClientPrefs.data.keyboardAlpha;
+        if (FlxG.save.data.keyboardtotal != null) total = FlxG.save.data.keyboardtotal;
+        totalText = new FlxText(members[13].x + members[13].width / 2, members[13].y + members[13].height / 5 * 3.5, KeyButton.size * 2 + 4, Std.string(total), 15, false);
+        totalText.setFormat(Assets.getFont("assets/fonts/montserrat.ttf").fontName, 15, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, 0x00);
+        totalText.x -= totalText.width / 2;
+        totalText.y -= totalText.height / 2;
+        totalText.color = OptionsHelpers.colorArray[ClientPrefs.data.keyboardTextColor];
+        totalText.alpha = ClientPrefs.data.keyboardAlpha;
         add(kpsText); 
-        add(totolText); 
+        add(totalText); 
 
         saveBitmap = new DisBitmap();
 
@@ -124,8 +124,8 @@ class KeyboardDisplay extends FlxSpriteGroup
         }
 
         hitArray.unshift(Date.now());
-        totol++;
-        totolText.text = Std.string(totol);
+        total++;
+        totalText.text = Std.string(total);
     }
 
     public function released(key:Int)
@@ -148,7 +148,7 @@ class KeyboardDisplay extends FlxSpriteGroup
 
     public function save()
     {
-        FlxG.save.data.keyboardtotol = totol;
+        FlxG.save.data.keyboardtotal = total;
         FlxG.save.flush();
     }
 

@@ -584,14 +584,14 @@ class FreeplayState extends MusicBeatState
 
 			if (songs[curSelected] == null) return;		
 
-			voiceDis.audioDis.stopUpdate = true;
-			instDis.audioDis.stopUpdate = true;
-		
-			destroyFreeplayVocals();
-			FlxG.sound.music.stop();
-
 			Thread.create(() -> {			
 				musicMutex.acquire();
+
+				destroyFreeplayVocals();
+				FlxG.sound.music.stop();
+
+				voiceDis.audioDis.stopUpdate = true;
+				instDis.audioDis.stopUpdate = true;
 				
 				var poop:String = Highscore.formatSong(songs[curSelected].songName.toLowerCase(), curDifficulty);
 				PlayState.SONG = Song.loadFromJson(poop, songs[curSelected].songName.toLowerCase());
