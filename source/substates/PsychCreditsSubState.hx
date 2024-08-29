@@ -38,10 +38,6 @@ class PsychCreditsSubState extends MusicBeatSubstate
 		grpOptions = new FlxTypedGroup<Alphabet>();
 		add(grpOptions);
 
-		#if MODS_ALLOWED
-		//for (mod in Mods.parseList().enabled) pushModCreditsToList(mod);
-		#end
-
 		/*var defaultList:Array<Array<String>> = [ //Name - Icon name - Description - Link - BG Color
 		    ['NovaFlare Engine Team'],
 		    ['Beihu',		'beihu',		'Main Programmer and Head of NovaFlare Engine',						'https://b23.tv/Etk6gY9',	'FFC0CB'],

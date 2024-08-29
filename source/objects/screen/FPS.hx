@@ -48,7 +48,7 @@ class FPS extends Sprite
 	    extraShow.update();
     }
     
-    public static function change()
+    public function change()
     {       
         extraShow.visible = ClientPrefs.data.showExtra;
     }

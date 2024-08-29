@@ -228,7 +228,7 @@ class NotesSubState extends MusicBeatSubstate
 	     LengthCheck = AndroidColorGet.text;
 	     
 		if (controls.BACK) {
-			FlxG.mouse.visible = false;
+			FlxG.mouse.visible = true;
 			FlxG.sound.play(Paths.sound('cancelMenu'));
 			ClientPrefs.saveSettings();                      
 			FlxTransitionableState.skipNextTransIn = true;

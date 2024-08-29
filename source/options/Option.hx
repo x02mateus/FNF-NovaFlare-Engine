@@ -1,17 +1,11 @@
 package options;
 
-typedef Keybind = {
-	keyboard:String,
-	gamepad:String
-}
-
 enum OptionType {
 	BOOL;
 	INT;
 	FLOAT;
 	PERCENT;
 	STRING;
-	KEYBIND;
 	STATE;
 	TEXT;
 	TITLE;
@@ -19,7 +13,7 @@ enum OptionType {
 
 class Option extends FlxSpriteGroup
 {
-	private var variable:String = null; //Variable from ClientPrefs.hx
+	public var variable:String = null; //Variable from ClientPrefs.hx
 	public var defaultValue:Dynamic = null;
 	public var description:String = '';
 	public var display:String = '';
@@ -30,9 +24,6 @@ class Option extends FlxSpriteGroup
 	public var minValue:Float = 0;
 	public var maxValue:Float = 0;
 	public var decimals:Int = 0;
-
-	public var defaultKeys:Keybind = null; //Only used in keybind type
-	public var keys:Keybind = null; //Only used in keybind type
 
 	public var onChange:Void->Void = null;
 	public var type:OptionType = BOOL;
@@ -52,7 +43,7 @@ class Option extends FlxSpriteGroup
 		this.maxValue = maxValue;
 		this.decimals = decimals;
 
-		if(this.type != KEYBIND && variable != '') this.defaultValue = Reflect.getProperty(ClientPrefs.data, variable);
+		if(this.type != STATE && variable != '') this.defaultValue = Reflect.getProperty(ClientPrefs.data, variable);
 
 		switch(type)
 		{
@@ -67,14 +58,10 @@ class Option extends FlxSpriteGroup
 					defaultValue = options[0];
 				if(defaultValue == null)
 					defaultValue = '';
-			case KEYBIND:
-				defaultValue = '';
-				defaultKeys = {gamepad: 'NONE', keyboard: 'NONE'};
-				keys = {gamepad: 'NONE', keyboard: 'NONE'};
 			default:
 		}
 
-		if(getValue() == null && variable != '')
+		if(getValue() == null && variable != '' && type != STATE)
 			setValue(defaultValue);
 
 		switch(type)
@@ -97,6 +84,8 @@ class Option extends FlxSpriteGroup
 				addText();
 			case TITLE:
 				addTitle();
+			case STATE:
+				addState();
 			default:
 		}
 	}
@@ -169,6 +158,14 @@ class Option extends FlxSpriteGroup
         add(text);
 	}
 
+	function addState() {
+		saveHeight = 130;   
+
+		var rect:StateRect = new StateRect(40, 0, this);
+		rect.y += saveHeight / 2 - rect.height / 2; 
+		add(rect);
+	}
+
 	public function change()
 	{
 		if(onChange != null)
@@ -178,24 +175,16 @@ class Option extends FlxSpriteGroup
 	dynamic public function getValue():Dynamic
 	{
 		var value = Reflect.getProperty(ClientPrefs.data, variable);
-		if(type == KEYBIND) return !Controls.instance.controllerMode ? value.keyboard : value.gamepad;
 		return value;
 	}
 
 	dynamic public function setValue(value:Dynamic)
 	{
-		if(type == KEYBIND)
-		{
-			var keys = Reflect.getProperty(ClientPrefs.data, variable);
-			if(!Controls.instance.controllerMode) keys.keyboard = value;
-			else keys.gamepad = value;
-			return value;
-		}
 		return Reflect.setProperty(ClientPrefs.data, variable, value);
 	}
 
 	public function resetData() {
-		if (variable == '') return;
+		if (variable == '' || type == STATE) return;
 		Reflect.setProperty(ClientPrefs.data, variable, Reflect.getProperty(ClientPrefs.defaultData, variable));
 		defaultValue = Reflect.getProperty(ClientPrefs.defaultData, variable);
 		switch(type)

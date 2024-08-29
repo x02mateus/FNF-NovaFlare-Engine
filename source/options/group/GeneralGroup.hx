@@ -1,5 +1,7 @@
 package options.group;
 
+import shaders.ColorblindFilter;
+
 class GeneralGroup
 {
     static public function add(follow:OptionBG) {
@@ -8,12 +10,13 @@ class GeneralGroup
             TITLE
         );
         follow.addOption(option);
+       
 
         var reset:ResetRect = new ResetRect(450, 20, follow);
         follow.add(reset);
 
         var option:Option = new Option(
-            'Change your FPS cap.',
+            'Change your FPS cap',
             'framerate',
             INT,
             24,
@@ -21,25 +24,27 @@ class GeneralGroup
             'FPS'
         );
         follow.addOption(option);
+        option.onChange = onChangeFramerate;
 
         var colorblindFilterArray:Array<String> = ['None', 'Protanopia', 'Protanomaly', 'Deuteranopia','Deuteranomaly','Tritanopia','Tritanomaly','Achromatopsia','Achromatomaly'];
         var option:Option = new Option(
-            'Colorblind filter more playable for colorblind people.',
+            'Colorblind filter more playable for colorblind people',
             'colorblindMode',
             STRING,
             colorblindFilterArray
         );
         follow.addOption(option);
+        option.onChange = onChangeFilter;
 
         var option:Option = new Option(
-            'Turn off some object on stages.',
+            'Turn off some object on stages',
             'lowQuality',
             BOOL
         );
         follow.addOption(option);
 
         var option:Option = new Option(
-            'Change game quality for screen.',
+            'Change game quality for screen',
             'gameQuality',
             INT,
             0,
@@ -48,45 +53,67 @@ class GeneralGroup
         follow.addOption(option);
 
         var option:Option = new Option(
-            'Toggle antialiasing, improving graphics quality at a slight performance penalty.',
+            'Toggle antialiasing, improving graphics quality at a slight performance penalty',
             'antialiasing',
             BOOL
         );
         follow.addOption(option);
         
         var option:Option = new Option(
-            'Toggle flashing lights that can cause epileptic seizures and strain.',
+            'Toggle flashing lights that can cause epileptic seizures and strain',
             'flashing',
             BOOL
         );
         follow.addOption(option);
 
         var option:Option = new Option(
-            'Shaders used for some visual effects.',
+            'Shaders used for some visual effects',
             'shaders',
             BOOL
         );
         follow.addOption(option);
 
         var option:Option = new Option(
-            'If checked, allows the GPU to be used for caching textures, decreasing RAM usage.',
+            'Allows the GPU to be used for caching textures, decreasing RAM usage',
             'cacheOnGPU',
             BOOL
         );
         follow.addOption(option);
 
         var option:Option = new Option(
-            'Stops game, when its unfocused.',
+            'Stops game, when its unfocused',
             'autoPause',
             BOOL
         );
         follow.addOption(option);
+        option.onChange = onChangePause;
+    }
 
-        var option:Option = new Option(
-            'Add a LoadingScreen for PlayState and load faster.',
-            'loadingScreen',
-            BOOL
-        );
-        follow.addOption(option);
+    static function onChangeFramerate()
+    {
+        if(ClientPrefs.data.framerate > FlxG.drawFramerate)
+        {
+            FlxG.updateFramerate = ClientPrefs.data.framerate;
+            FlxG.drawFramerate = ClientPrefs.data.framerate;
+        }
+        else
+        {
+            FlxG.drawFramerate = ClientPrefs.data.framerate;
+            FlxG.updateFramerate = ClientPrefs.data.framerate;
+        }
+    }
+
+    static function onChangeFilter()
+    {
+        ColorblindFilter.UpdateColors();
+    }
+    
+
+    static function onChangePause()
+    {
+        FlxG.autoPause = ClientPrefs.data.autoPause;
     }
 }
+
+
+    

@@ -326,6 +326,7 @@ class FreeplayState extends MusicBeatState
 
 	var pressCheck:Bool = false;
 	function backMenu() {
+		Mods.loadTopMod();
 		if (!pressCheck){
 			pressCheck = true;
 			FlxG.sound.music.stop();
@@ -379,6 +380,7 @@ class FreeplayState extends MusicBeatState
 		switch (eventMember)
 		{
 			case 0:
+				OptionsState.stateType = 1;
 				LoadingState.loadAndSwitchState(new OptionsState());
 			case 1:
 				ignoreCheck = true;

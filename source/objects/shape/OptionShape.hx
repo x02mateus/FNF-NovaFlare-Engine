@@ -12,6 +12,7 @@ import flixel.util.FlxSpriteUtil;
 import flixel.util.FlxStringUtil;
 
 import options.Option;
+import options.OptionsState;
 
 class BoolRect extends FlxSpriteGroup {
     var touchFix:Rect;
@@ -29,11 +30,11 @@ class BoolRect extends FlxSpriteGroup {
         bg = new FlxSprite();
         bg.pixels = drawRect(50, 20);
         bg.antialiasing = ClientPrefs.data.antialiasing;
-        bg.x += width - bg.width - 50;
+        bg.x += width - bg.width - 60;
         bg.y += height / 2 - bg.height / 2;
         add(bg);
 
-        display = new Rect(width - bg.width - 50 - 15, height / 2 - bg.height / 2, 80, 20, 20, 20);
+        display = new Rect(width - bg.width - 60 - 15, height / 2 - bg.height / 2, 80, 20, 20, 20);
         display.color = 0x53b7ff;
         resetUpdate();
         add(display);
@@ -61,6 +62,8 @@ class BoolRect extends FlxSpriteGroup {
     override function update(elapsed:Float)
     {
         super.update(elapsed);
+
+        if (OptionsState.instance.avgSpeed > 2) return;
 
         onFocus = FlxG.mouse.overlaps(display);
 
@@ -134,7 +137,7 @@ class FloatRect extends FlxSpriteGroup {
         add(rect);
         rect.y += bg.height / 2 - rect.height / 2;
 
-        addButton = new FlxSprite(930);
+        addButton = new FlxSprite(920);
         addButton.pixels = drawButton(30, true);
         addButton.antialiasing = ClientPrefs.data.antialiasing;
         addButton.y += bg.height / 2 - addButton.height / 2;
@@ -200,13 +203,19 @@ class FloatRect extends FlxSpriteGroup {
     {
         super.update(elapsed);
 
+        if (OptionsState.instance.avgSpeed > 2) return;
+
         if (FlxG.mouse.overlaps(rect) && FlxG.mouse.justPressed)
         {
             posX = FlxG.mouse.x - rect.x;
             onFocus = true;
         }
 
-        if (FlxG.mouse.justReleased) onFocus = false;
+        if (FlxG.mouse.justReleased) 
+        {
+            onFocus = false;
+            OptionsState.instance.ignoreCheck = false;
+        }
 
         if(onFocus && FlxG.mouse.pressed) onHold();
 
@@ -244,6 +253,7 @@ class FloatRect extends FlxSpriteGroup {
     var posX:Float;
     var persent:Float = 0;
     function onHold() {
+        OptionsState.instance.ignoreCheck = true;
         rect.x = FlxG.mouse.x - posX;
         if (rect.x < bg.x) rect.x = bg.x;
         if (rect.x + rect.width > bg.x + bg.width) rect.x = bg.x + bg.width - rect.width;
@@ -351,6 +361,8 @@ class StringRect extends FlxSpriteGroup {
     {
         super.update(elapsed);
 
+        if (OptionsState.instance.avgSpeed > 2) return;
+
         onFocus = FlxG.mouse.overlaps(bg);
 
         if (FlxG.mouse.overlaps(upRect)) upRect.color = 0x53b7ff;
@@ -392,6 +404,64 @@ class StringRect extends FlxSpriteGroup {
     }
 }
 
+class StateRect extends FlxSpriteGroup {
+
+    var rect:Rect;
+    var follow:Option;
+    public function new(x:Float, y:Float, point:Option)
+    {
+        super(x,y);
+
+        this.follow = point;
+
+        rect = new Rect(0, 0, 950, 50, 20, 20);
+        add(rect);
+
+        var text = new FlxText(0, 0, 0, follow.description, 20);
+		text.font = Paths.font('montserrat.ttf'); 	
+        text.antialiasing = ClientPrefs.data.antialiasing;	
+        text.y += rect.height / 2 - text.height / 2;
+        text.x += rect.width / 2 - text.width / 2;
+        add(text);
+    }
+
+    public var onFocus:Bool = false;
+    override function update(elapsed:Float)
+    {
+        super.update(elapsed);
+
+        if (OptionsState.instance.avgSpeed > 2) return;
+        
+        onFocus = FlxG.mouse.overlaps(this);
+
+        if(onFocus)
+        {
+            rect.color = 0x53b7ff;
+            if (FlxG.mouse.justReleased) onClick();
+        } else {
+            rect.color = 0x24232C;
+        }
+    }
+
+    function onClick() {
+        var data:Int = 0;
+        switch(follow.variable)
+        {
+            case 'NoteOffsetState':
+                data = 1;
+            case 'NotesSubState':
+                data = 2;
+            case 'ControlsSubState':
+                data = 3;
+            case 'MobileControlSelectSubState':
+                data = 4;
+            case 'MobileExtraControl':
+                data = 5;
+        }
+        OptionsState.instance.moveState(data);
+    }
+}
+
 class ResetRect extends FlxSpriteGroup {
 
     var rect:Rect;
@@ -417,6 +487,8 @@ class ResetRect extends FlxSpriteGroup {
     override function update(elapsed:Float)
     {
         super.update(elapsed);
+
+        if (OptionsState.instance.avgSpeed > 2) return;
         
         onFocus = FlxG.mouse.overlaps(this);
 
@@ -483,20 +555,22 @@ class OptionCata extends FlxSpriteGroup
 
         if (specAlphaTw != null) specAlphaTw.cancel();
         if (specScaleTw != null) specScaleTw.cancel();
+
+        forceUpdate();
     }
 
-    var focused:Bool = false;
+    public var focused:Bool = false;
     public function forceUpdate()
     {
         if (!focused)
         {
             focused = true;
             specAlphaTw = FlxTween.tween(specRect, {alpha: 1}, 0.15); 
-            specScaleTw = FlxTween.tween(specRect.scale, {y: 1}, 0.15); 
+            specScaleTw = FlxTween.tween(specRect.scale, {y: 1}, 0.15, {ease: FlxEase.expoInOut}); 
         } else {
             focused = false;
             specAlphaTw = FlxTween.tween(specRect, {alpha: 0}, 0.15); 
-            specScaleTw = FlxTween.tween(specRect.scale, {y: 0}, 0.15); 
+            specScaleTw = FlxTween.tween(specRect.scale, {y: 0}, 0.15, {ease: FlxEase.expoInOut}); 
         }
     }
 }

@@ -30,6 +30,7 @@ class NoteOffsetState extends MusicBeatState
 	var delayMax:Int = 500;
 	var timeBar:Bar;
 	var timeTxt:FlxText;
+	var tipsTxt:FlxText;
 	var beatText:Alphabet;
 	var beatTween:FlxTween;
 
@@ -137,6 +138,13 @@ class NoteOffsetState extends MusicBeatState
 		timeTxt.visible = false;
 		timeTxt.cameras = [camHUD];
 
+		tipsTxt = new FlxText(0, 640, FlxG.width, "Press SPACE to get suggest offset\nmore times press more data accurate\nsuggest offset: 0 MS", 20);
+		tipsTxt.setFormat(Paths.font("vcr.ttf"), 20, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		tipsTxt.scrollFactor.set();
+		tipsTxt.borderSize = 2;
+		tipsTxt.visible = false;
+		tipsTxt.cameras = [camHUD];
+
 		barPercent = ClientPrefs.data.noteOffset;
 		updateNoteDelay();
 		
@@ -149,6 +157,7 @@ class NoteOffsetState extends MusicBeatState
 
 		add(timeBar);
 		add(timeTxt);
+		add(tipsTxt);
 
 		///////////////////////
 
@@ -190,8 +199,13 @@ class NoteOffsetState extends MusicBeatState
 	var startMousePos:FlxPoint = FlxPoint.get();
 	var startComboOffset:FlxPoint = FlxPoint.get();
 
+	var autoOffset:Float = 0;
+	var getData:Int = 0;
+
 	override public function update(elapsed:Float)
 	{
+		autoOffset += elapsed;
+
 		var addNum:Int = 1;
 		if(FlxG.keys.pressed.SHIFT || FlxG.gamepads.anyPressed(LEFT_SHOULDER))
 		{
@@ -367,6 +381,9 @@ class NoteOffsetState extends MusicBeatState
 
 			if(controls.RESET || virtualPad.buttonC.justPressed)
 			{
+				getData = 0;
+				tipsTxt.text = 'Press SPACE to get suggest offset\nmore times press more data accurate\nsuggest offset: ${getData} MS';
+
 				for (i in 0...ClientPrefs.data.comboOffset.length)
 				{
 					ClientPrefs.data.comboOffset[i] = 0;
@@ -411,9 +428,15 @@ class NoteOffsetState extends MusicBeatState
 				barPercent = 0;
 				updateNoteDelay();
 			}
+
+			if (FlxG.keys.justPressed.SPACE){
+				if (getData == 0) getData = Math.round(autoOffset * 1000);
+				else getData = Math.round(getData * 0.9 + autoOffset * 1000 * 0.1);
+				tipsTxt.text = 'Press SPACE to get suggest offset\nmore times press more data accurate\nsuggest offset: ${getData} MS';
+			}
 		}
 
-		if((!controls.controllerMode && controls.ACCEPT) ||
+		if((!controls.controllerMode && FlxG.keys.justPressed.ENTER) ||
 		(controls.controllerMode && FlxG.gamepads.anyJustPressed(START)))
 		{
 			onComboMenu = !onComboMenu;
@@ -426,17 +449,11 @@ class NoteOffsetState extends MusicBeatState
 			if(beatTween != null) beatTween.cancel();
 
 			persistentUpdate = false;
+
+			FlxG.sound.playMusic(Paths.music('freakyMenu'), 1);
 			
     		MusicBeatState.switchState(new options.OptionsState());
-			/*if(OptionsState.onPlayState)
-			{
-				if(ClientPrefs.data.pauseMusic != 'None')
-					FlxG.sound.playMusic(Paths.music(Paths.formatToSongPath(ClientPrefs.data.pauseMusic)));
-				else
-					FlxG.sound.music.volume = 0;
-			}
-			else FlxG.sound.playMusic(Paths.music('freakyMenu'));*/
-			FlxG.mouse.visible = false;
+			FlxG.mouse.visible = true;
 		}
 
 		Conductor.songPosition = FlxG.sound.music.time;
@@ -463,6 +480,8 @@ class NoteOffsetState extends MusicBeatState
 		if(curBeat % 4 == 2)
 		{
 			FlxG.camera.zoom = 1.15;
+
+			autoOffset = 0;
 
 			if(zoomTween != null) zoomTween.cancel();
 			zoomTween = FlxTween.tween(FlxG.camera, {zoom: 1}, 1, {ease: FlxEase.circOut, onComplete: function(twn:FlxTween)
@@ -551,6 +570,7 @@ class NoteOffsetState extends MusicBeatState
 		
 		timeBar.visible = !onComboMenu;
 		timeTxt.visible = !onComboMenu;
+		tipsTxt.visible = !onComboMenu;
 		beatText.visible = !onComboMenu;
 
 		controllerPointer.visible = false;
@@ -572,7 +592,7 @@ class NoteOffsetState extends MusicBeatState
 		str2 = '(Press A to Switch)';
                 } else {
 					if(!controls.controllerMode)
-						str2 = '(Press Accept to Switch)';
+						str2 = '(Press ENTER to Switch)';
 					else
 						str2 = '(Press Start to Switch)';
                 }
