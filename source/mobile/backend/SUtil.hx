@@ -113,11 +113,7 @@ class SUtil
 
 	public static function showPopUp(message:String, title:String):Void
 	{
-		#if (android && !macro)
-		AndroidTools.showAlertDialog(title, message, {name: "OK", func: null}, {name: "", func: null});
-		#else
 		lime.app.Application.current.window.alert(message, title);
-		#end
 	}
 }
 
