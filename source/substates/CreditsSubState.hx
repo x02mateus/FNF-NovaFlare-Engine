@@ -21,19 +21,21 @@ class CreditsSubState extends MusicBeatSubstate
 	var linkSpriteArray:Array<CreditsNote> = [];
 	var iconNameArray:Array<String> = [];
 
-	var linkArray:Array<String> = [];
-
 	var bg:FlxSprite;
-	var leftdescText:FlxText;
-	var rightdescText:FlxText;
+	var nameText:FlxText;
+	var jobText:FlxText;
 	var descBox:Rect;
-	var descSprite:FlxSprite;
-	var descSpriteText:FlxText;
+	var bigIcon:FlxSprite;
+	var descText:FlxText;
 	var intendedColor:FlxColor;
 	var colorTween:FlxTween;
-	var descBoxArray:Array<Rect> = [];
+	
+	var nameRect:Rect;
+	var jobRect:Rect;
+	var bigIconRect:Rect;
+	var descRect:Rect;
 
-	var backShape:CreditsButton;
+	var backShape:BackButton;
 
 	var offsetThing:Float = -75;
 
@@ -54,11 +56,6 @@ class CreditsSubState extends MusicBeatSubstate
 
 	override function create()
 	{
-		#if DISCORD_ALLOWED
-		// Updating Discord Rich Presence
-		DiscordClient.changePresence("In the Menus", null);
-		#end
-
 		persistentUpdate = true;
 		bg = new FlxSprite().loadGraphic(Paths.image('menuDesat'));
 		bg.antialiasing = ClientPrefs.data.antialiasing;
@@ -107,11 +104,11 @@ class CreditsSubState extends MusicBeatSubstate
 				iconBGArray.push(iconBG);
 
 				var iconText:FlxText = new FlxText(0, 0, 0, creditsStuff[i][0], 22);
+				iconText.antialiasing = ClientPrefs.data.antialiasing;
 				iconText.setFormat(font, 22, FlxColor.BLACK, LEFT);
 
 				if (iconText.width > 140) iconText.scale.x = 140 / iconText.width;
-				iconText.offset.x = iconText.width * (1 -iconText.scale.x) / 2;
-
+				iconText.x -= iconText.width * (1 - iconText.scale.x) / 2;
 				iconText.updateHitbox();
                 iconTextArray.push(iconText);
 
@@ -134,6 +131,9 @@ class CreditsSubState extends MusicBeatSubstate
 			RectPos(i);
         }
 
+		backShape = new BackButton(0, 600, 230, 120, 'back', 0x53b7ff, backMenu);
+		add(backShape);
+
 		var BG:Rect = new Rect(0, FlxG.height - 120, bgwidth, 5, 0, 0, FlxColor.BLACK, 1);
 		BG.cameras = [camHUD];
 		add(BG);
@@ -150,44 +150,42 @@ class CreditsSubState extends MusicBeatSubstate
 		BG.cameras = [camHUD];
 		add(BG);
 
-		leftdescText = new FlxText(170, 5, Std.int(FlxG.width / 2), "");
-		leftdescText.setFormat(font, 45, FlxColor.BLACK, CENTER);
-		leftdescText.updateHitbox();
+		nameText = new FlxText(170, 5, 0, "");
+		nameText.setFormat(font, 45, FlxColor.BLACK, CENTER);
+		nameText.antialiasing = ClientPrefs.data.antialiasing;
+		nameText.updateHitbox();
 
-		rightdescText = new FlxText(700, 5, Std.int(FlxG.width / 2), "");
-		rightdescText.setFormat(font, 45, FlxColor.BLACK, CENTER);
-		rightdescText.updateHitbox();
+		jobText = new FlxText(700, 5, 0, "");
+		jobText.setFormat(font, 45, FlxColor.BLACK, CENTER);
+		jobText.antialiasing = ClientPrefs.data.antialiasing;
+		jobText.updateHitbox();
 		
 		var dbwidth:Int = 470;
 
-		var descBox:Rect = new Rect(265, 5, dbwidth, 60, 25, 25, FlxColor.WHITE, 0.7);
-		add(descBox);
+		nameRect = new Rect(265, 5, dbwidth, 60, 25, 25, FlxColor.WHITE, 0.7);
+		add(nameRect);
 
-		var copydescBox:Rect = new Rect(785, 5, dbwidth, 60, 25, 25, FlxColor.WHITE, 0.7);
-		add(copydescBox);
+		jobRect = new Rect(785, 5, dbwidth, 60, 25, 25, FlxColor.WHITE, 0.7);
+		add(jobRect);
 
-		var leftdescBox:Rect = new Rect(265, 115, dbwidth, 420, 25, 25, FlxColor.WHITE, 0.7);
-		add(leftdescBox);
+		bigIconRect = new Rect(290, 115, 420, 420, 0, 0, FlxColor.WHITE, 0.7);
+		add(bigIconRect);
 
-		var rightdescBox:Rect = new Rect(785, 115, dbwidth, 420, 25, 25, FlxColor.WHITE, 0.7);
-		add(rightdescBox);
+		descRect = new Rect(785, 115, dbwidth, 420, 0, 0, FlxColor.WHITE, 0.7);
+		add(descRect);
 
-		add(leftdescText);
-		add(rightdescText);
+		add(nameText);
+		add(jobText);
 
-		descBoxArray.push(descBox);
-		descBoxArray.push(copydescBox);
-		descBoxArray.push(leftdescBox);
-		descBoxArray.push(rightdescBox);
 
-		descSprite = new FlxSprite();
-		descSprite.loadGraphic(Paths.image(mainIconExists(creditsStuff[curSelected + 1][1])));
-		descSprite.scale.set(1, 1);
-		descSprite.updateHitbox();
-		descSprite.visible = false;
-		add(descSprite);
+		bigIcon = new FlxSprite();
+		bigIcon.loadGraphic(Paths.image(mainIconExists(creditsStuff[curSelected + 1][1])));
+		bigIcon.scale.set(1, 1);
+		bigIcon.updateHitbox();
+		bigIcon.visible = false;
+		add(bigIcon);
 
-		iconVideo = new FlxVideoSprite(295, 115);
+		iconVideo = new FlxVideoSprite(bigIconRect.x, bigIconRect.y);
 		iconVideo.bitmap.onFormatSetup.add(function():Void
 		{
 			if (iconVideo.bitmap != null && iconVideo.bitmap.bitmapData != null)
@@ -198,32 +196,29 @@ class CreditsSubState extends MusicBeatSubstate
 				iconVideo.updateHitbox();
 			}
 		});
+		iconVideo.antialiasing = ClientPrefs.data.antialiasing;
 		add(iconVideo);
 		
 		if (FileSystem.exists(mainIconVideoExists(creditsStuff[curSelected + 1][1]))) {
 			iconVideo.load(mainIconVideoExists(creditsStuff[curSelected + 1][1]), ['input-repeat=65545']);
 			iconVideo.play();
-			iconVideo.visible = true;
+			iconVideo.alpha = 1;
 		}
 		else {
-			iconVideo.visible = false;
-			descSprite.visible = true;
+			iconVideo.alpha = 0.0001;
+			bigIcon.visible = true;
 		}
 
-		descSpriteText = new FlxText(785, 115, dbwidth, "");
-		descSpriteText.setFormat(font, 45, FlxColor.BLACK, LEFT);
-		descSpriteText.updateHitbox();
+		descText = new FlxText(785, 115, dbwidth, "");
+		descText.setFormat(font, 30, FlxColor.BLACK, LEFT);
+		descText.antialiasing = ClientPrefs.data.antialiasing;
+		descText.updateHitbox();
 
-		add(descSpriteText);
-
-		backShape = new CreditsButton(180, 660, 50, 50, "BACK", FlxColor.BLACK, close);
-		add(backShape);
+		add(descText);
 
 		bg.color = CoolUtil.colorFromString(creditsStuff[curSelected][4]);
 		intendedColor = bg.color;
 		changeSelection();
-
-		addVirtualPad(UP_DOWN, A_B_C);
 
 		RectPosUpdate(false);
 
@@ -232,44 +227,39 @@ class CreditsSubState extends MusicBeatSubstate
 
 	function descPosUpdate()
 	{
-		leftdescText.text = iconTextArray[curSelected].text;
-		if (leftdescText.width > 470) leftdescText.scale.x = 470 / leftdescText.width;
-		leftdescText.updateHitbox();
+		nameText.text = iconTextArray[curSelected].text;
+		if (nameText.width > 470) nameText.scale.x = 470 / nameText.width;
+		nameText.updateHitbox();
+		nameText.x = nameRect.x + nameRect.width / 2 - nameText.width / 2;
 
-		leftdescText.x = 200;
-		leftdescText.x += (leftdescText.width * (1 - leftdescText.scale.x) / 2);
-
-		rightdescText.text = creditsStuff[curSelected + 1][2];
-		if (rightdescText.width > 470) rightdescText.scale.x = 470 / rightdescText.width;
-		rightdescText.updateHitbox();
-
-		rightdescText.x = 720;
-		rightdescText.x += (rightdescText.width * (1 - rightdescText.scale.x) / 2);
+		jobText.text = creditsStuff[curSelected + 1][2];
+		if (jobText.width > 470) jobText.scale.x = 470 / jobText.width;
+		jobText.updateHitbox();
+		jobText.x = jobRect.x + jobRect.width / 2 - jobText.width / 2;
 		
 		if (mainIconVideoExists(creditsStuff[curSelected + 1][1]) != null) {
-			descSprite.visible = false;
+			bigIcon.visible = false;
 			iconVideo.load(mainIconVideoExists(creditsStuff[curSelected + 1][1]), ['input-repeat=65545']);
 			iconVideo.play();
-
-			iconVideo.visible = true;
-
+			new FlxTimer().start(0.1, function(tmr:FlxTimer){iconVideo.alpha = 1;});
 			trace(mainIconVideoExists(creditsStuff[curSelected + 1][1]));
-		}
-		else {
-			iconVideo.visible = false;
-			descSprite.visible = true;
+		} else {
+			iconVideo.play();
+			iconVideo.pause();
+			iconVideo.alpha = 0.0001;
+			bigIcon.visible = true;
 			
-			descSprite.loadGraphic(Paths.image(mainIconExists(creditsStuff[curSelected + 1][1])));
-			descSprite.updateHitbox();
+			bigIcon.loadGraphic(Paths.image(mainIconExists(creditsStuff[curSelected + 1][1])));
+			bigIcon.updateHitbox();
 
 			trace(mainIconExists(creditsStuff[curSelected + 1][1]));
 		}
 
-		descSprite.x = 265 + descBoxArray[2].width / 2 - descSprite.width / 2;
-		descSprite.y = 115 + descBoxArray[2].height / 2 - descSprite.height / 2;
+		bigIcon.x = bigIconRect.x + bigIconRect.width / 2 - bigIcon.width / 2;
+		bigIcon.y = bigIconRect.y + bigIconRect.height / 2 - bigIcon.height / 2;
 
-		descSpriteText.text = creditsStuff[curSelected + 1][3];
-		descSpriteText.updateHitbox();
+		descText.text = creditsStuff[curSelected + 1][3];
+		descText.updateHitbox();
 
 		Recognizelink();
 	}
@@ -291,29 +281,30 @@ class CreditsSubState extends MusicBeatSubstate
 		return str;
 	}
 
-	var firstarray:Array<String> = [];
-
+	var linkArray:Array<String> = [];
+	var keyArray:Array<String> = [];
 	function Recognizelink()
 	{
 		if (creditsStuff[curSelected + 1][4] != null)
 		{
-			firstarray = [];
 			linkArray = [];
+			keyArray = [];
 
 			for (i in 0...linkSpriteArray.length)
 			{
 				linkSpriteArray[i].destroy();
 			}
 
-			for (i in 4...creditsStuff[curSelected + 1].length - 2) {
-				firstarray.push(creditsStuff[curSelected + 1][i]);
+			for (i in 5...creditsStuff[curSelected + 1].length) {
+				linkArray.push(creditsStuff[curSelected + 1][i]);
 			}
+			trace(linkArray);
 
 			Recognize();
 
 			for(i in 0...linkArray.length)
 			{
-				var link:CreditsNote = new CreditsNote(linkArray[i], firstarray[i]);
+				var link:CreditsNote = new CreditsNote(keyArray[i], linkArray[i]);
 				link.x = 400 + 150 * i;
 				link.y = 575;
 
@@ -327,31 +318,22 @@ class CreditsSubState extends MusicBeatSubstate
 		}
 	}
 
-	var linkay:Array<String> = ["github", "youtube", "x", "twitter", "discord", "bilibili", "douyin", "kuaishou"];
-
-	var unlinkArray:Array<String> = [];
-	var pushBool:Bool = false;
-
+	var linkKey:Array<String> = ["github", "youtube", "x", "twitter", "discord", "b23.tv", "bilibili", "douyin", "kuaishou"];
 	function Recognize()
 	{
-		for(i in firstarray)
-		{
-			unlinkArray = linkArray;
-			pushBool = false;
-			for (a in 0...linkay.length)
+		for(num in 0...linkArray.length)
+		{	
+			var alreadyGet:Bool = false;
+			for (key in 0...linkKey.length)
 			{
-				var arr:Array<String> = i.replace('\\n', '\n').split(linkay[a] + ".com");
-				if (arr.length != 1) {
-					linkArray.push(linkay[a]);
-					pushBool = true;
+				if (linkArray[num].indexOf(linkKey[key]) != -1 && !alreadyGet)
+				{
+					alreadyGet = true;
+					keyArray.push(linkKey[key]);
 				}
 			}
-
-			if (!pushBool)
-			{
-				linkArray.push("Missing");
-			}
 		}
+		keyArray.push("none");
 	}
 
 	function RectPosUpdate(forceUpdate:Bool = false) 
@@ -371,8 +353,7 @@ class CreditsSubState extends MusicBeatSubstate
 		iconBGArray[i].x = 0;
 		iconBGArray[i].y = lerpPosition + i * 120 - 30;
 
-		//iconTextArray[i].x = -150; = center
-		iconTextArray[i].x = 90;
+		iconTextArray[i].x = 80;
 		iconTextArray[i].y = lerpPosition + i * 120 + 12;
 	}
 
@@ -390,7 +371,7 @@ class CreditsSubState extends MusicBeatSubstate
 			if(creditsStuff.length > 1)
 			{
 				var shiftMult:Int = 1;
-				if(FlxG.keys.pressed.SHIFT || virtualPad.buttonC.pressed) shiftMult = 3;
+				if(FlxG.keys.pressed.SHIFT) shiftMult = 3;
 
 				if(controls.UI_DOWN || controls.UI_UP)
 				{
@@ -483,13 +464,14 @@ class CreditsSubState extends MusicBeatSubstate
 			});
 		}
 
-		trace(creditsStuff[curSelected + 1]);
-		
-
 		descPosUpdate();
 	}
 
 	private function unselectableCheck(num:Int):Bool {
 		return creditsStuff[num].length <= 1;
+	}
+
+	function backMenu() {
+		close();
 	}
 }

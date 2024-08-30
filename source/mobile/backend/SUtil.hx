@@ -112,10 +112,10 @@ class SUtil
 
 	public static function showPopUp(message:String, title:String):Void
 	{
-		#if (!ios || !iphonesim)
-		lime.app.Application.current.window.alert(message, title);
+		#if android
+		AndroidTools.showAlertDialog(title, message, {name: "OK", func: null}, null);
 		#else
-		trace('$title - $message');
+		lime.app.Application.current.window.alert(message, title);
 		#end
 	}
 }

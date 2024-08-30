@@ -37,7 +37,7 @@ class CreditsNote extends FlxSprite
 
     private var iconOffsets:Array<Float> = [0, 0];
 	public function changeIcon(char:String, ?allowGPU:Bool = true) {
-        var name:String = 'menuExtend/CreditsState/link';
+        var name:String = 'menuExtend/CreditsState/linkButton';
         
         var graphic = Paths.image(name, allowGPU);
         var delimiter:Int = 150;
@@ -52,12 +52,11 @@ class CreditsNote extends FlxSprite
         else if (char == "youtube") animation.curAnim.curFrame = 1;
         else if (char == "x" || char == "twitter") animation.curAnim.curFrame = 2;
         else if (char == "discord") animation.curAnim.curFrame = 3;
-        else if (char == "bilibili") animation.curAnim.curFrame = 4;
+        else if (char == "bilibili" || char == "b23.tv") animation.curAnim.curFrame = 4;
         else if (char == "douyin") animation.curAnim.curFrame = 5;
         else if (char == "kuaishou") animation.curAnim.curFrame = 6;
         else animation.curAnim.curFrame = 7;
 	}
-	//win icon from https://github.com/ShadowMario/FNF-PsychEngine/issues/13642#issuecomment-1819278538	
 
 	override function updateHitbox()
 	{

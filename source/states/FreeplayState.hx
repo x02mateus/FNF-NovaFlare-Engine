@@ -280,7 +280,7 @@ class FreeplayState extends MusicBeatState
 
 		if (FlxG.mouse.x >= 660 && FlxG.mouse.x <= FlxG.width && FlxG.mouse.y >= FlxG.height * 0.25 && FlxG.mouse.y <= FlxG.height * 0.9)
 		{
-			position -= FlxG.mouse.wheel * 70;
+			position -= FlxG.mouse.wheel * 180;
 			if (FlxG.mouse.pressed) 
 			{
 				position += moveData;
@@ -290,7 +290,7 @@ class FreeplayState extends MusicBeatState
 			if (FlxG.mouse.justReleased)
 			{
 				position += avgSpeed * 1.5 * (0.0166 / elapsed) * Math.pow(1.1, Math.abs(avgSpeed * 0.8));
-				if (Math.abs(avgSpeed * (0.0166 / elapsed)) < 3) {
+				if (Math.abs(avgSpeed * (0.0166 / elapsed)) < 1) {
 					for (i in 0...grpSongs.length)
 					{
 						if (FlxG.mouse.overlaps(grpSongs[i]) && !grpSongs[i].ignoreCheck)
@@ -368,9 +368,11 @@ class FreeplayState extends MusicBeatState
 	function extraChange() {
 		if (FlxG.mouse.overlaps(extraHS))
 		{
-
+			camAudio.visible = true;
+			camHS.visible = false;
 		} else {
-
+			camAudio.visible = false;
+			camHS.visible = true;
 		}
 	}
 

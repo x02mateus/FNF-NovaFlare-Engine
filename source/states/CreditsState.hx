@@ -25,13 +25,13 @@ class CreditsState extends MusicBeatState
 	private var NucreditsStuff:Array<Array<Array<String>>> = [
 		[
 		['NovaFlare Engine Team'],
-		['Beihu',		'beihu',	'<Main Programmer>',	'Main Programmer and Head of NovaFlare Engine',						'https://b23.tv/Etk6gY9',	'FFC0CB'],
-		['TieGuo',		'tieguo',	'<Coder>',	'Ex-Programmer',				'https://b23.tv/7OVWzAO',	'FF6600'],
-		['Chiny',		'chiny',	'<Coder>',	'Touhou Player',				'https://space.bilibili.com/3493288327777064',	'3399FF'],
-		['Careful_Scarf_487', 'Careful_Scarf_487', '<Artist>',	'Main Artist', 'https://b23.tv/DQ1a0jO',  '990000'],
-		['mengqi',       'mengqi',       '<Artist>',	'Artist',                               'https://space.bilibili.com/2130239542',    '9b5a67'],
-		['als',            'als',       '<Animation>',	    'Open screen animation support',     'https://b23.tv/mNNX8R8',                'ff0000'],
-		['ddd',           'ddd',         '<Sounds Support>',	     'Sounds support',                     'https://space.bilibili.com/401733211',      '5123A0']
+		['Beihu',				'beihu',				'<Main Programmer>',	'Main Programmer and Head of NovaFlare Engine',		'FFC0CB',		'https://b23.tv/Etk6gY9'],
+		['TieGuo',				'tieguo',				'<Coder>',				'Ex-Programmer',									'FF6600',		'https://b23.tv/7OVWzAO'],
+		['Chiny',				'chiny',				'<Coder>',				'Touhou Player',									'3399FF',		'https://space.bilibili.com/3493288327777064'],
+		['Careful_Scarf_487',   'Careful_Scarf_487', 	'<Artist>',				'Main Artist', 										'990000', 		'https://b23.tv/DQ1a0jO'],
+		['mengqi',       		'mengqi',       		'<Artist>',				'Artist',                       					'9b5a67',       'https://space.bilibili.com/2130239542'],
+		['als',           		'als',       			'<Animation>',	    	'Open screen animation support',    				'ff0000', 		'https://b23.tv/mNNX8R8'],
+		['ddd',           		'ddd',         			'<Sounds Support>',	    'Sounds support',            						'5123A0',       'https://space.bilibili.com/401733211']
 		],
 		[
 		['Psych Engine Team'],
@@ -101,6 +101,10 @@ class CreditsState extends MusicBeatState
 		bg.antialiasing = ClientPrefs.data.antialiasing;
 		add(bg);
 		bg.screenCenter();
+
+		var back = new BackButton(0,0, 250, 75, 'back', 0x53b7ff, backMenu);
+		back.y = FlxG.height - 75;
+		add(back);
 
 		for (psych in UnUcreditsStuff) {
 			UncreditsStuff.push(psych);
@@ -291,6 +295,14 @@ class CreditsState extends MusicBeatState
 		if (curSelected >= creditsStuff.length)
 			curSelected = 0;
 
+	}
+
+	var pressCheck:Bool = false;
+	function backMenu() {
+		if (!pressCheck){
+			pressCheck = true;
+			MusicBeatState.switchState(new MainMenuState());
+		}
 	}
 
 	#if MODS_ALLOWED
