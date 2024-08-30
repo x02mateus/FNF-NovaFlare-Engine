@@ -25,7 +25,9 @@ class OptionsState extends MusicBeatState
 	{     
 		persistentUpdate = persistentDraw = true;
 
+		#if !mobile
 		FlxG.mouse.visible = true;
+		#end
 
 		Main.fpsVar.visible = false;
 		if(Main.watermark != null) Main.watermark.visible = false;
@@ -153,7 +155,9 @@ class OptionsState extends MusicBeatState
 		super.closeSubState();
 		
 		persistentUpdate = true;
+		#if !mobile
 		FlxG.mouse.visible = true;
+		#end
 	}
 
 	var saveMouseY:Int = 0;

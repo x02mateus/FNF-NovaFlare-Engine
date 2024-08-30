@@ -233,12 +233,12 @@ class ResultsScreen extends MusicBeatSubstate
 		
 		var opponent:String = 'Disable';
 		if (ClientPrefs.data.playOpponent) opponent = 'Enable';
-		var filpChart:String = 'Disable';
-		if (ClientPrefs.data.filpChart) filpChart = 'Enable';
+		var flipChart:String = 'Disable';
+		if (ClientPrefs.data.flipChart) flipChart = 'Enable';
 		
 		
 		opTextAdd('PlayOpponent: ' + opponent, 1);
-		opTextAdd('FilpChart: ' + filpChart, 2);
+		opTextAdd('FlipChart: ' + flipChart, 2);
 		
 		//-------------------------
 		

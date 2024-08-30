@@ -89,7 +89,9 @@ class FreeplayState extends MusicBeatState
 
 		instance = this;
 
+		#if !mobile
 		FlxG.mouse.visible = true;
+		#end
 
 		persistentUpdate = true;
 		PlayState.isStoryMode = false;
@@ -172,6 +174,9 @@ class FreeplayState extends MusicBeatState
 		var searchMenu:SearchButton = new SearchButton(640, 20, FlxG.width - 640 - 20, 80);
 		add(searchMenu);
 
+		var order:OrderRect = new OrderRect(searchMenu.x, searchMenu.y + searchMenu.height + 15, searchMenu.width, 50, useSort);
+		add(order);
+
 		smallMag = new SpecRect(0, 0, 'menuDesat');
 		add(smallMag);
 
@@ -216,8 +221,7 @@ class FreeplayState extends MusicBeatState
 		instDis.camera = camAudio;
 		instDis.alpha = 0.7;
 
-		voiceLine = new MusicLine(10, 105, 545);
-		voiceLine.camera = camAudio;
+		voiceLine = new MusicLine(Std.int(extraAudio.x) + 10, Std.int(extraAudio.y + extraAudio.height) + 110, 545);
 		add(voiceLine);
 
 		var bottomBG:FlxSprite = new FlxSprite(0, FlxG.height * 0.9).makeGraphic(FlxG.width, Std.int(FlxG.height * 0.1));
@@ -368,11 +372,13 @@ class FreeplayState extends MusicBeatState
 	function extraChange() {
 		if (FlxG.mouse.overlaps(extraHS))
 		{
-			camAudio.visible = true;
-			camHS.visible = false;
-		} else {
 			camAudio.visible = false;
+			voiceLine.visible = false;
 			camHS.visible = true;
+		} else {
+			camAudio.visible = true;
+			voiceLine.visible = true;
+			camHS.visible = false;
 		}
 	}
 
@@ -382,8 +388,17 @@ class FreeplayState extends MusicBeatState
 		switch (eventMember)
 		{
 			case 0:
-				OptionsState.stateType = 1;
-				LoadingState.loadAndSwitchState(new OptionsState());
+				if (!eventPressCheck)
+				{
+					eventPressCheck = true;
+					destroyFreeplayVocals();
+					FlxG.sound.music.stop();
+
+					FlxG.sound.playMusic(Paths.music('freakyMenu'), 1);
+
+					OptionsState.stateType = 1;
+					LoadingState.loadAndSwitchState(new OptionsState());
+				}
 			case 1:
 				ignoreCheck = true;
 				openSubState(new GameplayChangersSubstate());
@@ -393,7 +408,13 @@ class FreeplayState extends MusicBeatState
 				ignoreCheck = true;
 				openSubState(new ResetScoreSubState(songs[curSelected].songName, curDifficulty, songs[curSelected].songCharacter));
 			case 4:
-				LoadingState.loadAndSwitchState(new ChartingState());
+				if (!eventPressCheck)
+				{
+					eventPressCheck = true;
+					destroyFreeplayVocals();
+					FlxG.sound.music.stop();
+					LoadingState.loadAndSwitchState(new ChartingState());
+				}
 		}
 	}
 
@@ -512,6 +533,7 @@ class FreeplayState extends MusicBeatState
 		
 	}
 
+	public var useSort:Bool = false;
 	public function updateSearch(text:String) 
 	{
 		if (grpSongs.length > 0) 
@@ -523,9 +545,16 @@ class FreeplayState extends MusicBeatState
 		songs = [];
 		grpSongs = [];
 
-		for (i in 0...saveSongs.length){
-			if (saveSongs[i].songName.trim().toLowerCase().indexOf(text.trim().toLowerCase()) != -1)
-			songs.push(saveSongs[i]);
+		if (!useSort) {
+			for (i in 0...saveSongs.length){
+				if (saveSongs[i].songName.trim().toLowerCase().indexOf(text.trim().toLowerCase()) != -1)
+				songs.push(saveSongs[i]);
+			}
+		} else {
+			for (i in 0...sortSongs.length){
+				if (sortSongs[i].songName.trim().toLowerCase().indexOf(text.trim().toLowerCase()) != -1)
+				songs.push(sortSongs[i]);
+			}
 		}
  
 		for (rect in 0...saveGrpSongs.length)
@@ -615,14 +644,47 @@ class FreeplayState extends MusicBeatState
 				FlxG.sound.playMusic(Paths.inst(PlayState.SONG.song), 0.8);
 				if (vocals != null) vocals.play();
 				if (opponentVocals != null) opponentVocals.play();
-				
-				voiceDis.audioDis.changeAnalyzer(FlxG.sound.music);
-				if (vocals != null) instDis.audioDis.changeAnalyzer(vocals);
-				else instDis.audioDis.changeAnalyzer(FlxG.sound.music);
+
+				try{
+					voiceDis.audioDis.changeAnalyzer(FlxG.sound.music);
+					if (vocals != null) instDis.audioDis.changeAnalyzer(vocals);
+					else instDis.audioDis.changeAnalyzer(FlxG.sound.music);
+				} catch(e:Any){
+					trace(e);
+				}
 
 				musicMutex.release();
 			});
 		});
+	}
+
+	var waitTime:FlxTimer = new FlxTimer();
+	public function updateMusicTime(data:Int) {
+		FlxG.sound.music.pause();
+		if(opponentVocals != null) opponentVocals.pause();
+		if(vocals != null) vocals.pause();
+
+		FlxG.sound.music.time += 1000 * data;
+		if (FlxG.sound.music.time < 0) FlxG.sound.music.time = FlxG.sound.music.length;
+		if (FlxG.sound.music.time > FlxG.sound.music.length) FlxG.sound.music.time = 0;
+		if(vocals != null) vocals.time = FlxG.sound.music.time;
+		if(opponentVocals != null) opponentVocals.time = FlxG.sound.music.time;
+
+		if (waitTime != null) waitTime.cancel();
+		waitTime.start(0.1, function(tmr:FlxTimer){
+			FlxG.sound.music.resume();
+			if(opponentVocals != null) opponentVocals.resume();
+			if(vocals != null) vocals.resume();
+		});
+	}
+
+	public function updateMusicRate(data:Int) {
+		FlxG.sound.music.pitch += 0.05 * data;
+		FlxG.sound.music.pitch = FlxMath.roundDecimal(FlxG.sound.music.pitch, 2);
+		if (FlxG.sound.music.pitch < 0.5) FlxG.sound.music.pitch = 0.5;
+		if (FlxG.sound.music.pitch > 4) FlxG.sound.music.pitch = 4;
+		if(vocals != null) vocals.pitch = FlxG.sound.music.pitch;
+		if(opponentVocals != null) opponentVocals.pitch = FlxG.sound.music.pitch;
 	}
 
 	function getVocalFromCharacter(char:String)

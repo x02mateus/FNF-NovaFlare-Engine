@@ -1,9 +1,7 @@
 package substates;
 
 import objects.AttachedSprite;
-import objects.shape.ShapeEX;
 import objects.shape.CreditsShape;
-import objects.shape.CreditsNote;
 #if hxvlc
 import hxvlc.flixel.FlxVideoSprite;
 #end
@@ -81,11 +79,6 @@ class CreditsSubState extends MusicBeatSubstate
 			var isSelectable:Bool = !unselectableCheck(i);
 
 			if(isSelectable) {
-				if(creditsStuff[i][5] != null)
-				{
-					Mods.currentModDirectory = creditsStuff[i][5];
-				}
-
 				var str:String = 'credits/missing_icon';
 				if(creditsStuff[i][1] != null && creditsStuff[i][1].length > 0)
 				{
@@ -119,8 +112,6 @@ class CreditsSubState extends MusicBeatSubstate
 				icon.cameras = [camIcons];
 				iconBG.cameras = [camIcons];
 				iconText.cameras = [camIcons];
-
-				Mods.currentModDirectory = '';
 
 				if(curSelected == -1) curSelected = i;
 			}
@@ -162,16 +153,16 @@ class CreditsSubState extends MusicBeatSubstate
 		
 		var dbwidth:Int = 470;
 
-		nameRect = new Rect(265, 5, dbwidth, 60, 25, 25, FlxColor.WHITE, 0.7);
+		nameRect = new Rect(265, 5, dbwidth, 60, 25, 25, FlxColor.WHITE, 0.5);
 		add(nameRect);
 
-		jobRect = new Rect(785, 5, dbwidth, 60, 25, 25, FlxColor.WHITE, 0.7);
+		jobRect = new Rect(785, 5, dbwidth, 60, 25, 25, FlxColor.WHITE, 0.5);
 		add(jobRect);
 
-		bigIconRect = new Rect(290, 115, 420, 420, 0, 0, FlxColor.WHITE, 0.7);
+		bigIconRect = new Rect(290, 115, 420, 420, 0, 0, FlxColor.WHITE, 0.5);
 		add(bigIconRect);
 
-		descRect = new Rect(785, 115, dbwidth, 420, 0, 0, FlxColor.WHITE, 0.7);
+		descRect = new Rect(785, 115, dbwidth, 420, 0, 0, FlxColor.WHITE, 0.5);
 		add(descRect);
 
 		add(nameText);
@@ -183,6 +174,7 @@ class CreditsSubState extends MusicBeatSubstate
 		bigIcon.scale.set(1, 1);
 		bigIcon.updateHitbox();
 		bigIcon.visible = false;
+		bigIcon.antialiasing = ClientPrefs.data.antialiasing;
 		add(bigIcon);
 
 		iconVideo = new FlxVideoSprite(bigIconRect.x, bigIconRect.y);
@@ -233,6 +225,7 @@ class CreditsSubState extends MusicBeatSubstate
 		nameText.x = nameRect.x + nameRect.width / 2 - nameText.width / 2;
 
 		jobText.text = creditsStuff[curSelected + 1][2];
+		jobText.scale.x = 1;
 		if (jobText.width > 470) jobText.scale.x = 470 / jobText.width;
 		jobText.updateHitbox();
 		jobText.x = jobRect.x + jobRect.width / 2 - jobText.width / 2;
@@ -250,6 +243,7 @@ class CreditsSubState extends MusicBeatSubstate
 			bigIcon.visible = true;
 			
 			bigIcon.loadGraphic(Paths.image(mainIconExists(creditsStuff[curSelected + 1][1])));
+			bigIcon.setGraphicSize(420, 420);
 			bigIcon.updateHitbox();
 
 			trace(mainIconExists(creditsStuff[curSelected + 1][1]));
@@ -274,8 +268,8 @@ class CreditsSubState extends MusicBeatSubstate
 
 	function mainIconExists(file):String
 	{
-		var str:String = 'credits/missing_icon';
-		var fileName = 'credits/mainIcon/' + file;
+		var str:String = 'credits/bigIcon/missing_icon';
+		var fileName = 'credits/bigIcon/' + file;
 		if (Paths.fileExists('images/$fileName.png', IMAGE)) str = fileName;
 
 		return str;
@@ -305,7 +299,7 @@ class CreditsSubState extends MusicBeatSubstate
 			for(i in 0...linkArray.length)
 			{
 				var link:CreditsNote = new CreditsNote(keyArray[i], linkArray[i]);
-				link.x = 400 + 150 * i;
+				link.x = 755 + 160 * i - 160 * linkArray.length / 2;
 				link.y = 575;
 
 				link.antialiasing = true;
@@ -366,26 +360,9 @@ class CreditsSubState extends MusicBeatSubstate
 			FlxG.sound.music.volume += 0.5 * FlxG.elapsed;
 		}
 
-		if(!quitting)
+		mouseMove();
+		if (FlxG.mouse.x <= 230 && FlxG.mouse.y <= FlxG.height - 120)
 		{
-			if(creditsStuff.length > 1)
-			{
-				var shiftMult:Int = 1;
-				if(FlxG.keys.pressed.SHIFT) shiftMult = 3;
-
-				if(controls.UI_DOWN || controls.UI_UP)
-				{
-					var checkLastHold:Int = Math.floor((holdTime - 0.5) * 10);
-					holdTime += elapsed;
-					var checkNewHold:Int = Math.floor((holdTime - 0.5) * 10);
-
-					if(holdTime > 0.5 && checkNewHold - checkLastHold > 0)
-					{
-						changeSelection((checkNewHold - checkLastHold) * (controls.UI_UP ? -shiftMult : shiftMult));
-					}
-				}
-			}
-
 			position += FlxG.mouse.wheel * 70;
 			if (FlxG.mouse.pressed) 
 			{
@@ -411,23 +388,23 @@ class CreditsSubState extends MusicBeatSubstate
 					if (FlxG.mouse.justReleased && i != curSelected)
 					{
 						position += avgSpeed * (0.0166 / elapsed) * Math.pow(1.1, Math.abs(avgSpeed * 0.8));
-						if (Math.abs(avgSpeed * (0.0166 / elapsed)) < 3) {
+						if (Math.abs(avgSpeed * (0.0166 / elapsed)) < 1) {
 							changeSelection(i);
 						}
 					}
 				}
 			}
-	
-			if (position > 360 - 330) position = FlxMath.lerp(360 - 330, position, Math.exp(-elapsed * 15));
-			if (position < 360 - 45 - 87 * (iconBGArray.length - 1)) position = FlxMath.lerp(360 - 45 - 87 * (iconBGArray.length - 1), position, Math.exp(-elapsed * 15));
-	
-			if (Math.abs(lerpPosition - position) < 1) lerpPosition = position;
-			else lerpPosition = FlxMath.lerp(position, lerpPosition, Math.exp(-elapsed * 15));
+		}
 
-			if (controls.BACK)
-			{
-                close();
-			}
+		if (position > 360 - 330) position = FlxMath.lerp(360 - 330, position, Math.exp(-elapsed * 15));
+		if (position < 360 - 77 - 87 * (iconBGArray.length - 1)) position = FlxMath.lerp(360 - 77 - 87 * (iconBGArray.length - 1), position, Math.exp(-elapsed * 15));
+
+		if (Math.abs(lerpPosition - position) < 1) lerpPosition = position;
+		else lerpPosition = FlxMath.lerp(position, lerpPosition, Math.exp(-elapsed * 15));
+
+		if (controls.BACK)
+		{
+			close();
 		}
 
 		RectPosUpdate(false);

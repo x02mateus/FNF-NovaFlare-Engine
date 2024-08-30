@@ -8,30 +8,29 @@ import substates.PsychCreditsSubState;
 
 class CreditsState extends MusicBeatState
 {
-	private static var curSelected:Int = -1;
-	private static var curSelectedFloat:Float;
-
 	private var grpOptions:FlxTypedGroup<Alphabet>;
 	private var iconArray:Array<AttachedSprite> = [];
-	private var UnUcreditsStuff:Array<String> = [
-		"NF Team", 
-		"psych Team", 
-		#if mobile
-		"andriod team",
+
+	private var nameSave:Array<String> = [
+		"NovaFlare", 
+		"Psych", 
+		#if moblie
+		"moblie",
 		#end
-		"funkin Team"
+		"Funkin"
 	];
 
 	private var NucreditsStuff:Array<Array<Array<String>>> = [
 		[
 		['NovaFlare Engine Team'],
-		['Beihu',				'beihu',				'<Main Programmer>',	'Main Programmer and Head of NovaFlare Engine',		'FFC0CB',		'https://b23.tv/Etk6gY9'],
-		['TieGuo',				'tieguo',				'<Coder>',				'Ex-Programmer',									'FF6600',		'https://b23.tv/7OVWzAO'],
-		['Chiny',				'chiny',				'<Coder>',				'Touhou Player',									'3399FF',		'https://space.bilibili.com/3493288327777064'],
-		['Careful_Scarf_487',   'Careful_Scarf_487', 	'<Artist>',				'Main Artist', 										'990000', 		'https://b23.tv/DQ1a0jO'],
-		['mengqi',       		'mengqi',       		'<Artist>',				'Artist',                       					'9b5a67',       'https://space.bilibili.com/2130239542'],
-		['als',           		'als',       			'<Animation>',	    	'Open screen animation support',    				'ff0000', 		'https://b23.tv/mNNX8R8'],
-		['ddd',           		'ddd',         			'<Sounds Support>',	    'Sounds support',            						'5123A0',       'https://space.bilibili.com/401733211']
+		['Beihu',				'beihu',				'Main Programmer',			'Head of NovaFlare Engine\n\nNothing special',		'FFC0CB',		'https://b23.tv/Etk6gY9',							'https://youtube.com/@beihu235?si=BI2efmEcI8_mZoUp', 					'https://github.com/beihu235'],
+		['Chiny',				'chiny',				'Programmer',				'Credit state logic creator\n\nTouhou player',									'3399FF',		'https://space.bilibili.com/3493288327777064'],
+		['MaoPou',				'maopou',				'Programmer',				'Code help',													'8B8682',		'https://space.bilibili.com/1548393523?spm_id_from=333.1007.0.0',	'https://github.com/MaoPou'],
+		['TieGuo',				'tieguo',				'Ex-Programmer',			'Pause Menu creator',									'FF6600',		'https://b23.tv/7OVWzAO'],
+		['Careful_Scarf_487',   'Careful_Scarf_487', 	'Main Artist',				'', 										'990000', 		'https://b23.tv/DQ1a0jO'],
+		['MengQi',       		'mengqi',       		'Artist',					'Puase menu artist',                       					'9b5a67',       'https://space.bilibili.com/2130239542'],
+		['als',           		'als',       			'Animation',	    		'Open screen animation support',    				'ff0000', 		'https://b23.tv/mNNX8R8'],
+		['blockDDDdark',           		'ddd',         	'Musican',	    	'game sound effort support',            						'5123A0',       'https://space.bilibili.com/401733211']
 		],
 		[
 		['Psych Engine Team'],
@@ -69,7 +68,14 @@ class CreditsState extends MusicBeatState
 		]
 	];
 
-	private var UncreditsStuff:Array<String> = [];
+	private var UncreditsStuff:Array<String> = [
+		"Nova Flare Engine Team", 
+		"Psych Engine Team", 
+		#if moblie
+		"moblie port team",
+		#end
+		"Funkin Team"
+	];
 	private var creditsStuff:Array<Array<String>> = [];
 
 	var bg:FlxSprite;
@@ -96,6 +102,8 @@ class CreditsState extends MusicBeatState
 		DiscordClient.changePresence("In the Menus", null);
 		#end
 
+		Mods.loadTopMod();
+
 		persistentUpdate = true;
 		bg = new FlxSprite().loadGraphic(Paths.image('menuDesat'));
 		bg.antialiasing = ClientPrefs.data.antialiasing;
@@ -106,10 +114,6 @@ class CreditsState extends MusicBeatState
 		back.y = FlxG.height - 75;
 		add(back);
 
-		for (psych in UnUcreditsStuff) {
-			UncreditsStuff.push(psych);
-		}
-
 		#if MODS_ALLOWED
 		for (mod in Mods.parseList().enabled) {
 			UncreditsStuff.push(mod);
@@ -118,24 +122,16 @@ class CreditsState extends MusicBeatState
 	
 		for (i in 0...UncreditsStuff.length)
 		{
-			modList = new ModsButtonRect(0, i * 120 + 100, 600, 90, 25, 25, UncreditsStuff[i], 0, FlxColor.BLACK);
-			//modList.list = pushModCreditsToList(UncreditsStuff[i]);
+			if (i <= #if moblie 3 #else 2 #end) modList = new ModsButtonRect(0, i * 120 + 20, 600, 90, 25, 25, nameSave[i], true, 0, FlxColor.BLACK);
+			else modList = new ModsButtonRect(0, i * 120 + 20, 600, 90, 25, 25, UncreditsStuff[i], 0, FlxColor.BLACK);
 			modList.screenCenter(X);
 			add(modList);
 			ModListArray.push(modList);
 		}
 
-		addVirtualPad(UP_DOWN, A_B_C);
-
 		super.create();
 
-		curSelectedFloat = curSelected;
-		changeSelection(0);
-
-		//camSong.scroll.x = FlxMath.lerp(-(curSelected) * 20 * 0.75, camSong.scroll.x, 0);
-		//camSong.scroll.y = FlxMath.lerp((curSelected) * 75 * 0.75, camSong.scroll.y, 0);
-
-		songsRectPosUpdate(false);
+		songsRectPosUpdate(true);
 	}
 
 	var quitting:Bool = false;
@@ -147,51 +143,8 @@ class CreditsState extends MusicBeatState
 		{
 			FlxG.sound.music.volume += 0.5 * FlxG.elapsed;
 		}
-
-		if(!quitting)
-		{
-			if(creditsStuff.length > 1)
-			{
-				var shiftMult:Int = 1;
-				if(FlxG.keys.pressed.SHIFT || virtualPad.buttonC.pressed) shiftMult = 3;
-
-				var upP = controls.UI_UP_P;
-				var downP = controls.UI_DOWN_P;
-
-				if (upP)
-				{
-					changeSelection(-1);
-					curSelectedFloat = curSelected;
-				}
-				if (downP)
-				{
-					changeSelection(1);
-					curSelectedFloat = curSelected;
-				}
-
-				//camSong.scroll.x = FlxMath.lerp(-(curSelectedFloat) * 20 * 0.75, camSong.scroll.x, FlxMath.bound(1 - (elapsed * 9), 0, 1));
-				//camSong.scroll.y = FlxMath.lerp((curSelectedFloat) * 75 * 0.75, camSong.scroll.y, FlxMath.bound(1 - (elapsed * 9), 0, 1));
-
-				if(controls.UI_DOWN || controls.UI_UP)
-				{
-
-				}
-			}
-
-			if(controls.ACCEPT) {
-				//CoolUtil.browserLoad(creditsStuff[curSelected][3]);
-			}
-			if (controls.BACK)
-			{
-				if(colorTween != null) {
-					colorTween.cancel();
-				}
-				FlxG.sound.play(Paths.sound('cancelMenu'));
-				MusicBeatState.switchState(new MainMenuState());
-				quitting = true;
-			}
-		}
 		
+		mouseMove();
 		position += FlxG.mouse.wheel * 70;
 		if (FlxG.mouse.pressed) 
 		{
@@ -206,10 +159,11 @@ class CreditsState extends MusicBeatState
 				if (FlxG.mouse.justReleased)
 				{
 					position += avgSpeed * (0.0166 / elapsed) * Math.pow(1.1, Math.abs(avgSpeed * 0.8));
-					if (Math.abs(avgSpeed * (0.0166 / elapsed)) < 3) {
+					if (Math.abs(avgSpeed * (0.0166 / elapsed)) < 1) {
 						creditsStuff = [];
 
-						if (UncreditsStuff[i] == UnUcreditsStuff[i]) {
+						if (i <= #if moblie 3 #else 2 #end) {
+							noscreen = false;
 							for (eg in NucreditsStuff[i]) {
 								if (eg[5] != null) {
 									psych = false;
@@ -222,12 +176,9 @@ class CreditsState extends MusicBeatState
 									creditsStuff.push(eg);
 								}
 							}
-						}
-						else {
+						} else {
 							pushModCreditsToList(UncreditsStuff[i]);
 						}
-
-						trace(creditsStuff);
 
 						if (!noscreen) 
 						{
@@ -235,6 +186,7 @@ class CreditsState extends MusicBeatState
 								if (creditsStuff != null) {
 									CreditsSubState.creditsStuff = creditsStuff;
 									persistentUpdate = false;
+									Mods.currentModDirectory = UncreditsStuff[i];
 									openSubState(new CreditsSubState());
 									trace("false");
 								}
@@ -243,6 +195,7 @@ class CreditsState extends MusicBeatState
 								if (creditsStuff != null) {
 									PsychCreditsSubState.creditsStuff = creditsStuff;
 									persistentUpdate = false;
+									Mods.currentModDirectory = UncreditsStuff[i];
 									openSubState(new PsychCreditsSubState());
 									trace("true");
 								}
@@ -256,8 +209,8 @@ class CreditsState extends MusicBeatState
 			}
 		}
 
-		if (position > 360 - 45) position = FlxMath.lerp(360 - 45, position, Math.exp(-elapsed * 15));
-		if (position < 360 - 45 - 100 * (ModListArray.length - 1)) position = FlxMath.lerp(360 - 45 - 100 * (ModListArray.length - 1), position, Math.exp(-elapsed * 15));
+		if (position > 20) position = FlxMath.lerp(20, position, Math.exp(-elapsed * 15));
+		if (position < FlxG.height - 120 * UncreditsStuff.length) position = FlxMath.lerp(FlxG.height - 120 * UncreditsStuff.length, position, Math.exp(-elapsed * 15));
 
 		if (Math.abs(lerpPosition - position) < 1) lerpPosition = position;
 		else lerpPosition = FlxMath.lerp(position, lerpPosition, Math.exp(-elapsed * 15));
@@ -283,18 +236,6 @@ class CreditsState extends MusicBeatState
 		for (i in 0...ModListArray.length){
 			ModListArray[i].y = lerpPosition + i * 120;
 		}
-	}
-
-	var moveTween:FlxTween = null;
-	function changeSelection(change:Int = 0)
-	{
-		FlxG.sound.play(Paths.sound('scrollMenu'), 0.4);
-		curSelected += change;
-		if (curSelected < 0)
-			curSelected = creditsStuff.length - 1;
-		if (curSelected >= creditsStuff.length)
-			curSelected = 0;
-
 	}
 
 	var pressCheck:Bool = false;
@@ -329,7 +270,6 @@ class CreditsState extends MusicBeatState
 					creditsStuff.push(arrr);
 					psych = true;
 				}
-				trace(arr.length);
 			}
 			creditsStuff.push(['']);
 			noscreen = false;

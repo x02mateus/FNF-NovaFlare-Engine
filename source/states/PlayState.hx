@@ -1452,20 +1452,8 @@ class PlayState extends MusicBeatState
             		var daNoteData:Int = Std.int(songNotes[1] % 4);
             		var gottaHitNote:Bool = section.mustHitSection;
             		
-            		if (ClientPrefs.data.filpChart) {
-            		    if (daNoteData == 0) {
-            		        daNoteData = 3;
-            		    }    
-            		    else if (daNoteData == 1) {
-            		        daNoteData = 2;
-            		    }    
-            		    else if (daNoteData == 2) {
-            		        daNoteData = 1;
-            		    }   
-            		    else if (daNoteData == 3) {
-            		        daNoteData = 0;
-            		    } 
-            		}
+            		if (ClientPrefs.data.flipChart) 
+						daNoteData -= Std.int((daNoteData - 1.5) * 2);
             
             		if (songNotes[1] > 3)
             		{
@@ -1565,6 +1553,10 @@ class PlayState extends MusicBeatState
 		    for (event in 0...extraEvents.length)
     			for (data in 0...extraEvents[event][1].length)
     				makeEvent(extraEvents[event], data);
+
+		if (ClientPrefs.data.loadingScreen)
+			for (num in 0...unspawnNotes.length)
+				unspawnNotes[num].updateHitbox();
     				
 		generatedMusic = true;
 	}

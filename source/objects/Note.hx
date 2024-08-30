@@ -566,7 +566,7 @@ class Note extends FlxSprite
 		if (number == 0){
 			earlyHitMult = 0;
 			lateHitMult = 1;	   //写1而不是0.5是用于修复长条先miss问题
-		}else if (number == maxNumber){
+		}else if (number == maxNumber - 1){
 			earlyHitMult = 0.5;
 			lateHitMult = 0;	  		
 			noAnimation = true; //better anim play

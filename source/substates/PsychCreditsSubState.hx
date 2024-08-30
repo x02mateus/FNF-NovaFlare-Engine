@@ -49,11 +49,6 @@ class PsychCreditsSubState extends MusicBeatSubstate
 			grpOptions.add(optionText);
 
 			if(isSelectable) {
-				if(creditsStuff[i][5] != null)
-				{
-					Mods.currentModDirectory = creditsStuff[i][5];
-				}
-
 				var str:String = 'credits/missing_icon';
 				if(creditsStuff[i][1] != null && creditsStuff[i][1].length > 0)
 				{
@@ -70,7 +65,6 @@ class PsychCreditsSubState extends MusicBeatSubstate
 				// using a FlxGroup is too much fuss!
 				iconArray.push(icon);
 				add(icon);
-				Mods.currentModDirectory = '';
 
 				if(curSelected == -1) curSelected = i;
 			}
@@ -96,7 +90,12 @@ class PsychCreditsSubState extends MusicBeatSubstate
 		intendedColor = bg.color;
 		changeSelection();
 
+		var back = new BackButton(0,0, 250, 75, 'back', 0x53b7ff, function() close());
+		back.y = FlxG.height - 75;
+		add(back);
+
 		addVirtualPad(UP_DOWN, A_B_C);
+		virtualPad.y -= 75;
 
 		super.create();
 	}
@@ -108,6 +107,11 @@ class PsychCreditsSubState extends MusicBeatSubstate
 		if (FlxG.sound.music.volume < 0.7)
 		{
 			FlxG.sound.music.volume += 0.5 * FlxG.elapsed;
+		}
+
+		if (FlxG.mouse.wheel != 0)
+		{
+			changeSelection(-FlxG.mouse.wheel);
 		}
 
 		if(!quitting)
@@ -144,12 +148,11 @@ class PsychCreditsSubState extends MusicBeatSubstate
 				}
 			}
 
-			if(controls.ACCEPT && (creditsStuff[curSelected][3] == null || creditsStuff[curSelected][3].length > 4)) {
+			if ((controls.ACCEPT && (creditsStuff[curSelected][3] != null || creditsStuff[curSelected][3].length > 4)) || (FlxG.mouse.justPressed && FlxG.mouse.overlaps(iconArray[curSelected]))) {
 				CoolUtil.browserLoad(creditsStuff[curSelected][3]);
 			}
 			if (controls.BACK)
 			{
-				//FlxG.sound.play(Paths.sound('cancelMenu'));
 				close();
 			}
 		}

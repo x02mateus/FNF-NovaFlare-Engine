@@ -238,7 +238,13 @@ class MusicLine extends FlxSpriteGroup
 
     var timeDis:FlxText;
     var timeMaxDis:FlxText;
-    var playRate:FlxText;
+    public var playRate:FlxText;
+
+    var timeAddRect:MusicRect;
+    var timeReduceRect:MusicRect;
+
+    var rateAddRect:MusicRect;
+    var rateReduceRect:MusicRect;
 
 	public function new(X:Float, Y:Float, width:Float = 0)
     {
@@ -258,36 +264,114 @@ class MusicLine extends FlxSpriteGroup
         timeDis.antialiasing = ClientPrefs.data.antialiasing;
         add(timeDis);
 
+        timeAddRect = new MusicRect(410, 23, '+1S');
+        add(timeAddRect);
+        timeReduceRect = new MusicRect(70, 23, '-1S');
+        add(timeReduceRect);
+
+        rateAddRect = new MusicRect(320, 23, '+5%');
+        add(rateAddRect);
+        rateReduceRect = new MusicRect(160, 23, '-5%');
+        add(rateReduceRect);
+
         timeMaxDis = new FlxText(0, 20, 0, '0', 18);
 		timeMaxDis.font = Paths.font('montserrat.ttf');	  
         timeMaxDis.alignment = RIGHT;  	
         timeMaxDis.antialiasing = ClientPrefs.data.antialiasing;	
         add(timeMaxDis);
 
-        playRate = new FlxText(0, 20, 0, '1.00', 18);
+        playRate = new FlxText(0, 20, 0, '1', 18);
 		playRate.font = Paths.font('montserrat.ttf');	
         timeDis.alignment = CENTER;    		
         playRate.antialiasing = ClientPrefs.data.antialiasing;
         add(playRate);
         playRate.x += width / 2 - playRate.width / 2;
 
-        updateData();
+        new FlxTimer().start(0.2, function(tmr:FlxTimer){
+			timeMaxDis.text = Std.string(FlxStringUtil.formatTime(FlxMath.roundDecimal(FlxG.sound.music.length / 1000, 2)));
+            timeMaxDis.x = X + width - timeMaxDis.width;
+
+            timeDis.text = Std.string(FlxStringUtil.formatTime(FlxMath.roundDecimal(FlxG.sound.music.time / 1000, 2)));
+
+            playRate.text = Std.string(FlxG.sound.music.pitch);
+            playRate.x = X + width / 2 - playRate.width / 2;
+		}, 0);
 	}
 
-    public function updateData() {
-        playRate.text = '1.00';
-
-        timeDis.text = '0:00';
-    }
-
+    var holdTime:Float = 0;
     override function update(e:Float) {
-        timeMaxDis.text = Std.string(FlxStringUtil.formatTime(FlxMath.roundDecimal(FlxG.sound.music.length / 1000, 2)));
-        timeMaxDis.x = width - timeMaxDis.width;
-
-        timeDis.text = Std.string(FlxStringUtil.formatTime(FlxMath.roundDecimal(FlxG.sound.music.time / 1000, 2)));
+        super.update(e);
 
         whiteLine.scale.x = FlxG.sound.music.time / FlxG.sound.music.length * blackLine.width;
         whiteLine.x = blackLine.x + whiteLine.scale.x / 2;
+
+        if (this.visible == false) return; //奇葩bug
+
+        if (FlxG.mouse.justReleased) holdTime = 0;
+
+        if (FlxG.mouse.overlaps(timeAddRect) || FlxG.mouse.overlaps(timeReduceRect) || FlxG.mouse.overlaps(rateAddRect) || FlxG.mouse.overlaps(rateReduceRect)) {
+            if (FlxG.mouse.justPressed) {
+                if (FlxG.mouse.overlaps(timeAddRect)) FreeplayState.instance.updateMusicTime(1);
+                else if (FlxG.mouse.overlaps(timeReduceRect)) FreeplayState.instance.updateMusicTime(-1);
+                else if (FlxG.mouse.overlaps(rateAddRect)) FreeplayState.instance.updateMusicRate(1);
+                else if (FlxG.mouse.overlaps(rateReduceRect)) FreeplayState.instance.updateMusicRate(-1);
+            }
+
+            if (FlxG.mouse.pressed){
+                holdTime += e;
+            }
+
+            if (holdTime > 0.5) {
+                holdTime -= 0.05;
+                if (FlxG.mouse.overlaps(timeAddRect)) FreeplayState.instance.updateMusicTime(1);
+                else if (FlxG.mouse.overlaps(timeReduceRect)) FreeplayState.instance.updateMusicTime(-1);
+                else if (FlxG.mouse.overlaps(rateAddRect)) FreeplayState.instance.updateMusicRate(1);
+                else if (FlxG.mouse.overlaps(rateReduceRect)) FreeplayState.instance.updateMusicRate(-1);
+            }
+        }
+    }
+}
+
+
+class MusicRect extends FlxSpriteGroup
+{
+    var bg:Rect;
+    var display:FlxText;
+
+	public function new(X:Float, Y:Float, text:String)
+    {
+        super(X, Y);
+
+		bg = new Rect(0, 0, 60, 20, 20, 20, FlxColor.WHITE, 0.3);
+        add(bg);
+
+        display = new FlxText(0, 0, 0, text, 15);
+		display.font = Paths.font('montserrat.ttf');		    		
+        display.antialiasing = ClientPrefs.data.antialiasing;
+        add(display);
+        display.x += bg.width / 2 - display.width / 2;
+        display.y += bg.height / 2 - display.height / 2;
+	}
+
+    var fouced:Bool = false;
+    override function update(elapsed:Float) {
+        super.update(elapsed);
+        if (FlxG.mouse.overlaps(bg))
+        {
+            if (!fouced)
+            {
+                fouced = true;
+                bg.alpha = 1;
+                display.color = 0x000000;
+            }          
+        } else {
+            if (fouced)
+            {
+                fouced = false;
+                bg.alpha = 0.3;
+                display.color = 0xffffff;
+            }    
+        }
     }
 }
 
@@ -978,7 +1062,6 @@ class PlayRect extends FlxSpriteGroup //back button
     }
 }
 
-
 class SearchButton extends FlxSpriteGroup
 {
     var bg:Rect;
@@ -1007,7 +1090,7 @@ class SearchButton extends FlxSpriteGroup
         }
         add(search);
         
-        tapText = new FlxText(5, 5, 0, 'Tap here to search.', 30);
+        tapText = new FlxText(5, 5, 0, 'Tap here to search', 30);
 		tapText.font = Paths.font('montserrat.ttf'); 	
         tapText.antialiasing = ClientPrefs.data.antialiasing;	
         tapText.alpha = 0.6;
@@ -1025,5 +1108,92 @@ class SearchButton extends FlxSpriteGroup
         search.ignoreCheck = FreeplayState.instance.ignoreCheck;
         if (FreeplayState.instance.ignoreCheck) return;
     }
+}
 
+class OrderRect extends FlxSpriteGroup {
+    var touchFix:Rect;
+    var bg:FlxSprite;
+    var display:Rect;
+
+    var follow:Bool;
+
+    public function new(X:Float, Y:Float, width:Float, height:Float, point:Bool)
+    {
+        super(X, Y);
+
+        this.follow = point;
+
+        bg = new FlxSprite();
+        bg.pixels = drawRect(50, 20);
+        bg.antialiasing = ClientPrefs.data.antialiasing;
+        bg.x += width - bg.width - 15;
+        bg.y += height / 2 - bg.height / 2;
+        add(bg);
+
+        display = new Rect(width - bg.width - 15 - 15, height / 2 - bg.height / 2, 80, 20, 20, 20);
+        display.color = 0xFF52F9;
+        resetUpdate();
+        add(display);
+
+        var text = new FlxText(0, 0, 0, 'Search results are sorted alphabetically from a to z', 18);
+		text.font = Paths.font('montserrat.ttf'); 	
+        text.antialiasing = ClientPrefs.data.antialiasing;	
+        add(text);
+
+        text.y += height / 2 - text.height / 2;
+    }
+
+    function drawRect(width:Float, height:Float):BitmapData {
+        var shape:Shape = new Shape();
+
+        shape.graphics.beginFill(0xFF52F9); 
+        shape.graphics.drawRoundRect(0, 0, width, height, height, height);
+        shape.graphics.endFill();
+
+        var line:Int = 2;
+
+        shape.graphics.beginFill(0x24232C); 
+        shape.graphics.drawRoundRect(line, line, width - line * 2, height - line * 2, height - line * 2, height - line * 2);
+        shape.graphics.endFill();
+
+        var bitmap:BitmapData = new BitmapData(Std.int(width), Std.int(height), true, 0);
+        bitmap.draw(shape);
+        return bitmap;
+    }
+
+    public var onFocus:Bool = false;
+    override function update(elapsed:Float)
+    {
+        super.update(elapsed);
+
+        onFocus = FlxG.mouse.overlaps(display);
+
+        if(onFocus && FlxG.mouse.justReleased)
+            onClick();
+    }
+
+    var tween:FlxTween;
+    var state:Bool = false;
+    function onClick() {
+        if (tween != null) tween.cancel();
+        if (!state)
+        {
+            tween = FlxTween.tween(display, {alpha: 1}, 0.1);
+        } else {
+            tween = FlxTween.tween(display, {alpha: 0}, 0.1);
+        }
+        state = !state;
+        FreeplayState.instance.useSort = state;
+    }
+
+    public function resetUpdate() {
+        if (follow == true) 
+        {
+            display.alpha = 1;
+            state = true;
+        } else {
+            display.alpha = 0;
+            state = false;
+        }
+    }
 }

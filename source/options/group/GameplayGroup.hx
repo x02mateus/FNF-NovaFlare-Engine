@@ -27,8 +27,8 @@ class GameplayGroup
         follow.addOption(option);
 
         var option:Option = new Option(
-            'Filp chart for playing',
-            'filpChart',
+            'Flip chart for playing',
+            'flipChart',
             BOOL
         );
         follow.addOption(option);

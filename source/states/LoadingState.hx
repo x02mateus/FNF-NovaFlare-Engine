@@ -676,20 +676,8 @@ class LoadingState extends MusicBeatState
             		var daNoteData:Int = Std.int(songNotes[1] % 4);
             		var gottaHitNote:Bool = section.mustHitSection;
             		
-            		if (ClientPrefs.data.filpChart) {
-            		    if (daNoteData == 0) {
-            		        daNoteData = 3;
-            		    }    
-            		    else if (daNoteData == 1) {
-            		        daNoteData = 2;
-            		    }    
-            		    else if (daNoteData == 2) {
-            		        daNoteData = 1;
-            		    }   
-            		    else if (daNoteData == 3) {
-            		        daNoteData = 0;
-            		    } 
-            		}
+            		if (ClientPrefs.data.flipChart) 
+						daNoteData -= Std.int((daNoteData - 1.5) * 2);
             
             		if (songNotes[1] > 3)
             		{

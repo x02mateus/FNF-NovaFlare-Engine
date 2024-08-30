@@ -65,8 +65,11 @@ class AudioDisplay extends FlxSpriteGroup
     public function changeAnalyzer(snd:FlxSound) 
     {
       @:privateAccess
-      analyzer.changeSnd(snd._channel.__audioSource);
+      var audioSource = snd._channel.__audioSource;
+      if (Std.isOfType(audioSource, lime.media.AudioSource)) {
+        analyzer.changeSnd(audioSource);
 
-      stopUpdate = false;
+        stopUpdate = false;
+      }
     }
 }
