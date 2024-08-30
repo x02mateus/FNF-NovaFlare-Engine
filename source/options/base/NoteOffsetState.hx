@@ -436,7 +436,7 @@ class NoteOffsetState extends MusicBeatState
 			}
 		}
 
-		if((!controls.controllerMode && FlxG.keys.justPressed.ENTER) ||
+		if((!controls.controllerMode && (FlxG.keys.justPressed.ENTER || virtualPad.buttonC.justPressed) ||
 		(controls.controllerMode && FlxG.gamepads.anyJustPressed(START)))
 		{
 			onComboMenu = !onComboMenu;
