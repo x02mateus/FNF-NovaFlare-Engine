@@ -29,7 +29,7 @@
         <define name="CUSTOM_SHADERS_ALLOWED" if="LUA_ALLOWED"/>
 
 	<section if="officialBuild">
-		<define name="TITLE_SCREEN_EASTER_EGG"/>
+		<!--define name="TITLE_SCREEN_EASTER_EGG"/-->
 	</section>
 
 	<!-- ____________________________ Window Settings ___________________________ -->
