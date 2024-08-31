@@ -224,7 +224,9 @@ class MainMenuState extends MusicBeatState
 		
 		#if !mobile
 		FlxG.mouse.visible = true;
-		#end
+	    #else
+	    FlxG.mouse.visible = false;
+	    #end
         
 		addVirtualPad(MainMenuStateC, A_B_E);
 		virtualPad.cameras = [camHUD];
