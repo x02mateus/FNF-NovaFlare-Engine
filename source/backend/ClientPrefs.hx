@@ -22,7 +22,7 @@ import states.TitleState;
 	//Gameplay
 	public var downScroll:Bool = false;
 	public var middleScroll:Bool = false;
-	public var flipChart:Bool = false;
+	public var filpChart:Bool = false;
 	public var ghostTapping:Bool = true;
 	public var guitarHeroSustains:Bool = true;
 	public var noReset:Bool = false;
