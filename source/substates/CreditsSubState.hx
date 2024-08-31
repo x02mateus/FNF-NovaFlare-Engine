@@ -397,7 +397,7 @@ class CreditsSubState extends MusicBeatSubstate
 		}
 
 		if (position > 360 - 330) position = FlxMath.lerp(360 - 330, position, Math.exp(-elapsed * 15));
-		if (position < 360 - 77 - 87 * (iconBGArray.length - 1)) position = FlxMath.lerp(360 - 77 - 87 * (iconBGArray.length - 1), position, Math.exp(-elapsed * 15));
+		if (position < 360 - 120 * (iconBGArray.length - 1)) position = FlxMath.lerp(360 - 120 * (iconBGArray.length - 1), position, Math.exp(-elapsed * 15));
 
 		if (Math.abs(lerpPosition - position) < 1) lerpPosition = position;
 		else lerpPosition = FlxMath.lerp(position, lerpPosition, Math.exp(-elapsed * 15));

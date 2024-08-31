@@ -27,9 +27,10 @@ class CreditsState extends MusicBeatState
 		['Chiny',				'chiny',				'Programmer',				'Credit state logic creator\n\n\nTouhou player',									'3399FF',		'https://space.bilibili.com/3493288327777064'],
 		['MaoPou',				'maopou',				'Programmer',				'Code help',													'8B8682',		'https://space.bilibili.com/1548393523?spm_id_from=333.1007.0.0',	'https://github.com/MaoPou'],
 		['TieGuo',				'tieguo',				'Ex-Programmer',			'Pause Menu creator\n\n\nI like coding shit',									'FF6600',		'https://b23.tv/7OVWzAO'],
-		['Careful_Scarf_487',   'Careful_Scarf_487', 	'Main Artist',				'Main Artist of engine', 										'990000', 		'https://b23.tv/DQ1a0jO'],
+		['Careful_Scarf_487',   'Careful_Scarf_487', 	'Main Artist',				"Main Artist of engine\n\n\nI'm probably the least present in the whole production crew.", 										'990000', 		'https://b23.tv/DQ1a0jO'],
 		['MengQi',       		'mengqi',       		'Artist',					'Puase menu artist',                       					'9b5a67',       'https://space.bilibili.com/2130239542'],
-		['Ben Eyre',			'beneyre', 				'Artist',					'\n\n\nHello',										'FFCDA4',				'https://b23.tv/cB2uujD', 			'https://x.com/hngstngxng83905?t=GDKWYMRZsCMUMXYs0cmYrw&s=09'], 
+		['AZjessica',       	'AZjessica',       		'Artist',					"Freeplay state artist\n\n\nI love animation. I'm an idiot",                       					'DE444B',       'https://b23.tv/GyqgrAO', 								"https://x.com/Jessica33049821?t=rOb0ZqOMQewaJAFlO4FR6g&s=09", 					'https://youtube.com/@azjessica?si=aRKuPdMHR1LLBxH1'],
+		['Ben Eyre',			'beneyre', 				'Artist',					'Credit state artist\n\n\nHello',										'FFCDA4',				'https://b23.tv/cB2uujD', 			'https://x.com/hngstngxng83905?t=GDKWYMRZsCMUMXYs0cmYrw&s=09'], 
 		['als',           		'als',       			'Animation',	    		'Open screen animation support',    				'ff0000', 		'https://b23.tv/mNNX8R8'],
 		['blockDDDdark',        'ddd',         	        'Musican',	    			"Engine sound effort support\n\nComposer,Painter,Meme subculture lover\nI'm not very professional about creating things, I basically treat them as hobbies",            						'5123A0',       'https://space.bilibili.com/401733211']
 		],
