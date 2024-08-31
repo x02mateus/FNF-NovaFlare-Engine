@@ -508,7 +508,7 @@ class ResultRect extends FlxSpriteGroup
     		    if (Math.abs(msGroup[i]) > safeZoneOffset) data = safeZoneOffset; 	
     		    
     		    shape.graphics.beginFill(color);     		    
-                shape.graphics.drawCircle(_width * (timeGroup[i] / timeGroup[timeGroup.length - 1]), _height / 2 + _height / 2 * (data / safeZoneOffset), 0.7);
+                shape.graphics.drawCircle(_width * (timeGroup[i] / timeGroup[timeGroup.length - 1]), _height / 2 + _height / 2 * (data / safeZoneOffset), 1.8);
                 shape.graphics.endFill();	
             }
         }
