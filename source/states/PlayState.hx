@@ -2782,7 +2782,7 @@ class PlayState extends MusicBeatState
 			#if !switch
 			var percent:Float = ratingPercent;
 			if(Math.isNaN(percent)) percent = 0;
-			if (!ClientPrefs.data.playOpponent)Highscore.saveScore(SONG.song, songScore, storyDifficulty, percent);
+			if (!ClientPrefs.data.playOpponent)Highscore.saveScore(SONG.song, songScore, storyDifficulty, percent, NoteMs, NoteTime);
 			#end
 			playbackRate = 1;
 
@@ -3033,7 +3033,7 @@ class PlayState extends MusicBeatState
 		if(daRating.noteSplash && !note.noteSplashData.disabled)
 			spawnNoteSplashOnNote(note);
 
-		if(!practiceMode && ClientPrefs.data.playOpponent ? !cpuControlled_opponent : !cpuControlled) {
+		if(ClientPrefs.data.playOpponent ? !cpuControlled_opponent : !cpuControlled) {
 			songScore += score;
 			if(!note.ratingDisabled)
 			{
@@ -3471,7 +3471,7 @@ class PlayState extends MusicBeatState
 		}
 
 		health -= subtract * healthLoss;
-		if(!practiceMode) songScore -= 10;
+		songScore -= 10;
 		if(!endingSong) songMisses++;
 		totalPlayed++;
 		RecalculateRating(true);
