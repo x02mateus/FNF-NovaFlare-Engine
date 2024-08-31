@@ -537,7 +537,7 @@ class ResultRect extends FlxSpriteGroup
         shape.graphics.drawRect(0, _height / 2 + (ClientPrefs.data.badWindow / safeZoneOffset) * _height / 2 - 1, _width, 2);
         shape.graphics.endFill();
         
-        var bitmap:BitmapData = new BitmapData(Std.int(width), Std.int(height), true, 0);
+        var bitmap:BitmapData = new BitmapData(Std.int(_width), Std.int(_height), true, 0);
         bitmap.draw(shape);
         
         background.pixels = bitmap;
