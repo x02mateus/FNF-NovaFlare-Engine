@@ -152,7 +152,7 @@ class Highscore
 		return songTimes.get(daSong);
 	}
 	
-	public static function getMsGroup(song:String, group:Array<Float>):Void
+	public static function getMsGroup(song:String, diff:Int):Array<Float>
 	{
 		var daSong:String = formatSong(song, diff);
 		if (!songNoteMs.exists(daSong)){
@@ -161,7 +161,7 @@ class Highscore
 		return songNoteMs.get(daSong);				
 	}
 	
-	public static function getTimeGroup(song:String, group:Array<Float>):Void
+	public static function getTimeGroup(song:String, diff:Int):Array<Float>
 	{
 		var daSong:String = formatSong(song, diff);
 		if (!songNoteTime.exists(daSong)){
