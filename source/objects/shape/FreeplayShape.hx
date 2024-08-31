@@ -478,18 +478,19 @@ class ResultRect extends FlxSpriteGroup
     var _width:Float;
     var _height:Float;
     
-    public function new((X:Float, Y:Float, width:Float = 0, height:Float = 0)
+    public function new(X:Float, Y:Float, width:Float = 0, height:Float = 0)
     {
         super();
         background = new FlxSprite();
         background.alpha = 0;
         add(background);
+        background.updateRect();
         
         this._width = width;
         this._height = height;
     }
     
-    public function updateRect(msGroup:Array<Float>, timeGroup:Array<Float>)
+    public function updateRect(msGroup:Array<Float> = [], timeGroup:Array<Float> = [])
     {
         var shape:Shape = new Shape();
         
