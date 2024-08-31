@@ -55,7 +55,7 @@ class KeyboardDisplay extends FlxSpriteGroup
             obj.setFormat(Assets.getFont("assets/fonts/montserrat.ttf").fontName, 20, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, 0x00);
             obj.x -= obj.width / 2;
             obj.y -= obj.height / 2;
-            obj.color = OptionsHelpers.colorArray[ClientPrefs.data.keyboardTextColor];
+            obj.color = OptionsHelpers.colorArray(ClientPrefs.data.keyboardTextColor);
             obj.alpha = ClientPrefs.data.keyboardAlpha;
             add(obj); 
         }
@@ -71,7 +71,7 @@ class KeyboardDisplay extends FlxSpriteGroup
             obj.setFormat(Assets.getFont("assets/fonts/montserrat.ttf").fontName, 25, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, 0x00);
             obj.x -= obj.width / 2;
             obj.y -= obj.height / 2;
-            obj.color = OptionsHelpers.colorArray[ClientPrefs.data.keyboardTextColor];
+            obj.color = OptionsHelpers.colorArray(ClientPrefs.data.keyboardTextColor);
             obj.alpha = ClientPrefs.data.keyboardAlpha;
             obj.antialiasing = ClientPrefs.data.antialiasing;
             add(obj); 
@@ -80,7 +80,7 @@ class KeyboardDisplay extends FlxSpriteGroup
         kpsText.setFormat(Assets.getFont("assets/fonts/montserrat.ttf").fontName, 15, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, 0x00);
         kpsText.x -= kpsText.width / 2;
         kpsText.y -= kpsText.height / 2;
-        kpsText.color = OptionsHelpers.colorArray[ClientPrefs.data.keyboardTextColor];
+        kpsText.color = OptionsHelpers.colorArray(ClientPrefs.data.keyboardTextColor);
         kpsText.alpha = ClientPrefs.data.keyboardAlpha;
 
         if (FlxG.save.data.keyboardtotal != null) total = FlxG.save.data.keyboardtotal;
@@ -88,7 +88,7 @@ class KeyboardDisplay extends FlxSpriteGroup
         totalText.setFormat(Assets.getFont("assets/fonts/montserrat.ttf").fontName, 15, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, 0x00);
         totalText.x -= totalText.width / 2;
         totalText.y -= totalText.height / 2;
-        totalText.color = OptionsHelpers.colorArray[ClientPrefs.data.keyboardTextColor];
+        totalText.color = OptionsHelpers.colorArray(ClientPrefs.data.keyboardTextColor);
         totalText.alpha = ClientPrefs.data.keyboardAlpha;
         add(kpsText); 
         add(totalText); 
@@ -131,7 +131,7 @@ class KeyboardDisplay extends FlxSpriteGroup
     public function released(key:Int)
     {
         members[4 + key].alpha = 0;
-        members[8 + key].color = OptionsHelpers.colorArray[ClientPrefs.data.keyboardTextColor];
+        members[8 + key].color = OptionsHelpers.colorArray(ClientPrefs.data.keyboardTextColor);
 
         switch(key)
         {
@@ -226,7 +226,7 @@ class KeyButton extends FlxSprite
 
         loadGraphic(BitmapData);
         antialiasing = ClientPrefs.data.antialiasing;
-        color = OptionsHelpers.colorArray[ClientPrefs.data.keyboardBGColor];
+        color = OptionsHelpers.colorArray(ClientPrefs.data.keyboardBGColor);
     }
 }
 
@@ -266,7 +266,7 @@ class TimeDis extends FlxSprite
         this.startTime = Time;
 		loadGraphic(KeyboardDisplay.saveBitmap.bitmapData);
         _frame.frame.height = 1;
-        color = OptionsHelpers.colorArray[ClientPrefs.data.keyboardBGColor];
+        color = OptionsHelpers.colorArray(ClientPrefs.data.keyboardBGColor);
         alpha = ClientPrefs.data.keyboardAlpha;
     }
 
