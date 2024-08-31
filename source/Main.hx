@@ -115,6 +115,9 @@ class Main extends Sprite
 			game.height = Math.ceil(stageHeight / game.zoom);
 		}
 		
+		#if LUA_ALLOWED llua.Lua.set_callbacks_function(cpp.Callable.fromStaticFunction(psychlua.CallbackHandler.call)); #end
+		Controls.instance = new Controls();
+		ClientPrefs.loadDefaultKeys();
 		
         #if mobile
             #if EXTERNAL
@@ -125,11 +128,7 @@ class Main extends Sprite
     		    FileSystem.createDirectory(Environment.getExternalStorageDirectory() + '/Android/media/' + Application.current.meta.get('packageName'));
     		#end       		    		
     		Sys.setCwd(SUtil.getStorageDirectory());
-		#end
-	
-		#if LUA_ALLOWED llua.Lua.set_callbacks_function(cpp.Callable.fromStaticFunction(psychlua.CallbackHandler.call)); #end
-		Controls.instance = new Controls();
-		ClientPrefs.loadDefaultKeys();
+		#end			
 
 		#if ACHIEVEMENTS_ALLOWED Achievements.load(); #end
 
