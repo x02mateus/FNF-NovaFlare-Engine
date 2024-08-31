@@ -32,7 +32,7 @@ class SUtil
 			case EXTERNAL_MEDIA:
 				daPath = AndroidEnvironment.getExternalStorageDirectory() + '/Android/media/' + lime.app.Application.current.meta.get('packageName');
 			case EXTERNAL:
-				daPath = AndroidEnvironment.getExternalStorageDirectory() + '/.' + lime.app.Application.current.meta.get('file');
+				daPath = AndroidEnvironment.getExternalStorageDirectory() + '/.' + ClientPrefs.data.fileLoad;
 		}
 		daPath = haxe.io.Path.addTrailingSlash(daPath);
 		#elseif ios
