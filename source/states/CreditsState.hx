@@ -25,7 +25,7 @@ class CreditsState extends MusicBeatState
 		['NovaFlare Engine Team'],
 		['Beihu',				'beihu',				'Main Programmer',			'Head of NovaFlare Engine\n\n\nNothing special',		'FFC0CB',		'https://b23.tv/Etk6gY9',							'https://youtube.com/@beihu235?si=BI2efmEcI8_mZoUp', 					'https://github.com/beihu235'],
 		['Chiny',				'chiny',				'Programmer',				'Credit state logic creator\n\n\nTouhou player',									'3399FF',		'https://space.bilibili.com/3493288327777064'],
-		['MaoPou',				'maopou',				'Programmer',				'Code help',													'8B8682',		'https://space.bilibili.com/1548393523?spm_id_from=333.1007.0.0',	'https://github.com/MaoPou'],
+		['MaoPou',				'maopou',				'Programmer',				"Code help\n\n\nA crumb who likes to write code, but doesn't like to look at code :)",													'8B8682',		'https://space.bilibili.com/1548393523?spm_id_from=333.1007.0.0',	'https://github.com/MaoPou'],
 		['TieGuo',				'tieguo',				'Ex-Programmer',			'Pause Menu creator\n\n\nI like coding shit',									'FF6600',		'https://b23.tv/7OVWzAO'],
 		['Careful_Scarf_487',   'Careful_Scarf_487', 	'Main Artist',				"Main Artist of engine\n\n\nI'm probably the least present in the whole production crew.", 										'990000', 		'https://b23.tv/DQ1a0jO'],
 		['MengQi',       		'mengqi',       		'Artist',					'Puase menu artist\n\n\n"this is description',                       					'9b5a67',       'https://space.bilibili.com/2130239542'],
@@ -212,7 +212,7 @@ class CreditsState extends MusicBeatState
 		}
 
 		if (position > 20) position = FlxMath.lerp(20, position, Math.exp(-elapsed * 15));
-		if (position < FlxG.height - 120 * UncreditsStuff.length) position = FlxMath.lerp(FlxG.height - 120 * UncreditsStuff.length, position, Math.exp(-elapsed * 15));
+		if (position < FlxG.height + 20 - 120 * UncreditsStuff.length) position = FlxMath.lerp(FlxG.height + 20 - 120 * UncreditsStuff.length, position, Math.exp(-elapsed * 15));
 
 		if (Math.abs(lerpPosition - position) < 1) lerpPosition = position;
 		else lerpPosition = FlxMath.lerp(position, lerpPosition, Math.exp(-elapsed * 15));
