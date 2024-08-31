@@ -242,13 +242,14 @@ class FreeplayState extends MusicBeatState
 		accSave.camera = camHS;
 		add(accSave);
 
-		scoreSave = new FlxText(10, 20, 0, '', 15);
+		scoreSave = new FlxText(10 + camHS.width * 0.4, 20, 0, '', 15);
 		scoreSave.font = Paths.font('montserrat.ttf'); 	
         scoreSave.antialiasing = ClientPrefs.data.antialiasing;	
 		scoreSave.camera = camHS;
 		add(scoreSave);
 		
 		result = new ResultRect(10, 40, camHS.width - 20, 100);
+		result.camera = camHS;
 		add(result);
 
 		var bottomBG:FlxSprite = new FlxSprite(0, FlxG.height * 0.9).makeGraphic(FlxG.width, Std.int(FlxG.height * 0.1));
@@ -546,9 +547,9 @@ class FreeplayState extends MusicBeatState
 	}
 
 	public function updateDiff() {
-		timeSave.text = Std.string(Highscore.getTime(songs[curSelected].songName, curDifficulty));
-		accSave.text = Std.string(Highscore.getRating(songs[curSelected].songName, curDifficulty));
-		scoreSave.text = Std.string(Highscore.getScore(songs[curSelected].songName, curDifficulty));
+		timeSave.text = 'Played Time: ' + Std.string(Highscore.getTime(songs[curSelected].songName, curDifficulty));
+		accSave.text = 'Accurate: 'Std.string(Highscore.getRating(songs[curSelected].songName, curDifficulty));
+		scoreSave.text = 'Score: ' + Std.string(Highscore.getScore(songs[curSelected].songName, curDifficulty));
 		
 		var msArray = Highscore.getMsGroup(songs[curSelected].songName, curDifficulty);
 		var timeArray = Highscore.getTimeGroup(songs[curSelected].songName, curDifficulty);
