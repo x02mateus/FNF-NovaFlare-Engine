@@ -6,6 +6,8 @@ class Highscore
 	public static var songScores:Map<String, Int> = new Map<String, Int>();
 	public static var songRating:Map<String, Float> = new Map<String, Float>();
     public static var songTimes:Map<String, String> = new Map<String, String>();
+    public static var songNoteMs:Map<String, Array<Float>> = new Map<String, Array<Float>>();
+    public static var songNoteTime:Map<String, Array<Float>> = new Map<String, Array<Float>>();
     
 	public static function resetSong(song:String, diff:Int = 0):Void
 	{
@@ -13,6 +15,8 @@ class Highscore
 		setScore(daSong, 0);
 		setTime(daSong, 'N/A');
 		setRating(daSong, 0);
+		setMsGroup(daSong, []);
+		setTimeGroup(daSong, []);
 	}
 
 	public static function resetWeek(week:String, diff:Int = 0):Void
@@ -21,7 +25,7 @@ class Highscore
 		setWeekScore(daWeek, 0);
 	}
 
-	public static function saveScore(song:String, score:Int = 0, ?diff:Int = 0, ?rating:Float = -1):Void
+	public static function saveScore(song:String, score:Int = 0, diff:Int = 0, rating:Float = -1, msGroup:Array<Float>, timeGroup:Array<Float>):Void
 	{
 		var daSong:String = formatSong(song, diff);
 
@@ -30,12 +34,16 @@ class Highscore
 				setScore(daSong, score);
 				setTime(daSong, Date.now().toString());
 				if(rating >= 0) setRating(daSong, rating);
+				setMsGroup(daSong, msGroup);
+				setTimeGroup(daSong, timeGroup);
 			}
 		}
 		else {
 			setScore(daSong, score);
 			setTime(daSong, Date.now().toString());
 			if(rating >= 0) setRating(daSong, rating);
+			setMsGroup(daSong, msGroup);
+			setTimeGroup(daSong, timeGroup);
 		}
 	}
 
@@ -86,6 +94,22 @@ class Highscore
 		FlxG.save.data.songTimes = songTimes;
 		FlxG.save.flush();
 	}
+	
+	static function setMsGroup(song:String, group:Array<Float>):Void
+	{
+		// Reminder that I don't need to format this song, it should come formatted!
+		songNoteMs.set(song, group);
+		FlxG.save.data.songNoteMs = songNoteMs;
+		FlxG.save.flush();
+	}
+	
+	static function setTimeGroup(song:String, group:Array<Float>):Void
+	{
+		// Reminder that I don't need to format this song, it should come formatted!
+		songNoteTime.set(song, group);
+		FlxG.save.data.songNoteTime = songNoteTime;
+		FlxG.save.flush();
+	}
 
 	public static function formatSong(song:String, diff:Int):String
 	{
@@ -122,10 +146,28 @@ class Highscore
 	public static function getTime(song:String, diff:Int):String
 	{
 		var daSong:String = formatSong(song, diff);
-		if (!songScores.exists(daSong) || songTimes.get(daSong) == '' || songTimes.get(daSong) == null){
+		if (!songTimes.exists(daSong)){
 			setTime(daSong, 'N/A');			
         }
 		return songTimes.get(daSong);
+	}
+	
+	public static function getMsGroup(song:String, group:Array<Float>):Void
+	{
+		var daSong:String = formatSong(song, diff);
+		if (!songNoteMs.exists(daSong)){
+			setMsGroup(daSong, []);			
+        }
+		return songNoteMs.get(daSong);				
+	}
+	
+	public static function getTimeGroup(song:String, group:Array<Float>):Void
+	{
+		var daSong:String = formatSong(song, diff);
+		if (!songNoteTime.exists(daSong)){
+			setTimeGroup(daSong, []);			
+        }
+		return songNoteTime.get(daSong);				
 	}
 
 	public static function load():Void
