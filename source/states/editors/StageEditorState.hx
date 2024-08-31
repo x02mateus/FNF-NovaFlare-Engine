@@ -1318,7 +1318,7 @@ class StageEditorState extends MusicBeatState implements PsychUIEventHandler.Psy
 		{
 			if(controls.mobileC)
 			{
-				virtualPad.forEachAlive(function(button:TouchPadButton)
+				virtualPad.forEachAlive(function(button:FlxVirtualPad)
 				{
 					if(button.tag != 'F')
 						button.visible = !button.visible;
@@ -1335,7 +1335,7 @@ class StageEditorState extends MusicBeatState implements PsychUIEventHandler.Psy
 
 			if(controls.mobileC)
 			{
-				virtualPad.forEachAlive(function(button:TouchPadButton)
+				virtualPad.forEachAlive(function(button:FlxVirtualPad)
 				{
 					if(button.tag != 'S')
 						button.visible = !button.visible;

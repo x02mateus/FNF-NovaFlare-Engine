@@ -47,6 +47,7 @@ class HealthIcon extends FlxSprite
 		}
 	}
 	//win icon from https://github.com/ShadowMario/FNF-PsychEngine/issues/13642#issuecomment-1819278538	
+	public var autoAdjustOffset:Bool = true;
 
 	override function updateHitbox()
 	{
