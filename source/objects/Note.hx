@@ -38,15 +38,6 @@ typedef NoteSplashData = {
 **/
 class Note extends FlxSprite
 {
-	public static final defaultNoteTypes:Array<String> = [
-		'', //Always leave this one empty pls
-		'Alt Animation',
-		'Hey!',
-		'Hurt Note',
-		'GF Sing',
-		'No Animation'
-	];
-
 	public var extraData:Map<String, Dynamic> = new Map<String, Dynamic>();
 
 	public var strumTime:Float = 0;
@@ -134,16 +125,8 @@ class Note extends FlxSprite
 	public var hitCausesMiss:Bool = false;
 	public var distance:Float = 2000; //plan on doing scroll directions soon -bb
 
-	public var hitsoundForce:Bool = false;
-	public var hitsoundVolume(get, default):Float = 1.0;
-	function get_hitsoundVolume():Float {
-		if(ClientPrefs.data.hitsoundVolume > 0)
-			return ClientPrefs.data.hitsoundVolume;
-		return hitsoundForce ? hitsoundVolume : 0.0;
-	}
 	public var hitsoundDisabled:Bool = false;
 	public var hitsoundChartEditor:Bool = true;
-
 	public var hitsound:String = 'hitsound';
 	
 	public var noteSplashBrt:Int = 0;
@@ -320,8 +303,7 @@ class Note extends FlxSprite
 		else if(!isSustainNote)
 		{
 			centerOffsets();
-			centerOrigin();
-			
+			centerOrigin();	
 		}
 		x += offsetX;		    
 	}
@@ -583,7 +565,7 @@ class Note extends FlxSprite
 		if (number == 0){
 			earlyHitMult = 0;
 			lateHitMult = 1;	   //写1而不是0.5是用于修复长条先miss问题
-		}else if (number == maxNumber){
+		}else if (number == maxNumber - 1){
 			earlyHitMult = 0.5;
 			lateHitMult = 0;	  		
 			noAnimation = true; //better anim play
