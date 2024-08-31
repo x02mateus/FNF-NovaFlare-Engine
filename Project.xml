@@ -2,7 +2,7 @@
 <project>
 	<!-- _________________________ Application Settings _________________________ -->
 
-	<app title="NovaFlare Engine" file="NovaFlare Engine" packageName="com.NovaFlareEngine" package="com.NovaFlareEngine" main="Main" version="1.1.1" company="beihu" />
+	<app title="NovaFlare Engine" file="NovaFlare Engine" packageName="com.NovaFlareEngine" package="com.NovaFlareEngine" main="Main" version="1.1.5" company="beihu" />
 	<!--Switch Export with Unique ApplicationID and Icon-->
 	<set name="APP_ID" value="0x0100f6c013bbc000" />
 
@@ -29,7 +29,7 @@
         <define name="CUSTOM_SHADERS_ALLOWED" if="LUA_ALLOWED"/>
 
 	<section if="officialBuild">
-		<!--define name="TITLE_SCREEN_EASTER_EGG"/-->
+		<define name="TITLE_SCREEN_EASTER_EGG"/>
 	</section>
 
 	<!-- ____________________________ Window Settings ___________________________ -->
@@ -106,13 +106,12 @@
 	<haxelib name="linc_luajit" if="LUA_ALLOWED"/>
 	<haxelib name="SScript" if="HSCRIPT_ALLOWED"/>
 	<haxelib name="hscript" if="HSCRIPT_ALLOWED"/>
-	
 	<haxelib name="hxvlc" if="VIDEOS_ALLOWED"/>
 	<haxelib name="hxdiscord_rpc" if="DISCORD_ALLOWED"/>
 	<haxelib name="flxanimate" unless="html5"/>
 	<haxelib name="tjson"/>
 
-    <haxelib name="funkin.vis"/>
+        <haxelib name="funkin.vis"/>
 	<haxelib name="grig.audio" />
 	
 	<!-- Mobile Specific-->
@@ -154,7 +153,7 @@
 
 	<!-- Show debug traces for hxCodec -->
 	<haxedef name="HXC_DEBUG_TRACE" if="debug hxCodec" />
-        <haxedef name="HXC_LIBVLC_LOGGING" if="debug hxCodec" />
+	<haxedef name="HXC_LIBVLC_LOGGING" if="debug hxCodec" />
 	
 	<!--Disable the Flixel core debugger. Automatically gets set whenever you compile in release mode!-->
 	<haxedef name="FLX_NO_DEBUG" unless="debug" />
@@ -162,44 +161,35 @@
 	<!--Enable this for Nape release builds for a serious peformance improvement-->
 	<haxedef name="NAPE_RELEASE_BUILD" unless="debug" />
 
+	<haxedef name="message.reporting" value="pretty" />
+
 	<haxedef name='no-deprecation-warnings' />
 
 	<haxedef name='no-inline' if="html5"/>
 
-		<!--Always enable Null Object Reference check-->
+	<section if="cpp">
 		<haxedef name="HXCPP_CHECK_POINTER" />
 		<haxedef name="HXCPP_STACK_LINE" />
 		<haxedef name="HXCPP_STACK_TRACE" />
+		<haxedef name="HXCPP_CATCH_SEGV" />
+	</section>
+ 
+	<section if="desktop">
+		<!--Enable Handle Error-->
+		<haxedef name="openfl_enable_handle_error" if="${openfl &ge; 9.4.0}" />
+		<!--Undefinitions-->
+		<undefine name="openfl-disable-handle-error" if="debug" unless="${openfl &ge; 9.4.0}" />
+	</section>
 	
-		<section if="android">
-			<!-- Do whatever you want I'm tired uninstall and install everytime -->
-			<certificate path="key.keystore" password="psychengine" alias="psychport" alias-password="psychengine" unless="debug" />
-
-			<!--Target SDK-->
-			<android target-sdk-version="31" />
-
-			<config:android permission="android.permission.MANAGE_EXTERNAL_STORAGE" />
-			<config:android permission="android.permission.REQUEST_INSTALL_PACKAGES" />
-
-			<!-- Fix Networking -->
-			<config:android permission="android.permission.INTERNET" />
-			<config:android permission="android.permission.ACCESS_NETWORK_STATE" />
-		</section>
-
-		<section if="ios">
-			<define name='objc' />
-			<ios linker-flags='-ObjC' />
-		</section>
+	<!-- Do whatever you want I'm tired uninstall and install everytime -->
+	<certificate path="key.keystore" password="psychengine" alias="psychport" alias-password="psychengine" if="android" unless="debug" />
 
 	<!--Avoid memory leaks with for loops in HScript-->
 	<haxedef name="loop_unroll_max_cost" value="25" />
-	<haxedef name="DISABLED_MACRO_SUPERLATIVE" />
 
 	<!--Macro fixes-->
 	<haxeflag name="--macro" value="allowPackage('flash')" />
 	<haxeflag name="--macro" value="include('my.pack')" />
-	<haxeflag name="--macro" value="macros.Keep.keepClasses()" />
-
 	<!-- _________________________________ Custom _______________________________ -->
 
 	<!--Place custom nodes like icons here (higher priority to override the HaxeFlixel icon)-->
