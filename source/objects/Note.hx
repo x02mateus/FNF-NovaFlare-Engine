@@ -303,8 +303,7 @@ class Note extends FlxSprite
 		else if(!isSustainNote)
 		{
 			centerOffsets();
-			centerOrigin();
-			
+			centerOrigin();	
 		}
 		x += offsetX;		    
 	}

@@ -202,7 +202,7 @@ class CreditsSubState extends MusicBeatSubstate
 		}
 
 		descText = new FlxText(785, 115, dbwidth, "");
-		descText.setFormat(font, 30, FlxColor.BLACK, LEFT);
+		descText.setFormat(font, 20, FlxColor.BLACK, LEFT);
 		descText.antialiasing = ClientPrefs.data.antialiasing;
 		descText.updateHitbox();
 
@@ -312,7 +312,7 @@ class CreditsSubState extends MusicBeatSubstate
 		}
 	}
 
-	var linkKey:Array<String> = ["github", "youtube", "x", "twitter", "discord", "b23.tv", "bilibili", "douyin", "kuaishou"];
+	var linkKey:Array<String> = ["github", "youtube", "x.com", "twitter", "discord", "b23.tv", "bilibili", "douyin", "kuaishou"];
 	function Recognize()
 	{
 		for(num in 0...linkArray.length)
@@ -417,6 +417,7 @@ class CreditsSubState extends MusicBeatSubstate
 	var avgSpeed:Float = 0;
 	function mouseMove()
 	{
+		if (FlxG.mouse.justPressed) saveMouseY = FlxG.mouse.y;
 		moveData = FlxG.mouse.y - saveMouseY;
 		saveMouseY = FlxG.mouse.y;
 		avgSpeed = avgSpeed * 0.75 + moveData * 0.25;

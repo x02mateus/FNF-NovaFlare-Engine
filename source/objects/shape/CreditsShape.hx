@@ -49,6 +49,7 @@ class ModsButtonRect extends FlxSpriteGroup //play/back button
         text.color = FlxColor.WHITE;
         text.font = Paths.font('montserrat.ttf');
         text.antialiasing = ClientPrefs.data.antialiasing;
+        if (text.width > width - 300 - 20) text.scale.x = width - 300 - 20 / text.width;
 
         background = new Rect(0, 0, width, height, roundWidth, roundHeight, color);
         background.color = color;
@@ -149,7 +150,7 @@ class CreditsNote extends FlxSprite
 
         if (char == "github") animation.curAnim.curFrame = 0;
         else if (char == "youtube") animation.curAnim.curFrame = 1;
-        else if (char == "x" || char == "twitter") animation.curAnim.curFrame = 2;
+        else if (char == "x.com" || char == "twitter") animation.curAnim.curFrame = 2;
         else if (char == "discord") animation.curAnim.curFrame = 3;
         else if (char == "bilibili" || char == "b23.tv") animation.curAnim.curFrame = 4;
         else if (char == "douyin") animation.curAnim.curFrame = 5;

@@ -651,6 +651,7 @@ class SongRect extends FlxSpriteGroup //songs member for freeplay
                 {
                     diffRectArray[num].onFocus = true;
                     FreeplayState.curDifficulty = diffRectArray[num].member;
+                    FreeplayState.instance.updateDiff();
                 } 
             }
             for (num in 0...diffRectArray.length)
@@ -1135,7 +1136,7 @@ class OrderRect extends FlxSpriteGroup {
         resetUpdate();
         add(display);
 
-        var text = new FlxText(0, 0, 0, 'Search results are sorted alphabetically from a to z', 18);
+        var text = new FlxText(0, 0, 0, 'Search results sorted alphabetically from a to z', 18);
 		text.font = Paths.font('montserrat.ttf'); 	
         text.antialiasing = ClientPrefs.data.antialiasing;	
         add(text);

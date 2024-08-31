@@ -379,7 +379,7 @@ class NoteOffsetState extends MusicBeatState
 				}
 			}
 
-			if(controls.RESET || virtualPad.buttonC.justPressed)
+			if(controls.RESET || virtualPad.buttonA.justPressed)
 			{
 				getData = 0;
 				tipsTxt.text = 'Press SPACE to get suggest offset\nmore times press more data accurate\nsuggest offset: ${getData} MS';

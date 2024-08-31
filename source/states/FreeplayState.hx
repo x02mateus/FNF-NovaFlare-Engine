@@ -68,6 +68,10 @@ class FreeplayState extends MusicBeatState
 	var infoNote:InfoText;
 	var infoSpeed:InfoText;
 
+	var timeSave:FlxText;
+	var accSave:FlxText;
+	var scoreSave:FlxText;
+
 	var optionEvent:EventRect;
 	var modsEvent:EventRect;
 	var randomEvent:EventRect;
@@ -223,6 +227,24 @@ class FreeplayState extends MusicBeatState
 
 		voiceLine = new MusicLine(Std.int(extraAudio.x) + 10, Std.int(extraAudio.y + extraAudio.height) + 110, 545);
 		add(voiceLine);
+
+		timeSave = new FlxText(10, 0, 0, '', 20);
+		timeSave.font = Paths.font('montserrat.ttf'); 	
+        timeSave.antialiasing = ClientPrefs.data.antialiasing;	
+		timeSave.camera = camHS;
+		add(timeSave);
+
+		accSave = new FlxText(10, 30, 0, '', 20);
+		accSave.font = Paths.font('montserrat.ttf'); 	
+        accSave.antialiasing = ClientPrefs.data.antialiasing;	
+		accSave.camera = camHS;
+		add(accSave);
+
+		scoreSave = new FlxText(10, 60, 0, '', 20);
+		scoreSave.font = Paths.font('montserrat.ttf'); 	
+        scoreSave.antialiasing = ClientPrefs.data.antialiasing;	
+		scoreSave.camera = camHS;
+		add(scoreSave);
 
 		var bottomBG:FlxSprite = new FlxSprite(0, FlxG.height * 0.9).makeGraphic(FlxG.width, Std.int(FlxG.height * 0.1));
 		bottomBG.color = FlxColor.BLACK;
@@ -496,7 +518,7 @@ class FreeplayState extends MusicBeatState
 		else
 			curDifficulty = 0;
 
-		updateDiff(start);
+		createDiff(start);
 		updateRect();
 		updateText();
 		updateVoice();
@@ -506,7 +528,7 @@ class FreeplayState extends MusicBeatState
 	inline private function _updateSongLastDifficulty()
 		songs[curSelected].lastDifficulty = Difficulty.getString(curDifficulty);
 
-	function updateDiff(start:Bool = false) 
+	function createDiff(start:Bool = false) 
 	{
 		for (num in 0...grpSongs.length) 
 		{
@@ -515,6 +537,13 @@ class FreeplayState extends MusicBeatState
 		}
 		
 		grpSongs[curSelected].createDiff(songs[curSelected].color, start);
+		updateDiff();
+	}
+
+	public function updateDiff() {
+		timeSave.text = Std.string(Highscore.getTime(songs[curSelected].songName, curDifficulty));
+		accSave.text = Std.string(Highscore.getRating(songs[curSelected].songName, curDifficulty));
+		scoreSave.text = Std.string(Highscore.getScore(songs[curSelected].songName, curDifficulty));
 	}
 
 	var rectMutex:Mutex = new Mutex();

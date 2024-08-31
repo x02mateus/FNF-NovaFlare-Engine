@@ -23,14 +23,15 @@ class CreditsState extends MusicBeatState
 	private var NucreditsStuff:Array<Array<Array<String>>> = [
 		[
 		['NovaFlare Engine Team'],
-		['Beihu',				'beihu',				'Main Programmer',			'Head of NovaFlare Engine\n\nNothing special',		'FFC0CB',		'https://b23.tv/Etk6gY9',							'https://youtube.com/@beihu235?si=BI2efmEcI8_mZoUp', 					'https://github.com/beihu235'],
-		['Chiny',				'chiny',				'Programmer',				'Credit state logic creator\n\nTouhou player',									'3399FF',		'https://space.bilibili.com/3493288327777064'],
+		['Beihu',				'beihu',				'Main Programmer',			'Head of NovaFlare Engine\n\n\nNothing special',		'FFC0CB',		'https://b23.tv/Etk6gY9',							'https://youtube.com/@beihu235?si=BI2efmEcI8_mZoUp', 					'https://github.com/beihu235'],
+		['Chiny',				'chiny',				'Programmer',				'Credit state logic creator\n\n\nTouhou player',									'3399FF',		'https://space.bilibili.com/3493288327777064'],
 		['MaoPou',				'maopou',				'Programmer',				'Code help',													'8B8682',		'https://space.bilibili.com/1548393523?spm_id_from=333.1007.0.0',	'https://github.com/MaoPou'],
-		['TieGuo',				'tieguo',				'Ex-Programmer',			'Pause Menu creator',									'FF6600',		'https://b23.tv/7OVWzAO'],
-		['Careful_Scarf_487',   'Careful_Scarf_487', 	'Main Artist',				'', 										'990000', 		'https://b23.tv/DQ1a0jO'],
+		['TieGuo',				'tieguo',				'Ex-Programmer',			'Pause Menu creator\n\n\nI like coding shit',									'FF6600',		'https://b23.tv/7OVWzAO'],
+		['Careful_Scarf_487',   'Careful_Scarf_487', 	'Main Artist',				'Main Artist of engine', 										'990000', 		'https://b23.tv/DQ1a0jO'],
 		['MengQi',       		'mengqi',       		'Artist',					'Puase menu artist',                       					'9b5a67',       'https://space.bilibili.com/2130239542'],
+		['Ben Eyre',			'beneyre', 				'Artist',					'\n\n\nHello',										'FFCDA4',				'https://b23.tv/cB2uujD', 			'https://x.com/hngstngxng83905?t=GDKWYMRZsCMUMXYs0cmYrw&s=09'], 
 		['als',           		'als',       			'Animation',	    		'Open screen animation support',    				'ff0000', 		'https://b23.tv/mNNX8R8'],
-		['blockDDDdark',           		'ddd',         	'Musican',	    	'game sound effort support',            						'5123A0',       'https://space.bilibili.com/401733211']
+		['blockDDDdark',        'ddd',         	        'Musican',	    			"Engine sound effort support\n\nComposer,Painter,Meme subculture lover\nI'm not very professional about creating things, I basically treat them as hobbies",            						'5123A0',       'https://space.bilibili.com/401733211']
 		],
 		[
 		['Psych Engine Team'],
@@ -225,6 +226,7 @@ class CreditsState extends MusicBeatState
 	var avgSpeed:Float = 0;
 	function mouseMove()
 	{
+		if (FlxG.mouse.justPressed) saveMouseY = FlxG.mouse.y;
 		moveData = FlxG.mouse.y - saveMouseY;
 		saveMouseY = FlxG.mouse.y;
 		avgSpeed = avgSpeed * 0.75 + moveData * 0.25;
