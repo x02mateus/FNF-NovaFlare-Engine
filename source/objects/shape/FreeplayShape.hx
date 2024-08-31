@@ -484,17 +484,17 @@ class ResultRect extends FlxSpriteGroup
         background = new FlxSprite();
         background.alpha = 0;
         add(background);
-        background.updateRect();
+        updateRect();
         
         this._width = width;
         this._height = height;
     }
     
-    public function updateRect(msGroup:Array<Float> = [], timeGroup:Array<Float> = [])
+    public function updateRect(?msGroup:Array<Float>, ?timeGroup:Array<Float>)
     {
         var shape:Shape = new Shape();
-        
-        if (msGroup.length > 0){
+
+        if (msGroup != null && timeGroup != null && msGroup.length > 0){
             for (i in 0...msGroup.length){
                 var color:FlxColor;
                 if (Math.abs(msGroup[i]) <= ClientPrefs.data.marvelousWindow && ClientPrefs.data.marvelousRating) color = ColorArray[0];
