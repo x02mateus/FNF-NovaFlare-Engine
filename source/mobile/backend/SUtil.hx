@@ -7,7 +7,6 @@ import android.Permissions as AndroidPermissions;
 import android.Settings as AndroidSettings;
 #end
 import lime.system.System as LimeSystem;
-import backend.ClientPrefs;
 #if sys
 import sys.io.File;
 import sys.FileSystem;
@@ -19,7 +18,7 @@ import sys.FileSystem;
  */
 class SUtil
 {
-	#if sys
+	
 	public static function getStorageDirectory(type:StorageType = #if EXTERNAL EXTERNAL #elseif OBB EXTERNAL_OBB #elseif MEDIA EXTERNAL_MEDIA #else EXTERNAL_DATA #end):String
 	{
 		var daPath:String = '';
@@ -42,7 +41,8 @@ class SUtil
 
 		return daPath;
 	}
-
+	
+    #if sys
 	public static function mkDirs(directory:String):Void
 	{
 		var total:String = '';
