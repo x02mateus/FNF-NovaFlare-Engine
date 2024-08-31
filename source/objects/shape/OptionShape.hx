@@ -415,6 +415,7 @@ class StateRect extends FlxSpriteGroup {
         this.follow = point;
 
         rect = new Rect(0, 0, 950, 50, 20, 20);
+        rect.color = 0x24232C;
         add(rect);
 
         var text = new FlxText(0, 0, 0, follow.description, 20);
@@ -471,6 +472,7 @@ class ResetRect extends FlxSpriteGroup {
         super(x,y);
 
         rect = new Rect(0, 0, 550, 50, 20, 20);
+        rect.color = 0x24232C;
         add(rect);
 
         var text = new FlxText(0, 0, 0, 'Reset', 25);
