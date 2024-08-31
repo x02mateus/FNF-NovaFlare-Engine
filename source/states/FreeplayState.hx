@@ -15,6 +15,7 @@ import openfl.filters.GlowFilter;
 import backend.WeekData;
 import backend.Highscore;
 import backend.Song;
+import backend.DiffCalc;
 
 import objects.HealthIcon;
 import objects.shape.ShapeEX;
@@ -569,7 +570,9 @@ class FreeplayState extends MusicBeatState
 	}
 
 	function updateInfo() {
-		
+	    var poop:String = Highscore.formatSong(song, curDifficulty);
+		rate = DiffCalc.CalculateDiff(Song.loadFromJson(poop, songs[curSelected].songName.toLowerCase())) / 5;
+		infoRating.data = rate;
 	}
 
 	public var useSort:Bool = false;
