@@ -14,7 +14,7 @@ class PsychUIDropDownMenu extends PsychUIInputText
 	public var selectedLabel(default, set):String = null;
 
 	var _curFilter:Array<String>;
-	public function new(x:Float, y:Float, list:Array<String>, callback:Int->String->Void)
+	public function new(x:Float, y:Float, list:Array<String>, callback:Int->String->Void, ?width:Float = 100)
 	{
 		super(x, y);
 		if(list == null) list = [];

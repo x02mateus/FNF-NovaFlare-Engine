@@ -9,13 +9,16 @@ typedef UIStyleData = {
 class PsychUIBox extends FlxSpriteGroup
 {
 	public static final CLICK_EVENT = "uibox_click";
+	public static final MINIMIZE_EVENT = "uibox_minimize"; //called on both minimizing and maximizing
+	public static final DRAG_EVENT = "uibox_drag";
+	public static final DROP_EVENT = "uibox_drop";
 	public var tabs(default, null):Array<PsychUITab> = [];
 	
 	public var selectedTab(default, set):PsychUITab = null;
 	public var selectedIndex(default, set):Int = -1;
 	public var selectedName(default, set):String = null;
 
-	var bg:FlxSprite;
+	public var bg:FlxSprite;
 
 	public var selectedStyle:UIStyleData = {
 		bgColor: FlxColor.WHITE,
@@ -36,6 +39,7 @@ class PsychUIBox extends FlxSpriteGroup
 	public var canMove:Bool = true;
 	public var canMinimize(default, set):Bool = true;
 	public var isMinimized(default, set):Bool = false;
+	public var minimizeOnFocusLost:Bool = false;
 
 	public function new(x:Float, y:Float, width:Int, height:Int, tabs:Array<String> = null)
 	{
