@@ -152,18 +152,18 @@ class Highscore
 		return songTimes.get(daSong);
 	}
 	
-	public static function getMsGroup(song:String, group:Array<Float>):Void
+	public static function getMsGroup(song:String, group:Array<Float>):Array<Float>
 	{
-		var daSong:String = formatSong(song, diff);
+		var daSong:String = formatSong(song, group);
 		if (!songNoteMs.exists(daSong)){
 			setMsGroup(daSong, []);			
         }
 		return songNoteMs.get(daSong);				
 	}
 	
-	public static function getTimeGroup(song:String, group:Array<Float>):Void
+	public static function getTimeGroup(song:String, group:Array<Float>):Array<Float>
 	{
-		var daSong:String = formatSong(song, diff);
+		var daSong:String = formatSong(song, group);
 		if (!songNoteTime.exists(daSong)){
 			setTimeGroup(daSong, []);			
         }
