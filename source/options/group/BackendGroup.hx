@@ -199,9 +199,10 @@ class BackendGroup
             fileLoadArray
         );
         follow.addOption(option);
+        option.onChange = onChangeCwd;
         #end
 
-        #if moblie
+        #if mobile
         var option:Option = new Option(
             'Phone will sleep after going inactive for few seconds',
             'screensaver',
@@ -210,7 +211,7 @@ class BackendGroup
         follow.addOption(option);
         #end
         
-        #if moblie
+        #if mobile
         var option:Option = new Option(
             'Check game whether miss files',
             'filesCheck',
@@ -225,5 +226,9 @@ class BackendGroup
             FlxG.sound.play(Paths.sound(ClientPrefs.data.hitsoundType));
         else
             FlxG.sound.play(Paths.sound('hitsounds/' + ClientPrefs.data.hitsoundType));
+    }
+    
+    static function onChangeCwd() {
+        Sys.setCwd(SUtil.getStorageDirectory());
     }
 }
