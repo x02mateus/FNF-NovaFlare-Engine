@@ -6,8 +6,8 @@ import android.os.Environment as AndroidEnvironment;
 import android.Permissions as AndroidPermissions;
 import android.Settings as AndroidSettings;
 #end
-import backend.ClientPrefs;
 import lime.system.System as LimeSystem;
+import backend.ClientPrefs;
 #if sys
 import sys.io.File;
 import sys.FileSystem;
@@ -109,12 +109,12 @@ class SUtil
 		}
 	}
 	#end
+	#end
 
 	public static function showPopUp(message:String, title:String):Void
 	{
 		lime.app.Application.current.window.alert(message, title);
 	}
-	#end
 }
 
 enum StorageType
