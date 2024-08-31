@@ -571,7 +571,7 @@ class FreeplayState extends MusicBeatState
 
 	function updateInfo() {
 	    var poop:String = Highscore.formatSong(songs[curSelected].songName.toLowerCase(), curDifficulty);
-		rate = DiffCalc.CalculateDiff(Song.loadFromJson(poop, songs[curSelected].songName.toLowerCase())) / 5;
+		var rate = DiffCalc.CalculateDiff(Song.loadFromJson(poop, songs[curSelected].songName.toLowerCase())) / 5;
 		infoRating.data = rate;
 	}
 
