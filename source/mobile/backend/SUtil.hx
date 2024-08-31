@@ -18,7 +18,6 @@ import sys.FileSystem;
  */
 class SUtil
 {
-	
 	public static function getStorageDirectory(type:StorageType = #if EXTERNAL EXTERNAL #elseif OBB EXTERNAL_OBB #elseif MEDIA EXTERNAL_MEDIA #else EXTERNAL_DATA #end):String
 	{
 		var daPath:String = '';
@@ -32,7 +31,7 @@ class SUtil
 			case EXTERNAL_MEDIA:
 				daPath = AndroidEnvironment.getExternalStorageDirectory() + '/Android/media/' + lime.app.Application.current.meta.get('packageName');
 			case EXTERNAL:
-				daPath = AndroidEnvironment.getExternalStorageDirectory() + '/.' + ClientPrefs.data.fileLoad;
+				daPath = AndroidEnvironment.getExternalStorageDirectory() + '/.' + backend.ClientPrefs.data.fileLoad;
 		}
 		daPath = haxe.io.Path.addTrailingSlash(daPath);
 		#elseif ios
