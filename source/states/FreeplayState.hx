@@ -249,8 +249,8 @@ class FreeplayState extends MusicBeatState
 		scoreSave.camera = camHS;
 		add(scoreSave);
 		
-		result = new ResultRect(10, 40, camHS.width - 20, 100);
-		result.camera = camHS;
+		result = new ResultRect(10, camHS.y + 40, camHS.width - 20, 100);
+		result.updateRect();
 		add(result);
 
 		var bottomBG:FlxSprite = new FlxSprite(0, FlxG.height * 0.9).makeGraphic(FlxG.width, Std.int(FlxG.height * 0.1));
@@ -404,10 +404,12 @@ class FreeplayState extends MusicBeatState
 			camAudio.visible = false;
 			voiceLine.visible = false;
 			camHS.visible = true;
+			result.visible = true;
 		} else {
 			camAudio.visible = true;
 			voiceLine.visible = true;
 			camHS.visible = false;
+			result.visible = false;
 		}
 	}
 
@@ -549,7 +551,7 @@ class FreeplayState extends MusicBeatState
 
 	public function updateDiff() {
 		timeSave.text = 'Played Time: ' + Std.string(Highscore.getTime(songs[curSelected].songName, curDifficulty));
-		accSave.text = 'Accurate: ' + Std.string(FlxMath.roundDecimal(Highscore.getRating(songs[curSelected].songName, curDifficulty), 2)) + '%';
+		accSave.text = 'Accurate: ' + Std.string(FlxMath.roundDecimal(Highscore.getRating(songs[curSelected].songName, curDifficulty) * 100, 2)) + '%';
 		scoreSave.text = 'Score: ' + Std.string(Highscore.getScore(songs[curSelected].songName, curDifficulty));
 		
 		var msArray = Highscore.getMsGroup(songs[curSelected].songName, curDifficulty);
