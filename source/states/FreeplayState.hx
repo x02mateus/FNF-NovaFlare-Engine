@@ -192,11 +192,11 @@ class FreeplayState extends MusicBeatState
 		add(infoSpeed);
 		infoSpeed.data = 5;
 
-		infoNote = new InfoText(infoBG.x + 15, infoBG.y + 38, "note count", 5);
+		infoNote = new InfoText(infoBG.x + 15, infoBG.y + 38, "note count", 10);
 		add(infoNote);
 		infoNote.data = 5;
 
-		infoRating = new InfoText(infoBG.x + 15, infoBG.y + 70, "rating", 5);
+		infoRating = new InfoText(infoBG.x + 15, infoBG.y + 70, "rating", 20);
 		add(infoRating);
 		infoRating.data = 5;
 
@@ -526,7 +526,7 @@ class FreeplayState extends MusicBeatState
 
 		createDiff(start);
 		updateRect();
-		updateText();
+		updateInfo();
 		updateVoice();
 		_updateSongLastDifficulty();
 	}
@@ -548,7 +548,7 @@ class FreeplayState extends MusicBeatState
 
 	public function updateDiff() {
 		timeSave.text = 'Played Time: ' + Std.string(Highscore.getTime(songs[curSelected].songName, curDifficulty));
-		accSave.text = 'Accurate: 'Std.string(Highscore.getRating(songs[curSelected].songName, curDifficulty));
+		accSave.text = 'Accurate: ' + Std.string(FlxMath.roundDecimal(Highscore.getRating(songs[curSelected].songName, curDifficulty), 2)) + '%';
 		scoreSave.text = 'Score: ' + Std.string(Highscore.getScore(songs[curSelected].songName, curDifficulty));
 		
 		var msArray = Highscore.getMsGroup(songs[curSelected].songName, curDifficulty);
@@ -568,7 +568,7 @@ class FreeplayState extends MusicBeatState
 		smallMag.updateRect(magenta.pixels);			
 	}
 
-	function updateText() {
+	function updateInfo() {
 		
 	}
 
