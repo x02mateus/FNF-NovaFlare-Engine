@@ -505,7 +505,7 @@ class ResultRect extends FlxSpriteGroup
     		    else color = ColorArray[5];	
     		    
     		    var data = msGroup[i];
-    		    if (Math.abs(game.NoteMs[i]) > safeZoneOffset) data = safeZoneOffset; 	
+    		    if (Math.abs(msGroup[i]) > safeZoneOffset) data = safeZoneOffset; 	
     		    
     		    shape.graphics.beginFill(color);     		    
                 shape.graphics.drawCircle(_width * (timeGroup[i] / timeGroup[timeGroup.length - 1]), _height / 2 + _height / 2 * (data / safeZoneOffset), 0.7);
