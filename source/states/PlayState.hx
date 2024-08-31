@@ -638,8 +638,9 @@ class PlayState extends MusicBeatState
     		pauseButton_menu.updateHitbox();
     		pauseButton_menu.camera = camPause;
 		}
-
-		var splash:NoteSplash = new NoteSplash();
+		
+		var splash:NoteSplash = new NoteSplash(100, 100);
+		splash.setupNoteSplash(100, 100);
 		grpNoteSplashes.add(splash);
 		splash.alpha = 0.000001; //cant make it invisible or it won't allow precaching
         noteGroup.add(grpNoteSplashes);
@@ -1452,7 +1453,7 @@ class PlayState extends MusicBeatState
             		var gottaHitNote:Bool = section.mustHitSection;
             		
             		if (ClientPrefs.data.flipChart) 
-			   daNoteData -= Std.int((daNoteData - 1.5) * 2);
+						daNoteData -= Std.int((daNoteData - 1.5) * 2);
             
             		if (songNotes[1] > 3)
             		{
@@ -1552,6 +1553,10 @@ class PlayState extends MusicBeatState
 		    for (event in 0...extraEvents.length)
     			for (data in 0...extraEvents[event][1].length)
     				makeEvent(extraEvents[event], data);
+
+		if (ClientPrefs.data.loadingScreen)
+			for (num in 0...unspawnNotes.length)
+				unspawnNotes[num].updateHitbox();
     				
 		generatedMusic = true;
 	}
@@ -2777,7 +2782,7 @@ class PlayState extends MusicBeatState
 			#if !switch
 			var percent:Float = ratingPercent;
 			if(Math.isNaN(percent)) percent = 0;
-			if (!ClientPrefs.data.playOpponent)Highscore.saveScore(SONG.song, songScore, storyDifficulty, percent, NoteMs, NoteTime);
+			if (!ClientPrefs.data.playOpponent)Highscore.saveScore(SONG.song, songScore, storyDifficulty, percent);
 			#end
 			playbackRate = 1;
 
@@ -3028,7 +3033,7 @@ class PlayState extends MusicBeatState
 		if(daRating.noteSplash && !note.noteSplashData.disabled)
 			spawnNoteSplashOnNote(note);
 
-		if(ClientPrefs.data.playOpponent ? !cpuControlled_opponent : !cpuControlled) {
+		if(!practiceMode && ClientPrefs.data.playOpponent ? !cpuControlled_opponent : !cpuControlled) {
 			songScore += score;
 			if(!note.ratingDisabled)
 			{
@@ -3466,7 +3471,7 @@ class PlayState extends MusicBeatState
 		}
 
 		health -= subtract * healthLoss;
-		songScore -= 10;
+		if(!practiceMode) songScore -= 10;
 		if(!endingSong) songMisses++;
 		totalPlayed++;
 		RecalculateRating(true);
@@ -3779,16 +3784,16 @@ class PlayState extends MusicBeatState
 
 	public function spawnNoteSplashOnNote(note:Note) {
 		if(note != null) {
-			var strum:StrumNote = playerStrums.members[note.noteData];
+			var strum:StrumNote = ClientPrefs.data.playOpponent ? opponentStrums.members[note.noteData] : playerStrums.members[note.noteData];
 			if(strum != null)
-				spawnNoteSplash(strum.x, strum.y, note.noteData, note, strum);
+				spawnNoteSplash(strum.x, strum.y, note.noteData, note);
 		}
 	}
 
-	public function spawnNoteSplash(x:Float, y:Float, data:Int, note:Note, strum:StrumNote) {
-		var splash:NoteSplash = new NoteSplash();
-		splash.babyArrow = strum;
-		splash.spawnSplashNote(note);
+	public function spawnNoteSplash(x:Float, y:Float, data:Int, ?note:Note = null) {
+	    if (!ClientPrefs.data.showSplash) return;
+		var splash:NoteSplash = grpNoteSplashes.recycle(NoteSplash);
+		splash.setupNoteSplash(x, y, data, note);
 		grpNoteSplashes.add(splash);
 	}
 
